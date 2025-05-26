@@ -2379,7 +2379,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the limitations described in the form of key-value pairs.
+    ///   - filters: Filters applied to the limitations described in the form of key-value pairs. Valid filter names: database-id | engine-name
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - nextToken: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - logger: Logger use during operation
@@ -2414,7 +2414,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns a paginated list of target engine recommendations for your source databases.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the target engine recommendations described in the form of key-value pairs.
+    ///   - filters: Filters applied to the target engine recommendations described in the form of key-value pairs. Valid filter names: database-id | engine-name
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - nextToken: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - logger: Logger use during operation
@@ -2799,7 +2799,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the replications.
+    ///   - filters: Filters applied to the replications. Valid filter names: replication-config-arn | replication-config-id
     ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger use during operation
@@ -5457,7 +5457,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeRecommendationLimitations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the limitations described in the form of key-value pairs.
+    ///   - filters: Filters applied to the limitations described in the form of key-value pairs. Valid filter names: database-id | engine-name
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5494,7 +5494,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeRecommendations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the target engine recommendations described in the form of key-value pairs.
+    ///   - filters: Filters applied to the target engine recommendations described in the form of key-value pairs. Valid filter names: database-id | engine-name
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5870,7 +5870,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeReplications(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the replications.
+    ///   - filters: Filters applied to the replications. Valid filter names: replication-config-arn | replication-config-id
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger used for logging
     @inlinable

@@ -143,57 +143,6 @@ public struct DataSync: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
-    @Sendable
-    @inlinable
-    public func addStorageSystem(_ input: AddStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddStorageSystemResponse {
-        try await self.client.execute(
-            operation: "AddStorageSystem", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
-    ///
-    /// Parameters:
-    ///   - agentArns: Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface. You can only specify one ARN.
-    ///   - clientToken: Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
-    ///   - cloudWatchLogGroupArn: Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
-    ///   - credentials: Specifies the user name and password for accessing your on-premises storage system's management interface.
-    ///   - name: Specifies a familiar name for your on-premises storage system.
-    ///   - serverConfiguration: Specifies the server name and network port required to connect with the management interface of your on-premises storage system.
-    ///   - systemType: Specifies the type of on-premises storage system that you want DataSync Discovery to collect information about.  DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
-    ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your on-premises storage system.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func addStorageSystem(
-        agentArns: [String],
-        clientToken: String = AddStorageSystemRequest.idempotencyToken(),
-        cloudWatchLogGroupArn: String? = nil,
-        credentials: Credentials,
-        name: String? = nil,
-        serverConfiguration: DiscoveryServerConfiguration,
-        systemType: DiscoverySystemType,
-        tags: [TagListEntry]? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> AddStorageSystemResponse {
-        let input = AddStorageSystemRequest(
-            agentArns: agentArns, 
-            clientToken: clientToken, 
-            cloudWatchLogGroupArn: cloudWatchLogGroupArn, 
-            credentials: credentials, 
-            name: name, 
-            serverConfiguration: serverConfiguration, 
-            systemType: systemType, 
-            tags: tags
-        )
-        return try await self.addStorageSystem(input, logger: logger)
-    }
-
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
     @Sendable
     @inlinable
@@ -550,7 +499,7 @@ public struct DataSync: AWSService {
     ///   - agentArns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
     ///   - authenticationType: The type of authentication used to determine the identity of the user.
     ///   - blockSize: The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
-    ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you're using the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
+    ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.  If KERBEROS is specified for AuthenticationType, this parameter is required.
     ///   - kerberosKrb5Conf: The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
     ///   - kerberosPrincipal: The Kerberos principal with access to the files and folders on the HDFS cluster.   If KERBEROS is specified for AuthenticationType, this parameter is required.
     ///   - kmsKeyProviderUri: The URI of the HDFS cluster's Key Management Server (KMS).
@@ -713,7 +662,7 @@ public struct DataSync: AWSService {
     ///   - s3BucketArn: Specifies the ARN of the S3 bucket that you want to use as a location. (When creating your DataSync task later, you specify whether this location is a transfer source or destination.)  If your S3 bucket is located on an Outposts resource, you must specify an Amazon S3 access point. For more information, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide.
     ///   - s3Config: 
     ///   - s3StorageClass: Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see Storage class considerations with Amazon S3 transfers.
-    ///   - subdirectory: Specifies a prefix in the S3 bucket that DataSync  reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
+    ///   - subdirectory: Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
     ///   - logger: Logger use during operation
     @inlinable
@@ -757,7 +706,7 @@ public struct DataSync: AWSService {
     ///   - authenticationType: Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
     ///   - dnsIpAddresses: Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     ///   - domain: Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
-    ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
     ///   - kerberosKrb5Conf: Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
     ///   - kerberosPrincipal: Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
     ///   - mountOptions: Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
@@ -978,36 +927,6 @@ public struct DataSync: AWSService {
             agentArn: agentArn
         )
         return try await self.describeAgent(input, logger: logger)
-    }
-
-    /// Returns information about a DataSync discovery job.
-    @Sendable
-    @inlinable
-    public func describeDiscoveryJob(_ input: DescribeDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDiscoveryJobResponse {
-        try await self.client.execute(
-            operation: "DescribeDiscoveryJob", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Returns information about a DataSync discovery job.
-    ///
-    /// Parameters:
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that you want information about.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeDiscoveryJob(
-        discoveryJobArn: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeDiscoveryJobResponse {
-        let input = DescribeDiscoveryJobRequest(
-            discoveryJobArn: discoveryJobArn
-        )
-        return try await self.describeDiscoveryJob(input, logger: logger)
     }
 
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
@@ -1329,129 +1248,6 @@ public struct DataSync: AWSService {
         return try await self.describeLocationSmb(input, logger: logger)
     }
 
-    /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
-    @Sendable
-    @inlinable
-    public func describeStorageSystem(_ input: DescribeStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageSystemResponse {
-        try await self.client.execute(
-            operation: "DescribeStorageSystem", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
-    ///
-    /// Parameters:
-    ///   - storageSystemArn: Specifies the Amazon Resource Name (ARN) of an on-premises storage system that you're using with DataSync Discovery.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeStorageSystem(
-        storageSystemArn: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeStorageSystemResponse {
-        let input = DescribeStorageSystemRequest(
-            storageSystemArn: storageSystemArn
-        )
-        return try await self.describeStorageSystem(input, logger: logger)
-    }
-
-    /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
-    @Sendable
-    @inlinable
-    public func describeStorageSystemResourceMetrics(_ input: DescribeStorageSystemResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageSystemResourceMetricsResponse {
-        try await self.client.execute(
-            operation: "DescribeStorageSystemResourceMetrics", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
-    ///
-    /// Parameters:
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
-    ///   - endTime: Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with StartTime.
-    ///   - maxResults: Specifies how many results that you want in the response.
-    ///   - nextToken: Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    ///   - resourceId: Specifies the universally unique identifier (UUID) of the storage system resource that you want information about.
-    ///   - resourceType: Specifies the kind of storage system resource that you want information about.
-    ///   - startTime: Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeStorageSystemResourceMetrics(
-        discoveryJobArn: String,
-        endTime: Date? = nil,
-        maxResults: Int? = nil,
-        nextToken: String? = nil,
-        resourceId: String,
-        resourceType: DiscoveryResourceType,
-        startTime: Date? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeStorageSystemResourceMetricsResponse {
-        let input = DescribeStorageSystemResourceMetricsRequest(
-            discoveryJobArn: discoveryJobArn, 
-            endTime: endTime, 
-            maxResults: maxResults, 
-            nextToken: nextToken, 
-            resourceId: resourceId, 
-            resourceType: resourceType, 
-            startTime: startTime
-        )
-        return try await self.describeStorageSystemResourceMetrics(input, logger: logger)
-    }
-
-    /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
-    @Sendable
-    @inlinable
-    public func describeStorageSystemResources(_ input: DescribeStorageSystemResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageSystemResourcesResponse {
-        try await self.client.execute(
-            operation: "DescribeStorageSystemResources", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
-    ///
-    /// Parameters:
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that's collecting data from your on-premises storage system.
-    ///   - filter: Filters the storage system resources that you want returned. For example, this might be volumes associated with a specific storage virtual machine (SVM).
-    ///   - maxResults: Specifies the maximum number of storage system resources that you want to list in a response.
-    ///   - nextToken: Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    ///   - resourceIds: Specifies the universally unique identifiers (UUIDs) of the storage system resources that you want information about. You can't use this parameter in combination with the Filter parameter.
-    ///   - resourceType: Specifies what kind of storage system resources that you want information about.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeStorageSystemResources(
-        discoveryJobArn: String,
-        filter: [DiscoveryResourceFilter: [String]]? = nil,
-        maxResults: Int? = nil,
-        nextToken: String? = nil,
-        resourceIds: [String]? = nil,
-        resourceType: DiscoveryResourceType,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeStorageSystemResourcesResponse {
-        let input = DescribeStorageSystemResourcesRequest(
-            discoveryJobArn: discoveryJobArn, 
-            filter: filter, 
-            maxResults: maxResults, 
-            nextToken: nextToken, 
-            resourceIds: resourceIds, 
-            resourceType: resourceType
-        )
-        return try await self.describeStorageSystemResources(input, logger: logger)
-    }
-
     /// Provides information about a task, which defines where and how DataSync transfers your data.
     @Sendable
     @inlinable
@@ -1510,42 +1306,6 @@ public struct DataSync: AWSService {
         return try await self.describeTaskExecution(input, logger: logger)
     }
 
-    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see Recommendations provided by DataSync Discovery. Once generated, you can view your recommendations by using the DescribeStorageSystemResources operation.
-    @Sendable
-    @inlinable
-    public func generateRecommendations(_ input: GenerateRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateRecommendationsResponse {
-        try await self.client.execute(
-            operation: "GenerateRecommendations", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see Recommendations provided by DataSync Discovery. Once generated, you can view your recommendations by using the DescribeStorageSystemResources operation.
-    ///
-    /// Parameters:
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
-    ///   - resourceIds: Specifies the universally unique identifiers (UUIDs) of the resources in your storage system that you want recommendations on.
-    ///   - resourceType: Specifies the type of resource in your storage system that you want recommendations on.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func generateRecommendations(
-        discoveryJobArn: String,
-        resourceIds: [String],
-        resourceType: DiscoveryResourceType,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GenerateRecommendationsResponse {
-        let input = GenerateRecommendationsRequest(
-            discoveryJobArn: discoveryJobArn, 
-            resourceIds: resourceIds, 
-            resourceType: resourceType
-        )
-        return try await self.generateRecommendations(input, logger: logger)
-    }
-
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents.  ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with CreateAgent and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using DescribeAgent.
     @Sendable
     @inlinable
@@ -1576,42 +1336,6 @@ public struct DataSync: AWSService {
             nextToken: nextToken
         )
         return try await self.listAgents(input, logger: logger)
-    }
-
-    /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
-    @Sendable
-    @inlinable
-    public func listDiscoveryJobs(_ input: ListDiscoveryJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDiscoveryJobsResponse {
-        try await self.client.execute(
-            operation: "ListDiscoveryJobs", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
-    ///
-    /// Parameters:
-    ///   - maxResults: Specifies how many results you want in the response.
-    ///   - nextToken: Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    ///   - storageSystemArn: Specifies the Amazon Resource Name (ARN) of an on-premises storage system. Use this parameter if you only want to list the discovery jobs that are associated with a specific storage system.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listDiscoveryJobs(
-        maxResults: Int? = nil,
-        nextToken: String? = nil,
-        storageSystemArn: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListDiscoveryJobsResponse {
-        let input = ListDiscoveryJobsRequest(
-            maxResults: maxResults, 
-            nextToken: nextToken, 
-            storageSystemArn: storageSystemArn
-        )
-        return try await self.listDiscoveryJobs(input, logger: logger)
     }
 
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
@@ -1647,39 +1371,6 @@ public struct DataSync: AWSService {
             nextToken: nextToken
         )
         return try await self.listLocations(input, logger: logger)
-    }
-
-    /// Lists the on-premises storage systems that you're using with DataSync Discovery.
-    @Sendable
-    @inlinable
-    public func listStorageSystems(_ input: ListStorageSystemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStorageSystemsResponse {
-        try await self.client.execute(
-            operation: "ListStorageSystems", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Lists the on-premises storage systems that you're using with DataSync Discovery.
-    ///
-    /// Parameters:
-    ///   - maxResults: Specifies how many results you want in the response.
-    ///   - nextToken: Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listStorageSystems(
-        maxResults: Int? = nil,
-        nextToken: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListStorageSystemsResponse {
-        let input = ListStorageSystemsRequest(
-            maxResults: maxResults, 
-            nextToken: nextToken
-        )
-        return try await self.listStorageSystems(input, logger: logger)
     }
 
     /// Returns all the tags associated with an Amazon Web Services resource.
@@ -1787,75 +1478,6 @@ public struct DataSync: AWSService {
         return try await self.listTasks(input, logger: logger)
     }
 
-    /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
-    @Sendable
-    @inlinable
-    public func removeStorageSystem(_ input: RemoveStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveStorageSystemResponse {
-        try await self.client.execute(
-            operation: "RemoveStorageSystem", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
-    ///
-    /// Parameters:
-    ///   - storageSystemArn: Specifies the Amazon Resource Name (ARN) of the storage system that you want to permanently remove from DataSync Discovery.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func removeStorageSystem(
-        storageSystemArn: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> RemoveStorageSystemResponse {
-        let input = RemoveStorageSystemRequest(
-            storageSystemArn: storageSystemArn
-        )
-        return try await self.removeStorageSystem(input, logger: logger)
-    }
-
-    /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the AddStorageSystem operation.
-    @Sendable
-    @inlinable
-    public func startDiscoveryJob(_ input: StartDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDiscoveryJobResponse {
-        try await self.client.execute(
-            operation: "StartDiscoveryJob", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the AddStorageSystem operation.
-    ///
-    /// Parameters:
-    ///   - clientToken: Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
-    ///   - collectionDurationMinutes: Specifies in minutes how long you want the discovery job to run.  For more accurate recommendations, we recommend a duration of at least 14 days. Longer durations allow time to collect a sufficient number of data points and provide a realistic representation of storage performance and utilization.
-    ///   - storageSystemArn: Specifies the Amazon Resource Name (ARN) of the on-premises storage system that you want to run the discovery job on.
-    ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func startDiscoveryJob(
-        clientToken: String = StartDiscoveryJobRequest.idempotencyToken(),
-        collectionDurationMinutes: Int,
-        storageSystemArn: String,
-        tags: [TagListEntry]? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StartDiscoveryJobResponse {
-        let input = StartDiscoveryJobRequest(
-            clientToken: clientToken, 
-            collectionDurationMinutes: collectionDurationMinutes, 
-            storageSystemArn: storageSystemArn, 
-            tags: tags
-        )
-        return try await self.startDiscoveryJob(input, logger: logger)
-    }
-
     /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     @Sendable
     @inlinable
@@ -1901,36 +1523,6 @@ public struct DataSync: AWSService {
             taskReportConfig: taskReportConfig
         )
         return try await self.startTaskExecution(input, logger: logger)
-    }
-
-    /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the GenerateRecommendations operation.
-    @Sendable
-    @inlinable
-    public func stopDiscoveryJob(_ input: StopDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDiscoveryJobResponse {
-        try await self.client.execute(
-            operation: "StopDiscoveryJob", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the GenerateRecommendations operation.
-    ///
-    /// Parameters:
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that you want to stop.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func stopDiscoveryJob(
-        discoveryJobArn: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StopDiscoveryJobResponse {
-        let input = StopDiscoveryJobRequest(
-            discoveryJobArn: discoveryJobArn
-        )
-        return try await self.stopDiscoveryJob(input, logger: logger)
     }
 
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
@@ -2027,39 +1619,6 @@ public struct DataSync: AWSService {
             name: name
         )
         return try await self.updateAgent(input, logger: logger)
-    }
-
-    /// Edits a DataSync discovery job configuration.
-    @Sendable
-    @inlinable
-    public func updateDiscoveryJob(_ input: UpdateDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDiscoveryJobResponse {
-        try await self.client.execute(
-            operation: "UpdateDiscoveryJob", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Edits a DataSync discovery job configuration.
-    ///
-    /// Parameters:
-    ///   - collectionDurationMinutes: Specifies in minutes how long that you want the discovery job to run. (You can't set this parameter to less than the number of minutes that the job has already run for.)
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that you want to update.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func updateDiscoveryJob(
-        collectionDurationMinutes: Int,
-        discoveryJobArn: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UpdateDiscoveryJobResponse {
-        let input = UpdateDiscoveryJobRequest(
-            collectionDurationMinutes: collectionDurationMinutes, 
-            discoveryJobArn: discoveryJobArn
-        )
-        return try await self.updateDiscoveryJob(input, logger: logger)
     }
 
     /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage.
@@ -2312,7 +1871,7 @@ public struct DataSync: AWSService {
     ///   - agentArns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
     ///   - authenticationType: The type of authentication used to determine the identity of the user.
     ///   - blockSize: The size of the data blocks to write into the HDFS cluster.
-    ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
+    ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.
     ///   - kerberosKrb5Conf: The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
     ///   - kerberosPrincipal: The Kerberos principal with access to the files and folders on the HDFS cluster.
     ///   - kmsKeyProviderUri: The URI of the HDFS cluster's Key Management Server (KMS).
@@ -2471,7 +2030,7 @@ public struct DataSync: AWSService {
     ///   - locationArn: Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer location that you're updating.
     ///   - s3Config: 
     ///   - s3StorageClass: Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see Storage class considerations with Amazon S3 transfers.
-    ///   - subdirectory: Specifies a prefix in the S3 bucket that DataSync  reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
+    ///   - subdirectory: Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLocationS3(
@@ -2510,7 +2069,7 @@ public struct DataSync: AWSService {
     ///   - authenticationType: Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
     ///   - dnsIpAddresses: Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     ///   - domain: Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
-    ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
     ///   - kerberosKrb5Conf: Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
     ///   - kerberosPrincipal: Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
     ///   - locationArn: Specifies the ARN of the SMB location that you want to update.
@@ -2553,51 +2112,6 @@ public struct DataSync: AWSService {
             user: user
         )
         return try await self.updateLocationSmb(input, logger: logger)
-    }
-
-    /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
-    @Sendable
-    @inlinable
-    public func updateStorageSystem(_ input: UpdateStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStorageSystemResponse {
-        try await self.client.execute(
-            operation: "UpdateStorageSystem", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            hostPrefix: "discovery-", 
-            logger: logger
-        )
-    }
-    /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
-    ///
-    /// Parameters:
-    ///   - agentArns: Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system. You can only specify one ARN.
-    ///   - cloudWatchLogGroupArn: Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
-    ///   - credentials: Specifies the user name and password for accessing your on-premises storage system's management interface.
-    ///   - name: Specifies a familiar name for your on-premises storage system.
-    ///   - serverConfiguration: Specifies the server name and network port required to connect with your on-premises storage system's management interface.
-    ///   - storageSystemArn: Specifies the ARN of the on-premises storage system that you want reconfigure.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func updateStorageSystem(
-        agentArns: [String]? = nil,
-        cloudWatchLogGroupArn: String? = nil,
-        credentials: Credentials? = nil,
-        name: String? = nil,
-        serverConfiguration: DiscoveryServerConfiguration? = nil,
-        storageSystemArn: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UpdateStorageSystemResponse {
-        let input = UpdateStorageSystemRequest(
-            agentArns: agentArns, 
-            cloudWatchLogGroupArn: cloudWatchLogGroupArn, 
-            credentials: credentials, 
-            name: name, 
-            serverConfiguration: serverConfiguration, 
-            storageSystemArn: storageSystemArn
-        )
-        return try await self.updateStorageSystem(input, logger: logger)
     }
 
     /// Updates the configuration of a task, which defines where and how DataSync transfers your data.
@@ -2699,101 +2213,6 @@ extension DataSync {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataSync {
-    /// Return PaginatorSequence for operation ``describeStorageSystemResourceMetrics(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func describeStorageSystemResourceMetricsPaginator(
-        _ input: DescribeStorageSystemResourceMetricsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<DescribeStorageSystemResourceMetricsRequest, DescribeStorageSystemResourceMetricsResponse> {
-        return .init(
-            input: input,
-            command: self.describeStorageSystemResourceMetrics,
-            inputKey: \DescribeStorageSystemResourceMetricsRequest.nextToken,
-            outputKey: \DescribeStorageSystemResourceMetricsResponse.nextToken,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``describeStorageSystemResourceMetrics(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
-    ///   - endTime: Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with StartTime.
-    ///   - maxResults: Specifies how many results that you want in the response.
-    ///   - resourceId: Specifies the universally unique identifier (UUID) of the storage system resource that you want information about.
-    ///   - resourceType: Specifies the kind of storage system resource that you want information about.
-    ///   - startTime: Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func describeStorageSystemResourceMetricsPaginator(
-        discoveryJobArn: String,
-        endTime: Date? = nil,
-        maxResults: Int? = nil,
-        resourceId: String,
-        resourceType: DiscoveryResourceType,
-        startTime: Date? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<DescribeStorageSystemResourceMetricsRequest, DescribeStorageSystemResourceMetricsResponse> {
-        let input = DescribeStorageSystemResourceMetricsRequest(
-            discoveryJobArn: discoveryJobArn, 
-            endTime: endTime, 
-            maxResults: maxResults, 
-            resourceId: resourceId, 
-            resourceType: resourceType, 
-            startTime: startTime
-        )
-        return self.describeStorageSystemResourceMetricsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``describeStorageSystemResources(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func describeStorageSystemResourcesPaginator(
-        _ input: DescribeStorageSystemResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<DescribeStorageSystemResourcesRequest, DescribeStorageSystemResourcesResponse> {
-        return .init(
-            input: input,
-            command: self.describeStorageSystemResources,
-            inputKey: \DescribeStorageSystemResourcesRequest.nextToken,
-            outputKey: \DescribeStorageSystemResourcesResponse.nextToken,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``describeStorageSystemResources(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - discoveryJobArn: Specifies the Amazon Resource Name (ARN) of the discovery job that's collecting data from your on-premises storage system.
-    ///   - filter: Filters the storage system resources that you want returned. For example, this might be volumes associated with a specific storage virtual machine (SVM).
-    ///   - maxResults: Specifies the maximum number of storage system resources that you want to list in a response.
-    ///   - resourceIds: Specifies the universally unique identifiers (UUIDs) of the storage system resources that you want information about. You can't use this parameter in combination with the Filter parameter.
-    ///   - resourceType: Specifies what kind of storage system resources that you want information about.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func describeStorageSystemResourcesPaginator(
-        discoveryJobArn: String,
-        filter: [DiscoveryResourceFilter: [String]]? = nil,
-        maxResults: Int? = nil,
-        resourceIds: [String]? = nil,
-        resourceType: DiscoveryResourceType,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<DescribeStorageSystemResourcesRequest, DescribeStorageSystemResourcesResponse> {
-        let input = DescribeStorageSystemResourcesRequest(
-            discoveryJobArn: discoveryJobArn, 
-            filter: filter, 
-            maxResults: maxResults, 
-            resourceIds: resourceIds, 
-            resourceType: resourceType
-        )
-        return self.describeStorageSystemResourcesPaginator(input, logger: logger)
-    }
-
     /// Return PaginatorSequence for operation ``listAgents(_:logger:)``.
     ///
     /// - Parameters:
@@ -2826,43 +2245,6 @@ extension DataSync {
             maxResults: maxResults
         )
         return self.listAgentsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listDiscoveryJobs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listDiscoveryJobsPaginator(
-        _ input: ListDiscoveryJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListDiscoveryJobsRequest, ListDiscoveryJobsResponse> {
-        return .init(
-            input: input,
-            command: self.listDiscoveryJobs,
-            inputKey: \ListDiscoveryJobsRequest.nextToken,
-            outputKey: \ListDiscoveryJobsResponse.nextToken,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listDiscoveryJobs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - maxResults: Specifies how many results you want in the response.
-    ///   - storageSystemArn: Specifies the Amazon Resource Name (ARN) of an on-premises storage system. Use this parameter if you only want to list the discovery jobs that are associated with a specific storage system.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listDiscoveryJobsPaginator(
-        maxResults: Int? = nil,
-        storageSystemArn: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListDiscoveryJobsRequest, ListDiscoveryJobsResponse> {
-        let input = ListDiscoveryJobsRequest(
-            maxResults: maxResults, 
-            storageSystemArn: storageSystemArn
-        )
-        return self.listDiscoveryJobsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listLocations(_:logger:)``.
@@ -2900,40 +2282,6 @@ extension DataSync {
             maxResults: maxResults
         )
         return self.listLocationsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listStorageSystems(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listStorageSystemsPaginator(
-        _ input: ListStorageSystemsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListStorageSystemsRequest, ListStorageSystemsResponse> {
-        return .init(
-            input: input,
-            command: self.listStorageSystems,
-            inputKey: \ListStorageSystemsRequest.nextToken,
-            outputKey: \ListStorageSystemsResponse.nextToken,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listStorageSystems(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - maxResults: Specifies how many results you want in the response.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listStorageSystemsPaginator(
-        maxResults: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListStorageSystemsRequest, ListStorageSystemsResponse> {
-        let input = ListStorageSystemsRequest(
-            maxResults: maxResults
-        )
-        return self.listStorageSystemsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listTagsForResource(_:logger:)``.
@@ -3048,35 +2396,6 @@ extension DataSync {
     }
 }
 
-extension DataSync.DescribeStorageSystemResourceMetricsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> DataSync.DescribeStorageSystemResourceMetricsRequest {
-        return .init(
-            discoveryJobArn: self.discoveryJobArn,
-            endTime: self.endTime,
-            maxResults: self.maxResults,
-            nextToken: token,
-            resourceId: self.resourceId,
-            resourceType: self.resourceType,
-            startTime: self.startTime
-        )
-    }
-}
-
-extension DataSync.DescribeStorageSystemResourcesRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> DataSync.DescribeStorageSystemResourcesRequest {
-        return .init(
-            discoveryJobArn: self.discoveryJobArn,
-            filter: self.filter,
-            maxResults: self.maxResults,
-            nextToken: token,
-            resourceIds: self.resourceIds,
-            resourceType: self.resourceType
-        )
-    }
-}
-
 extension DataSync.ListAgentsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataSync.ListAgentsRequest {
@@ -3087,32 +2406,11 @@ extension DataSync.ListAgentsRequest: AWSPaginateToken {
     }
 }
 
-extension DataSync.ListDiscoveryJobsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> DataSync.ListDiscoveryJobsRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token,
-            storageSystemArn: self.storageSystemArn
-        )
-    }
-}
-
 extension DataSync.ListLocationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataSync.ListLocationsRequest {
         return .init(
             filters: self.filters,
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
-extension DataSync.ListStorageSystemsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> DataSync.ListStorageSystemsRequest {
-        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

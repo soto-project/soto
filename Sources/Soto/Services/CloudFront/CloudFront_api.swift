@@ -24,10 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CloudFront service.
 ///
-/// Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for developers
-/// 			who need detailed information about CloudFront API actions, data types, and errors. For
-/// 			detailed information about CloudFront features, see the
-/// 			Amazon CloudFront Developer Guide.
+/// Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for developers who need detailed information about CloudFront API actions, data types, and errors. For detailed information about CloudFront features, see the Amazon CloudFront Developer Guide.
 public struct CloudFront: AWSService {
     // MARK: Member variables
 
@@ -92,15 +89,7 @@ public struct CloudFront: AWSService {
 
     // MARK: API Calls
 
-    /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront
-    /// 			distribution. With this operation you can move an alias that's already in use on a CloudFront distribution
-    /// 			to a different distribution in one step. This prevents the downtime that could occur if
-    /// 			you first remove the alias from one distribution and then separately add the alias to
-    /// 			another distribution. To use this operation to associate an alias with a distribution, you provide the alias
-    /// 			and the ID of the target distribution for the alias. For more information, including how
-    /// 			to set up the target distribution, prerequisites that you must complete, and other
-    /// 			restrictions, see Moving an alternate domain name to a different
-    /// 				distribution in the Amazon CloudFront Developer Guide.
+    /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that's already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different distribution in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func associateAlias(_ input: AssociateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -113,15 +102,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront
-    /// 			distribution. With this operation you can move an alias that's already in use on a CloudFront distribution
-    /// 			to a different distribution in one step. This prevents the downtime that could occur if
-    /// 			you first remove the alias from one distribution and then separately add the alias to
-    /// 			another distribution. To use this operation to associate an alias with a distribution, you provide the alias
-    /// 			and the ID of the target distribution for the alias. For more information, including how
-    /// 			to set up the target distribution, prerequisites that you must complete, and other
-    /// 			restrictions, see Moving an alternate domain name to a different
-    /// 				distribution in the Amazon CloudFront Developer Guide.
+    /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that's already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different distribution in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - alias: The alias (also known as a CNAME) to add to the target distribution.
@@ -140,12 +121,77 @@ public struct CloudFront: AWSService {
         return try await self.associateAlias(input, logger: logger)
     }
 
-    /// Creates a staging distribution using the configuration of the provided primary
-    /// 			distribution. A staging distribution is a copy of an existing distribution (called the
-    /// 			primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution
-    /// 			to modify the staging distribution's configuration. Then you can use
-    /// 				CreateContinuousDeploymentPolicy to incrementally move traffic to the
-    /// 			staging distribution. This API operation requires the following IAM permissions:    GetDistribution     CreateDistribution     CopyDistribution
+    /// Associates the WAF web ACL with a distribution tenant.
+    @Sendable
+    @inlinable
+    public func associateDistributionTenantWebACL(_ input: AssociateDistributionTenantWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDistributionTenantWebACLResult {
+        try await self.client.execute(
+            operation: "AssociateDistributionTenantWebACL", 
+            path: "/2020-05-31/distribution-tenant/{Id}/associate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the WAF web ACL with a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - ifMatch: The current ETag of the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+    ///   - webACLArn: The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateDistributionTenantWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        webACLArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateDistributionTenantWebACLResult {
+        let input = AssociateDistributionTenantWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch, 
+            webACLArn: webACLArn
+        )
+        return try await self.associateDistributionTenantWebACL(input, logger: logger)
+    }
+
+    /// Associates the WAF web ACL with a distribution.
+    @Sendable
+    @inlinable
+    public func associateDistributionWebACL(_ input: AssociateDistributionWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDistributionWebACLResult {
+        try await self.client.execute(
+            operation: "AssociateDistributionWebACL", 
+            path: "/2020-05-31/distribution/{Id}/associate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the WAF web ACL with a distribution.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution that you're associating with the WAF web ACL.
+    ///   - webACLArn: The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateDistributionWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        webACLArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateDistributionWebACLResult {
+        let input = AssociateDistributionWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch, 
+            webACLArn: webACLArn
+        )
+        return try await self.associateDistributionWebACL(input, logger: logger)
+    }
+
+    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution. This API operation requires the following IAM permissions:    GetDistribution     CreateDistribution     CopyDistribution
     @Sendable
     @inlinable
     public func copyDistribution(_ input: CopyDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyDistributionResult {
@@ -158,19 +204,14 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a staging distribution using the configuration of the provided primary
-    /// 			distribution. A staging distribution is a copy of an existing distribution (called the
-    /// 			primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution
-    /// 			to modify the staging distribution's configuration. Then you can use
-    /// 				CreateContinuousDeploymentPolicy to incrementally move traffic to the
-    /// 			staging distribution. This API operation requires the following IAM permissions:    GetDistribution     CreateDistribution     CopyDistribution
+    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution. This API operation requires the following IAM permissions:    GetDistribution     CreateDistribution     CopyDistribution
     ///
     /// Parameters:
-    ///   - callerReference: A value that uniquely identifies a request to create a resource. This helps to prevent
-    ///   - enabled: A Boolean flag to specify the state of the staging distribution when it's
-    ///   - ifMatch: The version identifier of the primary distribution whose configuration you are
-    ///   - primaryDistributionId: The identifier of the primary distribution whose configuration you are copying. To get
-    ///   - staging: The type of distribution that your primary distribution will be copied to. The only
+    ///   - callerReference: A value that uniquely identifies a request to create a resource. This helps to prevent CloudFront from creating a duplicate resource if you accidentally resubmit an identical request.
+    ///   - enabled: A Boolean flag to specify the state of the staging distribution when it's created. When you set this value to True, the staging distribution is enabled. When you set this value to False, the staging distribution is disabled. If you omit this field, the default value is True.
+    ///   - ifMatch: The version identifier of the primary distribution whose configuration you are copying. This is the ETag value returned in the response to GetDistribution and GetDistributionConfig.
+    ///   - primaryDistributionId: The identifier of the primary distribution whose configuration you are copying. To get a distribution ID, use ListDistributions.
+    ///   - staging: The type of distribution that your primary distribution will be copied to. The only valid value is True, indicating that you are copying to a staging distribution.
     ///   - logger: Logger use during operation
     @inlinable
     public func copyDistribution(
@@ -207,7 +248,7 @@ public struct CloudFront: AWSService {
     /// Creates an Anycast static IP list.
     ///
     /// Parameters:
-    ///   - ipCount: The number of static IP addresses that are allocated to the Anycast static IP list.
+    ///   - ipCount: The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
     ///   - name: Name of the Anycast static IP list.
     ///   - tags: 
     ///   - logger: Logger use during operation
@@ -226,18 +267,7 @@ public struct CloudFront: AWSService {
         return try await self.createAnycastIpList(input, logger: logger)
     }
 
-    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors.
-    /// 			When it's attached to a cache behavior, the cache policy determines the
-    /// 			following:   The values that CloudFront includes in the cache key. These
-    /// 					values can include HTTP headers, cookies, and URL query strings. CloudFront uses the
-    /// 					cache key to find an object in its cache that it can return to the
-    /// 					viewer.   The default, minimum, and maximum time to live (TTL) values that you want
-    /// 					objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are also included
-    /// 			in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an
-    /// 			object in its cache that matches the request's cache key. If you want to send values to
-    /// 			the origin but not include them in the cache key, use
-    /// 			OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createCachePolicy(_ input: CreateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCachePolicyResult {
@@ -250,18 +280,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors.
-    /// 			When it's attached to a cache behavior, the cache policy determines the
-    /// 			following:   The values that CloudFront includes in the cache key. These
-    /// 					values can include HTTP headers, cookies, and URL query strings. CloudFront uses the
-    /// 					cache key to find an object in its cache that it can return to the
-    /// 					viewer.   The default, minimum, and maximum time to live (TTL) values that you want
-    /// 					objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are also included
-    /// 			in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an
-    /// 			object in its cache that matches the request's cache key. If you want to send values to
-    /// 			the origin but not include them in the cache key, use
-    /// 			OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - cachePolicyConfig: A cache policy configuration.
@@ -277,11 +296,7 @@ public struct CloudFront: AWSService {
         return try await self.createCachePolicy(input, logger: logger)
     }
 
-    /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can
-    /// 			use an origin access identity to require users to access your content using a CloudFront URL
-    /// 			instead of the Amazon S3 URL. For more information about how to use origin access identities,
-    /// 			see Serving Private
-    /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
+    /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createCloudFrontOriginAccessIdentity(_ input: CreateCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCloudFrontOriginAccessIdentityResult {
@@ -294,11 +309,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can
-    /// 			use an origin access identity to require users to access your content using a CloudFront URL
-    /// 			instead of the Amazon S3 URL. For more information about how to use origin access identities,
-    /// 			see Serving Private
-    /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
+    /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - cloudFrontOriginAccessIdentityConfig: The current configuration information for the identity.
@@ -314,13 +325,48 @@ public struct CloudFront: AWSService {
         return try await self.createCloudFrontOriginAccessIdentity(input, logger: logger)
     }
 
-    /// Creates a continuous deployment policy that distributes traffic for a custom domain
-    /// 			name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to
-    /// 			create a staging distribution, then use UpdateDistribution to modify the
-    /// 			staging distribution's configuration. After you create and update a staging distribution, you can use a continuous
-    /// 			deployment policy to incrementally move traffic to the staging distribution. This
-    /// 			workflow enables you to test changes to a distribution's configuration before moving all
-    /// 			of your domain's production traffic to the new configuration.
+    /// Creates a connection group.
+    @Sendable
+    @inlinable
+    public func createConnectionGroup(_ input: CreateConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionGroupResult {
+        try await self.client.execute(
+            operation: "CreateConnectionGroup", 
+            path: "/2020-05-31/connection-group", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a connection group.
+    ///
+    /// Parameters:
+    ///   - anycastIpListId: The ID of the Anycast static IP list.
+    ///   - enabled: Enable the connection group.
+    ///   - ipv6Enabled: Enable IPv6 for the connection group. The default is true. For more information, see Enable IPv6 in the Amazon CloudFront Developer Guide.
+    ///   - name: The name of the connection group. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the connection group.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConnectionGroup(
+        anycastIpListId: String? = nil,
+        enabled: Bool? = nil,
+        ipv6Enabled: Bool? = nil,
+        name: String,
+        tags: Tags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConnectionGroupResult {
+        let input = CreateConnectionGroupRequest(
+            anycastIpListId: anycastIpListId, 
+            enabled: enabled, 
+            ipv6Enabled: ipv6Enabled, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createConnectionGroup(input, logger: logger)
+    }
+
+    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
     @Sendable
     @inlinable
     public func createContinuousDeploymentPolicy(_ input: CreateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContinuousDeploymentPolicyResult {
@@ -333,13 +379,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a continuous deployment policy that distributes traffic for a custom domain
-    /// 			name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to
-    /// 			create a staging distribution, then use UpdateDistribution to modify the
-    /// 			staging distribution's configuration. After you create and update a staging distribution, you can use a continuous
-    /// 			deployment policy to incrementally move traffic to the staging distribution. This
-    /// 			workflow enables you to test changes to a distribution's configuration before moving all
-    /// 			of your domain's production traffic to the new configuration.
+    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
     ///
     /// Parameters:
     ///   - continuousDeploymentPolicyConfig: Contains the configuration for a continuous deployment policy.
@@ -384,8 +424,60 @@ public struct CloudFront: AWSService {
         return try await self.createDistribution(input, logger: logger)
     }
 
-    /// Create a new distribution with tags. This API operation requires the following IAM
-    /// 			permissions:    CreateDistribution     TagResource
+    /// Creates a distribution tenant.
+    @Sendable
+    @inlinable
+    public func createDistributionTenant(_ input: CreateDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionTenantResult {
+        try await self.client.execute(
+            operation: "CreateDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - connectionGroupId: The ID of the connection group to associate with the distribution tenant.
+    ///   - customizations: Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+    ///   - distributionId: The ID of the multi-tenant distribution to use for creating the distribution tenant.
+    ///   - domains: The domains associated with the distribution tenant. You must specify at least one domain in the request.
+    ///   - enabled: Indicates whether the distribution tenant should be enabled when created. If the distribution tenant is disabled, the distribution tenant won't serve traffic.
+    ///   - managedCertificateRequest: The configuration for the CloudFront managed ACM certificate request.
+    ///   - name: The name of the distribution tenant. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the distribution tenant.
+    ///   - parameters: A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDistributionTenant(
+        connectionGroupId: String? = nil,
+        customizations: Customizations? = nil,
+        distributionId: String,
+        domains: [DomainItem],
+        enabled: Bool? = nil,
+        managedCertificateRequest: ManagedCertificateRequest? = nil,
+        name: String,
+        parameters: [Parameter]? = nil,
+        tags: Tags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDistributionTenantResult {
+        let input = CreateDistributionTenantRequest(
+            connectionGroupId: connectionGroupId, 
+            customizations: customizations, 
+            distributionId: distributionId, 
+            domains: domains, 
+            enabled: enabled, 
+            managedCertificateRequest: managedCertificateRequest, 
+            name: name, 
+            parameters: parameters, 
+            tags: tags
+        )
+        return try await self.createDistributionTenant(input, logger: logger)
+    }
+
+    /// Create a new distribution with tags. This API operation requires the following IAM permissions:    CreateDistribution     TagResource
     @Sendable
     @inlinable
     public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionWithTagsResult {
@@ -398,8 +490,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Create a new distribution with tags. This API operation requires the following IAM
-    /// 			permissions:    CreateDistribution     TagResource
+    /// Create a new distribution with tags. This API operation requires the following IAM permissions:    CreateDistribution     TagResource
     ///
     /// Parameters:
     ///   - distributionConfigWithTags: The distribution's configuration information.
@@ -473,14 +564,7 @@ public struct CloudFront: AWSService {
         return try await self.createFieldLevelEncryptionProfile(input, logger: logger)
     }
 
-    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information
-    /// 			about the function. The response contains an Amazon Resource Name (ARN) that uniquely
-    /// 			identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage,
-    /// 			you can test the function with TestFunction, and update it with
-    /// 				UpdateFunction. When you're ready to use your function with a CloudFront distribution, use
-    /// 				PublishFunction to copy the function from the DEVELOPMENT
-    /// 			stage to LIVE. When it's live, you can attach the function to a
-    /// 			distribution's cache behavior, using the function's ARN.
+    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
     @Sendable
     @inlinable
     public func createFunction(_ input: CreateFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFunctionResult {
@@ -493,18 +577,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information
-    /// 			about the function. The response contains an Amazon Resource Name (ARN) that uniquely
-    /// 			identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage,
-    /// 			you can test the function with TestFunction, and update it with
-    /// 				UpdateFunction. When you're ready to use your function with a CloudFront distribution, use
-    /// 				PublishFunction to copy the function from the DEVELOPMENT
-    /// 			stage to LIVE. When it's live, you can attach the function to a
-    /// 			distribution's cache behavior, using the function's ARN.
+    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
     ///
     /// Parameters:
-    ///   - functionCode: The function code. For more information about writing a CloudFront function, see Writing
-    ///   - functionConfig: Configuration information about the function, including an optional comment and the
+    ///   - functionCode: The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide.
+    ///   - functionConfig: Configuration information about the function, including an optional comment and the function's runtime.
     ///   - name: A name to identify the function.
     ///   - logger: Logger use during operation
     @inlinable
@@ -554,14 +631,39 @@ public struct CloudFront: AWSService {
         return try await self.createInvalidation(input, logger: logger)
     }
 
-    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group.
-    /// 			After you create a key group, you can reference it from one or more cache behaviors.
-    /// 			When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed
-    /// 			cookies for all requests that match the cache behavior. The URLs or cookies must be
-    /// 			signed with a private key whose corresponding public key is in the key group. The signed
-    /// 			URL or cookie contains information about which public key CloudFront should use to verify the
-    /// 			signature. For more information, see Serving private content in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the Amazon CloudFront Developer Guide.
+    @Sendable
+    @inlinable
+    public func createInvalidationForDistributionTenant(_ input: CreateInvalidationForDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInvalidationForDistributionTenantResult {
+        try await self.client.execute(
+            operation: "CreateInvalidationForDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}/invalidation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the Amazon CloudFront Developer Guide.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - invalidationBatch: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createInvalidationForDistributionTenant(
+        id: String,
+        invalidationBatch: InvalidationBatch,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateInvalidationForDistributionTenantResult {
+        let input = CreateInvalidationForDistributionTenantRequest(
+            id: id, 
+            invalidationBatch: invalidationBatch
+        )
+        return try await self.createInvalidationForDistributionTenant(input, logger: logger)
+    }
+
+    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createKeyGroup(_ input: CreateKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyGroupResult {
@@ -574,14 +676,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group.
-    /// 			After you create a key group, you can reference it from one or more cache behaviors.
-    /// 			When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed
-    /// 			cookies for all requests that match the cache behavior. The URLs or cookies must be
-    /// 			signed with a private key whose corresponding public key is in the key group. The signed
-    /// 			URL or cookie contains information about which public key CloudFront should use to verify the
-    /// 			signature. For more information, see Serving private content in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - keyGroupConfig: A key group configuration.
@@ -615,7 +710,7 @@ public struct CloudFront: AWSService {
     /// Parameters:
     ///   - comment: The comment of the key value store.
     ///   - importSource: The S3 bucket that provides the source for the import. The source must be in a valid JSON format.
-    ///   - name: The name of the key value store. The minimum length is 1 character and the maximum length is
+    ///   - name: The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters.
     ///   - logger: Logger use during operation
     @inlinable
     public func createKeyValueStore(
@@ -632,9 +727,7 @@ public struct CloudFront: AWSService {
         return try await self.createKeyValueStore(input, logger: logger)
     }
 
-    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The
-    /// 			additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in
-    /// 			the Amazon CloudFront Developer Guide.
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createMonitoringSubscription(_ input: CreateMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMonitoringSubscriptionResult {
@@ -647,13 +740,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The
-    /// 			additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in
-    /// 			the Amazon CloudFront Developer Guide.
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - distributionId: The ID of the distribution that you are enabling metrics for.
-    ///   - monitoringSubscription: A monitoring subscription. This structure contains information about whether additional CloudWatch
+    ///   - monitoringSubscription: A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMonitoringSubscription(
@@ -668,11 +759,7 @@ public struct CloudFront: AWSService {
         return try await self.createMonitoringSubscription(input, logger: logger)
     }
 
-    /// Creates a new origin access control in CloudFront. After you create an origin access
-    /// 			control, you can add it to an origin in a CloudFront distribution so that CloudFront sends
-    /// 			authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to
-    /// 			access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createOriginAccessControl(_ input: CreateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOriginAccessControlResult {
@@ -685,11 +772,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a new origin access control in CloudFront. After you create an origin access
-    /// 			control, you can add it to an origin in a CloudFront distribution so that CloudFront sends
-    /// 			authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to
-    /// 			access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - originAccessControlConfig: Contains the origin access control.
@@ -705,19 +788,7 @@ public struct CloudFront: AWSService {
         return try await self.createOriginAccessControl(input, logger: logger)
     }
 
-    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache
-    /// 			behaviors. When it's attached to a cache behavior, the origin request policy determines
-    /// 			the values that CloudFront includes in requests that it sends to the origin. Each request that
-    /// 			CloudFront sends to the origin includes the following:   The request body and the URL path (without the domain name) from the viewer
-    /// 					request.   The headers that CloudFront automatically includes in every origin request,
-    /// 					including Host, User-Agent, and
-    /// 						X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are specified in the
-    /// 					cache policy or the origin request policy. These can include items from the
-    /// 					viewer request and, in the case of headers, additional ones that are added by
-    /// 					CloudFront.   CloudFront sends a request when it can't find a valid object in its cache that matches the
-    /// 			request. If you want to send values to the origin and also include them in the cache
-    /// 			key, use CachePolicy. For more information about origin request policies, see Controlling origin requests in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:   The request body and the URL path (without the domain name) from the viewer request.   The headers that CloudFront automatically includes in every origin request, including Host, User-Agent, and X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.   CloudFront sends a request when it can't find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy. For more information about origin request policies, see Controlling origin requests in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createOriginRequestPolicy(_ input: CreateOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOriginRequestPolicyResult {
@@ -730,19 +801,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache
-    /// 			behaviors. When it's attached to a cache behavior, the origin request policy determines
-    /// 			the values that CloudFront includes in requests that it sends to the origin. Each request that
-    /// 			CloudFront sends to the origin includes the following:   The request body and the URL path (without the domain name) from the viewer
-    /// 					request.   The headers that CloudFront automatically includes in every origin request,
-    /// 					including Host, User-Agent, and
-    /// 						X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are specified in the
-    /// 					cache policy or the origin request policy. These can include items from the
-    /// 					viewer request and, in the case of headers, additional ones that are added by
-    /// 					CloudFront.   CloudFront sends a request when it can't find a valid object in its cache that matches the
-    /// 			request. If you want to send values to the origin and also include them in the cache
-    /// 			key, use CachePolicy. For more information about origin request policies, see Controlling origin requests in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:   The request body and the URL path (without the domain name) from the viewer request.   The headers that CloudFront automatically includes in every origin request, including Host, User-Agent, and X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.   CloudFront sends a request when it can't find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy. For more information about origin request policies, see Controlling origin requests in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - originRequestPolicyConfig: An origin request policy configuration.
@@ -787,9 +846,7 @@ public struct CloudFront: AWSService {
         return try await self.createPublicKey(input, logger: logger)
     }
 
-    /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache
-    /// 			behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createRealtimeLogConfig(_ input: CreateRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRealtimeLogConfigResult {
@@ -802,13 +859,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache
-    /// 			behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
-    ///   - endPoints: Contains information about the Amazon Kinesis data stream where you are sending real-time
-    ///   - fields: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the
+    ///   - endPoints: Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+    ///   - fields: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
     ///   - name: A unique name to identify this real-time log configuration.
     ///   - samplingRate: The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.
     ///   - logger: Logger use during operation
@@ -829,14 +884,7 @@ public struct CloudFront: AWSService {
         return try await self.createRealtimeLogConfig(input, logger: logger)
     }
 
-    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a
-    /// 			response headers policy, you provide some metadata about the policy and a set of
-    /// 			configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more
-    /// 			cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the
-    /// 			response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to
-    /// 			requests that match the cache behavior. CloudFront adds or removes response headers according
-    /// 			to the configuration of the response headers policy. For more information, see Adding or removing HTTP headers in CloudFront responses in the
-    /// 			Amazon CloudFront Developer Guide.
+    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to requests that match the cache behavior. CloudFront adds or removes response headers according to the configuration of the response headers policy. For more information, see Adding or removing HTTP headers in CloudFront responses in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createResponseHeadersPolicy(_ input: CreateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResponseHeadersPolicyResult {
@@ -849,17 +897,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a
-    /// 			response headers policy, you provide some metadata about the policy and a set of
-    /// 			configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more
-    /// 			cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the
-    /// 			response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to
-    /// 			requests that match the cache behavior. CloudFront adds or removes response headers according
-    /// 			to the configuration of the response headers policy. For more information, see Adding or removing HTTP headers in CloudFront responses in the
-    /// 			Amazon CloudFront Developer Guide.
+    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to requests that match the cache behavior. CloudFront adds or removes response headers according to the configuration of the response headers policy. For more information, see Adding or removing HTTP headers in CloudFront responses in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
-    ///   - responseHeadersPolicyConfig: Contains metadata about the response headers policy, and a set of configurations that
+    ///   - responseHeadersPolicyConfig: Contains metadata about the response headers policy, and a set of configurations that specify the HTTP headers.
     ///   - logger: Logger use during operation
     @inlinable
     public func createResponseHeadersPolicy(
@@ -872,9 +913,7 @@ public struct CloudFront: AWSService {
         return try await self.createResponseHeadersPolicy(input, logger: logger)
     }
 
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
-    /// 			distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion
-    /// 			forum.
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
     @Sendable
     @inlinable
     public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingDistributionResult {
@@ -887,9 +926,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
-    /// 			distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion
-    /// 			forum.
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
     ///
     /// Parameters:
     ///   - streamingDistributionConfig: The streaming distribution's configuration information.
@@ -905,9 +942,7 @@ public struct CloudFront: AWSService {
         return try await self.createStreamingDistribution(input, logger: logger)
     }
 
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
-    /// 			distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion
-    /// 			forum.
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
     @Sendable
     @inlinable
     public func createStreamingDistributionWithTags(_ input: CreateStreamingDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingDistributionWithTagsResult {
@@ -920,9 +955,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
-    /// 			distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion
-    /// 			forum.
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
     ///
     /// Parameters:
     ///   - streamingDistributionConfigWithTags: The streaming distribution's configuration information.
@@ -987,7 +1020,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The ID of the Anycast static IP list.
-    ///   - ifMatch: The current version (ETag value) of the Anycast static IP list that
+    ///   - ifMatch: The current version (ETag value) of the Anycast static IP list that you are deleting.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAnycastIpList(
@@ -1002,11 +1035,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteAnycastIpList(input, logger: logger)
     }
 
-    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update
-    /// 			your distributions to remove the cache policy from all cache behaviors, then delete the
-    /// 			cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get
-    /// 			these values, you can use ListCachePolicies or
-    /// 			GetCachePolicy.
+    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
     @Sendable
     @inlinable
     public func deleteCachePolicy(_ input: DeleteCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1019,15 +1048,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update
-    /// 			your distributions to remove the cache policy from all cache behaviors, then delete the
-    /// 			cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get
-    /// 			these values, you can use ListCachePolicies or
-    /// 			GetCachePolicy.
+    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
     ///
     /// Parameters:
-    ///   - id: The unique identifier for the cache policy that you are deleting. To get the
-    ///   - ifMatch: The version of the cache policy that you are deleting. The version is the cache
+    ///   - id: The unique identifier for the cache policy that you are deleting. To get the identifier, you can use ListCachePolicies.
+    ///   - ifMatch: The version of the cache policy that you are deleting. The version is the cache policy's ETag value, which you can get using ListCachePolicies, GetCachePolicy, or GetCachePolicyConfig.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteCachePolicy(
@@ -1059,7 +1084,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The origin access identity's ID.
-    ///   - ifMatch: The value of the ETag header you received from a previous
+    ///   - ifMatch: The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteCloudFrontOriginAccessIdentity(
@@ -1074,9 +1099,39 @@ public struct CloudFront: AWSService {
         return try await self.deleteCloudFrontOriginAccessIdentity(input, logger: logger)
     }
 
-    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary
-    /// 			distribution. First update your distribution to remove the continuous deployment policy,
-    /// 			then you can delete the policy.
+    /// Deletes a connection group.
+    @Sendable
+    @inlinable
+    public func deleteConnectionGroup(_ input: DeleteConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConnectionGroup", 
+            path: "/2020-05-31/connection-group/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a connection group.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the connection group to delete.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the connection group to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnectionGroup(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConnectionGroupRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteConnectionGroup(input, logger: logger)
+    }
+
+    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
     @Sendable
     @inlinable
     public func deleteContinuousDeploymentPolicy(_ input: DeleteContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1089,13 +1144,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary
-    /// 			distribution. First update your distribution to remove the continuous deployment policy,
-    /// 			then you can delete the policy.
+    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
     ///
     /// Parameters:
     ///   - id: The identifier of the continuous deployment policy that you are deleting.
-    ///   - ifMatch: The current version (ETag value) of the continuous deployment policy that
+    ///   - ifMatch: The current version (ETag value) of the continuous deployment policy that you are deleting.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteContinuousDeploymentPolicy(
@@ -1127,7 +1180,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The distribution ID.
-    ///   - ifMatch: The value of the ETag header that you received when you disabled the
+    ///   - ifMatch: The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDistribution(
@@ -1140,6 +1193,38 @@ public struct CloudFront: AWSService {
             ifMatch: ifMatch
         )
         return try await self.deleteDistribution(input, logger: logger)
+    }
+
+    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation.
+    @Sendable
+    @inlinable
+    public func deleteDistributionTenant(_ input: DeleteDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant to delete.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDistributionTenant(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteDistributionTenantRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteDistributionTenant(input, logger: logger)
     }
 
     /// Remove a field-level encryption configuration.
@@ -1159,7 +1244,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The ID of the configuration you want to delete from CloudFront.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteFieldLevelEncryptionConfig(
@@ -1191,7 +1276,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: Request the ID of the profile you want to delete from CloudFront.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteFieldLevelEncryptionProfile(
@@ -1206,11 +1291,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteFieldLevelEncryptionProfile(input, logger: logger)
     }
 
-    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update
-    /// 			your distributions to remove the function association from all cache behaviors, then
-    /// 			delete the function. To delete a function, you must provide the function's name and version
-    /// 				(ETag value). To get these values, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     @Sendable
     @inlinable
     public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1223,14 +1304,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update
-    /// 			your distributions to remove the function association from all cache behaviors, then
-    /// 			delete the function. To delete a function, you must provide the function's name and version
-    /// 				(ETag value). To get these values, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
     /// Parameters:
-    ///   - ifMatch: The current version (ETag value) of the function that you are deleting,
+    ///   - ifMatch: The current version (ETag value) of the function that you are deleting, which you can get using DescribeFunction.
     ///   - name: The name of the function that you are deleting.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1246,11 +1323,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteFunction(input, logger: logger)
     }
 
-    /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update
-    /// 			your distributions to remove the key group from all cache behaviors, then delete the key
-    /// 			group. To delete a key group, you must provide the key group's identifier and version. To get
-    /// 			these values, use ListKeyGroups followed by GetKeyGroup or
-    /// 				GetKeyGroupConfig.
+    /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group's identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
     @Sendable
     @inlinable
     public func deleteKeyGroup(_ input: DeleteKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1263,15 +1336,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update
-    /// 			your distributions to remove the key group from all cache behaviors, then delete the key
-    /// 			group. To delete a key group, you must provide the key group's identifier and version. To get
-    /// 			these values, use ListKeyGroups followed by GetKeyGroup or
-    /// 				GetKeyGroupConfig.
+    /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group's identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
     ///
     /// Parameters:
-    ///   - id: The identifier of the key group that you are deleting. To get the identifier, use
-    ///   - ifMatch: The version of the key group that you are deleting. The version is the key group's
+    ///   - id: The identifier of the key group that you are deleting. To get the identifier, use ListKeyGroups.
+    ///   - ifMatch: The version of the key group that you are deleting. The version is the key group's ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteKeyGroup(
@@ -1347,9 +1416,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteMonitoringSubscription(input, logger: logger)
     }
 
-    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all
-    /// 			distributions to remove the origin access control from all origins, then delete the
-    /// 			origin access control.
+    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
     @Sendable
     @inlinable
     public func deleteOriginAccessControl(_ input: DeleteOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1362,13 +1429,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all
-    /// 			distributions to remove the origin access control from all origins, then delete the
-    /// 			origin access control.
+    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
     ///
     /// Parameters:
     ///   - id: The unique identifier of the origin access control that you are deleting.
-    ///   - ifMatch: The current version (ETag value) of the origin access control that you
+    ///   - ifMatch: The current version (ETag value) of the origin access control that you are deleting.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteOriginAccessControl(
@@ -1383,11 +1448,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteOriginAccessControl(input, logger: logger)
     }
 
-    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors.
-    /// 			First update your distributions to remove the origin request policy from all cache
-    /// 			behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and
-    /// 			version. To get the identifier, you can use ListOriginRequestPolicies or
-    /// 				GetOriginRequestPolicy.
+    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
     @Sendable
     @inlinable
     public func deleteOriginRequestPolicy(_ input: DeleteOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1400,15 +1461,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors.
-    /// 			First update your distributions to remove the origin request policy from all cache
-    /// 			behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and
-    /// 			version. To get the identifier, you can use ListOriginRequestPolicies or
-    /// 				GetOriginRequestPolicy.
+    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
     ///
     /// Parameters:
-    ///   - id: The unique identifier for the origin request policy that you are deleting. To get the
-    ///   - ifMatch: The version of the origin request policy that you are deleting. The version is the
+    ///   - id: The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPolicies.
+    ///   - ifMatch: The version of the origin request policy that you are deleting. The version is the origin request policy's ETag value, which you can get using ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteOriginRequestPolicy(
@@ -1440,7 +1497,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The ID of the public key you want to remove from CloudFront.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the public
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func deletePublicKey(
@@ -1455,11 +1512,7 @@ public struct CloudFront: AWSService {
         return try await self.deletePublicKey(input, logger: logger)
     }
 
-    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior.
-    /// 			First update your distributions to remove the real-time log configuration from all cache
-    /// 			behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or
-    /// 			its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
-    /// 			uses the name to identify the real-time log configuration to delete.
+    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
     @Sendable
     @inlinable
     public func deleteRealtimeLogConfig(_ input: DeleteRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1472,11 +1525,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior.
-    /// 			First update your distributions to remove the real-time log configuration from all cache
-    /// 			behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or
-    /// 			its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
-    /// 			uses the name to identify the real-time log configuration to delete.
+    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the real-time log configuration to delete.
@@ -1495,11 +1544,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteRealtimeLogConfig(input, logger: logger)
     }
 
-    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior.
-    /// 			First update your distributions to remove the response headers policy from all cache
-    /// 			behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and
-    /// 			version. To get these values, you can use ListResponseHeadersPolicies or
-    /// 				GetResponseHeadersPolicy.
+    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
     @Sendable
     @inlinable
     public func deleteResponseHeadersPolicy(_ input: DeleteResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1512,15 +1557,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior.
-    /// 			First update your distributions to remove the response headers policy from all cache
-    /// 			behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and
-    /// 			version. To get these values, you can use ListResponseHeadersPolicies or
-    /// 				GetResponseHeadersPolicy.
+    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
     ///
     /// Parameters:
     ///   - id: The identifier for the response headers policy that you are deleting. To get the identifier, you can use ListResponseHeadersPolicies.
-    ///   - ifMatch: The version of the response headers policy that you are deleting. The version is the response headers policy's ETag value, which you can
+    ///   - ifMatch: The version of the response headers policy that you are deleting. The version is the response headers policy's ETag value, which you can get using ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteResponseHeadersPolicy(
@@ -1535,26 +1576,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteResponseHeadersPolicy(input, logger: logger)
     }
 
-    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API,
-    /// 			perform the following steps.  To delete an RTMP distribution using the CloudFront
-    /// 			API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the
-    /// 					current configuration and the Etag header for the distribution.
-    /// 				   Update the XML document that was returned in the response to your GET
-    /// 						Streaming Distribution Config request to change the value of
-    /// 						Enabled to false.   Submit a PUT Streaming Distribution Config request to update the
-    /// 					configuration for your distribution. In the request body, include the XML
-    /// 					document that you updated in Step 3. Then set the value of the HTTP
-    /// 						If-Match header to the value of the ETag header
-    /// 					that CloudFront returned when you submitted the GET Streaming Distribution
-    /// 						Config request in Step 2.   Review the response to the PUT Streaming Distribution Config
-    /// 					request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm
-    /// 					that your changes have propagated. When propagation is complete, the value of
-    /// 						Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of
-    /// 					the HTTP If-Match header to the value of the ETag
-    /// 					header that CloudFront returned when you submitted the GET Streaming
-    /// 						Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request
-    /// 					to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a
-    /// 				Distribution in the Amazon CloudFront Developer Guide.
+    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.  To delete an RTMP distribution using the CloudFront API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution.    Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false.   Submit a PUT Streaming Distribution Config request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to the PUT Streaming Distribution Config request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1567,30 +1589,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API,
-    /// 			perform the following steps.  To delete an RTMP distribution using the CloudFront
-    /// 			API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the
-    /// 					current configuration and the Etag header for the distribution.
-    /// 				   Update the XML document that was returned in the response to your GET
-    /// 						Streaming Distribution Config request to change the value of
-    /// 						Enabled to false.   Submit a PUT Streaming Distribution Config request to update the
-    /// 					configuration for your distribution. In the request body, include the XML
-    /// 					document that you updated in Step 3. Then set the value of the HTTP
-    /// 						If-Match header to the value of the ETag header
-    /// 					that CloudFront returned when you submitted the GET Streaming Distribution
-    /// 						Config request in Step 2.   Review the response to the PUT Streaming Distribution Config
-    /// 					request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm
-    /// 					that your changes have propagated. When propagation is complete, the value of
-    /// 						Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of
-    /// 					the HTTP If-Match header to the value of the ETag
-    /// 					header that CloudFront returned when you submitted the GET Streaming
-    /// 						Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request
-    /// 					to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a
-    /// 				Distribution in the Amazon CloudFront Developer Guide.
+    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.  To delete an RTMP distribution using the CloudFront API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution.    Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false.   Submit a PUT Streaming Distribution Config request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to the PUT Streaming Distribution Config request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - id: The distribution ID.
-    ///   - ifMatch: The value of the ETag header that you received when you disabled the
+    ///   - ifMatch: The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteStreamingDistribution(
@@ -1637,10 +1640,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteVpcOrigin(input, logger: logger)
     }
 
-    /// Gets configuration information and metadata about a CloudFront function, but not the
-    /// 			function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the
-    /// 			function's name and stage. To get these values, you can use
-    /// 			ListFunctions.
+    /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     @Sendable
     @inlinable
     public func describeFunction(_ input: DescribeFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFunctionResult {
@@ -1653,10 +1653,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets configuration information and metadata about a CloudFront function, but not the
-    /// 			function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the
-    /// 			function's name and stage. To get these values, you can use
-    /// 			ListFunctions.
+    /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
     /// Parameters:
     ///   - name: The name of the function that you are getting information about.
@@ -1704,6 +1701,70 @@ public struct CloudFront: AWSService {
         return try await self.describeKeyValueStore(input, logger: logger)
     }
 
+    /// Disassociates a distribution tenant from the WAF web ACL.
+    @Sendable
+    @inlinable
+    public func disassociateDistributionTenantWebACL(_ input: DisassociateDistributionTenantWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDistributionTenantWebACLResult {
+        try await self.client.execute(
+            operation: "DisassociateDistributionTenantWebACL", 
+            path: "/2020-05-31/distribution-tenant/{Id}/disassociate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a distribution tenant from the WAF web ACL.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - ifMatch: The current version of the distribution tenant that you're disassociating from the WAF web ACL. This is the ETag value returned in the response to the GetDistributionTenant API operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateDistributionTenantWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateDistributionTenantWebACLResult {
+        let input = DisassociateDistributionTenantWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.disassociateDistributionTenantWebACL(input, logger: logger)
+    }
+
+    /// Disassociates a distribution from the WAF web ACL.
+    @Sendable
+    @inlinable
+    public func disassociateDistributionWebACL(_ input: DisassociateDistributionWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDistributionWebACLResult {
+        try await self.client.execute(
+            operation: "DisassociateDistributionWebACL", 
+            path: "/2020-05-31/distribution/{Id}/disassociate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a distribution from the WAF web ACL.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution that you're disassociating from the WAF web ACL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateDistributionWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateDistributionWebACLResult {
+        let input = DisassociateDistributionWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.disassociateDistributionWebACL(input, logger: logger)
+    }
+
     /// Gets an Anycast static IP list.
     @Sendable
     @inlinable
@@ -1733,11 +1794,7 @@ public struct CloudFront: AWSService {
         return try await self.getAnycastIpList(input, logger: logger)
     }
 
-    /// Gets a cache policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy's identifier. If the cache policy
-    /// 			is attached to a distribution's cache behavior, you can get the policy's identifier
-    /// 			using ListDistributions or GetDistribution. If the cache
-    /// 			policy is not attached to a cache behavior, you can get the identifier using
-    /// 				ListCachePolicies.
+    /// Gets a cache policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     @Sendable
     @inlinable
     public func getCachePolicy(_ input: GetCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCachePolicyResult {
@@ -1750,14 +1807,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a cache policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy's identifier. If the cache policy
-    /// 			is attached to a distribution's cache behavior, you can get the policy's identifier
-    /// 			using ListDistributions or GetDistribution. If the cache
-    /// 			policy is not attached to a cache behavior, you can get the identifier using
-    /// 				ListCachePolicies.
+    /// Gets a cache policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///
     /// Parameters:
-    ///   - id: The unique identifier for the cache policy. If the cache policy is attached to a
+    ///   - id: The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCachePolicy(
@@ -1770,11 +1823,7 @@ public struct CloudFront: AWSService {
         return try await self.getCachePolicy(input, logger: logger)
     }
 
-    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the
-    /// 			cache policy is attached to a distribution's cache behavior, you can get the policy's
-    /// 			identifier using ListDistributions or GetDistribution. If the
-    /// 			cache policy is not attached to a cache behavior, you can get the identifier using
-    /// 				ListCachePolicies.
+    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     @Sendable
     @inlinable
     public func getCachePolicyConfig(_ input: GetCachePolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCachePolicyConfigResult {
@@ -1787,14 +1836,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the
-    /// 			cache policy is attached to a distribution's cache behavior, you can get the policy's
-    /// 			identifier using ListDistributions or GetDistribution. If the
-    /// 			cache policy is not attached to a cache behavior, you can get the identifier using
-    /// 				ListCachePolicies.
+    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///
     /// Parameters:
-    ///   - id: The unique identifier for the cache policy. If the cache policy is attached to a
+    ///   - id: The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCachePolicyConfig(
@@ -1865,8 +1910,65 @@ public struct CloudFront: AWSService {
         return try await self.getCloudFrontOriginAccessIdentityConfig(input, logger: logger)
     }
 
-    /// Gets a continuous deployment policy, including metadata (the policy's identifier and
-    /// 			the date and time when the policy was last modified).
+    /// Gets information about a connection group.
+    @Sendable
+    @inlinable
+    public func getConnectionGroup(_ input: GetConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionGroupResult {
+        try await self.client.execute(
+            operation: "GetConnectionGroup", 
+            path: "/2020-05-31/connection-group/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a connection group.
+    ///
+    /// Parameters:
+    ///   - identifier: The ID, name, or Amazon Resource Name (ARN) of the connection group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnectionGroup(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectionGroupResult {
+        let input = GetConnectionGroupRequest(
+            identifier: identifier
+        )
+        return try await self.getConnectionGroup(input, logger: logger)
+    }
+
+    /// Gets information about a connection group by using the endpoint that you specify.
+    @Sendable
+    @inlinable
+    public func getConnectionGroupByRoutingEndpoint(_ input: GetConnectionGroupByRoutingEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionGroupByRoutingEndpointResult {
+        try await self.client.execute(
+            operation: "GetConnectionGroupByRoutingEndpoint", 
+            path: "/2020-05-31/connection-group", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a connection group by using the endpoint that you specify.
+    ///
+    /// Parameters:
+    ///   - routingEndpoint: The routing endpoint for the target connection group, such as d111111abcdef8.cloudfront.net.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnectionGroupByRoutingEndpoint(
+        routingEndpoint: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectionGroupByRoutingEndpointResult {
+        let input = GetConnectionGroupByRoutingEndpointRequest(
+            routingEndpoint: routingEndpoint
+        )
+        return try await self.getConnectionGroupByRoutingEndpoint(input, logger: logger)
+    }
+
+    /// Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
     @Sendable
     @inlinable
     public func getContinuousDeploymentPolicy(_ input: GetContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContinuousDeploymentPolicyResult {
@@ -1879,8 +1981,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a continuous deployment policy, including metadata (the policy's identifier and
-    /// 			the date and time when the policy was last modified).
+    /// Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
     ///
     /// Parameters:
     ///   - id: The identifier of the continuous deployment policy that you are getting.
@@ -1912,7 +2013,7 @@ public struct CloudFront: AWSService {
     /// Gets configuration information about a continuous deployment policy.
     ///
     /// Parameters:
-    ///   - id: The identifier of the continuous deployment policy whose configuration you are
+    ///   - id: The identifier of the continuous deployment policy whose configuration you are getting.
     ///   - logger: Logger use during operation
     @inlinable
     public func getContinuousDeploymentPolicyConfig(
@@ -1941,7 +2042,7 @@ public struct CloudFront: AWSService {
     /// Get the information about a distribution.
     ///
     /// Parameters:
-    ///   - id: The distribution's ID. If the ID is empty, an empty distribution configuration is
+    ///   - id: The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDistribution(
@@ -1970,7 +2071,7 @@ public struct CloudFront: AWSService {
     /// Get the configuration information about a distribution.
     ///
     /// Parameters:
-    ///   - id: The distribution's ID. If the ID is empty, an empty distribution configuration is
+    ///   - id: The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDistributionConfig(
@@ -1981,6 +2082,64 @@ public struct CloudFront: AWSService {
             id: id
         )
         return try await self.getDistributionConfig(input, logger: logger)
+    }
+
+    /// Gets information about a distribution tenant.
+    @Sendable
+    @inlinable
+    public func getDistributionTenant(_ input: GetDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionTenantResult {
+        try await self.client.execute(
+            operation: "GetDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDistributionTenant(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDistributionTenantResult {
+        let input = GetDistributionTenantRequest(
+            identifier: identifier
+        )
+        return try await self.getDistributionTenant(input, logger: logger)
+    }
+
+    /// Gets information about a distribution tenant by the associated domain.
+    @Sendable
+    @inlinable
+    public func getDistributionTenantByDomain(_ input: GetDistributionTenantByDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionTenantByDomainResult {
+        try await self.client.execute(
+            operation: "GetDistributionTenantByDomain", 
+            path: "/2020-05-31/distribution-tenant", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a distribution tenant by the associated domain.
+    ///
+    /// Parameters:
+    ///   - domain: A domain name associated with the target distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDistributionTenantByDomain(
+        domain: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDistributionTenantByDomainResult {
+        let input = GetDistributionTenantByDomainRequest(
+            domain: domain
+        )
+        return try await self.getDistributionTenantByDomain(input, logger: logger)
     }
 
     /// Get the field-level encryption configuration information.
@@ -2099,9 +2258,7 @@ public struct CloudFront: AWSService {
         return try await self.getFieldLevelEncryptionProfileConfig(input, logger: logger)
     }
 
-    /// Gets the code of a CloudFront function. To get configuration information and metadata about
-    /// 			a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these
-    /// 			values, you can use ListFunctions.
+    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     @Sendable
     @inlinable
     public func getFunction(_ input: GetFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFunctionResult {
@@ -2114,9 +2271,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets the code of a CloudFront function. To get configuration information and metadata about
-    /// 			a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these
-    /// 			values, you can use ListFunctions.
+    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
     /// Parameters:
     ///   - name: The name of the function whose code you are getting.
@@ -2152,7 +2307,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - distributionId: The distribution's ID.
-    ///   - id: The identifier for the invalidation request, for example,
+    ///   - id: The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
     ///   - logger: Logger use during operation
     @inlinable
     public func getInvalidation(
@@ -2167,12 +2322,39 @@ public struct CloudFront: AWSService {
         return try await self.getInvalidation(input, logger: logger)
     }
 
-    /// Gets a key group, including the date and time when the key group was last
-    /// 			modified. To get a key group, you must provide the key group's identifier. If the key group is
-    /// 			referenced in a distribution's cache behavior, you can get the key group's identifier
-    /// 			using ListDistributions or GetDistribution. If the key group
-    /// 			is not referenced in a cache behavior, you can get the identifier using
-    /// 				ListKeyGroups.
+    /// Gets information about a specific invalidation for a distribution tenant.
+    @Sendable
+    @inlinable
+    public func getInvalidationForDistributionTenant(_ input: GetInvalidationForDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvalidationForDistributionTenantResult {
+        try await self.client.execute(
+            operation: "GetInvalidationForDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{DistributionTenantId}/invalidation/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a specific invalidation for a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - distributionTenantId: The ID of the distribution tenant.
+    ///   - id: The ID of the invalidation to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInvalidationForDistributionTenant(
+        distributionTenantId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInvalidationForDistributionTenantResult {
+        let input = GetInvalidationForDistributionTenantRequest(
+            distributionTenantId: distributionTenantId, 
+            id: id
+        )
+        return try await self.getInvalidationForDistributionTenant(input, logger: logger)
+    }
+
+    /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     @Sendable
     @inlinable
     public func getKeyGroup(_ input: GetKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyGroupResult {
@@ -2185,15 +2367,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a key group, including the date and time when the key group was last
-    /// 			modified. To get a key group, you must provide the key group's identifier. If the key group is
-    /// 			referenced in a distribution's cache behavior, you can get the key group's identifier
-    /// 			using ListDistributions or GetDistribution. If the key group
-    /// 			is not referenced in a cache behavior, you can get the identifier using
-    /// 				ListKeyGroups.
+    /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
     /// Parameters:
-    ///   - id: The identifier of the key group that you are getting. To get the identifier, use
+    ///   - id: The identifier of the key group that you are getting. To get the identifier, use ListKeyGroups.
     ///   - logger: Logger use during operation
     @inlinable
     public func getKeyGroup(
@@ -2206,11 +2383,7 @@ public struct CloudFront: AWSService {
         return try await self.getKeyGroup(input, logger: logger)
     }
 
-    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the
-    /// 			key group is referenced in a distribution's cache behavior, you can get the key group's
-    /// 			identifier using ListDistributions or GetDistribution. If the
-    /// 			key group is not referenced in a cache behavior, you can get the identifier using
-    /// 				ListKeyGroups.
+    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     @Sendable
     @inlinable
     public func getKeyGroupConfig(_ input: GetKeyGroupConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyGroupConfigResult {
@@ -2223,14 +2396,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the
-    /// 			key group is referenced in a distribution's cache behavior, you can get the key group's
-    /// 			identifier using ListDistributions or GetDistribution. If the
-    /// 			key group is not referenced in a cache behavior, you can get the identifier using
-    /// 				ListKeyGroups.
+    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
     /// Parameters:
-    ///   - id: The identifier of the key group whose configuration you are getting. To get the
+    ///   - id: The identifier of the key group whose configuration you are getting. To get the identifier, use ListKeyGroups.
     ///   - logger: Logger use during operation
     @inlinable
     public func getKeyGroupConfig(
@@ -2243,8 +2412,36 @@ public struct CloudFront: AWSService {
         return try await self.getKeyGroupConfig(input, logger: logger)
     }
 
-    /// Gets information about whether additional CloudWatch metrics are enabled for the
-    /// 			specified CloudFront distribution.
+    /// Gets details about the CloudFront managed ACM certificate.
+    @Sendable
+    @inlinable
+    public func getManagedCertificateDetails(_ input: GetManagedCertificateDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedCertificateDetailsResult {
+        try await self.client.execute(
+            operation: "GetManagedCertificateDetails", 
+            path: "/2020-05-31/managed-certificate/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets details about the CloudFront managed ACM certificate.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getManagedCertificateDetails(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetManagedCertificateDetailsResult {
+        let input = GetManagedCertificateDetailsRequest(
+            identifier: identifier
+        )
+        return try await self.getManagedCertificateDetails(input, logger: logger)
+    }
+
+    /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
     @Sendable
     @inlinable
     public func getMonitoringSubscription(_ input: GetMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMonitoringSubscriptionResult {
@@ -2257,8 +2454,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets information about whether additional CloudWatch metrics are enabled for the
-    /// 			specified CloudFront distribution.
+    /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
     ///
     /// Parameters:
     ///   - distributionId: The ID of the distribution that you are getting metrics information for.
@@ -2332,12 +2528,7 @@ public struct CloudFront: AWSService {
         return try await self.getOriginAccessControlConfig(input, logger: logger)
     }
 
-    /// Gets an origin request policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy's identifier. If the
-    /// 			origin request policy is attached to a distribution's cache behavior, you can get the
-    /// 			policy's identifier using ListDistributions or
-    /// 			GetDistribution. If the origin request policy is not attached to a cache
-    /// 			behavior, you can get the identifier using
-    /// 			ListOriginRequestPolicies.
+    /// Gets an origin request policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     @Sendable
     @inlinable
     public func getOriginRequestPolicy(_ input: GetOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginRequestPolicyResult {
@@ -2350,15 +2541,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets an origin request policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy's identifier. If the
-    /// 			origin request policy is attached to a distribution's cache behavior, you can get the
-    /// 			policy's identifier using ListDistributions or
-    /// 			GetDistribution. If the origin request policy is not attached to a cache
-    /// 			behavior, you can get the identifier using
-    /// 			ListOriginRequestPolicies.
+    /// Gets an origin request policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///
     /// Parameters:
-    ///   - id: The unique identifier for the origin request policy. If the origin request policy is
+    ///   - id: The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOriginRequestPolicy(
@@ -2371,12 +2557,7 @@ public struct CloudFront: AWSService {
         return try await self.getOriginRequestPolicy(input, logger: logger)
     }
 
-    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's
-    /// 			identifier. If the origin request policy is attached to a distribution's cache behavior,
-    /// 			you can get the policy's identifier using ListDistributions or
-    /// 				GetDistribution. If the origin request policy is not attached to a
-    /// 			cache behavior, you can get the identifier using
-    /// 			ListOriginRequestPolicies.
+    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     @Sendable
     @inlinable
     public func getOriginRequestPolicyConfig(_ input: GetOriginRequestPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginRequestPolicyConfigResult {
@@ -2389,15 +2570,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's
-    /// 			identifier. If the origin request policy is attached to a distribution's cache behavior,
-    /// 			you can get the policy's identifier using ListDistributions or
-    /// 				GetDistribution. If the origin request policy is not attached to a
-    /// 			cache behavior, you can get the identifier using
-    /// 			ListOriginRequestPolicies.
+    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///
     /// Parameters:
-    ///   - id: The unique identifier for the origin request policy. If the origin request policy is
+    ///   - id: The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOriginRequestPolicyConfig(
@@ -2468,9 +2644,7 @@ public struct CloudFront: AWSService {
         return try await self.getPublicKeyConfig(input, logger: logger)
     }
 
-    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its
-    /// 			Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
-    /// 			uses the name to identify the real-time log configuration to get.
+    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
     @Sendable
     @inlinable
     public func getRealtimeLogConfig(_ input: GetRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRealtimeLogConfigResult {
@@ -2483,9 +2657,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its
-    /// 			Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
-    /// 			uses the name to identify the real-time log configuration to get.
+    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the real-time log configuration to get.
@@ -2504,13 +2676,7 @@ public struct CloudFront: AWSService {
         return try await self.getRealtimeLogConfig(input, logger: logger)
     }
 
-    /// Gets a response headers policy, including metadata (the policy's identifier and the
-    /// 			date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the
-    /// 			response headers policy is attached to a distribution's cache behavior, you can get the
-    /// 			policy's identifier using ListDistributions or
-    /// 			GetDistribution. If the response headers policy is not attached to a cache
-    /// 			behavior, you can get the identifier using
-    /// 			ListResponseHeadersPolicies.
+    /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     @Sendable
     @inlinable
     public func getResponseHeadersPolicy(_ input: GetResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResponseHeadersPolicyResult {
@@ -2523,16 +2689,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a response headers policy, including metadata (the policy's identifier and the
-    /// 			date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the
-    /// 			response headers policy is attached to a distribution's cache behavior, you can get the
-    /// 			policy's identifier using ListDistributions or
-    /// 			GetDistribution. If the response headers policy is not attached to a cache
-    /// 			behavior, you can get the identifier using
-    /// 			ListResponseHeadersPolicies.
+    /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
     /// Parameters:
-    ///   - id: The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can
+    ///   - id: The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResponseHeadersPolicy(
@@ -2545,12 +2705,7 @@ public struct CloudFront: AWSService {
         return try await self.getResponseHeadersPolicy(input, logger: logger)
     }
 
-    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's
-    /// 			identifier. If the response headers policy is attached to a distribution's cache
-    /// 			behavior, you can get the policy's identifier using ListDistributions or
-    /// 				GetDistribution. If the response headers policy is not attached to a
-    /// 			cache behavior, you can get the identifier using
-    /// 				ListResponseHeadersPolicies.
+    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     @Sendable
     @inlinable
     public func getResponseHeadersPolicyConfig(_ input: GetResponseHeadersPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResponseHeadersPolicyConfigResult {
@@ -2563,15 +2718,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's
-    /// 			identifier. If the response headers policy is attached to a distribution's cache
-    /// 			behavior, you can get the policy's identifier using ListDistributions or
-    /// 				GetDistribution. If the response headers policy is not attached to a
-    /// 			cache behavior, you can get the identifier using
-    /// 				ListResponseHeadersPolicies.
+    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
     /// Parameters:
-    ///   - id: The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can
+    ///   - id: The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResponseHeadersPolicyConfig(
@@ -2584,8 +2734,7 @@ public struct CloudFront: AWSService {
         return try await self.getResponseHeadersPolicyConfig(input, logger: logger)
     }
 
-    /// Gets information about a specified RTMP distribution, including the distribution
-    /// 			configuration.
+    /// Gets information about a specified RTMP distribution, including the distribution configuration.
     @Sendable
     @inlinable
     public func getStreamingDistribution(_ input: GetStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamingDistributionResult {
@@ -2598,8 +2747,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a specified RTMP distribution, including the distribution
-    /// 			configuration.
+    /// Gets information about a specified RTMP distribution, including the distribution configuration.
     ///
     /// Parameters:
     ///   - id: The streaming distribution's ID.
@@ -2689,8 +2837,8 @@ public struct CloudFront: AWSService {
     /// Lists your Anycast static IP lists.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
-    ///   - maxItems: The maximum number of Anycast static IP lists that you want returned in the
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of Anycast static IP lists that you want returned in the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAnycastIpLists(
@@ -2705,12 +2853,7 @@ public struct CloudFront: AWSService {
         return try await self.listAnycastIpLists(input, logger: logger)
     }
 
-    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by
-    /// 			Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listCachePolicies(_ input: ListCachePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCachePoliciesResult {
@@ -2723,17 +2866,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by
-    /// 			Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of cache policies. The response includes cache policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of cache policies that you want in the response.
-    ///   - type: A filter to return only the specified kinds of cache policies. Valid values
+    ///   - type: A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your Amazon Web Services account.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCachePolicies(
@@ -2766,7 +2904,7 @@ public struct CloudFront: AWSService {
     /// Lists origin access identities.
     ///
     /// Parameters:
-    ///   - marker: Use this when paginating results to indicate where to begin in your list of origin
+    ///   - marker: Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
     ///   - maxItems: The maximum number of origin access identities you want in the response body.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2782,26 +2920,7 @@ public struct CloudFront: AWSService {
         return try await self.listCloudFrontOriginAccessIdentities(input, logger: logger)
     }
 
-    /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or
-    /// 			overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services
-    /// 			accounts for each conflicting alias. In the returned list, the distribution and account
-    /// 			IDs are partially hidden, which allows you to identify the distributions and accounts
-    /// 			that you own, but helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap
-    /// 			with the provided alias. For example, if you provide www.example.com as
-    /// 			input, the returned list can include www.example.com and the overlapping
-    /// 			wildcard alternate domain name (*.example.com), if they exist. If you
-    /// 			provide *.example.com as input, the returned list can include
-    /// 				*.example.com and any alternate domain names covered by that wildcard
-    /// 			(for example, www.example.com, test.example.com,
-    /// 				dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a
-    /// 			distribution in your account that has an attached SSL/TLS certificate that includes the
-    /// 			provided alias. For more information, including how to set up the distribution and
-    /// 			certificate, see Moving an alternate domain name to a different
-    /// 				distribution in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services accounts for each conflicting alias. In the returned list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (*.example.com), if they exist. If you provide *.example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias. For more information, including how to set up the distribution and certificate, see Moving an alternate domain name to a different distribution in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listConflictingAliases(_ input: ListConflictingAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConflictingAliasesResult {
@@ -2814,31 +2933,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or
-    /// 			overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services
-    /// 			accounts for each conflicting alias. In the returned list, the distribution and account
-    /// 			IDs are partially hidden, which allows you to identify the distributions and accounts
-    /// 			that you own, but helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap
-    /// 			with the provided alias. For example, if you provide www.example.com as
-    /// 			input, the returned list can include www.example.com and the overlapping
-    /// 			wildcard alternate domain name (*.example.com), if they exist. If you
-    /// 			provide *.example.com as input, the returned list can include
-    /// 				*.example.com and any alternate domain names covered by that wildcard
-    /// 			(for example, www.example.com, test.example.com,
-    /// 				dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a
-    /// 			distribution in your account that has an attached SSL/TLS certificate that includes the
-    /// 			provided alias. For more information, including how to set up the distribution and
-    /// 			certificate, see Moving an alternate domain name to a different
-    /// 				distribution in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services accounts for each conflicting alias. In the returned list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (*.example.com), if they exist. If you provide *.example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias. For more information, including how to set up the distribution and certificate, see Moving an alternate domain name to a different distribution in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
     ///   - alias: The alias (also called a CNAME) to search for conflicting aliases.
-    ///   - distributionId: The ID of a distribution in your account that has an attached SSL/TLS certificate that
-    ///   - marker: Use this field when paginating results to indicate where to begin in the list of
+    ///   - distributionId: The ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias.
+    ///   - marker: Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of conflicting aliases that you want in the response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2858,11 +2958,42 @@ public struct CloudFront: AWSService {
         return try await self.listConflictingAliases(input, logger: logger)
     }
 
-    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Lists the connection groups in your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listConnectionGroups(_ input: ListConnectionGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectionGroupsResult {
+        try await self.client.execute(
+            operation: "ListConnectionGroups", 
+            path: "/2020-05-31/connection-groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the connection groups in your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - associationFilter: Filter by associated Anycast IP list ID.
+    ///   - marker: The marker for the next set of connection groups to retrieve.
+    ///   - maxItems: The maximum number of connection groups to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectionGroups(
+        associationFilter: ConnectionGroupAssociationFilter? = nil,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectionGroupsResult {
+        let input = ListConnectionGroupsRequest(
+            associationFilter: associationFilter, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listConnectionGroups(input, logger: logger)
+    }
+
+    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listContinuousDeploymentPolicies(_ input: ListContinuousDeploymentPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContinuousDeploymentPoliciesResult {
@@ -2875,15 +3006,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
-    ///   - maxItems: The maximum number of continuous deployment policies that you want returned in the
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of continuous deployment policies. The response includes policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of continuous deployment policies that you want returned in the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listContinuousDeploymentPolicies(
@@ -2896,6 +3023,79 @@ public struct CloudFront: AWSService {
             maxItems: maxItems
         )
         return try await self.listContinuousDeploymentPolicies(input, logger: logger)
+    }
+
+    /// Lists the distribution tenants in your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listDistributionTenants(_ input: ListDistributionTenantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionTenantsResult {
+        try await self.client.execute(
+            operation: "ListDistributionTenants", 
+            path: "/2020-05-31/distribution-tenants", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the distribution tenants in your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - associationFilter: 
+    ///   - marker: The marker for the next set of results.
+    ///   - maxItems: The maximum number of distribution tenants to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionTenants(
+        associationFilter: DistributionTenantAssociationFilter? = nil,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionTenantsResult {
+        let input = ListDistributionTenantsRequest(
+            associationFilter: associationFilter, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDistributionTenants(input, logger: logger)
+    }
+
+    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request.
+    @Sendable
+    @inlinable
+    public func listDistributionTenantsByCustomization(_ input: ListDistributionTenantsByCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionTenantsByCustomizationResult {
+        try await self.client.execute(
+            operation: "ListDistributionTenantsByCustomization", 
+            path: "/2020-05-31/distribution-tenants-by-customization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request.
+    ///
+    /// Parameters:
+    ///   - certificateArn: Filter by the ARN of the associated ACM certificate.
+    ///   - marker: The marker for the next set of results.
+    ///   - maxItems: The maximum number of distribution tenants to return by the specified customization.
+    ///   - webACLArn: Filter by the ARN of the associated WAF web ACL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionTenantsByCustomization(
+        certificateArn: String? = nil,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        webACLArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionTenantsByCustomizationResult {
+        let input = ListDistributionTenantsByCustomizationRequest(
+            certificateArn: certificateArn, 
+            marker: marker, 
+            maxItems: maxItems, 
+            webACLArn: webACLArn
+        )
+        return try await self.listDistributionTenantsByCustomization(input, logger: logger)
     }
 
     /// List CloudFront distributions.
@@ -2914,7 +3114,7 @@ public struct CloudFront: AWSService {
     /// List CloudFront distributions.
     ///
     /// Parameters:
-    ///   - marker: Use this when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
     ///   - maxItems: The maximum number of distributions you want in the response body.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2947,8 +3147,8 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - anycastIpListId: The ID of the Anycast static IP list.
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
-    ///   - maxItems: The maximum number of distributions that you want returned in the
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of distributions that you want returned in the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDistributionsByAnycastIpListId(
@@ -2965,12 +3165,7 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByAnycastIpListId(input, logger: logger)
     }
 
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that's
-    /// 			associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listDistributionsByCachePolicyId(_ input: ListDistributionsByCachePolicyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByCachePolicyIdResult {
@@ -2983,16 +3178,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that's
-    /// 			associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
     ///   - cachePolicyId: The ID of the cache policy whose associated distribution IDs you want to list.
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of distribution IDs that you want in the response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3010,12 +3200,42 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByCachePolicyId(input, logger: logger)
     }
 
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that
-    /// 			references the specified key group. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Lists the distributions by the connection mode that you specify.
+    @Sendable
+    @inlinable
+    public func listDistributionsByConnectionMode(_ input: ListDistributionsByConnectionModeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByConnectionModeResult {
+        try await self.client.execute(
+            operation: "ListDistributionsByConnectionMode", 
+            path: "/2020-05-31/distributionsByConnectionMode/{ConnectionMode}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the distributions by the connection mode that you specify.
+    ///
+    /// Parameters:
+    ///   - connectionMode: The connection mode to filter distributions by.
+    ///   - marker:  The marker for the next set of distributions to retrieve.
+    ///   - maxItems: The maximum number of distributions to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionsByConnectionMode(
+        connectionMode: ConnectionMode,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionsByConnectionModeResult {
+        let input = ListDistributionsByConnectionModeRequest(
+            connectionMode: connectionMode, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDistributionsByConnectionMode(input, logger: logger)
+    }
+
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listDistributionsByKeyGroup(_ input: ListDistributionsByKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByKeyGroupResult {
@@ -3028,16 +3248,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that
-    /// 			references the specified key group. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
     ///   - keyGroupId: The ID of the key group whose associated distribution IDs you are listing.
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of distribution IDs that you want in the response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3055,12 +3270,7 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByKeyGroup(input, logger: logger)
     }
 
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that's
-    /// 			associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listDistributionsByOriginRequestPolicyId(_ input: ListDistributionsByOriginRequestPolicyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByOriginRequestPolicyIdResult {
@@ -3073,17 +3283,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that's
-    /// 			associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of distribution IDs that you want in the response.
-    ///   - originRequestPolicyId: The ID of the origin request policy whose associated distribution IDs you want to
+    ///   - originRequestPolicyId: The ID of the origin request policy whose associated distribution IDs you want to list.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDistributionsByOriginRequestPolicyId(
@@ -3100,14 +3305,7 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByOriginRequestPolicyId(input, logger: logger)
     }
 
-    /// Gets a list of distributions that have a cache behavior that's associated with the
-    /// 			specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource
-    /// 			Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to
-    /// 			identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listDistributionsByRealtimeLogConfig(_ input: ListDistributionsByRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByRealtimeLogConfigResult {
@@ -3120,20 +3318,13 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of distributions that have a cache behavior that's associated with the
-    /// 			specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource
-    /// 			Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to
-    /// 			identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of distributions that you want in the response.
-    ///   - realtimeLogConfigArn: The Amazon Resource Name (ARN) of the real-time log configuration whose associated
-    ///   - realtimeLogConfigName: The name of the real-time log configuration whose associated distributions you want to
+    ///   - realtimeLogConfigArn: The Amazon Resource Name (ARN) of the real-time log configuration whose associated distributions you want to list.
+    ///   - realtimeLogConfigName: The name of the real-time log configuration whose associated distributions you want to list.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDistributionsByRealtimeLogConfig(
@@ -3152,12 +3343,7 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByRealtimeLogConfig(input, logger: logger)
     }
 
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that's
-    /// 			associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listDistributionsByResponseHeadersPolicyId(_ input: ListDistributionsByResponseHeadersPolicyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByResponseHeadersPolicyIdResult {
@@ -3170,17 +3356,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that's
-    /// 			associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of distribution IDs that you want to get in the response.
-    ///   - responseHeadersPolicyId: The ID of the response headers policy whose associated distribution IDs you want to
+    ///   - responseHeadersPolicyId: The ID of the response headers policy whose associated distribution IDs you want to list.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDistributionsByResponseHeadersPolicyId(
@@ -3248,9 +3429,9 @@ public struct CloudFront: AWSService {
     /// List the distributions that are associated with a specified WAF web ACL.
     ///
     /// Parameters:
-    ///   - marker: Use Marker and MaxItems to control pagination of results. If
-    ///   - maxItems: The maximum number of distributions that you want CloudFront to return in the response body.
-    ///   - webACLId: The ID of the WAF web ACL that you want to list the associated distributions. If you
+    ///   - marker: Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.)
+    ///   - maxItems: The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
+    ///   - webACLId: The ID of the WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL.  For WAFV2, this is the ARN of the web ACL, such as arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. For WAF Classic, this is the ID of the web ACL, such as a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDistributionsByWebACLId(
@@ -3267,8 +3448,45 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByWebACLId(input, logger: logger)
     }
 
-    /// List all field-level encryption configurations that have been created in CloudFront for this
-    /// 			account.
+    /// Lists existing domain associations that conflict with the domain that you specify. You can use this API operation when transferring domains to identify potential domain conflicts. Domain conflicts must be resolved first before they can be moved.
+    @Sendable
+    @inlinable
+    public func listDomainConflicts(_ input: ListDomainConflictsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainConflictsResult {
+        try await self.client.execute(
+            operation: "ListDomainConflicts", 
+            path: "/2020-05-31/domain-conflicts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists existing domain associations that conflict with the domain that you specify. You can use this API operation when transferring domains to identify potential domain conflicts. Domain conflicts must be resolved first before they can be moved.
+    ///
+    /// Parameters:
+    ///   - domain: The domain to check for conflicts.
+    ///   - domainControlValidationResource: The distribution resource identifier. This can be the distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
+    ///   - marker: The marker for the next set of domain conflicts.
+    ///   - maxItems: The maximum number of domain conflicts to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDomainConflicts(
+        domain: String,
+        domainControlValidationResource: DistributionResourceId,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDomainConflictsResult {
+        let input = ListDomainConflictsRequest(
+            domain: domain, 
+            domainControlValidationResource: domainControlValidationResource, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDomainConflicts(input, logger: logger)
+    }
+
+    /// List all field-level encryption configurations that have been created in CloudFront for this account.
     @Sendable
     @inlinable
     public func listFieldLevelEncryptionConfigs(_ input: ListFieldLevelEncryptionConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFieldLevelEncryptionConfigsResult {
@@ -3281,12 +3499,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// List all field-level encryption configurations that have been created in CloudFront for this
-    /// 			account.
+    /// List all field-level encryption configurations that have been created in CloudFront for this account.
     ///
     /// Parameters:
-    ///   - marker: Use this when paginating results to indicate where to begin in your list of
-    ///   - maxItems: The maximum number of field-level encryption configurations you want in the response
+    ///   - marker: Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page).
+    ///   - maxItems: The maximum number of field-level encryption configurations you want in the response body.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFieldLevelEncryptionConfigs(
@@ -3301,8 +3518,7 @@ public struct CloudFront: AWSService {
         return try await self.listFieldLevelEncryptionConfigs(input, logger: logger)
     }
 
-    /// Request a list of field-level encryption profiles that have been created in CloudFront for
-    /// 			this account.
+    /// Request a list of field-level encryption profiles that have been created in CloudFront for this account.
     @Sendable
     @inlinable
     public func listFieldLevelEncryptionProfiles(_ input: ListFieldLevelEncryptionProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFieldLevelEncryptionProfilesResult {
@@ -3315,11 +3531,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Request a list of field-level encryption profiles that have been created in CloudFront for
-    /// 			this account.
+    /// Request a list of field-level encryption profiles that have been created in CloudFront for this account.
     ///
     /// Parameters:
-    ///   - marker: Use this when paginating results to indicate where to begin in your list of profiles.
+    ///   - marker: Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page).
     ///   - maxItems: The maximum number of field-level encryption profiles you want in the response body.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3335,12 +3550,7 @@ public struct CloudFront: AWSService {
         return try await self.listFieldLevelEncryptionProfiles(input, logger: logger)
     }
 
-    /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the
-    /// 			specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFunctionsResult {
@@ -3353,17 +3563,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the
-    /// 			specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of functions. The response includes functions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of functions that you want in the response.
-    ///   - stage: An optional filter to return only the functions that are in the specified stage,
+    ///   - stage: An optional filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFunctions(
@@ -3397,7 +3602,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - distributionId: The distribution's ID.
-    ///   - marker: Use this parameter when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page.
     ///   - maxItems: The maximum number of invalidation batches that you want in the response body.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3415,11 +3620,42 @@ public struct CloudFront: AWSService {
         return try await self.listInvalidations(input, logger: logger)
     }
 
-    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Lists the invalidations for a distribution tenant.
+    @Sendable
+    @inlinable
+    public func listInvalidationsForDistributionTenant(_ input: ListInvalidationsForDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvalidationsForDistributionTenantResult {
+        try await self.client.execute(
+            operation: "ListInvalidationsForDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}/invalidation", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the invalidations for a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - marker: Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page.
+    ///   - maxItems: The maximum number of invalidations to return for the distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInvalidationsForDistributionTenant(
+        id: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInvalidationsForDistributionTenantResult {
+        let input = ListInvalidationsForDistributionTenantRequest(
+            id: id, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listInvalidationsForDistributionTenant(input, logger: logger)
+    }
+
+    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listKeyGroups(_ input: ListKeyGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyGroupsResult {
@@ -3432,14 +3668,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of key
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of key groups. The response includes key groups in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of key groups that you want in the response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3490,13 +3722,7 @@ public struct CloudFront: AWSService {
         return try await self.listKeyValueStores(input, logger: logger)
     }
 
-    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send another
-    /// 			request that specifies the NextMarker value from the current response as
-    /// 			the Marker value in the next request.  If you're not using origin access controls for your Amazon Web Services account, the
-    /// 					ListOriginAccessControls operation doesn't return the
-    /// 					Items element in the response.
+    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send another request that specifies the NextMarker value from the current response as the Marker value in the next request.  If you're not using origin access controls for your Amazon Web Services account, the ListOriginAccessControls operation doesn't return the Items element in the response.
     @Sendable
     @inlinable
     public func listOriginAccessControls(_ input: ListOriginAccessControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOriginAccessControlsResult {
@@ -3509,16 +3735,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send another
-    /// 			request that specifies the NextMarker value from the current response as
-    /// 			the Marker value in the next request.  If you're not using origin access controls for your Amazon Web Services account, the
-    /// 					ListOriginAccessControls operation doesn't return the
-    /// 					Items element in the response.
+    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send another request that specifies the NextMarker value from the current response as the Marker value in the next request.  If you're not using origin access controls for your Amazon Web Services account, the ListOriginAccessControls operation doesn't return the Items element in the response.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of origin access controls. The response includes the items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of origin access controls that you want in the response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3534,12 +3754,7 @@ public struct CloudFront: AWSService {
         return try await self.listOriginAccessControls(input, logger: logger)
     }
 
-    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by
-    /// 			Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listOriginRequestPolicies(_ input: ListOriginRequestPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOriginRequestPoliciesResult {
@@ -3552,17 +3767,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by
-    /// 			Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of origin request policies. The response includes origin request policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     ///   - maxItems: The maximum number of origin request policies that you want in the response.
-    ///   - type: A filter to return only the specified kinds of origin request policies. Valid values
+    ///   - type: A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your Amazon Web Services account.
     ///   - logger: Logger use during operation
     @inlinable
     public func listOriginRequestPolicies(
@@ -3595,7 +3805,7 @@ public struct CloudFront: AWSService {
     /// List all public keys that have been added to CloudFront for this account.
     ///
     /// Parameters:
-    ///   - marker: Use this when paginating results to indicate where to begin in your list of public
+    ///   - marker: Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page).
     ///   - maxItems: The maximum number of public keys you want in the response body.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3611,11 +3821,7 @@ public struct CloudFront: AWSService {
         return try await self.listPublicKeys(input, logger: logger)
     }
 
-    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listRealtimeLogConfigs(_ input: ListRealtimeLogConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRealtimeLogConfigsResult {
@@ -3628,15 +3834,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
-    ///   - maxItems: The maximum number of real-time log configurations that you want in the
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of real-time log configurations that you want in the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listRealtimeLogConfigs(
@@ -3651,12 +3853,7 @@ public struct CloudFront: AWSService {
         return try await self.listRealtimeLogConfigs(input, logger: logger)
     }
 
-    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services,
-    /// 			or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
     public func listResponseHeadersPolicies(_ input: ListResponseHeadersPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResponseHeadersPoliciesResult {
@@ -3669,17 +3866,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services,
-    /// 			or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
-    /// 			the total number of items in the list exceeds the maximum that you specify, or the
-    /// 			default maximum, the response is paginated. To get the next page of items, send a
-    /// 			subsequent request that specifies the NextMarker value from the current
-    /// 			response as the Marker value in the subsequent request.
+    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// Parameters:
-    ///   - marker: Use this field when paginating results to indicate where to begin in your list of
-    ///   - maxItems: The maximum number of response headers policies that you want to get in the
-    ///   - type: A filter to get only the specified kind of response headers policies. Valid values
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of response headers policies. The response includes response headers policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of response headers policies that you want to get in the response.
+    ///   - type: A filter to get only the specified kind of response headers policies. Valid values are:    managed – Gets only the managed policies created by Amazon Web Services.    custom – Gets only the custom policies created in your Amazon Web Services account.
     ///   - logger: Logger use during operation
     @inlinable
     public func listResponseHeadersPolicies(
@@ -3789,14 +3981,7 @@ public struct CloudFront: AWSService {
         return try await self.listVpcOrigins(input, logger: logger)
     }
 
-    /// Publishes a CloudFront function by copying the function code from the
-    /// 				DEVELOPMENT stage to LIVE. This automatically updates all
-    /// 			cache behaviors that are using this function to use the newly published copy in the
-    /// 				LIVE stage. When a function is published to the LIVE stage, you can attach the
-    /// 			function to a distribution's cache behavior, using the function's Amazon Resource Name
-    /// 			(ARN). To publish a function, you must provide the function's name and version
-    /// 				(ETag value). To get these values, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     @Sendable
     @inlinable
     public func publishFunction(_ input: PublishFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishFunctionResult {
@@ -3809,17 +3994,10 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Publishes a CloudFront function by copying the function code from the
-    /// 				DEVELOPMENT stage to LIVE. This automatically updates all
-    /// 			cache behaviors that are using this function to use the newly published copy in the
-    /// 				LIVE stage. When a function is published to the LIVE stage, you can attach the
-    /// 			function to a distribution's cache behavior, using the function's Amazon Resource Name
-    /// 			(ARN). To publish a function, you must provide the function's name and version
-    /// 				(ETag value). To get these values, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
     /// Parameters:
-    ///   - ifMatch: The current version (ETag value) of the function that you are publishing,
+    ///   - ifMatch: The current version (ETag value) of the function that you are publishing, which you can get using DescribeFunction.
     ///   - name: The name of the function that you are publishing.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3867,14 +4045,7 @@ public struct CloudFront: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Tests a CloudFront function. To test a function, you provide an event object that represents
-    /// 			an HTTP request or response that your CloudFront distribution could receive in production.
-    /// 			CloudFront runs the function, passing it the event object that you provided, and returns the
-    /// 			function's result (the modified event object) in the response. The response also
-    /// 			contains function logs and error messages, if any exist. For more information about
-    /// 			testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag
-    /// 			value) along with the event object. To get the function's name and version, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag value) along with the event object. To get the function's name and version, you can use ListFunctions and DescribeFunction.
     @Sendable
     @inlinable
     public func testFunction(_ input: TestFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestFunctionResult {
@@ -3887,20 +4058,13 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Tests a CloudFront function. To test a function, you provide an event object that represents
-    /// 			an HTTP request or response that your CloudFront distribution could receive in production.
-    /// 			CloudFront runs the function, passing it the event object that you provided, and returns the
-    /// 			function's result (the modified event object) in the response. The response also
-    /// 			contains function logs and error messages, if any exist. For more information about
-    /// 			testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag
-    /// 			value) along with the event object. To get the function's name and version, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag value) along with the event object. To get the function's name and version, you can use ListFunctions and DescribeFunction.
     ///
     /// Parameters:
-    ///   - eventObject: The event object to test the function with. For more information about the structure
-    ///   - ifMatch: The current version (ETag value) of the function that you are testing,
+    ///   - eventObject: The event object to test the function with. For more information about the structure of the event object, see Testing functions in the Amazon CloudFront Developer Guide.
+    ///   - ifMatch: The current version (ETag value) of the function that you are testing, which you can get using DescribeFunction.
     ///   - name: The name of the function that you are testing.
-    ///   - stage: The stage of the function that you are testing, either DEVELOPMENT or
+    ///   - stage: The stage of the function that you are testing, either DEVELOPMENT or LIVE.
     ///   - logger: Logger use during operation
     @inlinable
     public func testFunction(
@@ -3951,12 +4115,7 @@ public struct CloudFront: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the
-    /// 			values provided in the request. You cannot update some fields independent of others. To
-    /// 			update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to
-    /// 					update.   Call UpdateCachePolicy by providing the entire cache policy
-    /// 					configuration, including the fields that you modified and those that you
-    /// 					didn't.
+    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.
     @Sendable
     @inlinable
     public func updateCachePolicy(_ input: UpdateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCachePolicyResult {
@@ -3969,17 +4128,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the
-    /// 			values provided in the request. You cannot update some fields independent of others. To
-    /// 			update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to
-    /// 					update.   Call UpdateCachePolicy by providing the entire cache policy
-    /// 					configuration, including the fields that you modified and those that you
-    /// 					didn't.
+    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.
     ///
     /// Parameters:
     ///   - cachePolicyConfig: A cache policy configuration.
-    ///   - id: The unique identifier for the cache policy that you are updating. The identifier is
-    ///   - ifMatch: The version of the cache policy that you are updating. The version is returned in the
+    ///   - id: The unique identifier for the cache policy that you are updating. The identifier is returned in a cache behavior's CachePolicyId field in the response to GetDistributionConfig.
+    ///   - ifMatch: The version of the cache policy that you are updating. The version is returned in the cache policy's ETag field in the response to GetCachePolicyConfig.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCachePolicy(
@@ -4014,7 +4168,7 @@ public struct CloudFront: AWSService {
     /// Parameters:
     ///   - cloudFrontOriginAccessIdentityConfig: The identity's configuration information.
     ///   - id: The identity's id.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCloudFrontOriginAccessIdentity(
@@ -4031,16 +4185,48 @@ public struct CloudFront: AWSService {
         return try await self.updateCloudFrontOriginAccessIdentity(input, logger: logger)
     }
 
-    /// Updates a continuous deployment policy. You can update a continuous deployment policy
-    /// 			to enable or disable it, to change the percentage of traffic that it sends to the
-    /// 			staging distribution, or to change the staging distribution that it sends traffic
-    /// 			to. When you update a continuous deployment policy configuration, all the fields are
-    /// 			updated with the values that are provided in the request. You cannot update some fields
-    /// 			independent of others. To update a continuous deployment policy configuration:   Use GetContinuousDeploymentPolicyConfig to get the current
-    /// 					configuration.   Locally modify the fields in the continuous deployment policy configuration
-    /// 					that you want to update.   Use UpdateContinuousDeploymentPolicy, providing the entire
-    /// 					continuous deployment policy configuration, including the fields that you
-    /// 					modified and those that you didn't.
+    /// Updates a connection group.
+    @Sendable
+    @inlinable
+    public func updateConnectionGroup(_ input: UpdateConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectionGroupResult {
+        try await self.client.execute(
+            operation: "UpdateConnectionGroup", 
+            path: "/2020-05-31/connection-group/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a connection group.
+    ///
+    /// Parameters:
+    ///   - anycastIpListId: The ID of the Anycast static IP list.
+    ///   - enabled: Whether the connection group is enabled.
+    ///   - id: The ID of the connection group.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the connection group that you're updating.
+    ///   - ipv6Enabled: Enable IPv6 for the connection group. For more information, see Enable IPv6 in the Amazon CloudFront Developer Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnectionGroup(
+        anycastIpListId: String? = nil,
+        enabled: Bool? = nil,
+        id: String,
+        ifMatch: String,
+        ipv6Enabled: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectionGroupResult {
+        let input = UpdateConnectionGroupRequest(
+            anycastIpListId: anycastIpListId, 
+            enabled: enabled, 
+            id: id, 
+            ifMatch: ifMatch, 
+            ipv6Enabled: ipv6Enabled
+        )
+        return try await self.updateConnectionGroup(input, logger: logger)
+    }
+
+    /// Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration:   Use GetContinuousDeploymentPolicyConfig to get the current configuration.   Locally modify the fields in the continuous deployment policy configuration that you want to update.   Use UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
     @Sendable
     @inlinable
     public func updateContinuousDeploymentPolicy(_ input: UpdateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContinuousDeploymentPolicyResult {
@@ -4053,21 +4239,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates a continuous deployment policy. You can update a continuous deployment policy
-    /// 			to enable or disable it, to change the percentage of traffic that it sends to the
-    /// 			staging distribution, or to change the staging distribution that it sends traffic
-    /// 			to. When you update a continuous deployment policy configuration, all the fields are
-    /// 			updated with the values that are provided in the request. You cannot update some fields
-    /// 			independent of others. To update a continuous deployment policy configuration:   Use GetContinuousDeploymentPolicyConfig to get the current
-    /// 					configuration.   Locally modify the fields in the continuous deployment policy configuration
-    /// 					that you want to update.   Use UpdateContinuousDeploymentPolicy, providing the entire
-    /// 					continuous deployment policy configuration, including the fields that you
-    /// 					modified and those that you didn't.
+    /// Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration:   Use GetContinuousDeploymentPolicyConfig to get the current configuration.   Locally modify the fields in the continuous deployment policy configuration that you want to update.   Use UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
     ///
     /// Parameters:
     ///   - continuousDeploymentPolicyConfig: The continuous deployment policy configuration.
     ///   - id: The identifier of the continuous deployment policy that you are updating.
-    ///   - ifMatch: The current version (ETag value) of the continuous deployment policy that
+    ///   - ifMatch: The current version (ETag value) of the continuous deployment policy that you are updating.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateContinuousDeploymentPolicy(
@@ -4084,17 +4261,7 @@ public struct CloudFront: AWSService {
         return try await self.updateContinuousDeploymentPolicy(input, logger: logger)
     }
 
-    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating
-    /// 			it to make your changes, and then submitting an UpdateDistribution request
-    /// 			to make the updates.  To update a web distribution using the CloudFront
-    /// 			API    Use GetDistributionConfig to get the current configuration,
-    /// 					including the version identifier (ETag).   Update the distribution configuration that was returned in the response. Note
-    /// 					the following important requirements and restrictions:   You must copy the ETag field value from the response. (You'll use it for the IfMatch parameter in your request.) Then, remove the ETag
-    /// 							field from the distribution configuration.   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the updated distribution
-    /// 					configuration. The new configuration replaces the existing configuration. The
-    /// 					values that you specify in an UpdateDistribution request are not
-    /// 					merged into your existing configuration. Make sure to include all fields: the
-    /// 					ones that you modified and also the ones that you didn't.
+    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating it to make your changes, and then submitting an UpdateDistribution request to make the updates.  To update a web distribution using the CloudFront API    Use GetDistributionConfig to get the current configuration, including the version identifier (ETag).   Update the distribution configuration that was returned in the response. Note the following important requirements and restrictions:   You must copy the ETag field value from the response. (You'll use it for the IfMatch parameter in your request.) Then, remove the ETag field from the distribution configuration.   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
     @Sendable
     @inlinable
     public func updateDistribution(_ input: UpdateDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionResult {
@@ -4107,22 +4274,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating
-    /// 			it to make your changes, and then submitting an UpdateDistribution request
-    /// 			to make the updates.  To update a web distribution using the CloudFront
-    /// 			API    Use GetDistributionConfig to get the current configuration,
-    /// 					including the version identifier (ETag).   Update the distribution configuration that was returned in the response. Note
-    /// 					the following important requirements and restrictions:   You must copy the ETag field value from the response. (You'll use it for the IfMatch parameter in your request.) Then, remove the ETag
-    /// 							field from the distribution configuration.   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the updated distribution
-    /// 					configuration. The new configuration replaces the existing configuration. The
-    /// 					values that you specify in an UpdateDistribution request are not
-    /// 					merged into your existing configuration. Make sure to include all fields: the
-    /// 					ones that you modified and also the ones that you didn't.
+    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating it to make your changes, and then submitting an UpdateDistribution request to make the updates.  To update a web distribution using the CloudFront API    Use GetDistributionConfig to get the current configuration, including the version identifier (ETag).   Update the distribution configuration that was returned in the response. Note the following important requirements and restrictions:   You must copy the ETag field value from the response. (You'll use it for the IfMatch parameter in your request.) Then, remove the ETag field from the distribution configuration.   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
     ///
     /// Parameters:
     ///   - distributionConfig: The distribution's configuration information.
     ///   - id: The distribution's id.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDistribution(
@@ -4139,15 +4296,60 @@ public struct CloudFront: AWSService {
         return try await self.updateDistribution(input, logger: logger)
     }
 
-    /// Copies the staging distribution's configuration to its corresponding primary
-    /// 			distribution. The primary distribution retains its Aliases (also known as
-    /// 			alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value,
-    /// 			but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested
-    /// 			configuration changes on the staging distribution. After using a continuous deployment
-    /// 			policy to move a portion of your domain name's traffic to the staging distribution and
-    /// 			verifying that it works as intended, you can use this operation to copy the staging
-    /// 			distribution's configuration to the primary distribution. This action will disable the
-    /// 			continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:    GetDistribution     UpdateDistribution
+    /// Updates a distribution tenant.
+    @Sendable
+    @inlinable
+    public func updateDistributionTenant(_ input: UpdateDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionTenantResult {
+        try await self.client.execute(
+            operation: "UpdateDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - connectionGroupId: The ID of the target connection group.
+    ///   - customizations: Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+    ///   - distributionId: The ID for the multi-tenant distribution.
+    ///   - domains: The domains to update for the distribution tenant. A domain object can contain only a domain property. You must specify at least one domain. Each distribution tenant can have up to 5 domains.
+    ///   - enabled: Indicates whether the distribution tenant should be updated to an enabled state. If you update the distribution tenant and it's not enabled, the distribution tenant won't serve traffic.
+    ///   - id: The ID of the distribution tenant.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the response of the GetDistributionTenant API operation.
+    ///   - managedCertificateRequest: An object that contains the CloudFront managed ACM certificate request.
+    ///   - parameters: A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDistributionTenant(
+        connectionGroupId: String? = nil,
+        customizations: Customizations? = nil,
+        distributionId: String? = nil,
+        domains: [DomainItem]? = nil,
+        enabled: Bool? = nil,
+        id: String,
+        ifMatch: String,
+        managedCertificateRequest: ManagedCertificateRequest? = nil,
+        parameters: [Parameter]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDistributionTenantResult {
+        let input = UpdateDistributionTenantRequest(
+            connectionGroupId: connectionGroupId, 
+            customizations: customizations, 
+            distributionId: distributionId, 
+            domains: domains, 
+            enabled: enabled, 
+            id: id, 
+            ifMatch: ifMatch, 
+            managedCertificateRequest: managedCertificateRequest, 
+            parameters: parameters
+        )
+        return try await self.updateDistributionTenant(input, logger: logger)
+    }
+
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:    GetDistribution     UpdateDistribution
     @Sendable
     @inlinable
     public func updateDistributionWithStagingConfig(_ input: UpdateDistributionWithStagingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionWithStagingConfigResult {
@@ -4160,19 +4362,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Copies the staging distribution's configuration to its corresponding primary
-    /// 			distribution. The primary distribution retains its Aliases (also known as
-    /// 			alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value,
-    /// 			but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested
-    /// 			configuration changes on the staging distribution. After using a continuous deployment
-    /// 			policy to move a portion of your domain name's traffic to the staging distribution and
-    /// 			verifying that it works as intended, you can use this operation to copy the staging
-    /// 			distribution's configuration to the primary distribution. This action will disable the
-    /// 			continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:    GetDistribution     UpdateDistribution
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:    GetDistribution     UpdateDistribution
     ///
     /// Parameters:
-    ///   - id: The identifier of the primary distribution to which you are copying a staging distribution's
-    ///   - ifMatch: The current versions (ETag values) of both primary and staging distributions.
+    ///   - id: The identifier of the primary distribution to which you are copying a staging distribution's configuration.
+    ///   - ifMatch: The current versions (ETag values) of both primary and staging distributions. Provide these in the following format:  &lt;primary ETag&gt;, &lt;staging ETag&gt;
     ///   - stagingDistributionId: The identifier of the staging distribution whose configuration you are copying to the primary distribution.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4188,6 +4382,41 @@ public struct CloudFront: AWSService {
             stagingDistributionId: stagingDistributionId
         )
         return try await self.updateDistributionWithStagingConfig(input, logger: logger)
+    }
+
+    /// Moves a domain from its current distribution or distribution tenant to another one.
+    @Sendable
+    @inlinable
+    public func updateDomainAssociation(_ input: UpdateDomainAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainAssociationResult {
+        try await self.client.execute(
+            operation: "UpdateDomainAssociation", 
+            path: "/2020-05-31/domain-association", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Moves a domain from its current distribution or distribution tenant to another one.
+    ///
+    /// Parameters:
+    ///   - domain: The domain to update.
+    ///   - ifMatch: The value of the ETag identifier for the distribution or distribution tenant that will be associated with the domain.
+    ///   - targetResource: The target distribution resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDomainAssociation(
+        domain: String,
+        ifMatch: String? = nil,
+        targetResource: DistributionResourceId,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDomainAssociationResult {
+        let input = UpdateDomainAssociationRequest(
+            domain: domain, 
+            ifMatch: ifMatch, 
+            targetResource: targetResource
+        )
+        return try await self.updateDomainAssociation(input, logger: logger)
     }
 
     /// Update a field-level encryption configuration.
@@ -4208,7 +4437,7 @@ public struct CloudFront: AWSService {
     /// Parameters:
     ///   - fieldLevelEncryptionConfig: Request to update a field-level encryption configuration.
     ///   - id: The ID of the configuration you want to update.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFieldLevelEncryptionConfig(
@@ -4243,7 +4472,7 @@ public struct CloudFront: AWSService {
     /// Parameters:
     ///   - fieldLevelEncryptionProfileConfig: Request to update a field-level encryption profile.
     ///   - id: The ID of the field-level encryption profile request.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFieldLevelEncryptionProfile(
@@ -4260,10 +4489,7 @@ public struct CloudFront: AWSService {
         return try await self.updateFieldLevelEncryptionProfile(input, logger: logger)
     }
 
-    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You
-    /// 			cannot update a function's name. To update a function, you provide the function's name and version (ETag
-    /// 			value) along with the updated function code. To get the name and version, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
     @Sendable
     @inlinable
     public func updateFunction(_ input: UpdateFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFunctionResult {
@@ -4276,15 +4502,12 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You
-    /// 			cannot update a function's name. To update a function, you provide the function's name and version (ETag
-    /// 			value) along with the updated function code. To get the name and version, you can use
-    /// 				ListFunctions and DescribeFunction.
+    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
     ///
     /// Parameters:
-    ///   - functionCode: The function code. For more information about writing a CloudFront function, see Writing
+    ///   - functionCode: The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide.
     ///   - functionConfig: Configuration information about the function.
-    ///   - ifMatch: The current version (ETag value) of the function that you are updating,
+    ///   - ifMatch: The current version (ETag value) of the function that you are updating, which you can get using DescribeFunction.
     ///   - name: The name of the function that you are updating.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4304,12 +4527,7 @@ public struct CloudFront: AWSService {
         return try await self.updateFunction(input, logger: logger)
     }
 
-    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in
-    /// 			the request. You cannot update some fields independent of others. To update a key
-    /// 			group:   Get the current key group with GetKeyGroup or
-    /// 						GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For
-    /// 					example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including
-    /// 					the fields that you modified and those that you didn't.
+    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group:   Get the current key group with GetKeyGroup or GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't.
     @Sendable
     @inlinable
     public func updateKeyGroup(_ input: UpdateKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyGroupResult {
@@ -4322,16 +4540,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in
-    /// 			the request. You cannot update some fields independent of others. To update a key
-    /// 			group:   Get the current key group with GetKeyGroup or
-    /// 						GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For
-    /// 					example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including
-    /// 					the fields that you modified and those that you didn't.
+    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group:   Get the current key group with GetKeyGroup or GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't.
     ///
     /// Parameters:
     ///   - id: The identifier of the key group that you are updating.
-    ///   - ifMatch: The version of the key group that you are updating. The version is the key group's
+    ///   - ifMatch: The version of the key group that you are updating. The version is the key group's ETag value.
     ///   - keyGroupConfig: The key group configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4401,7 +4614,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The unique identifier of the origin access control that you are updating.
-    ///   - ifMatch: The current version (ETag value) of the origin access control that you
+    ///   - ifMatch: The current version (ETag value) of the origin access control that you are updating.
     ///   - originAccessControlConfig: An origin access control.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4419,13 +4632,7 @@ public struct CloudFront: AWSService {
         return try await self.updateOriginAccessControl(input, logger: logger)
     }
 
-    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated
-    /// 			with the values provided in the request. You cannot update some fields independent of
-    /// 			others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current
-    /// 					configuration.   Locally modify the fields in the origin request policy configuration that you
-    /// 					want to update.   Call UpdateOriginRequestPolicy by providing the entire origin
-    /// 					request policy configuration, including the fields that you modified and those
-    /// 					that you didn't.
+    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current configuration.   Locally modify the fields in the origin request policy configuration that you want to update.   Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
     @Sendable
     @inlinable
     public func updateOriginRequestPolicy(_ input: UpdateOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOriginRequestPolicyResult {
@@ -4438,17 +4645,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated
-    /// 			with the values provided in the request. You cannot update some fields independent of
-    /// 			others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current
-    /// 					configuration.   Locally modify the fields in the origin request policy configuration that you
-    /// 					want to update.   Call UpdateOriginRequestPolicy by providing the entire origin
-    /// 					request policy configuration, including the fields that you modified and those
-    /// 					that you didn't.
+    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current configuration.   Locally modify the fields in the origin request policy configuration that you want to update.   Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
     ///
     /// Parameters:
-    ///   - id: The unique identifier for the origin request policy that you are updating. The
-    ///   - ifMatch: The version of the origin request policy that you are updating. The version is
+    ///   - id: The unique identifier for the origin request policy that you are updating. The identifier is returned in a cache behavior's OriginRequestPolicyId field in the response to GetDistributionConfig.
+    ///   - ifMatch: The version of the origin request policy that you are updating. The version is returned in the origin request policy's ETag field in the response to GetOriginRequestPolicyConfig.
     ///   - originRequestPolicyConfig: An origin request policy configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4466,8 +4667,7 @@ public struct CloudFront: AWSService {
         return try await self.updateOriginRequestPolicy(input, logger: logger)
     }
 
-    /// Update public key information. Note that the only value you can change is the
-    /// 			comment.
+    /// Update public key information. Note that the only value you can change is the comment.
     @Sendable
     @inlinable
     public func updatePublicKey(_ input: UpdatePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublicKeyResult {
@@ -4480,12 +4680,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Update public key information. Note that the only value you can change is the
-    /// 			comment.
+    /// Update public key information. Note that the only value you can change is the comment.
     ///
     /// Parameters:
     ///   - id: The identifier of the public key that you are updating.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the public
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.
     ///   - publicKeyConfig: A public key configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4503,14 +4702,7 @@ public struct CloudFront: AWSService {
         return try await self.updatePublicKey(input, logger: logger)
     }
 
-    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the
-    /// 			values provided in the request. You cannot update some parameters independent of others.
-    /// 			To update a real-time log configuration:   Call GetRealtimeLogConfig to get the current real-time log
-    /// 					configuration.   Locally modify the parameters in the real-time log configuration that you want
-    /// 					to update.   Call this API (UpdateRealtimeLogConfig) by providing the entire
-    /// 					real-time log configuration, including the parameters that you modified and
-    /// 					those that you didn't.   You cannot update a real-time log configuration's Name or
-    /// 				ARN.
+    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:   Call GetRealtimeLogConfig to get the current real-time log configuration.   Locally modify the parameters in the real-time log configuration that you want to update.   Call this API (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn't.   You cannot update a real-time log configuration's Name or ARN.
     @Sendable
     @inlinable
     public func updateRealtimeLogConfig(_ input: UpdateRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRealtimeLogConfigResult {
@@ -4523,21 +4715,14 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the
-    /// 			values provided in the request. You cannot update some parameters independent of others.
-    /// 			To update a real-time log configuration:   Call GetRealtimeLogConfig to get the current real-time log
-    /// 					configuration.   Locally modify the parameters in the real-time log configuration that you want
-    /// 					to update.   Call this API (UpdateRealtimeLogConfig) by providing the entire
-    /// 					real-time log configuration, including the parameters that you modified and
-    /// 					those that you didn't.   You cannot update a real-time log configuration's Name or
-    /// 				ARN.
+    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:   Call GetRealtimeLogConfig to get the current real-time log configuration.   Locally modify the parameters in the real-time log configuration that you want to update.   Call this API (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn't.   You cannot update a real-time log configuration's Name or ARN.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) for this real-time log configuration.
-    ///   - endPoints: Contains information about the Amazon Kinesis data stream where you are sending real-time
-    ///   - fields: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the
+    ///   - endPoints: Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+    ///   - fields: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
     ///   - name: The name for this real-time log configuration.
-    ///   - samplingRate: The sampling rate for this real-time log configuration. The sampling rate determines
+    ///   - samplingRate: The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRealtimeLogConfig(
@@ -4558,13 +4743,7 @@ public struct CloudFront: AWSService {
         return try await self.updateRealtimeLogConfig(input, logger: logger)
     }
 
-    /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot
-    /// 			update some policy fields independent of others. To update a response headers policy
-    /// 			configuration:   Use GetResponseHeadersPolicyConfig to get the current policy's
-    /// 					configuration.   Modify the fields in the response headers policy configuration that you want
-    /// 					to update.   Call UpdateResponseHeadersPolicy, providing the entire response
-    /// 					headers policy configuration, including the fields that you modified and those
-    /// 					that you didn't.
+    /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot update some policy fields independent of others. To update a response headers policy configuration:   Use GetResponseHeadersPolicyConfig to get the current policy's configuration.   Modify the fields in the response headers policy configuration that you want to update.   Call UpdateResponseHeadersPolicy, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
     @Sendable
     @inlinable
     public func updateResponseHeadersPolicy(_ input: UpdateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResponseHeadersPolicyResult {
@@ -4577,17 +4756,11 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot
-    /// 			update some policy fields independent of others. To update a response headers policy
-    /// 			configuration:   Use GetResponseHeadersPolicyConfig to get the current policy's
-    /// 					configuration.   Modify the fields in the response headers policy configuration that you want
-    /// 					to update.   Call UpdateResponseHeadersPolicy, providing the entire response
-    /// 					headers policy configuration, including the fields that you modified and those
-    /// 					that you didn't.
+    /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot update some policy fields independent of others. To update a response headers policy configuration:   Use GetResponseHeadersPolicyConfig to get the current policy's configuration.   Modify the fields in the response headers policy configuration that you want to update.   Call UpdateResponseHeadersPolicy, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
     ///
     /// Parameters:
     ///   - id: The identifier for the response headers policy that you are updating.
-    ///   - ifMatch: The version of the response headers policy that you are updating. The version is returned in the cache policy's ETag field in the response
+    ///   - ifMatch: The version of the response headers policy that you are updating. The version is returned in the cache policy's ETag field in the response to GetResponseHeadersPolicyConfig.
     ///   - responseHeadersPolicyConfig: A response headers policy configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4622,7 +4795,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The streaming distribution's id.
-    ///   - ifMatch: The value of the ETag header that you received when retrieving the
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
     ///   - streamingDistributionConfig: The streaming distribution's configuration information.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4674,6 +4847,38 @@ public struct CloudFront: AWSService {
         )
         return try await self.updateVpcOrigin(input, logger: logger)
     }
+
+    /// Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
+    @Sendable
+    @inlinable
+    public func verifyDnsConfiguration(_ input: VerifyDnsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyDnsConfigurationResult {
+        try await self.client.execute(
+            operation: "VerifyDnsConfiguration", 
+            path: "/2020-05-31/verify-dns-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
+    ///
+    /// Parameters:
+    ///   - domain: The domain name that you're verifying.
+    ///   - identifier: The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func verifyDnsConfiguration(
+        domain: String? = nil,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> VerifyDnsConfigurationResult {
+        let input = VerifyDnsConfigurationRequest(
+            domain: domain, 
+            identifier: identifier
+        )
+        return try await self.verifyDnsConfiguration(input, logger: logger)
+    }
 }
 
 extension CloudFront {
@@ -4723,6 +4928,120 @@ extension CloudFront {
         return self.listCloudFrontOriginAccessIdentitiesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConnectionGroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionGroupsPaginator(
+        _ input: ListConnectionGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectionGroupsRequest, ListConnectionGroupsResult> {
+        return .init(
+            input: input,
+            command: self.listConnectionGroups,
+            inputKey: \ListConnectionGroupsRequest.marker,
+            outputKey: \ListConnectionGroupsResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectionGroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - associationFilter: Filter by associated Anycast IP list ID.
+    ///   - maxItems: The maximum number of connection groups to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionGroupsPaginator(
+        associationFilter: ConnectionGroupAssociationFilter? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectionGroupsRequest, ListConnectionGroupsResult> {
+        let input = ListConnectionGroupsRequest(
+            associationFilter: associationFilter, 
+            maxItems: maxItems
+        )
+        return self.listConnectionGroupsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDistributionTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsPaginator(
+        _ input: ListDistributionTenantsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsRequest, ListDistributionTenantsResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionTenants,
+            inputKey: \ListDistributionTenantsRequest.marker,
+            outputKey: \ListDistributionTenantsResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - associationFilter: 
+    ///   - maxItems: The maximum number of distribution tenants to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsPaginator(
+        associationFilter: DistributionTenantAssociationFilter? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsRequest, ListDistributionTenantsResult> {
+        let input = ListDistributionTenantsRequest(
+            associationFilter: associationFilter, 
+            maxItems: maxItems
+        )
+        return self.listDistributionTenantsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDistributionTenantsByCustomization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsByCustomizationPaginator(
+        _ input: ListDistributionTenantsByCustomizationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsByCustomizationRequest, ListDistributionTenantsByCustomizationResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionTenantsByCustomization,
+            inputKey: \ListDistributionTenantsByCustomizationRequest.marker,
+            outputKey: \ListDistributionTenantsByCustomizationResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionTenantsByCustomization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - certificateArn: Filter by the ARN of the associated ACM certificate.
+    ///   - maxItems: The maximum number of distribution tenants to return by the specified customization.
+    ///   - webACLArn: Filter by the ARN of the associated WAF web ACL.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsByCustomizationPaginator(
+        certificateArn: String? = nil,
+        maxItems: Int? = nil,
+        webACLArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsByCustomizationRequest, ListDistributionTenantsByCustomizationResult> {
+        let input = ListDistributionTenantsByCustomizationRequest(
+            certificateArn: certificateArn, 
+            maxItems: maxItems, 
+            webACLArn: webACLArn
+        )
+        return self.listDistributionTenantsByCustomizationPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDistributions(_:logger:)``.
     ///
     /// - Parameters:
@@ -4755,6 +5074,83 @@ extension CloudFront {
             maxItems: maxItems
         )
         return self.listDistributionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDistributionsByConnectionMode(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByConnectionModePaginator(
+        _ input: ListDistributionsByConnectionModeRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByConnectionModeRequest, ListDistributionsByConnectionModeResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionsByConnectionMode,
+            inputKey: \ListDistributionsByConnectionModeRequest.marker,
+            outputKey: \ListDistributionsByConnectionModeResult.distributionList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionsByConnectionMode(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - connectionMode: The connection mode to filter distributions by.
+    ///   - maxItems: The maximum number of distributions to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByConnectionModePaginator(
+        connectionMode: ConnectionMode,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByConnectionModeRequest, ListDistributionsByConnectionModeResult> {
+        let input = ListDistributionsByConnectionModeRequest(
+            connectionMode: connectionMode, 
+            maxItems: maxItems
+        )
+        return self.listDistributionsByConnectionModePaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDomainConflicts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainConflictsPaginator(
+        _ input: ListDomainConflictsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainConflictsRequest, ListDomainConflictsResult> {
+        return .init(
+            input: input,
+            command: self.listDomainConflicts,
+            inputKey: \ListDomainConflictsRequest.marker,
+            outputKey: \ListDomainConflictsResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDomainConflicts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domain: The domain to check for conflicts.
+    ///   - domainControlValidationResource: The distribution resource identifier. This can be the distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
+    ///   - maxItems: The maximum number of domain conflicts to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainConflictsPaginator(
+        domain: String,
+        domainControlValidationResource: DistributionResourceId,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDomainConflictsRequest, ListDomainConflictsResult> {
+        let input = ListDomainConflictsRequest(
+            domain: domain, 
+            domainControlValidationResource: domainControlValidationResource, 
+            maxItems: maxItems
+        )
+        return self.listDomainConflictsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listInvalidations(_:logger:)``.
@@ -4792,6 +5188,43 @@ extension CloudFront {
             maxItems: maxItems
         )
         return self.listInvalidationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listInvalidationsForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvalidationsForDistributionTenantPaginator(
+        _ input: ListInvalidationsForDistributionTenantRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvalidationsForDistributionTenantRequest, ListInvalidationsForDistributionTenantResult> {
+        return .init(
+            input: input,
+            command: self.listInvalidationsForDistributionTenant,
+            inputKey: \ListInvalidationsForDistributionTenantRequest.marker,
+            outputKey: \ListInvalidationsForDistributionTenantResult.invalidationList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInvalidationsForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - maxItems: The maximum number of invalidations to return for the distribution tenant.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvalidationsForDistributionTenantPaginator(
+        id: String,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInvalidationsForDistributionTenantRequest, ListInvalidationsForDistributionTenantResult> {
+        let input = ListInvalidationsForDistributionTenantRequest(
+            id: id, 
+            maxItems: maxItems
+        )
+        return self.listInvalidationsForDistributionTenantPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listKeyValueStores(_:logger:)``.
@@ -4910,10 +5343,78 @@ extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateTok
     }
 }
 
+extension CloudFront.ListConnectionGroupsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListConnectionGroupsRequest {
+        return .init(
+            associationFilter: self.associationFilter,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListDistributionTenantsByCustomizationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionTenantsByCustomizationRequest {
+        return .init(
+            certificateArn: self.certificateArn,
+            marker: token,
+            maxItems: self.maxItems,
+            webACLArn: self.webACLArn
+        )
+    }
+}
+
+extension CloudFront.ListDistributionTenantsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionTenantsRequest {
+        return .init(
+            associationFilter: self.associationFilter,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListDistributionsByConnectionModeRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsByConnectionModeRequest {
+        return .init(
+            connectionMode: self.connectionMode,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension CloudFront.ListDistributionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsRequest {
         return .init(
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListDomainConflictsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDomainConflictsRequest {
+        return .init(
+            domain: self.domain,
+            domainControlValidationResource: self.domainControlValidationResource,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListInvalidationsForDistributionTenantRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListInvalidationsForDistributionTenantRequest {
+        return .init(
+            id: self.id,
             marker: token,
             maxItems: self.maxItems
         )
@@ -4990,7 +5491,7 @@ extension CloudFront {
     /// Waiter for operation ``getDistribution(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - id: The distribution's ID. If the ID is empty, an empty distribution configuration is
+    ///   - id: The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilDistributionDeployed(
@@ -5028,7 +5529,7 @@ extension CloudFront {
     ///
     /// - Parameters:
     ///   - distributionId: The distribution's ID.
-    ///   - id: The identifier for the invalidation request, for example,
+    ///   - id: The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilInvalidationCompleted(
@@ -5041,6 +5542,46 @@ extension CloudFront {
             id: id
         )
         try await self.waitUntilInvalidationCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getInvalidationForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInvalidationForDistributionTenantCompleted(
+        _ input: GetInvalidationForDistributionTenantRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetInvalidationForDistributionTenantRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("invalidation.status", expected: "Completed")),
+            ],
+            minDelayTime: .seconds(20),
+            maxDelayTime: .seconds(600),
+            command: self.getInvalidationForDistributionTenant
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getInvalidationForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - distributionTenantId: The ID of the distribution tenant.
+    ///   - id: The ID of the invalidation to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInvalidationForDistributionTenantCompleted(
+        distributionTenantId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetInvalidationForDistributionTenantRequest(
+            distributionTenantId: distributionTenantId, 
+            id: id
+        )
+        try await self.waitUntilInvalidationForDistributionTenantCompleted(input, logger: logger)
     }
 
     /// Waiter for operation ``getStreamingDistribution(_:logger:)``.

@@ -538,19 +538,22 @@ extension LicenseManager {
         public let licenseArn: String
         /// The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):   An Amazon Web Services account, which includes only the account specified.     An organizational unit (OU), which includes all accounts in the OU.     An organization, which will include all accounts across your organization.
         public let principals: [String]
+        /// Tags to add to the grant. For more information about tagging support in License Manager, see the TagResource operation.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(allowedOperations: [AllowedOperation], clientToken: String, grantName: String, homeRegion: String, licenseArn: String, principals: [String]) {
+        public init(allowedOperations: [AllowedOperation], clientToken: String, grantName: String, homeRegion: String, licenseArn: String, principals: [String], tags: [Tag]? = nil) {
             self.allowedOperations = allowedOperations
             self.clientToken = clientToken
             self.grantName = grantName
             self.homeRegion = homeRegion
             self.licenseArn = licenseArn
             self.principals = principals
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
+            try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 8)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
@@ -571,6 +574,7 @@ extension LicenseManager {
             case homeRegion = "HomeRegion"
             case licenseArn = "LicenseArn"
             case principals = "Principals"
+            case tags = "Tags"
         }
     }
 
@@ -627,7 +631,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
+            try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 8)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
@@ -682,7 +686,7 @@ extension LicenseManager {
         public let licenseCountHardLimit: Bool?
         /// Dimension used to track the license inventory.
         public let licenseCountingType: LicenseCountingType
-        /// License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules  vary by dimension, as follows.    Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores     Instances dimension: allowedTenancy |  maximumCores | minimumCores | maximumSockets | minimumSockets | maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy |  honorVcpuOptimization |  maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible  values for allowedTenancy are EC2-Default, EC2-DedicatedHost, and  EC2-DedicatedInstance. The possible values for honorVcpuOptimization are  True and False.
+        /// License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules  vary by dimension, as follows.    Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores     Instances dimension: allowedTenancy |  maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy |  honorVcpuOptimization |  maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible  values for allowedTenancy are EC2-Default, EC2-DedicatedHost, and  EC2-DedicatedInstance. The possible values for honorVcpuOptimization are  True and False.
         public let licenseRules: [String]?
         /// Name of the license configuration.
         public let name: String
@@ -856,11 +860,13 @@ extension LicenseManager {
         public let productName: String
         /// Product SKU.
         public let productSKU: String
+        /// Tags to add to the license. For more information about tagging support in License Manager, see the TagResource operation.
+        public let tags: [Tag]?
         /// Date and time range during which the license is valid, in ISO8601-UTC format.
         public let validity: DatetimeRange
 
         @inlinable
-        public init(beneficiary: String, clientToken: String, consumptionConfiguration: ConsumptionConfiguration, entitlements: [Entitlement], homeRegion: String, issuer: Issuer, licenseMetadata: [Metadata]? = nil, licenseName: String, productName: String, productSKU: String, validity: DatetimeRange) {
+        public init(beneficiary: String, clientToken: String, consumptionConfiguration: ConsumptionConfiguration, entitlements: [Entitlement], homeRegion: String, issuer: Issuer, licenseMetadata: [Metadata]? = nil, licenseName: String, productName: String, productSKU: String, tags: [Tag]? = nil, validity: DatetimeRange) {
             self.beneficiary = beneficiary
             self.clientToken = clientToken
             self.consumptionConfiguration = consumptionConfiguration
@@ -871,6 +877,7 @@ extension LicenseManager {
             self.licenseName = licenseName
             self.productName = productName
             self.productSKU = productSKU
+            self.tags = tags
             self.validity = validity
         }
 
@@ -891,6 +898,7 @@ extension LicenseManager {
             case licenseName = "LicenseName"
             case productName = "ProductName"
             case productSKU = "ProductSKU"
+            case tags = "Tags"
             case validity = "Validity"
         }
     }
@@ -2418,7 +2426,7 @@ extension LicenseManager {
     }
 
     public struct ListLicenseConfigurationsRequest: AWSEncodableShape {
-        /// Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used.  Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded.  Logical operators are EQUALS | NOT_EQUALS.
+        /// Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded.
         public let filters: [Filter]?
         /// Amazon Resource Names (ARN) of the license configurations.
         public let licenseConfigurationArns: [String]?
@@ -2929,7 +2937,7 @@ extension LicenseManager {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// Amazon Resource Name (ARN) of the license configuration.
+        /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         @inlinable
@@ -3006,7 +3014,7 @@ extension LicenseManager {
     }
 
     public struct ListUsageForLicenseConfigurationRequest: AWSEncodableShape {
-        /// Filters to scope the results. The following filters and logical operators are supported:    resourceArn - The ARN of the license configuration resource. Logical operators are EQUALS | NOT_EQUALS.    resourceType - The resource type (EC2_INSTANCE | EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE).  Logical operators are EQUALS | NOT_EQUALS.    resourceAccount - The ID of the account that owns the resource.  Logical operators are EQUALS | NOT_EQUALS.
+        /// Filters to scope the results. The following filters and logical operators are supported:    resourceArn - The ARN of the license configuration resource.    resourceType - The resource type (EC2_INSTANCE |  	EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE).    resourceAccount - The ID of the account that owns the resource.
         public let filters: [Filter]?
         /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
@@ -3114,7 +3122,7 @@ extension LicenseManager {
     }
 
     public struct ProductInformation: AWSEncodableShape & AWSDecodableShape {
-        /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.  The following filters and are supported when the resource type  is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an Amazon Web Services resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.  The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an Amazon Web Services account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise |  sql-server-standard |  sql-server-web |   windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard |  diagnostic pack sqlt |  tuning pack sqlt |  ols |  olap.
+        /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.  The following filters and are supported when the resource type  is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an Amazon Web Services resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.  The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an Amazon Web Services account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise |  sql-server-standard |  sql-server-web |   windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2  	| db2-se | db2-ae.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard |  diagnostic pack sqlt |  tuning pack sqlt |  ols |  olap.
         public let productInformationFilterList: [ProductInformationFilter]
         /// Resource type. The possible values are SSM_MANAGED | RDS.
         public let resourceType: String
@@ -3406,9 +3414,9 @@ extension LicenseManager {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// Tag key.
+        /// The tag key.
         public let key: String?
-        /// Tag value.
+        /// The tag value.
         public let value: String?
 
         @inlinable
@@ -3424,7 +3432,7 @@ extension LicenseManager {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// Amazon Resource Name (ARN) of the license configuration.
+        /// Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Manager:   Licenses - arn:aws:license-manager::111122223333:license:l-EXAMPLE2da7646d6861033667f20e895    Grants - arn:aws:license-manager::111122223333:grant:g-EXAMPLE7b19f4a0ab73679b0beb52707    License configurations - arn:aws:license-manager:us-east-1:111122223333:license-configuration:lic-EXAMPLE6a788d4c8acd4264ff0ecf2ed2d    Report generators - arn:aws:license-manager:us-east-1:111122223333:report-generator:r-EXAMPLE825b4a4f8fe5a3e0c88824e5fc6
         public let resourceArn: String
         /// One or more tags.
         public let tags: [Tag]
@@ -3484,7 +3492,7 @@ extension LicenseManager {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// Amazon Resource Name (ARN) of the license configuration.
+        /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// Keys identifying the tags to remove.
         public let tagKeys: [String]

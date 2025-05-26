@@ -48,6 +48,20 @@ extension BedrockDataAutomationRuntime {
 
     // MARK: Shapes
 
+    public struct AssetProcessingConfiguration: AWSEncodableShape {
+        /// Video asset processing configuration
+        public let video: VideoAssetProcessingConfiguration?
+
+        @inlinable
+        public init(video: VideoAssetProcessingConfiguration? = nil) {
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case video = "video"
+        }
+    }
+
     public struct Blueprint: AWSEncodableShape {
         /// Arn of blueprint.
         public let blueprintArn: String
@@ -201,11 +215,14 @@ extension BedrockDataAutomationRuntime {
     }
 
     public struct InputConfiguration: AWSEncodableShape {
+        /// Asset processing configuration
+        public let assetProcessingConfiguration: AssetProcessingConfiguration?
         /// S3 uri.
         public let s3Uri: String
 
         @inlinable
-        public init(s3Uri: String) {
+        public init(assetProcessingConfiguration: AssetProcessingConfiguration? = nil, s3Uri: String) {
+            self.assetProcessingConfiguration = assetProcessingConfiguration
             self.s3Uri = s3Uri
         }
 
@@ -216,6 +233,7 @@ extension BedrockDataAutomationRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetProcessingConfiguration = "assetProcessingConfiguration"
             case s3Uri = "s3Uri"
         }
     }
@@ -422,6 +440,24 @@ extension BedrockDataAutomationRuntime {
         public init() {}
     }
 
+    public struct TimestampSegment: AWSEncodableShape {
+        /// End timestamp in milliseconds
+        public let endTimeMillis: Int64
+        /// Start timestamp in milliseconds
+        public let startTimeMillis: Int64
+
+        @inlinable
+        public init(endTimeMillis: Int64, startTimeMillis: Int64) {
+            self.endTimeMillis = endTimeMillis
+            self.startTimeMillis = startTimeMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimeMillis = "endTimeMillis"
+            case startTimeMillis = "startTimeMillis"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public let resourceARN: String
         public let tagKeys: [String]
@@ -452,6 +488,34 @@ extension BedrockDataAutomationRuntime {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct VideoAssetProcessingConfiguration: AWSEncodableShape {
+        /// Delimits the segment of the input that will be processed
+        public let segmentConfiguration: VideoSegmentConfiguration?
+
+        @inlinable
+        public init(segmentConfiguration: VideoSegmentConfiguration? = nil) {
+            self.segmentConfiguration = segmentConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentConfiguration = "segmentConfiguration"
+        }
+    }
+
+    public struct VideoSegmentConfiguration: AWSEncodableShape {
+        /// Timestamp segment
+        public let timestampSegment: TimestampSegment?
+
+        @inlinable
+        public init(timestampSegment: TimestampSegment? = nil) {
+            self.timestampSegment = timestampSegment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestampSegment = "timestampSegment"
+        }
     }
 }
 

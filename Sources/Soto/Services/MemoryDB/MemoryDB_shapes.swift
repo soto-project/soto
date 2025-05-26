@@ -50,6 +50,19 @@ extension MemoryDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpDiscovery: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "dual_stack"
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "complete"
         case inProgress = "in-progress"
@@ -266,6 +279,8 @@ extension MemoryDB {
         public let enginePatchVersion: String?
         /// The Redis OSS engine version used by the cluster
         public let engineVersion: String?
+        /// The mechanism that the cluster uses to discover IP addresses. Returns 'ipv4' when DNS endpoints resolve to IPv4 addresses, or 'ipv6' when DNS endpoints resolve to IPv6 addresses.
+        public let ipDiscovery: IpDiscovery?
         /// The ID of the KMS key used to encrypt the cluster
         public let kmsKeyId: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
@@ -274,6 +289,8 @@ extension MemoryDB {
         public let multiRegionClusterName: String?
         /// The user-supplied name of the cluster. This identifier is a unique key that identifies a cluster.
         public let name: String?
+        /// The IP address type for the cluster. Returns 'ipv4' for IPv4 only, 'ipv6' for IPv6 only, or 'dual-stack' if the cluster supports both IPv4 and IPv6 addressing.
+        public let networkType: NetworkType?
         /// The cluster's node type
         public let nodeType: String?
         /// The number of shards in the cluster
@@ -304,7 +321,7 @@ extension MemoryDB {
         public let tlsEnabled: Bool?
 
         @inlinable
-        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, engine: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, multiRegionClusterName: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, engine: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, multiRegionClusterName: String? = nil, name: String? = nil, networkType: NetworkType? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -315,10 +332,12 @@ extension MemoryDB {
             self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
+            self.ipDiscovery = ipDiscovery
             self.kmsKeyId = kmsKeyId
             self.maintenanceWindow = maintenanceWindow
             self.multiRegionClusterName = multiRegionClusterName
             self.name = name
+            self.networkType = networkType
             self.nodeType = nodeType
             self.numberOfShards = numberOfShards
             self.parameterGroupName = parameterGroupName
@@ -346,10 +365,12 @@ extension MemoryDB {
             case engine = "Engine"
             case enginePatchVersion = "EnginePatchVersion"
             case engineVersion = "EngineVersion"
+            case ipDiscovery = "IpDiscovery"
             case kmsKeyId = "KmsKeyId"
             case maintenanceWindow = "MaintenanceWindow"
             case multiRegionClusterName = "MultiRegionClusterName"
             case name = "Name"
+            case networkType = "NetworkType"
             case nodeType = "NodeType"
             case numberOfShards = "NumberOfShards"
             case parameterGroupName = "ParameterGroupName"
@@ -578,12 +599,16 @@ extension MemoryDB {
         public let engine: String?
         /// The version number of the Redis OSS engine to be used for the cluster.
         public let engineVersion: String?
+        /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'.
+        public let ipDiscovery: IpDiscovery?
         /// The ID of the KMS key used to encrypt the cluster.
         public let kmsKeyId: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let maintenanceWindow: String?
         /// The name of the multi-Region cluster to be created.
         public let multiRegionClusterName: String?
+        /// Specifies the IP address type for the cluster. Valid values are 'ipv4', 'ipv6', or 'dual_stack'. When set to 'ipv4', the cluster will only be accessible via IPv4 addresses. When set to 'ipv6', the cluster will only be accessible via IPv6 addresses. When set to 'dual_stack', the cluster will be accessible via both IPv4 and IPv6 addresses. If not specified, the default is 'ipv4'.
+        public let networkType: NetworkType?
         /// The compute and memory capacity of the nodes in the cluster.
         public let nodeType: String
         /// The number of replicas to apply to each shard. The default value is 1. The maximum is 5.
@@ -614,7 +639,7 @@ extension MemoryDB {
         public let tlsEnabled: Bool?
 
         @inlinable
-        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, multiRegionClusterName: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, multiRegionClusterName: String? = nil, networkType: NetworkType? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.clusterName = clusterName
@@ -622,9 +647,11 @@ extension MemoryDB {
             self.description = description
             self.engine = engine
             self.engineVersion = engineVersion
+            self.ipDiscovery = ipDiscovery
             self.kmsKeyId = kmsKeyId
             self.maintenanceWindow = maintenanceWindow
             self.multiRegionClusterName = multiRegionClusterName
+            self.networkType = networkType
             self.nodeType = nodeType
             self.numReplicasPerShard = numReplicasPerShard
             self.numShards = numShards
@@ -655,9 +682,11 @@ extension MemoryDB {
             case description = "Description"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case ipDiscovery = "IpDiscovery"
             case kmsKeyId = "KmsKeyId"
             case maintenanceWindow = "MaintenanceWindow"
             case multiRegionClusterName = "MultiRegionClusterName"
+            case networkType = "NetworkType"
             case nodeType = "NodeType"
             case numReplicasPerShard = "NumReplicasPerShard"
             case numShards = "NumShards"
@@ -696,7 +725,7 @@ extension MemoryDB {
         public let engine: String?
         /// The version of the engine to be used for the multi-Region cluster.
         public let engineVersion: String?
-        /// A suffix to be added to the multi-Region cluster name.
+        /// A suffix to be added to the Multi-Region cluster name. Amazon MemoryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For instance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.
         public let multiRegionClusterNameSuffix: String
         /// The name of the multi-Region parameter group to be associated with the cluster.
         public let multiRegionParameterGroupName: String?
@@ -2626,16 +2655,20 @@ extension MemoryDB {
         public let availabilityZone: AvailabilityZone?
         /// The unique identifier for the subnet.
         public let identifier: String?
+        /// The network types supported by this subnet. Returns an array of strings that can include 'ipv4', 'ipv6', or both, indicating whether the subnet supports IPv4 only, IPv6 only, or dual-stack deployments.
+        public let supportedNetworkTypes: [NetworkType]?
 
         @inlinable
-        public init(availabilityZone: AvailabilityZone? = nil, identifier: String? = nil) {
+        public init(availabilityZone: AvailabilityZone? = nil, identifier: String? = nil, supportedNetworkTypes: [NetworkType]? = nil) {
             self.availabilityZone = availabilityZone
             self.identifier = identifier
+            self.supportedNetworkTypes = supportedNetworkTypes
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case identifier = "Identifier"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
         }
     }
 
@@ -2648,15 +2681,18 @@ extension MemoryDB {
         public let name: String?
         /// A list of subnets associated with the subnet group.
         public let subnets: [Subnet]?
+        /// The network types supported by this subnet group. Returns an array of strings that can include 'ipv4', 'ipv6', or both, indicating the IP address types that can be used for clusters deployed in this subnet group.
+        public let supportedNetworkTypes: [NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
         public let vpcId: String?
 
         @inlinable
-        public init(arn: String? = nil, description: String? = nil, name: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, name: String? = nil, subnets: [Subnet]? = nil, supportedNetworkTypes: [NetworkType]? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.description = description
             self.name = name
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
 
@@ -2665,6 +2701,7 @@ extension MemoryDB {
             case description = "Description"
             case name = "Name"
             case subnets = "Subnets"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
             case vpcId = "VpcId"
         }
     }
@@ -2837,6 +2874,8 @@ extension MemoryDB {
         public let engine: String?
         /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
+        /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes will return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'.
+        public let ipDiscovery: IpDiscovery?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let maintenanceWindow: String?
         /// A valid node type that you want to scale this cluster up or down to.
@@ -2859,12 +2898,13 @@ extension MemoryDB {
         public let snsTopicStatus: String?
 
         @inlinable
-        public init(aclName: String? = nil, clusterName: String, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, nodeType: String? = nil, parameterGroupName: String? = nil, replicaConfiguration: ReplicaConfigurationRequest? = nil, securityGroupIds: [String]? = nil, shardConfiguration: ShardConfigurationRequest? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil) {
+        public init(aclName: String? = nil, clusterName: String, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, maintenanceWindow: String? = nil, nodeType: String? = nil, parameterGroupName: String? = nil, replicaConfiguration: ReplicaConfigurationRequest? = nil, securityGroupIds: [String]? = nil, shardConfiguration: ShardConfigurationRequest? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil) {
             self.aclName = aclName
             self.clusterName = clusterName
             self.description = description
             self.engine = engine
             self.engineVersion = engineVersion
+            self.ipDiscovery = ipDiscovery
             self.maintenanceWindow = maintenanceWindow
             self.nodeType = nodeType
             self.parameterGroupName = parameterGroupName
@@ -2888,6 +2928,7 @@ extension MemoryDB {
             case description = "Description"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case ipDiscovery = "IpDiscovery"
             case maintenanceWindow = "MaintenanceWindow"
             case nodeType = "NodeType"
             case parameterGroupName = "ParameterGroupName"
@@ -2927,7 +2968,7 @@ extension MemoryDB {
         /// The new node type to be used for the multi-Region cluster.
         public let nodeType: String?
         public let shardConfiguration: ShardConfigurationRequest?
-        /// Whether to force the update even if it may cause data loss.
+        /// The strategy to use for the update operation. Supported values are "coordinated" or "uncoordinated".
         public let updateStrategy: UpdateStrategy?
 
         @inlinable

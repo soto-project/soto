@@ -291,6 +291,7 @@ extension Deadline {
     }
 
     public enum ServiceQuotaExceededExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dependencyLimitExceeded = "DEPENDENCY_LIMIT_EXCEEDED"
         case kmsKeyLimitExceeded = "KMS_KEY_LIMIT_EXCEEDED"
         case serviceQuotaExceededException = "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
         public var description: String { return self.rawValue }
@@ -369,6 +370,12 @@ extension Deadline {
         case linux = "LINUX"
         case macos = "MACOS"
         case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagPropagationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noPropagation = "NO_PROPAGATION"
+        case propagateTagsToWorkersAtLaunch = "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH"
         public var description: String { return self.rawValue }
     }
 
@@ -2191,7 +2198,9 @@ extension Deadline {
         public let displayName: String
         /// The farm ID of the farm to connect to the fleet.
         public let farmId: String
-        /// The maximum number of workers for the fleet.
+        /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+        public let hostConfiguration: HostConfiguration?
+        /// The maximum number of workers for the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
         public let maxWorkerCount: Int
         /// The minimum number of workers for the fleet.
         public let minWorkerCount: Int?
@@ -2201,12 +2210,13 @@ extension Deadline {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateFleetRequest.idempotencyToken(), configuration: FleetConfiguration, description: String? = nil, displayName: String, farmId: String, maxWorkerCount: Int, minWorkerCount: Int? = nil, roleArn: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateFleetRequest.idempotencyToken(), configuration: FleetConfiguration, description: String? = nil, displayName: String, farmId: String, hostConfiguration: HostConfiguration? = nil, maxWorkerCount: Int, minWorkerCount: Int? = nil, roleArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
             self.description = description
             self.displayName = displayName
             self.farmId = farmId
+            self.hostConfiguration = hostConfiguration
             self.maxWorkerCount = maxWorkerCount
             self.minWorkerCount = minWorkerCount
             self.roleArn = roleArn
@@ -2221,6 +2231,7 @@ extension Deadline {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encode(self.displayName, forKey: .displayName)
             request.encodePath(self.farmId, key: "farmId")
+            try container.encodeIfPresent(self.hostConfiguration, forKey: .hostConfiguration)
             try container.encode(self.maxWorkerCount, forKey: .maxWorkerCount)
             try container.encodeIfPresent(self.minWorkerCount, forKey: .minWorkerCount)
             try container.encode(self.roleArn, forKey: .roleArn)
@@ -2235,6 +2246,7 @@ extension Deadline {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.hostConfiguration?.validate(name: "\(name).hostConfiguration")
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: 0)
             try self.validate(self.minWorkerCount, name: "minWorkerCount", parent: name, max: 2147483647)
@@ -2246,6 +2258,7 @@ extension Deadline {
             case configuration = "configuration"
             case description = "description"
             case displayName = "displayName"
+            case hostConfiguration = "hostConfiguration"
             case maxWorkerCount = "maxWorkerCount"
             case minWorkerCount = "minWorkerCount"
             case roleArn = "roleArn"
@@ -2353,7 +2366,7 @@ extension Deadline {
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             try self.validate(self.sourceJobId, name: "sourceJobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.storageProfileId, name: "storageProfileId", parent: name, pattern: "^sp-[0-9a-f]{32}$")
-            try self.validate(self.template, name: "template", parent: name, max: 300000)
+            try self.validate(self.template, name: "template", parent: name, max: 1000000)
             try self.validate(self.template, name: "template", parent: name, min: 1)
         }
 
@@ -2916,13 +2929,16 @@ extension Deadline {
         public let fleetId: String
         /// The IP address and host name of the worker.
         public let hostProperties: HostPropertiesRequest?
+        /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateWorkerRequest.idempotencyToken(), farmId: String, fleetId: String, hostProperties: HostPropertiesRequest? = nil) {
+        public init(clientToken: String? = CreateWorkerRequest.idempotencyToken(), farmId: String, fleetId: String, hostProperties: HostPropertiesRequest? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.farmId = farmId
             self.fleetId = fleetId
             self.hostProperties = hostProperties
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2932,6 +2948,7 @@ extension Deadline {
             request.encodePath(self.farmId, key: "farmId")
             request.encodePath(self.fleetId, key: "fleetId")
             try container.encodeIfPresent(self.hostProperties, forKey: .hostProperties)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2944,6 +2961,7 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case hostProperties = "hostProperties"
+            case tags = "tags"
         }
     }
 
@@ -2966,13 +2984,16 @@ extension Deadline {
         public let mode: AutoScalingMode
         /// The storage profile ID.
         public let storageProfileId: String?
+        /// Specifies whether tags associated with a fleet are attached to workers when the worker is launched.  When the tagPropagationMode is set to PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH any tag associated with a fleet is attached to workers when they launch. If the tags for a fleet change, the tags associated with running workers do not change. If you don't specify tagPropagationMode, the default is NO_PROPAGATION.
+        public let tagPropagationMode: TagPropagationMode?
         /// The worker capabilities for a customer managed fleet configuration.
         public let workerCapabilities: CustomerManagedWorkerCapabilities
 
         @inlinable
-        public init(mode: AutoScalingMode, storageProfileId: String? = nil, workerCapabilities: CustomerManagedWorkerCapabilities) {
+        public init(mode: AutoScalingMode, storageProfileId: String? = nil, tagPropagationMode: TagPropagationMode? = nil, workerCapabilities: CustomerManagedWorkerCapabilities) {
             self.mode = mode
             self.storageProfileId = storageProfileId
+            self.tagPropagationMode = tagPropagationMode
             self.workerCapabilities = workerCapabilities
         }
 
@@ -2984,6 +3005,7 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case mode = "mode"
             case storageProfileId = "storageProfileId"
+            case tagPropagationMode = "tagPropagationMode"
             case workerCapabilities = "workerCapabilities"
         }
     }
@@ -4353,6 +4375,8 @@ extension Deadline {
         public let farmId: String
         /// The fleet ID.
         public let fleetId: String
+        /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+        public let hostConfiguration: HostConfiguration?
         /// The maximum number of workers specified in the fleet.
         public let maxWorkerCount: Int
         /// The minimum number of workers specified in the fleet.
@@ -4372,7 +4396,7 @@ extension Deadline {
         public let workerCount: Int
 
         @inlinable
-        public init(autoScalingStatus: AutoScalingStatus? = nil, capabilities: FleetCapabilities? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, fleetId: String, maxWorkerCount: Int, minWorkerCount: Int, roleArn: String, status: FleetStatus, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
+        public init(autoScalingStatus: AutoScalingStatus? = nil, capabilities: FleetCapabilities? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, fleetId: String, hostConfiguration: HostConfiguration? = nil, maxWorkerCount: Int, minWorkerCount: Int, roleArn: String, status: FleetStatus, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
             self.autoScalingStatus = autoScalingStatus
             self.capabilities = capabilities
             self.configuration = configuration
@@ -4382,6 +4406,7 @@ extension Deadline {
             self.displayName = displayName
             self.farmId = farmId
             self.fleetId = fleetId
+            self.hostConfiguration = hostConfiguration
             self.maxWorkerCount = maxWorkerCount
             self.minWorkerCount = minWorkerCount
             self.roleArn = roleArn
@@ -4402,6 +4427,7 @@ extension Deadline {
             case displayName = "displayName"
             case farmId = "farmId"
             case fleetId = "fleetId"
+            case hostConfiguration = "hostConfiguration"
             case maxWorkerCount = "maxWorkerCount"
             case minWorkerCount = "minWorkerCount"
             case roleArn = "roleArn"
@@ -5783,6 +5809,30 @@ extension Deadline {
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
             case workerId = "workerId"
+        }
+    }
+
+    public struct HostConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The text of the script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. The script runs after a worker enters the STARTING state and before the worker processes tasks. For more information about using the script, see Run scripts as an administrator to configure workers in the Deadline Cloud Developer Guide.   The script runs as an administrative user (sudo root on Linux, as an Administrator on Windows).
+        public let scriptBody: String
+        /// The maximum time that the host configuration can run. If the timeout expires, the worker enters the NOT RESPONDING state and shuts down. You are charged for the time that the worker is running the host configuration script.  You should configure your fleet for a maximum of one worker while testing your host configuration script to avoid starting additional workers.  The default is 300 seconds (5 minutes).
+        public let scriptTimeoutSeconds: Int?
+
+        @inlinable
+        public init(scriptBody: String, scriptTimeoutSeconds: Int? = nil) {
+            self.scriptBody = scriptBody
+            self.scriptTimeoutSeconds = scriptTimeoutSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scriptBody, name: "scriptBody", parent: name, max: 15000)
+            try self.validate(self.scriptTimeoutSeconds, name: "scriptTimeoutSeconds", parent: name, max: 3600)
+            try self.validate(self.scriptTimeoutSeconds, name: "scriptTimeoutSeconds", parent: name, min: 300)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scriptBody = "scriptBody"
+            case scriptTimeoutSeconds = "scriptTimeoutSeconds"
         }
     }
 
@@ -8576,9 +8626,7 @@ extension Deadline {
     public struct SearchJobsRequest: AWSEncodableShape {
         /// The farm ID of the job.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// Defines how far into the scrollable list to start the return of results.
         public let itemOffset: Int
@@ -8655,9 +8703,7 @@ extension Deadline {
     public struct SearchStepsRequest: AWSEncodableShape {
         /// The farm ID to use for the step search.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// Defines how far into the scrollable list to start the return of results.
         public let itemOffset: Int
@@ -8740,9 +8786,7 @@ extension Deadline {
     public struct SearchTasksRequest: AWSEncodableShape {
         /// The farm ID of the task.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// Defines how far into the scrollable list to start the return of results.
         public let itemOffset: Int
@@ -8848,9 +8892,7 @@ extension Deadline {
     public struct SearchWorkersRequest: AWSEncodableShape {
         /// The farm ID in the workers search.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// The fleet ID of the workers to search for.
         public let fleetIds: [String]
@@ -10131,7 +10173,9 @@ extension Deadline {
         public let farmId: String
         /// The fleet ID to update.
         public let fleetId: String
-        /// The maximum number of workers in the fleet.
+        /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+        public let hostConfiguration: HostConfiguration?
+        /// The maximum number of workers in the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
         public let maxWorkerCount: Int?
         /// The minimum number of workers in the fleet.
         public let minWorkerCount: Int?
@@ -10139,13 +10183,14 @@ extension Deadline {
         public let roleArn: String?
 
         @inlinable
-        public init(clientToken: String? = UpdateFleetRequest.idempotencyToken(), configuration: FleetConfiguration? = nil, description: String? = nil, displayName: String? = nil, farmId: String, fleetId: String, maxWorkerCount: Int? = nil, minWorkerCount: Int? = nil, roleArn: String? = nil) {
+        public init(clientToken: String? = UpdateFleetRequest.idempotencyToken(), configuration: FleetConfiguration? = nil, description: String? = nil, displayName: String? = nil, farmId: String, fleetId: String, hostConfiguration: HostConfiguration? = nil, maxWorkerCount: Int? = nil, minWorkerCount: Int? = nil, roleArn: String? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
             self.description = description
             self.displayName = displayName
             self.farmId = farmId
             self.fleetId = fleetId
+            self.hostConfiguration = hostConfiguration
             self.maxWorkerCount = maxWorkerCount
             self.minWorkerCount = minWorkerCount
             self.roleArn = roleArn
@@ -10160,6 +10205,7 @@ extension Deadline {
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             request.encodePath(self.farmId, key: "farmId")
             request.encodePath(self.fleetId, key: "fleetId")
+            try container.encodeIfPresent(self.hostConfiguration, forKey: .hostConfiguration)
             try container.encodeIfPresent(self.maxWorkerCount, forKey: .maxWorkerCount)
             try container.encodeIfPresent(self.minWorkerCount, forKey: .minWorkerCount)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
@@ -10174,6 +10220,7 @@ extension Deadline {
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
+            try self.hostConfiguration?.validate(name: "\(name).hostConfiguration")
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: 0)
             try self.validate(self.minWorkerCount, name: "minWorkerCount", parent: name, max: 2147483647)
@@ -10185,6 +10232,7 @@ extension Deadline {
             case configuration = "configuration"
             case description = "description"
             case displayName = "displayName"
+            case hostConfiguration = "hostConfiguration"
             case maxWorkerCount = "maxWorkerCount"
             case minWorkerCount = "minWorkerCount"
             case roleArn = "roleArn"
@@ -10916,15 +10964,19 @@ extension Deadline {
     }
 
     public struct UpdateWorkerResponse: AWSDecodableShape {
+        /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+        public let hostConfiguration: HostConfiguration?
         /// The worker log to update.
         public let log: LogConfiguration?
 
         @inlinable
-        public init(log: LogConfiguration? = nil) {
+        public init(hostConfiguration: HostConfiguration? = nil, log: LogConfiguration? = nil) {
+            self.hostConfiguration = hostConfiguration
             self.log = log
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hostConfiguration = "hostConfiguration"
             case log = "log"
         }
     }

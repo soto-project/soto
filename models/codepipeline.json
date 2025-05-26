@@ -735,6 +735,18 @@
                 "smithy.api#documentation": "<p>Input information used for an action execution.</p>"
             }
         },
+        "com.amazonaws.codepipeline#ActionExecutionNotFoundException": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.codepipeline#Message"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The action execution was not found.</p>",
+                "smithy.api#error": "client"
+            }
+        },
         "com.amazonaws.codepipeline#ActionExecutionOutput": {
             "type": "structure",
             "members": {
@@ -1727,7 +1739,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The conditions for making checks for entry to a stage. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>. </p>"
+                "smithy.api#documentation": "<p>The conditions for making checks for entry to a stage. For more information about\n            conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>\n            and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>. </p>"
             }
         },
         "com.amazonaws.codepipeline#BlockerDeclaration": {
@@ -1863,6 +1875,9 @@
                 },
                 {
                     "target": "com.amazonaws.codepipeline#ListActionTypes"
+                },
+                {
+                    "target": "com.amazonaws.codepipeline#ListDeployActionExecutionTargets"
                 },
                 {
                     "target": "com.amazonaws.codepipeline#ListPipelineExecutions"
@@ -2961,7 +2976,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The condition for the stage. A condition is made up of the rules and the result for\n            the condition. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>..\n            For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule\n                reference</a>.</p>"
+                "smithy.api#documentation": "<p>The condition for the stage. A condition is made up of the rules and the result for\n            the condition. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>\n            and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>.. For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule reference</a>.</p>"
             }
         },
         "com.amazonaws.codepipeline#ConditionExecution": {
@@ -3488,6 +3503,120 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.codepipeline#DeployActionExecutionTarget": {
+            "type": "structure",
+            "members": {
+                "targetId": {
+                    "target": "com.amazonaws.codepipeline#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the target for the deploy action.</p>"
+                    }
+                },
+                "targetType": {
+                    "target": "com.amazonaws.codepipeline#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of target for the deploy action.</p>"
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.codepipeline#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the deploy action.</p>"
+                    }
+                },
+                "startTime": {
+                    "target": "com.amazonaws.codepipeline#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The start time for the deploy action.</p>"
+                    }
+                },
+                "endTime": {
+                    "target": "com.amazonaws.codepipeline#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The end time for the deploy action.</p>"
+                    }
+                },
+                "events": {
+                    "target": "com.amazonaws.codepipeline#DeployTargetEventList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The lifecycle events for the deploy action.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The target for the deploy action.</p>"
+            }
+        },
+        "com.amazonaws.codepipeline#DeployActionExecutionTargetList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codepipeline#DeployActionExecutionTarget"
+            }
+        },
+        "com.amazonaws.codepipeline#DeployTargetEvent": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "com.amazonaws.codepipeline#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the event for the deploy action.</p>"
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.codepipeline#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the event for the deploy action.</p>"
+                    }
+                },
+                "startTime": {
+                    "target": "com.amazonaws.codepipeline#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The start time for the event for the deploy action.</p>"
+                    }
+                },
+                "endTime": {
+                    "target": "com.amazonaws.codepipeline#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The end time for the event for the deploy action.</p>"
+                    }
+                },
+                "context": {
+                    "target": "com.amazonaws.codepipeline#DeployTargetEventContext",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The context for the event for the deploy action.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A lifecycle event for the deploy action.</p>"
+            }
+        },
+        "com.amazonaws.codepipeline#DeployTargetEventContext": {
+            "type": "structure",
+            "members": {
+                "ssmCommandId": {
+                    "target": "com.amazonaws.codepipeline#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The command ID for the event for the deploy action.</p>"
+                    }
+                },
+                "message": {
+                    "target": "com.amazonaws.codepipeline#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The context message for the event for the deploy action.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The context for the event for the deploy action.</p>"
+            }
+        },
+        "com.amazonaws.codepipeline#DeployTargetEventList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codepipeline#DeployTargetEvent"
+            }
+        },
         "com.amazonaws.codepipeline#DeregisterWebhookWithThirdParty": {
             "type": "operation",
             "input": {
@@ -3737,6 +3866,12 @@
                         "smithy.api#documentation": "<p>The environment variable value in the key-value pair.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "type": {
+                    "target": "com.amazonaws.codepipeline#EnvironmentVariableType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the type of use for the environment variable value. The value can be either\n            <code>PLAINTEXT</code> or <code>SECRETS_MANAGER</code>. If the value is <code>SECRETS_MANAGER</code>, provide the Secrets\n            reference in the EnvironmentVariable value.</p>"
+                    }
                 }
             },
             "traits": {
@@ -3763,6 +3898,23 @@
                     "max": 128
                 },
                 "smithy.api#pattern": "^[A-Za-z0-9_]+$"
+            }
+        },
+        "com.amazonaws.codepipeline#EnvironmentVariableType": {
+            "type": "enum",
+            "members": {
+                "PLAINTEXT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PLAINTEXT"
+                    }
+                },
+                "SECRETS_MANAGER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SECRETS_MANAGER"
+                    }
+                }
             }
         },
         "com.amazonaws.codepipeline#EnvironmentVariableValue": {
@@ -3960,12 +4112,12 @@
                 "conditions": {
                     "target": "com.amazonaws.codepipeline#ConditionList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The conditions that are configured as failure conditions. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>.</p>"
+                        "smithy.api#documentation": "<p>The conditions that are configured as failure conditions. For more information about\n            conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>\n            and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The configuration that specifies the result, such as rollback, to occur upon stage\n            failure. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>. </p>"
+                "smithy.api#documentation": "<p>The configuration that specifies the result, such as rollback, to occur upon stage\n            failure. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>\n            and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>. </p>"
             }
         },
         "com.amazonaws.codepipeline#FailureDetails": {
@@ -5404,6 +5556,97 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.codepipeline#ListDeployActionExecutionTargets": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.codepipeline#ListDeployActionExecutionTargetsInput"
+            },
+            "output": {
+                "target": "com.amazonaws.codepipeline#ListDeployActionExecutionTargetsOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.codepipeline#ActionExecutionNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codepipeline#InvalidNextTokenException"
+                },
+                {
+                    "target": "com.amazonaws.codepipeline#PipelineNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.codepipeline#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Lists the targets for the deploy action.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "nextToken",
+                    "outputToken": "nextToken",
+                    "items": "targets",
+                    "pageSize": "maxResults"
+                }
+            }
+        },
+        "com.amazonaws.codepipeline#ListDeployActionExecutionTargetsInput": {
+            "type": "structure",
+            "members": {
+                "pipelineName": {
+                    "target": "com.amazonaws.codepipeline#PipelineName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the pipeline with the deploy action.</p>"
+                    }
+                },
+                "actionExecutionId": {
+                    "target": "com.amazonaws.codepipeline#ActionExecutionId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The execution ID for the deploy action.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "filters": {
+                    "target": "com.amazonaws.codepipeline#TargetFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Filters the targets for a specified deploy action.</p>"
+                    }
+                },
+                "maxResults": {
+                    "target": "com.amazonaws.codepipeline#MaxResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results to return in a single call. To retrieve the remaining\n            results, make another call with the returned nextToken value.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.codepipeline#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An identifier that was returned from the previous list action types call, which can be\n            used to return the next set of action types in the list.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.codepipeline#ListDeployActionExecutionTargetsOutput": {
+            "type": "structure",
+            "members": {
+                "targets": {
+                    "target": "com.amazonaws.codepipeline#DeployActionExecutionTargetList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The targets for the deploy action.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.codepipeline#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An identifier that was returned from the previous list action types call, which can be\n            used to return the next set of action types in the list.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.codepipeline#ListPipelineExecutions": {
             "type": "operation",
             "input": {
@@ -5671,7 +5914,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Lists the rules for the condition. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>.For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule reference</a>.</p>"
+                "smithy.api#documentation": "<p>Lists the rules for the condition. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>.For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule reference</a>.</p>"
             }
         },
         "com.amazonaws.codepipeline#ListRuleTypesInput": {
@@ -6142,7 +6385,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Used to override a stage condition. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>.</p>"
+                "smithy.api#documentation": "<p>Used to override a stage condition. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>.</p>"
             }
         },
         "com.amazonaws.codepipeline#OverrideStageConditionInput": {
@@ -6595,7 +6838,7 @@
                 "pollingDisabledAt": {
                     "target": "com.amazonaws.codepipeline#Timestamp",
                     "traits": {
-                        "smithy.api#documentation": "<p>The date and time that polling for source changes (periodic checks) was stopped for\n            the pipeline, in timestamp format. You can migrate (update) a polling pipeline to use\n            event-based change detection. For example, for a pipeline with a CodeCommit\n            source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To\n            learn more, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html\">Migrate polling\n                pipelines to use event-based change detection</a> in the CodePipeline\n            User Guide.</p>"
+                        "smithy.api#documentation": "<p>The date and time that polling for source changes (periodic checks) was stopped for\n            the pipeline, in timestamp format. </p>\n         <important>\n            <p>Pipelines that are inactive for longer than 30 days will have polling disabled for\n                the pipeline. For more information, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#metadata.pollingDisabledAt\">pollingDisabledAt</a> in the pipeline structure reference. For the steps to\n                migrate your pipeline from polling to event-based change detection, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html\">Migrate polling\n                    pipelines to use event-based change detection</a>.</p>\n         </important>\n         <p>You can migrate (update) a polling pipeline to use event-based change detection. For\n            example, for a pipeline with a CodeCommit source, we recommend you migrate\n            (update) your pipeline to use CloudWatch Events. To learn more, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html\">Migrate polling\n                pipelines to use event-based change detection</a> in the <i>CodePipeline User Guide</i>.</p>"
                     }
                 }
             },
@@ -8166,7 +8409,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents information about the rule to be created for an associated condition. An\n            example would be creating a new rule for an entry condition, such as a rule that checks\n            for a test result before allowing the run to enter the deployment stage. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>.\n            For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule\n                reference</a>.</p>"
+                "smithy.api#documentation": "<p>Represents information about the rule to be created for an associated condition. An\n            example would be creating a new rule for an entry condition, such as a rule that checks\n            for a test result before allowing the run to enter the deployment stage. For more\n            information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>\n            and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>. For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule reference</a>.</p>"
             }
         },
         "com.amazonaws.codepipeline#RuleDeclarationList": {
@@ -8352,7 +8595,7 @@
                 "ruleTypeId": {
                     "target": "com.amazonaws.codepipeline#RuleTypeId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The ID for the rule type, which is made up of the combined values for category, owner,\n            provider, and version. For more\n            information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>.\n            For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule\n                reference</a>.</p>"
+                        "smithy.api#documentation": "<p>The ID for the rule type, which is made up of the combined values for category, owner,\n            provider, and version. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a>. For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule reference</a>.</p>"
                     }
                 },
                 "configuration": {
@@ -8637,7 +8880,7 @@
                 "provider": {
                     "target": "com.amazonaws.codepipeline#RuleProvider",
                     "traits": {
-                        "smithy.api#documentation": "<p>The rule provider, such as the <code>DeploymentWindow</code> rule. For a list of rule provider names, see the rules listed in the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule\n                reference</a>.</p>",
+                        "smithy.api#documentation": "<p>The rule provider, such as the <code>DeploymentWindow</code> rule. For a list of rule\n            provider names, see the rules listed in the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule\n                reference</a>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -8649,7 +8892,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The ID for the rule type, which is made up of the combined values for category, owner,\n            provider, and version. For more\n            information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>.\n            For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule\n                reference</a>.</p>"
+                "smithy.api#documentation": "<p>The ID for the rule type, which is made up of the combined values for category, owner,\n            provider, and version. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a>. For more information about rules, see the <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html\">CodePipeline rule reference</a>.</p>"
             }
         },
         "com.amazonaws.codepipeline#RuleTypeList": {
@@ -9447,7 +9690,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The conditions for making checks that, if met, succeed a stage. For more information about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage\n                conditions</a> and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do stage conditions work?</a>.</p>"
+                "smithy.api#documentation": "<p>The conditions for making checks that, if met, succeed a stage. For more information\n            about conditions, see <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html\">Stage conditions</a>\n            and <a href=\"https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html\">How do\n                stage conditions work?</a>.</p>"
             }
         },
         "com.amazonaws.codepipeline#Tag": {
@@ -9561,6 +9804,57 @@
                     "min": 0,
                     "max": 256
                 }
+            }
+        },
+        "com.amazonaws.codepipeline#TargetFilter": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "com.amazonaws.codepipeline#TargetFilterName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name on which to filter.</p>"
+                    }
+                },
+                "values": {
+                    "target": "com.amazonaws.codepipeline#TargetFilterValueList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The values on which to filter.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Filters the list of targets.</p>"
+            }
+        },
+        "com.amazonaws.codepipeline#TargetFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codepipeline#TargetFilter"
+            }
+        },
+        "com.amazonaws.codepipeline#TargetFilterName": {
+            "type": "enum",
+            "members": {
+                "TARGET_STATUS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "TARGET_STATUS"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.codepipeline#TargetFilterValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1
+                }
+            }
+        },
+        "com.amazonaws.codepipeline#TargetFilterValueList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codepipeline#TargetFilterValue"
             }
         },
         "com.amazonaws.codepipeline#ThirdPartyJob": {

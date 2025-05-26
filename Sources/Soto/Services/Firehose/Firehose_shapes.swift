@@ -816,7 +816,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.catalogARN, name: "catalogARN", parent: name, max: 512)
             try self.validate(self.catalogARN, name: "catalogARN", parent: name, min: 1)
-            try self.validate(self.catalogARN, name: "catalogARN", parent: name, pattern: "^arn:.*:glue:.*:\\d{12}:catalog$")
+            try self.validate(self.catalogARN, name: "catalogARN", parent: name, pattern: "^arn:.*:glue:.*:\\d{12}:catalog(?:(/[a-z0-9_-]+){1,2})?$")
             try self.validate(self.warehouseLocation, name: "warehouseLocation", parent: name, max: 2048)
             try self.validate(self.warehouseLocation, name: "warehouseLocation", parent: name, min: 1)
             try self.validate(self.warehouseLocation, name: "warehouseLocation", parent: name, pattern: "^s3:\\/\\/")
@@ -4028,7 +4028,7 @@ extension Firehose {
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.secretARN, name: "secretARN", parent: name, max: 2048)
             try self.validate(self.secretARN, name: "secretARN", parent: name, min: 1)
-            try self.validate(self.secretARN, name: "secretARN", parent: name, pattern: "^arn:.*:secretsmanager:[a-zA-Z0-9\\-]+:\\d{12}:secret:[a-zA-Z0-9\\-/_+=.@]+$")
+            try self.validate(self.secretARN, name: "secretARN", parent: name, pattern: "^arn:.*:secretsmanager:[a-zA-Z0-9\\-]+:\\d{12}:secret:[a-zA-Z0-9\\-/_+=.@!]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

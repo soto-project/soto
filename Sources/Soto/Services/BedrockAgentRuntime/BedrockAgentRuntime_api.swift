@@ -114,7 +114,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.createInvocation(input, logger: logger)
     }
 
-    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks.  For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the  InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
+    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks. For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
     @Sendable
     @inlinable
     public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
@@ -127,11 +127,11 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks.  For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the  InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
+    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks. For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
     ///
     /// Parameters:
     ///   - encryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key to use to encrypt the session data. The user or role creating the session must have permission to use the key. For more information, see Amazon Bedrock session encryption.
-    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference,  and the type of device they are using.
+    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference, and the type of device they are using.
     ///   - tags: Specify the key-value pairs for the tags that you want to attach to the session.
     ///   - logger: Logger use during operation
     @inlinable
@@ -187,7 +187,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.deleteAgentMemory(input, logger: logger)
     }
 
-    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the  EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     @Sendable
     @inlinable
     public func deleteSession(_ input: DeleteSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSessionResponse {
@@ -200,7 +200,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the  EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     ///
     /// Parameters:
     ///   - sessionIdentifier: The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
@@ -216,7 +216,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.deleteSession(input, logger: logger)
     }
 
-    /// Ends the session.  After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     @Sendable
     @inlinable
     public func endSession(_ input: EndSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EndSessionResponse {
@@ -229,7 +229,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Ends the session.  After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     ///
     /// Parameters:
     ///   - sessionIdentifier: The unique identifier for the session to end. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
@@ -295,10 +295,10 @@ public struct BedrockAgentRuntime: AWSService {
     /// Parameters:
     ///   - agentAliasId: The unique identifier of an alias of an agent.
     ///   - agentId: The unique identifier of the agent to which the alias belongs.
-    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater  than this value, use the token returned in the response in the nextToken field when making another  request to return the next batch of results.
+    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - memoryId: The unique identifier of the memory.
     ///   - memoryType: The type of memory.
-    ///   - nextToken: If the total number of results is greater than the maxItems value provided in the request, enter the token returned  in the nextToken field in the response in this field to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxItems value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAgentMemory(
@@ -319,6 +319,76 @@ public struct BedrockAgentRuntime: AWSService {
             nextToken: nextToken
         )
         return try await self.getAgentMemory(input, logger: logger)
+    }
+
+    /// Retrieves the flow definition snapshot used for an asynchronous execution. The snapshot represents the flow metadata and definition as it existed at the time the asynchronous execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged.  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    @Sendable
+    @inlinable
+    public func getExecutionFlowSnapshot(_ input: GetExecutionFlowSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExecutionFlowSnapshotResponse {
+        try await self.client.execute(
+            operation: "GetExecutionFlowSnapshot", 
+            path: "/flows/{flowIdentifier}/aliases/{flowAliasIdentifier}/executions/{executionIdentifier}/flowsnapshot", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the flow definition snapshot used for an asynchronous execution. The snapshot represents the flow metadata and definition as it existed at the time the asynchronous execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged.  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    ///
+    /// Parameters:
+    ///   - executionIdentifier: The unique identifier of the async execution.
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias used for the async execution.
+    ///   - flowIdentifier: The unique identifier of the flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExecutionFlowSnapshot(
+        executionIdentifier: String,
+        flowAliasIdentifier: String,
+        flowIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExecutionFlowSnapshotResponse {
+        let input = GetExecutionFlowSnapshotRequest(
+            executionIdentifier: executionIdentifier, 
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowIdentifier: flowIdentifier
+        )
+        return try await self.getExecutionFlowSnapshot(input, logger: logger)
+    }
+
+    /// Retrieves details about a specific asynchronous execution of a flow, including its status, start and end times, and any errors that occurred during execution.
+    @Sendable
+    @inlinable
+    public func getFlowExecution(_ input: GetFlowExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowExecutionResponse {
+        try await self.client.execute(
+            operation: "GetFlowExecution", 
+            path: "/flows/{flowIdentifier}/aliases/{flowAliasIdentifier}/executions/{executionIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a specific asynchronous execution of a flow, including its status, start and end times, and any errors that occurred during execution.
+    ///
+    /// Parameters:
+    ///   - executionIdentifier: The unique identifier of the async execution to retrieve.
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias used for the execution.
+    ///   - flowIdentifier: The unique identifier of the flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFlowExecution(
+        executionIdentifier: String,
+        flowAliasIdentifier: String,
+        flowIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFlowExecutionResponse {
+        let input = GetFlowExecutionRequest(
+            executionIdentifier: executionIdentifier, 
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowIdentifier: flowIdentifier
+        )
+        return try await self.getFlowExecution(input, logger: logger)
     }
 
     /// Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
@@ -488,7 +558,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.invokeFlow(input, logger: logger)
     }
 
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     @Sendable
     @inlinable
     public func invokeInlineAgent(_ input: InvokeInlineAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeInlineAgentResponse {
@@ -501,24 +571,27 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     ///
     /// Parameters:
     ///   - actionGroups:  A list of action groups with each action group defining the action the inline agent needs to carry out.
     ///   - agentCollaboration:  Defines how the inline collaborator agent handles information across multiple collaborator agents to coordinate a final response. The inline collaborator agent can also be the supervisor.
+    ///   - agentName: The name for the agent.
     ///   - bedrockModelConfigurations: Model settings for the request.
     ///   - collaboratorConfigurations:  Settings for an inline agent collaborator called with InvokeInlineAgent.
     ///   - collaborators:  List of collaborator inline agents.
     ///   - customerEncryptionKeyArn:  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
+    ///   - customOrchestration: Contains details of the custom orchestration configured for the agent.
     ///   - enableTrace:  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
     ///   - endSession:  Specifies whether to end the session with the inline agent or not.
     ///   - foundationModel:  The model identifier (ID) of the model to use for orchestration by the inline agent. For example, meta.llama3-1-70b-instruct-v1:0.
     ///   - guardrailConfiguration:  The guardrails to assign to the inline agent.
     ///   - idleSessionTTLInSeconds:  The number of seconds for which the inline agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and the data provided before the timeout is deleted.
-    ///   - inlineSessionState:  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an  action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+    ///   - inlineSessionState:  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     ///   - inputText:  The prompt text to send to the agent.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     ///   - instruction:  The instructions that tell the inline agent what it should do and how it should interact with users.
     ///   - knowledgeBases:  Contains information of the knowledge bases to associate with.
+    ///   - orchestrationType: Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
     ///   - promptOverrideConfiguration:  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
     ///   - sessionId:  The unique identifier of the session. Use the same value across requests to continue the same conversation.
     ///   - streamingConfigurations:  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
@@ -527,10 +600,12 @@ public struct BedrockAgentRuntime: AWSService {
     public func invokeInlineAgent(
         actionGroups: [AgentActionGroup]? = nil,
         agentCollaboration: AgentCollaboration? = nil,
+        agentName: String? = nil,
         bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil,
         collaboratorConfigurations: [CollaboratorConfiguration]? = nil,
         collaborators: [Collaborator]? = nil,
         customerEncryptionKeyArn: String? = nil,
+        customOrchestration: CustomOrchestration? = nil,
         enableTrace: Bool? = nil,
         endSession: Bool? = nil,
         foundationModel: String,
@@ -540,6 +615,7 @@ public struct BedrockAgentRuntime: AWSService {
         inputText: String? = nil,
         instruction: String,
         knowledgeBases: [KnowledgeBase]? = nil,
+        orchestrationType: OrchestrationType? = nil,
         promptOverrideConfiguration: PromptOverrideConfiguration? = nil,
         sessionId: String,
         streamingConfigurations: StreamingConfigurations? = nil,
@@ -548,10 +624,12 @@ public struct BedrockAgentRuntime: AWSService {
         let input = InvokeInlineAgentRequest(
             actionGroups: actionGroups, 
             agentCollaboration: agentCollaboration, 
+            agentName: agentName, 
             bedrockModelConfigurations: bedrockModelConfigurations, 
             collaboratorConfigurations: collaboratorConfigurations, 
             collaborators: collaborators, 
             customerEncryptionKeyArn: customerEncryptionKeyArn, 
+            customOrchestration: customOrchestration, 
             enableTrace: enableTrace, 
             endSession: endSession, 
             foundationModel: foundationModel, 
@@ -561,11 +639,94 @@ public struct BedrockAgentRuntime: AWSService {
             inputText: inputText, 
             instruction: instruction, 
             knowledgeBases: knowledgeBases, 
+            orchestrationType: orchestrationType, 
             promptOverrideConfiguration: promptOverrideConfiguration, 
             sessionId: sessionId, 
             streamingConfigurations: streamingConfigurations
         )
         return try await self.invokeInlineAgent(input, logger: logger)
+    }
+
+    /// Lists events that occurred during an asynchronous execution of a flow. Events provide detailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events.  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    @Sendable
+    @inlinable
+    public func listFlowExecutionEvents(_ input: ListFlowExecutionEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowExecutionEventsResponse {
+        try await self.client.execute(
+            operation: "ListFlowExecutionEvents", 
+            path: "/flows/{flowIdentifier}/aliases/{flowAliasIdentifier}/executions/{executionIdentifier}/events", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists events that occurred during an asynchronous execution of a flow. Events provide detailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events.  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    ///
+    /// Parameters:
+    ///   - eventType: The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events.
+    ///   - executionIdentifier: The unique identifier of the async execution.
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias used for the execution.
+    ///   - flowIdentifier: The unique identifier of the flow.
+    ///   - maxResults: The maximum number of events to return in a single response. If more events exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - nextToken: A token to retrieve the next set of results. This value is returned in the response if more results are available.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFlowExecutionEvents(
+        eventType: FlowExecutionEventType,
+        executionIdentifier: String,
+        flowAliasIdentifier: String,
+        flowIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFlowExecutionEventsResponse {
+        let input = ListFlowExecutionEventsRequest(
+            eventType: eventType, 
+            executionIdentifier: executionIdentifier, 
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowIdentifier: flowIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFlowExecutionEvents(input, logger: logger)
+    }
+
+    /// Lists all asynchronous executions for a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN).  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    @Sendable
+    @inlinable
+    public func listFlowExecutions(_ input: ListFlowExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListFlowExecutions", 
+            path: "/flows/{flowIdentifier}/executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all asynchronous executions for a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN).  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    ///
+    /// Parameters:
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias to list executions for.
+    ///   - flowIdentifier: The unique identifier of the flow to list executions for.
+    ///   - maxResults: The maximum number of async executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - nextToken: A token to retrieve the next set of results. This value is returned in the response if more results are available.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFlowExecutions(
+        flowAliasIdentifier: String? = nil,
+        flowIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFlowExecutionsResponse {
+        let input = ListFlowExecutionsRequest(
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowIdentifier: flowIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFlowExecutions(input, logger: logger)
     }
 
     /// Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
@@ -930,7 +1091,83 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.retrieveAndGenerateStream(input, logger: logger)
     }
 
-    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Starts an asynchronous execution of an Amazon Bedrock flow. Unlike synchronous flows that run until completion or time out after five minutes, you can run asynchronous flows for longer durations. Asynchronous flows also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow's async execution.  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    @Sendable
+    @inlinable
+    public func startFlowExecution(_ input: StartFlowExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFlowExecutionResponse {
+        try await self.client.execute(
+            operation: "StartFlowExecution", 
+            path: "/flows/{flowIdentifier}/aliases/{flowAliasIdentifier}/executions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous execution of an Amazon Bedrock flow. Unlike synchronous flows that run until completion or time out after five minutes, you can run asynchronous flows for longer durations. Asynchronous flows also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow's async execution.  Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    ///
+    /// Parameters:
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias to use for the async execution.
+    ///   - flowExecutionName: The unique name for the async execution. If you don't provide one, a system-generated name is used.
+    ///   - flowIdentifier: The unique identifier of the flow to execute.
+    ///   - inputs: The input data required for the async execution. This must match the input schema defined in the flow.
+    ///   - modelPerformanceConfiguration: The performance settings for the foundation model used in the async execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startFlowExecution(
+        flowAliasIdentifier: String,
+        flowExecutionName: String? = nil,
+        flowIdentifier: String,
+        inputs: [FlowInput],
+        modelPerformanceConfiguration: ModelPerformanceConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartFlowExecutionResponse {
+        let input = StartFlowExecutionRequest(
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowExecutionName: flowExecutionName, 
+            flowIdentifier: flowIdentifier, 
+            inputs: inputs, 
+            modelPerformanceConfiguration: modelPerformanceConfiguration
+        )
+        return try await self.startFlowExecution(input, logger: logger)
+    }
+
+    /// Stops an Amazon Bedrock flow's asynchronous execution. This operation prevents further processing of the flow and changes the execution status to Aborted.
+    @Sendable
+    @inlinable
+    public func stopFlowExecution(_ input: StopFlowExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopFlowExecutionResponse {
+        try await self.client.execute(
+            operation: "StopFlowExecution", 
+            path: "/flows/{flowIdentifier}/aliases/{flowAliasIdentifier}/executions/{executionIdentifier}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops an Amazon Bedrock flow's asynchronous execution. This operation prevents further processing of the flow and changes the execution status to Aborted.
+    ///
+    /// Parameters:
+    ///   - executionIdentifier: The unique identifier of the async execution to stop.
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias used for the execution.
+    ///   - flowIdentifier: The unique identifier of the flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopFlowExecution(
+        executionIdentifier: String,
+        flowAliasIdentifier: String,
+        flowIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopFlowExecutionResponse {
+        let input = StopFlowExecutionRequest(
+            executionIdentifier: executionIdentifier, 
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowIdentifier: flowIdentifier
+        )
+        return try await self.stopFlowExecution(input, logger: logger)
+    }
+
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -943,7 +1180,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to tag.
@@ -1011,7 +1248,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///
     /// Parameters:
     ///   - sessionIdentifier: The unique identifier of the session to modify. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
-    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference,  and the type of device they are using.
+    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference, and the type of device they are using.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSession(
@@ -1063,7 +1300,7 @@ extension BedrockAgentRuntime {
     /// - Parameters:
     ///   - agentAliasId: The unique identifier of an alias of an agent.
     ///   - agentId: The unique identifier of the agent to which the alias belongs.
-    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater  than this value, use the token returned in the response in the nextToken field when making another  request to return the next batch of results.
+    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - memoryId: The unique identifier of the memory.
     ///   - memoryType: The type of memory.
     ///   - logger: Logger used for logging
@@ -1084,6 +1321,92 @@ extension BedrockAgentRuntime {
             memoryType: memoryType
         )
         return self.getAgentMemoryPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFlowExecutionEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowExecutionEventsPaginator(
+        _ input: ListFlowExecutionEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowExecutionEventsRequest, ListFlowExecutionEventsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlowExecutionEvents,
+            inputKey: \ListFlowExecutionEventsRequest.nextToken,
+            outputKey: \ListFlowExecutionEventsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFlowExecutionEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - eventType: The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events.
+    ///   - executionIdentifier: The unique identifier of the async execution.
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias used for the execution.
+    ///   - flowIdentifier: The unique identifier of the flow.
+    ///   - maxResults: The maximum number of events to return in a single response. If more events exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowExecutionEventsPaginator(
+        eventType: FlowExecutionEventType,
+        executionIdentifier: String,
+        flowAliasIdentifier: String,
+        flowIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFlowExecutionEventsRequest, ListFlowExecutionEventsResponse> {
+        let input = ListFlowExecutionEventsRequest(
+            eventType: eventType, 
+            executionIdentifier: executionIdentifier, 
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowIdentifier: flowIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listFlowExecutionEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFlowExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowExecutionsPaginator(
+        _ input: ListFlowExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowExecutionsRequest, ListFlowExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlowExecutions,
+            inputKey: \ListFlowExecutionsRequest.nextToken,
+            outputKey: \ListFlowExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFlowExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - flowAliasIdentifier: The unique identifier of the flow alias to list executions for.
+    ///   - flowIdentifier: The unique identifier of the flow to list executions for.
+    ///   - maxResults: The maximum number of async executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowExecutionsPaginator(
+        flowAliasIdentifier: String? = nil,
+        flowIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFlowExecutionsRequest, ListFlowExecutionsResponse> {
+        let input = ListFlowExecutionsRequest(
+            flowAliasIdentifier: flowAliasIdentifier, 
+            flowIdentifier: flowIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listFlowExecutionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listInvocationSteps(_:logger:)``.
@@ -1290,6 +1613,32 @@ extension BedrockAgentRuntime.GetAgentMemoryRequest: AWSPaginateToken {
             maxItems: self.maxItems,
             memoryId: self.memoryId,
             memoryType: self.memoryType,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentRuntime.ListFlowExecutionEventsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.ListFlowExecutionEventsRequest {
+        return .init(
+            eventType: self.eventType,
+            executionIdentifier: self.executionIdentifier,
+            flowAliasIdentifier: self.flowAliasIdentifier,
+            flowIdentifier: self.flowIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentRuntime.ListFlowExecutionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.ListFlowExecutionsRequest {
+        return .init(
+            flowAliasIdentifier: self.flowAliasIdentifier,
+            flowIdentifier: self.flowIdentifier,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

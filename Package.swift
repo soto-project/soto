@@ -324,7 +324,6 @@ let package = Package(
         .library(name: "SotoPipes", targets: ["SotoPipes"]),
         .library(name: "SotoPolly", targets: ["SotoPolly"]),
         .library(name: "SotoPricing", targets: ["SotoPricing"]),
-        .library(name: "SotoPrivateNetworks", targets: ["SotoPrivateNetworks"]),
         .library(name: "SotoProton", targets: ["SotoProton"]),
         .library(name: "SotoQApps", targets: ["SotoQApps"]),
         .library(name: "SotoQBusiness", targets: ["SotoQBusiness"]),
@@ -367,6 +366,7 @@ let package = Package(
         .library(name: "SotoSQS", targets: ["SotoSQS"]),
         .library(name: "SotoSSM", targets: ["SotoSSM"]),
         .library(name: "SotoSSMContacts", targets: ["SotoSSMContacts"]),
+        .library(name: "SotoSSMGuiConnect", targets: ["SotoSSMGuiConnect"]),
         .library(name: "SotoSSMIncidents", targets: ["SotoSSMIncidents"]),
         .library(name: "SotoSSMQuickSetup", targets: ["SotoSSMQuickSetup"]),
         .library(name: "SotoSSO", targets: ["SotoSSO"]),
@@ -2213,12 +2213,6 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
-            name: "SotoPrivateNetworks",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/PrivateNetworks",
-            swiftSettings: swiftSettings
-        ),
-        .target(
             name: "SotoProton",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Proton",
@@ -2468,6 +2462,12 @@ let package = Package(
             name: "SotoSSMContacts",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/SSMContacts",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoSSMGuiConnect",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/SSMGuiConnect",
             swiftSettings: swiftSettings
         ),
         .target(

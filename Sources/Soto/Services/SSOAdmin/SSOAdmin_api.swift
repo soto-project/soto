@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS SSOAdmin service.
 ///
-/// IAM Identity Center (successor to Single Sign-On) helps you securely create, or connect, your workforce identities and manage their access centrally across Amazon Web Services accounts and applications. IAM Identity Center is the recommended approach for workforce authentication and authorization in Amazon Web Services, for organizations of any size and type.  IAM Identity Center uses the sso and identitystore API namespaces.  This reference guide provides information on single sign-on operations which could be used for access management of Amazon Web Services accounts. For information about IAM Identity Center features, see the IAM Identity Center User Guide. Many operations in the IAM Identity Center APIs rely on identifiers for users and groups, known as principals. For more information about how to work with principals and principal IDs in IAM Identity Center, see the Identity Store API Reference.  Amazon Web Services provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .Net, iOS, Android, and more). The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other Amazon Web Services services. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools for Amazon Web Services.
+/// IAM Identity Center is the Amazon Web Services solution for connecting your workforce users to Amazon Web Services managed applications and other Amazon Web Services resources. You can connect your existing identity provider and synchronize users and groups from your directory, or create and manage your users directly in IAM Identity Center. You can then use IAM Identity Center for either or both of the following:   User access to applications   User access to Amazon Web Services accounts   This guide provides information about single sign-on operations that you can use for access to applications and  Amazon Web Services accounts. For information about IAM Identity Center features, see the IAM Identity Center User Guide.  IAM Identity Center uses the sso and identitystore API namespaces.  Many API operations for IAM Identity Center rely on identifiers for users and groups, known as principals. For more information about how to work with principals and principal IDs in IAM Identity Center, see the Identity Store API Reference.  Amazon Web Services provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .Net, iOS, Android, and more). The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other Amazon Web Services services. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools for Amazon Web Services.
 public struct SSOAdmin: AWSService {
     // MARK: Member variables
 
@@ -207,7 +207,7 @@ public struct SSOAdmin: AWSService {
         return try await self.createAccountAssignment(input, logger: logger)
     }
 
-    /// Creates an application in IAM Identity Center for the given application provider.
+    /// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider.  This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications. For more information on these application types, see Amazon Web Services managed applications.
     @Sendable
     @inlinable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
@@ -220,7 +220,7 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Creates an application in IAM Identity Center for the given application provider.
+    /// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider.  This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications. For more information on these application types, see Amazon Web Services managed applications.
     ///
     /// Parameters:
     ///   - applicationProviderArn: The ARN of the application provider under which the operation will run.
@@ -273,7 +273,7 @@ public struct SSOAdmin: AWSService {
     /// Grant application access to a user or group.
     ///
     /// Parameters:
-    ///   - applicationArn: The ARN of the application provider under which the operation will run.
+    ///   - applicationArn: The ARN of the application for which the assignment is created.
     ///   - principalId: An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
     ///   - principalType: The entity type for which the assignment will be created.
     ///   - logger: Logger use during operation
@@ -927,7 +927,7 @@ public struct SSOAdmin: AWSService {
         return try await self.describeApplication(input, logger: logger)
     }
 
-    /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application,  the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user.  Instead use ListApplicationAssignmentsForPrincipal.
+    /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal.
     @Sendable
     @inlinable
     public func describeApplicationAssignment(_ input: DescribeApplicationAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationAssignmentResponse {
@@ -940,7 +940,7 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application,  the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user.  Instead use ListApplicationAssignmentsForPrincipal.
+    /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal.
     ///
     /// Parameters:
     ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
@@ -1113,7 +1113,7 @@ public struct SSOAdmin: AWSService {
         return try await self.describePermissionSetProvisioningStatus(input, logger: logger)
     }
 
-    /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the  name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
+    /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
     @Sendable
     @inlinable
     public func describeTrustedTokenIssuer(_ input: DescribeTrustedTokenIssuerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrustedTokenIssuerResponse {
@@ -1126,7 +1126,7 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the  name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
+    /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
     ///
     /// Parameters:
     ///   - trustedTokenIssuerArn: Specifies the ARN of the trusted token issuer configuration that you want details about.
@@ -1518,7 +1518,7 @@ public struct SSOAdmin: AWSService {
         return try await self.listAccountAssignments(input, logger: logger)
     }
 
-    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to.
+    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
     @Sendable
     @inlinable
     public func listAccountAssignmentsForPrincipal(_ input: ListAccountAssignmentsForPrincipalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountAssignmentsForPrincipalResponse {
@@ -1531,7 +1531,7 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to.
+    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
     ///
     /// Parameters:
     ///   - filter: Specifies an Amazon Web Services account ID number. Results are filtered to only those that match this ID number.
@@ -1673,7 +1673,7 @@ public struct SSOAdmin: AWSService {
         return try await self.listApplicationAssignments(input, logger: logger)
     }
 
-    /// Lists the applications to which a specified principal is assigned.
+    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
     @Sendable
     @inlinable
     public func listApplicationAssignmentsForPrincipal(_ input: ListApplicationAssignmentsForPrincipalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationAssignmentsForPrincipalResponse {
@@ -1686,7 +1686,7 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Lists the applications to which a specified principal is assigned.
+    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
     ///
     /// Parameters:
     ///   - filter: Filters the output to include only assignments associated with the application that has the specified ARN.
@@ -1813,7 +1813,7 @@ public struct SSOAdmin: AWSService {
         return try await self.listApplicationProviders(input, logger: logger)
     }
 
-    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account.
+    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
     @Sendable
     @inlinable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
@@ -1826,7 +1826,7 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account.
+    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
     ///
     /// Parameters:
     ///   - filter: Filters response results.
@@ -2216,7 +2216,7 @@ public struct SSOAdmin: AWSService {
         return try await self.putApplicationAccessScope(input, logger: logger)
     }
 
-    /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.  If an assignment is created using CreateApplicationAssignment., the user retains access if AssignmentsRequired is set to true.
+    /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if AssignmentsRequired is set to true.
     @Sendable
     @inlinable
     public func putApplicationAssignmentConfiguration(_ input: PutApplicationAssignmentConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutApplicationAssignmentConfigurationResponse {
@@ -2229,11 +2229,11 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.  If an assignment is created using CreateApplicationAssignment., the user retains access if AssignmentsRequired is set to true.
+    /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if AssignmentsRequired is set to true.
     ///
     /// Parameters:
     ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-    ///   - assignmentRequired: If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.
+    ///   - assignmentRequired: If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application.
     ///   - logger: Logger use during operation
     @inlinable
     public func putApplicationAssignmentConfiguration(
@@ -2283,7 +2283,7 @@ public struct SSOAdmin: AWSService {
         return try await self.putApplicationAuthenticationMethod(input, logger: logger)
     }
 
-    /// Adds a grant to an application.
+    /// Creates a configuration for an application to use grants. Conceptually grants are authorization to request actions related to tokens. This configuration will be used when parties are requesting and receiving tokens during the trusted identity propagation process. For more information on the IAM Identity Center supported grant workflows, see SAML 2.0 and OAuth 2.0. A grant is created between your applications and Identity Center instance which enables an application to use specified mechanisms to obtain tokens. These tokens are used by your applications to gain access to Amazon Web Services resources on behalf of users. The following elements are within these exchanges:    Requester - The application requesting access to Amazon Web Services resources.    Subject - Typically the user that is requesting access to Amazon Web Services resources.    Grant - Conceptually, a grant is authorization to access Amazon Web Services resources. These grants authorize token generation for authenticating access to the requester and for the request to make requests on behalf of the subjects. There are four types of grants:    AuthorizationCode - Allows an application to request authorization through a series of user-agent redirects.    JWT bearer  - Authorizes an application to exchange a JSON Web Token that came from an external identity provider. To learn more, see RFC 6479.    Refresh token - Enables application to request new access tokens to replace expiring or expired access tokens.    Exchange token - A grant that requests tokens from the authorization server by providing a ‘subject’ token with access scope authorizing trusted identity propagation to this application. To learn more, see RFC 8693.      Authorization server - IAM Identity Center requests tokens.   User credentials are never shared directly within these exchanges. Instead, applications use grants to request access tokens from IAM Identity Center. For more information, see RFC 6479.  Use cases    Connecting to custom applications.   Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
     @Sendable
     @inlinable
     public func putApplicationGrant(_ input: PutApplicationGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2296,7 +2296,7 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Adds a grant to an application.
+    /// Creates a configuration for an application to use grants. Conceptually grants are authorization to request actions related to tokens. This configuration will be used when parties are requesting and receiving tokens during the trusted identity propagation process. For more information on the IAM Identity Center supported grant workflows, see SAML 2.0 and OAuth 2.0. A grant is created between your applications and Identity Center instance which enables an application to use specified mechanisms to obtain tokens. These tokens are used by your applications to gain access to Amazon Web Services resources on behalf of users. The following elements are within these exchanges:    Requester - The application requesting access to Amazon Web Services resources.    Subject - Typically the user that is requesting access to Amazon Web Services resources.    Grant - Conceptually, a grant is authorization to access Amazon Web Services resources. These grants authorize token generation for authenticating access to the requester and for the request to make requests on behalf of the subjects. There are four types of grants:    AuthorizationCode - Allows an application to request authorization through a series of user-agent redirects.    JWT bearer  - Authorizes an application to exchange a JSON Web Token that came from an external identity provider. To learn more, see RFC 6479.    Refresh token - Enables application to request new access tokens to replace expiring or expired access tokens.    Exchange token - A grant that requests tokens from the authorization server by providing a ‘subject’ token with access scope authorizing trusted identity propagation to this application. To learn more, see RFC 8693.      Authorization server - IAM Identity Center requests tokens.   User credentials are never shared directly within these exchanges. Instead, applications use grants to request access tokens from IAM Identity Center. For more information, see RFC 6479.  Use cases    Connecting to custom applications.   Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
     ///
     /// Parameters:
     ///   - applicationArn: Specifies the ARN of the application to update.

@@ -530,7 +530,7 @@ extension SSOAdmin {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
-            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy/[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]+$")
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
@@ -585,7 +585,7 @@ extension SSOAdmin {
     }
 
     public struct AuthorizationCodeGrant: AWSEncodableShape & AWSDecodableShape {
-        /// A list of URIs that are valid locations to redirect a user's browser after the user is authorized.
+        /// A list of URIs that are valid locations to redirect a user's browser after the user is authorized.  RedirectUris is required when the grant type is authorization_code.
         public let redirectUris: [String]?
 
         @inlinable
@@ -698,7 +698,7 @@ extension SSOAdmin {
     }
 
     public struct CreateApplicationAssignmentRequest: AWSEncodableShape {
-        /// The ARN of the application provider under which the operation will run.
+        /// The ARN of the application for which the assignment is created.
         public let applicationArn: String
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
         public let principalId: String
@@ -775,8 +775,9 @@ extension SSOAdmin {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S\\s]*$")
             try self.portalOptions?.validate(name: "\(name).portalOptions")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1953,7 +1954,7 @@ extension SSOAdmin {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
-            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy/[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]+$")
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
@@ -2057,7 +2058,7 @@ extension SSOAdmin {
     }
 
     public struct GetApplicationAssignmentConfigurationResponse: AWSDecodableShape {
-        /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.
+        /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application.
         public let assignmentRequired: Bool
 
         @inlinable
@@ -2318,7 +2319,7 @@ extension SSOAdmin {
     }
 
     public struct JwtBearerGrant: AWSEncodableShape & AWSDecodableShape {
-        /// A list of allowed token issuers trusted by the Identity Center instances for this application.
+        /// A list of allowed token issuers trusted by the Identity Center instances for this application.   AuthorizedTokenIssuers is required when the grant type is JwtBearerGrant.
         public let authorizedTokenIssuers: [AuthorizedTokenIssuer]?
 
         @inlinable
@@ -3681,7 +3682,7 @@ extension SSOAdmin {
             try self.customerManagedPolicyReference?.validate(name: "\(name).customerManagedPolicyReference")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
-            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy/[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]+$")
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3805,7 +3806,7 @@ extension SSOAdmin {
         /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
-        /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.
+        /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application.
         public let assignmentRequired: Bool
 
         @inlinable
@@ -4220,8 +4221,9 @@ extension SSOAdmin {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S\\s]*$")
             try self.portalOptions?.validate(name: "\(name).portalOptions")
         }
 

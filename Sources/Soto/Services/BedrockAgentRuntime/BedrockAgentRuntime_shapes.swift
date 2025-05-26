@@ -109,6 +109,33 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum FlowErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalServer = "INTERNAL_SERVER"
+        case nodeExecutionFailed = "NODE_EXECUTION_FAILED"
+        case validation = "VALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowExecutionErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case timedOut = "ExecutionTimedOut"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowExecutionEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flow = "Flow"
+        case node = "Node"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aborted = "Aborted"
+        case failed = "Failed"
+        case running = "Running"
+        case succeeded = "Succeeded"
+        case timedOut = "TimedOut"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GeneratedQueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case redshiftSql = "REDSHIFT_SQL"
         public var description: String { return self.rawValue }
@@ -245,6 +272,14 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum NodeErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case badGateway = "BAD_GATEWAY"
+        case dependencyFailed = "DEPENDENCY_FAILED"
+        case internalServer = "INTERNAL_SERVER"
+        case validation = "VALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case conditionNode = "ConditionNode"
         case flowInputNode = "FlowInputNode"
@@ -253,6 +288,12 @@ extension BedrockAgentRuntime {
         case lambdaFunctionNode = "LambdaFunctionNode"
         case lexNode = "LexNode"
         case promptNode = "PromptNode"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrchestrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case customOrchestration = "CUSTOM_ORCHESTRATION"
         public var description: String { return self.rawValue }
     }
 
@@ -535,6 +576,67 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public enum FlowExecutionEvent: AWSDecodableShape, Sendable {
+        /// Contains information about a condition evaluation result during the async execution. This event is generated when a condition node in the flow evaluates its conditions.
+        case conditionResultEvent(ConditionResultEvent)
+        /// Contains information about a failure that occurred at the flow level during execution.
+        case flowFailureEvent(FlowFailureEvent)
+        /// Contains information about the inputs provided to the flow at the start of execution.
+        case flowInputEvent(FlowExecutionInputEvent)
+        /// Contains information about the outputs produced by the flow at the end of execution.
+        case flowOutputEvent(FlowExecutionOutputEvent)
+        /// Contains information about a failure that occurred at a specific node during execution.
+        case nodeFailureEvent(NodeFailureEvent)
+        /// Contains information about the inputs provided to a specific node during execution.
+        case nodeInputEvent(NodeInputEvent)
+        /// Contains information about the outputs produced by a specific node during execution.
+        case nodeOutputEvent(NodeOutputEvent)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .conditionResultEvent:
+                let value = try container.decode(ConditionResultEvent.self, forKey: .conditionResultEvent)
+                self = .conditionResultEvent(value)
+            case .flowFailureEvent:
+                let value = try container.decode(FlowFailureEvent.self, forKey: .flowFailureEvent)
+                self = .flowFailureEvent(value)
+            case .flowInputEvent:
+                let value = try container.decode(FlowExecutionInputEvent.self, forKey: .flowInputEvent)
+                self = .flowInputEvent(value)
+            case .flowOutputEvent:
+                let value = try container.decode(FlowExecutionOutputEvent.self, forKey: .flowOutputEvent)
+                self = .flowOutputEvent(value)
+            case .nodeFailureEvent:
+                let value = try container.decode(NodeFailureEvent.self, forKey: .nodeFailureEvent)
+                self = .nodeFailureEvent(value)
+            case .nodeInputEvent:
+                let value = try container.decode(NodeInputEvent.self, forKey: .nodeInputEvent)
+                self = .nodeInputEvent(value)
+            case .nodeOutputEvent:
+                let value = try container.decode(NodeOutputEvent.self, forKey: .nodeOutputEvent)
+                self = .nodeOutputEvent(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionResultEvent = "conditionResultEvent"
+            case flowFailureEvent = "flowFailureEvent"
+            case flowInputEvent = "flowInputEvent"
+            case flowOutputEvent = "flowOutputEvent"
+            case nodeFailureEvent = "nodeFailureEvent"
+            case nodeInputEvent = "nodeInputEvent"
+            case nodeOutputEvent = "nodeOutputEvent"
+        }
+    }
+
     public enum FlowResponseStream: AWSDecodableShape, Sendable {
         /// The request is denied because of missing access permissions. Check your permissions and retry your request.
         case accessDeniedException(AccessDeniedException)
@@ -742,13 +844,13 @@ extension BedrockAgentRuntime {
         case internalServerException(InternalServerException)
         /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
         case resourceNotFoundException(ResourceNotFoundException)
-        /// Contains the parameters and information that the agent elicited from the customer to carry out an action. This information is returned to the system  and can be used in your own setup for fulfilling the action.
+        /// Contains the parameters and information that the agent elicited from the customer to carry out an action. This information is returned to the system and can be used in your own setup for fulfilling the action.
         case returnControl(InlineAgentReturnControlPayload)
         /// The number of requests exceeds the service quota. Resubmit your request later.
         case serviceQuotaExceededException(ServiceQuotaExceededException)
         /// The number of requests exceeds the limit. Resubmit your request later.
         case throttlingException(ThrottlingException)
-        /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling actions and querying  knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer.  For more information, see Trace events.
+        /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see Trace events.
         case trace(InlineAgentTracePart)
         /// Input validation failed. Check your request parameters and retry the request.
         case validationException(ValidationException)
@@ -1354,7 +1456,7 @@ extension BedrockAgentRuntime {
     }
 
     public enum RetrieveAndGenerateStreamResponseOutput: AWSDecodableShape, Sendable {
-        /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error,  see AccessDeniedException in the Amazon Bedrock User Guide.
+        /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error, see AccessDeniedException in the Amazon Bedrock User Guide.
         case accessDeniedException(AccessDeniedException)
         /// The request failed due to a bad gateway error.
         case badGatewayException(BadGatewayException)
@@ -1370,13 +1472,13 @@ extension BedrockAgentRuntime {
         case internalServerException(InternalServerException)
         /// An output event.
         case output(RetrieveAndGenerateOutputEvent)
-        /// The specified resource ARN was not found. For troubleshooting this error,  see ResourceNotFound in the Amazon Bedrock User Guide.
+        /// The specified resource ARN was not found. For troubleshooting this error, see ResourceNotFound in the Amazon Bedrock User Guide.
         case resourceNotFoundException(ResourceNotFoundException)
         /// Your request exceeds the service quota for your account. You can view your quotas at Viewing service quotas. You can resubmit your request later.
         case serviceQuotaExceededException(ServiceQuotaExceededException)
         /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide.
         case throttlingException(ThrottlingException)
-        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error,  see ValidationError in the Amazon Bedrock User Guide.
+        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see ValidationError in the Amazon Bedrock User Guide.
         case validationException(ValidationException)
 
         public init(from decoder: Decoder) throws {
@@ -1606,33 +1708,37 @@ extension BedrockAgentRuntime {
     }
 
     public struct ActionGroupInvocationOutput: AWSDecodableShape {
+        /// Contains information about the action group output.
+        public let metadata: Metadata?
         /// The JSON-formatted string returned by the API invoked by the action group.
         public let text: String?
 
         @inlinable
-        public init(text: String? = nil) {
+        public init(metadata: Metadata? = nil, text: String? = nil) {
+            self.metadata = metadata
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
             case text = "text"
         }
     }
 
     public struct AgentActionGroup: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking  the action or the custom control method for handling the information elicited from the user.
+        ///  The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user.
         public let actionGroupExecutor: ActionGroupExecutor?
         ///  The name of the action group.
         public let actionGroupName: String
-        ///  Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted  payload defining the schema. For more information, see Action group OpenAPI schemas.
+        ///  Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema. For more information, see Action group OpenAPI schemas.
         public let apiSchema: APISchema?
         ///  A description of the action group.
         public let description: String?
         ///  Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public let functionSchema: FunctionSchema?
-        /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
+        /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
         public let parentActionGroupSignature: ActionGroupSignature?
-        ///  The configuration settings for a computer use action.               Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        ///  The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
         public let parentActionGroupSignatureParams: [String: String]?
 
         @inlinable
@@ -1715,19 +1821,23 @@ extension BedrockAgentRuntime {
         public let agentCollaboratorAliasArn: String?
         /// The output's agent collaborator name.
         public let agentCollaboratorName: String?
+        /// Contains information about the output from the agent collaborator.
+        public let metadata: Metadata?
         /// The output's output.
         public let output: AgentCollaboratorOutputPayload?
 
         @inlinable
-        public init(agentCollaboratorAliasArn: String? = nil, agentCollaboratorName: String? = nil, output: AgentCollaboratorOutputPayload? = nil) {
+        public init(agentCollaboratorAliasArn: String? = nil, agentCollaboratorName: String? = nil, metadata: Metadata? = nil, output: AgentCollaboratorOutputPayload? = nil) {
             self.agentCollaboratorAliasArn = agentCollaboratorAliasArn
             self.agentCollaboratorName = agentCollaboratorName
+            self.metadata = metadata
             self.output = output
         }
 
         private enum CodingKeys: String, CodingKey {
             case agentCollaboratorAliasArn = "agentCollaboratorAliasArn"
             case agentCollaboratorName = "agentCollaboratorName"
+            case metadata = "metadata"
             case output = "output"
         }
     }
@@ -2111,13 +2221,16 @@ extension BedrockAgentRuntime {
         public let executionTimeout: Bool?
         /// Contains output files, if generated by code execution.
         public let files: [String]?
+        /// Contains information about the output from the code interpreter.
+        public let metadata: Metadata?
 
         @inlinable
-        public init(executionError: String? = nil, executionOutput: String? = nil, executionTimeout: Bool? = nil, files: [String]? = nil) {
+        public init(executionError: String? = nil, executionOutput: String? = nil, executionTimeout: Bool? = nil, files: [String]? = nil, metadata: Metadata? = nil) {
             self.executionError = executionError
             self.executionOutput = executionOutput
             self.executionTimeout = executionTimeout
             self.files = files
+            self.metadata = metadata
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2125,6 +2238,7 @@ extension BedrockAgentRuntime {
             case executionOutput = "executionOutput"
             case executionTimeout = "executionTimeout"
             case files = "files"
+            case metadata = "metadata"
         }
     }
 
@@ -2240,6 +2354,29 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct ConditionResultEvent: AWSDecodableShape {
+        /// The name of the condition node that evaluated the conditions.
+        public let nodeName: String
+        /// A list of conditions that were satisfied during the evaluation.
+        public let satisfiedConditions: [SatisfiedCondition]
+        /// The timestamp when the condition evaluation occurred.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(nodeName: String, satisfiedConditions: [SatisfiedCondition], timestamp: Date) {
+            self.nodeName = nodeName
+            self.satisfiedConditions = satisfiedConditions
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "nodeName"
+            case satisfiedConditions = "satisfiedConditions"
+            case timestamp = "timestamp"
+        }
+    }
+
     public struct ConflictException: AWSDecodableShape {
         public let message: String?
 
@@ -2256,7 +2393,7 @@ extension BedrockAgentRuntime {
     public struct ContentBody: AWSEncodableShape & AWSDecodableShape {
         /// The body of the API response.
         public let body: String?
-        /// Lists details, including format and source, for the image in the response from the function call. You can specify only one image and the function in the returnControlInvocationResults  must be a computer use action. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        /// Lists details, including format and source, for the image in the response from the function call. You can specify only one image and the function in the returnControlInvocationResults must be a computer use action. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
         public let images: [ImageInput]?
 
         @inlinable
@@ -2347,7 +2484,7 @@ extension BedrockAgentRuntime {
     public struct CreateSessionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to use to encrypt the session data. The user or role creating the session must have permission to use the key. For more information, see Amazon Bedrock session encryption.
         public let encryptionKeyArn: String?
-        /// A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference,  and the type of device they are using.
+        /// A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference, and the type of device they are using.
         public let sessionMetadata: [String: String]?
         /// Specify the key-value pairs for the tags that you want to attach to the session.
         public let tags: [String: String]?
@@ -2411,6 +2548,20 @@ extension BedrockAgentRuntime {
             case sessionArn = "sessionArn"
             case sessionId = "sessionId"
             case sessionStatus = "sessionStatus"
+        }
+    }
+
+    public struct CustomOrchestration: AWSEncodableShape {
+        /// The structure of the executor invoking the actions in custom orchestration.
+        public let executor: OrchestrationExecutor?
+
+        @inlinable
+        public init(executor: OrchestrationExecutor? = nil) {
+            self.executor = executor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executor = "executor"
         }
     }
 
@@ -2681,19 +2832,27 @@ extension BedrockAgentRuntime {
     }
 
     public struct FailureTrace: AWSDecodableShape {
+        /// The failure code for the trace.
+        public let failureCode: Int?
         /// The reason the interaction failed.
         public let failureReason: String?
+        /// Information about the failure that occurred.
+        public let metadata: Metadata?
         /// The unique identifier of the trace.
         public let traceId: String?
 
         @inlinable
-        public init(failureReason: String? = nil, traceId: String? = nil) {
+        public init(failureCode: Int? = nil, failureReason: String? = nil, metadata: Metadata? = nil, traceId: String? = nil) {
+            self.failureCode = failureCode
             self.failureReason = failureReason
+            self.metadata = metadata
             self.traceId = traceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failureCode = "failureCode"
             case failureReason = "failureReason"
+            case metadata = "metadata"
             case traceId = "traceId"
         }
     }
@@ -2777,15 +2936,19 @@ extension BedrockAgentRuntime {
     }
 
     public struct FinalResponse: AWSDecodableShape {
+        /// Contains information about the invoke agent operation.
+        public let metadata: Metadata?
         /// The text in the response to the user.
         public let text: String?
 
         @inlinable
-        public init(text: String? = nil) {
+        public init(metadata: Metadata? = nil, text: String? = nil) {
+            self.metadata = metadata
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
             case text = "text"
         }
     }
@@ -2801,6 +2964,137 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case completionReason = "completionReason"
+        }
+    }
+
+    public struct FlowExecutionError: AWSDecodableShape {
+        /// The error code for the type of error that occurred.
+        public let error: FlowExecutionErrorType?
+        /// A descriptive message that provides details about the error.
+        public let message: String?
+        /// The name of the node in the flow where the error occurred (if applicable).
+        public let nodeName: String?
+
+        @inlinable
+        public init(error: FlowExecutionErrorType? = nil, message: String? = nil, nodeName: String? = nil) {
+            self.error = error
+            self.message = message
+            self.nodeName = nodeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case message = "message"
+            case nodeName = "nodeName"
+        }
+    }
+
+    public struct FlowExecutionInputEvent: AWSDecodableShape {
+        /// A list of input fields provided to the flow.
+        public let fields: [FlowInputField]
+        /// The name of the node that receives the inputs.
+        public let nodeName: String
+        /// The timestamp when the inputs are provided.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(fields: [FlowInputField], nodeName: String, timestamp: Date) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct FlowExecutionOutputEvent: AWSDecodableShape {
+        /// A list of output fields produced by the flow.
+        public let fields: [FlowOutputField]
+        /// The name of the node that produces the outputs.
+        public let nodeName: String
+        /// The timestamp when the outputs are produced.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(fields: [FlowOutputField], nodeName: String, timestamp: Date) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct FlowExecutionSummary: AWSDecodableShape {
+        /// The timestamp when the async execution was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The timestamp when the async execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+        public let executionArn: String
+        /// The unique identifier of the flow alias used for the execution.
+        public let flowAliasIdentifier: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// The version of the flow used for the execution.
+        public let flowVersion: String
+        /// The current status of the async execution. Async executions time out after 24 hours.
+        public let status: FlowExecutionStatus
+
+        @inlinable
+        public init(createdAt: Date, endedAt: Date? = nil, executionArn: String, flowAliasIdentifier: String, flowIdentifier: String, flowVersion: String, status: FlowExecutionStatus) {
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.executionArn = executionArn
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+            self.flowVersion = flowVersion
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case endedAt = "endedAt"
+            case executionArn = "executionArn"
+            case flowAliasIdentifier = "flowAliasIdentifier"
+            case flowIdentifier = "flowIdentifier"
+            case flowVersion = "flowVersion"
+            case status = "status"
+        }
+    }
+
+    public struct FlowFailureEvent: AWSDecodableShape {
+        /// The error code that identifies the type of failure that occurred.
+        public let errorCode: FlowErrorCode
+        /// A descriptive message that provides details about the failure.
+        public let errorMessage: String
+        /// The timestamp when the failure occurred.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(errorCode: FlowErrorCode, errorMessage: String, timestamp: Date) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case timestamp = "timestamp"
         }
     }
 
@@ -2833,6 +3127,24 @@ extension BedrockAgentRuntime {
             case nodeInputName = "nodeInputName"
             case nodeName = "nodeName"
             case nodeOutputName = "nodeOutputName"
+        }
+    }
+
+    public struct FlowInputField: AWSDecodableShape {
+        /// The content of the input field, which can contain text or structured data.
+        public let content: FlowExecutionContent
+        /// The name of the input field as defined in the flow's input schema.
+        public let name: String
+
+        @inlinable
+        public init(content: FlowExecutionContent, name: String) {
+            self.content = content
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case name = "name"
         }
     }
 
@@ -2877,6 +3189,24 @@ extension BedrockAgentRuntime {
             case content = "content"
             case nodeName = "nodeName"
             case nodeType = "nodeType"
+        }
+    }
+
+    public struct FlowOutputField: AWSDecodableShape {
+        /// The content of the output field, which can contain text or structured data.
+        public let content: FlowExecutionContent
+        /// The name of the output field as defined in the flow's output schema.
+        public let name: String
+
+        @inlinable
+        public init(content: FlowExecutionContent, name: String) {
+            self.content = content
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case name = "name"
         }
     }
 
@@ -3145,7 +3475,7 @@ extension BedrockAgentRuntime {
         public let confirmationState: ConfirmationState?
         /// The name of the function that was called.
         public let function: String?
-        /// The response from the function call using the parameters. The response might be returned directly or from the Lambda function.  Specify TEXT or IMAGES. The key of the object is the content type. You can only specify one type. If you specify IMAGES, you can specify only one image. You can specify images only when the function in the returnControlInvocationResults  is a computer use action. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        /// The response from the function call using the parameters. The response might be returned directly or from the Lambda function. Specify TEXT or IMAGES. The key of the object is the content type. You can only specify one type. If you specify IMAGES, you can specify only one image. You can specify images only when the function in the returnControlInvocationResults is a computer use action. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
         public let responseBody: [String: ContentBody]?
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
@@ -3282,13 +3612,13 @@ extension BedrockAgentRuntime {
         public let agentAliasId: String
         /// The unique identifier of the agent to which the alias belongs.
         public let agentId: String
-        /// The maximum number of items to return in the response. If the total number of results is greater  than this value, use the token returned in the response in the nextToken field when making another  request to return the next batch of results.
+        /// The maximum number of items to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxItems: Int?
         /// The unique identifier of the memory.
         public let memoryId: String
         /// The type of memory.
         public let memoryType: MemoryType
-        /// If the total number of results is greater than the maxItems value provided in the request, enter the token returned  in the nextToken field in the response in this field to return the next batch of results.
+        /// If the total number of results is greater than the maxItems value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
         @inlinable
@@ -3333,7 +3663,7 @@ extension BedrockAgentRuntime {
     public struct GetAgentMemoryResponse: AWSDecodableShape {
         /// Contains details of the sessions stored in the memory
         public let memoryContents: [Memory]?
-        /// If the total number of results is greater than the maxItems value provided in the request, use this token  when making another request in the nextToken field to return the next batch of results.
+        /// If the total number of results is greater than the maxItems value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
         @inlinable
@@ -3345,6 +3675,154 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case memoryContents = "memoryContents"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetExecutionFlowSnapshotRequest: AWSEncodableShape {
+        /// The unique identifier of the async execution.
+        public let executionIdentifier: String
+        /// The unique identifier of the flow alias used for the async execution.
+        public let flowAliasIdentifier: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+
+        @inlinable
+        public init(executionIdentifier: String, flowAliasIdentifier: String, flowIdentifier: String) {
+            self.executionIdentifier = executionIdentifier
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionIdentifier, key: "executionIdentifier")
+            request.encodePath(self.flowAliasIdentifier, key: "flowAliasIdentifier")
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, max: 2048)
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, pattern: "^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$")
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExecutionFlowSnapshotResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key that's used to encrypt the flow snapshot.
+        public let customerEncryptionKeyArn: String?
+        /// The flow definition used for the async execution, including the nodes, connections, and configuration at the time when the execution started. The definition returns as a string that follows the structure of a FlowDefinition object.
+        public let definition: String
+        /// The Amazon Resource Name (ARN) of the IAM service role that's used by the async execution.
+        public let executionRoleArn: String
+        /// The unique identifier of the flow alias used for the async execution.
+        public let flowAliasIdentifier: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// The version of the flow used for the async execution.
+        public let flowVersion: String
+
+        @inlinable
+        public init(customerEncryptionKeyArn: String? = nil, definition: String, executionRoleArn: String, flowAliasIdentifier: String, flowIdentifier: String, flowVersion: String) {
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.executionRoleArn = executionRoleArn
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+            self.flowVersion = flowVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case executionRoleArn = "executionRoleArn"
+            case flowAliasIdentifier = "flowAliasIdentifier"
+            case flowIdentifier = "flowIdentifier"
+            case flowVersion = "flowVersion"
+        }
+    }
+
+    public struct GetFlowExecutionRequest: AWSEncodableShape {
+        /// The unique identifier of the async execution to retrieve.
+        public let executionIdentifier: String
+        /// The unique identifier of the flow alias used for the execution.
+        public let flowAliasIdentifier: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+
+        @inlinable
+        public init(executionIdentifier: String, flowAliasIdentifier: String, flowIdentifier: String) {
+            self.executionIdentifier = executionIdentifier
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionIdentifier, key: "executionIdentifier")
+            request.encodePath(self.flowAliasIdentifier, key: "flowAliasIdentifier")
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, max: 2048)
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, pattern: "^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$")
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFlowExecutionResponse: AWSDecodableShape {
+        /// The timestamp when the async execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// A list of errors that occurred during the async execution. Each error includes an error code, message, and the node where the error occurred, if applicable.
+        public let errors: [FlowExecutionError]?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+        public let executionArn: String
+        /// The unique identifier of the flow alias used for the execution.
+        public let flowAliasIdentifier: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// The version of the flow used for the execution.
+        public let flowVersion: String
+        /// The timestamp when the async execution started.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedAt: Date
+        /// The current status of the async execution. Async executions time out after 24 hours.
+        public let status: FlowExecutionStatus
+
+        @inlinable
+        public init(endedAt: Date? = nil, errors: [FlowExecutionError]? = nil, executionArn: String, flowAliasIdentifier: String, flowIdentifier: String, flowVersion: String, startedAt: Date, status: FlowExecutionStatus) {
+            self.endedAt = endedAt
+            self.errors = errors
+            self.executionArn = executionArn
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+            self.flowVersion = flowVersion
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endedAt = "endedAt"
+            case errors = "errors"
+            case executionArn = "executionArn"
+            case flowAliasIdentifier = "flowAliasIdentifier"
+            case flowIdentifier = "flowIdentifier"
+            case flowVersion = "flowVersion"
+            case startedAt = "startedAt"
+            case status = "status"
         }
     }
 
@@ -3725,15 +4203,18 @@ extension BedrockAgentRuntime {
         public let action: GuardrailAction?
         /// The details of the input assessments used in the Guardrail Trace.
         public let inputAssessments: [GuardrailAssessment]?
+        /// Contains information about the Guardrail output.
+        public let metadata: Metadata?
         /// The details of the output assessments used in the Guardrail Trace.
         public let outputAssessments: [GuardrailAssessment]?
         /// The details of the trace Id used in the Guardrail Trace.
         public let traceId: String?
 
         @inlinable
-        public init(action: GuardrailAction? = nil, inputAssessments: [GuardrailAssessment]? = nil, outputAssessments: [GuardrailAssessment]? = nil, traceId: String? = nil) {
+        public init(action: GuardrailAction? = nil, inputAssessments: [GuardrailAssessment]? = nil, metadata: Metadata? = nil, outputAssessments: [GuardrailAssessment]? = nil, traceId: String? = nil) {
             self.action = action
             self.inputAssessments = inputAssessments
+            self.metadata = metadata
             self.outputAssessments = outputAssessments
             self.traceId = traceId
         }
@@ -3741,6 +4222,7 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case inputAssessments = "inputAssessments"
+            case metadata = "metadata"
             case outputAssessments = "outputAssessments"
             case traceId = "traceId"
         }
@@ -3925,7 +4407,7 @@ extension BedrockAgentRuntime {
     public struct InlineAgentReturnControlPayload: AWSDecodableShape {
         /// The identifier of the action group invocation.
         public let invocationId: String?
-        /// A list of objects that contain information about the parameters and inputs that need to be sent into the API operation or function, based on what the agent  determines from its session with the user.
+        /// A list of objects that contain information about the parameters and inputs that need to be sent into the API operation or function, based on what the agent determines from its session with the user.
         public let invocationInputs: [InvocationInputMember]?
 
         @inlinable
@@ -3941,18 +4423,31 @@ extension BedrockAgentRuntime {
     }
 
     public struct InlineAgentTracePart: AWSDecodableShape {
+        /// The caller chain for the trace part.
+        public let callerChain: [Caller]?
+        /// The collaborator name for the trace part.
+        public let collaboratorName: String?
+        /// The time that trace occurred.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var eventTime: Date?
         /// The unique identifier of the session with the agent.
         public let sessionId: String?
-        /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the  agent arrived at the response it provided the customer. For more information, see Trace enablement.
+        /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see Trace enablement.
         public let trace: Trace?
 
         @inlinable
-        public init(sessionId: String? = nil, trace: Trace? = nil) {
+        public init(callerChain: [Caller]? = nil, collaboratorName: String? = nil, eventTime: Date? = nil, sessionId: String? = nil, trace: Trace? = nil) {
+            self.callerChain = callerChain
+            self.collaboratorName = collaboratorName
+            self.eventTime = eventTime
             self.sessionId = sessionId
             self.trace = trace
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callerChain = "callerChain"
+            case collaboratorName = "collaboratorName"
+            case eventTime = "eventTime"
             case sessionId = "sessionId"
             case trace = "trace"
         }
@@ -3977,7 +4472,7 @@ extension BedrockAgentRuntime {
         public let conversationHistory: ConversationHistory?
         ///  Contains information about the files used by code interpreter.
         public let files: [InputFile]?
-        ///  The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeInlineAgent response for the action  whose results are provided in the returnControlInvocationResults field. For more information, see Return control to the agent developer.
+        ///  The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeInlineAgent response for the action whose results are provided in the returnControlInvocationResults field. For more information, see Return control to the agent developer.
         public let invocationId: String?
         ///  Contains attributes that persist across a session and the values of those attributes.
         public let promptSessionAttributes: [String: String]?
@@ -4372,6 +4867,8 @@ extension BedrockAgentRuntime {
         public let actionGroups: [AgentActionGroup]?
         ///  Defines how the inline collaborator agent handles information across multiple collaborator agents to coordinate a final response. The inline collaborator agent can also be the supervisor.
         public let agentCollaboration: AgentCollaboration?
+        /// The name for the agent.
+        public let agentName: String?
         /// Model settings for the request.
         public let bedrockModelConfigurations: InlineBedrockModelConfigurations?
         ///  Settings for an inline agent collaborator called with InvokeInlineAgent.
@@ -4380,6 +4877,8 @@ extension BedrockAgentRuntime {
         public let collaborators: [Collaborator]?
         ///  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
         public let customerEncryptionKeyArn: String?
+        /// Contains details of the custom orchestration configured for the agent.
+        public let customOrchestration: CustomOrchestration?
         ///  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
         public let enableTrace: Bool?
         ///  Specifies whether to end the session with the inline agent or not.
@@ -4390,7 +4889,7 @@ extension BedrockAgentRuntime {
         public let guardrailConfiguration: GuardrailConfigurationWithArn?
         ///  The number of seconds for which the inline agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and the data provided before the timeout is deleted.
         public let idleSessionTTLInSeconds: Int?
-        ///  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an  action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+        ///  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
         public let inlineSessionState: InlineSessionState?
         ///  The prompt text to send to the agent.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
         public let inputText: String?
@@ -4398,6 +4897,8 @@ extension BedrockAgentRuntime {
         public let instruction: String
         ///  Contains information of the knowledge bases to associate with.
         public let knowledgeBases: [KnowledgeBase]?
+        /// Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
+        public let orchestrationType: OrchestrationType?
         ///  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
         ///  The unique identifier of the session. Use the same value across requests to continue the same conversation.
@@ -4406,13 +4907,15 @@ extension BedrockAgentRuntime {
         public let streamingConfigurations: StreamingConfigurations?
 
         @inlinable
-        public init(actionGroups: [AgentActionGroup]? = nil, agentCollaboration: AgentCollaboration? = nil, bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil, collaboratorConfigurations: [CollaboratorConfiguration]? = nil, collaborators: [Collaborator]? = nil, customerEncryptionKeyArn: String? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String, streamingConfigurations: StreamingConfigurations? = nil) {
+        public init(actionGroups: [AgentActionGroup]? = nil, agentCollaboration: AgentCollaboration? = nil, agentName: String? = nil, bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil, collaboratorConfigurations: [CollaboratorConfiguration]? = nil, collaborators: [Collaborator]? = nil, customerEncryptionKeyArn: String? = nil, customOrchestration: CustomOrchestration? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, orchestrationType: OrchestrationType? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String, streamingConfigurations: StreamingConfigurations? = nil) {
             self.actionGroups = actionGroups
             self.agentCollaboration = agentCollaboration
+            self.agentName = agentName
             self.bedrockModelConfigurations = bedrockModelConfigurations
             self.collaboratorConfigurations = collaboratorConfigurations
             self.collaborators = collaborators
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.customOrchestration = customOrchestration
             self.enableTrace = enableTrace
             self.endSession = endSession
             self.foundationModel = foundationModel
@@ -4422,6 +4925,7 @@ extension BedrockAgentRuntime {
             self.inputText = inputText
             self.instruction = instruction
             self.knowledgeBases = knowledgeBases
+            self.orchestrationType = orchestrationType
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.sessionId = sessionId
             self.streamingConfigurations = streamingConfigurations
@@ -4432,10 +4936,12 @@ extension BedrockAgentRuntime {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.actionGroups, forKey: .actionGroups)
             try container.encodeIfPresent(self.agentCollaboration, forKey: .agentCollaboration)
+            try container.encodeIfPresent(self.agentName, forKey: .agentName)
             try container.encodeIfPresent(self.bedrockModelConfigurations, forKey: .bedrockModelConfigurations)
             try container.encodeIfPresent(self.collaboratorConfigurations, forKey: .collaboratorConfigurations)
             try container.encodeIfPresent(self.collaborators, forKey: .collaborators)
             try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
+            try container.encodeIfPresent(self.customOrchestration, forKey: .customOrchestration)
             try container.encodeIfPresent(self.enableTrace, forKey: .enableTrace)
             try container.encodeIfPresent(self.endSession, forKey: .endSession)
             try container.encode(self.foundationModel, forKey: .foundationModel)
@@ -4445,6 +4951,7 @@ extension BedrockAgentRuntime {
             try container.encodeIfPresent(self.inputText, forKey: .inputText)
             try container.encode(self.instruction, forKey: .instruction)
             try container.encodeIfPresent(self.knowledgeBases, forKey: .knowledgeBases)
+            try container.encodeIfPresent(self.orchestrationType, forKey: .orchestrationType)
             try container.encodeIfPresent(self.promptOverrideConfiguration, forKey: .promptOverrideConfiguration)
             request.encodePath(self.sessionId, key: "sessionId")
             try container.encodeIfPresent(self.streamingConfigurations, forKey: .streamingConfigurations)
@@ -4454,6 +4961,7 @@ extension BedrockAgentRuntime {
             try self.actionGroups?.forEach {
                 try $0.validate(name: "\(name).actionGroups[]")
             }
+            try self.validate(self.agentName, name: "agentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.collaboratorConfigurations?.forEach {
                 try $0.validate(name: "\(name).collaboratorConfigurations[]")
             }
@@ -4484,10 +4992,12 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case actionGroups = "actionGroups"
             case agentCollaboration = "agentCollaboration"
+            case agentName = "agentName"
             case bedrockModelConfigurations = "bedrockModelConfigurations"
             case collaboratorConfigurations = "collaboratorConfigurations"
             case collaborators = "collaborators"
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case customOrchestration = "customOrchestration"
             case enableTrace = "enableTrace"
             case endSession = "endSession"
             case foundationModel = "foundationModel"
@@ -4497,6 +5007,7 @@ extension BedrockAgentRuntime {
             case inputText = "inputText"
             case instruction = "instruction"
             case knowledgeBases = "knowledgeBases"
+            case orchestrationType = "orchestrationType"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
             case streamingConfigurations = "streamingConfigurations"
         }
@@ -4504,7 +5015,7 @@ extension BedrockAgentRuntime {
 
     public struct InvokeInlineAgentResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        ///
+        /// The inline agent's response to the user prompt.
         public let completion: AWSEventStream<InlineAgentResponseStream>
         ///  The MIME type of the input data in the request. The default value is application/json.
         public let contentType: String
@@ -4602,15 +5113,19 @@ extension BedrockAgentRuntime {
     }
 
     public struct KnowledgeBaseLookupOutput: AWSDecodableShape {
+        /// Contains information about the knowledge base output.
+        public let metadata: Metadata?
         /// Contains metadata about the sources cited for the generated response.
         public let retrievedReferences: [RetrievedReference]?
 
         @inlinable
-        public init(retrievedReferences: [RetrievedReference]? = nil) {
+        public init(metadata: Metadata? = nil, retrievedReferences: [RetrievedReference]? = nil) {
+            self.metadata = metadata
             self.retrievedReferences = retrievedReferences
         }
 
         private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
             case retrievedReferences = "retrievedReferences"
         }
     }
@@ -4747,6 +5262,136 @@ extension BedrockAgentRuntime {
             case numberOfResults = "numberOfResults"
             case overrideSearchType = "overrideSearchType"
             case rerankingConfiguration = "rerankingConfiguration"
+        }
+    }
+
+    public struct ListFlowExecutionEventsRequest: AWSEncodableShape {
+        /// The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events.
+        public let eventType: FlowExecutionEventType
+        /// The unique identifier of the async execution.
+        public let executionIdentifier: String
+        /// The unique identifier of the flow alias used for the execution.
+        public let flowAliasIdentifier: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// The maximum number of events to return in a single response. If more events exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// A token to retrieve the next set of results. This value is returned in the response if more results are available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(eventType: FlowExecutionEventType, executionIdentifier: String, flowAliasIdentifier: String, flowIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.eventType = eventType
+            self.executionIdentifier = executionIdentifier
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eventType, key: "eventType")
+            request.encodePath(self.executionIdentifier, key: "executionIdentifier")
+            request.encodePath(self.flowAliasIdentifier, key: "flowAliasIdentifier")
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, max: 2048)
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, pattern: "^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$")
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFlowExecutionEventsResponse: AWSDecodableShape {
+        /// A list of events that occurred during the async execution. Events can include node inputs and outputs, flow inputs and outputs, condition results, and failure events.
+        public let flowExecutionEvents: [FlowExecutionEvent]
+        /// A token to retrieve the next set of results. This value is returned if more results are available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowExecutionEvents: [FlowExecutionEvent], nextToken: String? = nil) {
+            self.flowExecutionEvents = flowExecutionEvents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowExecutionEvents = "flowExecutionEvents"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFlowExecutionsRequest: AWSEncodableShape {
+        /// The unique identifier of the flow alias to list executions for.
+        public let flowAliasIdentifier: String?
+        /// The unique identifier of the flow to list executions for.
+        public let flowIdentifier: String
+        /// The maximum number of async executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// A token to retrieve the next set of results. This value is returned in the response if more results are available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowAliasIdentifier: String? = nil, flowIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.flowAliasIdentifier, key: "flowAliasIdentifier")
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFlowExecutionsResponse: AWSDecodableShape {
+        /// A list of async execution summaries. Each summary includes the execution ARN, flow identifier, flow alias identifier, flow version, status, and timestamps.
+        public let flowExecutionSummaries: [FlowExecutionSummary]
+        /// A token to retrieve the next set of results. This value is returned if more results are available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowExecutionSummaries: [FlowExecutionSummary], nextToken: String? = nil) {
+            self.flowExecutionSummaries = flowExecutionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowExecutionSummaries = "flowExecutionSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5000,15 +5645,37 @@ extension BedrockAgentRuntime {
     }
 
     public struct Metadata: AWSDecodableShape {
-        /// Contains details of the foundation model usage.
+        /// A unique identifier associated with the downstream invocation. This ID can be used for tracing, debugging, and identifying specific invocations in customer logs or systems.
+        public let clientRequestId: String?
+        /// In the final response, endTime is the end time of the agent invocation operation.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// The total time it took for the agent to complete execution. This field is only set for the final response.
+        public let operationTotalTimeMs: Int64?
+        /// In the final response, startTime is the start time of the agent invocation operation.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        ///  The total execution time for the specific invocation being processed (model, knowledge base, guardrail, agent collaborator, or code interpreter). It represents how long the individual invocation took.
+        public let totalTimeMs: Int64?
+        /// Specific to model invocation and contains details about the usage of a foundation model.
         public let usage: Usage?
 
         @inlinable
-        public init(usage: Usage? = nil) {
+        public init(clientRequestId: String? = nil, endTime: Date? = nil, operationTotalTimeMs: Int64? = nil, startTime: Date? = nil, totalTimeMs: Int64? = nil, usage: Usage? = nil) {
+            self.clientRequestId = clientRequestId
+            self.endTime = endTime
+            self.operationTotalTimeMs = operationTotalTimeMs
+            self.startTime = startTime
+            self.totalTimeMs = totalTimeMs
             self.usage = usage
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientRequestId = "clientRequestId"
+            case endTime = "endTime"
+            case operationTotalTimeMs = "operationTotalTimeMs"
+            case startTime = "startTime"
+            case totalTimeMs = "totalTimeMs"
             case usage = "usage"
         }
     }
@@ -5123,6 +5790,115 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case performanceConfig = "performanceConfig"
+        }
+    }
+
+    public struct NodeFailureEvent: AWSDecodableShape {
+        /// The error code that identifies the type of failure that occurred at the node.
+        public let errorCode: NodeErrorCode
+        /// A descriptive message that provides details about the node failure.
+        public let errorMessage: String
+        /// The name of the node where the failure occurred.
+        public let nodeName: String
+        /// The timestamp when the node failure occurred.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(errorCode: NodeErrorCode, errorMessage: String, nodeName: String, timestamp: Date) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct NodeInputEvent: AWSDecodableShape {
+        /// A list of input fields provided to the node.
+        public let fields: [NodeInputField]
+        /// The name of the node that received the inputs.
+        public let nodeName: String
+        /// The timestamp when the inputs were provided to the node.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(fields: [NodeInputField], nodeName: String, timestamp: Date) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct NodeInputField: AWSDecodableShape {
+        /// The content of the input field, which can contain text or structured data.
+        public let content: NodeExecutionContent
+        /// The name of the input field as defined in the node's input schema.
+        public let name: String
+
+        @inlinable
+        public init(content: NodeExecutionContent, name: String) {
+            self.content = content
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case name = "name"
+        }
+    }
+
+    public struct NodeOutputEvent: AWSDecodableShape {
+        /// A list of output fields produced by the node.
+        public let fields: [NodeOutputField]
+        /// The name of the node that produced the outputs.
+        public let nodeName: String
+        /// The timestamp when the outputs were produced by the node.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(fields: [NodeOutputField], nodeName: String, timestamp: Date) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct NodeOutputField: AWSDecodableShape {
+        /// The content of the output field, which can contain text or structured data.
+        public let content: NodeExecutionContent
+        /// The name of the output field as defined in the node's output schema.
+        public let name: String
+
+        @inlinable
+        public init(content: NodeExecutionContent, name: String) {
+            self.content = content
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case name = "name"
         }
     }
 
@@ -5530,7 +6306,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct PromptOverrideConfiguration: AWSEncodableShape {
-        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence.  If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is  set to OVERRIDDEN. For more information, see Parser Lambda function in Amazon Bedrock Agents.
+        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see Parser Lambda function in Amazon Bedrock Agents.
         public let overrideLambda: String?
         /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see Advanced prompts.
         public let promptConfigurations: [PromptConfiguration]
@@ -6597,6 +7373,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct SatisfiedCondition: AWSDecodableShape {
+        /// The name of the condition that was satisfied.
+        public let conditionName: String
+
+        @inlinable
+        public init(conditionName: String) {
+            self.conditionName = conditionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionName = "conditionName"
+        }
+    }
+
     public struct ServiceQuotaExceededException: AWSDecodableShape {
         public let message: String?
 
@@ -6619,7 +7409,7 @@ extension BedrockAgentRuntime {
         public let invocationId: String?
         /// An array of configurations, each of which applies to a knowledge base attached to the agent.
         public let knowledgeBaseConfigurations: [KnowledgeBaseConfiguration]?
-        /// Contains attributes that persist across a prompt and the values of those attributes.    In orchestration prompt template, these attributes replace the $prompt_session_attributes$ placeholder variable.  For more information, see Prompt template placeholder variables.   In multi-agent collaboration, the promptSessionAttributes will only be used by supervisor agent when $prompt_session_attributes$ is present in prompt template.
+        /// Contains attributes that persist across a prompt and the values of those attributes.    In orchestration prompt template, these attributes replace the $prompt_session_attributes$ placeholder variable. For more information, see Prompt template placeholder variables.   In multi-agent collaboration, the promptSessionAttributes will only be used by supervisor agent when $prompt_session_attributes$ is present in prompt template.
         public let promptSessionAttributes: [String: String]?
         /// Contains information about the results from the action group invocation. For more information, see Return control to the agent developer and Control session context.  If you include this field, the inputText field will be ignored.
         public let returnControlInvocationResults: [InvocationResultMember]?
@@ -6707,6 +7497,125 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case end = "end"
             case start = "start"
+        }
+    }
+
+    public struct StartFlowExecutionRequest: AWSEncodableShape {
+        /// The unique identifier of the flow alias to use for the async execution.
+        public let flowAliasIdentifier: String
+        /// The unique name for the async execution. If you don't provide one, a system-generated name is used.
+        public let flowExecutionName: String?
+        /// The unique identifier of the flow to execute.
+        public let flowIdentifier: String
+        /// The input data required for the async execution. This must match the input schema defined in the flow.
+        public let inputs: [FlowInput]
+        /// The performance settings for the foundation model used in the async execution.
+        public let modelPerformanceConfiguration: ModelPerformanceConfiguration?
+
+        @inlinable
+        public init(flowAliasIdentifier: String, flowExecutionName: String? = nil, flowIdentifier: String, inputs: [FlowInput], modelPerformanceConfiguration: ModelPerformanceConfiguration? = nil) {
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowExecutionName = flowExecutionName
+            self.flowIdentifier = flowIdentifier
+            self.inputs = inputs
+            self.modelPerformanceConfiguration = modelPerformanceConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowAliasIdentifier, key: "flowAliasIdentifier")
+            try container.encodeIfPresent(self.flowExecutionName, forKey: .flowExecutionName)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            try container.encode(self.inputs, forKey: .inputs)
+            try container.encodeIfPresent(self.modelPerformanceConfiguration, forKey: .modelPerformanceConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.flowExecutionName, name: "flowExecutionName", parent: name, max: 36)
+            try self.validate(self.flowExecutionName, name: "flowExecutionName", parent: name, pattern: "^[a-zA-Z0-9-]{1,36}$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.inputs.forEach {
+                try $0.validate(name: "\(name).inputs[]")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowExecutionName = "flowExecutionName"
+            case inputs = "inputs"
+            case modelPerformanceConfiguration = "modelPerformanceConfiguration"
+        }
+    }
+
+    public struct StartFlowExecutionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+        public let executionArn: String?
+
+        @inlinable
+        public init(executionArn: String? = nil) {
+            self.executionArn = executionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionArn = "executionArn"
+        }
+    }
+
+    public struct StopFlowExecutionRequest: AWSEncodableShape {
+        /// The unique identifier of the async execution to stop.
+        public let executionIdentifier: String
+        /// The unique identifier of the flow alias used for the execution.
+        public let flowAliasIdentifier: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+
+        @inlinable
+        public init(executionIdentifier: String, flowAliasIdentifier: String, flowIdentifier: String) {
+            self.executionIdentifier = executionIdentifier
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionIdentifier, key: "executionIdentifier")
+            request.encodePath(self.flowAliasIdentifier, key: "flowAliasIdentifier")
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, max: 2048)
+            try self.validate(self.executionIdentifier, name: "executionIdentifier", parent: name, pattern: "^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$")
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, max: 2048)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopFlowExecutionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution that was stopped.
+        public let executionArn: String?
+        /// The updated status of the async execution after the stop request. This will typically be ABORTED if the execution was successfully stopped.
+        public let status: FlowExecutionStatus
+
+        @inlinable
+        public init(executionArn: String? = nil, status: FlowExecutionStatus) {
+            self.executionArn = executionArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionArn = "executionArn"
+            case status = "status"
         }
     }
 
@@ -7000,7 +7909,7 @@ extension BedrockAgentRuntime {
     public struct UpdateSessionRequest: AWSEncodableShape {
         /// The unique identifier of the session to modify. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
         public let sessionIdentifier: String
-        /// A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference,  and the type of device they are using.
+        /// A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference, and the type of device they are using.
         public let sessionMetadata: [String: String]?
 
         @inlinable
@@ -7199,6 +8108,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct FlowExecutionContent: AWSDecodableShape {
+        /// The document content of the field, which can contain text or structured data.
+        public let document: AWSDocument?
+
+        @inlinable
+        public init(document: AWSDocument? = nil) {
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+        }
+    }
+
     public struct FlowInputContent: AWSEncodableShape {
         /// The input to send to the prompt flow input node.
         public let document: AWSDocument?
@@ -7352,6 +8275,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct NodeExecutionContent: AWSDecodableShape {
+        /// The document content of the field, which can contain text or structured data.
+        public let document: AWSDocument?
+
+        @inlinable
+        public init(document: AWSDocument? = nil) {
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+        }
+    }
+
     public struct OptimizedPrompt: AWSDecodableShape {
         /// Contains information about the text in the prompt that was optimized.
         public let textPrompt: TextPrompt?
@@ -7363,6 +8300,20 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case textPrompt = "textPrompt"
+        }
+    }
+
+    public struct OrchestrationExecutor: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
+        public let lambda: String?
+
+        @inlinable
+        public init(lambda: String? = nil) {
+            self.lambda = lambda
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambda = "lambda"
         }
     }
 }

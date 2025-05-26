@@ -31,7 +31,34 @@ extension DSQL {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case idle = "IDLE"
+        case inactive = "INACTIVE"
+        case pendingDelete = "PENDING_DELETE"
+        case pendingSetup = "PENDING_SETUP"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case kmsKeyInaccessible = "KMS_KEY_INACCESSIBLE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
+        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case deletionProtectionEnabled = "deletionProtectionEnabled"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
         public var description: String { return self.rawValue }
     }
 
@@ -77,17 +104,23 @@ extension DSQL {
     }
 
     public struct CreateClusterInput: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully, the subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
         public let clientToken: String?
         /// If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
         public let deletionProtectionEnabled: Bool?
+        /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+        public let kmsEncryptionKey: String?
+        /// The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
+        public let multiRegionProperties: MultiRegionProperties?
         /// A map of key and value pairs to use to tag your cluster.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateClusterInput.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateClusterInput.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, kmsEncryptionKey: String? = nil, multiRegionProperties: MultiRegionProperties? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.kmsEncryptionKey = kmsEncryptionKey
+            self.multiRegionProperties = multiRegionProperties
             self.tags = tags
         }
 
@@ -95,6 +128,10 @@ extension DSQL {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, max: 2048)
+            try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, min: 1)
+            try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try self.multiRegionProperties?.validate(name: "\(name).multiRegionProperties")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -108,6 +145,8 @@ extension DSQL {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
+            case kmsEncryptionKey = "kmsEncryptionKey"
+            case multiRegionProperties = "multiRegionProperties"
             case tags = "tags"
         }
     }
@@ -119,17 +158,23 @@ extension DSQL {
         public let creationTime: Date
         /// Whether deletion protection is enabled on this cluster.
         public let deletionProtectionEnabled: Bool
+        /// The encryption configuration for the cluster that was specified during the creation process, including the KMS key identifier and encryption state.
+        public let encryptionDetails: EncryptionDetails?
         /// The ID of the created cluster.
         public let identifier: String
+        /// The multi-Region cluster configuration details that were set during cluster creation
+        public let multiRegionProperties: MultiRegionProperties?
         /// The status of the created cluster.
         public let status: ClusterStatus
 
         @inlinable
-        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, identifier: String, status: ClusterStatus) {
+        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, encryptionDetails: EncryptionDetails? = nil, identifier: String, multiRegionProperties: MultiRegionProperties? = nil, status: ClusterStatus) {
             self.arn = arn
             self.creationTime = creationTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.encryptionDetails = encryptionDetails
             self.identifier = identifier
+            self.multiRegionProperties = multiRegionProperties
             self.status = status
         }
 
@@ -137,67 +182,15 @@ extension DSQL {
             case arn = "arn"
             case creationTime = "creationTime"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
+            case encryptionDetails = "encryptionDetails"
             case identifier = "identifier"
+            case multiRegionProperties = "multiRegionProperties"
             case status = "status"
         }
     }
 
-    public struct CreateMultiRegionClustersInput: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
-        public let clientToken: String?
-        /// A mapping of properties to use when creating linked clusters.
-        public let clusterProperties: [String: LinkedClusterProperties]?
-        /// An array of the Regions in which you want to create additional clusters.
-        public let linkedRegionList: [String]
-        /// The witness Region of multi-Region clusters.
-        public let witnessRegion: String
-
-        @inlinable
-        public init(clientToken: String? = CreateMultiRegionClustersInput.idempotencyToken(), clusterProperties: [String: LinkedClusterProperties]? = nil, linkedRegionList: [String], witnessRegion: String) {
-            self.clientToken = clientToken
-            self.clusterProperties = clusterProperties
-            self.linkedRegionList = linkedRegionList
-            self.witnessRegion = witnessRegion
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.clusterProperties?.forEach {
-                try validate($0.key, name: "clusterProperties.key", parent: name, max: 20)
-                try $0.value.validate(name: "\(name).clusterProperties[\"\($0.key)\"]")
-            }
-            try self.linkedRegionList.forEach {
-                try validate($0, name: "linkedRegionList[]", parent: name, max: 20)
-            }
-            try self.validate(self.witnessRegion, name: "witnessRegion", parent: name, max: 20)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case clusterProperties = "clusterProperties"
-            case linkedRegionList = "linkedRegionList"
-            case witnessRegion = "witnessRegion"
-        }
-    }
-
-    public struct CreateMultiRegionClustersOutput: AWSDecodableShape {
-        /// An array that contains the ARNs of all linked clusters.
-        public let linkedClusterArns: [String]
-
-        @inlinable
-        public init(linkedClusterArns: [String]) {
-            self.linkedClusterArns = linkedClusterArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case linkedClusterArns = "linkedClusterArns"
-        }
-    }
-
     public struct DeleteClusterInput: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
         public let clientToken: String?
         /// The ID of the cluster to delete.
         public let identifier: String
@@ -219,6 +212,7 @@ extension DSQL {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -229,18 +223,15 @@ extension DSQL {
         public let arn: String
         /// The time of when the cluster was created.
         public let creationTime: Date
-        /// Specifies whether deletion protection was enabled on the cluster.
-        public let deletionProtectionEnabled: Bool
         /// The ID of the deleted cluster.
         public let identifier: String
         /// The status of the cluster.
         public let status: ClusterStatus
 
         @inlinable
-        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, identifier: String, status: ClusterStatus) {
+        public init(arn: String, creationTime: Date, identifier: String, status: ClusterStatus) {
             self.arn = arn
             self.creationTime = creationTime
-            self.deletionProtectionEnabled = deletionProtectionEnabled
             self.identifier = identifier
             self.status = status
         }
@@ -248,38 +239,31 @@ extension DSQL {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
-            case deletionProtectionEnabled = "deletionProtectionEnabled"
             case identifier = "identifier"
             case status = "status"
         }
     }
 
-    public struct DeleteMultiRegionClustersInput: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
-        public let clientToken: String?
-        /// The ARNs of the clusters linked to the cluster you want to delete.  also deletes these clusters as part of the operation.
-        public let linkedClusterArns: [String]
+    public struct EncryptionDetails: AWSDecodableShape {
+        /// The status of encryption for the cluster.
+        public let encryptionStatus: EncryptionStatus
+        /// The type of encryption that protects the data on your cluster.
+        public let encryptionType: EncryptionType
+        /// The ARN of the KMS key that encrypts data in the cluster.
+        public let kmsKeyArn: String?
 
         @inlinable
-        public init(clientToken: String? = DeleteMultiRegionClustersInput.idempotencyToken(), linkedClusterArns: [String]) {
-            self.clientToken = clientToken
-            self.linkedClusterArns = linkedClusterArns
+        public init(encryptionStatus: EncryptionStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
+            self.encryptionStatus = encryptionStatus
+            self.encryptionType = encryptionType
+            self.kmsKeyArn = kmsKeyArn
         }
 
-        public func encode(to encoder: Encoder) throws {
-            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodeQuery(self.clientToken, key: "client-token")
-            request.encodeQuery(self.linkedClusterArns, key: "linked-cluster-arns")
+        private enum CodingKeys: String, CodingKey {
+            case encryptionStatus = "encryptionStatus"
+            case encryptionType = "encryptionType"
+            case kmsKeyArn = "kmsKeyArn"
         }
-
-        public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-        }
-
-        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetClusterInput: AWSEncodableShape {
@@ -297,6 +281,10 @@ extension DSQL {
             request.encodePath(self.identifier, key: "identifier")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -307,70 +295,103 @@ extension DSQL {
         public let creationTime: Date
         /// Whether deletion protection is enabled in this cluster.
         public let deletionProtectionEnabled: Bool
+        /// The current encryption configuration details for the cluster.
+        public let encryptionDetails: EncryptionDetails?
         /// The ID of the retrieved cluster.
         public let identifier: String
-        /// The ARNs of the clusters linked to the retrieved cluster.
-        public let linkedClusterArns: [String]?
+        /// Returns the current multi-Region cluster configuration, including witness region and linked cluster information.
+        public let multiRegionProperties: MultiRegionProperties?
         /// The status of the retrieved cluster.
         public let status: ClusterStatus
-        /// The witness Region of the cluster. Applicable only for  multi-Region clusters.
-        public let witnessRegion: String?
+        public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, identifier: String, linkedClusterArns: [String]? = nil, status: ClusterStatus, witnessRegion: String? = nil) {
+        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, encryptionDetails: EncryptionDetails? = nil, identifier: String, multiRegionProperties: MultiRegionProperties? = nil, status: ClusterStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.encryptionDetails = encryptionDetails
             self.identifier = identifier
-            self.linkedClusterArns = linkedClusterArns
+            self.multiRegionProperties = multiRegionProperties
             self.status = status
-            self.witnessRegion = witnessRegion
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
+            case encryptionDetails = "encryptionDetails"
             case identifier = "identifier"
-            case linkedClusterArns = "linkedClusterArns"
+            case multiRegionProperties = "multiRegionProperties"
             case status = "status"
-            case witnessRegion = "witnessRegion"
-        }
-    }
-
-    public struct LinkedClusterProperties: AWSEncodableShape {
-        /// Whether deletion protection is enabled.
-        public let deletionProtectionEnabled: Bool?
-        /// A map of key and value pairs the linked cluster is tagged with.
-        public let tags: [String: String]?
-
-        @inlinable
-        public init(deletionProtectionEnabled: Bool? = nil, tags: [String: String]? = nil) {
-            self.deletionProtectionEnabled = deletionProtectionEnabled
-            self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.tags?.forEach {
-                try validate($0.key, name: "tags.key", parent: name, max: 128)
-                try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9_.:/=+\\-@ ]*$")
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9_.:/=+\\-@ ]*$")
-            }
-            try self.validate(self.tags, name: "tags", parent: name, max: 200)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deletionProtectionEnabled = "deletionProtectionEnabled"
             case tags = "tags"
         }
     }
 
+    public struct GetVpcEndpointServiceNameInput: AWSEncodableShape {
+        /// The ID of the cluster to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVpcEndpointServiceNameOutput: AWSDecodableShape {
+        /// The VPC endpoint service name.
+        public let serviceName: String
+
+        @inlinable
+        public init(serviceName: String) {
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// Retry after seconds.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct ListClustersInput: AWSEncodableShape {
-        /// An optional parameter that specifies the maximum number of results to return.  You can use nextToken to display the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
-        /// If your initial ListClusters operation returns a nextToken, you can include the returned nextToken in following ListClusters operations,  which returns results in the next page.
+        /// If your initial ListClusters operation returns a nextToken, you can include the returned nextToken in following ListClusters operations, which returns results in the next page.
         public let nextToken: String?
 
         @inlinable
@@ -397,7 +418,7 @@ extension DSQL {
     public struct ListClustersOutput: AWSDecodableShape {
         /// An array of the returned clusters.
         public let clusters: [ClusterSummary]
-        /// If nextToken is returned, there are more results available. The value of  nextToken is a unique pagination token for each page. To retrieve the  next page, make the call again using the returned token.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
         public let nextToken: String?
 
         @inlinable
@@ -450,11 +471,36 @@ extension DSQL {
         }
     }
 
+    public struct MultiRegionProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The set of linked clusters that form the multi-Region cluster configuration. Each linked cluster represents a database instance in a different  Region.
+        public let clusters: [String]?
+        /// The  that serves as the witness region for a multi-Region cluster. The witness region helps maintain cluster consistency and quorum.
+        public let witnessRegion: String?
+
+        @inlinable
+        public init(clusters: [String]? = nil, witnessRegion: String? = nil) {
+            self.clusters = clusters
+            self.witnessRegion = witnessRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.clusters?.forEach {
+                try validate($0, name: "clusters[]", parent: name, pattern: "^arn:aws(-[^:]+)?:dsql:[a-z0-9-]{1,20}:[0-9]{12}:cluster/[a-z0-9]{26}$")
+            }
+            try self.validate(self.witnessRegion, name: "witnessRegion", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusters = "clusters"
+            case witnessRegion = "witnessRegion"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSErrorShape {
         public let message: String
-        /// Hypothetical identifier of the resource which does not exist
+        /// The resource ID could not be found.
         public let resourceId: String
-        /// Hypothetical type of the resource which does not exist
+        /// The resource type could not be found.
         public let resourceType: String
 
         @inlinable
@@ -472,15 +518,15 @@ extension DSQL {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// Description of the error
+        /// The service exception for exceeding a quota.
         public let message: String
-        /// Service Quotas requirement to identify originating quota
+        /// The service exceeds a quota.
         public let quotaCode: String
-        /// Identifier of the resource affected
+        /// The resource ID exceeds a quota.
         public let resourceId: String
-        /// Type of the resource affected
+        /// The resource type exceeds a quota.
         public let resourceType: String
-        /// Service Quotas requirement to identify originating service
+        /// The request exceeds a service quota.
         public let serviceCode: String
 
         @inlinable
@@ -539,6 +585,40 @@ extension DSQL {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        /// The message that the request was denied due to request throttling.
+        public let message: String
+        /// The request exceeds a request rate quota.
+        public let quotaCode: String?
+        /// The request exceeds a request rate quota. Retry after seconds.
+        public let retryAfterSeconds: Int?
+        /// The request exceeds a service quota.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// The ARN of the resource from which to remove tags.
         public let resourceArn: String
@@ -574,18 +654,24 @@ extension DSQL {
     }
 
     public struct UpdateClusterInput: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
         public let clientToken: String?
         /// Specifies whether to enable deletion protection in your cluster.
         public let deletionProtectionEnabled: Bool?
         /// The ID of the cluster you want to update.
         public let identifier: String
+        /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+        public let kmsEncryptionKey: String?
+        /// The new multi-Region cluster configuration settings to be applied during an update operation.
+        public let multiRegionProperties: MultiRegionProperties?
 
         @inlinable
-        public init(clientToken: String? = UpdateClusterInput.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, identifier: String) {
+        public init(clientToken: String? = UpdateClusterInput.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, identifier: String, kmsEncryptionKey: String? = nil, multiRegionProperties: MultiRegionProperties? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.identifier = identifier
+            self.kmsEncryptionKey = kmsEncryptionKey
+            self.multiRegionProperties = multiRegionProperties
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -594,17 +680,26 @@ extension DSQL {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
             request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.kmsEncryptionKey, forKey: .kmsEncryptionKey)
+            try container.encodeIfPresent(self.multiRegionProperties, forKey: .multiRegionProperties)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+            try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, max: 2048)
+            try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, min: 1)
+            try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try self.multiRegionProperties?.validate(name: "\(name).multiRegionProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
+            case kmsEncryptionKey = "kmsEncryptionKey"
+            case multiRegionProperties = "multiRegionProperties"
         }
     }
 
@@ -613,36 +708,63 @@ extension DSQL {
         public let arn: String
         /// The time of when the cluster was created.
         public let creationTime: Date
-        /// Whether deletion protection is enabled for the updated cluster.
-        public let deletionProtectionEnabled: Bool
         /// The ID of the cluster to update.
         public let identifier: String
-        /// The ARNs of the clusters linked to the updated cluster. Applicable only for multi-Region clusters.
-        public let linkedClusterArns: [String]?
         /// The status of the updated cluster.
         public let status: ClusterStatus
-        /// The Region that receives all data you write to linked clusters.
-        public let witnessRegion: String?
 
         @inlinable
-        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, identifier: String, linkedClusterArns: [String]? = nil, status: ClusterStatus, witnessRegion: String? = nil) {
+        public init(arn: String, creationTime: Date, identifier: String, status: ClusterStatus) {
             self.arn = arn
             self.creationTime = creationTime
-            self.deletionProtectionEnabled = deletionProtectionEnabled
             self.identifier = identifier
-            self.linkedClusterArns = linkedClusterArns
             self.status = status
-            self.witnessRegion = witnessRegion
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
-            case deletionProtectionEnabled = "deletionProtectionEnabled"
             case identifier = "identifier"
-            case linkedClusterArns = "linkedClusterArns"
             case status = "status"
-            case witnessRegion = "witnessRegion"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        /// A list of fields that didn't validate.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// The reason for the validation exception.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message describing why this field failed validation.
+        public let message: String
+        /// The name of the field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
         }
     }
 }
@@ -683,7 +805,7 @@ public struct DSQLErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The submitted action has conflicts.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The request processing has failed because of an unknown error,  exception or failure.
+    /// The request processing has failed because of an unknown error, exception or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
@@ -698,8 +820,11 @@ public struct DSQLErrorType: AWSErrorType {
 extension DSQLErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "ConflictException": DSQL.ConflictException.self,
+        "InternalServerException": DSQL.InternalServerException.self,
         "ResourceNotFoundException": DSQL.ResourceNotFoundException.self,
-        "ServiceQuotaExceededException": DSQL.ServiceQuotaExceededException.self
+        "ServiceQuotaExceededException": DSQL.ServiceQuotaExceededException.self,
+        "ThrottlingException": DSQL.ThrottlingException.self,
+        "ValidationException": DSQL.ValidationException.self
     ]
 }
 

@@ -232,6 +232,12 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum SsmParameterDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsEc2Image = "aws:ec2:image"
+        case text = "text"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TenancyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "default"
         case dedicated = "dedicated"
@@ -929,7 +935,9 @@ extension Imagebuilder {
         public let name: String?
         /// The owner of the container recipe.
         public let owner: String?
-        /// The base image for the container recipe.
+        /// The base image for customizations specified in the container recipe. This can
+        /// 			contain an Image Builder image resource ARN or a container image URI, for example
+        /// 			amazonlinux:latest.
         public let parentImage: String?
         /// The system platform for the container, such as Windows or Linux.
         public let platform: Platform?
@@ -1510,12 +1518,10 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the image recipe.
         public let name: String
-        /// The base image of the image recipe. The value of the string can be the ARN of the base
-        /// 			image or an AMI ID. The format for the ARN follows this example:
-        /// 				arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x.
-        /// 			You can provide the specific version that you want to use, or you can use a wildcard in
-        /// 			all of the fields. If you enter an AMI ID for the string value, you must have access to
-        /// 			the AMI, and the AMI must be in the same Region in which you are using Image Builder.
+        /// The base image for customizations specified in the image recipe. You can specify the
+        /// 			parent image using one of the following options:   AMI ID   Image Builder image Amazon Resource Name (ARN)   Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:,
+        /// 					followed by the parameter name or ARN.   Amazon Web Services Marketplace product ID   If you enter an AMI ID or an SSM parameter that contains the AMI ID, you must have access
+        /// 			to the AMI, and the AMI must be in the source Region.
         public let parentImage: String
         /// The semantic version of the image recipe. This version follows the semantic version
         /// 			syntax.  The semantic version has four nodes: ../.
@@ -2511,12 +2517,15 @@ extension Imagebuilder {
         public let licenseConfigurationArns: [String]?
         /// The target Region.
         public let region: String
-        /// Configure export settings to deliver disk images created from your image build, using
-        /// 			a file format that is compatible with your VMs in that Region.
+        /// Configure export settings to deliver disk images created from your image build,
+        /// 			using a file format that is compatible with your VMs in that Region.
         public let s3ExportConfiguration: S3ExportConfiguration?
+        /// Contains settings to update Amazon Web Services Systems Manager (SSM) Parameter Store Parameters with
+        /// 			output AMI IDs from the build by target Region.
+        public let ssmParameterConfigurations: [SsmParameterConfiguration]?
 
         @inlinable
-        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, fastLaunchConfigurations: [FastLaunchConfiguration]? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String, s3ExportConfiguration: S3ExportConfiguration? = nil) {
+        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, fastLaunchConfigurations: [FastLaunchConfiguration]? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String, s3ExportConfiguration: S3ExportConfiguration? = nil, ssmParameterConfigurations: [SsmParameterConfiguration]? = nil) {
             self.amiDistributionConfiguration = amiDistributionConfiguration
             self.containerDistributionConfiguration = containerDistributionConfiguration
             self.fastLaunchConfigurations = fastLaunchConfigurations
@@ -2524,6 +2533,7 @@ extension Imagebuilder {
             self.licenseConfigurationArns = licenseConfigurationArns
             self.region = region
             self.s3ExportConfiguration = s3ExportConfiguration
+            self.ssmParameterConfigurations = ssmParameterConfigurations
         }
 
         public func validate(name: String) throws {
@@ -2547,6 +2557,9 @@ extension Imagebuilder {
             try self.validate(self.region, name: "region", parent: name, max: 1024)
             try self.validate(self.region, name: "region", parent: name, min: 1)
             try self.s3ExportConfiguration?.validate(name: "\(name).s3ExportConfiguration")
+            try self.ssmParameterConfigurations?.forEach {
+                try $0.validate(name: "\(name).ssmParameterConfigurations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2557,6 +2570,7 @@ extension Imagebuilder {
             case licenseConfigurationArns = "licenseConfigurationArns"
             case region = "region"
             case s3ExportConfiguration = "s3ExportConfiguration"
+            case ssmParameterConfigurations = "ssmParameterConfigurations"
         }
     }
 
@@ -2569,8 +2583,8 @@ extension Imagebuilder {
         public let dateUpdated: String?
         /// The description of the distribution configuration.
         public let description: String?
-        /// The distribution objects that apply Region-specific settings for the deployment of the
-        /// 			image to targeted Regions.
+        /// The distribution objects that apply Region-specific settings for the deployment of
+        /// 			the image to targeted Regions.
         public let distributions: [Distribution]?
         /// The name of the distribution configuration.
         public let name: String?
@@ -3970,7 +3984,9 @@ extension Imagebuilder {
         public let name: String?
         /// The owner of the image recipe.
         public let owner: String?
-        /// The base image of the image recipe.
+        /// The base image for customizations specified in the image recipe. You can specify the
+        /// 			parent image using one of the following options:   AMI ID   Image Builder image Amazon Resource Name (ARN)   Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:,
+        /// 					followed by the parameter name or ARN.   Amazon Web Services Marketplace product ID
         public let parentImage: String?
         /// The platform of the image recipe.
         public let platform: Platform?
@@ -4906,8 +4922,9 @@ extension Imagebuilder {
         /// Defines the block devices to attach for building an instance from this Image Builder
         /// 			AMI.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// The AMI ID to use as the base image for a container build and test instance. If not
-        /// 			specified, Image Builder will use the appropriate ECS-optimized AMI as a base image.
+        /// The base image for a container build and test instance. This can contain an AMI ID
+        /// 			or it can specify an Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:,
+        /// 			followed by the parameter name or ARN. If not specified, Image Builder uses the appropriate ECS-optimized AMI as a base image.
         public let image: String?
 
         @inlinable
@@ -7442,7 +7459,7 @@ extension Imagebuilder {
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
             try self.validate(self.timezone, name: "timezone", parent: name, max: 100)
             try self.validate(self.timezone, name: "timezone", parent: name, min: 3)
-            try self.validate(self.timezone, name: "timezone", parent: name, pattern: "^[a-zA-Z0-9]{2,}(?:\\/[a-zA-z0-9-_+]+)*$")
+            try self.validate(self.timezone, name: "timezone", parent: name, pattern: "^[a-zA-Z0-9]{2,}(?:\\/[a-zA-Z0-9-_+]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7538,6 +7555,40 @@ extension Imagebuilder {
             case critical = "critical"
             case high = "high"
             case medium = "medium"
+        }
+    }
+
+    public struct SsmParameterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the account that will own the Parameter in a given Region. During distribution,
+        /// 			this account must be specified in distribution settings as a target account for the
+        /// 			Region.
+        public let amiAccountId: String?
+        /// The data type specifies what type of value the Parameter contains. We recommend that
+        /// 			you use data type aws:ec2:image.
+        public let dataType: SsmParameterDataType?
+        /// This is the name of the Parameter in the target Region or account. The image
+        /// 			distribution creates the Parameter if it doesn't already exist. Otherwise, it updates
+        /// 			the parameter.
+        public let parameterName: String
+
+        @inlinable
+        public init(amiAccountId: String? = nil, dataType: SsmParameterDataType? = nil, parameterName: String) {
+            self.amiAccountId = amiAccountId
+            self.dataType = dataType
+            self.parameterName = parameterName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.amiAccountId, name: "amiAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 1011)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^[a-zA-Z0-9_.\\-\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiAccountId = "amiAccountId"
+            case dataType = "dataType"
+            case parameterName = "parameterName"
         }
     }
 

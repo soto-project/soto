@@ -143,7 +143,7 @@ public struct Amp: AWSService {
         return try await self.createAlertManagerDefinition(input, logger: logger)
     }
 
-    /// The CreateLoggingConfiguration operation creates a logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.
+    /// The CreateLoggingConfiguration operation creates rules and alerting logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.  These logging configurations are only for rules and alerting logs.
     @Sendable
     @inlinable
     public func createLoggingConfiguration(_ input: CreateLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLoggingConfigurationResponse {
@@ -156,7 +156,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The CreateLoggingConfiguration operation creates a logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.
+    /// The CreateLoggingConfiguration operation creates rules and alerting logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.  These logging configurations are only for rules and alerting logs.
     ///
     /// Parameters:
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
@@ -176,6 +176,41 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.createLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
+    @Sendable
+    @inlinable
+    public func createQueryLoggingConfiguration(_ input: CreateQueryLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueryLoggingConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateQueryLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging/query", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
+    ///
+    /// Parameters:
+    ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+    ///   - destinations: The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element.
+    ///   - workspaceId: The ID of the workspace for which to create the query logging configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createQueryLoggingConfiguration(
+        clientToken: String? = CreateQueryLoggingConfigurationRequest.idempotencyToken(),
+        destinations: [LoggingDestination],
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateQueryLoggingConfigurationResponse {
+        let input = CreateQueryLoggingConfigurationRequest(
+            clientToken: clientToken, 
+            destinations: destinations, 
+            workspaceId: workspaceId
+        )
+        return try await self.createQueryLoggingConfiguration(input, logger: logger)
     }
 
     /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
@@ -219,7 +254,7 @@ public struct Amp: AWSService {
         return try await self.createRuleGroupsNamespace(input, logger: logger)
     }
 
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are  flexible, and can be configured to control what metrics are collected, the  frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses  to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see  Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML  configuration for the scraper.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User  Guide.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to the Amazon EKS cluster within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     @Sendable
     @inlinable
     public func createScraper(_ input: CreateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScraperResponse {
@@ -232,14 +267,14 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are  flexible, and can be configured to control what metrics are collected, the  frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses  to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see  Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML  configuration for the scraper.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User  Guide.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to the Amazon EKS cluster within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     ///
     /// Parameters:
     ///   - alias: (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
     ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     ///   - destination: The Amazon Managed Service for Prometheus workspace to send metrics to.
-    ///   - roleConfiguration: The scraper role configuration for the workspace.
-    ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User  Guide.
+    ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
+    ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide.
     ///   - source: The Amazon EKS cluster from which the scraper will collect metrics.
     ///   - tags: (Optional) The list of tag keys and values to associate with the scraper.
     ///   - logger: Logger use during operation
@@ -284,7 +319,7 @@ public struct Amp: AWSService {
     /// Parameters:
     ///   - alias: An alias that you assign to this workspace to help you identify it. It does not need to be unique. Blank spaces at the beginning or end of the alias that you specify will be trimmed from the value used.
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
-    ///   - kmsKeyArn: (optional) The ARN for a customer managed KMS key to use for  encrypting data within your workspace. For more information about using your own key in your workspace, see Encryption at rest in the Amazon Managed Service for Prometheus User  Guide.
+    ///   - kmsKeyArn: (optional) The ARN for a customer managed KMS key to use for encrypting data within your workspace. For more information about using your own key in your workspace, see Encryption at rest in the Amazon Managed Service for Prometheus User Guide.
     ///   - tags: The list of tag keys and values to associate with the workspace.
     ///   - logger: Logger use during operation
     @inlinable
@@ -336,7 +371,7 @@ public struct Amp: AWSService {
         return try await self.deleteAlertManagerDefinition(input, logger: logger)
     }
 
-    /// Deletes the logging configuration for a workspace.
+    /// Deletes the rules and alerting logging configuration for a workspace.  These logging configurations are only for rules and alerting logs.
     @Sendable
     @inlinable
     public func deleteLoggingConfiguration(_ input: DeleteLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -349,7 +384,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// Deletes the logging configuration for a workspace.
+    /// Deletes the rules and alerting logging configuration for a workspace.  These logging configurations are only for rules and alerting logs.
     ///
     /// Parameters:
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
@@ -366,6 +401,38 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.deleteLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Deletes the query logging configuration for the specified workspace.
+    @Sendable
+    @inlinable
+    public func deleteQueryLoggingConfiguration(_ input: DeleteQueryLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteQueryLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging/query", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the query logging configuration for the specified workspace.
+    ///
+    /// Parameters:
+    ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+    ///   - workspaceId: The ID of the workspace from which to delete the query logging configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteQueryLoggingConfiguration(
+        clientToken: String? = DeleteQueryLoggingConfigurationRequest.idempotencyToken(),
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteQueryLoggingConfigurationRequest(
+            clientToken: clientToken, 
+            workspaceId: workspaceId
+        )
+        return try await self.deleteQueryLoggingConfiguration(input, logger: logger)
     }
 
     /// Deletes one rule groups namespace and its associated rule groups definition.
@@ -419,7 +486,7 @@ public struct Amp: AWSService {
     /// The DeleteScraper operation deletes one scraper, and stops any metrics collection that the scraper performs.
     ///
     /// Parameters:
-    ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the  idempotency of the request.
+    ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     ///   - scraperId: The ID of the scraper to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -496,7 +563,7 @@ public struct Amp: AWSService {
         return try await self.describeAlertManagerDefinition(input, logger: logger)
     }
 
-    /// Returns complete information about the current logging configuration of the workspace.
+    /// Returns complete information about the current rules and alerting logging configuration of the workspace.  These logging configurations are only for rules and alerting logs.
     @Sendable
     @inlinable
     public func describeLoggingConfiguration(_ input: DescribeLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLoggingConfigurationResponse {
@@ -509,7 +576,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// Returns complete information about the current logging configuration of the workspace.
+    /// Returns complete information about the current rules and alerting logging configuration of the workspace.  These logging configurations are only for rules and alerting logs.
     ///
     /// Parameters:
     ///   - workspaceId: The ID of the workspace to describe the logging configuration for.
@@ -523,6 +590,35 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.describeLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Retrieves the details of the query logging configuration for the specified workspace.
+    @Sendable
+    @inlinable
+    public func describeQueryLoggingConfiguration(_ input: DescribeQueryLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQueryLoggingConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeQueryLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging/query", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of the query logging configuration for the specified workspace.
+    ///
+    /// Parameters:
+    ///   - workspaceId: The ID of the workspace for which to retrieve the query logging configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeQueryLoggingConfiguration(
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeQueryLoggingConfigurationResponse {
+        let input = DescribeQueryLoggingConfigurationRequest(
+            workspaceId: workspaceId
+        )
+        return try await self.describeQueryLoggingConfiguration(input, logger: logger)
     }
 
     /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces.
@@ -615,7 +711,36 @@ public struct Amp: AWSService {
         return try await self.describeWorkspace(input, logger: logger)
     }
 
-    /// The GetDefaultScraperConfiguration operation returns the default  scraper configuration used when Amazon EKS creates a scraper for you.
+    /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
+    @Sendable
+    @inlinable
+    public func describeWorkspaceConfiguration(_ input: DescribeWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeWorkspaceConfiguration", 
+            path: "/workspaces/{workspaceId}/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
+    ///
+    /// Parameters:
+    ///   - workspaceId: The ID of the workspace that you want to retrieve information for. To find the IDs of your workspaces, use the ListWorkspaces operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeWorkspaceConfiguration(
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeWorkspaceConfigurationResponse {
+        let input = DescribeWorkspaceConfigurationRequest(
+            workspaceId: workspaceId
+        )
+        return try await self.describeWorkspaceConfiguration(input, logger: logger)
+    }
+
+    /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
     @Sendable
     @inlinable
     public func getDefaultScraperConfiguration(_ input: GetDefaultScraperConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultScraperConfigurationResponse {
@@ -628,7 +753,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The GetDefaultScraperConfiguration operation returns the default  scraper configuration used when Amazon EKS creates a scraper for you.
+    /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -695,7 +820,7 @@ public struct Amp: AWSService {
     /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
     ///
     /// Parameters:
-    ///   - filters: (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status, sourceArn,  destinationArn, and alias. Filters on the same key are OR'd together, and filters on different keys are AND'd together. For example,  status=ACTIVE&amp;status=CREATING&amp;alias=Test, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query:  status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012  If this is included, it filters the results to only the scrapers that match  the filter.
+    ///   - filters: (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status, sourceArn, destinationArn, and alias. Filters on the same key are OR'd together, and filters on different keys are AND'd together. For example, status=ACTIVE&amp;status=CREATING&amp;alias=Test, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query:  status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012  If this is included, it filters the results to only the scrapers that match the filter.
     ///   - maxResults: Optional) The maximum number of scrapers to return in one ListScrapers operation. The range is 1-1000. If you omit this parameter, the default of 100 is used.
     ///   - nextToken: (Optional) The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
@@ -851,7 +976,7 @@ public struct Amp: AWSService {
         return try await self.putRuleGroupsNamespace(input, logger: logger)
     }
 
-    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers,  and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
+    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -864,7 +989,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers,  and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
+    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
     ///
     /// Parameters:
     ///   - resourceArn: The ARN of the resource to apply tags to.
@@ -915,7 +1040,7 @@ public struct Amp: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the log group ARN or the workspace ID of the current logging configuration.
+    /// Updates the log group ARN or the workspace ID of the current rules and alerting logging configuration.  These logging configurations are only for rules and alerting logs.
     @Sendable
     @inlinable
     public func updateLoggingConfiguration(_ input: UpdateLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLoggingConfigurationResponse {
@@ -928,7 +1053,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// Updates the log group ARN or the workspace ID of the current logging configuration.
+    /// Updates the log group ARN or the workspace ID of the current rules and alerting logging configuration.  These logging configurations are only for rules and alerting logs.
     ///
     /// Parameters:
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
@@ -950,7 +1075,42 @@ public struct Amp: AWSService {
         return try await self.updateLoggingConfiguration(input, logger: logger)
     }
 
-    /// Updates an existing scraper. You can't use this function to update the source from which the scraper is  collecting metrics. To change the source, delete the scraper and create a new one.
+    /// Updates the query logging configuration for the specified workspace.
+    @Sendable
+    @inlinable
+    public func updateQueryLoggingConfiguration(_ input: UpdateQueryLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQueryLoggingConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateQueryLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging/query", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the query logging configuration for the specified workspace.
+    ///
+    /// Parameters:
+    ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+    ///   - destinations: The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element.
+    ///   - workspaceId: The ID of the workspace for which to update the query logging configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQueryLoggingConfiguration(
+        clientToken: String? = UpdateQueryLoggingConfigurationRequest.idempotencyToken(),
+        destinations: [LoggingDestination],
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQueryLoggingConfigurationResponse {
+        let input = UpdateQueryLoggingConfigurationRequest(
+            clientToken: clientToken, 
+            destinations: destinations, 
+            workspaceId: workspaceId
+        )
+        return try await self.updateQueryLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Updates an existing scraper. You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
     @Sendable
     @inlinable
     public func updateScraper(_ input: UpdateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScraperResponse {
@@ -963,14 +1123,14 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing scraper. You can't use this function to update the source from which the scraper is  collecting metrics. To change the source, delete the scraper and create a new one.
+    /// Updates an existing scraper. You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
     ///
     /// Parameters:
     ///   - alias: The new alias of the scraper.
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     ///   - destination: The new Amazon Managed Service for Prometheus workspace to send metrics to.
-    ///   - roleConfiguration: The scraper role configuration for the workspace.
-    ///   - scrapeConfiguration: Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
+    ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
+    ///   - scrapeConfiguration: Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     ///   - scraperId: The ID of the scraper to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1027,6 +1187,44 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.updateWorkspaceAlias(input, logger: logger)
+    }
+
+    /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid.
+    @Sendable
+    @inlinable
+    public func updateWorkspaceConfiguration(_ input: UpdateWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateWorkspaceConfiguration", 
+            path: "/workspaces/{workspaceId}/configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid.
+    ///
+    /// Parameters:
+    ///   - clientToken: You can include a token in your operation to make it an idempotent opeartion.
+    ///   - limitsPerLabelSet: This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique.
+    ///   - retentionPeriodInDays: Specifies how many days that metrics will be retained in the workspace.
+    ///   - workspaceId: The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWorkspaceConfiguration(
+        clientToken: String? = UpdateWorkspaceConfigurationRequest.idempotencyToken(),
+        limitsPerLabelSet: [LimitsPerLabelSet]? = nil,
+        retentionPeriodInDays: Int? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWorkspaceConfigurationResponse {
+        let input = UpdateWorkspaceConfigurationRequest(
+            clientToken: clientToken, 
+            limitsPerLabelSet: limitsPerLabelSet, 
+            retentionPeriodInDays: retentionPeriodInDays, 
+            workspaceId: workspaceId
+        )
+        return try await self.updateWorkspaceConfiguration(input, logger: logger)
     }
 }
 
@@ -1104,7 +1302,7 @@ extension Amp {
     /// Return PaginatorSequence for operation ``listScrapers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status, sourceArn,  destinationArn, and alias. Filters on the same key are OR'd together, and filters on different keys are AND'd together. For example,  status=ACTIVE&amp;status=CREATING&amp;alias=Test, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query:  status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012  If this is included, it filters the results to only the scrapers that match  the filter.
+    ///   - filters: (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status, sourceArn, destinationArn, and alias. Filters on the same key are OR'd together, and filters on different keys are AND'd together. For example, status=ACTIVE&amp;status=CREATING&amp;alias=Test, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query:  status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012  If this is included, it filters the results to only the scrapers that match the filter.
     ///   - maxResults: Optional) The maximum number of scrapers to return in one ListScrapers operation. The range is 1-1000. If you omit this parameter, the default of 100 is used.
     ///   - logger: Logger used for logging
     @inlinable

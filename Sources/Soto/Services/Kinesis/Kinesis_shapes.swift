@@ -166,7 +166,7 @@ extension Kinesis {
         public let streamARN: String?
         /// The name of the stream.
         public let streamName: String?
-        /// A set of up to 10 key-value pairs to use to create the tags.
+        /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value. You can add up to 50 tags per resource.
         public let tags: [String: String]
 
         @inlinable
@@ -281,7 +281,7 @@ extension Kinesis {
         public let streamModeDetails: StreamModeDetails?
         /// A name to identify the stream. The stream name is scoped to the Amazon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name.
         public let streamName: String
-        /// A set of up to 10 key-value pairs to use to create the tags.
+        /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value.
         public let tags: [String: String]?
 
         @inlinable
@@ -1190,6 +1190,40 @@ extension Kinesis {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis resource for which to list tags.
+        public let resourceARN: String
+
+        @inlinable
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// An array of tags associated with the specified Kinesis resource.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListTagsForStreamInput: AWSEncodableShape {
         /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey.
         public let exclusiveStartTagKey: String?
@@ -1530,11 +1564,14 @@ extension Kinesis {
         public let consumerName: String
         /// The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let streamARN: String
+        /// A set of up to 50 key-value pairs. A tag consists of a required key and an optional value.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(consumerName: String, streamARN: String) {
+        public init(consumerName: String, streamARN: String, tags: [String: String]? = nil) {
             self.consumerName = consumerName
             self.streamARN = streamARN
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1544,11 +1581,19 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumerName = "ConsumerName"
             case streamARN = "StreamARN"
+            case tags = "Tags"
         }
     }
 
@@ -2086,6 +2131,67 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct TagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis resource to which to add tags.
+        public let resourceARN: String
+        /// An array of tags to be added to the Kinesis resource. A tag consists of a required key and an optional value. You can add up to 50 tags per resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceARN: String, tags: [String: String]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags.
+        public let resourceARN: String
+        /// A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
         }
     }
 

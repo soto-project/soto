@@ -176,8 +176,9 @@ public struct SupplyChain: AWSService {
     ///   - description: The description of the dataset.
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
     ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
-    ///   - namespace: The name space of the dataset.    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
-    ///   - schema: The custom schema of the data lake dataset and is only required when the name space is default.
+    ///   - namespace: The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - partitionSpec: The partition specification of the dataset. Partitioning can effectively improve the dataset query performance by reducing the amount of data scanned during query execution. But partitioning or not will affect how data get ingested by data ingestion methods, such as SendDataIntegrationEvent's dataset UPSERT will upsert records within partition (instead of within whole dataset). For more details, refer to those data ingestion documentations.
+    ///   - schema: The custom schema of the data lake dataset and required for dataset in default and custom namespaces.
     ///   - tags: The tags of the dataset.
     ///   - logger: Logger use during operation
     @inlinable
@@ -186,6 +187,7 @@ public struct SupplyChain: AWSService {
         instanceId: String,
         name: String,
         namespace: String,
+        partitionSpec: DataLakeDatasetPartitionSpec? = nil,
         schema: DataLakeDatasetSchema? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -195,10 +197,49 @@ public struct SupplyChain: AWSService {
             instanceId: instanceId, 
             name: name, 
             namespace: namespace, 
+            partitionSpec: partitionSpec, 
             schema: schema, 
             tags: tags
         )
         return try await self.createDataLakeDataset(input, logger: logger)
+    }
+
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
+    @Sendable
+    @inlinable
+    public func createDataLakeNamespace(_ input: CreateDataLakeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeNamespaceResponse {
+        try await self.client.execute(
+            operation: "CreateDataLakeNamespace", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
+    ///
+    /// Parameters:
+    ///   - description: The description of the namespace.
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: The name of the namespace. Noted you cannot create namespace with name starting with asc, default, scn, aws, amazon, amzn
+    ///   - tags: The tags of the namespace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataLakeNamespace(
+        description: String? = nil,
+        instanceId: String,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataLakeNamespaceResponse {
+        let input = CreateDataLakeNamespaceRequest(
+            description: description, 
+            instanceId: instanceId, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createDataLakeNamespace(input, logger: logger)
     }
 
     /// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
@@ -294,8 +335,8 @@ public struct SupplyChain: AWSService {
     ///
     /// Parameters:
     ///   - instanceId: The AWS Supply Chain instance identifier.
-    ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
-    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - name: The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+    ///   - namespace: The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDataLakeDataset(
@@ -310,6 +351,38 @@ public struct SupplyChain: AWSService {
             namespace: namespace
         )
         return try await self.deleteDataLakeDataset(input, logger: logger)
+    }
+
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
+    @Sendable
+    @inlinable
+    public func deleteDataLakeNamespace(_ input: DeleteDataLakeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeNamespaceResponse {
+        try await self.client.execute(
+            operation: "DeleteDataLakeNamespace", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
+    ///
+    /// Parameters:
+    ///   - instanceId: The AWS Supply Chain instance identifier.
+    ///   - name: The name of the namespace. Noted you cannot delete pre-defined namespace like asc, default which are only deleted through instance deletion.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataLakeNamespace(
+        instanceId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDataLakeNamespaceResponse {
+        let input = DeleteDataLakeNamespaceRequest(
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.deleteDataLakeNamespace(input, logger: logger)
     }
 
     /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
@@ -373,6 +446,38 @@ public struct SupplyChain: AWSService {
         return try await self.getBillOfMaterialsImportJob(input, logger: logger)
     }
 
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
+    @Sendable
+    @inlinable
+    public func getDataIntegrationEvent(_ input: GetDataIntegrationEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataIntegrationEventResponse {
+        try await self.client.execute(
+            operation: "GetDataIntegrationEvent", 
+            path: "/api-data/data-integration/instance/{instanceId}/data-integration-events/{eventId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
+    ///
+    /// Parameters:
+    ///   - eventId: The unique event identifier.
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataIntegrationEvent(
+        eventId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataIntegrationEventResponse {
+        let input = GetDataIntegrationEventRequest(
+            eventId: eventId, 
+            instanceId: instanceId
+        )
+        return try await self.getDataIntegrationEvent(input, logger: logger)
+    }
+
     /// Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     @Sendable
     @inlinable
@@ -405,6 +510,41 @@ public struct SupplyChain: AWSService {
         return try await self.getDataIntegrationFlow(input, logger: logger)
     }
 
+    /// Get the flow execution.
+    @Sendable
+    @inlinable
+    public func getDataIntegrationFlowExecution(_ input: GetDataIntegrationFlowExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataIntegrationFlowExecutionResponse {
+        try await self.client.execute(
+            operation: "GetDataIntegrationFlowExecution", 
+            path: "/api-data/data-integration/instance/{instanceId}/data-integration-flows/{flowName}/executions/{executionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the flow execution.
+    ///
+    /// Parameters:
+    ///   - executionId: The flow execution identifier.
+    ///   - flowName: The flow name.
+    ///   - instanceId: The AWS Supply Chain instance identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataIntegrationFlowExecution(
+        executionId: String,
+        flowName: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataIntegrationFlowExecutionResponse {
+        let input = GetDataIntegrationFlowExecutionRequest(
+            executionId: executionId, 
+            flowName: flowName, 
+            instanceId: instanceId
+        )
+        return try await self.getDataIntegrationFlowExecution(input, logger: logger)
+    }
+
     /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
     @Sendable
     @inlinable
@@ -422,8 +562,8 @@ public struct SupplyChain: AWSService {
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
-    ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
-    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - name: The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+    ///   - namespace: The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDataLakeDataset(
@@ -438,6 +578,38 @@ public struct SupplyChain: AWSService {
             namespace: namespace
         )
         return try await self.getDataLakeDataset(input, logger: logger)
+    }
+
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
+    @Sendable
+    @inlinable
+    public func getDataLakeNamespace(_ input: GetDataLakeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeNamespaceResponse {
+        try await self.client.execute(
+            operation: "GetDataLakeNamespace", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: The name of the namespace. Besides the namespaces user created, you can also specify the pre-defined namespaces:    asc - Pre-defined namespace containing Amazon Web Services Supply Chain supported datasets, see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - Pre-defined namespace containing datasets with custom user-defined schemas.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataLakeNamespace(
+        instanceId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataLakeNamespaceResponse {
+        let input = GetDataLakeNamespaceRequest(
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.getDataLakeNamespace(input, logger: logger)
     }
 
     /// Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
@@ -467,6 +639,82 @@ public struct SupplyChain: AWSService {
             instanceId: instanceId
         )
         return try await self.getInstance(input, logger: logger)
+    }
+
+    /// Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
+    @Sendable
+    @inlinable
+    public func listDataIntegrationEvents(_ input: ListDataIntegrationEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataIntegrationEventsResponse {
+        try await self.client.execute(
+            operation: "ListDataIntegrationEvents", 
+            path: "/api-data/data-integration/instance/{instanceId}/data-integration-events", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
+    ///
+    /// Parameters:
+    ///   - eventType: List data integration events for the specified eventType.
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: Specify the maximum number of data integration events to fetch in one paginated request.
+    ///   - nextToken: The pagination token to fetch the next page of the data integration events.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataIntegrationEvents(
+        eventType: DataIntegrationEventType? = nil,
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataIntegrationEventsResponse {
+        let input = ListDataIntegrationEventsRequest(
+            eventType: eventType, 
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataIntegrationEvents(input, logger: logger)
+    }
+
+    /// List flow executions.
+    @Sendable
+    @inlinable
+    public func listDataIntegrationFlowExecutions(_ input: ListDataIntegrationFlowExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataIntegrationFlowExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListDataIntegrationFlowExecutions", 
+            path: "/api-data/data-integration/instance/{instanceId}/data-integration-flows/{flowName}/executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List flow executions.
+    ///
+    /// Parameters:
+    ///   - flowName: The flow name.
+    ///   - instanceId: The AWS Supply Chain instance identifier.
+    ///   - maxResults: The number to specify the max number of flow executions to fetch in this paginated request.
+    ///   - nextToken: The pagination token to fetch next page of flow executions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataIntegrationFlowExecutions(
+        flowName: String,
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataIntegrationFlowExecutionsResponse {
+        let input = ListDataIntegrationFlowExecutionsRequest(
+            flowName: flowName, 
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataIntegrationFlowExecutions(input, logger: logger)
     }
 
     /// Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
@@ -522,7 +770,7 @@ public struct SupplyChain: AWSService {
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
     ///   - maxResults: The max number of datasets to fetch in this paginated request.
-    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - namespace: The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - nextToken: The pagination token to fetch next page of datasets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -540,6 +788,41 @@ public struct SupplyChain: AWSService {
             nextToken: nextToken
         )
         return try await self.listDataLakeDatasets(input, logger: logger)
+    }
+
+    /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
+    @Sendable
+    @inlinable
+    public func listDataLakeNamespaces(_ input: ListDataLakeNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataLakeNamespacesResponse {
+        try await self.client.execute(
+            operation: "ListDataLakeNamespaces", 
+            path: "/api/datalake/instance/{instanceId}/namespaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: The max number of namespaces to fetch in this paginated request.
+    ///   - nextToken: The pagination token to fetch next page of namespaces.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataLakeNamespaces(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataLakeNamespacesResponse {
+        let input = ListDataLakeNamespacesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataLakeNamespaces(input, logger: logger)
     }
 
     /// List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
@@ -609,7 +892,7 @@ public struct SupplyChain: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
+    /// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
     @Sendable
     @inlinable
     public func sendDataIntegrationEvent(_ input: SendDataIntegrationEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataIntegrationEventResponse {
@@ -622,20 +905,22 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
+    /// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
     ///
     /// Parameters:
-    ///   - clientToken: The idempotent client token.
-    ///   - data: The data payload of the event. For more information on the data schema to use, see Data entities supported in AWS Supply Chain.
-    ///   - eventGroupId: Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
-    ///   - eventTimestamp: The event timestamp (in epoch seconds).
-    ///   - eventType: The data event type.
+    ///   - clientToken: The idempotent client token. The token is active for 8 hours, and within its lifetime, it ensures the request completes only once upon retry with same client token. If omitted, the AWS SDK generates a unique value so that AWS SDK can safely retry the request upon network errors.
+    ///   - data: The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain. To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated.
+    ///   - datasetTarget: The target dataset configuration for scn.data.dataset event type.
+    ///   - eventGroupId: Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server.
+    ///   - eventTimestamp: The timestamp (in epoch seconds) associated with the event. If not provided, it will be assigned with current timestamp.
+    ///   - eventType: The data event type.    scn.data.dataset - Send data directly to any specified dataset.    scn.data.supplyplan - Send data to supply_plan dataset.    scn.data.shipmentstoporder - Send data to shipment_stop_order dataset.    scn.data.shipmentstop - Send data to shipment_stop dataset.    scn.data.shipment - Send data to shipment dataset.    scn.data.reservation - Send data to reservation dataset.    scn.data.processproduct - Send data to process_product dataset.    scn.data.processoperation - Send data to process_operation dataset.    scn.data.processheader - Send data to process_header dataset.    scn.data.forecast - Send data to forecast dataset.    scn.data.inventorylevel - Send data to inv_level dataset.    scn.data.inboundorder - Send data to inbound_order dataset.    scn.data.inboundorderline - Send data to inbound_order_line dataset.    scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset.    scn.data.outboundorderline - Send data to outbound_order_line dataset.    scn.data.outboundshipment - Send data to outbound_shipment dataset.
     ///   - instanceId: The AWS Supply Chain instance identifier.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendDataIntegrationEvent(
         clientToken: String? = SendDataIntegrationEventRequest.idempotencyToken(),
         data: String,
+        datasetTarget: DataIntegrationEventDatasetTargetConfiguration? = nil,
         eventGroupId: String,
         eventTimestamp: Date? = nil,
         eventType: DataIntegrationEventType,
@@ -645,6 +930,7 @@ public struct SupplyChain: AWSService {
         let input = SendDataIntegrationEventRequest(
             clientToken: clientToken, 
             data: data, 
+            datasetTarget: datasetTarget, 
             eventGroupId: eventGroupId, 
             eventTimestamp: eventTimestamp, 
             eventType: eventType, 
@@ -776,8 +1062,8 @@ public struct SupplyChain: AWSService {
     /// Parameters:
     ///   - description: The updated description of the data lake dataset.
     ///   - instanceId: The Amazon Web Services Chain instance identifier.
-    ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
-    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - name: The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+    ///   - namespace: The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDataLakeDataset(
@@ -794,6 +1080,41 @@ public struct SupplyChain: AWSService {
             namespace: namespace
         )
         return try await self.updateDataLakeDataset(input, logger: logger)
+    }
+
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
+    @Sendable
+    @inlinable
+    public func updateDataLakeNamespace(_ input: UpdateDataLakeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataLakeNamespaceResponse {
+        try await self.client.execute(
+            operation: "UpdateDataLakeNamespace", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
+    ///
+    /// Parameters:
+    ///   - description: The updated description of the data lake namespace.
+    ///   - instanceId: The Amazon Web Services Chain instance identifier.
+    ///   - name: The name of the namespace. Noted you cannot update namespace with name starting with asc, default, scn, aws, amazon, amzn
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDataLakeNamespace(
+        description: String? = nil,
+        instanceId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDataLakeNamespaceResponse {
+        let input = UpdateDataLakeNamespaceRequest(
+            description: description, 
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.updateDataLakeNamespace(input, logger: logger)
     }
 
     /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
@@ -845,6 +1166,86 @@ extension SupplyChain {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SupplyChain {
+    /// Return PaginatorSequence for operation ``listDataIntegrationEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataIntegrationEventsPaginator(
+        _ input: ListDataIntegrationEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationEventsRequest, ListDataIntegrationEventsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataIntegrationEvents,
+            inputKey: \ListDataIntegrationEventsRequest.nextToken,
+            outputKey: \ListDataIntegrationEventsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataIntegrationEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - eventType: List data integration events for the specified eventType.
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: Specify the maximum number of data integration events to fetch in one paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataIntegrationEventsPaginator(
+        eventType: DataIntegrationEventType? = nil,
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationEventsRequest, ListDataIntegrationEventsResponse> {
+        let input = ListDataIntegrationEventsRequest(
+            eventType: eventType, 
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listDataIntegrationEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDataIntegrationFlowExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataIntegrationFlowExecutionsPaginator(
+        _ input: ListDataIntegrationFlowExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationFlowExecutionsRequest, ListDataIntegrationFlowExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataIntegrationFlowExecutions,
+            inputKey: \ListDataIntegrationFlowExecutionsRequest.nextToken,
+            outputKey: \ListDataIntegrationFlowExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataIntegrationFlowExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - flowName: The flow name.
+    ///   - instanceId: The AWS Supply Chain instance identifier.
+    ///   - maxResults: The number to specify the max number of flow executions to fetch in this paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataIntegrationFlowExecutionsPaginator(
+        flowName: String,
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationFlowExecutionsRequest, ListDataIntegrationFlowExecutionsResponse> {
+        let input = ListDataIntegrationFlowExecutionsRequest(
+            flowName: flowName, 
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listDataIntegrationFlowExecutionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDataIntegrationFlows(_:logger:)``.
     ///
     /// - Parameters:
@@ -905,7 +1306,7 @@ extension SupplyChain {
     /// - Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
     ///   - maxResults: The max number of datasets to fetch in this paginated request.
-    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - namespace: The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - logger: Logger used for logging
     @inlinable
     public func listDataLakeDatasetsPaginator(
@@ -920,6 +1321,43 @@ extension SupplyChain {
             namespace: namespace
         )
         return self.listDataLakeDatasetsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDataLakeNamespaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataLakeNamespacesPaginator(
+        _ input: ListDataLakeNamespacesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataLakeNamespacesRequest, ListDataLakeNamespacesResponse> {
+        return .init(
+            input: input,
+            command: self.listDataLakeNamespaces,
+            inputKey: \ListDataLakeNamespacesRequest.nextToken,
+            outputKey: \ListDataLakeNamespacesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataLakeNamespaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: The max number of namespaces to fetch in this paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataLakeNamespacesPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataLakeNamespacesRequest, ListDataLakeNamespacesResponse> {
+        let input = ListDataLakeNamespacesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listDataLakeNamespacesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listInstances(_:logger:)``.
@@ -963,6 +1401,30 @@ extension SupplyChain {
     }
 }
 
+extension SupplyChain.ListDataIntegrationEventsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SupplyChain.ListDataIntegrationEventsRequest {
+        return .init(
+            eventType: self.eventType,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SupplyChain.ListDataIntegrationFlowExecutionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SupplyChain.ListDataIntegrationFlowExecutionsRequest {
+        return .init(
+            flowName: self.flowName,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension SupplyChain.ListDataIntegrationFlowsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SupplyChain.ListDataIntegrationFlowsRequest {
@@ -981,6 +1443,17 @@ extension SupplyChain.ListDataLakeDatasetsRequest: AWSPaginateToken {
             instanceId: self.instanceId,
             maxResults: self.maxResults,
             namespace: self.namespace,
+            nextToken: token
+        )
+    }
+}
+
+extension SupplyChain.ListDataLakeNamespacesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SupplyChain.ListDataLakeNamespacesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

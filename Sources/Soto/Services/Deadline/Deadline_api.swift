@@ -625,7 +625,8 @@ public struct Deadline: AWSService {
     ///   - description: The description of the fleet.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - displayName: The display name of the fleet.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - farmId: The farm ID of the farm to connect to the fleet.
-    ///   - maxWorkerCount: The maximum number of workers for the fleet.
+    ///   - hostConfiguration: Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    ///   - maxWorkerCount: The maximum number of workers for the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     ///   - minWorkerCount: The minimum number of workers for the fleet.
     ///   - roleArn: The IAM role ARN for the role that the fleet's workers will use.
     ///   - tags: Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
@@ -637,6 +638,7 @@ public struct Deadline: AWSService {
         description: String? = nil,
         displayName: String,
         farmId: String,
+        hostConfiguration: HostConfiguration? = nil,
         maxWorkerCount: Int,
         minWorkerCount: Int? = nil,
         roleArn: String,
@@ -649,6 +651,7 @@ public struct Deadline: AWSService {
             description: description, 
             displayName: displayName, 
             farmId: farmId, 
+            hostConfiguration: hostConfiguration, 
             maxWorkerCount: maxWorkerCount, 
             minWorkerCount: minWorkerCount, 
             roleArn: roleArn, 
@@ -1074,7 +1077,7 @@ public struct Deadline: AWSService {
         return try await self.createStorageProfile(input, logger: logger)
     }
 
-    /// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) you’ll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude.
+    /// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) you’ll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     @Sendable
     @inlinable
     public func createWorker(_ input: CreateWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkerResponse {
@@ -1088,13 +1091,14 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) you’ll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude.
+    /// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) you’ll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     ///
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
     ///   - farmId: The farm ID of the farm to connect to the worker.
     ///   - fleetId: The fleet ID to connect to the worker.
     ///   - hostProperties: The IP address and host name of the worker.
+    ///   - tags: Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - logger: Logger use during operation
     @inlinable
     public func createWorker(
@@ -1102,13 +1106,15 @@ public struct Deadline: AWSService {
         farmId: String,
         fleetId: String,
         hostProperties: HostPropertiesRequest? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWorkerResponse {
         let input = CreateWorkerRequest(
             clientToken: clientToken, 
             farmId: farmId, 
             fleetId: fleetId, 
-            hostProperties: hostProperties
+            hostProperties: hostProperties, 
+            tags: tags
         )
         return try await self.createWorker(input, logger: logger)
     }
@@ -3561,7 +3567,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the job.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
+    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - pageSize: Specifies the number of items per page for the resource.
     ///   - queueIds: The queue ID to use in the job search.
@@ -3606,7 +3612,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID to use for the step search.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
+    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - jobId: The job ID to use in the step search.
     ///   - pageSize: Specifies the number of items per page for the resource.
@@ -3654,7 +3660,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the task.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
+    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - jobId: The job ID for the task search.
     ///   - pageSize: Specifies the number of items per page for the resource.
@@ -3702,7 +3708,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID in the workers search.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
+    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
     ///   - fleetIds: The fleet ID of the workers to search for.
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - pageSize: Specifies the number of items per page for the resource.
@@ -3962,7 +3968,8 @@ public struct Deadline: AWSService {
     ///   - displayName: The display name of the fleet to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - farmId: The farm ID to update.
     ///   - fleetId: The fleet ID to update.
-    ///   - maxWorkerCount: The maximum number of workers in the fleet.
+    ///   - hostConfiguration: Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    ///   - maxWorkerCount: The maximum number of workers in the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     ///   - minWorkerCount: The minimum number of workers in the fleet.
     ///   - roleArn: The IAM role ARN that the fleet's workers assume while running jobs.
     ///   - logger: Logger use during operation
@@ -3974,6 +3981,7 @@ public struct Deadline: AWSService {
         displayName: String? = nil,
         farmId: String,
         fleetId: String,
+        hostConfiguration: HostConfiguration? = nil,
         maxWorkerCount: Int? = nil,
         minWorkerCount: Int? = nil,
         roleArn: String? = nil,
@@ -3986,6 +3994,7 @@ public struct Deadline: AWSService {
             displayName: displayName, 
             farmId: farmId, 
             fleetId: fleetId, 
+            hostConfiguration: hostConfiguration, 
             maxWorkerCount: maxWorkerCount, 
             minWorkerCount: minWorkerCount, 
             roleArn: roleArn

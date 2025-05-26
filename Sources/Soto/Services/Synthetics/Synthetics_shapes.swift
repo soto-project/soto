@@ -84,6 +84,12 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
+    public enum RunType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canaryRun = "CANARY_RUN"
+        case dryRun = "DRY_RUN"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ArtifactConfigInput: AWSEncodableShape {
@@ -187,11 +193,13 @@ extension Synthetics {
         /// The location in Amazon S3 where Synthetics stores artifacts from the runs of this canary. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
         public let code: CanaryCodeOutput?
+        /// Returns the dry run configurations for a canary.
+        public let dryRunConfig: DryRunConfigOutput?
         /// The ARN of the Lambda function that is used as your canary's engine. For more information  about Lambda ARN format, see Resources and Conditions for Lambda Actions.
         public let engineArn: String?
         /// The ARN of the IAM role used to run the canary. This role must include lambda.amazonaws.com as a principal in the trust policy.
         public let executionRoleArn: String?
-        /// The number of days to retain data about failed runs of this canary.
+        /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let failureRetentionPeriodInDays: Int?
         /// The unique ID of this canary.
         public let id: String?
@@ -206,7 +214,7 @@ extension Synthetics {
         public let schedule: CanaryScheduleOutput?
         /// A structure that contains information about the canary's status.
         public let status: CanaryStatus?
-        /// The number of days to retain data about successful runs of this canary.
+        /// The number of days to retain data about successful runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let successRetentionPeriodInDays: Int?
         /// The list of key-value pairs that are associated with the canary.
         public let tags: [String: String]?
@@ -217,10 +225,11 @@ extension Synthetics {
         public let vpcConfig: VpcConfigOutput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
+        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, dryRunConfig: DryRunConfigOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
+            self.dryRunConfig = dryRunConfig
             self.engineArn = engineArn
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -242,6 +251,7 @@ extension Synthetics {
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
             case code = "Code"
+            case dryRunConfig = "DryRunConfig"
             case engineArn = "EngineArn"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
@@ -323,6 +333,20 @@ extension Synthetics {
         }
     }
 
+    public struct CanaryDryRunConfigOutput: AWSDecodableShape {
+        /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+        public let dryRunId: String?
+
+        @inlinable
+        public init(dryRunId: String? = nil) {
+            self.dryRunId = dryRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRunId = "DryRunId"
+        }
+    }
+
     public struct CanaryLastRun: AWSDecodableShape {
         /// The name of the canary.
         public let canaryName: String?
@@ -344,28 +368,40 @@ extension Synthetics {
     public struct CanaryRun: AWSDecodableShape {
         /// The location where the canary stored artifacts from the run. Artifacts include  the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
+        /// Returns the dry run configurations for a canary.
+        public let dryRunConfig: CanaryDryRunConfigOutput?
         /// A unique ID that identifies this canary run.
         public let id: String?
         /// The name of the canary.
         public let name: String?
+        /// The count in number of the retry attempt.
+        public let retryAttempt: Int?
+        /// The ID of the scheduled canary run.
+        public let scheduledRunId: String?
         /// The status of this run.
         public let status: CanaryRunStatus?
         /// A structure that contains the start and end times of this run.
         public let timeline: CanaryRunTimeline?
 
         @inlinable
-        public init(artifactS3Location: String? = nil, id: String? = nil, name: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
+        public init(artifactS3Location: String? = nil, dryRunConfig: CanaryDryRunConfigOutput? = nil, id: String? = nil, name: String? = nil, retryAttempt: Int? = nil, scheduledRunId: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
             self.artifactS3Location = artifactS3Location
+            self.dryRunConfig = dryRunConfig
             self.id = id
             self.name = name
+            self.retryAttempt = retryAttempt
+            self.scheduledRunId = scheduledRunId
             self.status = status
             self.timeline = timeline
         }
 
         private enum CodingKeys: String, CodingKey {
             case artifactS3Location = "ArtifactS3Location"
+            case dryRunConfig = "DryRunConfig"
             case id = "Id"
             case name = "Name"
+            case retryAttempt = "RetryAttempt"
+            case scheduledRunId = "ScheduledRunId"
             case status = "Status"
             case timeline = "Timeline"
         }
@@ -374,7 +410,7 @@ extension Synthetics {
     public struct CanaryRunConfigInput: AWSEncodableShape {
         /// Specifies whether this canary is to use active X-Ray tracing when it runs. Active tracing  enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does  not hit an endpoint that has X-Ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see   Canaries and X-Ray tracing. You can enable active tracing only for canaries that use version syn-nodejs-2.0  or later for their canary runtime.
         public let activeTracing: Bool?
-        /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For  more information about reserved keys, see  Runtime environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+        /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For  more information about reserved keys, see  Runtime environment variables.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
         public let environmentVariables: [String: String]?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
@@ -454,17 +490,21 @@ extension Synthetics {
     public struct CanaryRunTimeline: AWSDecodableShape {
         /// The end time of the run.
         public let completed: Date?
+        /// The time at which the metrics will be generated for this run or retries.
+        public let metricTimestampForRunAndRetries: Date?
         /// The start time of the run.
         public let started: Date?
 
         @inlinable
-        public init(completed: Date? = nil, started: Date? = nil) {
+        public init(completed: Date? = nil, metricTimestampForRunAndRetries: Date? = nil, started: Date? = nil) {
             self.completed = completed
+            self.metricTimestampForRunAndRetries = metricTimestampForRunAndRetries
             self.started = started
         }
 
         private enum CodingKeys: String, CodingKey {
             case completed = "Completed"
+            case metricTimestampForRunAndRetries = "MetricTimestampForRunAndRetries"
             case started = "Started"
         }
     }
@@ -474,11 +514,14 @@ extension Synthetics {
         public let durationInSeconds: Int64?
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every  10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value  that causes the  canary to run only once when it is started. Use cron(expression) to specify a cron  expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see   Scheduling canary runs using cron.
         public let expression: String
+        /// A structure that contains the retry configuration for a canary
+        public let retryConfig: RetryConfigInput?
 
         @inlinable
-        public init(durationInSeconds: Int64? = nil, expression: String) {
+        public init(durationInSeconds: Int64? = nil, expression: String, retryConfig: RetryConfigInput? = nil) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
+            self.retryConfig = retryConfig
         }
 
         public func validate(name: String) throws {
@@ -486,11 +529,13 @@ extension Synthetics {
             try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.retryConfig?.validate(name: "\(name).retryConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
             case expression = "Expression"
+            case retryConfig = "RetryConfig"
         }
     }
 
@@ -499,25 +544,29 @@ extension Synthetics {
         public let durationInSeconds: Int64?
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every  10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value  that causes the  canary to run only once when it is started. Use cron(expression) to specify a cron  expression. For information about the syntax for cron expressions, see   Scheduling canary runs using cron.
         public let expression: String?
+        /// A structure that contains the retry configuration for a canary
+        public let retryConfig: RetryConfigOutput?
 
         @inlinable
-        public init(durationInSeconds: Int64? = nil, expression: String? = nil) {
+        public init(durationInSeconds: Int64? = nil, expression: String? = nil, retryConfig: RetryConfigOutput? = nil) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
+            self.retryConfig = retryConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
             case expression = "Expression"
+            case retryConfig = "RetryConfig"
         }
     }
 
     public struct CanaryStatus: AWSDecodableShape {
         /// The current state of the canary.
         public let state: CanaryState?
-        /// If the canary has insufficient permissions to run, this field provides more details.
+        /// If the canary creation or update failed, this field provides details on the failure.
         public let stateReason: String?
-        /// If the canary cannot run or has failed, this field displays the reason.
+        /// If the canary creation or update failed, this field displays the reason code.
         public let stateReasonCode: CanaryStateReasonCode?
 
         @inlinable
@@ -569,7 +618,7 @@ extension Synthetics {
         public let code: CanaryCodeInput
         /// The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
         public let executionRoleArn: String
-        /// The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days.
+        /// The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let failureRetentionPeriodInDays: Int?
         /// The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
         public let name: String
@@ -577,13 +626,13 @@ extension Synthetics {
         public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
         /// To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
         public let resourcesToReplicateTags: [ResourceToTag]?
-        /// A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+        /// A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String
         /// A structure that contains information about how often the canary is to run and when these test runs are to stop.
         public let schedule: CanaryScheduleInput
-        /// The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days.
+        /// The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let successRetentionPeriodInDays: Int?
         /// A list of key-value pairs to associate with the canary.  You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by  granting a user permission to access or change only the resources that have certain tag values. To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function.
         public let tags: [String: String]?
@@ -963,22 +1012,45 @@ extension Synthetics {
         public init() {}
     }
 
+    public struct DryRunConfigOutput: AWSDecodableShape {
+        /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+        public let dryRunId: String?
+        /// Returns the last execution status for a canary's dry run.
+        public let lastDryRunExecutionStatus: String?
+
+        @inlinable
+        public init(dryRunId: String? = nil, lastDryRunExecutionStatus: String? = nil) {
+            self.dryRunId = dryRunId
+            self.lastDryRunExecutionStatus = lastDryRunExecutionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRunId = "DryRunId"
+            case lastDryRunExecutionStatus = "LastDryRunExecutionStatus"
+        }
+    }
+
     public struct GetCanaryRequest: AWSEncodableShape {
+        /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+        public let dryRunId: String?
         /// The name of the canary that you want details for.
         public let name: String
 
         @inlinable
-        public init(name: String) {
+        public init(dryRunId: String? = nil, name: String) {
+            self.dryRunId = dryRunId
             self.name = name
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dryRunId, key: "dryRunId")
             request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dryRunId, name: "dryRunId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
@@ -1002,29 +1074,38 @@ extension Synthetics {
     }
 
     public struct GetCanaryRunsRequest: AWSEncodableShape {
+        /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+        public let dryRunId: String?
         /// Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
         /// The name of the canary that you want to see runs for.
         public let name: String
-        /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next  set of results.
+        /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next  set of results.  When auto retry is enabled for the canary, the first subsequent retry is suffixed with *1 indicating its the first retry and the next subsequent try is suffixed with *2.
         public let nextToken: String?
+        ///   When you provide RunType=CANARY_RUN and dryRunId, you will get an exception      When a value is not provided for RunType, the default value is CANARY_RUN    When CANARY_RUN is provided, all canary runs excluding dry runs are returned   When DRY_RUN is provided, all dry runs excluding canary runs are returned
+        public let runType: RunType?
 
         @inlinable
-        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
+        public init(dryRunId: String? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, runType: RunType? = nil) {
+            self.dryRunId = dryRunId
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+            self.runType = runType
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dryRunId, forKey: .dryRunId)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             request.encodePath(self.name, key: "Name")
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.runType, forKey: .runType)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dryRunId, name: "dryRunId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
@@ -1035,8 +1116,10 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRunId = "DryRunId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case runType = "RunType"
         }
     }
 
@@ -1348,6 +1431,39 @@ extension Synthetics {
         }
     }
 
+    public struct RetryConfigInput: AWSEncodableShape {
+        /// The maximum number of retries. The value must be less than or equal to 2.
+        public let maxRetries: Int
+
+        @inlinable
+        public init(maxRetries: Int) {
+            self.maxRetries = maxRetries
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxRetries, name: "maxRetries", parent: name, max: 2)
+            try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRetries = "MaxRetries"
+        }
+    }
+
+    public struct RetryConfigOutput: AWSDecodableShape {
+        /// The maximum number of retries. The value must be less than or equal to 2.
+        public let maxRetries: Int?
+
+        @inlinable
+        public init(maxRetries: Int? = nil) {
+            self.maxRetries = maxRetries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRetries = "MaxRetries"
+        }
+    }
+
     public struct RuntimeVersion: AWSDecodableShape {
         /// If this runtime version is deprecated, this value is the date of deprecation.
         public let deprecationDate: Date?
@@ -1395,6 +1511,111 @@ extension Synthetics {
         private enum CodingKeys: String, CodingKey {
             case encryptionMode = "EncryptionMode"
             case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
+    public struct StartCanaryDryRunRequest: AWSEncodableShape {
+        public let artifactConfig: ArtifactConfigInput?
+        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
+        public let artifactS3Location: String?
+        public let code: CanaryCodeInput?
+        /// The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
+        public let executionRoleArn: String?
+        /// The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+        public let failureRetentionPeriodInDays: Int?
+        /// The name of the canary that you want to dry run. To find canary names, use DescribeCanaries.
+        public let name: String
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is AUTOMATIC, it means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+        public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
+        public let runConfig: CanaryRunConfigInput?
+        /// Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
+        public let runtimeVersion: String?
+        /// The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+        public let successRetentionPeriodInDays: Int?
+        public let visualReference: VisualReferenceInput?
+        public let vpcConfig: VpcConfigInput?
+
+        @inlinable
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
+            self.artifactConfig = artifactConfig
+            self.artifactS3Location = artifactS3Location
+            self.code = code
+            self.executionRoleArn = executionRoleArn
+            self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
+            self.name = name
+            self.provisionedResourceCleanup = provisionedResourceCleanup
+            self.runConfig = runConfig
+            self.runtimeVersion = runtimeVersion
+            self.successRetentionPeriodInDays = successRetentionPeriodInDays
+            self.visualReference = visualReference
+            self.vpcConfig = vpcConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.artifactConfig, forKey: .artifactConfig)
+            try container.encodeIfPresent(self.artifactS3Location, forKey: .artifactS3Location)
+            try container.encodeIfPresent(self.code, forKey: .code)
+            try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.failureRetentionPeriodInDays, forKey: .failureRetentionPeriodInDays)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.provisionedResourceCleanup, forKey: .provisionedResourceCleanup)
+            try container.encodeIfPresent(self.runConfig, forKey: .runConfig)
+            try container.encodeIfPresent(self.runtimeVersion, forKey: .runtimeVersion)
+            try container.encodeIfPresent(self.successRetentionPeriodInDays, forKey: .successRetentionPeriodInDays)
+            try container.encodeIfPresent(self.visualReference, forKey: .visualReference)
+            try container.encodeIfPresent(self.vpcConfig, forKey: .vpcConfig)
+        }
+
+        public func validate(name: String) throws {
+            try self.artifactConfig?.validate(name: "\(name).artifactConfig")
+            try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
+            try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
+            try self.code?.validate(name: "\(name).code")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, max: 1024)
+            try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
+            try self.runConfig?.validate(name: "\(name).runConfig")
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 1024)
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
+            try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, max: 1024)
+            try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, min: 1)
+            try self.visualReference?.validate(name: "\(name).visualReference")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactConfig = "ArtifactConfig"
+            case artifactS3Location = "ArtifactS3Location"
+            case code = "Code"
+            case executionRoleArn = "ExecutionRoleArn"
+            case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
+            case provisionedResourceCleanup = "ProvisionedResourceCleanup"
+            case runConfig = "RunConfig"
+            case runtimeVersion = "RuntimeVersion"
+            case successRetentionPeriodInDays = "SuccessRetentionPeriodInDays"
+            case visualReference = "VisualReference"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct StartCanaryDryRunResponse: AWSDecodableShape {
+        /// Returns the dry run configurations for a canary.
+        public let dryRunConfig: DryRunConfigOutput?
+
+        @inlinable
+        public init(dryRunConfig: DryRunConfigOutput? = nil) {
+            self.dryRunConfig = dryRunConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRunConfig = "DryRunConfig"
         }
     }
 
@@ -1543,21 +1764,23 @@ extension Synthetics {
         public let artifactS3Location: String?
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.
         public let code: CanaryCodeInput?
+        /// Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
+        public let dryRunId: String?
         /// The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
         public let executionRoleArn: String?
-        /// The number of days to retain data about failed runs of this canary.
+        /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let failureRetentionPeriodInDays: Int?
         /// The name of the canary that you want to update. To find the names of your  canaries, use DescribeCanaries. You cannot change the name of a canary that has already been created.
         public let name: String
         /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
         public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
-        /// A structure that contains the timeout value that is used for each individual run of the  canary.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+        /// A structure that contains the timeout value that is used for each individual run of the  canary.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
         /// A structure that contains information about how often the canary is to run, and when these runs are to stop.
         public let schedule: CanaryScheduleInput?
-        /// The number of days to retain data about successful runs of this canary.
+        /// The number of days to retain data about successful runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let successRetentionPeriodInDays: Int?
         /// Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this  parameter, no changes are made to any baseline screenshots that the canary might be using already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see  Visual monitoring and  Visual monitoring blueprint
         public let visualReference: VisualReferenceInput?
@@ -1565,10 +1788,11 @@ extension Synthetics {
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, dryRunId: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
+            self.dryRunId = dryRunId
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.name = name
@@ -1587,6 +1811,7 @@ extension Synthetics {
             try container.encodeIfPresent(self.artifactConfig, forKey: .artifactConfig)
             try container.encodeIfPresent(self.artifactS3Location, forKey: .artifactS3Location)
             try container.encodeIfPresent(self.code, forKey: .code)
+            try container.encodeIfPresent(self.dryRunId, forKey: .dryRunId)
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.failureRetentionPeriodInDays, forKey: .failureRetentionPeriodInDays)
             request.encodePath(self.name, key: "Name")
@@ -1604,6 +1829,7 @@ extension Synthetics {
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
             try self.code?.validate(name: "\(name).code")
+            try self.validate(self.dryRunId, name: "dryRunId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -1626,6 +1852,7 @@ extension Synthetics {
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
             case code = "Code"
+            case dryRunId = "DryRunId"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
             case provisionedResourceCleanup = "ProvisionedResourceCleanup"
@@ -1745,6 +1972,7 @@ extension Synthetics {
 /// Error enum for Synthetics
 public struct SyntheticsErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case badRequestException = "BadRequestException"
         case conflictException = "ConflictException"
         case internalFailureException = "InternalFailureException"
@@ -1775,6 +2003,8 @@ public struct SyntheticsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You don't have permission to perform this operation on this resource.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request was not valid.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// A conflicting operation is already in progress.

@@ -378,7 +378,7 @@ public struct Neptune: AWSService {
     ///   - enableCloudwatchLogsExports: A list of the log types that this DB cluster should export to CloudWatch Logs. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See Publishing Neptune logs to Amazon CloudWatch logs.
     ///   - enableIAMDatabaseAuthentication: If set to true, enables Amazon Identity and Access Management (IAM) authentication for the entire DB cluster (this cannot be set at an instance level). Default: false.
     ///   - engine: The name of the database engine to be used for this DB cluster. Valid Values: neptune
-    ///   - engineVersion: The version number of the database engine to use for the new DB cluster. Example: 1.0.2.1
+    ///   - engineVersion: The version number of the database engine to use for the new DB cluster. Example: 1.2.1.0
     ///   - globalClusterIdentifier: The ID of the Neptune global database to which this new DB cluster should be added.
     ///   - kmsKeyId: The Amazon KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default encryption key.   If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default encryption key.   Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region. If you create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used to encrypt the Read Replica in that Amazon Region.
     ///   - masterUsername: Not supported by Neptune.
@@ -391,7 +391,7 @@ public struct Neptune: AWSService {
     ///   - replicationSourceIdentifier: The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
     ///   - serverlessV2ScalingConfiguration: Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide.
     ///   - storageEncrypted: Specifies whether the DB cluster is encrypted.
-    ///   - storageType: The storage type to associate with the DB cluster. Valid Values:    standard | iopt1    Default:    standard     When you create a Neptune cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+    ///   - storageType: The storage type for the new DB cluster. Valid Values:     standard   –   ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage. When set to standard, the storage type is not returned in the response.     iopt1   –   Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
     ///   - tags: The tags to assign to the new DB cluster.
     ///   - vpcSecurityGroupIds: A list of EC2 VPC security groups to associate with this DB cluster.
     ///   - logger: Logger use during operation
@@ -629,7 +629,7 @@ public struct Neptune: AWSService {
     ///   - preferredMaintenanceWindow: The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
     ///   - promotionTier: A value that specifies the order in which an Read Replica is promoted to the primary instance after a failure of the existing primary instance.  Default: 1 Valid Values: 0 - 15
     ///   - storageEncrypted: Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster. Default: false
-    ///   - storageType: Specifies the storage type to be associated with the DB instance. Not applicable. Storage is managed by the DB Cluster.
+    ///   - storageType: Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     ///   - tags: The tags to assign to the new instance.
     ///   - tdeCredentialArn: The ARN from the key store with which to associate the instance for TDE encryption.
     ///   - tdeCredentialPassword: The password for the given ARN from the key store in order to access the device.
@@ -1188,8 +1188,8 @@ public struct Neptune: AWSService {
     ///   - dbClusterEndpointIdentifier: The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
     ///   - dbClusterIdentifier: The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
     ///   - filters: A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of: db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id, db-cluster-endpoint-status. Values for the  db-cluster-endpoint-type filter can be one or more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one or more of: available, creating, deleting, inactive, modifying.
-    ///   - marker:  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
+    ///   - marker: An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeDBClusterEndpoints(
@@ -2013,17 +2013,23 @@ public struct Neptune: AWSService {
     /// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database.  This action applies only to Neptune global databases. This action is only intended for use on healthy Neptune global databases with healthy Neptune DB clusters and no region-wide outages, to test disaster recovery scenarios or to reconfigure the global database topology.
     ///
     /// Parameters:
+    ///   - allowDataLoss: Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:Can't be specified together with the Switchover parameter.
     ///   - globalClusterIdentifier: Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune  global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
+    ///   - switchover: Specifies whether to switch over this global database cluster. Constraints:Can't be specified together with the AllowDataLoss parameter.
     ///   - targetDbClusterIdentifier: The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
     ///   - logger: Logger use during operation
     @inlinable
     public func failoverGlobalCluster(
+        allowDataLoss: Bool? = nil,
         globalClusterIdentifier: String? = nil,
+        switchover: Bool? = nil,
         targetDbClusterIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> FailoverGlobalClusterResult {
         let input = FailoverGlobalClusterMessage(
+            allowDataLoss: allowDataLoss, 
             globalClusterIdentifier: globalClusterIdentifier, 
+            switchover: switchover, 
             targetDbClusterIdentifier: targetDbClusterIdentifier
         )
         return try await self.failoverGlobalCluster(input, logger: logger)
@@ -2095,7 +2101,7 @@ public struct Neptune: AWSService {
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
     ///   - preferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
     ///   - serverlessV2ScalingConfiguration: Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide.
-    ///   - storageType: The storage type to associate with the DB cluster. Valid Values:    standard | iopt1    Default:    standard
+    ///   - storageType: The storage type to associate with the DB cluster. Valid Values:     standard   –   ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage.     iopt1   –   Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
     ///   - vpcSecurityGroupIds: A list of VPC security groups that the DB cluster will belong to.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2303,7 +2309,7 @@ public struct Neptune: AWSService {
     ///   - preferredBackupWindow:  The daily time range during which automated backups are created if automated backups are enabled. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
     ///   - promotionTier: A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
-    ///   - storageType: Not supported.
+    ///   - storageType: Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     ///   - tdeCredentialArn: The ARN from the key store with which to associate the instance for TDE encryption.
     ///   - tdeCredentialPassword: The password for the given ARN from the key store in order to access the device.
     ///   - vpcSecurityGroupIds: A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.
@@ -3017,6 +3023,38 @@ public struct Neptune: AWSService {
         )
         return try await self.stopDBCluster(input, logger: logger)
     }
+
+    /// Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster. Switchover operations were previously called "managed planned failovers." Promotes the specified secondary cluster to assume full read/write capabilities and demotes the current primary cluster to a secondary (read-only) cluster, maintaining the original replication topology. All secondary clusters are synchronized with the primary at the beginning of the process so the new primary continues operations for the global database without losing any data. Your database is unavailable for a short time while the primary and selected secondary clusters are assuming their new roles.  This operation is intended for controlled environments, for operations such as "regional rotation" or to fall back to the original primary after a global database failover.
+    @Sendable
+    @inlinable
+    public func switchoverGlobalCluster(_ input: SwitchoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> SwitchoverGlobalClusterResult {
+        try await self.client.execute(
+            operation: "SwitchoverGlobalCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster. Switchover operations were previously called "managed planned failovers." Promotes the specified secondary cluster to assume full read/write capabilities and demotes the current primary cluster to a secondary (read-only) cluster, maintaining the original replication topology. All secondary clusters are synchronized with the primary at the beginning of the process so the new primary continues operations for the global database without losing any data. Your database is unavailable for a short time while the primary and selected secondary clusters are assuming their new roles.  This operation is intended for controlled environments, for operations such as "regional rotation" or to fall back to the original primary after a global database failover.
+    ///
+    /// Parameters:
+    ///   - globalClusterIdentifier: The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints: Must match the identifier of an existing global database cluster.
+    ///   - targetDbClusterIdentifier: The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func switchoverGlobalCluster(
+        globalClusterIdentifier: String? = nil,
+        targetDbClusterIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SwitchoverGlobalClusterResult {
+        let input = SwitchoverGlobalClusterMessage(
+            globalClusterIdentifier: globalClusterIdentifier, 
+            targetDbClusterIdentifier: targetDbClusterIdentifier
+        )
+        return try await self.switchoverGlobalCluster(input, logger: logger)
+    }
 }
 
 extension Neptune {
@@ -3056,7 +3094,7 @@ extension Neptune {
     ///   - dbClusterEndpointIdentifier: The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
     ///   - dbClusterIdentifier: The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
     ///   - filters: A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of: db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id, db-cluster-endpoint-status. Values for the  db-cluster-endpoint-type filter can be one or more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one or more of: available, creating, deleting, inactive, modifying.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeDBClusterEndpointsPaginator(

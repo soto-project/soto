@@ -702,6 +702,47 @@ public struct CodePipeline: AWSService {
         return try await self.listActionTypes(input, logger: logger)
     }
 
+    /// Lists the targets for the deploy action.
+    @Sendable
+    @inlinable
+    public func listDeployActionExecutionTargets(_ input: ListDeployActionExecutionTargetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeployActionExecutionTargetsOutput {
+        try await self.client.execute(
+            operation: "ListDeployActionExecutionTargets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the targets for the deploy action.
+    ///
+    /// Parameters:
+    ///   - actionExecutionId: The execution ID for the deploy action.
+    ///   - filters: Filters the targets for a specified deploy action.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
+    ///   - pipelineName: The name of the pipeline with the deploy action.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDeployActionExecutionTargets(
+        actionExecutionId: String,
+        filters: [TargetFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        pipelineName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDeployActionExecutionTargetsOutput {
+        let input = ListDeployActionExecutionTargetsInput(
+            actionExecutionId: actionExecutionId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            pipelineName: pipelineName
+        )
+        return try await self.listDeployActionExecutionTargets(input, logger: logger)
+    }
+
     /// Gets a summary of the most recent executions for a pipeline.  When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024.
     @Sendable
     @inlinable
@@ -1665,6 +1706,49 @@ extension CodePipeline {
         return self.listActionTypesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDeployActionExecutionTargets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDeployActionExecutionTargetsPaginator(
+        _ input: ListDeployActionExecutionTargetsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput> {
+        return .init(
+            input: input,
+            command: self.listDeployActionExecutionTargets,
+            inputKey: \ListDeployActionExecutionTargetsInput.nextToken,
+            outputKey: \ListDeployActionExecutionTargetsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDeployActionExecutionTargets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - actionExecutionId: The execution ID for the deploy action.
+    ///   - filters: Filters the targets for a specified deploy action.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - pipelineName: The name of the pipeline with the deploy action.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDeployActionExecutionTargetsPaginator(
+        actionExecutionId: String,
+        filters: [TargetFilter]? = nil,
+        maxResults: Int? = nil,
+        pipelineName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput> {
+        let input = ListDeployActionExecutionTargetsInput(
+            actionExecutionId: actionExecutionId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            pipelineName: pipelineName
+        )
+        return self.listDeployActionExecutionTargetsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPipelineExecutions(_:logger:)``.
     ///
     /// - Parameters:
@@ -1870,6 +1954,19 @@ extension CodePipeline.ListActionTypesInput: AWSPaginateToken {
             actionOwnerFilter: self.actionOwnerFilter,
             nextToken: token,
             regionFilter: self.regionFilter
+        )
+    }
+}
+
+extension CodePipeline.ListDeployActionExecutionTargetsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListDeployActionExecutionTargetsInput {
+        return .init(
+            actionExecutionId: self.actionExecutionId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName
         )
     }
 }

@@ -273,7 +273,7 @@ extension AuditManager {
     }
 
     public struct AWSService: AWSEncodableShape & AWSDecodableShape {
-        ///  The name of the Amazon Web Service.
+        ///  The name of the Amazon Web Services service.
         public let serviceName: String?
 
         @inlinable
@@ -342,6 +342,20 @@ extension AuditManager {
         ///  The status of the control.
         public let status: ControlStatus?
 
+        @inlinable
+        public init(assessmentReportEvidenceCount: Int? = nil, comments: [ControlComment]? = nil, evidenceCount: Int? = nil, evidenceSources: [String]? = nil, id: String? = nil, name: String? = nil, response: ControlResponse? = nil, status: ControlStatus? = nil) {
+            self.assessmentReportEvidenceCount = assessmentReportEvidenceCount
+            self.comments = comments
+            self.description = nil
+            self.evidenceCount = evidenceCount
+            self.evidenceSources = evidenceSources
+            self.id = id
+            self.name = name
+            self.response = response
+            self.status = status
+        }
+
+        @available(*, deprecated, message: "Members description have been deprecated")
         @inlinable
         public init(assessmentReportEvidenceCount: Int? = nil, comments: [ControlComment]? = nil, description: String? = nil, evidenceCount: Int? = nil, evidenceSources: [String]? = nil, id: String? = nil, name: String? = nil, response: ControlResponse? = nil, status: ControlStatus? = nil) {
             self.assessmentReportEvidenceCount = assessmentReportEvidenceCount
@@ -423,7 +437,7 @@ extension AuditManager {
         public let controlName: String?
         ///  The identifier for the control set.
         public let controlSetId: String?
-        ///  The Amazon Web Service that the evidence was collected from.
+        ///  The Amazon Web Services service that the evidence was collected from.
         public let dataSource: String?
         ///  The date when the first evidence was added to the evidence folder.
         public let date: Date?
@@ -433,7 +447,7 @@ extension AuditManager {
         public let evidenceByTypeComplianceCheckCount: Int?
         ///  The total number of issues that were reported directly from Security Hub, Config, or both.
         public let evidenceByTypeComplianceCheckIssuesCount: Int?
-        ///  The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services such as Amazon EC2, Amazon S3, or IAM.
+        ///  The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services services such as Amazon EC2, Amazon S3, or IAM.
         public let evidenceByTypeConfigurationDataCount: Int?
         ///  The number of evidence that falls under the manual category. This evidence is imported manually.
         public let evidenceByTypeManualCount: Int?
@@ -2379,7 +2393,7 @@ extension AuditManager {
         public let dataSource: String?
         ///  The name of the evidence event.
         public let eventName: String?
-        ///  The Amazon Web Service that the evidence is collected from.
+        ///  The Amazon Web Services service that the evidence is collected from.
         public let eventSource: String?
         ///  The identifier for the Amazon Web Services account.
         public let evidenceAwsAccountId: String?
@@ -3298,7 +3312,7 @@ extension AuditManager {
     }
 
     public struct GetServicesInScopeResponse: AWSDecodableShape {
-        ///  The metadata that's associated with the Amazon Web Service.
+        ///  The metadata that's associated with the Amazon Web Services service.
         public let serviceMetadata: [ServiceMetadata]?
 
         @inlinable
@@ -4261,7 +4275,7 @@ extension AuditManager {
     public struct Scope: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Web Services accounts that are included in the scope of the assessment.
         public let awsAccounts: [AWSAccount]?
-        ///  The Amazon Web Services services that are included in the scope of the assessment.   This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services, Audit Manager ignores this input. Instead, the value for awsServices will show as empty.
+        ///  The Amazon Web Services services that are included in the scope of the assessment.   This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services services, Audit Manager ignores this input. Instead, the value for awsServices will show as empty.
         public let awsServices: [AWSService]?
 
         @inlinable
@@ -4295,13 +4309,13 @@ extension AuditManager {
     }
 
     public struct ServiceMetadata: AWSDecodableShape {
-        ///  The category that the Amazon Web Service belongs to, such as compute, storage, or database.
+        ///  The category that the Amazon Web Services service belongs to, such as compute, storage, or database.
         public let category: String?
-        ///  The description of the Amazon Web Service.
+        ///  The description of the Amazon Web Services service.
         public let description: String?
-        ///  The display name of the Amazon Web Service.
+        ///  The display name of the Amazon Web Services service.
         public let displayName: String?
-        ///  The name of the Amazon Web Service.
+        ///  The name of the Amazon Web Services service.
         public let name: String?
 
         @inlinable
@@ -4365,7 +4379,7 @@ extension AuditManager {
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
         ///  The input method for the keyword.     SELECT_FROM_LIST is used when mapping a data source for automated evidence.   When keywordInputType is SELECT_FROM_LIST, a keyword must be selected to collect automated evidence. For example, this keyword can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.      UPLOAD_FILE and INPUT_TEXT are only used when mapping a data source for manual evidence.   When keywordInputType is UPLOAD_FILE, a file must be uploaded as manual evidence.   When keywordInputType is INPUT_TEXT, text must be entered as manual evidence.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules. For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the following rule identifier: INCOMING_SSH_DISABLED. Make sure to use the rule identifier, not the rule name.  Keyword example for managed rules:   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the custom rule from a managed rule.  Keyword example for custom rules:   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.  Keyword examples for service-linked rules:   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled       The keywordValue is case sensitive. If you enter a value incorrectly, Audit Manager might not recognize the data source mapping. As a result, you might not successfully collect evidence from that data source as intended.  Keep in mind the following requirements, depending on the data source type that you're using.    For Config:    For managed rules, make sure that the keywordValue is the rule identifier in ALL_CAPS_WITH_UNDERSCORES. For example, CLOUDWATCH_LOG_GROUP_ENCRYPTED. For accuracy, we recommend that you reference the list of supported Config managed rules.   For custom rules, make sure that the keywordValue has the Custom_ prefix followed by the custom rule name. The format of the custom rule name itself may vary. For accuracy, we recommend that you visit the Config console to verify your custom rule name.     For Security Hub: The format varies for Security Hub control names. For accuracy, we recommend that you reference the list of supported Security Hub controls.   For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, iam_ListGroups. For accuracy, we recommend that you reference the list of supported API calls.   For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, cloudtrail_StartLogging. For accuracy, we recommend that you review the Amazon Web Service prefix and action names in the Service Authorization Reference.
+        ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules. For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the following rule identifier: INCOMING_SSH_DISABLED. Make sure to use the rule identifier, not the rule name.  Keyword example for managed rules:   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the custom rule from a managed rule.  Keyword example for custom rules:   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.  Keyword examples for service-linked rules:   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled       The keywordValue is case sensitive. If you enter a value incorrectly, Audit Manager might not recognize the data source mapping. As a result, you might not successfully collect evidence from that data source as intended.  Keep in mind the following requirements, depending on the data source type that you're using.    For Config:    For managed rules, make sure that the keywordValue is the rule identifier in ALL_CAPS_WITH_UNDERSCORES. For example, CLOUDWATCH_LOG_GROUP_ENCRYPTED. For accuracy, we recommend that you reference the list of supported Config managed rules.   For custom rules, make sure that the keywordValue has the Custom_ prefix followed by the custom rule name. The format of the custom rule name itself may vary. For accuracy, we recommend that you visit the Config console to verify your custom rule name.     For Security Hub: The format varies for Security Hub control names. For accuracy, we recommend that you reference the list of supported Security Hub controls.   For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, iam_ListGroups. For accuracy, we recommend that you reference the list of supported API calls.   For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, cloudtrail_StartLogging. For accuracy, we recommend that you review the Amazon Web Services service prefix and action names in the Service Authorization Reference.
         public let keywordValue: String?
 
         @inlinable

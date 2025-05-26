@@ -832,6 +832,41 @@ public struct Inspector2: AWSService {
         return try await self.getCisScanResultDetails(input, logger: logger)
     }
 
+    /// Returns a list of clusters and metadata associated with an image.
+    @Sendable
+    @inlinable
+    public func getClustersForImage(_ input: GetClustersForImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClustersForImageResponse {
+        try await self.client.execute(
+            operation: "GetClustersForImage", 
+            path: "/cluster/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of clusters and metadata associated with an image.
+    ///
+    /// Parameters:
+    ///   - filter: The resource Id for the Amazon ECR image.
+    ///   - maxResults: The maximum number of results to be returned in a single page of results.
+    ///   - nextToken: The pagination token from a previous request used to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getClustersForImage(
+        filter: ClusterForImageFilterCriteria,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetClustersForImageResponse {
+        let input = GetClustersForImageRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getClustersForImage(input, logger: logger)
+    }
+
     /// Retrieves setting configurations for Inspector scans.
     @Sendable
     @inlinable
@@ -2125,6 +2160,43 @@ extension Inspector2 {
         return self.getCisScanResultDetailsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getClustersForImage(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getClustersForImagePaginator(
+        _ input: GetClustersForImageRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetClustersForImageRequest, GetClustersForImageResponse> {
+        return .init(
+            input: input,
+            command: self.getClustersForImage,
+            inputKey: \GetClustersForImageRequest.nextToken,
+            outputKey: \GetClustersForImageResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getClustersForImage(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: The resource Id for the Amazon ECR image.
+    ///   - maxResults: The maximum number of results to be returned in a single page of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getClustersForImagePaginator(
+        filter: ClusterForImageFilterCriteria,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetClustersForImageRequest, GetClustersForImageResponse> {
+        let input = GetClustersForImageRequest(
+            filter: filter, 
+            maxResults: maxResults
+        )
+        return self.getClustersForImagePaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAccountPermissions(_:logger:)``.
     ///
     /// - Parameters:
@@ -2695,6 +2767,17 @@ extension Inspector2.GetCisScanResultDetailsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             targetResourceId: self.targetResourceId
+        )
+    }
+}
+
+extension Inspector2.GetClustersForImageRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Inspector2.GetClustersForImageRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

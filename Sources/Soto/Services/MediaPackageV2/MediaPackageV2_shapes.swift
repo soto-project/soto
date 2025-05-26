@@ -56,6 +56,12 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DashCompactness: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DashDrmSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case individual = "INDIVIDUAL"
         case referenced = "REFERENCED"
@@ -71,8 +77,19 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DashProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dvbDash = "DVB_DASH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DashSegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashTtmlProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ebuTtD101 = "EBU_TT_D_101"
+        case imsc1 = "IMSC_1"
         public var description: String { return self.rawValue }
     }
 
@@ -170,6 +187,7 @@ extension MediaPackageV2 {
         case cencIvIncompatible = "CENC_IV_INCOMPATIBLE"
         case clipStartTimeWithStartOrEnd = "CLIP_START_TIME_WITH_START_OR_END"
         case containerTypeImmutable = "CONTAINER_TYPE_IMMUTABLE"
+        case dashDvbAttributesWithoutDvbDashProfile = "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
         case directModeWithTimingSource = "DIRECT_MODE_WITH_TIMING_SOURCE"
         case drmSignalingMismatchSegmentEncryptionStatus = "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
         case drmSystemsEncryptionMethodIncompatible = "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
@@ -184,6 +202,9 @@ extension MediaPackageV2 {
         case harvestJobUnableToWriteToS3Destination = "HARVEST_JOB_UNABLE_TO_WRITE_TO_S3_DESTINATION"
         case harvestedManifestHasStartEndFilterConfiguration = "HARVESTED_MANIFEST_HAS_START_END_FILTER_CONFIGURATION"
         case harvestedManifestNotFoundOnEndpoint = "HARVESTED_MANIFEST_NOT_FOUND_ON_ENDPOINT"
+        case incompatibleDashCompactnessConfiguration = "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION"
+        case incompatibleDashProfileDvbDashConfiguration = "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION"
+        case incompatibleXmlEncoding = "INCOMPATIBLE_XML_ENCODING"
         case invalidHarvestJobDuration = "INVALID_HARVEST_JOB_DURATION"
         case invalidManifestFilter = "INVALID_MANIFEST_FILTER"
         case invalidPaginationMaxResults = "INVALID_PAGINATION_MAX_RESULTS"
@@ -582,8 +603,14 @@ extension MediaPackageV2 {
     }
 
     public struct CreateDashManifestConfiguration: AWSEncodableShape {
+        /// The base URLs to use for retrieving segments.
+        public let baseUrls: [DashBaseUrl]?
+        /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see DASH manifest compactness in the Elemental MediaPackage v2 User Guide.
+        public let compactness: DashCompactness?
         /// Determines how the DASH manifest signals the DRM content.
         public let drmSignaling: DashDrmSignaling?
+        /// For endpoints that use the DVB-DASH profile only. The font download and error reporting information that you want MediaPackage to pass through to the manifest.
+        public let dvbSettings: DashDvbSettings?
         public let filterConfiguration: FilterConfiguration?
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint.
         public let manifestName: String
@@ -595,47 +622,68 @@ extension MediaPackageV2 {
         public let minUpdatePeriodSeconds: Int?
         /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Type ADS to indicate that AWS Elemental MediaPackage must create periods in the output manifest that correspond to SCTE-35 ad markers in the input source. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see Multi-period DASH in AWS Elemental MediaPackage.
         public let periodTriggers: [DashPeriodTrigger]?
+        /// The profile that the output is compliant with.
+        public let profiles: [DashProfile]?
+        /// Details about the content that you want MediaPackage to pass through in the manifest to the playback device.
+        public let programInformation: DashProgramInformation?
         /// The SCTE configuration.
         public let scteDash: ScteDash?
         /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:    NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
         public let segmentTemplateFormat: DashSegmentTemplateFormat?
+        /// The configuration for DASH subtitles.
+        public let subtitleConfiguration: DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public let suggestedPresentationDelaySeconds: Int?
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public let utcTiming: DashUtcTiming?
 
         @inlinable
-        public init(drmSignaling: DashDrmSignaling? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: DashUtcTiming? = nil) {
+        public init(baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: DashUtcTiming? = nil) {
+            self.baseUrls = baseUrls
+            self.compactness = compactness
             self.drmSignaling = drmSignaling
+            self.dvbSettings = dvbSettings
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
             self.periodTriggers = periodTriggers
+            self.profiles = profiles
+            self.programInformation = programInformation
             self.scteDash = scteDash
             self.segmentTemplateFormat = segmentTemplateFormat
+            self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
             self.utcTiming = utcTiming
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.baseUrls, name: "baseUrls", parent: name, max: 20)
+            try self.dvbSettings?.validate(name: "\(name).dvbSettings")
             try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
             try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
             try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.periodTriggers, name: "periodTriggers", parent: name, max: 100)
+            try self.validate(self.profiles, name: "profiles", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baseUrls = "BaseUrls"
+            case compactness = "Compactness"
             case drmSignaling = "DrmSignaling"
+            case dvbSettings = "DvbSettings"
             case filterConfiguration = "FilterConfiguration"
             case manifestName = "ManifestName"
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case minBufferTimeSeconds = "MinBufferTimeSeconds"
             case minUpdatePeriodSeconds = "MinUpdatePeriodSeconds"
             case periodTriggers = "PeriodTriggers"
+            case profiles = "Profiles"
+            case programInformation = "ProgramInformation"
             case scteDash = "ScteDash"
             case segmentTemplateFormat = "SegmentTemplateFormat"
+            case subtitleConfiguration = "SubtitleConfiguration"
             case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
             case utcTiming = "UtcTiming"
         }
@@ -1063,6 +1111,152 @@ extension MediaPackageV2 {
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
             case tags = "Tags"
+        }
+    }
+
+    public struct DashBaseUrl: AWSEncodableShape & AWSDecodableShape {
+        /// For use with DVB-DASH profiles only. The priority of this location for servings segments. The lower the number, the higher the priority.
+        public let dvbPriority: Int?
+        /// For use with DVB-DASH profiles only. The weighting for source locations that have the same priority.
+        public let dvbWeight: Int?
+        /// The name of the source location.
+        public let serviceLocation: String?
+        /// A source location for segments.
+        public let url: String
+
+        @inlinable
+        public init(dvbPriority: Int? = nil, dvbWeight: Int? = nil, serviceLocation: String? = nil, url: String) {
+            self.dvbPriority = dvbPriority
+            self.dvbWeight = dvbWeight
+            self.serviceLocation = serviceLocation
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dvbPriority = "DvbPriority"
+            case dvbWeight = "DvbWeight"
+            case serviceLocation = "ServiceLocation"
+            case url = "Url"
+        }
+    }
+
+    public struct DashDvbFontDownload: AWSEncodableShape & AWSDecodableShape {
+        /// The fontFamily name for subtitles, as described in EBU-TT-D Subtitling Distribution Format.
+        public let fontFamily: String?
+        /// The mimeType of the resource that's at the font download URL. For information about font MIME types, see the MPEG-DASH Profile for Transport of ISO BMFF Based DVB Services over IP Based Networks document.
+        public let mimeType: String?
+        /// The URL for downloading fonts for subtitles.
+        public let url: String?
+
+        @inlinable
+        public init(fontFamily: String? = nil, mimeType: String? = nil, url: String? = nil) {
+            self.fontFamily = fontFamily
+            self.mimeType = mimeType
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontFamily = "FontFamily"
+            case mimeType = "MimeType"
+            case url = "Url"
+        }
+    }
+
+    public struct DashDvbMetricsReporting: AWSEncodableShape & AWSDecodableShape {
+        /// The number of playback devices per 1000 that will send error reports to the reporting URL. This represents the probability that a playback device will be a reporting player for this session.
+        public let probability: Int?
+        /// The URL where playback devices send error reports.
+        public let reportingUrl: String
+
+        @inlinable
+        public init(probability: Int? = nil, reportingUrl: String) {
+            self.probability = probability
+            self.reportingUrl = reportingUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case probability = "Probability"
+            case reportingUrl = "ReportingUrl"
+        }
+    }
+
+    public struct DashDvbSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Playback device error reporting settings.
+        public let errorMetrics: [DashDvbMetricsReporting]?
+        /// Subtitle font settings.
+        public let fontDownload: DashDvbFontDownload?
+
+        @inlinable
+        public init(errorMetrics: [DashDvbMetricsReporting]? = nil, fontDownload: DashDvbFontDownload? = nil) {
+            self.errorMetrics = errorMetrics
+            self.fontDownload = fontDownload
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.errorMetrics, name: "errorMetrics", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMetrics = "ErrorMetrics"
+            case fontDownload = "FontDownload"
+        }
+    }
+
+    public struct DashProgramInformation: AWSEncodableShape & AWSDecodableShape {
+        /// A copyright statement about the content.
+        public let copyright: String?
+        /// The language code for this manifest.
+        public let languageCode: String?
+        /// An absolute URL that contains more information about this content.
+        public let moreInformationUrl: String?
+        /// Information about the content provider.
+        public let source: String?
+        /// The title for the manifest.
+        public let title: String?
+
+        @inlinable
+        public init(copyright: String? = nil, languageCode: String? = nil, moreInformationUrl: String? = nil, source: String? = nil, title: String? = nil) {
+            self.copyright = copyright
+            self.languageCode = languageCode
+            self.moreInformationUrl = moreInformationUrl
+            self.source = source
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyright = "Copyright"
+            case languageCode = "LanguageCode"
+            case moreInformationUrl = "MoreInformationUrl"
+            case source = "Source"
+            case title = "Title"
+        }
+    }
+
+    public struct DashSubtitleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for TTML subtitles.
+        public let ttmlConfiguration: DashTtmlConfiguration?
+
+        @inlinable
+        public init(ttmlConfiguration: DashTtmlConfiguration? = nil) {
+            self.ttmlConfiguration = ttmlConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ttmlConfiguration = "TtmlConfiguration"
+        }
+    }
+
+    public struct DashTtmlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The profile that MediaPackage uses when signaling subtitles in the manifest. IMSC is the default profile.  EBU-TT-D produces subtitles that are compliant with the EBU-TT-D TTML profile.  MediaPackage passes through subtitle styles to the manifest. For more information about EBU-TT-D subtitles, see EBU-TT-D Subtitling Distribution Format.
+        public let ttmlProfile: DashTtmlProfile
+
+        @inlinable
+        public init(ttmlProfile: DashTtmlProfile) {
+            self.ttmlProfile = ttmlProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ttmlProfile = "TtmlProfile"
         }
     }
 
@@ -1602,8 +1796,14 @@ extension MediaPackageV2 {
     }
 
     public struct GetDashManifestConfiguration: AWSDecodableShape {
+        /// The base URL to use for retrieving segments.
+        public let baseUrls: [DashBaseUrl]?
+        /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
+        public let compactness: DashCompactness?
         /// Determines how the DASH manifest signals the DRM content.
         public let drmSignaling: DashDrmSignaling?
+        /// For endpoints that use the DVB-DASH profile only. The font download and error reporting information that you want MediaPackage to pass through to the manifest.
+        public let dvbSettings: DashDvbSettings?
         public let filterConfiguration: FilterConfiguration?
         /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
         public let manifestName: String
@@ -1615,10 +1815,16 @@ extension MediaPackageV2 {
         public let minUpdatePeriodSeconds: Int?
         /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see Multi-period DASH in AWS Elemental MediaPackage.
         public let periodTriggers: [DashPeriodTrigger]?
+        /// The profile that the output is compliant with.
+        public let profiles: [DashProfile]?
+        /// Details about the content that you want MediaPackage to pass through in the manifest to the playback device.
+        public let programInformation: DashProgramInformation?
         /// The SCTE configuration.
         public let scteDash: ScteDash?
         /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:    NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
         public let segmentTemplateFormat: DashSegmentTemplateFormat?
+        /// The configuration for DASH subtitles.
+        public let subtitleConfiguration: DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public let suggestedPresentationDelaySeconds: Int?
         /// The egress domain URL for stream delivery from MediaPackage.
@@ -1627,31 +1833,43 @@ extension MediaPackageV2 {
         public let utcTiming: DashUtcTiming?
 
         @inlinable
-        public init(drmSignaling: DashDrmSignaling? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, suggestedPresentationDelaySeconds: Int? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
+        public init(baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
+            self.baseUrls = baseUrls
+            self.compactness = compactness
             self.drmSignaling = drmSignaling
+            self.dvbSettings = dvbSettings
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
             self.periodTriggers = periodTriggers
+            self.profiles = profiles
+            self.programInformation = programInformation
             self.scteDash = scteDash
             self.segmentTemplateFormat = segmentTemplateFormat
+            self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
             self.url = url
             self.utcTiming = utcTiming
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baseUrls = "BaseUrls"
+            case compactness = "Compactness"
             case drmSignaling = "DrmSignaling"
+            case dvbSettings = "DvbSettings"
             case filterConfiguration = "FilterConfiguration"
             case manifestName = "ManifestName"
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case minBufferTimeSeconds = "MinBufferTimeSeconds"
             case minUpdatePeriodSeconds = "MinUpdatePeriodSeconds"
             case periodTriggers = "PeriodTriggers"
+            case profiles = "Profiles"
+            case programInformation = "ProgramInformation"
             case scteDash = "ScteDash"
             case segmentTemplateFormat = "SegmentTemplateFormat"
+            case subtitleConfiguration = "SubtitleConfiguration"
             case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
             case url = "Url"
             case utcTiming = "UtcTiming"

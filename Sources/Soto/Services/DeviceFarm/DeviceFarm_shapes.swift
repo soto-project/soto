@@ -1611,16 +1611,19 @@ extension DeviceFarm {
         public let configuration: ScheduleRunConfiguration?
         /// The device pool's ARN.
         public let devicePoolArn: String
+        /// The ARN of the project for which you want to check device pool compatibility.
+        public let projectArn: String?
         /// Information about the uploaded test to be run against the device pool.
         public let test: ScheduleRunTest?
         /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ.   APPIUM_JAVA_JUNIT.   APPIUM_JAVA_TESTNG.   APPIUM_PYTHON.   APPIUM_NODE.   APPIUM_RUBY.   APPIUM_WEB_JAVA_JUNIT.   APPIUM_WEB_JAVA_TESTNG.   APPIUM_WEB_PYTHON.   APPIUM_WEB_NODE.   APPIUM_WEB_RUBY.   INSTRUMENTATION.   XCTEST.   XCTEST_UI.
         public let testType: TestType?
 
         @inlinable
-        public init(appArn: String? = nil, configuration: ScheduleRunConfiguration? = nil, devicePoolArn: String, test: ScheduleRunTest? = nil, testType: TestType? = nil) {
+        public init(appArn: String? = nil, configuration: ScheduleRunConfiguration? = nil, devicePoolArn: String, projectArn: String? = nil, test: ScheduleRunTest? = nil, testType: TestType? = nil) {
             self.appArn = appArn
             self.configuration = configuration
             self.devicePoolArn = devicePoolArn
+            self.projectArn = projectArn
             self.test = test
             self.testType = testType
         }
@@ -1633,6 +1636,9 @@ extension DeviceFarm {
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, max: 1011)
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, min: 32)
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
+            try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
+            try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
             try self.test?.validate(name: "\(name).test")
         }
 
@@ -1640,6 +1646,7 @@ extension DeviceFarm {
             case appArn = "appArn"
             case configuration = "configuration"
             case devicePoolArn = "devicePoolArn"
+            case projectArn = "projectArn"
             case test = "test"
             case testType = "testType"
         }

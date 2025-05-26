@@ -171,6 +171,12 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
+    public enum LifecycleSupportName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case openSourceRdsExtendedSupport = "open-source-rds-extended-support"
+        case openSourceRdsStandardSupport = "open-source-rds-standard-support"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LimitlessDatabaseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case disabled = "disabled"
@@ -1332,7 +1338,7 @@ extension RDS {
 
         /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
         public let allocatedStorage: Int?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster
+        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see  Availability Zones in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:   Can't specify more than three AZs.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -1386,7 +1392,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:    aurora-mysql     aurora-postgresql     mysql     postgres     neptune - For information about using Amazon Neptune, see the  Amazon Neptune User Guide .
         public let engine: String?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB cluster will fail if the DB major version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB cluster will fail if the DB major version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide    Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. Aurora Serverless v2 DB clusters use the  provisioned engine mode. For information about limitations and requirements for Serverless DB clusters, see the  following sections in the Amazon Aurora User Guide:    Limitations of Aurora Serverless v1     Requirements for Aurora Serverless v2    Valid for Cluster Type: Aurora DB clusters only
         public let engineMode: String?
@@ -1667,7 +1673,7 @@ extension RDS {
 
         /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your  database increases, though you are only charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1, io2): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.    RDS for Db2  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.    RDS for MariaDB  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for MySQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for Oracle  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    RDS for PostgreSQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for SQL Server  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3):   Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1, io2):   Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 20 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
         public let allocatedStorage: Int?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window.  By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to  false.
+        /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window.  By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to  false. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the database will be created. For information on Amazon Web Services Regions and Availability Zones, see  Regions and Availability Zones. For Amazon Aurora, each Aurora DB cluster hosts copies of its storage in three separate Availability Zones. Specify one of these  Availability Zones. Aurora automatically chooses an appropriate Availability Zone if you don't specify one. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Constraints:   The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment.   The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.   Example: us-east-1d
         public let availabilityZone: String?
@@ -1730,7 +1736,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values:    aurora-mysql (for Aurora MySQL DB instances)    aurora-postgresql (for Aurora PostgreSQL DB instances)    custom-oracle-ee (for RDS Custom for Oracle DB instances)    custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)    custom-oracle-se2 (for RDS Custom for Oracle DB instances)    custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances)    custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)    custom-sqlserver-se (for RDS Custom for SQL Server DB instances)    custom-sqlserver-web (for RDS Custom for SQL Server DB instances)    custom-sqlserver-dev (for RDS Custom for SQL Server DB instances)    db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String?
-        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB instance will fail if the DB major version is past its end of standard support date.  This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Using Amazon RDS Extended Support in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB instance will fail if the DB major version is past its end of standard support date.  This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with  Amazon RDS. Not every database engine is available for every Amazon Web Services Region.  Amazon RDS Custom for Oracle  A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV  name has the following format: 19.customized_string. A valid CEV name is   19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in the Amazon RDS User Guide.  Amazon RDS Custom for SQL Server  See RDS Custom for SQL Server general requirements  in the Amazon RDS User Guide.  RDS for Db2  For information, see Db2 on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for MariaDB  For information, see MariaDB on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for Microsoft SQL Server  For information, see Microsoft SQL Server versions on Amazon RDS in the  Amazon RDS User Guide.  RDS for MySQL  For information, see MySQL on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for Oracle  For information, see Oracle Database Engine release notes in the  Amazon RDS User Guide.  RDS for PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions in the  Amazon RDS User Guide.
         public let engineVersion: String?
@@ -1943,7 +1949,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance.
+        /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
         public let availabilityZone: String?
@@ -2562,7 +2568,7 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The database engine to use for this global database cluster. Valid Values: aurora-mysql | aurora-postgresql  Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
         public let engine: String?
-        /// The life cycle type for this global database cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your global cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the global cluster will fail if the DB major version is past its end of standard support date.  This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see Using Amazon RDS Extended Support in the Amazon Aurora User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this global database cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your global cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the global cluster will fail if the DB major version is past its end of standard support date.  This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The engine version to use for this global database cluster. Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine version of the source DB cluster.
         public let engineVersion: String?
@@ -2729,10 +2735,14 @@ extension RDS {
         public let characterSetName: String?
         /// The user-supplied DB instance identifier. RDS creates your tenant database in this DB instance. This parameter isn't case-sensitive.
         public let dbInstanceIdentifier: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
+        public let manageMasterUserPassword: Bool?
         /// The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privileges to the master user. This parameter is case-sensitive. Constraints:   Must be 1 to 16 letters, numbers, or underscores.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
-        /// The password for the master user in your tenant database. Constraints:   Must be 8 to 30 characters.   Can include any printable ASCII character except forward slash (/), double quote ("), at symbol (@), ampersand (&), or single quote (').
+        /// The password for the master user in your tenant database. Constraints:   Must be 8 to 30 characters.   Can include any printable ASCII character except forward slash (/), double quote ("), at symbol (@), ampersand (&), or single quote (').   Can't be specified when ManageMasterUserPassword is enabled.
         public let masterUserPassword: String?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The NCHAR value for the tenant database.
         public let ncharCharacterSetName: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -2741,11 +2751,13 @@ extension RDS {
         public let tenantDBName: String?
 
         @inlinable
-        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, ncharCharacterSetName: String? = nil, tags: [Tag]? = nil, tenantDBName: String? = nil) {
+        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, ncharCharacterSetName: String? = nil, tags: [Tag]? = nil, tenantDBName: String? = nil) {
             self.characterSetName = characterSetName
             self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.manageMasterUserPassword = manageMasterUserPassword
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.ncharCharacterSetName = ncharCharacterSetName
             self.tags = tags
             self.tenantDBName = tenantDBName
@@ -2754,8 +2766,10 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case characterSetName = "CharacterSetName"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case ncharCharacterSetName = "NcharCharacterSetName"
             case tags = "Tags"
             case tenantDBName = "TenantDBName"
@@ -2819,7 +2833,7 @@ extension RDS {
         public var associatedRoles: [DBClusterRole]?
         /// The time when a stopped DB cluster is restarted automatically.
         public let automaticRestartTime: Date?
-        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters.
+        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The list of Availability Zones (AZs) where instances in the DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -2890,7 +2904,7 @@ extension RDS {
         public let endpoint: String?
         /// The database engine used for this DB cluster.
         public let engine: String?
-        /// The life cycle type for the DB cluster. For more information, see CreateDBCluster.
+        /// The lifecycle type for the DB cluster. For more information, see CreateDBCluster.
         public let engineLifecycleSupport: String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see  CreateDBCluster.
         public let engineMode: String?
@@ -4035,7 +4049,7 @@ extension RDS {
         public let automaticRestartTime: Date?
         /// The automation mode of the RDS Custom DB instance: full or all paused.  If full, the DB instance automates monitoring and instance recovery. If  all paused, the instance pauses automation for the duration set by  --resume-full-automation-mode-minutes.
         public let automationMode: AutomationMode?
-        /// Indicates whether minor version patches are applied automatically.
+        /// Indicates whether minor version patches are applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The name of the Availability Zone where the DB instance is located.
         public let availabilityZone: String?
@@ -4102,7 +4116,7 @@ extension RDS {
         public let endpoint: Endpoint?
         /// The database engine used for this DB instance.
         public let engine: String?
-        /// The life cycle type for the DB instance. For more information, see CreateDBInstance.
+        /// The lifecycle type for the DB instance. For more information, see CreateDBInstance.
         public let engineLifecycleSupport: String?
         /// The version of the database engine.
         public let engineVersion: String?
@@ -4621,6 +4635,31 @@ extension RDS {
             case normal = "Normal"
             case status = "Status"
             case statusType = "StatusType"
+        }
+    }
+
+    public struct DBMajorEngineVersion: AWSDecodableShape {
+        public struct _SupportedEngineLifecyclesEncoding: ArrayCoderProperties { public static let member = "SupportedEngineLifecycle" }
+
+        /// The name of the database engine.
+        public let engine: String?
+        /// The major version number of the database engine.
+        public let majorEngineVersion: String?
+        /// A list of the lifecycles supported by this engine for the DescribeDBMajorEngineVersions operation.
+        @OptionalCustomCoding<ArrayCoder<_SupportedEngineLifecyclesEncoding, SupportedEngineLifecycle>>
+        public var supportedEngineLifecycles: [SupportedEngineLifecycle]?
+
+        @inlinable
+        public init(engine: String? = nil, majorEngineVersion: String? = nil, supportedEngineLifecycles: [SupportedEngineLifecycle]? = nil) {
+            self.engine = engine
+            self.majorEngineVersion = majorEngineVersion
+            self.supportedEngineLifecycles = supportedEngineLifecycles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case majorEngineVersion = "MajorEngineVersion"
+            case supportedEngineLifecycles = "SupportedEngineLifecycles"
         }
     }
 
@@ -6695,6 +6734,64 @@ extension RDS {
         }
     }
 
+    public struct DescribeDBMajorEngineVersionsRequest: AWSEncodableShape {
+        /// The database engine to return major version details for. Valid Values:    aurora-mysql     aurora-postgresql     custom-sqlserver-ee     custom-sqlserver-se     custom-sqlserver-web     db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
+        public let engine: String?
+        /// A specific database major engine version to return details for. Example: 8.4
+        public let majorEngineVersion: String?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100
+        public let maxRecords: Int?
+
+        @inlinable
+        public init(engine: String? = nil, majorEngineVersion: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.engine = engine
+            self.majorEngineVersion = majorEngineVersion
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.engine, name: "engine", parent: name, max: 50)
+            try self.validate(self.engine, name: "engine", parent: name, min: 1)
+            try self.validate(self.majorEngineVersion, name: "majorEngineVersion", parent: name, max: 50)
+            try self.validate(self.majorEngineVersion, name: "majorEngineVersion", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, max: 340)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+            try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
+            try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case majorEngineVersion = "MajorEngineVersion"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeDBMajorEngineVersionsResponse: AWSDecodableShape {
+        public struct _DBMajorEngineVersionsEncoding: ArrayCoderProperties { public static let member = "DBMajorEngineVersion" }
+
+        /// A list of DBMajorEngineVersion elements.
+        @OptionalCustomCoding<ArrayCoder<_DBMajorEngineVersionsEncoding, DBMajorEngineVersion>>
+        public var dbMajorEngineVersions: [DBMajorEngineVersion]?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        @inlinable
+        public init(dbMajorEngineVersions: [DBMajorEngineVersion]? = nil, marker: String? = nil) {
+            self.dbMajorEngineVersions = dbMajorEngineVersions
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbMajorEngineVersions = "DBMajorEngineVersions"
+            case marker = "Marker"
+        }
+    }
+
     public struct DescribeDBParameterGroupsMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -8580,7 +8677,7 @@ extension RDS {
         public let endpoint: String?
         /// The Aurora database engine used by the global database cluster.
         public let engine: String?
-        /// The life cycle type for the global cluster. For more information, see CreateGlobalCluster.
+        /// The lifecycle type for the global cluster. For more information, see CreateGlobalCluster.
         public let engineLifecycleSupport: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
@@ -9127,7 +9224,7 @@ extension RDS {
         public let allowMajorVersionUpgrade: Bool?
         /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the  PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster  are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as  turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let applyImmediately: Bool?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
         public let awsBackupRecoveryPointArn: String?
@@ -9409,7 +9506,7 @@ extension RDS {
         public let applyImmediately: Bool?
         /// The automation mode of the RDS Custom DB instance.  If full, the DB instance automates monitoring and instance recovery. If  all paused, the instance pauses automation for the duration set by  ResumeFullAutomationModeMinutes.
         public let automationMode: AutomationMode?
-        /// Specifies whether minor version upgrades are applied automatically to the DB instance  during the maintenance window. An outage occurs when all the following conditions are met:   The automatic upgrade is enabled for the maintenance window.   A newer minor version is available.   RDS has enabled automatic patching for the engine version.   If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error.
+        /// Specifies whether minor version upgrades are applied automatically to the DB instance  during the maintenance window. An outage occurs when all the following conditions are met:   The automatic upgrade is enabled for the maintenance window.   A newer minor version is available.   RDS has enabled automatic patching for the engine version.   If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup. This setting doesn't apply to RDS Custom DB instances.
         public let awsBackupRecoveryPointArn: String?
@@ -9471,9 +9568,9 @@ extension RDS {
         public let iops: Int?
         /// The license model for the DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license
         public let licenseModel: String?
-        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn  on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the  master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by  MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn  on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the  master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by  MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.   Can't specify for RDS for Oracle CDB instances in the multi-tenant configuration. Use ModifyTenantDatabase instead.   Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
         public let manageMasterUserPassword: Bool?
-        /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.  Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Amazon RDS API operations never return the password,  so this operation provides a way to regain access to a primary instance user if the password is lost.  This includes restoring privileges that might have been accidentally revoked.  This setting doesn't apply to the following DB instances:   Amazon Aurora (The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.)   RDS Custom   Default: Uses existing setting Constraints:   Can't be specified if ManageMasterUserPassword is turned on.   Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or  the "'" (single quotes) character.   Length Constraints:   RDS for Db2 - Must contain from 8 to 255 characters.   RDS for MariaDB - Must contain from 8 to 41 characters.   RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.   RDS for MySQL - Must contain from 8 to 41 characters.   RDS for Oracle - Must contain from 8 to 30 characters.   RDS for PostgreSQL - Must contain from 8 to 128 characters.
+        /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.  Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Amazon RDS API operations never return the password,  so this operation provides a way to regain access to a primary instance user if the password is lost.  This includes restoring privileges that might have been accidentally revoked.  This setting doesn't apply to the following DB instances:   Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.   RDS Custom   RDS for Oracle CDBs in the multi-tenant configuration Specify the master password in ModifyTenantDatabase instead.   Default: Uses existing setting Constraints:   Can't be specified if ManageMasterUserPassword is turned on.   Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or  the "'" (single quotes) character.   Length Constraints:   RDS for Db2 - Must contain from 8 to 255 characters.   RDS for MariaDB - Must contain from 8 to 41 characters.   RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.   RDS for MySQL - Must contain from 8 to 41 characters.   RDS for Oracle - Must contain from 8 to 30 characters.   RDS for PostgreSQL - Must contain from 8 to 128 characters.
         public let masterUserPassword: String?
         /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The DB instance doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB instance already manages the master user password in Amazon Web Services Secrets Manager,  you can't change the KMS key used to encrypt the secret.   You are turning on ManageMasterUserPassword to manage the master user password  in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify  MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
         public let masterUserSecretKmsKeyId: String?
@@ -9512,7 +9609,7 @@ extension RDS {
         public let replicaMode: ReplicaMode?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes  full automation. Default: 60  Constraints:   Must be at least 60.   Must be no more than 1,440.
         public let resumeFullAutomationModeMinutes: Int?
-        /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB cluster. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
+        /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
         public let rotateMasterUserPassword: Bool?
         /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
         public let storageThroughput: Int?
@@ -10193,25 +10290,37 @@ extension RDS {
     public struct ModifyTenantDatabaseMessage: AWSEncodableShape {
         /// The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB instance.
         public let dbInstanceIdentifier: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
+        public let manageMasterUserPassword: Bool?
         /// The new password for the master user of the specified tenant database in your DB instance.  Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked.  Constraints:   Can include any printable ASCII character except /, " (double quote), @, & (ampersand), and ' (single quote).   Length constraints:   Must contain between 8 and 30 characters.
         public let masterUserPassword: String?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The tenant database doesn't manage the master user password in Amazon Web Services Secrets Manager. If the tenant database already manages the master user password in Amazon Web Services Secrets Manager,  you can't change the KMS key used to encrypt the secret.   You're turning on ManageMasterUserPassword to manage the master user password  in Amazon Web Services Secrets Manager. If you're turning on ManageMasterUserPassword and don't specify  MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a self-managed  KMS key.   The Amazon Web Services KMS key identifier is any of the following:   Key ARN   Key ID   Alias ARN   Alias name for the KMS key   To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. A default KMS key exists for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The new name of the tenant database when renaming a tenant database. This parameter isn’t case-sensitive. Constraints:   Can't be the string null or any other reserved word.   Can't be longer than 8 characters.
         public let newTenantDBName: String?
+        /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
+        public let rotateMasterUserPassword: Bool?
         /// The user-supplied name of the tenant database that you want to modify. This parameter isn’t case-sensitive. Constraints:   Must match the identifier of an existing tenant database.
         public let tenantDBName: String?
 
         @inlinable
-        public init(dbInstanceIdentifier: String? = nil, masterUserPassword: String? = nil, newTenantDBName: String? = nil, tenantDBName: String? = nil) {
+        public init(dbInstanceIdentifier: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, newTenantDBName: String? = nil, rotateMasterUserPassword: Bool? = nil, tenantDBName: String? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.manageMasterUserPassword = manageMasterUserPassword
             self.masterUserPassword = masterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.newTenantDBName = newTenantDBName
+            self.rotateMasterUserPassword = rotateMasterUserPassword
             self.tenantDBName = tenantDBName
         }
 
         private enum CodingKeys: String, CodingKey {
             case dbInstanceIdentifier = "DBInstanceIdentifier"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
             case masterUserPassword = "MasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case newTenantDBName = "NewTenantDBName"
+            case rotateMasterUserPassword = "RotateMasterUserPassword"
             case tenantDBName = "TenantDBName"
         }
     }
@@ -11938,7 +12047,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)
         public let engine: String?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide    Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Examples: 5.7.mysql_aurora.2.12.0, 8.0.mysql_aurora.3.04.0
         public let engineVersion: String?
@@ -12115,7 +12224,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let engine: String?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide    Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see  CreateDBCluster. Valid for: Aurora DB clusters only
         public let engineMode: String?
@@ -12277,7 +12386,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// Specifies whether to turn on Performance Insights for the DB cluster.
         public let enablePerformanceInsights: Bool?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide    Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The engine mode of the new cluster. Specify provisioned or serverless, depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. To create a full copy that is an Aurora Serverless v1 cluster, specify  the engine mode serverless. Valid for: Aurora DB clusters only
         public let engineMode: String?
@@ -12422,7 +12531,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether to automatically apply minor version upgrades to the DB instance  during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
+        /// Specifies whether to automatically apply minor version upgrades to the DB instance  during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
         public let availabilityZone: String?
@@ -12474,12 +12583,16 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. This setting doesn't apply to RDS Custom. Default: The same as source Constraint: Must be compatible with the engine of the source. For example, you can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:    db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String?
-        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,   RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Using Amazon RDS Extended Support in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,   RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second.  If this parameter isn't specified, the IOPS value is taken from the backup.  If this parameter is set to 0, the new instance is converted to a non-PIOPS instance.  The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see  Amazon RDS Provisioned IOPS storage  in the Amazon RDS User Guide.  Constraints: Must be an integer greater than 1000.
         public let iops: Int?
         /// License model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide. Constraints:   Applies to RDS for Oracle only.
+        public let manageMasterUserPassword: Bool?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// Specifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
         /// The network type of the DB instance. Valid Values:    IPV4     DUAL    The network type is determined by the DBSubnetGroup specified for the DB instance.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon RDS User Guide.
@@ -12510,7 +12623,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -12540,6 +12653,8 @@ extension RDS {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.iops = iops
             self.licenseModel = licenseModel
+            self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.multiAZ = multiAZ
             self.networkType = networkType
             self.optionGroupName = optionGroupName
@@ -12585,6 +12700,8 @@ extension RDS {
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case iops = "Iops"
             case licenseModel = "LicenseModel"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case multiAZ = "MultiAZ"
             case networkType = "NetworkType"
             case optionGroupName = "OptionGroupName"
@@ -12622,7 +12739,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether to automatically apply minor engine upgrades   to the DB instance during the maintenance window. By default, minor engine upgrades  are not applied automatically.
+        /// Specifies whether to automatically apply minor engine upgrades   to the DB instance during the maintenance window. By default, minor engine upgrades  are not applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone that the DB instance is created in.  For information about Amazon Web Services Regions and Availability Zones, see Regions and Availability Zones in the Amazon RDS User Guide.  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d  Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment.  The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
         public let availabilityZone: String?
@@ -12660,7 +12777,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The name of the database engine to be used for this instance. Valid Values:  mysql
         public let engine: String?
-        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,   RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Using Amazon RDS Extended Support in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,   RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support Amazon RDS in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The version number of the database engine to use. Choose the latest minor version of your database engine.  For information about engine versions, see CreateDBInstance, or call DescribeDBEngineVersions.
         public let engineVersion: String?
@@ -12862,7 +12979,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
+        /// Specifies whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraints:   You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.   Example: us-east-1a
         public let availabilityZone: String?
@@ -12908,12 +13025,16 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. This setting doesn't apply to RDS Custom. Valid Values:    db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web    Default: The same as source Constraints:   Must be compatible with the engine of the source.
         public let engine: String?
-        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Using Amazon RDS Extended Support in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints:   Must be an integer greater than 1000.
         public let iops: Int?
         /// The license model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide. Constraints:   Applies to RDS for Oracle only.
+        public let manageMasterUserPassword: Bool?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see   Managing capacity automatically with Amazon RDS storage autoscaling  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         public let maxAllocatedStorage: Int?
         /// Secifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraints:   You can't specify the AvailabilityZone parameter if the DB instance is a  Multi-AZ deployment.
@@ -12958,7 +13079,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -12985,6 +13106,8 @@ extension RDS {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.iops = iops
             self.licenseModel = licenseModel
+            self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.maxAllocatedStorage = maxAllocatedStorage
             self.multiAZ = multiAZ
             self.networkType = networkType
@@ -13034,6 +13157,8 @@ extension RDS {
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case iops = "Iops"
             case licenseModel = "LicenseModel"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case maxAllocatedStorage = "MaxAllocatedStorage"
             case multiAZ = "MultiAZ"
             case networkType = "NetworkType"
@@ -13487,7 +13612,7 @@ extension RDS {
         public let exportTaskIdentifier: String?
         /// The name of the IAM role to use for writing to the Amazon S3 bucket  when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket:   s3:PutObject*   s3:GetObject*   s3:ListBucket   s3:DeleteObject*   s3:GetBucketLocation    In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3:    arn:aws:s3:::your-s3-bucket      arn:aws:s3:::your-s3-bucket/*
         public let iamRoleArn: String?
-        /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS  key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  The caller of this operation must be authorized to run the following operations.  These can be set in the Amazon Web Services KMS key policy:   kms:Encrypt   kms:Decrypt   kms:GenerateDataKey   kms:GenerateDataKeyWithoutPlaintext   kms:ReEncryptFrom   kms:ReEncryptTo   kms:CreateGrant   kms:DescribeKey   kms:RetireGrant
+        /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS  key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  The caller of this operation must be authorized to run the following operations.  These can be set in the Amazon Web Services KMS key policy:   kms:CreateGrant   kms:DescribeKey
         public let kmsKeyId: String?
         /// The name of the Amazon S3 bucket to export the snapshot or cluster data to.
         public let s3BucketName: String?
@@ -13665,6 +13790,28 @@ extension RDS {
             case subnetIdentifier = "SubnetIdentifier"
             case subnetOutpost = "SubnetOutpost"
             case subnetStatus = "SubnetStatus"
+        }
+    }
+
+    public struct SupportedEngineLifecycle: AWSDecodableShape {
+        /// The end date for the type of support returned by LifecycleSupportName.
+        public let lifecycleSupportEndDate: Date?
+        /// The type of lifecycle support that the engine version is in. This parameter returns the following values:    open-source-rds-standard-support - Indicates RDS standard support or Aurora standard support.    open-source-rds-extended-support - Indicates Amazon RDS Extended Support.   For Amazon RDS for MySQL, Amazon RDS for PostgreSQL, Aurora MySQL, and Aurora PostgreSQL, this parameter returns both open-source-rds-standard-support and open-source-rds-extended-support. For Amazon RDS for MariaDB, this parameter only returns the value open-source-rds-standard-support. For information about Amazon RDS Extended Support, see Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide and Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide.
+        public let lifecycleSupportName: LifecycleSupportName?
+        /// The start date for the type of support returned by LifecycleSupportName.
+        public let lifecycleSupportStartDate: Date?
+
+        @inlinable
+        public init(lifecycleSupportEndDate: Date? = nil, lifecycleSupportName: LifecycleSupportName? = nil, lifecycleSupportStartDate: Date? = nil) {
+            self.lifecycleSupportEndDate = lifecycleSupportEndDate
+            self.lifecycleSupportName = lifecycleSupportName
+            self.lifecycleSupportStartDate = lifecycleSupportStartDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleSupportEndDate = "LifecycleSupportEndDate"
+            case lifecycleSupportName = "LifecycleSupportName"
+            case lifecycleSupportStartDate = "LifecycleSupportStartDate"
         }
     }
 
@@ -13865,6 +14012,7 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The master username of the tenant database.
         public let masterUsername: String?
+        public let masterUserSecret: MasterUserSecret?
         /// The NCHAR character set name of the tenant database.
         public let ncharCharacterSetName: String?
         /// Information about pending changes for a tenant database.
@@ -13883,12 +14031,13 @@ extension RDS {
         public let tenantDBName: String?
 
         @inlinable
-        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, deletionProtection: Bool? = nil, masterUsername: String? = nil, ncharCharacterSetName: String? = nil, pendingModifiedValues: TenantDatabasePendingModifiedValues? = nil, status: String? = nil, tagList: [Tag]? = nil, tenantDatabaseARN: String? = nil, tenantDatabaseCreateTime: Date? = nil, tenantDatabaseResourceId: String? = nil, tenantDBName: String? = nil) {
+        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, deletionProtection: Bool? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, ncharCharacterSetName: String? = nil, pendingModifiedValues: TenantDatabasePendingModifiedValues? = nil, status: String? = nil, tagList: [Tag]? = nil, tenantDatabaseARN: String? = nil, tenantDatabaseCreateTime: Date? = nil, tenantDatabaseResourceId: String? = nil, tenantDBName: String? = nil) {
             self.characterSetName = characterSetName
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.deletionProtection = deletionProtection
             self.masterUsername = masterUsername
+            self.masterUserSecret = masterUserSecret
             self.ncharCharacterSetName = ncharCharacterSetName
             self.pendingModifiedValues = pendingModifiedValues
             self.status = status
@@ -13905,6 +14054,7 @@ extension RDS {
             case dbiResourceId = "DbiResourceId"
             case deletionProtection = "DeletionProtection"
             case masterUsername = "MasterUsername"
+            case masterUserSecret = "MasterUserSecret"
             case ncharCharacterSetName = "NcharCharacterSetName"
             case pendingModifiedValues = "PendingModifiedValues"
             case status = "Status"
@@ -14031,7 +14181,7 @@ extension RDS {
     public struct UserAuthConfig: AWSEncodableShape {
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
-        /// The type of authentication the proxy uses for connections from clients.
+        /// The type of authentication the proxy uses for connections from clients. The following values are defaults for the corresponding engines:   RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD    RDS for SQL Server: SQL_SERVER_AUTHENTICATION    RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256
         public let clientPasswordAuthType: ClientPasswordAuthType?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
         public let description: String?

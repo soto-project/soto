@@ -296,6 +296,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum PoolsRunningMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alwaysOn = "ALWAYS_ON"
+        case autoStop = "AUTO_STOP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReconnectEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -438,7 +444,9 @@ extension WorkSpaces {
         case environmentVariablesPathMissingEntries = "EnvironmentVariablesPathMissingEntries"
         case firewallEnabled = "FirewallEnabled"
         case inPlaceUpgrade = "InPlaceUpgrade"
+        case incompatibleMemoryIntegrity = "MemoryIntegrityIncompatibility"
         case incompatiblePartitioning = "IncompatiblePartitioning"
+        case incompatibleProtocol = "ProtocolOSIncompatibility"
         case insufficientDiskSpace = "InsufficientDiskSpace"
         case insufficientRearmCount = "InsufficientRearmCount"
         case invalidIp = "InvalidIp"
@@ -452,6 +460,7 @@ extension WorkSpaces {
         case realtimeUniversalDisabled = "RealTimeUniversalDisabled"
         case remoteDesktopServicesDisabled = "RemoteDesktopServicesDisabled"
         case reservedStorageInUse = "ReservedStorageInUse"
+        case restrictedDriveLetter = "RestrictedDriveLetterInUse"
         case sixtyFourBitOs = "Requires64BitOS"
         case stagedAppxPackage = "StagedAppxPackage"
         case sysprepFileMissing = "SysPrepFileMissing"
@@ -1715,19 +1724,22 @@ extension WorkSpaces {
         public let directoryId: String
         /// The name of the pool.
         public let poolName: String
+        /// The running mode for the pool.
+        public let runningMode: PoolsRunningMode?
         /// The tags for the pool.
         public let tags: [Tag]?
         /// Indicates the timeout settings of the pool.
         public let timeoutSettings: TimeoutSettings?
 
         @inlinable
-        public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String, capacity: Capacity, description: String, directoryId: String, poolName: String, tags: [Tag]? = nil, timeoutSettings: TimeoutSettings? = nil) {
+        public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String, capacity: Capacity, description: String, directoryId: String, poolName: String, runningMode: PoolsRunningMode? = nil, tags: [Tag]? = nil, timeoutSettings: TimeoutSettings? = nil) {
             self.applicationSettings = applicationSettings
             self.bundleId = bundleId
             self.capacity = capacity
             self.description = description
             self.directoryId = directoryId
             self.poolName = poolName
+            self.runningMode = runningMode
             self.tags = tags
             self.timeoutSettings = timeoutSettings
         }
@@ -1756,6 +1768,7 @@ extension WorkSpaces {
             case description = "Description"
             case directoryId = "DirectoryId"
             case poolName = "PoolName"
+            case runningMode = "RunningMode"
             case tags = "Tags"
             case timeoutSettings = "TimeoutSettings"
         }
@@ -1923,20 +1936,17 @@ extension WorkSpaces {
         public let enableInternetAccess: Bool?
         /// Specifies whether maintenance mode is enabled for WorkSpaces. For more information, see WorkSpace Maintenance.
         public let enableMaintenanceMode: Bool?
-        /// Specifies whether the directory is enabled for Amazon WorkDocs.
-        public let enableWorkDocs: Bool?
         /// Indicates the IAM role ARN of the instance.
         public let instanceIamRoleArn: String?
         /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
         @inlinable
-        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -1946,7 +1956,6 @@ extension WorkSpaces {
             case defaultOu = "DefaultOu"
             case enableInternetAccess = "EnableInternetAccess"
             case enableMaintenanceMode = "EnableMaintenanceMode"
-            case enableWorkDocs = "EnableWorkDocs"
             case instanceIamRoleArn = "InstanceIamRoleArn"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
@@ -4685,8 +4694,6 @@ extension WorkSpaces {
         public let directoryId: String?
         /// Indicates whether self-service capabilities are enabled or disabled.
         public let enableSelfService: Bool?
-        /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
-        public let enableWorkDocs: Bool?
         /// The Amazon Resource Name (ARN) of the identity center instance.
         public let idcInstanceArn: String?
         /// The details about Microsoft Entra config.
@@ -4707,11 +4714,10 @@ extension WorkSpaces {
         public let workspaceType: WorkspaceType?
 
         @inlinable
-        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, directoryId: String? = nil, enableSelfService: Bool? = nil, enableWorkDocs: Bool? = nil, idcInstanceArn: String? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceType: WorkspaceType? = nil) {
+        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, directoryId: String? = nil, enableSelfService: Bool? = nil, idcInstanceArn: String? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceType: WorkspaceType? = nil) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.directoryId = directoryId
             self.enableSelfService = enableSelfService
-            self.enableWorkDocs = enableWorkDocs
             self.idcInstanceArn = idcInstanceArn
             self.microsoftEntraConfig = microsoftEntraConfig
             self.subnetIds = subnetIds
@@ -4747,7 +4753,6 @@ extension WorkSpaces {
             case activeDirectoryConfig = "ActiveDirectoryConfig"
             case directoryId = "DirectoryId"
             case enableSelfService = "EnableSelfService"
-            case enableWorkDocs = "EnableWorkDocs"
             case idcInstanceArn = "IdcInstanceArn"
             case microsoftEntraConfig = "MicrosoftEntraConfig"
             case subnetIds = "SubnetIds"
@@ -5643,17 +5648,20 @@ extension WorkSpaces {
         public let directoryId: String?
         /// The identifier of the specified pool to update.
         public let poolId: String
+        /// The desired running mode for the pool. The running mode can only be updated when the pool is in a stopped state.
+        public let runningMode: PoolsRunningMode?
         /// Indicates the timeout settings of the specified pool.
         public let timeoutSettings: TimeoutSettings?
 
         @inlinable
-        public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String? = nil, capacity: Capacity? = nil, description: String? = nil, directoryId: String? = nil, poolId: String, timeoutSettings: TimeoutSettings? = nil) {
+        public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String? = nil, capacity: Capacity? = nil, description: String? = nil, directoryId: String? = nil, poolId: String, runningMode: PoolsRunningMode? = nil, timeoutSettings: TimeoutSettings? = nil) {
             self.applicationSettings = applicationSettings
             self.bundleId = bundleId
             self.capacity = capacity
             self.description = description
             self.directoryId = directoryId
             self.poolId = poolId
+            self.runningMode = runningMode
             self.timeoutSettings = timeoutSettings
         }
 
@@ -5678,6 +5686,7 @@ extension WorkSpaces {
             case description = "Description"
             case directoryId = "DirectoryId"
             case poolId = "PoolId"
+            case runningMode = "RunningMode"
             case timeoutSettings = "TimeoutSettings"
         }
     }
@@ -6025,20 +6034,17 @@ extension WorkSpaces {
         public let enableInternetAccess: Bool?
         /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see WorkSpace Maintenance.
         public let enableMaintenanceMode: Bool?
-        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.  If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see Disabling Users in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see Deleting a Site in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled.
-        public let enableWorkDocs: Bool?
         /// Indicates the IAM role ARN of the instance.
         public let instanceIamRoleArn: String?
         /// Indicates whether users are local administrators of their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
         @inlinable
-        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -6055,7 +6061,6 @@ extension WorkSpaces {
             case defaultOu = "DefaultOu"
             case enableInternetAccess = "EnableInternetAccess"
             case enableMaintenanceMode = "EnableMaintenanceMode"
-            case enableWorkDocs = "EnableWorkDocs"
             case instanceIamRoleArn = "InstanceIamRoleArn"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
@@ -6425,15 +6430,17 @@ extension WorkSpaces {
         public let poolArn: String
         /// The identifier of a pool.
         public let poolId: String
-        /// The name of the pool,
+        /// The name of the pool.
         public let poolName: String
+        /// The running mode of the pool.
+        public let runningMode: PoolsRunningMode
         /// The current state of the pool.
         public let state: WorkspacesPoolState
         /// The amount of time that a pool session remains active after users disconnect.  If they try to reconnect to the pool session after a disconnection or network interruption  within this time interval, they are connected to their previous session.  Otherwise, they are connected to a new session with a new pool instance.
         public let timeoutSettings: TimeoutSettings?
 
         @inlinable
-        public init(applicationSettings: ApplicationSettingsResponse? = nil, bundleId: String, capacityStatus: CapacityStatus, createdAt: Date, description: String? = nil, directoryId: String, errors: [WorkspacesPoolError]? = nil, poolArn: String, poolId: String, poolName: String, state: WorkspacesPoolState, timeoutSettings: TimeoutSettings? = nil) {
+        public init(applicationSettings: ApplicationSettingsResponse? = nil, bundleId: String, capacityStatus: CapacityStatus, createdAt: Date, description: String? = nil, directoryId: String, errors: [WorkspacesPoolError]? = nil, poolArn: String, poolId: String, poolName: String, runningMode: PoolsRunningMode, state: WorkspacesPoolState, timeoutSettings: TimeoutSettings? = nil) {
             self.applicationSettings = applicationSettings
             self.bundleId = bundleId
             self.capacityStatus = capacityStatus
@@ -6444,6 +6451,7 @@ extension WorkSpaces {
             self.poolArn = poolArn
             self.poolId = poolId
             self.poolName = poolName
+            self.runningMode = runningMode
             self.state = state
             self.timeoutSettings = timeoutSettings
         }
@@ -6459,6 +6467,7 @@ extension WorkSpaces {
             case poolArn = "PoolArn"
             case poolId = "PoolId"
             case poolName = "PoolName"
+            case runningMode = "RunningMode"
             case state = "State"
             case timeoutSettings = "TimeoutSettings"
         }

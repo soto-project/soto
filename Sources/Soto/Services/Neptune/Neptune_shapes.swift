@@ -31,6 +31,13 @@ extension Neptune {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailoverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelling = "cancelling"
+        case failingOver = "failing-over"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbCluster = "db-cluster"
         case dbClusterSnapshot = "db-cluster-snapshot"
@@ -215,11 +222,11 @@ extension Neptune {
         public let engineVersion: String?
         /// A value that indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public let iamDatabaseAuthenticationEnabled: Bool?
-        /// The Provisioned IOPS (I/O operations per second) value. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The Provisioned IOPS (I/O operations per second) value. This setting is only for Multi-AZ DB clusters.
         public let iops: Int?
         /// This PendingCloudwatchLogsExports structure specifies pending changes to which CloudWatch logs are enabled and which are disabled.
         public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
-        /// The storage type for the DB cluster.
+        /// The pending change in storage type for the DB cluster.   Valid Values:     standard   –   ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage.     iopt1   –   Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
         public let storageType: String?
 
         @inlinable
@@ -502,7 +509,7 @@ extension Neptune {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: neptune
         public let engine: String?
-        /// The version number of the database engine to use for the new DB cluster. Example: 1.0.2.1
+        /// The version number of the database engine to use for the new DB cluster. Example: 1.2.1.0
         public let engineVersion: String?
         /// The ID of the Neptune global database to which this new DB cluster should be added.
         public let globalClusterIdentifier: String?
@@ -528,7 +535,7 @@ extension Neptune {
         public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// Specifies whether the DB cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// The storage type to associate with the DB cluster. Valid Values:    standard | iopt1    Default:    standard     When you create a Neptune cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+        /// The storage type for the new DB cluster. Valid Values:     standard   –   ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage. When set to standard, the storage type is not returned in the response.     iopt1   –   Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
         public let storageType: String?
         /// The tags to assign to the new DB cluster.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -781,7 +788,7 @@ extension Neptune {
         public let publiclyAccessible: Bool?
         /// Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster. Default: false
         public let storageEncrypted: Bool?
-        /// Specifies the storage type to be associated with the DB instance. Not applicable. Storage is managed by the DB Cluster.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public let storageType: String?
         /// The tags to assign to the new instance.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1248,7 +1255,7 @@ extension Neptune {
         public let status: String?
         /// Specifies whether the DB cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// The storage type associated with the DB cluster.
+        /// The storage type used by the DB cluster. Valid Values:     standard   –   ( the default ) Provides cost-effective database storage for applications with moderate to small I/O usage.     iopt1   –   Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
         public let storageType: String?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
@@ -1410,7 +1417,7 @@ extension Neptune {
         /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
         @OptionalCustomCoding<ArrayCoder<_DBClusterEndpointsEncoding, DBClusterEndpoint>>
         public var dbClusterEndpoints: [DBClusterEndpoint]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        ///  n optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         @inlinable
@@ -1961,7 +1968,7 @@ extension Neptune {
         public var statusInfos: [DBInstanceStatusInfo]?
         /// Not supported: The encryption for DB instances is managed by the DB cluster.
         public let storageEncrypted: Bool?
-        /// Specifies the storage type associated with DB instance.
+        /// Specifies the storage type associated with the DB instance.
         public let storageType: String?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
         public let tdeCredentialArn: String?
@@ -2641,9 +2648,9 @@ extension Neptune {
         /// A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of: db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id, db-cluster-endpoint-status. Values for the  db-cluster-endpoint-type filter can be one or more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one or more of: available, creating, deleting, inactive, modifying.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
         @inlinable
@@ -3605,14 +3612,20 @@ extension Neptune {
     }
 
     public struct FailoverGlobalClusterMessage: AWSEncodableShape {
+        /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:Can't be specified together with the Switchover parameter.
+        public let allowDataLoss: Bool?
         /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune  global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
         public let globalClusterIdentifier: String?
+        /// Specifies whether to switch over this global database cluster. Constraints:Can't be specified together with the AllowDataLoss parameter.
+        public let switchover: Bool?
         /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
         public let targetDbClusterIdentifier: String?
 
         @inlinable
-        public init(globalClusterIdentifier: String? = nil, targetDbClusterIdentifier: String? = nil) {
+        public init(allowDataLoss: Bool? = nil, globalClusterIdentifier: String? = nil, switchover: Bool? = nil, targetDbClusterIdentifier: String? = nil) {
+            self.allowDataLoss = allowDataLoss
             self.globalClusterIdentifier = globalClusterIdentifier
+            self.switchover = switchover
             self.targetDbClusterIdentifier = targetDbClusterIdentifier
         }
 
@@ -3623,7 +3636,9 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowDataLoss = "AllowDataLoss"
             case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case switchover = "Switchover"
             case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
         }
     }
@@ -3638,6 +3653,32 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case globalCluster = "GlobalCluster"
+        }
+    }
+
+    public struct FailoverState: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Neptune DB cluster that is currently being demoted, and which is associated with this state.
+        public let fromDbClusterArn: String?
+        /// Indicates whether the operation is a global switchover or a global failover. If data loss is allowed, then the operation is a global failover. Otherwise, it's a switchover.
+        public let isDataLossAllowed: Bool?
+        /// The current status of the global cluster. Possible values are as follows:   pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.   failing-over  Neptune is promoting the chosen secondary Neptune DB cluster to become the new primary DB cluster to fail over the global cluster.   cancelling  The request to switch over or fail over the global cluster was cancelled and the primary Neptune DB cluster and the selected secondary Neptune DB cluster are returning to their previous states.   switching-over  This status covers the range of Neptune internal operations that take place during the switchover process, such as demoting the primary Neptune DB cluster, promoting the secondary Neptune DB cluster, and synchronizing replicas.
+        public let status: FailoverStatus?
+        /// The Amazon Resource Name (ARN) of the Neptune DB cluster that is currently being promoted, and which is associated with this state.
+        public let toDbClusterArn: String?
+
+        @inlinable
+        public init(fromDbClusterArn: String? = nil, isDataLossAllowed: Bool? = nil, status: FailoverStatus? = nil, toDbClusterArn: String? = nil) {
+            self.fromDbClusterArn = fromDbClusterArn
+            self.isDataLossAllowed = isDataLossAllowed
+            self.status = status
+            self.toDbClusterArn = toDbClusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromDbClusterArn = "FromDbClusterArn"
+            case isDataLossAllowed = "IsDataLossAllowed"
+            case status = "Status"
+            case toDbClusterArn = "ToDbClusterArn"
         }
     }
 
@@ -3671,6 +3712,8 @@ extension Neptune {
         public let engine: String?
         /// The Neptune engine version used by the global database.
         public let engineVersion: String?
+        /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster (Neptune global database). This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
+        public let failoverState: FailoverState?
         /// The Amazon Resource Name (ARN) for the global database.
         public let globalClusterArn: String?
         /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database.
@@ -3686,10 +3729,11 @@ extension Neptune {
         public let storageEncrypted: Bool?
 
         @inlinable
-        public init(deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
+        public init(deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
+            self.failoverState = failoverState
             self.globalClusterArn = globalClusterArn
             self.globalClusterIdentifier = globalClusterIdentifier
             self.globalClusterMembers = globalClusterMembers
@@ -3702,6 +3746,7 @@ extension Neptune {
             case deletionProtection = "DeletionProtection"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case failoverState = "FailoverState"
             case globalClusterArn = "GlobalClusterArn"
             case globalClusterIdentifier = "GlobalClusterIdentifier"
             case globalClusterMembers = "GlobalClusterMembers"
@@ -3895,7 +3940,7 @@ extension Neptune {
         public let preferredMaintenanceWindow: String?
         /// Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide.
         public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
-        /// The storage type to associate with the DB cluster. Valid Values:    standard | iopt1    Default:    standard
+        /// The storage type to associate with the DB cluster. Valid Values:     standard   –   ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage.     iopt1   –   Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
         public let storageType: String?
         /// A list of VPC security groups that the DB cluster will belong to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
@@ -4098,7 +4143,7 @@ extension Neptune {
         public let promotionTier: Int?
         /// This flag should no longer be used.
         public let publiclyAccessible: Bool?
-        /// Not supported.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public let storageType: String?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
@@ -4450,7 +4495,7 @@ extension Neptune {
         public let multiAZCapable: Bool?
         /// Indicates whether a DB instance can have a Read Replica.
         public let readReplicaCapable: Bool?
-        /// Indicates the storage type for a DB instance.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public let storageType: String?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
         public let supportsEnhancedMonitoring: Bool?
@@ -4690,7 +4735,7 @@ extension Neptune {
         public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
         /// Specifies the pending port for the DB instance.
         public let port: Int?
-        /// Specifies the storage type to be associated with the DB instance.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public let storageType: String?
 
         @inlinable
@@ -5305,6 +5350,43 @@ extension Neptune {
         }
     }
 
+    public struct SwitchoverGlobalClusterMessage: AWSEncodableShape {
+        /// The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints: Must match the identifier of an existing global database cluster.
+        public let globalClusterIdentifier: String?
+        /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
+        public let targetDbClusterIdentifier: String?
+
+        @inlinable
+        public init(globalClusterIdentifier: String? = nil, targetDbClusterIdentifier: String? = nil) {
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.targetDbClusterIdentifier = targetDbClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
+        }
+    }
+
+    public struct SwitchoverGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        @inlinable
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
@@ -5410,16 +5492,16 @@ extension Neptune {
         public struct _ProvisionedIopsEncoding: ArrayCoderProperties { public static let member = "Range" }
         public struct _StorageSizeEncoding: ArrayCoderProperties { public static let member = "Range" }
 
-        /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         @OptionalCustomCoding<ArrayCoder<_IopsToStorageRatioEncoding, DoubleRange>>
         public var iopsToStorageRatio: [DoubleRange]?
-        /// The valid range of provisioned IOPS. For example, 1000-20000.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         @OptionalCustomCoding<ArrayCoder<_ProvisionedIopsEncoding, Range>>
         public var provisionedIops: [Range]?
-        /// The valid range of storage in gibibytes. For example, 100 to 16384.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         @OptionalCustomCoding<ArrayCoder<_StorageSizeEncoding, Range>>
         public var storageSize: [Range]?
-        /// The valid storage types for your DB instance. For example, gp2, io1.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public let storageType: String?
 
         @inlinable

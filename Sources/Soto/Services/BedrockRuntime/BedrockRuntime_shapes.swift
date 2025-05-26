@@ -369,6 +369,10 @@ extension BedrockRuntime {
 
         public func validate(name: String) throws {
             switch self {
+            case .document(let value):
+                try value.validate(name: "\(name).document")
+            case .image(let value):
+                try value.validate(name: "\(name).image")
             case .toolResult(let value):
                 try value.validate(name: "\(name).toolResult")
             case .toolUse(let value):
@@ -515,6 +519,56 @@ extension BedrockRuntime {
         }
     }
 
+    public enum DocumentSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
+        case bytes(AWSBase64Data)
+        /// The location of a document object in an Amazon S3 bucket. To see which models support S3 uploads, see Supported models and features for Converse.
+        case s3Location(S3Location)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .bytes:
+                let value = try container.decode(AWSBase64Data.self, forKey: .bytes)
+                self = .bytes(value)
+            case .s3Location:
+                let value = try container.decode(S3Location.self, forKey: .s3Location)
+                self = .s3Location(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .bytes(let value):
+                try container.encode(value, forKey: .bytes)
+            case .s3Location(let value):
+                try container.encode(value, forKey: .s3Location)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3Location(let value):
+                try value.validate(name: "\(name).s3Location")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+            case s3Location = "s3Location"
+        }
+    }
+
     public enum GuardrailContentBlock: AWSEncodableShape, Sendable {
         /// Image within guardrail content block to be evaluated by the guardrail.
         case image(GuardrailImageBlock)
@@ -575,6 +629,56 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case image = "image"
             case text = "text"
+        }
+    }
+
+    public enum ImageSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The raw image bytes for the image. If you use an AWS SDK, you don't need to encode the image bytes in base64.
+        case bytes(AWSBase64Data)
+        /// The location of an image object in an Amazon S3 bucket. To see which models support S3 uploads, see Supported models and features for Converse.
+        case s3Location(S3Location)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .bytes:
+                let value = try container.decode(AWSBase64Data.self, forKey: .bytes)
+                self = .bytes(value)
+            case .s3Location:
+                let value = try container.decode(S3Location.self, forKey: .s3Location)
+                self = .s3Location(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .bytes(let value):
+                try container.encode(value, forKey: .bytes)
+            case .s3Location(let value):
+                try container.encode(value, forKey: .s3Location)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3Location(let value):
+                try value.validate(name: "\(name).s3Location")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+            case s3Location = "s3Location"
         }
     }
 
@@ -939,6 +1043,10 @@ extension BedrockRuntime {
 
         public func validate(name: String) throws {
             switch self {
+            case .document(let value):
+                try value.validate(name: "\(name).document")
+            case .image(let value):
+                try value.validate(name: "\(name).image")
             case .video(let value):
                 try value.validate(name: "\(name).video")
             default:
@@ -958,7 +1066,7 @@ extension BedrockRuntime {
     public enum VideoSource: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Video content encoded in base64.
         case bytes(AWSBase64Data)
-        /// The location of a video object in an S3 bucket.
+        /// The location of a video object in an Amazon S3 bucket. To see which models support S3 uploads, see Supported models and features for Converse.
         case s3Location(S3Location)
 
         public init(from decoder: Decoder) throws {
@@ -1603,6 +1711,10 @@ extension BedrockRuntime {
             self.format = format
             self.name = name
             self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source.validate(name: "\(name).source")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2283,6 +2395,10 @@ extension BedrockRuntime {
         public init(format: ImageFormat, source: ImageSource) {
             self.format = format
             self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source.validate(name: "\(name).source")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3203,20 +3319,6 @@ extension BedrockRuntime {
         }
     }
 
-    public struct DocumentSource: AWSEncodableShape & AWSDecodableShape {
-        /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
-        public let bytes: AWSBase64Data?
-
-        @inlinable
-        public init(bytes: AWSBase64Data? = nil) {
-            self.bytes = bytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytes = "bytes"
-        }
-    }
-
     public struct GuardrailConverseImageSource: AWSEncodableShape & AWSDecodableShape {
         /// The raw image bytes for the image.
         public let bytes: AWSBase64Data?
@@ -3233,20 +3335,6 @@ extension BedrockRuntime {
 
     public struct GuardrailImageSource: AWSEncodableShape {
         /// The bytes details of the guardrail image source. Object used in independent api.
-        public let bytes: AWSBase64Data?
-
-        @inlinable
-        public init(bytes: AWSBase64Data? = nil) {
-            self.bytes = bytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytes = "bytes"
-        }
-    }
-
-    public struct ImageSource: AWSEncodableShape & AWSDecodableShape {
-        /// The raw image bytes for the image. If you use an AWS SDK, you don't need to encode the image bytes in base64.
         public let bytes: AWSBase64Data?
 
         @inlinable

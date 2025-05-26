@@ -266,6 +266,7 @@ public struct LicenseManager: AWSService {
     ///   - homeRegion: Home Region of the grant.
     ///   - licenseArn: Amazon Resource Name (ARN) of the license.
     ///   - principals: The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):   An Amazon Web Services account, which includes only the account specified.     An organizational unit (OU), which includes all accounts in the OU.     An organization, which will include all accounts across your organization.
+    ///   - tags: Tags to add to the grant. For more information about tagging support in License Manager, see the TagResource operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGrant(
@@ -275,6 +276,7 @@ public struct LicenseManager: AWSService {
         homeRegion: String,
         licenseArn: String,
         principals: [String],
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGrantResponse {
         let input = CreateGrantRequest(
@@ -283,7 +285,8 @@ public struct LicenseManager: AWSService {
             grantName: grantName, 
             homeRegion: homeRegion, 
             licenseArn: licenseArn, 
-            principals: principals
+            principals: principals, 
+            tags: tags
         )
         return try await self.createGrant(input, logger: logger)
     }
@@ -364,6 +367,7 @@ public struct LicenseManager: AWSService {
     ///   - licenseName: License name.
     ///   - productName: Product name.
     ///   - productSKU: Product SKU.
+    ///   - tags: Tags to add to the license. For more information about tagging support in License Manager, see the TagResource operation.
     ///   - validity: Date and time range during which the license is valid, in ISO8601-UTC format.
     ///   - logger: Logger use during operation
     @inlinable
@@ -378,6 +382,7 @@ public struct LicenseManager: AWSService {
         licenseName: String,
         productName: String,
         productSKU: String,
+        tags: [Tag]? = nil,
         validity: DatetimeRange,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLicenseResponse {
@@ -392,6 +397,7 @@ public struct LicenseManager: AWSService {
             licenseName: licenseName, 
             productName: productName, 
             productSKU: productSKU, 
+            tags: tags, 
             validity: validity
         )
         return try await self.createLicense(input, logger: logger)
@@ -418,7 +424,7 @@ public struct LicenseManager: AWSService {
     ///   - licenseCount: Number of licenses managed by the license configuration.
     ///   - licenseCountHardLimit: Indicates whether hard or soft license enforcement is used. Exceeding a hard limit blocks the launch of new instances.
     ///   - licenseCountingType: Dimension used to track the license inventory.
-    ///   - licenseRules: License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules  vary by dimension, as follows.    Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores     Instances dimension: allowedTenancy |  maximumCores | minimumCores | maximumSockets | minimumSockets | maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy |  honorVcpuOptimization |  maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible  values for allowedTenancy are EC2-Default, EC2-DedicatedHost, and  EC2-DedicatedInstance. The possible values for honorVcpuOptimization are  True and False.
+    ///   - licenseRules: License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules  vary by dimension, as follows.    Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores     Instances dimension: allowedTenancy |  maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy |  honorVcpuOptimization |  maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible  values for allowedTenancy are EC2-Default, EC2-DedicatedHost, and  EC2-DedicatedInstance. The possible values for honorVcpuOptimization are  True and False.
     ///   - name: Name of the license configuration.
     ///   - productInformationList: Product information.
     ///   - tags: Tags to add to the license configuration.
@@ -1183,7 +1189,7 @@ public struct LicenseManager: AWSService {
     /// Lists the license configurations for your account.
     ///
     /// Parameters:
-    ///   - filters: Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used.  Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded.  Logical operators are EQUALS | NOT_EQUALS.
+    ///   - filters: Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded.
     ///   - licenseConfigurationArns: Amazon Resource Names (ARN) of the license configurations.
     ///   - maxResults: Maximum number of results to return in a single call.
     ///   - nextToken: Token for the next set of results.
@@ -1567,7 +1573,7 @@ public struct LicenseManager: AWSService {
         return try await self.listResourceInventory(input, logger: logger)
     }
 
-    /// Lists the tags for the specified license configuration.
+    /// Lists the tags for the specified resource. For more information about tagging support in License Manager, see the TagResource operation.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1580,10 +1586,10 @@ public struct LicenseManager: AWSService {
             logger: logger
         )
     }
-    /// Lists the tags for the specified license configuration.
+    /// Lists the tags for the specified resource. For more information about tagging support in License Manager, see the TagResource operation.
     ///
     /// Parameters:
-    ///   - resourceArn: Amazon Resource Name (ARN) of the license configuration.
+    ///   - resourceArn: Amazon Resource Name (ARN) of the resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -1650,7 +1656,7 @@ public struct LicenseManager: AWSService {
     /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
     ///
     /// Parameters:
-    ///   - filters: Filters to scope the results. The following filters and logical operators are supported:    resourceArn - The ARN of the license configuration resource. Logical operators are EQUALS | NOT_EQUALS.    resourceType - The resource type (EC2_INSTANCE | EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE).  Logical operators are EQUALS | NOT_EQUALS.    resourceAccount - The ID of the account that owns the resource.  Logical operators are EQUALS | NOT_EQUALS.
+    ///   - filters: Filters to scope the results. The following filters and logical operators are supported:    resourceArn - The ARN of the license configuration resource.    resourceType - The resource type (EC2_INSTANCE |  	EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE).    resourceAccount - The ID of the account that owns the resource.
     ///   - licenseConfigurationArn: Amazon Resource Name (ARN) of the license configuration.
     ///   - maxResults: Maximum number of results to return in a single call.
     ///   - nextToken: Token for the next set of results.
@@ -1701,7 +1707,7 @@ public struct LicenseManager: AWSService {
         return try await self.rejectGrant(input, logger: logger)
     }
 
-    /// Adds the specified tags to the specified license configuration.
+    /// Adds the specified tags to the specified resource. The following resources support tagging in License Manager:   Licenses   Grants   License configurations   Report generators
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -1714,10 +1720,10 @@ public struct LicenseManager: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified tags to the specified license configuration.
+    /// Adds the specified tags to the specified resource. The following resources support tagging in License Manager:   Licenses   Grants   License configurations   Report generators
     ///
     /// Parameters:
-    ///   - resourceArn: Amazon Resource Name (ARN) of the license configuration.
+    ///   - resourceArn: Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Manager:   Licenses - arn:aws:license-manager::111122223333:license:l-EXAMPLE2da7646d6861033667f20e895    Grants - arn:aws:license-manager::111122223333:grant:g-EXAMPLE7b19f4a0ab73679b0beb52707    License configurations - arn:aws:license-manager:us-east-1:111122223333:license-configuration:lic-EXAMPLE6a788d4c8acd4264ff0ecf2ed2d    Report generators - arn:aws:license-manager:us-east-1:111122223333:report-generator:r-EXAMPLE825b4a4f8fe5a3e0c88824e5fc6
     ///   - tags: One or more tags.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1733,7 +1739,7 @@ public struct LicenseManager: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes the specified tags from the specified license configuration.
+    /// Removes the specified tags from the specified resource.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1746,10 +1752,10 @@ public struct LicenseManager: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified tags from the specified license configuration.
+    /// Removes the specified tags from the specified resource.
     ///
     /// Parameters:
-    ///   - resourceArn: Amazon Resource Name (ARN) of the license configuration.
+    ///   - resourceArn: Amazon Resource Name (ARN) of the resource.
     ///   - tagKeys: Keys identifying the tags to remove.
     ///   - logger: Logger use during operation
     @inlinable

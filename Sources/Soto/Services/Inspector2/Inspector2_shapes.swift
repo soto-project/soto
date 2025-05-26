@@ -311,6 +311,12 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum EcrPullDateRescanMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lastInUseAt = "LAST_IN_USE_AT"
+        case lastPullDate = "LAST_PULL_DATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EcrRescanDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days14 = "DAYS_14"
         case days180 = "DAYS_180"
@@ -655,6 +661,7 @@ extension Inspector2 {
         case noResourcesFound = "NO_RESOURCES_FOUND"
         case pendingDisable = "PENDING_DISABLE"
         case pendingInitialScan = "PENDING_INITIAL_SCAN"
+        case pendingRevivalScan = "PENDING_REVIVAL_SCAN"
         case resourceTerminated = "RESOURCE_TERMINATED"
         case scanEligibilityExpired = "SCAN_ELIGIBILITY_EXPIRED"
         case scanFrequencyManual = "SCAN_FREQUENCY_MANUAL"
@@ -952,6 +959,37 @@ extension Inspector2 {
             case packageAggregation = "packageAggregation"
             case repositoryAggregation = "repositoryAggregation"
             case titleAggregation = "titleAggregation"
+        }
+    }
+
+    public enum ClusterMetadata: AWSDecodableShape, Sendable {
+        /// The details for an Amazon ECS cluster in the cluster metadata.
+        case awsEcsMetadataDetails(AwsEcsMetadataDetails)
+        /// The details for an Amazon EKS cluster in the cluster metadata.
+        case awsEksMetadataDetails(AwsEksMetadataDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .awsEcsMetadataDetails:
+                let value = try container.decode(AwsEcsMetadataDetails.self, forKey: .awsEcsMetadataDetails)
+                self = .awsEcsMetadataDetails(value)
+            case .awsEksMetadataDetails:
+                let value = try container.decode(AwsEksMetadataDetails.self, forKey: .awsEksMetadataDetails)
+                self = .awsEksMetadataDetails(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsEcsMetadataDetails = "awsEcsMetadataDetails"
+            case awsEksMetadataDetails = "awsEksMetadataDetails"
         }
     }
 
@@ -1322,6 +1360,10 @@ extension Inspector2 {
         public let imageShas: [StringFilter]?
         /// The image tags.
         public let imageTags: [StringFilter]?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public let inUseCount: [NumberFilter]?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public let lastInUseAt: [DateFilter]?
         /// The container repositories.
         public let repositories: [StringFilter]?
         /// The container resource IDs.
@@ -1332,10 +1374,12 @@ extension Inspector2 {
         public let sortOrder: SortOrder?
 
         @inlinable
-        public init(architectures: [StringFilter]? = nil, imageShas: [StringFilter]? = nil, imageTags: [StringFilter]? = nil, repositories: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: AwsEcrContainerSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(architectures: [StringFilter]? = nil, imageShas: [StringFilter]? = nil, imageTags: [StringFilter]? = nil, inUseCount: [NumberFilter]? = nil, lastInUseAt: [DateFilter]? = nil, repositories: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: AwsEcrContainerSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.architectures = architectures
             self.imageShas = imageShas
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.repositories = repositories
             self.resourceIds = resourceIds
             self.sortBy = sortBy
@@ -1358,6 +1402,10 @@ extension Inspector2 {
             }
             try self.validate(self.imageTags, name: "imageTags", parent: name, max: 10)
             try self.validate(self.imageTags, name: "imageTags", parent: name, min: 1)
+            try self.validate(self.inUseCount, name: "inUseCount", parent: name, max: 10)
+            try self.validate(self.inUseCount, name: "inUseCount", parent: name, min: 1)
+            try self.validate(self.lastInUseAt, name: "lastInUseAt", parent: name, max: 10)
+            try self.validate(self.lastInUseAt, name: "lastInUseAt", parent: name, min: 1)
             try self.repositories?.forEach {
                 try $0.validate(name: "\(name).repositories[]")
             }
@@ -1374,6 +1422,8 @@ extension Inspector2 {
             case architectures = "architectures"
             case imageShas = "imageShas"
             case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
             case repositories = "repositories"
             case resourceIds = "resourceIds"
             case sortBy = "sortBy"
@@ -1390,6 +1440,10 @@ extension Inspector2 {
         public let imageSha: String?
         /// The container image stags.
         public let imageTags: [String]?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public let inUseCount: Int64?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public let lastInUseAt: Date?
         /// The container repository.
         public let repository: String?
         /// The resource ID of the container.
@@ -1398,11 +1452,13 @@ extension Inspector2 {
         public let severityCounts: SeverityCounts?
 
         @inlinable
-        public init(accountId: String? = nil, architecture: String? = nil, imageSha: String? = nil, imageTags: [String]? = nil, repository: String? = nil, resourceId: String, severityCounts: SeverityCounts? = nil) {
+        public init(accountId: String? = nil, architecture: String? = nil, imageSha: String? = nil, imageTags: [String]? = nil, inUseCount: Int64? = nil, lastInUseAt: Date? = nil, repository: String? = nil, resourceId: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.architecture = architecture
             self.imageSha = imageSha
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.repository = repository
             self.resourceId = resourceId
             self.severityCounts = severityCounts
@@ -1413,6 +1469,8 @@ extension Inspector2 {
             case architecture = "architecture"
             case imageSha = "imageSha"
             case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
             case repository = "repository"
             case resourceId = "resourceId"
             case severityCounts = "severityCounts"
@@ -1428,6 +1486,10 @@ extension Inspector2 {
         public let imageHash: String
         /// The image tags attached to the Amazon ECR container image.
         public let imageTags: [String]?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public let inUseCount: Int64?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public let lastInUseAt: Date?
         /// The platform of the Amazon ECR container image.
         public let platform: String?
         /// The date and time the Amazon ECR container image was pushed.
@@ -1438,11 +1500,13 @@ extension Inspector2 {
         public let repositoryName: String
 
         @inlinable
-        public init(architecture: String? = nil, author: String? = nil, imageHash: String, imageTags: [String]? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String, repositoryName: String) {
+        public init(architecture: String? = nil, author: String? = nil, imageHash: String, imageTags: [String]? = nil, inUseCount: Int64? = nil, lastInUseAt: Date? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String, repositoryName: String) {
             self.architecture = architecture
             self.author = author
             self.imageHash = imageHash
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.platform = platform
             self.pushedAt = pushedAt
             self.registry = registry
@@ -1454,10 +1518,66 @@ extension Inspector2 {
             case author = "author"
             case imageHash = "imageHash"
             case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
             case platform = "platform"
             case pushedAt = "pushedAt"
             case registry = "registry"
             case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct AwsEcsMetadataDetails: AWSDecodableShape {
+        /// The details group information for a task in a cluster.
+        public let detailsGroup: String
+        /// The task definition ARN.
+        public let taskDefinitionArn: String
+
+        @inlinable
+        public init(detailsGroup: String, taskDefinitionArn: String) {
+            self.detailsGroup = detailsGroup
+            self.taskDefinitionArn = taskDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detailsGroup = "detailsGroup"
+            case taskDefinitionArn = "taskDefinitionArn"
+        }
+    }
+
+    public struct AwsEksMetadataDetails: AWSDecodableShape {
+        /// The namespace for an Amazon EKS cluster.
+        public let namespace: String?
+        /// The list of workloads.
+        public let workloadInfoList: [AwsEksWorkloadInfo]?
+
+        @inlinable
+        public init(namespace: String? = nil, workloadInfoList: [AwsEksWorkloadInfo]? = nil) {
+            self.namespace = namespace
+            self.workloadInfoList = workloadInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "namespace"
+            case workloadInfoList = "workloadInfoList"
+        }
+    }
+
+    public struct AwsEksWorkloadInfo: AWSDecodableShape {
+        /// The name of the workload.
+        public let name: String
+        /// The workload type.
+        public let type: String
+
+        @inlinable
+        public init(name: String, type: String) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -2438,6 +2558,63 @@ extension Inspector2 {
         }
     }
 
+    public struct ClusterDetails: AWSDecodableShape {
+        public let clusterMetadata: ClusterMetadata
+        /// The last timestamp when Amazon Inspector recorded the image in use in the task or pod in the cluster.
+        public let lastInUse: Date
+        /// The number of tasks or pods where an image was running on the cluster.
+        public let runningUnitCount: Int64?
+        /// The number of tasks or pods where an image was stopped on the cluster in the last 24 hours.
+        public let stoppedUnitCount: Int64?
+
+        @inlinable
+        public init(clusterMetadata: ClusterMetadata, lastInUse: Date, runningUnitCount: Int64? = nil, stoppedUnitCount: Int64? = nil) {
+            self.clusterMetadata = clusterMetadata
+            self.lastInUse = lastInUse
+            self.runningUnitCount = runningUnitCount
+            self.stoppedUnitCount = stoppedUnitCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterMetadata = "clusterMetadata"
+            case lastInUse = "lastInUse"
+            case runningUnitCount = "runningUnitCount"
+            case stoppedUnitCount = "stoppedUnitCount"
+        }
+    }
+
+    public struct ClusterForImageFilterCriteria: AWSEncodableShape {
+        /// The resource Id to be used in the filter criteria.
+        public let resourceId: String
+
+        @inlinable
+        public init(resourceId: String) {
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct ClusterInformation: AWSDecodableShape {
+        /// The cluster ARN.
+        public let clusterArn: String
+        /// Details about the cluster.
+        public let clusterDetails: [ClusterDetails]?
+
+        @inlinable
+        public init(clusterArn: String, clusterDetails: [ClusterDetails]? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterDetails = clusterDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterDetails = "clusterDetails"
+        }
+    }
+
     public struct CodeFilePath: AWSDecodableShape {
         /// The line number of the last line of code that a vulnerability was found in.
         public let endLine: Int
@@ -2666,6 +2843,10 @@ extension Inspector2 {
         public let accountId: [CoverageStringFilter]?
         /// The Amazon EC2 instance tags to filter on.
         public let ec2InstanceTags: [CoverageMapFilter]?
+        /// The number of Amazon ECR images in use.
+        public let ecrImageInUseCount: [CoverageNumberFilter]?
+        /// The Amazon ECR image that was last in use.
+        public let ecrImageLastInUseAt: [CoverageDateFilter]?
         /// The Amazon ECR image tags to filter on.
         public let ecrImageTags: [CoverageStringFilter]?
         /// The Amazon ECR repository name to filter on.
@@ -2694,9 +2875,11 @@ extension Inspector2 {
         public let scanType: [CoverageStringFilter]?
 
         @inlinable
-        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
+        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageInUseCount: [CoverageNumberFilter]? = nil, ecrImageLastInUseAt: [CoverageDateFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
+            self.ecrImageInUseCount = ecrImageInUseCount
+            self.ecrImageLastInUseAt = ecrImageLastInUseAt
             self.ecrImageTags = ecrImageTags
             self.ecrRepositoryName = ecrRepositoryName
             self.imagePulledAt = imagePulledAt
@@ -2723,6 +2906,10 @@ extension Inspector2 {
             }
             try self.validate(self.ec2InstanceTags, name: "ec2InstanceTags", parent: name, max: 10)
             try self.validate(self.ec2InstanceTags, name: "ec2InstanceTags", parent: name, min: 1)
+            try self.validate(self.ecrImageInUseCount, name: "ecrImageInUseCount", parent: name, max: 10)
+            try self.validate(self.ecrImageInUseCount, name: "ecrImageInUseCount", parent: name, min: 1)
+            try self.validate(self.ecrImageLastInUseAt, name: "ecrImageLastInUseAt", parent: name, max: 10)
+            try self.validate(self.ecrImageLastInUseAt, name: "ecrImageLastInUseAt", parent: name, min: 1)
             try self.ecrImageTags?.forEach {
                 try $0.validate(name: "\(name).ecrImageTags[]")
             }
@@ -2787,6 +2974,8 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case ec2InstanceTags = "ec2InstanceTags"
+            case ecrImageInUseCount = "ecrImageInUseCount"
+            case ecrImageLastInUseAt = "ecrImageLastInUseAt"
             case ecrImageTags = "ecrImageTags"
             case ecrRepositoryName = "ecrRepositoryName"
             case imagePulledAt = "imagePulledAt"
@@ -2827,6 +3016,24 @@ extension Inspector2 {
             case comparison = "comparison"
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct CoverageNumberFilter: AWSEncodableShape {
+        /// The lower inclusive for the coverage number.
+        public let lowerInclusive: Int64?
+        /// The upper inclusive for the coverage number.&gt;
+        public let upperInclusive: Int64?
+
+        @inlinable
+        public init(lowerInclusive: Int64? = nil, upperInclusive: Int64? = nil) {
+            self.lowerInclusive = lowerInclusive
+            self.upperInclusive = upperInclusive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lowerInclusive = "lowerInclusive"
+            case upperInclusive = "upperInclusive"
         }
     }
 
@@ -3704,17 +3911,21 @@ extension Inspector2 {
     public struct EcrConfiguration: AWSEncodableShape {
         /// The rescan duration configured for image pull date.
         public let pullDateRescanDuration: EcrPullDateRescanDuration?
+        /// The pull date for the re-scan mode.
+        public let pullDateRescanMode: EcrPullDateRescanMode?
         /// The rescan duration configured for image push date.
         public let rescanDuration: EcrRescanDuration
 
         @inlinable
-        public init(pullDateRescanDuration: EcrPullDateRescanDuration? = nil, rescanDuration: EcrRescanDuration) {
+        public init(pullDateRescanDuration: EcrPullDateRescanDuration? = nil, pullDateRescanMode: EcrPullDateRescanMode? = nil, rescanDuration: EcrRescanDuration) {
             self.pullDateRescanDuration = pullDateRescanDuration
+            self.pullDateRescanMode = pullDateRescanMode
             self.rescanDuration = rescanDuration
         }
 
         private enum CodingKeys: String, CodingKey {
             case pullDateRescanDuration = "pullDateRescanDuration"
+            case pullDateRescanMode = "pullDateRescanMode"
             case rescanDuration = "rescanDuration"
         }
     }
@@ -3736,17 +3947,25 @@ extension Inspector2 {
     public struct EcrContainerImageMetadata: AWSDecodableShape {
         /// The date an image was last pulled at.
         public let imagePulledAt: Date?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public let inUseCount: Int64?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public let lastInUseAt: Date?
         /// Tags associated with the Amazon ECR image metadata.
         public let tags: [String]?
 
         @inlinable
-        public init(imagePulledAt: Date? = nil, tags: [String]? = nil) {
+        public init(imagePulledAt: Date? = nil, inUseCount: Int64? = nil, lastInUseAt: Date? = nil, tags: [String]? = nil) {
             self.imagePulledAt = imagePulledAt
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case imagePulledAt = "imagePulledAt"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
             case tags = "tags"
         }
     }
@@ -3772,6 +3991,8 @@ extension Inspector2 {
     public struct EcrRescanDurationState: AWSDecodableShape {
         /// The rescan duration configured for image pull date.
         public let pullDateRescanDuration: EcrPullDateRescanDuration?
+        /// The pull date for the re-scan mode.
+        public let pullDateRescanMode: EcrPullDateRescanMode?
         /// The rescan duration configured for image push date.
         public let rescanDuration: EcrRescanDuration?
         /// The status of changes to the ECR automated re-scan duration.
@@ -3780,8 +4001,9 @@ extension Inspector2 {
         public let updatedAt: Date?
 
         @inlinable
-        public init(pullDateRescanDuration: EcrPullDateRescanDuration? = nil, rescanDuration: EcrRescanDuration? = nil, status: EcrRescanDurationStatus? = nil, updatedAt: Date? = nil) {
+        public init(pullDateRescanDuration: EcrPullDateRescanDuration? = nil, pullDateRescanMode: EcrPullDateRescanMode? = nil, rescanDuration: EcrRescanDuration? = nil, status: EcrRescanDurationStatus? = nil, updatedAt: Date? = nil) {
             self.pullDateRescanDuration = pullDateRescanDuration
+            self.pullDateRescanMode = pullDateRescanMode
             self.rescanDuration = rescanDuration
             self.status = status
             self.updatedAt = updatedAt
@@ -3789,6 +4011,7 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case pullDateRescanDuration = "pullDateRescanDuration"
+            case pullDateRescanMode = "pullDateRescanMode"
             case rescanDuration = "rescanDuration"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -4095,6 +4318,10 @@ extension Inspector2 {
         public let ecrImageArchitecture: [StringFilter]?
         /// Details of the Amazon ECR image hashes used to filter findings.
         public let ecrImageHash: [StringFilter]?
+        /// Filter criteria indicating when details for an Amazon ECR image include when an Amazon ECR image is in use.
+        public let ecrImageInUseCount: [NumberFilter]?
+        /// Filter criteria indicating when an Amazon ECR image was last used in an Amazon ECS cluster task or Amazon EKS cluster pod.
+        public let ecrImageLastInUseAt: [DateFilter]?
         /// Details on the Amazon ECR image push date and time used to filter findings.
         public let ecrImagePushedAt: [DateFilter]?
         /// Details on the Amazon ECR registry used to filter findings.
@@ -4159,7 +4386,7 @@ extension Inspector2 {
         public let vulnerablePackages: [PackageFilter]?
 
         @inlinable
-        public init(awsAccountId: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImageInUseCount: [NumberFilter]? = nil, ecrImageLastInUseAt: [DateFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
             self.codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTags
@@ -4171,6 +4398,8 @@ extension Inspector2 {
             self.ec2InstanceVpcId = ec2InstanceVpcId
             self.ecrImageArchitecture = ecrImageArchitecture
             self.ecrImageHash = ecrImageHash
+            self.ecrImageInUseCount = ecrImageInUseCount
+            self.ecrImageLastInUseAt = ecrImageLastInUseAt
             self.ecrImagePushedAt = ecrImagePushedAt
             self.ecrImageRegistry = ecrImageRegistry
             self.ecrImageRepositoryName = ecrImageRepositoryName
@@ -4260,6 +4489,10 @@ extension Inspector2 {
             }
             try self.validate(self.ecrImageHash, name: "ecrImageHash", parent: name, max: 10)
             try self.validate(self.ecrImageHash, name: "ecrImageHash", parent: name, min: 1)
+            try self.validate(self.ecrImageInUseCount, name: "ecrImageInUseCount", parent: name, max: 10)
+            try self.validate(self.ecrImageInUseCount, name: "ecrImageInUseCount", parent: name, min: 1)
+            try self.validate(self.ecrImageLastInUseAt, name: "ecrImageLastInUseAt", parent: name, max: 10)
+            try self.validate(self.ecrImageLastInUseAt, name: "ecrImageLastInUseAt", parent: name, min: 1)
             try self.validate(self.ecrImagePushedAt, name: "ecrImagePushedAt", parent: name, max: 10)
             try self.validate(self.ecrImagePushedAt, name: "ecrImagePushedAt", parent: name, min: 1)
             try self.ecrImageRegistry?.forEach {
@@ -4408,6 +4641,8 @@ extension Inspector2 {
             case ec2InstanceVpcId = "ec2InstanceVpcId"
             case ecrImageArchitecture = "ecrImageArchitecture"
             case ecrImageHash = "ecrImageHash"
+            case ecrImageInUseCount = "ecrImageInUseCount"
+            case ecrImageLastInUseAt = "ecrImageLastInUseAt"
             case ecrImagePushedAt = "ecrImagePushedAt"
             case ecrImageRegistry = "ecrImageRegistry"
             case ecrImageRepositoryName = "ecrImageRepositoryName"
@@ -4847,6 +5082,51 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case scanResultDetails = "scanResultDetails"
+        }
+    }
+
+    public struct GetClustersForImageRequest: AWSEncodableShape {
+        /// The resource Id for the Amazon ECR image.
+        public let filter: ClusterForImageFilterCriteria
+        /// The maximum number of results to be returned in a single page of results.
+        public let maxResults: Int?
+        /// The pagination token from a previous request used to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filter: ClusterForImageFilterCriteria, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetClustersForImageResponse: AWSDecodableShape {
+        /// A unit of work inside of a cluster, which can include metadata about the cluster.
+        public let cluster: [ClusterInformation]
+        /// The pagination token from a previous request used to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(cluster: [ClusterInformation], nextToken: String? = nil) {
+            self.cluster = cluster
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case nextToken = "nextToken"
         }
     }
 

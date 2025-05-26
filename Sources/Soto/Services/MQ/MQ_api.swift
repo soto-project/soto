@@ -325,6 +325,35 @@ public struct MQ: AWSService {
         return try await self.deleteBroker(input, logger: logger)
     }
 
+    /// Deletes the specified configuration.
+    @Sendable
+    @inlinable
+    public func deleteConfiguration(_ input: DeleteConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteConfiguration", 
+            path: "/v1/configurations/{ConfigurationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified configuration.
+    ///
+    /// Parameters:
+    ///   - configurationId: The unique ID that Amazon MQ generates for the configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConfiguration(
+        configurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConfigurationResponse {
+        let input = DeleteConfigurationRequest(
+            configurationId: configurationId
+        )
+        return try await self.deleteConfiguration(input, logger: logger)
+    }
+
     /// Removes a tag from a resource.
     @Sendable
     @inlinable

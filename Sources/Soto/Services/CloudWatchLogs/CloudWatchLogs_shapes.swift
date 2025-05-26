@@ -117,6 +117,7 @@ extension CloudWatchLogs {
     }
 
     public enum LogGroupClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delivery = "DELIVERY"
         case infrequentAccess = "INFREQUENT_ACCESS"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
@@ -565,7 +566,7 @@ extension CloudWatchLogs {
                 try validate($0, name: "columns[]", parent: name, min: 1)
             }
             try self.validate(self.columns, name: "columns", parent: name, max: 100)
-            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 2)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.validate(self.quoteCharacter, name: "quoteCharacter", parent: name, max: 1)
             try self.validate(self.quoteCharacter, name: "quoteCharacter", parent: name, min: 1)
@@ -938,7 +939,7 @@ extension CloudWatchLogs {
     public struct CreateLogGroupRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names.
         public let kmsKeyId: String?
-        /// Use this parameter to specify the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   If you omit this parameter, the default of STANDARD is used.  The value of logGroupClass can't be changed after a log group is created.  For details about the features supported by each class, see  Log classes
+        /// Use this parameter to specify the log group class for this log group. There are three classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or  Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.   If you omit this parameter, the default of STANDARD is used.  The value of logGroupClass can't be changed after a log group is created.  For details about the features supported by each class, see  Log classes
         public let logGroupClass: LogGroupClass?
         /// A name for the log group.
         public let logGroupName: String
@@ -2060,15 +2061,17 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogGroupsRequest: AWSEncodableShape {
-        /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+        /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
         public let accountIdentifiers: [String]?
-        /// If you are using a monitoring account, set this to True to have the operation return log groups in  the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers
-        ///  contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.
+        /// If you are using a monitoring account, set this to true to have the operation return log groups in  the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers
+        ///  contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.  The default for this parameter is false.
         public let includeLinkedAccounts: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
-        /// Specifies the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   For details about the features supported by each class, see  Log classes
+        /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups  of all classes can be returned. Specifies the log group class for this log group. There are three classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or  Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.   For details about the features supported by each class, see  Log classes
         public let logGroupClass: LogGroupClass?
+        /// Use this array to filter the list of log groups returned. If you specify this parameter, the only other filter that you can choose to specify is includeLinkedAccounts. If you are using this operation in a monitoring account, you can specify  the ARNs of log groups in source accounts and in the monitoring account itself. If you are using this operation in an account that is not a cross-account monitoring account, you can specify only  log group names in the same account as the operation.
+        public let logGroupIdentifiers: [String]?
         /// If you specify a string for this parameter, the operation returns only log groups that have names
         /// that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups
         /// named FooBar, aws/Foo, and GroupFoo would match, but foo,
@@ -2080,11 +2083,12 @@ extension CloudWatchLogs {
         public let nextToken: String?
 
         @inlinable
-        public init(accountIdentifiers: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupClass: LogGroupClass? = nil, logGroupNamePattern: String? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
+        public init(accountIdentifiers: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupClass: LogGroupClass? = nil, logGroupIdentifiers: [String]? = nil, logGroupNamePattern: String? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
             self.accountIdentifiers = accountIdentifiers
             self.includeLinkedAccounts = includeLinkedAccounts
             self.limit = limit
             self.logGroupClass = logGroupClass
+            self.logGroupIdentifiers = logGroupIdentifiers
             self.logGroupNamePattern = logGroupNamePattern
             self.logGroupNamePrefix = logGroupNamePrefix
             self.nextToken = nextToken
@@ -2099,6 +2103,13 @@ extension CloudWatchLogs {
             try self.validate(self.accountIdentifiers, name: "accountIdentifiers", parent: name, max: 20)
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.logGroupIdentifiers?.forEach {
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, max: 2048)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, min: 1)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            }
+            try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, max: 50)
+            try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, min: 1)
             try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, max: 512)
             try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]*$")
             try self.validate(self.logGroupNamePrefix, name: "logGroupNamePrefix", parent: name, max: 512)
@@ -2112,6 +2123,7 @@ extension CloudWatchLogs {
             case includeLinkedAccounts = "includeLinkedAccounts"
             case limit = "limit"
             case logGroupClass = "logGroupClass"
+            case logGroupIdentifiers = "logGroupIdentifiers"
             case logGroupNamePattern = "logGroupNamePattern"
             case logGroupNamePrefix = "logGroupNamePrefix"
             case nextToken = "nextToken"
@@ -2119,7 +2131,7 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogGroupsResponse: AWSDecodableShape {
-        /// The log groups. If the retentionInDays value is not included for a log group, then that log group's events do not expire.
+        /// An array of structures, where each structure contains the information about one log group.
         public let logGroups: [LogGroup]?
         public let nextToken: String?
 
@@ -3386,7 +3398,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.match, name: "match", parent: name, max: 128)
+            try self.validate(self.match, name: "match", parent: name, max: 512)
             try self.validate(self.match, name: "match", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, max: 128)
             try self.validate(self.source, name: "source", parent: name, min: 1)
@@ -3429,7 +3441,7 @@ extension CloudWatchLogs {
     }
 
     public struct InputLogEvent: AWSEncodableShape {
-        /// The raw event message. Each log event can be no larger than 256 KB.
+        /// The raw event message. Each log event can be no larger than 1 MB.
         public let message: String
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64
@@ -3669,6 +3681,71 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case logGroupIdentifiers = "logGroupIdentifiers"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLogGroupsRequest: AWSEncodableShape {
+        /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+        public let accountIdentifiers: [String]?
+        /// If you are using a monitoring account, set this to true to have the operation return log groups in  the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers  contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.  The default for this parameter is false.
+        public let includeLinkedAccounts: Bool?
+        /// The maximum number of log groups to return. If you omit this parameter, the default is up to 50 log groups.
+        public let limit: Int?
+        /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups  of all classes can be returned.
+        public let logGroupClass: LogGroupClass?
+        /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples.    Use ^ to match log group names by prefix.   For a substring match, specify the string to match. All matches are case sensitive   To match multiple patterns, separate them with a | as in the example ^/aws/lambda|discovery    You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times.
+        public let logGroupNamePattern: String?
+        public let nextToken: String?
+
+        @inlinable
+        public init(accountIdentifiers: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupClass: LogGroupClass? = nil, logGroupNamePattern: String? = nil, nextToken: String? = nil) {
+            self.accountIdentifiers = accountIdentifiers
+            self.includeLinkedAccounts = includeLinkedAccounts
+            self.limit = limit
+            self.logGroupClass = logGroupClass
+            self.logGroupNamePattern = logGroupNamePattern
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIdentifiers?.forEach {
+                try validate($0, name: "accountIdentifiers[]", parent: name, max: 12)
+                try validate($0, name: "accountIdentifiers[]", parent: name, min: 12)
+                try validate($0, name: "accountIdentifiers[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIdentifiers, name: "accountIdentifiers", parent: name, max: 20)
+            try self.validate(self.limit, name: "limit", parent: name, max: 1000)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, max: 129)
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, min: 3)
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, pattern: "^(\\^?[\\.\\-_\\/#A-Za-z0-9]{3,24})(\\|\\^?[\\.\\-_\\/#A-Za-z0-9]{3,24}){0,4}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIdentifiers = "accountIdentifiers"
+            case includeLinkedAccounts = "includeLinkedAccounts"
+            case limit = "limit"
+            case logGroupClass = "logGroupClass"
+            case logGroupNamePattern = "logGroupNamePattern"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLogGroupsResponse: AWSDecodableShape {
+        /// An array of structures, where each structure contains the information about one log group.
+        public let logGroups: [LogGroupSummary]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(logGroups: [LogGroupSummary]? = nil, nextToken: String? = nil) {
+            self.logGroups = logGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroups = "logGroups"
             case nextToken = "nextToken"
         }
     }
@@ -3913,7 +3990,7 @@ extension CloudWatchLogs {
         public let kmsKeyId: String?
         /// The Amazon Resource Name (ARN) of the log group. This version of the ARN doesn't include a trailing :* after the log group name.  Use this version to refer to the ARN in the following situations:   In the logGroupIdentifier input field in many CloudWatch Logs APIs.   In the resourceArn field in tagging APIs   In IAM policies, when specifying permissions for TagResource, UntagResource, and  ListTagsForResource.
         public let logGroupArn: String?
-        /// This specifies the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   For details about the features supported by each class, see  Log classes
+        /// This specifies the log group class for this log group. There are three classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or  Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.   For details about the features supported by the Standard and Infrequent Access classes, see  Log classes
         public let logGroupClass: LogGroupClass?
         /// The name of the log group.
         public let logGroupName: String?
@@ -3968,6 +4045,28 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case percent = "percent"
+        }
+    }
+
+    public struct LogGroupSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the log group.
+        public let logGroupArn: String?
+        /// The log group class for this log group. For details about the features supported by each log group class, see  Log classes
+        public let logGroupClass: LogGroupClass?
+        /// The name of the log group.
+        public let logGroupName: String?
+
+        @inlinable
+        public init(logGroupArn: String? = nil, logGroupClass: LogGroupClass? = nil, logGroupName: String? = nil) {
+            self.logGroupArn = logGroupArn
+            self.logGroupClass = logGroupClass
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn = "logGroupArn"
+            case logGroupClass = "logGroupClass"
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -5949,7 +6048,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 128)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, max: 128)
             try self.validate(self.source, name: "source", parent: name, min: 1)

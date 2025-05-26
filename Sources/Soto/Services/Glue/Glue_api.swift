@@ -1368,6 +1368,7 @@ public struct Glue: AWSService {
     ///   - additionalEncryptionContext: An optional set of non-secret key–value pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided.
     ///   - dataFilter: Selects source tables for the integration using Maxwell filter syntax.
     ///   - description: A description of the integration.
+    ///   - integrationConfig: The configuration settings.
     ///   - integrationName: A unique name for an integration in Glue.
     ///   - kmsKeyId: The ARN of a KMS key used for encrypting the channel.
     ///   - sourceArn: The ARN of the source resource for the integration.
@@ -1379,6 +1380,7 @@ public struct Glue: AWSService {
         additionalEncryptionContext: [String: String]? = nil,
         dataFilter: String? = nil,
         description: String? = nil,
+        integrationConfig: IntegrationConfig? = nil,
         integrationName: String,
         kmsKeyId: String? = nil,
         sourceArn: String,
@@ -1390,6 +1392,7 @@ public struct Glue: AWSService {
             additionalEncryptionContext: additionalEncryptionContext, 
             dataFilter: dataFilter, 
             description: description, 
+            integrationConfig: integrationConfig, 
             integrationName: integrationName, 
             kmsKeyId: kmsKeyId, 
             sourceArn: sourceArn, 
@@ -1450,8 +1453,8 @@ public struct Glue: AWSService {
     /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively.
     ///
     /// Parameters:
-    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
-    ///   - sourceTableConfig: A structure for the source table configuration.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the target table for which to create integration table properties. Currently, this API only supports creating  integration table properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for  creating integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
+    ///   - sourceTableConfig: A structure for the source table configuration. See the SourceTableConfig structure to see list of supported source properties.
     ///   - tableName: The name of the table to be replicated.
     ///   - targetTableConfig: A structure for the target table configuration.
     ///   - logger: Logger use during operation
@@ -4441,7 +4444,7 @@ public struct Glue: AWSService {
     /// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
     ///
     /// Parameters:
-    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving  properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration  table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
     ///   - tableName: The name of the table to be replicated.
     ///   - logger: Logger use during operation
     @inlinable

@@ -114,7 +114,7 @@ extension AppConfig {
     // MARK: Shapes
 
     public struct AccountSettings: AWSDecodableShape {
-        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+        /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
         public let deletionProtection: DeletionProtectionSettings?
 
         @inlinable
@@ -151,7 +151,7 @@ extension AppConfig {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
             try self.validate(self.uri, name: "uri", parent: name, max: 2048)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
         }
@@ -461,7 +461,7 @@ extension AppConfig {
         public let locationUri: String
         /// A name for the configuration profile.
         public let name: String
-        /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.  A retrieval role ARN is not required for configurations stored in the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
+        /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.  A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
         public let retrievalRoleArn: String?
         /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
@@ -508,7 +508,7 @@ extension AppConfig {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, max: 2048)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, min: 20)
-            try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
+            try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\\d{12}:role[/].*)$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -846,7 +846,7 @@ extension AppConfig {
         public let applicationId: String
         /// The ID of the configuration profile you want to delete.
         public let configurationProfileId: String
-        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile if your application has called either GetLatestConfiguration or  for the configuration profile during the specified interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.     APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.     ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
+        /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile if your application has called either GetLatestConfiguration or  for the configuration profile during the specified interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.    APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.     ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
         public let deletionProtectionCheck: DeletionProtectionCheck?
 
         @inlinable
@@ -897,7 +897,7 @@ extension AppConfig {
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
         /// The application ID that includes the environment that you want to delete.
         public let applicationId: String
-        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting an environment if your application called either GetLatestConfiguration or  in the environment during the specified interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.     APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.     ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
+        /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting an environment if your application called either GetLatestConfiguration or  in the environment during the specified interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.     APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.    ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
         public let deletionProtectionCheck: DeletionProtectionCheck?
         /// The ID of the environment that you want to delete.
         public let environmentId: String
@@ -2108,7 +2108,7 @@ extension AppConfig {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 20)
-            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2212,7 +2212,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2235,7 +2235,7 @@ extension AppConfig {
             try self.validate(self.alarmArn, name: "alarmArn", parent: name, min: 1)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, max: 2048)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, min: 20)
-            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\\d{12}:role[/].*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2462,7 +2462,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2498,7 +2498,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2510,7 +2510,7 @@ extension AppConfig {
     }
 
     public struct UpdateAccountSettingsRequest: AWSEncodableShape {
-        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+        /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
         public let deletionProtection: DeletionProtectionSettings?
 
         @inlinable
@@ -2574,7 +2574,7 @@ extension AppConfig {
         public let kmsKeyIdentifier: String?
         /// The name of the configuration profile.
         public let name: String?
-        /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
+        /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.  A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
         public let retrievalRoleArn: String?
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
@@ -2611,7 +2611,7 @@ extension AppConfig {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, max: 2048)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, min: 20)
-            try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
+            try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\\d{12}:role[/].*)$")
             try self.validators?.forEach {
                 try $0.validate(name: "\(name).validators[]")
             }

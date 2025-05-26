@@ -26,6 +26,7 @@ extension EKS {
     // MARK: Enums
 
     public enum AMITypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case al2023Arm64Nvidia = "AL2023_ARM_64_NVIDIA"
         case al2023Arm64Standard = "AL2023_ARM_64_STANDARD"
         case al2023X8664NEURON = "AL2023_x86_64_NEURON"
         case al2023X8664NVIDIA = "AL2023_x86_64_NVIDIA"

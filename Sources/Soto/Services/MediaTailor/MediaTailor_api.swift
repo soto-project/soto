@@ -128,7 +128,7 @@ public struct MediaTailor: AWSService {
     ///
     /// Parameters:
     ///   - adsInteractionLog: The event types that MediaTailor emits in logs for interactions with the ADS.
-    ///   - enabledLoggingStrategies: The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to  send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2].
+    ///   - enabledLoggingStrategies: The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2].
     ///   - manifestServiceInteractionLog: The event types that MediaTailor emits in logs for interactions with the origin server.
     ///   - percentEnabled: The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
     ///   - playbackConfigurationName: The name of the playback configuration.
@@ -256,18 +256,22 @@ public struct MediaTailor: AWSService {
     /// Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide.
     ///
     /// Parameters:
-    ///   - consumption: The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
+    ///   - consumption: The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
     ///   - name: The name to assign to the schedule request.
     ///   - playbackConfigurationName: The name to assign to the playback configuration.
+    ///   - recurringPrefetchConfiguration: The configuration that defines how and when MediaTailor performs ad prefetching in a live event.
     ///   - retrieval: The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
+    ///   - scheduleType: The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see Prefetching ads in Elemental MediaTailor.
     ///   - streamId: An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPrefetchSchedule(
-        consumption: PrefetchConsumption,
+        consumption: PrefetchConsumption? = nil,
         name: String,
         playbackConfigurationName: String,
-        retrieval: PrefetchRetrieval,
+        recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil,
+        retrieval: PrefetchRetrieval? = nil,
+        scheduleType: PrefetchScheduleType? = nil,
         streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePrefetchScheduleResponse {
@@ -275,7 +279,9 @@ public struct MediaTailor: AWSService {
             consumption: consumption, 
             name: name, 
             playbackConfigurationName: playbackConfigurationName, 
+            recurringPrefetchConfiguration: recurringPrefetchConfiguration, 
             retrieval: retrieval, 
+            scheduleType: scheduleType, 
             streamId: streamId
         )
         return try await self.createPrefetchSchedule(input, logger: logger)
@@ -1093,8 +1099,9 @@ public struct MediaTailor: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
+    ///   - nextToken: (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results.  For the first ListPrefetchSchedulesRequest request, omit this value.  For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.  If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
     ///   - playbackConfigurationName: Retrieves the prefetch schedule(s) for a specific playback configuration.
+    ///   - scheduleType: The type of prefetch schedules that you want to list. SINGLE indicates that you want to list the configured single prefetch schedules. RECURRING indicates that you want to list the configured recurring prefetch schedules. ALL indicates that you want to list all configured prefetch schedules.
     ///   - streamId: An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1102,6 +1109,7 @@ public struct MediaTailor: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         playbackConfigurationName: String,
+        scheduleType: ListPrefetchScheduleType? = nil,
         streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListPrefetchSchedulesResponse {
@@ -1109,6 +1117,7 @@ public struct MediaTailor: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             playbackConfigurationName: playbackConfigurationName, 
+            scheduleType: scheduleType, 
             streamId: streamId
         )
         return try await self.listPrefetchSchedules(input, logger: logger)
@@ -1853,18 +1862,21 @@ extension MediaTailor {
     /// - Parameters:
     ///   - maxResults: The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
     ///   - playbackConfigurationName: Retrieves the prefetch schedule(s) for a specific playback configuration.
+    ///   - scheduleType: The type of prefetch schedules that you want to list. SINGLE indicates that you want to list the configured single prefetch schedules. RECURRING indicates that you want to list the configured recurring prefetch schedules. ALL indicates that you want to list all configured prefetch schedules.
     ///   - streamId: An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPrefetchSchedulesPaginator(
         maxResults: Int? = nil,
         playbackConfigurationName: String,
+        scheduleType: ListPrefetchScheduleType? = nil,
         streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListPrefetchSchedulesRequest, ListPrefetchSchedulesResponse> {
         let input = ListPrefetchSchedulesRequest(
             maxResults: maxResults, 
             playbackConfigurationName: playbackConfigurationName, 
+            scheduleType: scheduleType, 
             streamId: streamId
         )
         return self.listPrefetchSchedulesPaginator(input, logger: logger)
@@ -2004,6 +2016,7 @@ extension MediaTailor.ListPrefetchSchedulesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             playbackConfigurationName: self.playbackConfigurationName,
+            scheduleType: self.scheduleType,
             streamId: self.streamId
         )
     }

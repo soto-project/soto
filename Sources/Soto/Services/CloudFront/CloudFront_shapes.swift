@@ -60,9 +60,46 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case direct = "direct"
+        case tenantOnly = "tenant-only"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContinuousDeploymentPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case singleHeader = "SingleHeader"
         case singleWeight = "SingleWeight"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomizationActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case override = "override"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DistributionResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case distribution = "distribution"
+        case distributionTenant = "distribution-tenant"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DnsConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalid = "invalid-configuration"
+        case unknown = "unknown-configuration"
+        case valid = "valid-configuration"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case inactive = "inactive"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +165,17 @@ extension CloudFront {
         case all = "all"
         case none = "none"
         case whitelist = "whitelist"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedCertificateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case expired = "expired"
+        case failed = "failed"
+        case inactive = "inactive"
+        case issued = "issued"
+        case pendingValidation = "pending-validation"
+        case revoked = "revoked"
+        case validationTimedOut = "validation-timed-out"
         public var description: String { return self.rawValue }
     }
 
@@ -218,6 +266,7 @@ extension CloudFront {
     }
 
     public enum PriceClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "None"
         case priceClass100 = "PriceClass_100"
         case priceClass200 = "PriceClass_200"
         case priceClassAll = "PriceClass_All"
@@ -281,6 +330,12 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationTokenHost: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudFront = "cloudfront"
+        case selfHosted = "self-hosted"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowAll = "allow-all"
         case httpsOnly = "https-only"
@@ -293,12 +348,9 @@ extension CloudFront {
     public struct ActiveTrustedKeyGroups: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyGroup" }
 
-        /// This field is true if any of the key groups have public keys that CloudFront
-        /// 			can use to verify the signatures of signed URLs and signed cookies. If not, this field
-        /// 			is false.
+        /// This field is true if any of the key groups have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
-        /// A list of key groups, including the identifiers of the public keys in each key group
-        /// 			that CloudFront can use to verify the signatures of signed URLs and signed cookies.
+        /// A list of key groups, including the identifiers of the public keys in each key group that CloudFront can use to verify the signatures of signed URLs and signed cookies.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, KGKeyPairIds>>
         public var items: [KGKeyPairIds]?
         /// The number of key groups in the list.
@@ -321,11 +373,9 @@ extension CloudFront {
     public struct ActiveTrustedSigners: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Signer" }
 
-        /// This field is true if any of the Amazon Web Services accounts in the list are configured as
-        /// 			trusted signers. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as trusted signers. If not, this field is false.
         public let enabled: Bool
-        /// A list of Amazon Web Services accounts and the identifiers of active CloudFront key pairs in each account
-        /// 			that CloudFront can use to verify the signatures of signed URLs and signed cookies.
+        /// A list of Amazon Web Services accounts and the identifiers of active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, Signer>>
         public var items: [Signer]?
         /// The number of Amazon Web Services accounts in the list.
@@ -348,17 +398,7 @@ extension CloudFront {
     public struct AliasICPRecordal: AWSDecodableShape {
         /// A domain name associated with a distribution.
         public let cname: String?
-        /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus
-        /// 			is set to APPROVED for all CNAMEs (aliases) in Amazon Web Services Regions outside of China. The status values returned are the following:    APPROVED indicates that the associated CNAME
-        /// 					has a valid ICP recordal number. Multiple CNAMEs can be associated with a
-        /// 					distribution, and CNAMEs can correspond to different ICP recordals. To be marked
-        /// 					as APPROVED, that is, valid to use with the China Regions, a CNAME must have one ICP
-        /// 					recordal number associated with it.    SUSPENDED indicates that the associated CNAME
-        /// 					does not have a valid ICP recordal number.    PENDING indicates that CloudFront can't determine
-        /// 					the ICP recordal status of the CNAME associated with the distribution because
-        /// 					there was an error in trying to determine the status. You can try again to see
-        /// 					if the error is resolved in which case CloudFront returns an APPROVED or SUSPENDED
-        /// 					status.
+        /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in Amazon Web Services Regions outside of China. The status values returned are the following:    APPROVED indicates that the associated CNAME has a valid ICP recordal number. Multiple CNAMEs can be associated with a distribution, and CNAMEs can correspond to different ICP recordals. To be marked as APPROVED, that is, valid to use with the China Regions, a CNAME must have one ICP recordal number associated with it.    SUSPENDED indicates that the associated CNAME does not have a valid ICP recordal number.    PENDING indicates that CloudFront can't determine the ICP recordal status of the CNAME associated with the distribution because there was an error in trying to determine the status. You can try again to see if the error is resolved in which case CloudFront returns an APPROVED or SUSPENDED status.
         public let icpRecordalStatus: ICPRecordalStatus?
 
         @inlinable
@@ -376,12 +416,10 @@ extension CloudFront {
     public struct Aliases: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CNAME" }
 
-        /// A complex type that contains the CNAME aliases, if any, that you want to associate
-        /// 			with this distribution.
+        /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
-        /// The number of CNAME aliases, if any, that you want to associate with this
-        /// 			distribution.
+        /// The number of CNAME aliases, if any, that you want to associate with this distribution.
         public let quantity: Int
 
         @inlinable
@@ -400,14 +438,10 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Method" }
 
         public let cachedMethods: CachedMethods?
-        /// A complex type that contains the HTTP methods that you want CloudFront to process and
-        /// 			forward to your origin.
+        /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
         @CustomCoding<ArrayCoder<_ItemsEncoding, Method>>
         public var items: [Method]
-        /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values
-        /// 			are 2 (for GET and HEAD requests), 3 (for GET,
-        /// 				HEAD, and OPTIONS requests) and 7 (for GET, HEAD,
-        /// 				OPTIONS, PUT, PATCH, POST, and DELETE requests).
+        /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
         public let quantity: Int
 
         @inlinable
@@ -468,21 +502,16 @@ extension CloudFront {
     public struct AnycastIpListCollection: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "AnycastIpListSummary" }
 
-        /// If there are more items in the list collection than are in this response, this value is
-        /// 			true.
+        /// If there are more items in the list collection than are in this response, this value is true.
         public let isTruncated: Bool
         /// Items in the Anycast static IP list collection. Each item is of the AnycastIpListSummary structure type.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, AnycastIpListSummary>>
         public var items: [AnycastIpListSummary]?
-        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
-        /// 			after the marker. To get the next page of the list, set this field's value to the value
-        /// 			of NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String
-        /// The maximum number of Anycast static IP list collections that you want returned in the
-        /// 			response.
+        /// The maximum number of Anycast static IP list collections that you want returned in the response.
         public let maxItems: Int
-        /// Indicates the next page of the Anycast static IP list collection. To get the next page of the
-        /// 			list, use this value in the Marker field of your request.
+        /// Indicates the next page of the Anycast static IP list collection. To get the next page of the list, use this value in the Marker field of your request.
         public let nextMarker: String?
         /// The quantity of Anycast static IP lists in the collection.
         public let quantity: Int
@@ -563,130 +592,159 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct AssociateDistributionTenantWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// The current ETag of the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+        public let ifMatch: String?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+        public let webACLArn: String
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil, webACLArn: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.webACLArn = webACLArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.webACLArn, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct AssociateDistributionTenantWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+        /// The ID of the distribution tenant.
+        public let id: String?
+        /// The ARN of the WAF web ACL that you associated with the distribution tenant.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil, webACLArn: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+            self.webACLArn = webACLArn
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+            self.webACLArn = try container.decodeIfPresent(String.self, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct AssociateDistributionWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the distribution that you're associating with the WAF web ACL.
+        public let ifMatch: String?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+        public let webACLArn: String
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil, webACLArn: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.webACLArn = webACLArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.webACLArn, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct AssociateDistributionWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution.
+        public let eTag: String?
+        /// The ID of the distribution.
+        public let id: String?
+        /// The ARN of the WAF web ACL that you associated with the distribution.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil, webACLArn: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+            self.webACLArn = webACLArn
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+            self.webACLArn = try container.decodeIfPresent(String.self, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case webACLArn = "WebACLArn"
+        }
+    }
+
     public struct CacheBehavior: AWSEncodableShape & AWSDecodableShape {
         public let allowedMethods: AllowedMethods?
-        /// The unique identifier of the cache policy that is attached to this cache behavior. For
-        /// 			more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. A CacheBehavior must include either a CachePolicyId or
-        /// 				ForwardedValues. We recommend that you use a
-        /// 			CachePolicyId.
+        /// The unique identifier of the cache policy that is attached to this cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. A CacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId.
         public let cachePolicyId: String?
-        /// Whether you want CloudFront to automatically compress certain files for this cache behavior.
-        /// 			If so, specify true; if not, specify false. For more information, see Serving
-        /// 				Compressed Files in the Amazon CloudFront Developer Guide.
+        /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// This field is deprecated. We recommend that you use the DefaultTTL field
-        /// 			in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront
-        /// 			forwards another request to your origin to determine whether the object has been
-        /// 			updated. The value that you specify applies only when your origin does not add HTTP
-        /// 			headers such as Cache-Control max-age, Cache-Control s-maxage,
-        /// 			and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
-        /// The value of ID for the field-level encryption configuration that you
-        /// 			want CloudFront to use for encrypting specific fields of data for this cache behavior.
+        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for this cache behavior.
         public let fieldLevelEncryptionId: String?
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. For more information, see Working with policies in the
-        /// 				Amazon CloudFront Developer Guide. If you want to include values in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. If you want to send values to the origin but not include them in the cache key, use an
-        /// 			origin request policy. For more information, see Creating origin request policies or Using the managed origin request policies in the
-        /// 				Amazon CloudFront Developer Guide. A CacheBehavior must include either a CachePolicyId or
-        /// 				ForwardedValues. We recommend that you use a
-        /// 			CachePolicyId. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP
-        /// 			headers.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. For more information, see Working with policies in the Amazon CloudFront Developer Guide. If you want to include values in the cache key, use a cache policy. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. If you want to send values to the origin but not include them in the cache key, use an origin request policy. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide. A CacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP headers.
         public let forwardedValues: ForwardedValues?
-        /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions
-        /// 			must be published to the LIVE stage to associate them with a cache
-        /// 			behavior.
+        /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
         public let functionAssociations: FunctionAssociations?
         /// The gRPC configuration for your cache behavior.
         public let grpcConfig: GrpcConfig?
-        /// A complex type that contains zero or more Lambda@Edge function associations for a
-        /// 			cache behavior.
+        /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// This field is deprecated. We recommend that you use the MaxTTL field in a
-        /// 			cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront
-        /// 			forwards another request to your origin to determine whether the object has been
-        /// 			updated. The value that you specify applies only when your origin adds HTTP headers such
-        /// 			as Cache-Control max-age, Cache-Control s-maxage, and
-        /// 				Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let maxTTL: Int64?
-        /// This field is deprecated. We recommend that you use the MinTTL field in a
-        /// 			cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront
-        /// 			forwards another request to your origin to determine whether the object has been
-        /// 			updated. For more information, see  Managing How Long
-        /// 				Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to
-        /// 			forward all headers to your origin (under Headers, if you specify
-        /// 				1 for Quantity and * for
-        /// 			Name).
+        /// This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see  Managing How Long Content Stays in an Edge Cache (Expiration) in the  Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64?
-        /// The unique identifier of the origin request policy that is attached to this cache
-        /// 			behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The unique identifier of the origin request policy that is attached to this cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
         public let originRequestPolicyId: String?
-        /// The pattern (for example, images/*.jpg) that specifies which requests to
-        /// 			apply the behavior to. When CloudFront receives a viewer request, the requested path is
-        /// 			compared with path patterns in the order in which cache behaviors are listed in the
-        /// 			distribution.  You can optionally include a slash (/) at the beginning of the path
-        /// 				pattern. For example, /images/*.jpg. CloudFront behavior is the same with or
-        /// 				without the leading /.  The path pattern for the default cache behavior is * and cannot be
-        /// 			changed. If the request for an object does not match the path pattern for any cache
-        /// 			behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
+        /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
         public let pathPattern: String
-        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to
-        /// 			this cache behavior. For more information, see Real-time logs in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
         public let realtimeLogConfigArn: String?
         /// The identifier for a response headers policy.
         public let responseHeadersPolicyId: String?
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming
-        /// 			format using the origin that is associated with this cache behavior. If so, specify
-        /// 				true; if not, specify false. If you specify
-        /// 				true for SmoothStreaming, you can still distribute other
-        /// 			content using this cache behavior if the content matches the value of
-        /// 				PathPattern.
+        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public let smoothStreaming: Bool?
-        /// The value of ID for the origin that you want CloudFront to route requests to
-        /// 			when they match this cache behavior.
+        /// The value of ID for the origin that you want CloudFront to route requests to when they match this cache behavior.
         public let targetOriginId: String
-        /// A list of key groups that CloudFront can use to validate signed URLs or signed
-        /// 			cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed
-        /// 			cookies for all requests that match the cache behavior. The URLs or cookies must be
-        /// 			signed with a private key whose corresponding public key is in the key group. The signed
-        /// 			URL or cookie contains information about which public key CloudFront should use to verify the
-        /// 			signature. For more information, see Serving private content in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of
-        /// 					TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or
-        /// 			signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed
-        /// 			cookies for all requests that match the cache behavior. The URLs or cookies must be
-        /// 			signed with the private key of a CloudFront key pair in the trusted signer's Amazon Web Services account.
-        /// 			The signed URL or cookie contains information about which public key CloudFront should use to
-        /// 			verify the signature. For more information, see Serving private content in the
-        /// 				Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
-        /// The protocol that viewers can use to access the files in the origin specified by
-        /// 				TargetOriginId when a request matches the path pattern in
-        /// 				PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront
-        /// 					returns an HTTP status code of 301 (Moved Permanently) to the viewer along with
-        /// 					the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an
-        /// 					HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and  CloudFront in the
-        /// 				Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from
-        /// 				the origin using HTTPS is never to use any other protocol to fetch the object. If
-        /// 				you have recently changed from HTTP to HTTPS, we recommend that you clear your
-        /// 				objects' cache because cached objects are protocol agnostic. That means that an edge
-        /// 				location will return an object from the cache regardless of whether the current
-        /// 				request protocol matches the protocol used previously. For more information, see
-        /// 					Managing Cache
-        /// 					Expiration in the Amazon CloudFront Developer Guide.
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
         @inlinable
@@ -769,8 +827,7 @@ extension CloudFront {
     public struct CacheBehaviors: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CacheBehavior" }
 
-        /// Optional: A complex type that contains cache behaviors for this distribution. If
-        /// 				Quantity is 0, you can omit Items.
+        /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CacheBehavior>>
         public var items: [CacheBehavior]?
         /// The number of cache behaviors for this distribution.
@@ -817,37 +874,17 @@ extension CloudFront {
     }
 
     public struct CachePolicyConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A comment to describe the cache policy. The comment cannot be longer than 128
-        /// 			characters.
+        /// A comment to describe the cache policy. The comment cannot be longer than 128 characters.
         public let comment: String?
-        /// The default amount of time, in seconds, that you want objects to stay in the CloudFront
-        /// 			cache before CloudFront sends another request to the origin to see if the object has been
-        /// 			updated. CloudFront uses this value as the object's time to live (TTL) only when the origin
-        /// 			does not send Cache-Control or Expires
-        /// 			headers with the object. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide. The default value for this field is 86400 seconds (one day). If the value of
-        /// 				MinTTL is more than 86400 seconds, then the default value for this
-        /// 			field is the same as the value of MinTTL.
+        /// The default amount of time, in seconds, that you want objects to stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value as the object's time to live (TTL) only when the origin does not send Cache-Control or Expires headers with the object. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. The default value for this field is 86400 seconds (one day). If the value of MinTTL is more than 86400 seconds, then the default value for this field is the same as the value of MinTTL.
         public let defaultTTL: Int64?
-        /// The maximum amount of time, in seconds, that objects stay in the CloudFront cache before
-        /// 			CloudFront sends another request to the origin to see if the object has been updated. CloudFront
-        /// 			uses this value only when the origin sends Cache-Control or
-        /// 				Expires headers with the object. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide. The default value for this field is 31536000 seconds (one year). If the value of
-        /// 				MinTTL or DefaultTTL is more than 31536000 seconds, then
-        /// 			the default value for this field is the same as the value of
-        /// 			DefaultTTL.
+        /// The maximum amount of time, in seconds, that objects stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value only when the origin sends Cache-Control or Expires headers with the object. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. The default value for this field is 31536000 seconds (one year). If the value of MinTTL or DefaultTTL is more than 31536000 seconds, then the default value for this field is the same as the value of DefaultTTL.
         public let maxTTL: Int64?
-        /// The minimum amount of time, in seconds, that you want objects to stay in the CloudFront
-        /// 			cache before CloudFront sends another request to the origin to see if the object has been
-        /// 			updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The minimum amount of time, in seconds, that you want objects to stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let minTTL: Int64
         /// A unique name to identify the cache policy.
         public let name: String
-        /// The HTTP headers, cookies, and URL query strings to include in the cache key. The values
-        /// 			included in the cache key are also included in requests that CloudFront sends to the
-        /// 			origin.
+        /// The HTTP headers, cookies, and URL query strings to include in the cache key. The values included in the cache key are also included in requests that CloudFront sends to the origin.
         public let parametersInCacheKeyAndForwardedToOrigin: ParametersInCacheKeyAndForwardedToOrigin?
 
         @inlinable
@@ -871,17 +908,7 @@ extension CloudFront {
     }
 
     public struct CachePolicyCookiesConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any cookies in viewer requests are included in the cache key and in
-        /// 			requests that CloudFront sends to the origin. Valid values are:    none – No cookies in viewer requests are included in the cache key or in
-        /// 					requests that CloudFront sends to the origin. Even when this field is set to
-        /// 					none, any cookies that are listed in an
-        /// 					OriginRequestPolicy are included in origin
-        /// 					requests.    whitelist – Only the cookies in viewer requests that are listed in the
-        /// 					CookieNames type are included in the cache key and in requests that
-        /// 					CloudFront sends to the origin.    allExcept – All cookies in viewer requests are included in the cache key and
-        /// 					in requests that CloudFront sends to the origin,  except for those that are listed in the
-        /// 					CookieNames type, which are not included.    all – All cookies in viewer requests are included in the cache key and in
-        /// 					requests that CloudFront sends to the origin.
+        /// Determines whether any cookies in viewer requests are included in the cache key and in requests that CloudFront sends to the origin. Valid values are:    none – No cookies in viewer requests are included in the cache key or in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – Only the cookies in viewer requests that are listed in the CookieNames type are included in the cache key and in requests that CloudFront sends to the origin.    allExcept – All cookies in viewer requests are included in the cache key and in requests that CloudFront sends to the origin,  except  for those that are listed in the CookieNames type, which are not included.    all – All cookies in viewer requests are included in the cache key and in requests that CloudFront sends to the origin.
         public let cookieBehavior: CachePolicyCookieBehavior
         public let cookies: CookieNames?
 
@@ -898,12 +925,7 @@ extension CloudFront {
     }
 
     public struct CachePolicyHeadersConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any HTTP headers are included in the cache key and in requests that CloudFront
-        /// 			sends to the origin. Valid values are:    none – No HTTP headers are included in the cache key or in requests that CloudFront
-        /// 					sends to the origin. Even when this field is set to none, any
-        /// 					headers that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – Only the HTTP headers that are listed in the Headers
-        /// 					type are included in the cache key and in requests that CloudFront sends to the
-        /// 					origin.
+        /// Determines whether any HTTP headers are included in the cache key and in requests that CloudFront sends to the origin. Valid values are:    none – No HTTP headers are included in the cache key or in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – Only the HTTP headers that are listed in the Headers type are included in the cache key and in requests that CloudFront sends to the origin.
         public let headerBehavior: CachePolicyHeaderBehavior
         public let headers: Headers?
 
@@ -927,9 +949,7 @@ extension CloudFront {
         public var items: [CachePolicySummary]?
         /// The maximum number of cache policies requested.
         public let maxItems: Int
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing cache policies where you left off.
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing cache policies where you left off.
         public let nextMarker: String?
         /// The total number of cache policies returned in the response.
         public let quantity: Int
@@ -951,25 +971,9 @@ extension CloudFront {
     }
 
     public struct CachePolicyQueryStringsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any URL query strings in viewer requests are included in the cache key
-        /// 			and in requests that CloudFront sends to the origin. Valid values are:    none – No query strings in viewer requests are included in the cache key or
-        /// 					in requests that CloudFront sends to the origin. Even when this field is set to
-        /// 					none, any query strings that are listed in an
-        /// 					OriginRequestPolicy are included in origin
-        /// 					requests.    whitelist – Only the query strings in viewer requests that are listed in the
-        /// 					QueryStringNames type are included in the cache key and in requests
-        /// 					that CloudFront sends to the origin.    allExcept – All query strings in viewer requests are included in the cache
-        /// 					key and in requests that CloudFront sends to the origin,  except those that are listed in the
-        /// 					QueryStringNames type, which are not included.    all – All query strings in viewer requests are included in the cache key and
-        /// 					in requests that CloudFront sends to the origin.
+        /// Determines whether any URL query strings in viewer requests are included in the cache key and in requests that CloudFront sends to the origin. Valid values are:    none – No query strings in viewer requests are included in the cache key or in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – Only the query strings in viewer requests that are listed in the QueryStringNames type are included in the cache key and in requests that CloudFront sends to the origin.    allExcept – All query strings in viewer requests are included in the cache key and in requests that CloudFront sends to the origin,  except  those that are listed in the QueryStringNames type, which are not included.    all – All query strings in viewer requests are included in the cache key and in requests that CloudFront sends to the origin.
         public let queryStringBehavior: CachePolicyQueryStringBehavior
-        /// Contains the specific query strings in viewer requests that either  are or  are
-        /// 			not included in the cache key and in requests that CloudFront sends to
-        /// 			the origin. The behavior depends on whether the QueryStringBehavior field
-        /// 			in the CachePolicyQueryStringsConfig type is set to whitelist
-        /// 			(the listed query strings  are
-        /// 			included) or allExcept (the listed query strings  are not included, but all other query strings
-        /// 			are).
+        /// Contains the specific query strings in viewer requests that either  are  or  are not  included in the cache key and in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the CachePolicyQueryStringsConfig type is set to whitelist (the listed query strings  are  included) or allExcept (the listed query strings  are not  included, but all other query strings are).
         public let queryStrings: QueryStringNames?
 
         @inlinable
@@ -987,8 +991,7 @@ extension CloudFront {
     public struct CachePolicySummary: AWSDecodableShape {
         /// The cache policy.
         public let cachePolicy: CachePolicy
-        /// The type of cache policy, either managed (created by Amazon Web Services) or
-        /// 				custom (created in this Amazon Web Services account).
+        /// The type of cache policy, either managed (created by Amazon Web Services) or custom (created in this Amazon Web Services account).
         public let type: CachePolicyType
 
         @inlinable
@@ -1006,14 +1009,10 @@ extension CloudFront {
     public struct CachedMethods: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Method" }
 
-        /// A complex type that contains the HTTP methods that you want CloudFront to cache responses
-        /// 			to. Valid values for CachedMethods include GET, HEAD, and OPTIONS, depending on which caching option you choose. For more information, see the preceding section.
+        /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to. Valid values for CachedMethods include GET, HEAD, and OPTIONS, depending on which caching option you choose. For more information, see the preceding section.
         @CustomCoding<ArrayCoder<_ItemsEncoding, Method>>
         public var items: [Method]
-        /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values
-        /// 			are 2 (for caching responses to GET and HEAD
-        /// 			requests) and 3 (for caching responses to GET,
-        /// 				HEAD, and OPTIONS requests).
+        /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
         public let quantity: Int
 
         @inlinable
@@ -1028,14 +1027,26 @@ extension CloudFront {
         }
     }
 
+    public struct Certificate: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct CloudFrontOriginAccessIdentity: AWSDecodableShape {
         /// The current configuration information for the identity.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
         /// The ID for the origin access identity, for example, E74FTE3AJFJ256A.
-        ///
         public let id: String
-        /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin
-        /// 			access identity read permission to an object in Amazon S3.
+        /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin access identity read permission to an object in Amazon S3.
         public let s3CanonicalUserId: String
 
         @inlinable
@@ -1053,20 +1064,9 @@ extension CloudFront {
     }
 
     public struct CloudFrontOriginAccessIdentityConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A unique value (for example, a date-time stamp) that ensures that the request can't be
-        /// 			replayed. If the value of CallerReference is new (regardless of the content of the
-        /// 				CloudFrontOriginAccessIdentityConfig object), a new origin access
-        /// 			identity is created. If the CallerReference is a value already sent in a previous identity
-        /// 			request, and the content of the CloudFrontOriginAccessIdentityConfig is
-        /// 			identical to the original request (ignoring white space), the response includes the same
-        /// 			information returned to the original request. If the CallerReference is a value you already sent in a previous request
-        /// 			to create an identity, but the content of the
-        /// 				CloudFrontOriginAccessIdentityConfig is different from the original
-        /// 			request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
-        ///
+        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
         public let callerReference: String
-        /// A comment to describe the origin access identity. The comment cannot be longer than
-        /// 			128 characters.
+        /// A comment to describe the origin access identity. The comment cannot be longer than 128 characters.
         public let comment: String
 
         @inlinable
@@ -1084,29 +1084,18 @@ extension CloudFront {
     public struct CloudFrontOriginAccessIdentityList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CloudFrontOriginAccessIdentitySummary" }
 
-        /// A flag that indicates whether more origin access identities remain to be listed. If
-        /// 			your results were truncated, you can make a follow-up pagination request using the
-        /// 				Marker request parameter to retrieve more items in the list.
+        /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary
-        /// 			element for each origin access identity that was created by the current
-        /// 			Amazon Web Services account.
+        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CloudFrontOriginAccessIdentitySummary>>
         public var items: [CloudFrontOriginAccessIdentitySummary]?
-        /// Use this when paginating results to indicate where to begin in your list of origin
-        /// 			access identities. The results include identities in the list that occur after the
-        /// 			marker. To get the next page of results, set the Marker to the value of the
-        /// 				NextMarker from the current page's response (which is also the ID of
-        /// 			the last identity on that page).
+        /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
         public let marker: String
         /// The maximum number of origin access identities you want in the response body.
         public let maxItems: Int
-        /// If IsTruncated is true, this element is present and contains
-        /// 			the value you can use for the Marker request parameter to continue listing
-        /// 			your origin access identities where they left off.
+        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your origin access identities where they left off.
         public let nextMarker: String?
-        /// The number of CloudFront origin access identities that were created by the current
-        /// 			Amazon Web Services account.
+        /// The number of CloudFront origin access identities that were created by the current Amazon Web Services account.
         public let quantity: Int
 
         @inlinable
@@ -1130,14 +1119,11 @@ extension CloudFront {
     }
 
     public struct CloudFrontOriginAccessIdentitySummary: AWSDecodableShape {
-        /// The comment for this origin access identity, as originally specified when
-        /// 			created.
+        /// The comment for this origin access identity, as originally specified when created.
         public let comment: String
-        /// The ID for the origin access identity. For example:
-        /// 			E74FTE3AJFJ256A.
+        /// The ID for the origin access identity. For example: E74FTE3AJFJ256A.
         public let id: String
-        /// The Amazon S3 canonical user ID for the origin access identity, which you use when giving
-        /// 			the origin access identity read permission to an object in Amazon S3.
+        /// The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
         public let s3CanonicalUserId: String
 
         @inlinable
@@ -1155,8 +1141,7 @@ extension CloudFront {
     }
 
     public struct ConflictingAlias: AWSDecodableShape {
-        /// The (partially hidden) ID of the Amazon Web Services account that owns the distribution that's
-        /// 			associated with the alias.
+        /// The (partially hidden) ID of the Amazon Web Services account that owns the distribution that's associated with the alias.
         public let accountId: String?
         /// An alias (also called a CNAME).
         public let alias: String?
@@ -1185,9 +1170,7 @@ extension CloudFront {
         public var items: [ConflictingAlias]?
         /// The maximum number of conflicting aliases requested.
         public let maxItems: Int?
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing conflicting aliases where you left off.
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing conflicting aliases where you left off.
         public let nextMarker: String?
         /// The number of conflicting aliases returned in the response.
         public let quantity: Int?
@@ -1205,6 +1188,131 @@ extension CloudFront {
             case maxItems = "MaxItems"
             case nextMarker = "NextMarker"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct ConnectionGroup: AWSDecodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// The Amazon Resource Name (ARN) of the connection group.
+        public let arn: String?
+        /// The date and time when the connection group was created.
+        public let createdTime: Date?
+        /// Whether the connection group is enabled.
+        public let enabled: Bool?
+        /// The ID of the connection group.
+        public let id: String?
+        /// IPv6 is enabled for the connection group.
+        public let ipv6Enabled: Bool?
+        /// Whether the connection group is the default connection group for the distribution tenants.
+        public let isDefault: Bool?
+        /// The date and time when the connection group was updated.
+        public let lastModifiedTime: Date?
+        /// The name of the connection group.
+        public let name: String?
+        /// The routing endpoint (also known as the DNS name) that is assigned to the connection group, such as d111111abcdef8.cloudfront.net.
+        public let routingEndpoint: String?
+        /// The status of the connection group.
+        public let status: String?
+        public let tags: Tags?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, arn: String? = nil, createdTime: Date? = nil, enabled: Bool? = nil, id: String? = nil, ipv6Enabled: Bool? = nil, isDefault: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, routingEndpoint: String? = nil, status: String? = nil, tags: Tags? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.enabled = enabled
+            self.id = id
+            self.ipv6Enabled = ipv6Enabled
+            self.isDefault = isDefault
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.routingEndpoint = routingEndpoint
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case enabled = "Enabled"
+            case id = "Id"
+            case ipv6Enabled = "Ipv6Enabled"
+            case isDefault = "IsDefault"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case routingEndpoint = "RoutingEndpoint"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ConnectionGroupAssociationFilter: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil) {
+            self.anycastIpListId = anycastIpListId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+        }
+    }
+
+    public struct ConnectionGroupSummary: AWSDecodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// The Amazon Resource Name (ARN) of the connection group.
+        public let arn: String
+        /// The date and time when the connection group was created.
+        public let createdTime: Date
+        /// Whether the connection group is enabled
+        public let enabled: Bool?
+        /// The current version of the connection group.
+        public let eTag: String
+        /// The ID of the connection group.
+        public let id: String
+        /// Whether the connection group is the default connection group for the distribution tenants.
+        public let isDefault: Bool?
+        /// The date and time when the connection group was updated.
+        public let lastModifiedTime: Date
+        /// The name of the connection group.
+        public let name: String
+        /// The routing endpoint (also known as the DNS name) that is assigned to the connection group, such as d111111abcdef8.cloudfront.net.
+        public let routingEndpoint: String
+        /// The status of the connection group.
+        public let status: String?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, arn: String, createdTime: Date, enabled: Bool? = nil, eTag: String, id: String, isDefault: Bool? = nil, lastModifiedTime: Date, name: String, routingEndpoint: String, status: String? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.enabled = enabled
+            self.eTag = eTag
+            self.id = id
+            self.isDefault = isDefault
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.routingEndpoint = routingEndpoint
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case enabled = "Enabled"
+            case eTag = "ETag"
+            case id = "Id"
+            case isDefault = "IsDefault"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case routingEndpoint = "RoutingEndpoint"
+            case status = "Status"
         }
     }
 
@@ -1233,10 +1341,7 @@ extension CloudFront {
     public struct ContentTypeProfileConfig: AWSEncodableShape & AWSDecodableShape {
         /// The configuration for a field-level encryption content type-profile.
         public let contentTypeProfiles: ContentTypeProfiles?
-        /// The setting in a field-level encryption content type-profile mapping that specifies
-        /// 			what to do when an unknown content type is provided for the profile. If true, content is
-        /// 			forwarded without being encrypted when the content type is unknown. If false (the
-        /// 			default), an error is returned when the content type is unknown.
+        /// The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is forwarded without being encrypted when the content type is unknown. If false (the default), an error is returned when the content type is unknown.
         public let forwardWhenContentTypeIsUnknown: Bool
 
         @inlinable
@@ -1294,16 +1399,11 @@ extension CloudFront {
     }
 
     public struct ContinuousDeploymentPolicyConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean that indicates whether this continuous deployment policy is enabled (in
-        /// 			effect). When this value is true, this policy is enabled and in effect.
-        /// 			When this value is false, this policy is not enabled and has no
-        /// 			effect.
+        /// A Boolean that indicates whether this continuous deployment policy is enabled (in effect). When this value is true, this policy is enabled and in effect. When this value is false, this policy is not enabled and has no effect.
         public let enabled: Bool
-        /// The CloudFront domain name of the staging distribution. For example:
-        /// 				d111111abcdef8.cloudfront.net.
+        /// The CloudFront domain name of the staging distribution. For example: d111111abcdef8.cloudfront.net.
         public let stagingDistributionDnsNames: StagingDistributionDnsNames
-        /// Contains the parameters for routing production traffic from your primary to staging
-        /// 			distributions.
+        /// Contains the parameters for routing production traffic from your primary to staging distributions.
         public let trafficConfig: TrafficConfig?
 
         @inlinable
@@ -1326,14 +1426,11 @@ extension CloudFront {
         /// A list of continuous deployment policy items.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, ContinuousDeploymentPolicySummary>>
         public var items: [ContinuousDeploymentPolicySummary]?
-        /// The maximum number of continuous deployment policies that were specified in your
-        /// 			request.
+        /// The maximum number of continuous deployment policies that were specified in your request.
         public let maxItems: Int
-        /// Indicates the next page of continuous deployment policies. To get the next page of the
-        /// 			list, use this value in the Marker field of your request.
+        /// Indicates the next page of continuous deployment policies. To get the next page of the list, use this value in the Marker field of your request.
         public let nextMarker: String?
-        /// The total number of continuous deployment policies in your Amazon Web Services account, regardless
-        /// 			of the MaxItems value.
+        /// The total number of continuous deployment policies in your Amazon Web Services account, regardless of the MaxItems value.
         public let quantity: Int
 
         @inlinable
@@ -1367,8 +1464,7 @@ extension CloudFront {
     }
 
     public struct ContinuousDeploymentSingleHeaderConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The request header name that you want CloudFront to send to your staging
-        /// 			distribution. The header must contain the prefix aws-cf-cd-.
+        /// The request header name that you want CloudFront to send to your staging distribution. The header must contain the prefix aws-cf-cd-.
         public let header: String
         /// The request header value.
         public let value: String
@@ -1387,8 +1483,7 @@ extension CloudFront {
 
     public struct ContinuousDeploymentSingleWeightConfig: AWSEncodableShape & AWSDecodableShape {
         public let sessionStickinessConfig: SessionStickinessConfig?
-        /// The percentage of traffic to send to a staging distribution, expressed as a decimal
-        /// 			number between 0 and 0.15. For example, a value of 0.10 means 10% of traffic is sent to the staging distribution.
+        /// The percentage of traffic to send to a staging distribution, expressed as a decimal number between 0 and 0.15. For example, a value of 0.10 means 10% of traffic is sent to the staging distribution.
         public let weight: Float
 
         @inlinable
@@ -1425,29 +1520,9 @@ extension CloudFront {
     }
 
     public struct CookiePreference: AWSEncodableShape & AWSDecodableShape {
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. If you want to include cookies in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send cookies to the origin but not include them in the cache key, use
-        /// 			origin request policy. For more information, see Creating origin request policies in the
-        /// 			Amazon CloudFront Developer Guide. Specifies which cookies to forward to the origin for this cache behavior: all, none,
-        /// 			or the list of cookies specified in the WhitelistedNames complex
-        /// 			type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an
-        /// 			Amazon S3 origin, specify none for the Forward element.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include cookies in the cache key, use a cache policy. For more information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send cookies to the origin but not include them in the cache key, use origin request policy. For more information, see Creating origin request policies in the Amazon CloudFront Developer Guide. Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element.
         public let forward: ItemSelection
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. If you want to include cookies in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send cookies to the origin but not include them in the cache key, use
-        /// 			an origin request policy. For more information, see Creating origin request policies in the
-        /// 			Amazon CloudFront Developer Guide. Required if you specify whitelist for the value of Forward.
-        /// 			A complex type that specifies how many different cookies you want CloudFront to forward to the
-        /// 			origin for this cache behavior and, if you want to forward selected cookies, the names
-        /// 			of those cookies. If you specify all or none for the value of
-        /// 				Forward, omit WhitelistedNames. If you change the value of
-        /// 				Forward from whitelist to all or
-        /// 				none and you don't delete the WhitelistedNames element and
-        /// 			its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each
-        /// 			cache behavior, see  CloudFront
-        /// 				Limits in the Amazon Web Services General Reference.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include cookies in the cache key, use a cache policy. For more information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send cookies to the origin but not include them in the cache key, use an origin request policy. For more information, see Creating origin request policies in the Amazon CloudFront Developer Guide. Required if you specify whitelist for the value of Forward. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see  CloudFront Limits in the Amazon Web Services General Reference.
         public let whitelistedNames: CookieNames?
 
         @inlinable
@@ -1463,25 +1538,15 @@ extension CloudFront {
     }
 
     public struct CopyDistributionRequest: AWSEncodableShape {
-        /// A value that uniquely identifies a request to create a resource. This helps to prevent
-        /// 			CloudFront from creating a duplicate resource if you accidentally resubmit an identical
-        /// 			request.
+        /// A value that uniquely identifies a request to create a resource. This helps to prevent CloudFront from creating a duplicate resource if you accidentally resubmit an identical request.
         public let callerReference: String
-        /// A Boolean flag to specify the state of the staging distribution when it's
-        /// 			created. When you set this value to True, the staging
-        /// 			distribution is enabled. When you set this value to False, the
-        /// 			staging distribution is disabled. If you omit this field, the default value is True.
+        /// A Boolean flag to specify the state of the staging distribution when it's created. When you set this value to True, the staging distribution is enabled. When you set this value to False, the staging distribution is disabled. If you omit this field, the default value is True.
         public let enabled: Bool?
-        /// The version identifier of the primary distribution whose configuration you are
-        /// 			copying. This is the ETag value returned in the response to
-        /// 				GetDistribution and GetDistributionConfig.
+        /// The version identifier of the primary distribution whose configuration you are copying. This is the ETag value returned in the response to GetDistribution and GetDistributionConfig.
         public let ifMatch: String?
-        /// The identifier of the primary distribution whose configuration you are copying. To get
-        /// 			a distribution ID, use ListDistributions.
+        /// The identifier of the primary distribution whose configuration you are copying. To get a distribution ID, use ListDistributions.
         public let primaryDistributionId: String
-        /// The type of distribution that your primary distribution will be copied to. The only
-        /// 			valid value is True, indicating that you are copying to a staging
-        /// 			distribution.
+        /// The type of distribution that your primary distribution will be copied to. The only valid value is True, indicating that you are copying to a staging distribution.
         public let staging: Bool?
 
         @inlinable
@@ -1535,7 +1600,7 @@ extension CloudFront {
     }
 
     public struct CreateAnycastIpListRequest: AWSEncodableShape {
-        /// The number of static IP addresses that are allocated to the Anycast static IP list.
+        /// The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
         public let ipCount: Int
         /// Name of the Anycast static IP list.
         public let name: String
@@ -1672,6 +1737,61 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct CreateConnectionGroupRequest: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// Enable the connection group.
+        public let enabled: Bool?
+        /// Enable IPv6 for the connection group. The default is true. For more information, see Enable IPv6 in the Amazon CloudFront Developer Guide.
+        public let ipv6Enabled: Bool?
+        /// The name of the connection group. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the connection group.
+        public let name: String
+        public let tags: Tags?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, enabled: Bool? = nil, ipv6Enabled: Bool? = nil, name: String, tags: Tags? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.enabled = enabled
+            self.ipv6Enabled = ipv6Enabled
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case enabled = "Enabled"
+            case ipv6Enabled = "Ipv6Enabled"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectionGroupResult: AWSDecodableShape {
+        /// The connection group that you created.
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct CreateContinuousDeploymentPolicyRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "ContinuousDeploymentPolicyConfig"
         /// Contains the configuration for a continuous deployment policy.
@@ -1693,8 +1813,7 @@ extension CloudFront {
     public struct CreateContinuousDeploymentPolicyResult: AWSDecodableShape {
         /// A continuous deployment policy.
         public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
-        /// The version identifier for the current version of the continuous deployment
-        /// 			policy.
+        /// The version identifier for the current version of the continuous deployment policy.
         public let eTag: String?
         /// The location of the continuous deployment policy.
         public let location: String?
@@ -1760,6 +1879,82 @@ extension CloudFront {
             self.distribution = try container.decode(Distribution.self)
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the connection group to associate with the distribution tenant.
+        public let connectionGroupId: String?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The ID of the multi-tenant distribution to use for creating the distribution tenant.
+        public let distributionId: String
+        /// The domains associated with the distribution tenant. You must specify at least one domain in the request.
+        @CustomCoding<StandardArrayCoder<DomainItem>>
+        public var domains: [DomainItem]
+        /// Indicates whether the distribution tenant should be enabled when created. If the distribution tenant is disabled, the distribution tenant won't serve traffic.
+        public let enabled: Bool?
+        /// The configuration for the CloudFront managed ACM certificate request.
+        public let managedCertificateRequest: ManagedCertificateRequest?
+        /// The name of the distribution tenant. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the distribution tenant.
+        public let name: String
+        /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+        @OptionalCustomCoding<StandardArrayCoder<Parameter>>
+        public var parameters: [Parameter]?
+        public let tags: Tags?
+
+        @inlinable
+        public init(connectionGroupId: String? = nil, customizations: Customizations? = nil, distributionId: String, domains: [DomainItem], enabled: Bool? = nil, managedCertificateRequest: ManagedCertificateRequest? = nil, name: String, parameters: [Parameter]? = nil, tags: Tags? = nil) {
+            self.connectionGroupId = connectionGroupId
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.managedCertificateRequest = managedCertificateRequest
+            self.name = name
+            self.parameters = parameters
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroupId = "ConnectionGroupId"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case managedCertificateRequest = "ManagedCertificateRequest"
+            case name = "Name"
+            case parameters = "Parameters"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDistributionTenantResult: AWSDecodableShape {
+        /// The distribution tenant that you created.
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1832,8 +2027,7 @@ extension CloudFront {
     }
 
     public struct CreateFieldLevelEncryptionConfigResult: AWSDecodableShape {
-        /// The current version of the field level encryption configuration. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Returned when you create a new field-level encryption configuration.
         public let fieldLevelEncryption: FieldLevelEncryption
@@ -1877,8 +2071,7 @@ extension CloudFront {
     }
 
     public struct CreateFieldLevelEncryptionProfileResult: AWSDecodableShape {
-        /// The current version of the field level encryption profile. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Returned when you create a new field-level encryption profile.
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile
@@ -1904,12 +2097,9 @@ extension CloudFront {
     }
 
     public struct CreateFunctionRequest: AWSEncodableShape {
-        /// The function code. For more information about writing a CloudFront function, see Writing
-        /// 				function code for CloudFront Functions in the
-        /// 			Amazon CloudFront Developer Guide.
+        /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide.
         public let functionCode: AWSBase64Data
-        /// Configuration information about the function, including an optional comment and the
-        /// 			function's runtime.
+        /// Configuration information about the function, including an optional comment and the function's runtime.
         public let functionConfig: FunctionConfig
         /// A name to identify the function.
         public let name: String
@@ -1942,8 +2132,7 @@ extension CloudFront {
         public let eTag: String?
         /// Contains configuration information and metadata about a CloudFront function.
         public let functionSummary: FunctionSummary
-        /// The URL of the CloudFront function. Use the URL to manage the function with the CloudFront
-        /// 			API.
+        /// The URL of the CloudFront function. Use the URL to manage the function with the CloudFront API.
         public let location: String?
 
         @inlinable
@@ -1958,6 +2147,49 @@ extension CloudFront {
             let container = try decoder.singleValueContainer()
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.functionSummary = try container.decode(FunctionSummary.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateInvalidationForDistributionTenantRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "InvalidationBatch"
+        /// The ID of the distribution tenant.
+        public let id: String
+        public let invalidationBatch: InvalidationBatch
+
+        @inlinable
+        public init(id: String, invalidationBatch: InvalidationBatch) {
+            self.id = id
+            self.invalidationBatch = invalidationBatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.invalidationBatch)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateInvalidationForDistributionTenantResult: AWSDecodableShape {
+        public let invalidation: Invalidation
+        /// The location for the invalidation.
+        public let location: String?
+
+        @inlinable
+        public init(invalidation: Invalidation, location: String? = nil) {
+            self.invalidation = invalidation
+            self.location = location
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.invalidation = try container.decode(Invalidation.self)
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
@@ -1990,8 +2222,7 @@ extension CloudFront {
     public struct CreateInvalidationResult: AWSDecodableShape {
         /// The invalidation's information.
         public let invalidation: Invalidation
-        /// The fully qualified URI of the distribution and invalidation batch request, including
-        /// 			the Invalidation ID.
+        /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
         public let location: String?
 
         @inlinable
@@ -2059,8 +2290,7 @@ extension CloudFront {
         public let comment: String?
         /// The S3 bucket that provides the source for the import. The source must be in a valid JSON format.
         public let importSource: ImportSource?
-        /// The name of the key value store. The minimum length is 1 character and the maximum length is
-        /// 			64 characters.
+        /// The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters.
         public let name: String
 
         @inlinable
@@ -2114,8 +2344,7 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "MonitoringSubscription"
         /// The ID of the distribution that you are enabling metrics for.
         public let distributionId: String
-        /// A monitoring subscription. This structure contains information about whether additional CloudWatch
-        /// 			metrics are enabled for a given CloudFront distribution.
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
         public let monitoringSubscription: MonitoringSubscription
 
         @inlinable
@@ -2135,8 +2364,7 @@ extension CloudFront {
     }
 
     public struct CreateMonitoringSubscriptionResult: AWSDecodableShape {
-        /// A monitoring subscription. This structure contains information about whether
-        /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
         public let monitoringSubscription: MonitoringSubscription
 
         @inlinable
@@ -2287,12 +2515,10 @@ extension CloudFront {
     public struct CreateRealtimeLogConfigRequest: AWSEncodableShape {
         public struct _FieldsEncoding: ArrayCoderProperties { public static let member = "Field" }
 
-        /// Contains information about the Amazon Kinesis data stream where you are sending real-time
-        /// 			log data.
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
         @CustomCoding<StandardArrayCoder<EndPoint>>
         public var endPoints: [EndPoint]
-        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
         @CustomCoding<ArrayCoder<_FieldsEncoding, String>>
         public var fields: [String]
         /// A unique name to identify this real-time log configuration.
@@ -2332,8 +2558,7 @@ extension CloudFront {
 
     public struct CreateResponseHeadersPolicyRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "ResponseHeadersPolicyConfig"
-        /// Contains metadata about the response headers policy, and a set of configurations that
-        /// 			specify the HTTP headers.
+        /// Contains metadata about the response headers policy, and a set of configurations that specify the HTTP headers.
         public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
 
         @inlinable
@@ -2400,8 +2625,7 @@ extension CloudFront {
     public struct CreateStreamingDistributionResult: AWSDecodableShape {
         /// The current version of the streaming distribution created.
         public let eTag: String?
-        /// The fully qualified URI of the new streaming distribution resource just
-        /// 			created.
+        /// The fully qualified URI of the new streaming distribution resource just created.
         public let location: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
@@ -2449,8 +2673,7 @@ extension CloudFront {
     public struct CreateStreamingDistributionWithTagsResult: AWSDecodableShape {
         /// The current version of the distribution created.
         public let eTag: String?
-        /// The fully qualified URI of the new streaming distribution resource just
-        /// 			created.
+        /// The fully qualified URI of the new streaming distribution resource just created.
         public let location: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
@@ -2521,43 +2744,13 @@ extension CloudFront {
     }
 
     public struct CustomErrorResponse: AWSEncodableShape & AWSDecodableShape {
-        /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status
-        /// 			code specified in ErrorCode. When this time period has elapsed, CloudFront
-        /// 			queries your origin to see whether the problem that caused the error has been resolved
-        /// 			and the requested object is now available. For more information, see Customizing
-        /// 				Error Responses in the Amazon CloudFront Developer Guide.
+        /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status code specified in ErrorCode. When this time period has elapsed, CloudFront queries your origin to see whether the problem that caused the error has been resolved and the requested object is now available. For more information, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
         public let errorCachingMinTTL: Int64?
-        /// The HTTP status code for which you want to specify a custom error page and/or a
-        /// 			caching duration.
+        /// The HTTP status code for which you want to specify a custom error page and/or a caching duration.
         public let errorCode: Int
-        /// The HTTP status code that you want CloudFront to return to the viewer along with the custom
-        /// 			error page. There are a variety of reasons that you might want CloudFront to return a status
-        /// 			code different from the status code that your origin returned to CloudFront, for
-        /// 			example:   Some Internet devices (some firewalls and corporate proxies, for example)
-        /// 					intercept HTTP 4xx and 5xx and prevent the response from being returned to the
-        /// 					viewer. If you substitute 200, the response typically won't be
-        /// 					intercepted.   If you don't care about distinguishing among different client errors or server
-        /// 					errors, you can specify 400 or 500 as the
-        /// 						ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static
-        /// 					website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value
-        /// 			for ResponsePagePath.
+        /// The HTTP status code that you want CloudFront to return to the viewer along with the custom error page. There are a variety of reasons that you might want CloudFront to return a status code different from the status code that your origin returned to CloudFront, for example:   Some Internet devices (some firewalls and corporate proxies, for example) intercept HTTP 4xx and 5xx and prevent the response from being returned to the viewer. If you substitute 200, the response typically won't be intercepted.   If you don't care about distinguishing among different client errors or server errors, you can specify 400 or 500 as the ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value for ResponsePagePath.
         public let responseCode: String?
-        /// The path to the custom error page that you want CloudFront to return to a viewer when your
-        /// 			origin returns the HTTP status code specified by ErrorCode, for example,
-        /// 				/4xx-errors/403-forbidden.html. If you want to store your objects and
-        /// 			your custom error pages in different locations, your distribution must include a cache
-        /// 			behavior for which the following is true:   The value of PathPattern matches the path to your custom error
-        /// 					messages. For example, suppose you saved custom error pages for 4xx errors in an
-        /// 					Amazon S3 bucket in a directory named /4xx-errors. Your distribution
-        /// 					must include a cache behavior for which the path pattern routes requests for
-        /// 					your custom error pages to that location, for example,
-        /// 						/4xx-errors/*.   The value of TargetOriginId specifies the value of the
-        /// 						ID element for the origin that contains your custom error
-        /// 					pages.   If you specify a value for ResponsePagePath, you must also specify a
-        /// 			value for ResponseCode. We recommend that you store custom error pages in an Amazon S3 bucket. If you store custom
-        /// 			error pages on an HTTP server and the server starts to return 5xx errors, CloudFront can't get
-        /// 			the files that you want to return to viewers because the origin server is
-        /// 			unavailable.
+        /// The path to the custom error page that you want CloudFront to return to a viewer when your origin returns the HTTP status code specified by ErrorCode, for example, /4xx-errors/403-forbidden.html. If you want to store your objects and your custom error pages in different locations, your distribution must include a cache behavior for which the following is true:   The value of PathPattern matches the path to your custom error messages. For example, suppose you saved custom error pages for 4xx errors in an Amazon S3 bucket in a directory named /4xx-errors. Your distribution must include a cache behavior for which the path pattern routes requests for your custom error pages to that location, for example, /4xx-errors/*.   The value of TargetOriginId specifies the value of the ID element for the origin that contains your custom error pages.   If you specify a value for ResponsePagePath, you must also specify a value for ResponseCode. We recommend that you store custom error pages in an Amazon S3 bucket. If you store custom error pages on an HTTP server and the server starts to return 5xx errors, CloudFront can't get the files that you want to return to viewers because the origin server is unavailable.
         public let responsePagePath: String?
 
         @inlinable
@@ -2579,14 +2772,10 @@ extension CloudFront {
     public struct CustomErrorResponses: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "CustomErrorResponse" }
 
-        /// A complex type that contains a CustomErrorResponse element for each HTTP
-        /// 			status code for which you want to specify a custom error page and/or a caching duration.
-        ///
+        /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CustomErrorResponse>>
         public var items: [CustomErrorResponse]?
-        /// The number of HTTP status codes for which you want to specify a custom error page
-        /// 			and/or a caching duration. If Quantity is 0, you can omit
-        /// 				Items.
+        /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
         public let quantity: Int
 
         @inlinable
@@ -2604,9 +2793,7 @@ extension CloudFront {
     public struct CustomHeaders: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "OriginCustomHeader" }
 
-        ///  Optional: A list that contains one
-        /// 				OriginCustomHeader element for each custom header that you want CloudFront to
-        /// 			forward to the origin. If Quantity is 0, omit Items.
+        ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, OriginCustomHeader>>
         public var items: [OriginCustomHeader]?
         /// The number of custom headers, if any, for this distribution.
@@ -2625,33 +2812,17 @@ extension CloudFront {
     }
 
     public struct CustomOriginConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The HTTP port that CloudFront uses to connect to the origin. Specify the HTTP port that the
-        /// 			origin listens on.
+        /// The HTTP port that CloudFront uses to connect to the origin. Specify the HTTP port that the origin listens on.
         public let httpPort: Int
-        /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that
-        /// 			the origin listens on.
+        /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         public let httpsPort: Int
-        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The
-        /// 			minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't
-        /// 			specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
-        /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid
-        /// 			values are:    http-only – CloudFront always uses HTTP to connect to the
-        /// 					origin.    match-viewer – CloudFront connects to the origin using the same
-        /// 					protocol that the viewer used to connect to CloudFront.    https-only – CloudFront always uses HTTPS to connect to the
-        /// 					origin.
+        /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:    http-only – CloudFront always uses HTTP to connect to the origin.    match-viewer – CloudFront connects to the origin using the same protocol that the viewer used to connect to CloudFront.    https-only – CloudFront always uses HTTPS to connect to the origin.
         public let originProtocolPolicy: OriginProtocolPolicy
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is
-        /// 			also known as the origin response timeout. The minimum timeout is 1
-        /// 			second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is
-        /// 			30 seconds. For more information, see Response timeout (custom origins only) in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
-        /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin
-        /// 			over HTTPS. Valid values include SSLv3, TLSv1,
-        /// 				TLSv1.1, and TLSv1.2. For more information, see Minimum Origin SSL Protocol in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see Minimum Origin SSL Protocol in the Amazon CloudFront Developer Guide.
         public let originSslProtocols: OriginSslProtocols?
 
         @inlinable
@@ -2674,123 +2845,65 @@ extension CloudFront {
         }
     }
 
+    public struct Customizations: AWSEncodableShape & AWSDecodableShape {
+        /// The Certificate Manager (ACM) certificate.
+        public let certificate: Certificate?
+        /// The geographic restrictions.
+        public let geoRestrictions: GeoRestrictionCustomization?
+        /// The WAF web ACL.
+        public let webAcl: WebAclCustomization?
+
+        @inlinable
+        public init(certificate: Certificate? = nil, geoRestrictions: GeoRestrictionCustomization? = nil, webAcl: WebAclCustomization? = nil) {
+            self.certificate = certificate
+            self.geoRestrictions = geoRestrictions
+            self.webAcl = webAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case geoRestrictions = "GeoRestrictions"
+            case webAcl = "WebAcl"
+        }
+    }
+
     public struct DefaultCacheBehavior: AWSEncodableShape & AWSDecodableShape {
         public let allowedMethods: AllowedMethods?
-        /// The unique identifier of the cache policy that is attached to the default cache
-        /// 			behavior. For more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. A DefaultCacheBehavior must include either a CachePolicyId
-        /// 			or ForwardedValues. We recommend that you use a
-        /// 			CachePolicyId.
+        /// The unique identifier of the cache policy that is attached to the default cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. A DefaultCacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId.
         public let cachePolicyId: String?
-        /// Whether you want CloudFront to automatically compress certain files for this cache behavior.
-        /// 			If so, specify true; if not, specify false. For more
-        /// 			information, see Serving
-        /// 				Compressed Files in the Amazon CloudFront Developer Guide.
+        /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// This field is deprecated. We recommend that you use the DefaultTTL field
-        /// 			in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront
-        /// 			forwards another request to your origin to determine whether the object has been
-        /// 			updated. The value that you specify applies only when your origin does not add HTTP
-        /// 			headers such as Cache-Control max-age, Cache-Control s-maxage,
-        /// 			and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
-        /// The value of ID for the field-level encryption configuration that you
-        /// 			want CloudFront to use for encrypting specific fields of data for the default cache
-        /// 			behavior.
+        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for the default cache behavior.
         public let fieldLevelEncryptionId: String?
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. For more information, see Working with policies in the
-        /// 				Amazon CloudFront Developer Guide. If you want to include values in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. If you want to send values to the origin but not include them in the cache key, use an
-        /// 			origin request policy. For more information, see Creating origin request policies or Using the managed origin request policies in the
-        /// 				Amazon CloudFront Developer Guide. A DefaultCacheBehavior must include either a CachePolicyId
-        /// 			or ForwardedValues. We recommend that you use a
-        /// 			CachePolicyId. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP
-        /// 			headers.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. For more information, see Working with policies in the Amazon CloudFront Developer Guide. If you want to include values in the cache key, use a cache policy. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. If you want to send values to the origin but not include them in the cache key, use an origin request policy. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide. A DefaultCacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP headers.
         public let forwardedValues: ForwardedValues?
-        /// A list of CloudFront functions that are associated with this cache behavior. Your functions
-        /// 			must be published to the LIVE stage to associate them with a cache
-        /// 			behavior.
+        /// A list of CloudFront functions that are associated with this cache behavior. Your functions must be published to the LIVE stage to associate them with a cache behavior.
         public let functionAssociations: FunctionAssociations?
         /// The gRPC configuration for your cache behavior.
         public let grpcConfig: GrpcConfig?
-        /// A complex type that contains zero or more Lambda@Edge function associations for a
-        /// 			cache behavior.
+        /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// This field is deprecated. We recommend that you use the MaxTTL field in a
-        /// 			cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront
-        /// 			forwards another request to your origin to determine whether the object has been
-        /// 			updated. The value that you specify applies only when your origin adds HTTP headers such
-        /// 			as Cache-Control max-age, Cache-Control s-maxage, and
-        /// 				Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let maxTTL: Int64?
-        /// This field is deprecated. We recommend that you use the MinTTL field in a
-        /// 			cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the
-        /// 				Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront
-        /// 			forwards another request to your origin to determine whether the object has been
-        /// 			updated. For more information, see Managing How Long
-        /// 				Content Stays in an Edge Cache (Expiration) in the
-        /// 				Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to
-        /// 			forward all headers to your origin (under Headers, if you specify
-        /// 				1 for Quantity and * for
-        /// 			Name).
+        /// This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64?
-        /// The unique identifier of the origin request policy that is attached to the default
-        /// 			cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The unique identifier of the origin request policy that is attached to the default cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
         public let originRequestPolicyId: String?
-        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to
-        /// 			this cache behavior. For more information, see Real-time logs in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The Amazon Resource Name (ARN) of the real-time log configuration that is attached to this cache behavior. For more information, see Real-time logs in the Amazon CloudFront Developer Guide.
         public let realtimeLogConfigArn: String?
         /// The identifier for a response headers policy.
         public let responseHeadersPolicyId: String?
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming
-        /// 			format using the origin that is associated with this cache behavior. If so, specify
-        /// 				true; if not, specify false. If you specify
-        /// 				true for SmoothStreaming, you can still distribute other
-        /// 			content using this cache behavior if the content matches the value of
-        /// 				PathPattern.
+        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public let smoothStreaming: Bool?
-        /// The value of ID for the origin that you want CloudFront to route requests to
-        /// 			when they use the default cache behavior.
+        /// The value of ID for the origin that you want CloudFront to route requests to when they use the default cache behavior.
         public let targetOriginId: String
-        /// A list of key groups that CloudFront can use to validate signed URLs or signed
-        /// 			cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed
-        /// 			cookies for all requests that match the cache behavior. The URLs or cookies must be
-        /// 			signed with a private key whose corresponding public key is in the key group. The signed
-        /// 			URL or cookie contains information about which public key CloudFront should use to verify the
-        /// 			signature. For more information, see Serving private content in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of
-        /// 					TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or
-        /// 			signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed
-        /// 			cookies for all requests that match the cache behavior. The URLs or cookies must be
-        /// 			signed with the private key of a CloudFront key pair in a trusted signer's Amazon Web Services account. The
-        /// 			signed URL or cookie contains information about which public key CloudFront should use to
-        /// 			verify the signature. For more information, see Serving private content in the
-        /// 				Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
-        /// The protocol that viewers can use to access the files in the origin specified by
-        /// 				TargetOriginId when a request matches the path pattern in
-        /// 				PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront
-        /// 					returns an HTTP status code of 301 (Moved Permanently) to the viewer along with
-        /// 					the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an
-        /// 					HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and  CloudFront in the
-        /// 				Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from
-        /// 				the origin using HTTPS is never to use any other protocol to fetch the object. If
-        /// 				you have recently changed from HTTP to HTTPS, we recommend that you clear your
-        /// 				objects' cache because cached objects are protocol agnostic. That means that an edge
-        /// 				location will return an object from the cache regardless of whether the current
-        /// 				request protocol matches the protocol used previously. For more information, see
-        /// 					Managing Cache
-        /// 					Expiration in the Amazon CloudFront Developer Guide.
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
         @inlinable
@@ -2870,8 +2983,7 @@ extension CloudFront {
     public struct DeleteAnycastIpListRequest: AWSEncodableShape {
         /// The ID of the Anycast static IP list.
         public let id: String
-        /// The current version (ETag value) of the Anycast static IP list that
-        /// 			you are deleting.
+        /// The current version (ETag value) of the Anycast static IP list that you are deleting.
         public let ifMatch: String
 
         @inlinable
@@ -2891,13 +3003,9 @@ extension CloudFront {
     }
 
     public struct DeleteCachePolicyRequest: AWSEncodableShape {
-        /// The unique identifier for the cache policy that you are deleting. To get the
-        /// 			identifier, you can use ListCachePolicies.
+        /// The unique identifier for the cache policy that you are deleting. To get the identifier, you can use ListCachePolicies.
         public let id: String
-        /// The version of the cache policy that you are deleting. The version is the cache
-        /// 			policy's ETag value, which you can get using
-        /// 			ListCachePolicies, GetCachePolicy, or
-        /// 				GetCachePolicyConfig.
+        /// The version of the cache policy that you are deleting. The version is the cache policy's ETag value, which you can get using ListCachePolicies, GetCachePolicy, or GetCachePolicyConfig.
         public let ifMatch: String?
 
         @inlinable
@@ -2919,9 +3027,7 @@ extension CloudFront {
     public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
         /// The origin access identity's ID.
         public let id: String
-        /// The value of the ETag header you received from a previous
-        /// 				GET or PUT request. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -2940,11 +3046,32 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteConnectionGroupRequest: AWSEncodableShape {
+        /// The ID of the connection group to delete.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the connection group to delete.
+        public let ifMatch: String
+
+        @inlinable
+        public init(id: String, ifMatch: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteContinuousDeploymentPolicyRequest: AWSEncodableShape {
         /// The identifier of the continuous deployment policy that you are deleting.
         public let id: String
-        /// The current version (ETag value) of the continuous deployment policy that
-        /// 			you are deleting.
+        /// The current version (ETag value) of the continuous deployment policy that you are deleting.
         public let ifMatch: String?
 
         @inlinable
@@ -2966,8 +3093,7 @@ extension CloudFront {
     public struct DeleteDistributionRequest: AWSEncodableShape {
         /// The distribution ID.
         public let id: String
-        /// The value of the ETag header that you received when you disabled the
-        /// 			distribution. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -2986,11 +3112,32 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant to delete.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+        public let ifMatch: String
+
+        @inlinable
+        public init(id: String, ifMatch: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteFieldLevelEncryptionConfigRequest: AWSEncodableShape {
         /// The ID of the configuration you want to delete from CloudFront.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the
-        /// 			configuration identity to delete. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -3012,8 +3159,7 @@ extension CloudFront {
     public struct DeleteFieldLevelEncryptionProfileRequest: AWSEncodableShape {
         /// Request the ID of the profile you want to delete from CloudFront.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the
-        /// 			profile to delete. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -3033,8 +3179,7 @@ extension CloudFront {
     }
 
     public struct DeleteFunctionRequest: AWSEncodableShape {
-        /// The current version (ETag value) of the function that you are deleting,
-        /// 			which you can get using DescribeFunction.
+        /// The current version (ETag value) of the function that you are deleting, which you can get using DescribeFunction.
         public let ifMatch: String
         /// The name of the function that you are deleting.
         public let name: String
@@ -3056,12 +3201,9 @@ extension CloudFront {
     }
 
     public struct DeleteKeyGroupRequest: AWSEncodableShape {
-        /// The identifier of the key group that you are deleting. To get the identifier, use
-        /// 				ListKeyGroups.
+        /// The identifier of the key group that you are deleting. To get the identifier, use ListKeyGroups.
         public let id: String
-        /// The version of the key group that you are deleting. The version is the key group's
-        /// 				ETag value. To get the ETag, use GetKeyGroup
-        /// 			or GetKeyGroupConfig.
+        /// The version of the key group that you are deleting. The version is the key group's ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
         public let ifMatch: String?
 
         @inlinable
@@ -3133,8 +3275,7 @@ extension CloudFront {
     public struct DeleteOriginAccessControlRequest: AWSEncodableShape {
         /// The unique identifier of the origin access control that you are deleting.
         public let id: String
-        /// The current version (ETag value) of the origin access control that you
-        /// 			are deleting.
+        /// The current version (ETag value) of the origin access control that you are deleting.
         public let ifMatch: String?
 
         @inlinable
@@ -3154,13 +3295,9 @@ extension CloudFront {
     }
 
     public struct DeleteOriginRequestPolicyRequest: AWSEncodableShape {
-        /// The unique identifier for the origin request policy that you are deleting. To get the
-        /// 			identifier, you can use ListOriginRequestPolicies.
+        /// The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPolicies.
         public let id: String
-        /// The version of the origin request policy that you are deleting. The version is the
-        /// 			origin request policy's ETag value, which you can get using
-        /// 				ListOriginRequestPolicies, GetOriginRequestPolicy, or
-        /// 				GetOriginRequestPolicyConfig.
+        /// The version of the origin request policy that you are deleting. The version is the origin request policy's ETag value, which you can get using ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
         public let ifMatch: String?
 
         @inlinable
@@ -3182,8 +3319,7 @@ extension CloudFront {
     public struct DeletePublicKeyRequest: AWSEncodableShape {
         /// The ID of the public key you want to remove from CloudFront.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the public
-        /// 			key identity to delete. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -3223,10 +3359,7 @@ extension CloudFront {
     public struct DeleteResponseHeadersPolicyRequest: AWSEncodableShape {
         /// The identifier for the response headers policy that you are deleting. To get the identifier, you can use ListResponseHeadersPolicies.
         public let id: String
-        /// The version of the response headers policy that you are deleting. The version is the response headers policy's ETag value, which you can
-        /// 			get using ListResponseHeadersPolicies,
-        /// 				GetResponseHeadersPolicy, or
-        /// 				GetResponseHeadersPolicyConfig.
+        /// The version of the response headers policy that you are deleting. The version is the response headers policy's ETag value, which you can get using ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
         public let ifMatch: String?
 
         @inlinable
@@ -3248,8 +3381,7 @@ extension CloudFront {
     public struct DeleteStreamingDistributionRequest: AWSEncodableShape {
         /// The distribution ID.
         public let id: String
-        /// The value of the ETag header that you received when you disabled the
-        /// 			streaming distribution. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -3402,30 +3534,113 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DisassociateDistributionTenantWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// The current version of the distribution tenant that you're disassociating from the WAF web ACL. This is the ETag value returned in the response to the GetDistributionTenant API operation.
+        public let ifMatch: String?
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateDistributionTenantWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+        /// The ID of the distribution tenant.
+        public let id: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct DisassociateDistributionWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the distribution that you're disassociating from the WAF web ACL.
+        public let ifMatch: String?
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateDistributionWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution.
+        public let eTag: String?
+        /// The ID of the distribution.
+        public let id: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct Distribution: AWSDecodableShape {
         public struct _AliasICPRecordalsEncoding: ArrayCoderProperties { public static let member = "AliasICPRecordal" }
 
-        /// This field contains a list of key groups and the public keys in each key group that
-        /// 			CloudFront can use to verify the signatures of signed URLs or signed cookies.
+        /// This field contains a list of key groups and the public keys in each key group that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public let activeTrustedKeyGroups: ActiveTrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of
-        /// 					TrustedSigners.  This field contains a list of Amazon Web Services account IDs and the active CloudFront key pairs in each
-        /// 			account that CloudFront can use to verify the signatures of signed URLs or signed
-        /// 			cookies.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  This field contains a list of Amazon Web Services account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public let activeTrustedSigners: ActiveTrustedSigners?
-        /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP)
-        /// 			recordal if they want to serve content publicly on an alternate domain name, also known
-        /// 			as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal
-        /// 			status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services
-        /// 				services in China.
+        /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
         /// The distribution's Amazon Resource Name (ARN).
         public let arn: String
         /// The distribution's configuration.
         public let distributionConfig: DistributionConfig
-        /// The distribution's CloudFront domain name. For example:
-        /// 			d111111abcdef8.cloudfront.net.
+        /// The distribution's CloudFront domain name. For example: d111111abcdef8.cloudfront.net.
         public let domainName: String
         /// The distribution's identifier. For example: E1U5RQF7T870K0.
         public let id: String
@@ -3433,8 +3648,7 @@ extension CloudFront {
         public let inProgressInvalidationBatches: Int
         /// The date and time when the distribution was last modified.
         public let lastModifiedTime: Date
-        /// The distribution's status. When the status is Deployed, the
-        /// 			distribution's information is fully propagated to all CloudFront edge locations.
+        /// The distribution's status. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations.
         public let status: String
 
         @inlinable
@@ -3466,131 +3680,59 @@ extension CloudFront {
     }
 
     public struct DistributionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A complex type that contains information about CNAMEs (alternate domain names), if
-        /// 			any, for this distribution.
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases?
         /// ID of the Anycast static IP list that is associated with the distribution.
         public let anycastIpListId: String?
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors?
-        /// A unique value (for example, a date-time stamp) that ensures that the request can't be
-        /// 			replayed. If the value of CallerReference is new (regardless of the content of the
-        /// 				DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request
-        /// 			to create a distribution, CloudFront returns a DistributionAlreadyExists
-        /// 			error.
+        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
         public let callerReference: String
-        /// A comment to describe the distribution. The comment cannot be longer than
-        /// 			128 characters.
+        /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         public let comment: String
-        /// The identifier of a continuous deployment policy. For more information, see
-        /// 				CreateContinuousDeploymentPolicy.
+        /// The connection mode to filter distributions by.
+        public let connectionMode: ConnectionMode?
+        /// The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
         public let continuousDeploymentPolicyId: String?
-        /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom
-        /// 					error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing
-        /// 				Error Responses in the Amazon CloudFront Developer Guide.
+        /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
         public let customErrorResponses: CustomErrorResponses?
-        /// A complex type that describes the default cache behavior if you don't specify a
-        /// 				CacheBehavior element or if files don't match any of the values of
-        /// 				PathPattern in CacheBehavior elements. You must create
-        /// 			exactly one default cache behavior.
+        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
-        /// When a viewer requests the root URL for your distribution, the default root object is the
-        /// 			object that you want CloudFront to request from your origin. For example, if your root URL is
-        /// 				https://www.example.com, you can specify CloudFront to return the
-        /// 				index.html file as the default root object. You can specify a default
-        /// 			root object so that viewers see a specific file or object, instead of  another object in
-        /// 			your distribution (for example,
-        /// 				https://www.example.com/product-description.html). A default root
-        /// 			object avoids exposing the contents of your distribution. You can specify the object name or a path to the object name (for example,
-        /// 				index.html or exampleFolderName/index.html). Your string
-        /// 			can't begin with a forward slash (/). Only specify the object name or the
-        /// 			path to the object. If you don't want to specify a default root object when you create a distribution,
-        /// 			include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the
-        /// 			distribution configuration and include an empty DefaultRootObject
-        /// 			element. To replace the default root object, update the distribution configuration and specify
-        /// 			the new object. For more information about the default root object, see Specify a default root object in the Amazon CloudFront Developer Guide.
+        /// When a viewer requests the root URL for your distribution, the default root object is the object that you want CloudFront to request from your origin. For example, if your root URL is https://www.example.com, you can specify CloudFront to return the index.html file as the default root object. You can specify a default root object so that viewers see a specific file or object, instead of another object in your distribution (for example, https://www.example.com/product-description.html). A default root object avoids exposing the contents of your distribution. You can specify the object name or a path to the object name (for example, index.html or exampleFolderName/index.html). Your string can't begin with a forward slash (/). Only specify the object name or the path to the object. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Specify a default root object in the Amazon CloudFront Developer Guide.
         public let defaultRootObject: String?
         /// From this field, you can enable or disable the selected distribution.
         public let enabled: Bool
-        /// (Optional) Specify the HTTP version(s) that you want viewers to use to communicate with
-        /// 			CloudFront. The default value for new web distributions is http2. Viewers that
-        /// 			don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must
-        /// 			support Server Name Indication (SNI). For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name
-        /// 			Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the viewer to
-        /// 			switch networks without losing connection. For more information about connection
-        /// 			migration, see Connection Migration at RFC 9000. For more information about supported
-        /// 			TLSv1.3 ciphers, see Supported protocols and ciphers between viewers and CloudFront.
+        /// (Optional) Specify the HTTP version(s) that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must support Server Name Indication (SNI). For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the viewer to switch networks without losing connection. For more information about connection migration, see Connection Migration at RFC 9000. For more information about supported TLSv1.3 ciphers, see Supported protocols and ciphers between viewers and CloudFront.
         public let httpVersion: HttpVersion?
-        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your
-        /// 			distribution, specify true. If you specify false, CloudFront
-        /// 			responds to IPv6 DNS requests with the DNS response code NOERROR and with
-        /// 			no IP addresses. This allows viewers to submit a second request, for an IPv4 address for
-        /// 			your distribution. In general, you should enable IPv6 if you have users on IPv6 networks who want to
-        /// 			access your content. However, if you're using signed URLs or signed cookies to restrict
-        /// 			access to your content, and if you're using a custom policy that includes the
-        /// 				IpAddress parameter to restrict the IP addresses that can access your
-        /// 			content, don't enable IPv6. If you want to restrict access to some content by IP address
-        /// 			and not restrict access to other content (or restrict access but not by IP address), you
-        /// 			can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the
-        /// 				Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront
-        /// 			distribution, you need to create a second alias resource record set when both of the
-        /// 			following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing
-        /// 				Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the
-        /// 				Route 53 Amazon Web Services Integration Developer Guide. If you created a CNAME resource record set, either with Route 53 Amazon Web Services Integration or with another DNS
-        /// 			service, you don't need to make any changes. A CNAME record will route traffic to your
-        /// 			distribution regardless of the IP address format of the viewer request.
+        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution. In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Route 53 Amazon Web Services Integration Developer Guide. If you created a CNAME resource record set, either with Route 53 Amazon Web Services Integration or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
         public let isIPV6Enabled: Bool?
-        /// A complex type that controls whether access logs are written for the
-        /// 			distribution. For more information about logging, see Access Logs in
-        /// 			the Amazon CloudFront Developer Guide.
+        /// A complex type that controls whether access logs are written for the distribution. For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide.
         public let logging: LoggingConfig?
-        /// A complex type that contains information about origin groups for this
-        /// 			distribution.
+        /// A complex type that contains information about origin groups for this distribution.
         public let originGroups: OriginGroups?
         /// A complex type that contains information about origins for this distribution.
         public let origins: Origins
-        /// The price class that corresponds with the maximum price that you want to pay for CloudFront
-        /// 			service. If you specify PriceClass_All, CloudFront responds to requests for your
-        /// 			objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your
-        /// 			objects from the CloudFront edge location that has the lowest latency among the edge locations
-        /// 			in your price class. Viewers who are in or near regions that are excluded from your
-        /// 			specified price class may encounter slower performance. For more information about price classes, see Choosing the Price
-        /// 				Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide.
-        /// 			For information about CloudFront pricing, including how price classes (such as Price Class
-        /// 			100) map to CloudFront regions, see Amazon CloudFront
-        /// 				Pricing.
+        /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing.
         public let priceClass: PriceClass?
-        /// A complex type that identifies ways in which you want to restrict distribution of your
-        /// 			content.
+        /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public let restrictions: Restrictions?
-        /// A Boolean that indicates whether this is a staging distribution. When this value is
-        /// 				true, this is a staging distribution. When this value is
-        /// 				false, this is not a staging distribution.
+        /// A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
         public let staging: Bool?
-        /// A complex type that determines the distribution's SSL/TLS configuration for
-        /// 			communicating with viewers.
+        /// A distribution tenant configuration.
+        public let tenantConfig: TenantConfig?
+        /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public let viewerCertificate: ViewerCertificate?
-        /// A unique identifier that specifies the WAF web ACL, if any, to associate with this
-        /// 			distribution. To specify a web ACL created using the latest version of WAF, use the
-        /// 			ACL ARN, for example
-        /// 			arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
-        /// 			To specify a web ACL created using WAF Classic, use the ACL ID, for example
-        /// 			a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests
-        /// 			that are forwarded to CloudFront, and lets you control access to your content. Based on
-        /// 			conditions that you specify, such as the IP addresses that requests originate from or
-        /// 			the values of query strings, CloudFront responds to requests either with the requested content
-        /// 			or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a
-        /// 			custom error page when a request is blocked. For more information about WAF, see the
-        /// 				WAF Developer Guide.
+        /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the WAF Developer Guide.
         public let webACLId: String?
 
         @inlinable
-        public init(aliases: Aliases? = nil, anycastIpListId: String? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
+        public init(aliases: Aliases? = nil, anycastIpListId: String? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, connectionMode: ConnectionMode? = nil, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, tenantConfig: TenantConfig? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
             self.aliases = aliases
             self.anycastIpListId = anycastIpListId
             self.cacheBehaviors = cacheBehaviors
             self.callerReference = callerReference
             self.comment = comment
+            self.connectionMode = connectionMode
             self.continuousDeploymentPolicyId = continuousDeploymentPolicyId
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
@@ -3604,6 +3746,7 @@ extension CloudFront {
             self.priceClass = priceClass
             self.restrictions = restrictions
             self.staging = staging
+            self.tenantConfig = tenantConfig
             self.viewerCertificate = viewerCertificate
             self.webACLId = webACLId
         }
@@ -3613,6 +3756,7 @@ extension CloudFront {
             try self.defaultCacheBehavior.validate(name: "\(name).defaultCacheBehavior")
             try self.originGroups?.validate(name: "\(name).originGroups")
             try self.origins.validate(name: "\(name).origins")
+            try self.tenantConfig?.validate(name: "\(name).tenantConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3621,6 +3765,7 @@ extension CloudFront {
             case cacheBehaviors = "CacheBehaviors"
             case callerReference = "CallerReference"
             case comment = "Comment"
+            case connectionMode = "ConnectionMode"
             case continuousDeploymentPolicyId = "ContinuousDeploymentPolicyId"
             case customErrorResponses = "CustomErrorResponses"
             case defaultCacheBehavior = "DefaultCacheBehavior"
@@ -3634,6 +3779,7 @@ extension CloudFront {
             case priceClass = "PriceClass"
             case restrictions = "Restrictions"
             case staging = "Staging"
+            case tenantConfig = "TenantConfig"
             case viewerCertificate = "ViewerCertificate"
             case webACLId = "WebACLId"
         }
@@ -3665,9 +3811,7 @@ extension CloudFront {
     public struct DistributionIdList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "DistributionId" }
 
-        /// A flag that indicates whether more distribution IDs remain to be listed. If your
-        /// 			results were truncated, you can make a subsequent request using the Marker
-        /// 			request field to retrieve more distribution IDs in the list.
+        /// A flag that indicates whether more distribution IDs remain to be listed. If your results were truncated, you can make a subsequent request using the Marker request field to retrieve more distribution IDs in the list.
         public let isTruncated: Bool
         /// Contains the distribution IDs in the list.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
@@ -3676,8 +3820,7 @@ extension CloudFront {
         public let marker: String
         /// The maximum number of distribution IDs requested.
         public let maxItems: Int
-        /// Contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing distribution IDs where you left off.
+        /// Contains the value that you should use in the Marker field of a subsequent request to continue listing distribution IDs where you left off.
         public let nextMarker: String?
         /// The total number of distribution IDs returned in the response.
         public let quantity: Int
@@ -3705,22 +3848,16 @@ extension CloudFront {
     public struct DistributionList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "DistributionSummary" }
 
-        /// A flag that indicates whether more distributions remain to be listed. If your results
-        /// 			were truncated, you can make a follow-up pagination request using the
-        /// 				Marker request parameter to retrieve more distributions in the
-        /// 			list.
+        /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one DistributionSummary element for each
-        /// 			distribution that was created by the current Amazon Web Services account.
+        /// A complex type that contains one DistributionSummary element for each distribution that was created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, DistributionSummary>>
         public var items: [DistributionSummary]?
         /// The value you provided for the Marker request parameter.
         public let marker: String
         /// The value you provided for the MaxItems request parameter.
         public let maxItems: Int
-        /// If IsTruncated is true, this element is present and contains
-        /// 			the value you can use for the Marker request parameter to continue listing
-        /// 			your distributions where they left off.
+        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your distributions where they left off.
         public let nextMarker: String?
         /// The number of distributions that were created by the current Amazon Web Services account.
         public let quantity: Int
@@ -3745,89 +3882,91 @@ extension CloudFront {
         }
     }
 
+    public struct DistributionResourceId: AWSEncodableShape {
+        /// The ID of the multi-tenant distribution.
+        public let distributionId: String?
+        /// The ID of the distribution tenant.
+        public let distributionTenantId: String?
+
+        @inlinable
+        public init(distributionId: String? = nil, distributionTenantId: String? = nil) {
+            self.distributionId = distributionId
+            self.distributionTenantId = distributionTenantId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionId = "DistributionId"
+            case distributionTenantId = "DistributionTenantId"
+        }
+    }
+
     public struct DistributionSummary: AWSDecodableShape {
         public struct _AliasICPRecordalsEncoding: ArrayCoderProperties { public static let member = "AliasICPRecordal" }
 
-        /// A complex type that contains information about CNAMEs (alternate domain names), if
-        /// 			any, for this distribution.
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases
-        /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP)
-        /// 			recordal if they want to serve content publicly on an alternate domain name, also known
-        /// 			as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal
-        /// 			status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services
-        /// 				services in China.
+        /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
         /// ID of the Anycast static IP list that is associated with the distribution.
         public let anycastIpListId: String?
-        /// The ARN (Amazon Resource Name) for the distribution. For example:
-        /// 				arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where
-        /// 				123456789012 is your Amazon Web Services account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         public let arn: String
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors
         /// The comment originally specified when this distribution was created.
         public let comment: String
-        /// A complex type that contains zero or more CustomErrorResponses
-        /// 			elements.
+        /// The connection mode to filter distributions by.
+        public let connectionMode: ConnectionMode?
+        /// A complex type that contains zero or more CustomErrorResponses elements.
         public let customErrorResponses: CustomErrorResponses
-        /// A complex type that describes the default cache behavior if you don't specify a
-        /// 				CacheBehavior element or if files don't match any of the values of
-        /// 				PathPattern in CacheBehavior elements. You must create
-        /// 			exactly one default cache behavior.
+        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
-        /// The domain name that corresponds to the distribution, for example,
-        /// 				d111111abcdef8.cloudfront.net.
+        /// The domain name that corresponds to the distribution, for example, d111111abcdef8.cloudfront.net.
         public let domainName: String
         /// Whether the distribution is enabled to accept user requests for content.
         public let enabled: Bool
-        /// Specify the maximum HTTP version that you want viewers to use to communicate with
-        /// 			CloudFront. The default value for new web distributions is http2. Viewers that
-        /// 			don't support HTTP/2 will automatically use an earlier version.
+        /// The current version of the distribution.
+        public let eTag: String?
+        /// Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 will automatically use an earlier version.
         public let httpVersion: UppercaseHttpVersion
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
         public let id: String
-        /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your
-        /// 			distribution.
+        /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your distribution.
         public let isIPV6Enabled: Bool
         /// The date and time the distribution was last modified.
         public let lastModifiedTime: Date
-        /// A complex type that contains information about origin groups for this
-        /// 			distribution.
+        /// A complex type that contains information about origin groups for this distribution.
         public let originGroups: OriginGroups?
         /// A complex type that contains information about origins for this distribution.
         public let origins: Origins
-        /// A complex type that contains information about price class for this streaming
-        /// 			distribution.
+        /// A complex type that contains information about price class for this streaming distribution.
         public let priceClass: PriceClass
-        /// A complex type that identifies ways in which you want to restrict distribution of your
-        /// 			content.
+        /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public let restrictions: Restrictions
-        /// A Boolean that indicates whether this is a staging distribution. When this value is
-        /// 				true, this is a staging distribution. When this value is
-        /// 				false, this is not a staging distribution.
+        /// A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
         public let staging: Bool
-        /// The current status of the distribution. When the status is Deployed, the
-        /// 			distribution's information is propagated to all CloudFront edge locations.
+        /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public let status: String
-        /// A complex type that determines the distribution's SSL/TLS configuration for
-        /// 			communicating with viewers.
+        /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public let viewerCertificate: ViewerCertificate
         /// The Web ACL Id (if any) associated with the distribution.
         public let webACLId: String
 
         @inlinable
-        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, anycastIpListId: String? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, staging: Bool, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
+        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, anycastIpListId: String? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, connectionMode: ConnectionMode? = nil, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, eTag: String? = nil, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, staging: Bool, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.aliases = aliases
             self.aliasICPRecordals = aliasICPRecordals
             self.anycastIpListId = anycastIpListId
             self.arn = arn
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
+            self.connectionMode = connectionMode
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
             self.domainName = domainName
             self.enabled = enabled
+            self.eTag = eTag
             self.httpVersion = httpVersion
             self.id = id
             self.isIPV6Enabled = isIPV6Enabled
@@ -3849,10 +3988,12 @@ extension CloudFront {
             case arn = "ARN"
             case cacheBehaviors = "CacheBehaviors"
             case comment = "Comment"
+            case connectionMode = "ConnectionMode"
             case customErrorResponses = "CustomErrorResponses"
             case defaultCacheBehavior = "DefaultCacheBehavior"
             case domainName = "DomainName"
             case enabled = "Enabled"
+            case eTag = "ETag"
             case httpVersion = "HttpVersion"
             case id = "Id"
             case isIPV6Enabled = "IsIPV6Enabled"
@@ -3868,15 +4009,233 @@ extension CloudFront {
         }
     }
 
+    public struct DistributionTenant: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the distribution tenant.
+        public let arn: String?
+        /// The ID of the connection group for the distribution tenant. If you don't specify a connection group, CloudFront uses the default connection group.
+        public let connectionGroupId: String?
+        /// The date and time when the distribution tenant was created.
+        public let createdTime: Date?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The ID of the multi-tenant distribution.
+        public let distributionId: String?
+        /// The domains associated with the distribution tenant.
+        @OptionalCustomCoding<StandardArrayCoder<DomainResult>>
+        public var domains: [DomainResult]?
+        /// Indicates whether the distribution tenant is in an enabled state. If disabled, the distribution tenant won't serve traffic.
+        public let enabled: Bool?
+        /// The ID of the distribution tenant.
+        public let id: String?
+        /// The date and time when the distribution tenant was updated.
+        public let lastModifiedTime: Date?
+        /// The name of the distribution tenant.
+        public let name: String?
+        /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+        @OptionalCustomCoding<StandardArrayCoder<Parameter>>
+        public var parameters: [Parameter]?
+        /// The status of the distribution tenant.
+        public let status: String?
+        public let tags: Tags?
+
+        @inlinable
+        public init(arn: String? = nil, connectionGroupId: String? = nil, createdTime: Date? = nil, customizations: Customizations? = nil, distributionId: String? = nil, domains: [DomainResult]? = nil, enabled: Bool? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, parameters: [Parameter]? = nil, status: String? = nil, tags: Tags? = nil) {
+            self.arn = arn
+            self.connectionGroupId = connectionGroupId
+            self.createdTime = createdTime
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.parameters = parameters
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case connectionGroupId = "ConnectionGroupId"
+            case createdTime = "CreatedTime"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case parameters = "Parameters"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DistributionTenantAssociationFilter: AWSEncodableShape {
+        /// The ID of the connection group to filter by. You can find distribution tenants associated with a specific connection group.
+        public let connectionGroupId: String?
+        /// The distribution ID to filter by. You can find distribution tenants associated with a specific distribution.
+        public let distributionId: String?
+
+        @inlinable
+        public init(connectionGroupId: String? = nil, distributionId: String? = nil) {
+            self.connectionGroupId = connectionGroupId
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroupId = "ConnectionGroupId"
+            case distributionId = "DistributionId"
+        }
+    }
+
+    public struct DistributionTenantSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the distribution tenant.
+        public let arn: String
+        /// The ID of the connection group ID for the distribution tenant. If you don't specify a connection group, CloudFront uses the default connection group.
+        public let connectionGroupId: String?
+        /// The date and time when the distribution tenant was created.
+        public let createdTime: Date
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The identifier for the multi-tenant distribution. For example: EDFDVBD632BHDS5.
+        public let distributionId: String
+        /// The domains associated with the distribution tenant.
+        @CustomCoding<StandardArrayCoder<DomainResult>>
+        public var domains: [DomainResult]
+        /// Indicates whether the distribution tenants are in an enabled state. If disabled, the distribution tenant won't service traffic.
+        public let enabled: Bool?
+        /// The current version of the distribution tenant.
+        public let eTag: String
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// The date and time when the distribution tenant was updated.
+        public let lastModifiedTime: Date
+        /// The name of the distribution tenant.
+        public let name: String
+        /// The status of the distribution tenant.
+        public let status: String?
+
+        @inlinable
+        public init(arn: String, connectionGroupId: String? = nil, createdTime: Date, customizations: Customizations? = nil, distributionId: String, domains: [DomainResult], enabled: Bool? = nil, eTag: String, id: String, lastModifiedTime: Date, name: String, status: String? = nil) {
+            self.arn = arn
+            self.connectionGroupId = connectionGroupId
+            self.createdTime = createdTime
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.eTag = eTag
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case connectionGroupId = "ConnectionGroupId"
+            case createdTime = "CreatedTime"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case eTag = "ETag"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct DnsConfiguration: AWSDecodableShape {
+        /// The domain name that you're verifying.
+        public let domain: String
+        /// Explains the status of the DNS configuration.
+        public let reason: String?
+        /// The status of your domain name.    valid-configuration: The domain name is correctly configured and points to the correct routing endpoint of the connection group.    invalid-configuration: There is either a missing DNS record or the DNS record exists but it's using an incorrect routing endpoint. Update the DNS record to point to the correct routing endpoint.    unknown-configuration: CloudFront can't validate your DNS configuration. This status can appear if CloudFront can't verify the DNS record, or the DNS lookup request failed or timed out.
+        public let status: DnsConfigurationStatus
+
+        @inlinable
+        public init(domain: String, reason: String? = nil, status: DnsConfigurationStatus) {
+            self.domain = domain
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case reason = "Reason"
+            case status = "Status"
+        }
+    }
+
+    public struct DomainConflict: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account for the domain conflict.
+        public let accountId: String
+        /// The domain used to find existing conflicts for domain configurations.
+        public let domain: String
+        /// The ID of the resource that has a domain conflict.
+        public let resourceId: String
+        /// The CloudFront resource type that has a domain conflict.
+        public let resourceType: DistributionResourceType
+
+        @inlinable
+        public init(accountId: String, domain: String, resourceId: String, resourceType: DistributionResourceType) {
+            self.accountId = accountId
+            self.domain = domain
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case domain = "Domain"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct DomainItem: AWSEncodableShape {
+        /// The domain name.
+        public let domain: String
+
+        @inlinable
+        public init(domain: String) {
+            self.domain = domain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+        }
+    }
+
+    public struct DomainResult: AWSDecodableShape {
+        /// The specified domain.
+        public let domain: String
+        /// Whether the domain is active or inactive.
+        public let status: DomainStatus?
+
+        @inlinable
+        public init(domain: String, status: DomainStatus? = nil) {
+            self.domain = domain
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case status = "Status"
+        }
+    }
+
     public struct EncryptionEntities: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "EncryptionEntity" }
 
         /// An array of field patterns in a field-level encryption content type-profile mapping.
-        ///
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, EncryptionEntity>>
         public var items: [EncryptionEntity]?
-        /// Number of field pattern items in a field-level encryption content type-profile
-        /// 			mapping.
+        /// Number of field pattern items in a field-level encryption content type-profile mapping.
         public let quantity: Int
 
         @inlinable
@@ -3892,17 +4251,11 @@ extension CloudFront {
     }
 
     public struct EncryptionEntity: AWSEncodableShape & AWSDecodableShape {
-        /// Field patterns in a field-level encryption content type profile specify the fields
-        /// 			that you want to be encrypted. You can provide the full field name, or any beginning
-        /// 			characters followed by a wildcard (*). You can't overlap field patterns. For example,
-        /// 			you can't have both ABC* and AB*. Note that field patterns are case-sensitive.
+        /// Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive.
         public let fieldPatterns: FieldPatterns
-        /// The provider associated with the public key being used for encryption. This value must
-        /// 			also be provided with the private key for applications to be able to decrypt
-        /// 			data.
+        /// The provider associated with the public key being used for encryption. This value must also be provided with the private key for applications to be able to decrypt data.
         public let providerId: String
-        /// The public key associated with a set of field-level encryption patterns, to be used
-        /// 			when encrypting the fields that match the patterns.
+        /// The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns.
         public let publicKeyId: String
 
         @inlinable
@@ -3920,11 +4273,9 @@ extension CloudFront {
     }
 
     public struct EndPoint: AWSEncodableShape & AWSDecodableShape {
-        /// Contains information about the Amazon Kinesis data stream where you are sending real-time
-        /// 			log data.
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration.
         public let kinesisStreamConfig: KinesisStreamConfig?
-        /// The type of data stream where you are sending real-time log data. The only valid value
-        /// 			is Kinesis.
+        /// The type of data stream where you are sending real-time log data. The only valid value is Kinesis.
         public let streamType: String
 
         @inlinable
@@ -3940,12 +4291,9 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryption: AWSDecodableShape {
-        /// A complex data type that includes the profile configurations specified for field-level
-        /// 			encryption.
+        /// A complex data type that includes the profile configurations specified for field-level encryption.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
-        /// The configuration ID for a field-level encryption configuration which includes a set
-        /// 			of profiles that specify certain selected data fields to be encrypted by specific public
-        /// 			keys.
+        /// The configuration ID for a field-level encryption configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
         public let id: String
         /// The last time the field-level encryption configuration was changed.
         public let lastModifiedTime: Date
@@ -3967,15 +4315,11 @@ extension CloudFront {
     public struct FieldLevelEncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// A unique number that ensures the request can't be replayed.
         public let callerReference: String
-        /// An optional comment about the configuration. The comment cannot be longer than 128
-        /// 			characters.
+        /// An optional comment about the configuration. The comment cannot be longer than 128 characters.
         public let comment: String?
-        /// A complex data type that specifies when to forward content if a content type isn't
-        /// 			recognized and profiles to use as by default in a request if a query argument doesn't
-        /// 			specify a profile to use.
+        /// A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use.
         public let contentTypeProfileConfig: ContentTypeProfileConfig?
-        /// A complex data type that specifies when to forward content if a profile isn't found
-        /// 			and the profile that can be provided as a query argument in a request.
+        /// A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request.
         public let queryArgProfileConfig: QueryArgProfileConfig?
 
         @inlinable
@@ -4002,9 +4346,7 @@ extension CloudFront {
         public var items: [FieldLevelEncryptionSummary]?
         /// The maximum number of elements you want in the response body.
         public let maxItems: Int
-        /// If there are more elements to be listed, this element is present and contains the
-        /// 			value that you can use for the Marker request parameter to continue listing
-        /// 			your configurations where you left off.
+        /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your configurations where you left off.
         public let nextMarker: String?
         /// The number of field-level encryption items.
         public let quantity: Int
@@ -4026,12 +4368,9 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionProfile: AWSDecodableShape {
-        /// A complex data type that includes the profile name and the encryption entities for the
-        /// 			field-level encryption profile.
+        /// A complex data type that includes the profile name and the encryption entities for the field-level encryption profile.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
-        /// The ID for a field-level encryption profile configuration which includes a set of
-        /// 			profiles that specify certain selected data fields to be encrypted by specific public
-        /// 			keys.
+        /// The ID for a field-level encryption profile configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
         public let id: String
         /// The last time the field-level encryption profile was updated.
         public let lastModifiedTime: Date
@@ -4053,12 +4392,9 @@ extension CloudFront {
     public struct FieldLevelEncryptionProfileConfig: AWSEncodableShape & AWSDecodableShape {
         /// A unique number that ensures that the request can't be replayed.
         public let callerReference: String
-        /// An optional comment for the field-level encryption profile. The comment cannot be
-        /// 			longer than 128 characters.
+        /// An optional comment for the field-level encryption profile. The comment cannot be longer than 128 characters.
         public let comment: String?
-        /// A complex data type of encryption entities for the field-level encryption profile that
-        /// 			include the public key ID, provider, and field patterns for specifying which fields to
-        /// 			encrypt with this key.
+        /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
         public let encryptionEntities: EncryptionEntities
         /// Profile name for the field-level encryption profile.
         public let name: String
@@ -4086,11 +4422,8 @@ extension CloudFront {
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, FieldLevelEncryptionProfileSummary>>
         public var items: [FieldLevelEncryptionProfileSummary]?
         /// The maximum number of field-level encryption profiles you want in the response body.
-        ///
         public let maxItems: Int
-        /// If there are more elements to be listed, this element is present and contains the
-        /// 			value that you can use for the Marker request parameter to continue listing
-        /// 			your profiles where you left off.
+        /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your profiles where you left off.
         public let nextMarker: String?
         /// The number of field-level encryption profiles.
         public let quantity: Int
@@ -4112,16 +4445,13 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionProfileSummary: AWSDecodableShape {
-        /// An optional comment for the field-level encryption profile summary. The comment cannot
-        /// 			be longer than 128 characters.
+        /// An optional comment for the field-level encryption profile summary. The comment cannot be longer than 128 characters.
         public let comment: String?
-        /// A complex data type of encryption entities for the field-level encryption profile that
-        /// 			include the public key ID, provider, and field patterns for specifying which fields to
-        /// 			encrypt with this key.
+        /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
         public let encryptionEntities: EncryptionEntities
         /// ID for the field-level encryption profile summary.
         public let id: String
-        /// The time when the  field-level encryption profile summary was last updated.
+        /// The time when the field-level encryption profile summary was last updated.
         public let lastModifiedTime: Date
         /// Name for the field-level encryption profile summary.
         public let name: String
@@ -4145,8 +4475,7 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionSummary: AWSDecodableShape {
-        /// An optional comment about the field-level encryption item. The comment cannot be
-        /// 			longer than 128 characters.
+        /// An optional comment about the field-level encryption item. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// A summary of a content type-profile mapping.
         public let contentTypeProfileConfig: ContentTypeProfileConfig?
@@ -4197,50 +4526,13 @@ extension CloudFront {
     }
 
     public struct ForwardedValues: AWSEncodableShape & AWSDecodableShape {
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. If you want to include cookies in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send cookies to the origin but not include them in the cache key, use
-        /// 			an origin request policy. For more information, see Creating origin request policies in the
-        /// 			Amazon CloudFront Developer Guide. A complex type that specifies whether you want CloudFront to forward cookies to the origin
-        /// 			and, if so, which ones. For more information about forwarding cookies to the origin, see
-        /// 				How CloudFront Forwards, Caches,
-        /// 				and Logs Cookies in the Amazon CloudFront Developer Guide.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include cookies in the cache key, use a cache policy. For more information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send cookies to the origin but not include them in the cache key, use an origin request policy. For more information, see Creating origin request policies in the Amazon CloudFront Developer Guide. A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
         public let cookies: CookiePreference
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. If you want to include headers in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send headers to the origin but not include them in the cache key, use
-        /// 			an origin request policy. For more information, see Creating origin request policies in the
-        /// 			Amazon CloudFront Developer Guide. A complex type that specifies the Headers, if any, that you want CloudFront to
-        /// 			forward to the origin for this cache behavior (whitelisted headers). For the headers
-        /// 			that you specify, CloudFront also caches separate versions of a specified object that is based
-        /// 			on the header values in viewer requests. For more information, see  Caching Content
-        /// 				Based on Request Headers in the Amazon CloudFront Developer Guide.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include headers in the cache key, use a cache policy. For more information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send headers to the origin but not include them in the cache key, use an origin request policy. For more information, see Creating origin request policies in the Amazon CloudFront Developer Guide. A complex type that specifies the Headers, if any, that you want CloudFront to forward to the origin for this cache behavior (whitelisted headers). For the headers that you specify, CloudFront also caches separate versions of a specified object that is based on the header values in viewer requests. For more information, see  Caching Content Based on Request Headers in the Amazon CloudFront Developer Guide.
         public let headers: Headers?
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. If you want to include query strings in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send query strings to the origin but not include them in the cache key,
-        /// 			use an origin request policy. For more information, see Creating origin request policies in the
-        /// 			Amazon CloudFront Developer Guide. Indicates whether you want CloudFront to forward query strings to the origin that is
-        /// 			associated with this cache behavior and cache based on the query string parameters. CloudFront
-        /// 			behavior depends on the value of QueryString and on the values that you
-        /// 			specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for
-        /// 				QueryStringCacheKeys, CloudFront forwards all query string parameters to the
-        /// 			origin and caches based on all query string parameters. Depending on how many query
-        /// 			string parameters and values you have, this can adversely affect performance because
-        /// 			CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values
-        /// 			for QueryStringCacheKeys, CloudFront forwards all query string parameters to the
-        /// 			origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query
-        /// 			string parameters to the origin, and doesn't cache based on query string
-        /// 			parameters. For more information, see Configuring
-        /// 				CloudFront to Cache Based on Query String Parameters in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include query strings in the cache key, use a cache policy. For more information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send query strings to the origin but not include them in the cache key, use an origin request policy. For more information, see Creating origin request policies in the Amazon CloudFront Developer Guide. Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
         public let queryString: Bool
-        /// This field is deprecated. We recommend that you use a cache policy or an origin
-        /// 			request policy instead of this field. If you want to include query strings in the cache key, use a cache policy. For more
-        /// 			information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send query strings to the origin but not include them in the cache key,
-        /// 			use an origin request policy. For more information, see Creating origin request policies in the
-        /// 			Amazon CloudFront Developer Guide. A complex type that contains information about the query string parameters that you
-        /// 			want CloudFront to use for caching for this cache behavior.
+        /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include query strings in the cache key, use a cache policy. For more information, see Creating cache policies in the Amazon CloudFront Developer Guide. If you want to send query strings to the origin but not include them in the cache key, use an origin request policy. For more information, see Creating origin request policies in the Amazon CloudFront Developer Guide. A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
         public let queryStringCacheKeys: QueryStringCacheKeys?
 
         @inlinable
@@ -4260,10 +4552,7 @@ extension CloudFront {
     }
 
     public struct FunctionAssociation: AWSEncodableShape & AWSDecodableShape {
-        /// The event type of the function, either viewer-request or
-        /// 				viewer-response. You cannot use origin-facing event types
-        /// 				(origin-request and origin-response) with a CloudFront
-        /// 			function.
+        /// The event type of the function, either viewer-request or viewer-response. You cannot use origin-facing event types (origin-request and origin-response) with a CloudFront function.
         public let eventType: EventType
         /// The Amazon Resource Name (ARN) of the function.
         public let functionARN: String
@@ -4288,9 +4577,7 @@ extension CloudFront {
     public struct FunctionAssociations: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "FunctionAssociation" }
 
-        /// The CloudFront functions that are associated with a cache behavior in a CloudFront distribution.
-        /// 			Your functions must be published to the LIVE stage to associate them with a
-        /// 			cache behavior.
+        /// The CloudFront functions that are associated with a cache behavior in a CloudFront distribution. Your functions must be published to the LIVE stage to associate them with a cache behavior.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, FunctionAssociation>>
         public var items: [FunctionAssociation]?
         /// The number of CloudFront functions in the list.
@@ -4348,9 +4635,7 @@ extension CloudFront {
         public var items: [FunctionSummary]?
         /// The maximum number of functions requested.
         public let maxItems: Int
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing functions where you left off.
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing functions where you left off.
         public let nextMarker: String?
         /// The number of functions returned in the response.
         public let quantity: Int
@@ -4374,15 +4659,11 @@ extension CloudFront {
     public struct FunctionMetadata: AWSDecodableShape {
         /// The date and time when the function was created.
         public let createdTime: Date?
-        /// The Amazon Resource Name (ARN) of the function. The ARN uniquely identifies the
-        /// 			function.
+        /// The Amazon Resource Name (ARN) of the function. The ARN uniquely identifies the function.
         public let functionARN: String
         /// The date and time when the function was most recently updated.
         public let lastModifiedTime: Date
-        /// The stage that the function is in, either DEVELOPMENT or
-        /// 				LIVE. When a function is in the DEVELOPMENT stage, you can test the function
-        /// 			with TestFunction, and update it with UpdateFunction. When a function is in the LIVE stage, you can attach the function to a
-        /// 			distribution's cache behavior, using the function's ARN.
+        /// The stage that the function is in, either DEVELOPMENT or LIVE. When a function is in the DEVELOPMENT stage, you can test the function with TestFunction, and update it with UpdateFunction. When a function is in the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's ARN.
         public let stage: FunctionStage?
 
         @inlinable
@@ -4430,27 +4711,12 @@ extension CloudFront {
     public struct GeoRestriction: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Location" }
 
-        /// A complex type that contains a Location element for each country in
-        /// 			which you want CloudFront either to distribute your content (whitelist) or not
-        /// 			distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a
-        /// 			country that you want to include in your blacklist or
-        /// 				whitelist. Include one Location element for each
-        /// 			country. CloudFront and MaxMind both use ISO 3166 country codes. For the
-        /// 			current list of countries and the corresponding codes, see ISO
-        /// 				3166-1-alpha-2 code on the International Organization for
-        /// 				Standardization website. You can also refer to the country list on the
-        /// 			CloudFront console, which includes both country names and codes.
+        /// A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
-        /// When geo restriction is enabled, this is the number of countries in your
-        /// 				whitelist or blacklist. Otherwise, when it is not enabled,
-        /// 				Quantity is 0, and you can omit Items.
+        /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int
-        /// The method that you want to use to restrict distribution of your content by
-        /// 			country:    none: No geo restriction is enabled, meaning access to content is
-        /// 					not restricted by client geo location.    blacklist: The Location elements specify the
-        /// 					countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the
-        /// 					countries in which you want CloudFront to distribute your content.
+        /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.
         public let restrictionType: GeoRestrictionType
 
         @inlinable
@@ -4463,6 +4729,27 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+            case restrictionType = "RestrictionType"
+        }
+    }
+
+    public struct GeoRestrictionCustomization: AWSEncodableShape & AWSDecodableShape {
+        public struct _LocationsEncoding: ArrayCoderProperties { public static let member = "Location" }
+
+        /// The locations for geographic restrictions.
+        @OptionalCustomCoding<ArrayCoder<_LocationsEncoding, String>>
+        public var locations: [String]?
+        /// The method that you want to use to restrict distribution of your content by country:    none: No geographic restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.
+        public let restrictionType: GeoRestrictionType
+
+        @inlinable
+        public init(locations: [String]? = nil, restrictionType: GeoRestrictionType) {
+            self.locations = locations
+            self.restrictionType = restrictionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locations = "Locations"
             case restrictionType = "RestrictionType"
         }
     }
@@ -4508,11 +4795,7 @@ extension CloudFront {
     }
 
     public struct GetCachePolicyConfigRequest: AWSEncodableShape {
-        /// The unique identifier for the cache policy. If the cache policy is attached to a
-        /// 			distribution's cache behavior, you can get the policy's identifier using
-        /// 				ListDistributions or GetDistribution. If the cache policy
-        /// 			is not attached to a cache behavior, you can get the identifier using
-        /// 				ListCachePolicies.
+        /// The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
         public let id: String
 
         @inlinable
@@ -4552,11 +4835,7 @@ extension CloudFront {
     }
 
     public struct GetCachePolicyRequest: AWSEncodableShape {
-        /// The unique identifier for the cache policy. If the cache policy is attached to a
-        /// 			distribution's cache behavior, you can get the policy's identifier using
-        /// 				ListDistributions or GetDistribution. If the cache policy
-        /// 			is not attached to a cache behavior, you can get the identifier using
-        /// 				ListCachePolicies.
+        /// The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
         public let id: String
 
         @inlinable
@@ -4616,8 +4895,7 @@ extension CloudFront {
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSDecodableShape {
         /// The origin access identity's configuration information.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
-        /// The current version of the configuration. For example:
-        /// 			E2QWRUHAPOMQZL.
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
 
         @inlinable
@@ -4657,8 +4935,7 @@ extension CloudFront {
     public struct GetCloudFrontOriginAccessIdentityResult: AWSDecodableShape {
         /// The origin access identity's information.
         public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity
-        /// The current version of the origin access identity's information. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
 
         @inlinable
@@ -4677,9 +4954,87 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetConnectionGroupByRoutingEndpointRequest: AWSEncodableShape {
+        /// The routing endpoint for the target connection group, such as d111111abcdef8.cloudfront.net.
+        public let routingEndpoint: String
+
+        @inlinable
+        public init(routingEndpoint: String) {
+            self.routingEndpoint = routingEndpoint
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.routingEndpoint, key: "RoutingEndpoint")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionGroupByRoutingEndpointResult: AWSDecodableShape {
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionGroupRequest: AWSEncodableShape {
+        /// The ID, name, or Amazon Resource Name (ARN) of the connection group.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionGroupResult: AWSDecodableShape {
+        /// The connection group that you retrieved.
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetContinuousDeploymentPolicyConfigRequest: AWSEncodableShape {
-        /// The identifier of the continuous deployment policy whose configuration you are
-        /// 			getting.
+        /// The identifier of the continuous deployment policy whose configuration you are getting.
         public let id: String
 
         @inlinable
@@ -4698,8 +5053,7 @@ extension CloudFront {
 
     public struct GetContinuousDeploymentPolicyConfigResult: AWSDecodableShape {
         public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
-        /// The version identifier for the current version of the continuous deployment
-        /// 			policy.
+        /// The version identifier for the current version of the continuous deployment policy.
         public let eTag: String?
 
         @inlinable
@@ -4739,8 +5093,7 @@ extension CloudFront {
     public struct GetContinuousDeploymentPolicyResult: AWSDecodableShape {
         /// A continuous deployment policy.
         public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
-        /// The version identifier for the current version of the continuous deployment
-        /// 			policy.
+        /// The version identifier for the current version of the continuous deployment policy.
         public let eTag: String?
 
         @inlinable
@@ -4760,8 +5113,7 @@ extension CloudFront {
     }
 
     public struct GetDistributionConfigRequest: AWSEncodableShape {
-        /// The distribution's ID. If the ID is empty, an empty distribution configuration is
-        /// 			returned.
+        /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
         public let id: String
 
         @inlinable
@@ -4781,8 +5133,7 @@ extension CloudFront {
     public struct GetDistributionConfigResult: AWSDecodableShape {
         /// The distribution's configuration information.
         public let distributionConfig: DistributionConfig
-        /// The current version of the configuration. For example:
-        /// 			E2QWRUHAPOMQZL.
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
 
         @inlinable
@@ -4802,8 +5153,7 @@ extension CloudFront {
     }
 
     public struct GetDistributionRequest: AWSEncodableShape {
-        /// The distribution's ID. If the ID is empty, an empty distribution configuration is
-        /// 			returned.
+        /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
         public let id: String
 
         @inlinable
@@ -4823,8 +5173,7 @@ extension CloudFront {
     public struct GetDistributionResult: AWSDecodableShape {
         /// The distribution's information.
         public let distribution: Distribution
-        /// The current version of the distribution's information. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
 
         @inlinable
@@ -4837,6 +5186,85 @@ extension CloudFront {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.singleValueContainer()
             self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantByDomainRequest: AWSEncodableShape {
+        /// A domain name associated with the target distribution tenant.
+        public let domain: String
+
+        @inlinable
+        public init(domain: String) {
+            self.domain = domain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantByDomainResult: AWSDecodableShape {
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantRequest: AWSEncodableShape {
+        /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantResult: AWSDecodableShape {
+        /// The distribution tenant that you retrieved.
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
@@ -4862,8 +5290,7 @@ extension CloudFront {
     }
 
     public struct GetFieldLevelEncryptionConfigResult: AWSDecodableShape {
-        /// The current version of the field level encryption configuration. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption configuration information.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
@@ -4903,8 +5330,7 @@ extension CloudFront {
     }
 
     public struct GetFieldLevelEncryptionProfileConfigResult: AWSDecodableShape {
-        /// The current version of the field-level encryption profile configuration result. For
-        /// 			example: E2QWRUHAPOMQZL.
+        /// The current version of the field-level encryption profile configuration result. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption profile configuration information.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
@@ -4944,8 +5370,7 @@ extension CloudFront {
     }
 
     public struct GetFieldLevelEncryptionProfileResult: AWSDecodableShape {
-        /// The current version of the field level encryption profile. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption profile information.
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile
@@ -4985,8 +5410,7 @@ extension CloudFront {
     }
 
     public struct GetFieldLevelEncryptionResult: AWSDecodableShape {
-        /// The current version of the field level encryption configuration. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption configuration information.
         public let fieldLevelEncryption: FieldLevelEncryption
@@ -5056,11 +5480,48 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetInvalidationForDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let distributionTenantId: String
+        /// The ID of the invalidation to retrieve.
+        public let id: String
+
+        @inlinable
+        public init(distributionTenantId: String, id: String) {
+            self.distributionTenantId = distributionTenantId
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.distributionTenantId, key: "DistributionTenantId")
+            request.encodePath(self.id, key: "Id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInvalidationForDistributionTenantResult: AWSDecodableShape {
+        public let invalidation: Invalidation
+
+        @inlinable
+        public init(invalidation: Invalidation) {
+            self.invalidation = invalidation
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.invalidation = try container.decode(Invalidation.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetInvalidationRequest: AWSEncodableShape {
         /// The distribution's ID.
         public let distributionId: String
-        /// The identifier for the invalidation request, for example,
-        /// 			IDFDVBD632BHDS5.
+        /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
         public let id: String
 
         @inlinable
@@ -5080,8 +5541,7 @@ extension CloudFront {
     }
 
     public struct GetInvalidationResult: AWSDecodableShape {
-        /// The invalidation's information. For more information, see Invalidation
-        /// 				Complex Type.
+        /// The invalidation's information. For more information, see Invalidation Complex Type.
         public let invalidation: Invalidation
 
         @inlinable
@@ -5098,8 +5558,7 @@ extension CloudFront {
     }
 
     public struct GetKeyGroupConfigRequest: AWSEncodableShape {
-        /// The identifier of the key group whose configuration you are getting. To get the
-        /// 			identifier, use ListKeyGroups.
+        /// The identifier of the key group whose configuration you are getting. To get the identifier, use ListKeyGroups.
         public let id: String
 
         @inlinable
@@ -5139,8 +5598,7 @@ extension CloudFront {
     }
 
     public struct GetKeyGroupRequest: AWSEncodableShape {
-        /// The identifier of the key group that you are getting. To get the identifier, use
-        /// 				ListKeyGroups.
+        /// The identifier of the key group that you are getting. To get the identifier, use ListKeyGroups.
         public let id: String
 
         @inlinable
@@ -5179,6 +5637,41 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetManagedCertificateDetailsRequest: AWSEncodableShape {
+        /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetManagedCertificateDetailsResult: AWSDecodableShape {
+        /// Contains details about the CloudFront managed ACM certificate.
+        public let managedCertificateDetails: ManagedCertificateDetails
+
+        @inlinable
+        public init(managedCertificateDetails: ManagedCertificateDetails) {
+            self.managedCertificateDetails = managedCertificateDetails
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.managedCertificateDetails = try container.decode(ManagedCertificateDetails.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetMonitoringSubscriptionRequest: AWSEncodableShape {
         /// The ID of the distribution that you are getting metrics information for.
         public let distributionId: String
@@ -5198,8 +5691,7 @@ extension CloudFront {
     }
 
     public struct GetMonitoringSubscriptionResult: AWSDecodableShape {
-        /// A monitoring subscription. This structure contains information about whether
-        /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
         public let monitoringSubscription: MonitoringSubscription
 
         @inlinable
@@ -5296,11 +5788,7 @@ extension CloudFront {
     }
 
     public struct GetOriginRequestPolicyConfigRequest: AWSEncodableShape {
-        /// The unique identifier for the origin request policy. If the origin request policy is
-        /// 			attached to a distribution's cache behavior, you can get the policy's identifier using
-        /// 				ListDistributions or GetDistribution. If the origin
-        /// 			request policy is not attached to a cache behavior, you can get the identifier using
-        /// 				ListOriginRequestPolicies.
+        /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
         public let id: String
 
         @inlinable
@@ -5340,11 +5828,7 @@ extension CloudFront {
     }
 
     public struct GetOriginRequestPolicyRequest: AWSEncodableShape {
-        /// The unique identifier for the origin request policy. If the origin request policy is
-        /// 			attached to a distribution's cache behavior, you can get the policy's identifier using
-        /// 				ListDistributions or GetDistribution. If the origin
-        /// 			request policy is not attached to a cache behavior, you can get the identifier using
-        /// 				ListOriginRequestPolicies.
+        /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
         public let id: String
 
         @inlinable
@@ -5496,11 +5980,7 @@ extension CloudFront {
     }
 
     public struct GetResponseHeadersPolicyConfigRequest: AWSEncodableShape {
-        /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can
-        /// 			get the policy's identifier using ListDistributions or
-        /// 				GetDistribution. If the response headers policy is not attached to a
-        /// 			cache behavior, you can get the identifier using
-        /// 				ListResponseHeadersPolicies.
+        /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
         public let id: String
 
         @inlinable
@@ -5540,11 +6020,7 @@ extension CloudFront {
     }
 
     public struct GetResponseHeadersPolicyRequest: AWSEncodableShape {
-        /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can
-        /// 			get the policy's identifier using ListDistributions or
-        /// 				GetDistribution. If the response headers policy is not attached to a
-        /// 			cache behavior, you can get the identifier using
-        /// 				ListResponseHeadersPolicies.
+        /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
         public let id: String
 
         @inlinable
@@ -5603,7 +6079,6 @@ extension CloudFront {
 
     public struct GetStreamingDistributionConfigResult: AWSDecodableShape {
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        ///
         public let eTag: String?
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
@@ -5643,8 +6118,7 @@ extension CloudFront {
     }
 
     public struct GetStreamingDistributionResult: AWSDecodableShape {
-        /// The current version of the streaming distribution's information. For example:
-        /// 				E2QWRUHAPOMQZL.
+        /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
@@ -5706,8 +6180,7 @@ extension CloudFront {
     }
 
     public struct GrpcConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Enables your CloudFront distribution to receive gRPC requests and to proxy them directly to your
-        /// 			origins.
+        /// Enables your CloudFront distribution to receive gRPC requests and to proxy them directly to your origins.
         public let enabled: Bool
 
         @inlinable
@@ -5762,13 +6235,11 @@ extension CloudFront {
     public struct Invalidation: AWSDecodableShape {
         /// The date and time the invalidation request was first made.
         public let createTime: Date
-        /// The identifier for the invalidation request. For example:
-        /// 			IDFDVBD632BHDS5.
+        /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
         public let id: String
         /// The current invalidation information for the batch request.
         public let invalidationBatch: InvalidationBatch
-        /// The status of the invalidation request. When the invalidation batch is finished, the
-        /// 			status is Completed.
+        /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
         public let status: String
 
         @inlinable
@@ -5788,22 +6259,9 @@ extension CloudFront {
     }
 
     public struct InvalidationBatch: AWSEncodableShape & AWSDecodableShape {
-        /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the
-        /// 			value to prevent you from accidentally resubmitting an identical request. Whenever you
-        /// 			create a new invalidation request, you must specify a new value for
-        /// 				CallerReference and change other values in the request as applicable.
-        /// 			One way to ensure that the value of CallerReference is unique is to use a
-        /// 				timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for
-        /// 				CallerReference, and if the rest of the request is the same, CloudFront
-        /// 			doesn't create a new invalidation request. Instead, CloudFront returns information about the
-        /// 			invalidation request that you previously created with the same
-        /// 				CallerReference. If CallerReference is a value you already sent in a previous invalidation
-        /// 			batch request but the content of any Path is different from the original
-        /// 			request, CloudFront returns an InvalidationBatchAlreadyExists error.
+        /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for CallerReference, and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference. If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
         public let callerReference: String
-        /// A complex type that contains information about the objects that you want to
-        /// 			invalidate. For more information, see Specifying the Objects to Invalidate in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide.
         public let paths: Paths
 
         @inlinable
@@ -5821,25 +6279,18 @@ extension CloudFront {
     public struct InvalidationList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "InvalidationSummary" }
 
-        /// A flag that indicates whether more invalidation batch requests remain to be listed. If
-        /// 			your results were truncated, you can make a follow-up pagination request using the
-        /// 				Marker request parameter to retrieve more invalidation batches in the
-        /// 			list.
+        /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one InvalidationSummary element for each
-        /// 			invalidation batch created by the current Amazon Web Services account.
+        /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, InvalidationSummary>>
         public var items: [InvalidationSummary]?
         /// The value that you provided for the Marker request parameter.
         public let marker: String
         /// The value that you provided for the MaxItems request parameter.
         public let maxItems: Int
-        /// If IsTruncated is true, this element is present and contains
-        /// 			the value that you can use for the Marker request parameter to continue
-        /// 			listing your invalidation batches where they left off.
+        /// If IsTruncated is true, this element is present and contains the value that you can use for the Marker request parameter to continue listing your invalidation batches where they left off.
         public let nextMarker: String?
         /// The number of invalidation batches that were created by the current Amazon Web Services account.
-        ///
         public let quantity: Int
 
         @inlinable
@@ -5926,8 +6377,7 @@ extension CloudFront {
     public struct KeyGroupConfig: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "PublicKey" }
 
-        /// A comment to describe the key group. The comment cannot be longer than 128
-        /// 			characters.
+        /// A comment to describe the key group. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// A list of the identifiers of the public keys in the key group.
         @CustomCoding<ArrayCoder<_ItemsEncoding, String>>
@@ -5957,9 +6407,7 @@ extension CloudFront {
         public var items: [KeyGroupSummary]?
         /// The maximum number of key groups requested.
         public let maxItems: Int
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing key groups.
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing key groups.
         public let nextMarker: String?
         /// The number of key groups returned in the response.
         public let quantity: Int
@@ -6125,12 +6573,9 @@ extension CloudFront {
     }
 
     public struct KinesisStreamConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to
-        /// 			send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide.
         public let roleARN: String
-        /// The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending
-        /// 			real-time log data.
+        /// The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data.
         public let streamARN: String
 
         @inlinable
@@ -6146,24 +6591,11 @@ extension CloudFront {
     }
 
     public struct LambdaFunctionAssociation: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the event type that triggers a Lambda@Edge function invocation. You can
-        /// 			specify the following values:    viewer-request: The function executes when CloudFront receives a
-        /// 					request from a viewer and before it checks to see whether the requested object
-        /// 					is in the edge cache.    origin-request: The function executes only when CloudFront sends a
-        /// 					request to your origin. When the requested object is in the edge cache, the
-        /// 					function doesn't execute.    origin-response: The function executes after CloudFront receives a
-        /// 					response from the origin and before it caches the object in the response. When
-        /// 					the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the
-        /// 					requested object to the viewer. The function executes regardless of whether the
-        /// 					object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the
-        /// 					function doesn't execute.
+        /// Specifies the event type that triggers a Lambda@Edge function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.    origin-request: The function executes only when CloudFront sends a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
         public let eventType: EventType
-        /// A flag that allows a Lambda@Edge function to have read access to the body content. For
-        /// 			more information, see Accessing the Request Body by Choosing the Include Body Option in the
-        /// 			Amazon CloudFront Developer Guide.
+        /// A flag that allows a Lambda@Edge function to have read access to the body content. For more information, see Accessing the Request Body by Choosing the Include Body Option in the Amazon CloudFront Developer Guide.
         public let includeBody: Bool?
-        /// The ARN of the Lambda@Edge function. You must specify the ARN of a function version;
-        /// 			you can't specify an alias or $LATEST.
+        /// The ARN of the Lambda@Edge function. You must specify the ARN of a function version; you can't specify an alias or $LATEST.
         public let lambdaFunctionARN: String
 
         @inlinable
@@ -6183,9 +6615,7 @@ extension CloudFront {
     public struct LambdaFunctionAssociations: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "LambdaFunctionAssociation" }
 
-        ///  Optional: A complex type that contains
-        /// 				LambdaFunctionAssociation items for this cache behavior. If
-        /// 				Quantity is 0, you can omit Items.
+        ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, LambdaFunctionAssociation>>
         public var items: [LambdaFunctionAssociation]?
         /// The number of Lambda@Edge function associations for this cache behavior.
@@ -6204,12 +6634,9 @@ extension CloudFront {
     }
 
     public struct ListAnycastIpListsRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
-        /// 			after the marker. To get the next page of the list, set this field's value to the value
-        /// 			of NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
-        /// The maximum number of Anycast static IP lists that you want returned in the
-        /// 			response.
+        /// The maximum number of Anycast static IP lists that you want returned in the response.
         public let maxItems: Int?
 
         @inlinable
@@ -6246,17 +6673,11 @@ extension CloudFront {
     }
 
     public struct ListCachePoliciesRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			cache policies. The response includes cache policies in the list that occur after the
-        /// 			marker. To get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of cache policies. The response includes cache policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of cache policies that you want in the response.
         public let maxItems: Int?
-        /// A filter to return only the specified kinds of cache policies. Valid values
-        /// 			are:    managed – Returns only the managed policies created by
-        /// 					Amazon Web Services.    custom – Returns only the custom policies created in your
-        /// 					Amazon Web Services account.
+        /// A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your Amazon Web Services account.
         public let type: CachePolicyType?
 
         @inlinable
@@ -6295,11 +6716,7 @@ extension CloudFront {
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSEncodableShape {
-        /// Use this when paginating results to indicate where to begin in your list of origin
-        /// 			access identities. The results include identities in the list that occur after the
-        /// 			marker. To get the next page of results, set the Marker to the value of the
-        /// 				NextMarker from the current page's response (which is also the ID of
-        /// 			the last identity on that page).
+        /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
         public let marker: String?
         /// The maximum number of origin access identities you want in the response body.
         public let maxItems: Int?
@@ -6340,13 +6757,9 @@ extension CloudFront {
     public struct ListConflictingAliasesRequest: AWSEncodableShape {
         /// The alias (also called a CNAME) to search for conflicting aliases.
         public let alias: String
-        /// The ID of a distribution in your account that has an attached SSL/TLS certificate that
-        /// 			includes the provided alias.
+        /// The ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias.
         public let distributionId: String
-        /// Use this field when paginating results to indicate where to begin in the list of
-        /// 			conflicting aliases. The response includes conflicting aliases in the list that occur
-        /// 			after the marker. To get the next page of the list, set this field's value to the value
-        /// 			of NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of conflicting aliases that you want in the response.
         public let maxItems: Int?
@@ -6394,14 +6807,53 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListContinuousDeploymentPoliciesRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			continuous deployment policies. The response includes policies in the list that occur
-        /// 			after the marker. To get the next page of the list, set this field's value to the value
-        /// 			of NextMarker from the current page's response.
+    public struct ListConnectionGroupsRequest: AWSEncodableShape {
+        /// Filter by associated Anycast IP list ID.
+        public let associationFilter: ConnectionGroupAssociationFilter?
+        /// The marker for the next set of connection groups to retrieve.
         public let marker: String?
-        /// The maximum number of continuous deployment policies that you want returned in the
-        /// 			response.
+        /// The maximum number of connection groups to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(associationFilter: ConnectionGroupAssociationFilter? = nil, marker: String? = nil, maxItems: Int? = nil) {
+            self.associationFilter = associationFilter
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationFilter = "AssociationFilter"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListConnectionGroupsResult: AWSDecodableShape {
+        public struct _ConnectionGroupsEncoding: ArrayCoderProperties { public static let member = "ConnectionGroupSummary" }
+
+        /// The list of connection groups that you retrieved.
+        @OptionalCustomCoding<ArrayCoder<_ConnectionGroupsEncoding, ConnectionGroupSummary>>
+        public var connectionGroups: [ConnectionGroupSummary]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(connectionGroups: [ConnectionGroupSummary]? = nil, nextMarker: String? = nil) {
+            self.connectionGroups = connectionGroups
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroups = "ConnectionGroups"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListContinuousDeploymentPoliciesRequest: AWSEncodableShape {
+        /// Use this field when paginating results to indicate where to begin in your list of continuous deployment policies. The response includes policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+        public let marker: String?
+        /// The maximum number of continuous deployment policies that you want returned in the response.
         public let maxItems: Int?
 
         @inlinable
@@ -6437,15 +6889,101 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ListDistributionTenantsByCustomizationRequest: AWSEncodableShape {
+        /// Filter by the ARN of the associated ACM certificate.
+        public let certificateArn: String?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The maximum number of distribution tenants to return by the specified customization.
+        public let maxItems: Int?
+        /// Filter by the ARN of the associated WAF web ACL.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(certificateArn: String? = nil, marker: String? = nil, maxItems: Int? = nil, webACLArn: String? = nil) {
+            self.certificateArn = certificateArn
+            self.marker = marker
+            self.maxItems = maxItems
+            self.webACLArn = webACLArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct ListDistributionTenantsByCustomizationResult: AWSDecodableShape {
+        public struct _DistributionTenantListEncoding: ArrayCoderProperties { public static let member = "DistributionTenantSummary" }
+
+        /// A list of distribution tenants with the specified customization.
+        @OptionalCustomCoding<ArrayCoder<_DistributionTenantListEncoding, DistributionTenantSummary>>
+        public var distributionTenantList: [DistributionTenantSummary]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(distributionTenantList: [DistributionTenantSummary]? = nil, nextMarker: String? = nil) {
+            self.distributionTenantList = distributionTenantList
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionTenantList = "DistributionTenantList"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListDistributionTenantsRequest: AWSEncodableShape {
+        public let associationFilter: DistributionTenantAssociationFilter?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The maximum number of distribution tenants to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(associationFilter: DistributionTenantAssociationFilter? = nil, marker: String? = nil, maxItems: Int? = nil) {
+            self.associationFilter = associationFilter
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationFilter = "AssociationFilter"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListDistributionTenantsResult: AWSDecodableShape {
+        public struct _DistributionTenantListEncoding: ArrayCoderProperties { public static let member = "DistributionTenantSummary" }
+
+        /// The list of distribution tenants that you retrieved.
+        @OptionalCustomCoding<ArrayCoder<_DistributionTenantListEncoding, DistributionTenantSummary>>
+        public var distributionTenantList: [DistributionTenantSummary]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(distributionTenantList: [DistributionTenantSummary]? = nil, nextMarker: String? = nil) {
+            self.distributionTenantList = distributionTenantList
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionTenantList = "DistributionTenantList"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct ListDistributionsByAnycastIpListIdRequest: AWSEncodableShape {
         /// The ID of the Anycast static IP list.
         public let anycastIpListId: String
-        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
-        /// 			after the marker. To get the next page of the list, set this field's value to the value
-        /// 			of NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
-        /// The maximum number of distributions that you want returned in the
-        /// 			response.
+        /// The maximum number of distributions that you want returned in the response.
         public let maxItems: Int?
 
         @inlinable
@@ -6485,10 +7023,7 @@ extension CloudFront {
     public struct ListDistributionsByCachePolicyIdRequest: AWSEncodableShape {
         /// The ID of the cache policy whose associated distribution IDs you want to list.
         public let cachePolicyId: String
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			distribution IDs. The response includes distribution IDs in the list that occur after
-        /// 			the marker. To get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of distribution IDs that you want in the response.
         public let maxItems: Int?
@@ -6528,13 +7063,52 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ListDistributionsByConnectionModeRequest: AWSEncodableShape {
+        /// The connection mode to filter distributions by.
+        public let connectionMode: ConnectionMode
+        ///  The marker for the next set of distributions to retrieve.
+        public let marker: String?
+        /// The maximum number of distributions to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(connectionMode: ConnectionMode, marker: String? = nil, maxItems: Int? = nil) {
+            self.connectionMode = connectionMode
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionMode, key: "ConnectionMode")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByConnectionModeResult: AWSDecodableShape {
+        public let distributionList: DistributionList
+
+        @inlinable
+        public init(distributionList: DistributionList) {
+            self.distributionList = distributionList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.distributionList = try container.decode(DistributionList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ListDistributionsByKeyGroupRequest: AWSEncodableShape {
         /// The ID of the key group whose associated distribution IDs you are listing.
         public let keyGroupId: String
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			distribution IDs. The response includes distribution IDs in the list that occur after
-        /// 			the marker. To get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of distribution IDs that you want in the response.
         public let maxItems: Int?
@@ -6574,15 +7148,11 @@ extension CloudFront {
     }
 
     public struct ListDistributionsByOriginRequestPolicyIdRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			distribution IDs. The response includes distribution IDs in the list that occur after
-        /// 			the marker. To get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of distribution IDs that you want in the response.
         public let maxItems: Int?
-        /// The ID of the origin request policy whose associated distribution IDs you want to
-        /// 			list.
+        /// The ID of the origin request policy whose associated distribution IDs you want to list.
         public let originRequestPolicyId: String
 
         @inlinable
@@ -6621,18 +7191,13 @@ extension CloudFront {
     }
 
     public struct ListDistributionsByRealtimeLogConfigRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			distributions. The response includes distributions in the list that occur after the
-        /// 			marker. To get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of distributions that you want in the response.
         public let maxItems: Int?
-        /// The Amazon Resource Name (ARN) of the real-time log configuration whose associated
-        /// 			distributions you want to list.
+        /// The Amazon Resource Name (ARN) of the real-time log configuration whose associated distributions you want to list.
         public let realtimeLogConfigArn: String?
-        /// The name of the real-time log configuration whose associated distributions you want to
-        /// 			list.
+        /// The name of the real-time log configuration whose associated distributions you want to list.
         public let realtimeLogConfigName: String?
 
         @inlinable
@@ -6668,15 +7233,11 @@ extension CloudFront {
     }
 
     public struct ListDistributionsByResponseHeadersPolicyIdRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			distribution IDs. The response includes distribution IDs in the list that occur after
-        /// 			the marker. To get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of distribution IDs that you want to get in the response.
         public let maxItems: Int?
-        /// The ID of the response headers policy whose associated distribution IDs you want to
-        /// 			list.
+        /// The ID of the response headers policy whose associated distribution IDs you want to list.
         public let responseHeadersPolicyId: String
 
         @inlinable
@@ -6756,20 +7317,11 @@ extension CloudFront {
     }
 
     public struct ListDistributionsByWebACLIdRequest: AWSEncodableShape {
-        /// Use Marker and MaxItems to control pagination of results. If
-        /// 			you have more than MaxItems distributions that satisfy the request, the
-        /// 			response includes a NextMarker element. To get the next page of results,
-        /// 			submit another request. For the value of Marker, specify the value of
-        /// 				NextMarker from the last response. (For the first request, omit
-        /// 				Marker.)
+        /// Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.)
         public let marker: String?
-        /// The maximum number of distributions that you want CloudFront to return in the response body.
-        /// 			The maximum and default values are both 100.
+        /// The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
         public let maxItems: Int?
-        /// The ID of the WAF web ACL that you want to list the associated distributions. If you
-        /// 			specify "null" for the ID, the request returns a list of the distributions that aren't
-        /// 			associated with a web ACL.  For WAFV2, this is the ARN of the web ACL, such as
-        /// 				arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. For WAF Classic, this is the ID of the web ACL, such as a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
+        /// The ID of the WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL.  For WAFV2, this is the ARN of the web ACL, such as arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. For WAF Classic, this is the ID of the web ACL, such as a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         public let webACLId: String
 
         @inlinable
@@ -6808,11 +7360,7 @@ extension CloudFront {
     }
 
     public struct ListDistributionsRequest: AWSEncodableShape {
-        /// Use this when paginating results to indicate where to begin in your list of
-        /// 			distributions. The results include distributions in the list that occur after the
-        /// 			marker. To get the next page of results, set the Marker to the value of the
-        /// 				NextMarker from the current page's response (which is also the ID of
-        /// 			the last distribution on that page).
+        /// Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
         public let marker: String?
         /// The maximum number of distributions you want in the response body.
         public let maxItems: Int?
@@ -6850,15 +7398,57 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFieldLevelEncryptionConfigsRequest: AWSEncodableShape {
-        /// Use this when paginating results to indicate where to begin in your list of
-        /// 			configurations. The results include configurations in the list that occur after the
-        /// 			marker. To get the next page of results, set the Marker to the value of the
-        /// 				NextMarker from the current page's response (which is also the ID of
-        /// 			the last configuration on that page).
+    public struct ListDomainConflictsRequest: AWSEncodableShape {
+        /// The domain to check for conflicts.
+        public let domain: String
+        /// The distribution resource identifier. This can be the distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
+        public let domainControlValidationResource: DistributionResourceId
+        /// The marker for the next set of domain conflicts.
         public let marker: String?
-        /// The maximum number of field-level encryption configurations you want in the response
-        /// 			body.
+        /// The maximum number of domain conflicts to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(domain: String, domainControlValidationResource: DistributionResourceId, marker: String? = nil, maxItems: Int? = nil) {
+            self.domain = domain
+            self.domainControlValidationResource = domainControlValidationResource
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case domainControlValidationResource = "DomainControlValidationResource"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListDomainConflictsResult: AWSDecodableShape {
+        public struct _DomainConflictsEncoding: ArrayCoderProperties { public static let member = "DomainConflicts" }
+
+        /// Contains details about the domain conflicts.
+        @OptionalCustomCoding<ArrayCoder<_DomainConflictsEncoding, DomainConflict>>
+        public var domainConflicts: [DomainConflict]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(domainConflicts: [DomainConflict]? = nil, nextMarker: String? = nil) {
+            self.domainConflicts = domainConflicts
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConflicts = "DomainConflicts"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListFieldLevelEncryptionConfigsRequest: AWSEncodableShape {
+        /// Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page).
+        public let marker: String?
+        /// The maximum number of field-level encryption configurations you want in the response body.
         public let maxItems: Int?
 
         @inlinable
@@ -6878,8 +7468,7 @@ extension CloudFront {
     }
 
     public struct ListFieldLevelEncryptionConfigsResult: AWSDecodableShape {
-        /// Returns a list of all field-level encryption configurations that have been created in
-        /// 			CloudFront for this account.
+        /// Returns a list of all field-level encryption configurations that have been created in CloudFront for this account.
         public let fieldLevelEncryptionList: FieldLevelEncryptionList
 
         @inlinable
@@ -6896,14 +7485,9 @@ extension CloudFront {
     }
 
     public struct ListFieldLevelEncryptionProfilesRequest: AWSEncodableShape {
-        /// Use this when paginating results to indicate where to begin in your list of profiles.
-        /// 			The results include profiles in the list that occur after the marker. To get the next
-        /// 			page of results, set the Marker to the value of the NextMarker
-        /// 			from the current page's response (which is also the ID of the last profile on that
-        /// 			page).
+        /// Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page).
         public let marker: String?
         /// The maximum number of field-level encryption profiles you want in the response body.
-        ///
         public let maxItems: Int?
 
         @inlinable
@@ -6923,8 +7507,7 @@ extension CloudFront {
     }
 
     public struct ListFieldLevelEncryptionProfilesResult: AWSDecodableShape {
-        /// Returns a list of the field-level encryption profiles that have been created in CloudFront
-        /// 			for this account.
+        /// Returns a list of the field-level encryption profiles that have been created in CloudFront for this account.
         public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList
 
         @inlinable
@@ -6941,15 +7524,11 @@ extension CloudFront {
     }
 
     public struct ListFunctionsRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			functions. The response includes functions in the list that occur after the marker. To
-        /// 			get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of functions. The response includes functions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of functions that you want in the response.
         public let maxItems: Int?
-        /// An optional filter to return only the functions that are in the specified stage,
-        /// 			either DEVELOPMENT or LIVE.
+        /// An optional filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE.
         public let stage: FunctionStage?
 
         @inlinable
@@ -6987,16 +7566,52 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ListInvalidationsForDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page.
+        public let marker: String?
+        /// The maximum number of invalidations to return for the distribution tenant.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(id: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.id = id
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInvalidationsForDistributionTenantResult: AWSDecodableShape {
+        public let invalidationList: InvalidationList
+
+        @inlinable
+        public init(invalidationList: InvalidationList) {
+            self.invalidationList = invalidationList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.invalidationList = try container.decode(InvalidationList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ListInvalidationsRequest: AWSEncodableShape {
         /// The distribution's ID.
         public let distributionId: String
-        /// Use this parameter when paginating results to indicate where to begin in your list of
-        /// 			invalidation batches. Because the results are returned in decreasing order from most
-        /// 			recent to oldest, the most recent results are on the first page, the second page will
-        /// 			contain earlier results, and so on. To get the next page of results, set
-        /// 				Marker to the value of the NextMarker from the current
-        /// 			page's response. This value is the same as the ID of the last invalidation batch on that
-        /// 			page.
+        /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page.
         public let marker: String?
         /// The maximum number of invalidation batches that you want in the response body.
         public let maxItems: Int?
@@ -7037,10 +7652,7 @@ extension CloudFront {
     }
 
     public struct ListKeyGroupsRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of key
-        /// 			groups. The response includes key groups in the list that occur after the marker. To get
-        /// 			the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of key groups. The response includes key groups in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of key groups that you want in the response.
         public let maxItems: Int?
@@ -7122,10 +7734,7 @@ extension CloudFront {
     }
 
     public struct ListOriginAccessControlsRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			origin access controls. The response includes the items in the list that occur after the
-        /// 			marker. To get the next page of the list, set this field's value to the value of
-        /// 				NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of origin access controls. The response includes the items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of origin access controls that you want in the response.
         public let maxItems: Int?
@@ -7164,17 +7773,11 @@ extension CloudFront {
     }
 
     public struct ListOriginRequestPoliciesRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			origin request policies. The response includes origin request policies in the list that
-        /// 			occur after the marker. To get the next page of the list, set this field's value to the
-        /// 			value of NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of origin request policies. The response includes origin request policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
         /// The maximum number of origin request policies that you want in the response.
         public let maxItems: Int?
-        /// A filter to return only the specified kinds of origin request policies. Valid values
-        /// 			are:    managed – Returns only the managed policies created by
-        /// 					Amazon Web Services.    custom – Returns only the custom policies created in your
-        /// 					Amazon Web Services account.
+        /// A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your Amazon Web Services account.
         public let type: OriginRequestPolicyType?
 
         @inlinable
@@ -7213,11 +7816,7 @@ extension CloudFront {
     }
 
     public struct ListPublicKeysRequest: AWSEncodableShape {
-        /// Use this when paginating results to indicate where to begin in your list of public
-        /// 			keys. The results include public keys in the list that occur after the marker. To get
-        /// 			the next page of results, set the Marker to the value of the
-        /// 				NextMarker from the current page's response (which is also the ID of
-        /// 			the last public key on that page).
+        /// Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page).
         public let marker: String?
         /// The maximum number of public keys you want in the response body.
         public let maxItems: Int?
@@ -7239,8 +7838,7 @@ extension CloudFront {
     }
 
     public struct ListPublicKeysResult: AWSDecodableShape {
-        /// Returns a list of all public keys that have been added to CloudFront for this
-        /// 			account.
+        /// Returns a list of all public keys that have been added to CloudFront for this account.
         public let publicKeyList: PublicKeyList
 
         @inlinable
@@ -7257,13 +7855,9 @@ extension CloudFront {
     }
 
     public struct ListRealtimeLogConfigsRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			real-time log configurations. The response includes real-time log configurations in the
-        /// 			list that occur after the marker. To get the next page of the list, set this field's
-        /// 			value to the value of NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
-        /// The maximum number of real-time log configurations that you want in the
-        /// 			response.
+        /// The maximum number of real-time log configurations that you want in the response.
         public let maxItems: Int?
 
         @inlinable
@@ -7300,17 +7894,11 @@ extension CloudFront {
     }
 
     public struct ListResponseHeadersPoliciesRequest: AWSEncodableShape {
-        /// Use this field when paginating results to indicate where to begin in your list of
-        /// 			response headers policies. The response includes response headers policies in the list
-        /// 			that occur after the marker. To get the next page of the list, set this field's value to
-        /// 			the value of NextMarker from the current page's response.
+        /// Use this field when paginating results to indicate where to begin in your list of response headers policies. The response includes response headers policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
-        /// The maximum number of response headers policies that you want to get in the
-        /// 			response.
+        /// The maximum number of response headers policies that you want to get in the response.
         public let maxItems: Int?
-        /// A filter to get only the specified kind of response headers policies. Valid values
-        /// 			are:    managed – Gets only the managed policies created by Amazon Web Services.    custom – Gets only the custom policies created in your
-        /// 					Amazon Web Services account.
+        /// A filter to get only the specified kind of response headers policies. Valid values are:    managed – Gets only the managed policies created by Amazon Web Services.    custom – Gets only the custom policies created in your Amazon Web Services account.
         public let type: ResponseHeadersPolicyType?
 
         @inlinable
@@ -7466,28 +8054,13 @@ extension CloudFront {
     }
 
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 bucket to store the access logs in, for example,
-        /// 				amzn-s3-demo-bucket.s3.amazonaws.com.
+        /// The Amazon S3 bucket to store the access logs in, for example, amzn-s3-demo-bucket.s3.amazonaws.com.
         public let bucket: String?
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to
-        /// 			enable logging when you create a distribution or if you want to disable logging for an
-        /// 			existing distribution, specify false for Enabled, and specify
-        /// 			empty Bucket and Prefix elements. If you specify
-        /// 				false for Enabled but you specify values for
-        /// 				Bucket and  prefix, the values are automatically
-        /// 			deleted.
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and prefix, the values are automatically deleted.
         public let enabled: Bool?
-        /// Specifies whether you want CloudFront to include cookies in access logs, specify
-        /// 				true for IncludeCookies. If you choose to include cookies
-        /// 			in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for
-        /// 			this distribution. If you don't want to include cookies when you create a distribution
-        /// 			or if you want to disable include cookies for an existing distribution, specify
-        /// 				false for IncludeCookies.
+        /// Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies. If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies.
         public let includeCookies: Bool?
-        /// An optional string that you want CloudFront to prefix to the access log
-        /// 				filenames for this distribution, for example, myprefix/.
-        /// 			If you want to enable logging, but you don't want to specify a prefix, you still must
-        /// 			include an empty Prefix element in the Logging element.
+        /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
         public let prefix: String?
 
         @inlinable
@@ -7506,6 +8079,55 @@ extension CloudFront {
         }
     }
 
+    public struct ManagedCertificateDetails: AWSDecodableShape {
+        /// The ARN of the CloudFront managed ACM certificate.
+        public let certificateArn: String?
+        /// The status of the CloudFront managed ACM certificate.  Your distribution tenant will be updated with the latest certificate status. When calling the UpdateDistributionTenant operation, use the latest value for the ETag.
+        public let certificateStatus: ManagedCertificateStatus?
+        /// Contains details about the validation token of the specified CloudFront managed ACM certificate.
+        @OptionalCustomCoding<StandardArrayCoder<ValidationTokenDetail>>
+        public var validationTokenDetails: [ValidationTokenDetail]?
+        /// Contains details about the validation token host of the specified CloudFront managed ACM certificate.   For cloudfront, CloudFront will automatically serve the validation token. Choose this mode if you can point the domain's DNS to CloudFront immediately.   For self-hosted, you serve the validation token from your existing infrastructure. Choose this mode when you need to maintain current traffic flow while your certificate is being issued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront.    This setting only affects the initial certificate request. Once the DNS points to CloudFront, all future certificate renewals are automatically handled through CloudFront.
+        public let validationTokenHost: ValidationTokenHost?
+
+        @inlinable
+        public init(certificateArn: String? = nil, certificateStatus: ManagedCertificateStatus? = nil, validationTokenDetails: [ValidationTokenDetail]? = nil, validationTokenHost: ValidationTokenHost? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateStatus = certificateStatus
+            self.validationTokenDetails = validationTokenDetails
+            self.validationTokenHost = validationTokenHost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateStatus = "CertificateStatus"
+            case validationTokenDetails = "ValidationTokenDetails"
+            case validationTokenHost = "ValidationTokenHost"
+        }
+    }
+
+    public struct ManagedCertificateRequest: AWSEncodableShape {
+        /// You can opt out of certificate transparency logging by specifying the disabled option. Opt in by specifying enabled. For more information, see Certificate Transparency Logging  in the Certificate Manager User Guide.
+        public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
+        /// The primary domain name associated with the CloudFront managed ACM certificate.
+        public let primaryDomainName: String?
+        /// Specify how the HTTP validation token will be served when requesting the CloudFront managed ACM certificate.   For cloudfront, CloudFront will automatically serve the validation token. Choose this mode if you can point the domain's DNS to CloudFront immediately.   For self-hosted, you serve the validation token from your existing infrastructure. Choose this mode when you need to maintain current traffic flow while your certificate is being issued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront.
+        public let validationTokenHost: ValidationTokenHost
+
+        @inlinable
+        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil, primaryDomainName: String? = nil, validationTokenHost: ValidationTokenHost) {
+            self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
+            self.primaryDomainName = primaryDomainName
+            self.validationTokenHost = validationTokenHost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateTransparencyLoggingPreference = "CertificateTransparencyLoggingPreference"
+            case primaryDomainName = "PrimaryDomainName"
+            case validationTokenHost = "ValidationTokenHost"
+        }
+    }
+
     public struct MonitoringSubscription: AWSEncodableShape & AWSDecodableShape {
         /// A subscription configuration for additional CloudWatch metrics.
         public let realtimeMetricsSubscriptionConfig: RealtimeMetricsSubscriptionConfig?
@@ -7521,46 +8143,25 @@ extension CloudFront {
     }
 
     public struct Origin: AWSEncodableShape & AWSDecodableShape {
-        /// The number of times that CloudFront attempts to connect to the origin. The minimum number is
-        /// 			1, the maximum is 3, and the default (if you don't specify otherwise) is 3. For a custom origin (including an Amazon S3 bucket that's configured with static website
-        /// 			hosting), this value also specifies the number of times that CloudFront attempts to get a
-        /// 			response from the origin, in the case of an Origin Response Timeout. For more information, see Origin Connection Attempts in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The number of times that CloudFront attempts to connect to the origin. The minimum number is 1, the maximum is 3, and the default (if you don't specify otherwise) is 3. For a custom origin (including an Amazon S3 bucket that's configured with static website hosting), this value also specifies the number of times that CloudFront attempts to get a response from the origin, in the case of an Origin Response Timeout. For more information, see Origin Connection Attempts in the Amazon CloudFront Developer Guide.
         public let connectionAttempts: Int?
-        /// The number of seconds that CloudFront waits when trying to establish a connection to the
-        /// 			origin. The minimum timeout is 1 second, the maximum is 10 seconds, and the default (if
-        /// 			you don't specify otherwise) is 10 seconds. For more information, see Origin Connection Timeout in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The number of seconds that CloudFront waits when trying to establish a connection to the origin. The minimum timeout is 1 second, the maximum is 10 seconds, and the default (if you don't specify otherwise) is 10 seconds. For more information, see Origin Connection Timeout in the Amazon CloudFront Developer Guide.
         public let connectionTimeout: Int?
-        /// A list of HTTP header names and values that CloudFront adds to the requests that it sends to
-        /// 			the origin. For more information, see Adding Custom Headers to Origin Requests in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// A list of HTTP header names and values that CloudFront adds to the requests that it sends to the origin. For more information, see Adding Custom Headers to Origin Requests in the Amazon CloudFront Developer Guide.
         public let customHeaders: CustomHeaders?
-        /// Use this type to specify an origin that is not an Amazon S3 bucket, with one exception. If
-        /// 			the Amazon S3 bucket is configured with static website hosting, use this type. If the Amazon S3
-        /// 			bucket is not configured with static website hosting, use the
-        /// 				S3OriginConfig type instead.
+        /// Use this type to specify an origin that is not an Amazon S3 bucket, with one exception. If the Amazon S3 bucket is configured with static website hosting, use this type. If the Amazon S3 bucket is not configured with static website hosting, use the S3OriginConfig type instead.
         public let customOriginConfig: CustomOriginConfig?
         /// The domain name for the origin. For more information, see Origin Domain Name in the Amazon CloudFront Developer Guide.
         public let domainName: String
-        /// A unique identifier for the origin. This value must be unique within the
-        /// 			distribution. Use this value to specify the TargetOriginId in a
-        /// 				CacheBehavior or DefaultCacheBehavior.
+        /// A unique identifier for the origin. This value must be unique within the distribution. Use this value to specify the TargetOriginId in a CacheBehavior or DefaultCacheBehavior.
         public let id: String
-        /// The unique identifier of an origin access control for this origin. For more information, see Restricting access to an Amazon S3 origin in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The unique identifier of an origin access control for this origin. For more information, see Restricting access to an Amazon S3 origin in the Amazon CloudFront Developer Guide.
         public let originAccessControlId: String?
-        /// An optional path that CloudFront appends to the origin domain name when CloudFront requests
-        /// 			content from the origin. For more information, see Origin Path in the
-        /// 			Amazon CloudFront Developer Guide.
+        /// An optional path that CloudFront appends to the origin domain name when CloudFront requests content from the origin. For more information, see Origin Path in the Amazon CloudFront Developer Guide.
         public let originPath: String?
-        /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on your
-        /// 			origin. For more information, see Using Origin Shield in the Amazon CloudFront Developer Guide.
+        /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on your origin. For more information, see Using Origin Shield in the Amazon CloudFront Developer Guide.
         public let originShield: OriginShield?
-        /// Use this type to specify an origin that is an Amazon S3 bucket that is not configured with
-        /// 			static website hosting. To specify any other type of origin, including an Amazon S3 bucket
-        /// 			that is configured with static website hosting, use the CustomOriginConfig
-        /// 			type instead.
+        /// Use this type to specify an origin that is an Amazon S3 bucket that is not configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
         public let s3OriginConfig: S3OriginConfig?
         /// The VPC origin configuration.
         public let vpcOriginConfig: VpcOriginConfig?
@@ -7624,23 +8225,9 @@ extension CloudFront {
         public let name: String
         /// The type of origin that this origin access control is for.
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
-        /// Specifies which requests CloudFront signs (adds authentication information to). Specify
-        /// 				always for the most common use case. For more information, see origin access control advanced settings in the
-        /// 				Amazon CloudFront Developer Guide. This field can have one of the following values:    always – CloudFront signs all origin requests, overwriting the
-        /// 						Authorization header from the viewer request if one
-        /// 					exists.    never – CloudFront doesn't sign any origin requests. This value turns
-        /// 					off origin access control for all origins in all distributions that use this
-        /// 					origin access control.    no-override – If the viewer request doesn't contain the
-        /// 						Authorization header, then CloudFront signs the origin request. If
-        /// 					the viewer request contains the Authorization header, then CloudFront
-        /// 					doesn't sign the origin request and instead passes along the
-        /// 						Authorization header from the viewer request. WARNING: To pass along the Authorization header
-        /// 						from the viewer request, you must add the
-        /// 							Authorization header to a cache policy for all cache behaviors that
-        /// 						use origins associated with this origin access control.
+        /// Specifies which requests CloudFront signs (adds authentication information to). Specify always for the most common use case. For more information, see origin access control advanced settings in the Amazon CloudFront Developer Guide. This field can have one of the following values:    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if one exists.    never – CloudFront doesn't sign any origin requests. This value turns off origin access control for all origins in all distributions that use this origin access control.    no-override – If the viewer request doesn't contain the Authorization header, then CloudFront signs the origin request. If the viewer request contains the Authorization header, then CloudFront doesn't sign the origin request and instead passes along the Authorization header from the viewer request. WARNING: To pass along the Authorization header from the viewer request, you must add the Authorization header to a cache policy for all cache behaviors that use origins associated with this origin access control.
         public let signingBehavior: OriginAccessControlSigningBehaviors
-        /// The signing protocol of the origin access control, which determines how CloudFront signs
-        /// 			(authenticates) requests. The only valid value is sigv4.
+        /// The signing protocol of the origin access control, which determines how CloudFront signs (authenticates) requests. The only valid value is sigv4.
         public let signingProtocol: OriginAccessControlSigningProtocols
 
         @inlinable
@@ -7664,8 +8251,7 @@ extension CloudFront {
     public struct OriginAccessControlList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "OriginAccessControlSummary" }
 
-        /// If there are more items in the list than are in this response, this value is
-        /// 				true.
+        /// If there are more items in the list than are in this response, this value is true.
         public let isTruncated: Bool
         /// Contains the origin access controls in the list.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, OriginAccessControlSummary>>
@@ -7674,9 +8260,7 @@ extension CloudFront {
         public let marker: String
         /// The maximum number of origin access controls requested.
         public let maxItems: Int
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value to use in the Marker field of another
-        /// 			request to continue listing origin access controls.
+        /// If there are more items in the list than are in this response, this element is present. It contains the value to use in the Marker field of another request to continue listing origin access controls.
         public let nextMarker: String?
         /// The number of origin access controls returned in the response.
         public let quantity: Int
@@ -7710,17 +8294,9 @@ extension CloudFront {
         public let name: String
         /// The type of origin that this origin access control is for.
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
-        /// A value that specifies which requests CloudFront signs (adds authentication information to).
-        /// 			This field can have one of the following values:    never – CloudFront doesn't sign any origin requests.    always – CloudFront signs all origin requests, overwriting the
-        /// 						Authorization header from the viewer request if
-        /// 					necessary.    no-override – If the viewer request doesn't contain the
-        /// 						Authorization header, CloudFront signs the origin request. If the
-        /// 					viewer request contains the Authorization header, CloudFront doesn't sign
-        /// 					the origin request, but instead passes along the Authorization
-        /// 					header that it received in the viewer request.
+        /// A value that specifies which requests CloudFront signs (adds authentication information to). This field can have one of the following values:    never – CloudFront doesn't sign any origin requests.    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if necessary.    no-override – If the viewer request doesn't contain the Authorization header, CloudFront signs the origin request. If the viewer request contains the Authorization header, CloudFront doesn't sign the origin request, but instead passes along the Authorization header that it received in the viewer request.
         public let signingBehavior: OriginAccessControlSigningBehaviors
-        /// The signing protocol of the origin access control. The signing protocol determines how
-        /// 			CloudFront signs (authenticates) requests. The only valid value is sigv4.
+        /// The signing protocol of the origin access control. The signing protocol determines how CloudFront signs (authenticates) requests. The only valid value is sigv4.
         public let signingProtocol: OriginAccessControlSigningProtocols
 
         @inlinable
@@ -7744,13 +8320,9 @@ extension CloudFront {
     }
 
     public struct OriginCustomHeader: AWSEncodableShape & AWSDecodableShape {
-        /// The name of a header that you want CloudFront to send to your origin. For more information,
-        /// 			see Adding
-        /// 				Custom Headers to Origin Requests in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The name of a header that you want CloudFront to send to your origin. For more information, see Adding Custom Headers to Origin Requests in the  Amazon CloudFront Developer Guide.
         public let headerName: String
-        /// The value for the header that you specified in the HeaderName
-        /// 			field.
+        /// The value for the header that you specified in the HeaderName field.
         public let headerValue: String
 
         @inlinable
@@ -7766,15 +8338,13 @@ extension CloudFront {
     }
 
     public struct OriginGroup: AWSEncodableShape & AWSDecodableShape {
-        /// A complex type that contains information about the failover criteria for an origin
-        /// 			group.
+        /// A complex type that contains information about the failover criteria for an origin group.
         public let failoverCriteria: OriginGroupFailoverCriteria
         /// The origin group's ID.
         public let id: String
         /// A complex type that contains information about the origins in an origin group.
         public let members: OriginGroupMembers
-        /// The selection criteria for the origin group. For more information, see Create an origin group in the Amazon CloudFront
-        /// 				Developer Guide.
+        /// The selection criteria for the origin group. For more information, see Create an origin group in the Amazon CloudFront Developer Guide.
         public let selectionCriteria: OriginGroupSelectionCriteria?
 
         @inlinable
@@ -7906,13 +8476,11 @@ extension CloudFront {
     }
 
     public struct OriginRequestPolicyConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A comment to describe the origin request policy. The comment cannot be longer than 128
-        /// 			characters.
+        /// A comment to describe the origin request policy. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// The cookies from viewer requests to include in origin requests.
         public let cookiesConfig: OriginRequestPolicyCookiesConfig
-        /// The HTTP headers to include in origin requests. These can include headers from viewer
-        /// 			requests and additional headers added by CloudFront.
+        /// The HTTP headers to include in origin requests. These can include headers from viewer requests and additional headers added by CloudFront.
         public let headersConfig: OriginRequestPolicyHeadersConfig
         /// A unique name to identify the origin request policy.
         public let name: String
@@ -7938,16 +8506,7 @@ extension CloudFront {
     }
 
     public struct OriginRequestPolicyCookiesConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether cookies in viewer requests are included in requests that CloudFront sends
-        /// 			to the origin. Valid values are:    none – No cookies in viewer requests are included in requests that CloudFront sends
-        /// 					to the origin. Even when this field is set to none, any cookies
-        /// 					that are listed in a CachePolicy are included
-        /// 					in origin requests.    whitelist – Only the cookies in viewer requests that are listed in the
-        /// 					CookieNames type are included in requests that CloudFront sends to the
-        /// 					origin.    all – All cookies in viewer requests are included in requests
-        /// 					that CloudFront sends to the origin.    allExcept – All cookies in viewer requests are included in
-        /// 					requests that CloudFront sends to the origin,  except for those listed in the CookieNames
-        /// 					type, which are not included.
+        /// Determines whether cookies in viewer requests are included in requests that CloudFront sends to the origin. Valid values are:    none – No cookies in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in a CachePolicy are included in origin requests.    whitelist – Only the cookies in viewer requests that are listed in the CookieNames type are included in requests that CloudFront sends to the origin.    all – All cookies in viewer requests are included in requests that CloudFront sends to the origin.    allExcept – All cookies in viewer requests are included in requests that CloudFront sends to the origin,  except  for those listed in the CookieNames type, which are not included.
         public let cookieBehavior: OriginRequestPolicyCookieBehavior
         public let cookies: CookieNames?
 
@@ -7964,18 +8523,7 @@ extension CloudFront {
     }
 
     public struct OriginRequestPolicyHeadersConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any HTTP headers are included in requests that CloudFront sends to the
-        /// 			origin. Valid values are:    none – No HTTP headers in viewer requests are included in requests that CloudFront
-        /// 					sends to the origin. Even when this field is set to none, any
-        /// 					headers that are listed in a CachePolicy are
-        /// 					included in origin requests.    whitelist – Only the HTTP headers that are listed in the Headers
-        /// 					type are included in requests that CloudFront sends to the origin.    allViewer – All HTTP headers in viewer requests are included in
-        /// 					requests that CloudFront sends to the origin.    allViewerAndWhitelistCloudFront – All HTTP headers in viewer
-        /// 					requests and the additional CloudFront headers that are listed in the
-        /// 						Headers type are included in requests that CloudFront sends to the
-        /// 					origin. The additional headers are added by CloudFront.    allExcept – All HTTP headers in viewer requests are included in
-        /// 					requests that CloudFront sends to the origin,  except for those listed in the Headers type,
-        /// 					which are not included.
+        /// Determines whether any HTTP headers are included in requests that CloudFront sends to the origin. Valid values are:    none – No HTTP headers in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in a CachePolicy are included in origin requests.    whitelist – Only the HTTP headers that are listed in the Headers type are included in requests that CloudFront sends to the origin.    allViewer – All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin.    allViewerAndWhitelistCloudFront – All HTTP headers in viewer requests and the additional CloudFront headers that are listed in the Headers type are included in requests that CloudFront sends to the origin. The additional headers are added by CloudFront.    allExcept – All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin,  except  for those listed in the Headers type, which are not included.
         public let headerBehavior: OriginRequestPolicyHeaderBehavior
         public let headers: Headers?
 
@@ -7999,10 +8547,7 @@ extension CloudFront {
         public var items: [OriginRequestPolicySummary]?
         /// The maximum number of origin request policies requested.
         public let maxItems: Int
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing origin request policies where you left
-        /// 			off.
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing origin request policies where you left off.
         public let nextMarker: String?
         /// The total number of origin request policies returned in the response.
         public let quantity: Int
@@ -8024,24 +8569,9 @@ extension CloudFront {
     }
 
     public struct OriginRequestPolicyQueryStringsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any URL query strings in viewer requests are included in requests
-        /// 			that CloudFront sends to the origin. Valid values are:    none – No query strings in viewer requests are included in requests that CloudFront
-        /// 					sends to the origin. Even when this field is set to none, any query
-        /// 					strings that are listed in a CachePolicy are
-        /// 					included in origin requests.    whitelist – Only the query strings in viewer requests that are listed in the
-        /// 					QueryStringNames type are included in requests that CloudFront sends to
-        /// 					the origin.    all – All query strings in viewer requests are included in requests that CloudFront
-        /// 					sends to the origin.    allExcept – All query strings in viewer requests are included in
-        /// 					requests that CloudFront sends to the origin,  except for those listed in the
-        /// 					QueryStringNames type, which are not included.
+        /// Determines whether any URL query strings in viewer requests are included in requests that CloudFront sends to the origin. Valid values are:    none – No query strings in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in a CachePolicy are included in origin requests.    whitelist – Only the query strings in viewer requests that are listed in the QueryStringNames type are included in requests that CloudFront sends to the origin.    all – All query strings in viewer requests are included in requests that CloudFront sends to the origin.    allExcept – All query strings in viewer requests are included in requests that CloudFront sends to the origin,  except  for those listed in the QueryStringNames type, which are not included.
         public let queryStringBehavior: OriginRequestPolicyQueryStringBehavior
-        /// Contains the specific query strings in viewer requests that either  are or  are
-        /// 			not included in requests that CloudFront sends to the origin. The
-        /// 			behavior depends on whether the QueryStringBehavior field in the
-        /// 			OriginRequestPolicyQueryStringsConfig type is set to whitelist
-        /// 			(the listed query strings  are
-        /// 			included) or allExcept (the listed query strings  are not included, but all other query strings
-        /// 			are).
+        /// Contains the specific query strings in viewer requests that either  are  or  are not  included in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the OriginRequestPolicyQueryStringsConfig type is set to whitelist (the listed query strings  are  included) or allExcept (the listed query strings  are not  included, but all other query strings are).
         public let queryStrings: QueryStringNames?
 
         @inlinable
@@ -8059,8 +8589,7 @@ extension CloudFront {
     public struct OriginRequestPolicySummary: AWSDecodableShape {
         /// The origin request policy.
         public let originRequestPolicy: OriginRequestPolicy
-        /// The type of origin request policy, either managed (created by Amazon Web Services) or
-        /// 				custom (created in this Amazon Web Services account).
+        /// The type of origin request policy, either managed (created by Amazon Web Services) or custom (created in this Amazon Web Services account).
         public let type: OriginRequestPolicyType
 
         @inlinable
@@ -8076,16 +8605,9 @@ extension CloudFront {
     }
 
     public struct OriginShield: AWSEncodableShape & AWSDecodableShape {
-        /// A flag that specifies whether Origin Shield is enabled. When it's enabled, CloudFront routes all requests through Origin Shield, which can help
-        /// 			protect your origin. When it's disabled, CloudFront might send requests directly to your
-        /// 			origin from multiple edge locations or regional edge caches.
+        /// A flag that specifies whether Origin Shield is enabled. When it's enabled, CloudFront routes all requests through Origin Shield, which can help protect your origin. When it's disabled, CloudFront might send requests directly to your origin from multiple edge locations or regional edge caches.
         public let enabled: Bool
-        /// The Amazon Web Services Region for Origin Shield. Specify the Amazon Web Services Region that has the lowest latency to your origin. To specify a
-        /// 			region, use the region code, not the region name. For example, specify the US East
-        /// 			(Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the Amazon Web Services Region for Origin
-        /// 			Shield. For the list of Amazon Web Services Regions that you can specify, and for help choosing the
-        /// 			best Region for your origin, see Choosing the Amazon Web Services Region for Origin Shield in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// The Amazon Web Services Region for Origin Shield. Specify the Amazon Web Services Region that has the lowest latency to your origin. To specify a region, use the region code, not the region name. For example, specify the US East (Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the Amazon Web Services Region for Origin Shield. For the list of Amazon Web Services Regions that you can specify, and for help choosing the best Region for your origin, see Choosing the Amazon Web Services Region for Origin Shield in the Amazon CloudFront Developer Guide.
         public let originShieldRegion: String?
 
         @inlinable
@@ -8112,8 +8634,7 @@ extension CloudFront {
         /// A list that contains allowed SSL/TLS protocols for this distribution.
         @CustomCoding<ArrayCoder<_ItemsEncoding, SslProtocol>>
         public var items: [SslProtocol]
-        /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing
-        /// 			an HTTPS connection with this origin.
+        /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin.
         public let quantity: Int
 
         @inlinable
@@ -8156,48 +8677,85 @@ extension CloudFront {
         }
     }
 
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter name.
+        public let name: String
+        /// The parameter value.
+        public let value: String
+
+        @inlinable
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct ParameterDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The value that you assigned to the parameter.
+        public let definition: ParameterDefinitionSchema
+        /// The name of the parameter.
+        public let name: String
+
+        @inlinable
+        public init(definition: ParameterDefinitionSchema, name: String) {
+            self.definition = definition
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.definition.validate(name: "\(name).definition")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+            case name = "Name"
+        }
+    }
+
+    public struct ParameterDefinitionSchema: AWSEncodableShape & AWSDecodableShape {
+        /// An object that contains information about the string schema.
+        public let stringSchema: StringSchemaConfig?
+
+        @inlinable
+        public init(stringSchema: StringSchemaConfig? = nil) {
+            self.stringSchema = stringSchema
+        }
+
+        public func validate(name: String) throws {
+            try self.stringSchema?.validate(name: "\(name).stringSchema")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringSchema = "StringSchema"
+        }
+    }
+
     public struct ParametersInCacheKeyAndForwardedToOrigin: AWSEncodableShape & AWSDecodableShape {
-        /// An object that determines whether any cookies in viewer requests (and if so, which cookies)
-        /// 			are included in the cache key and in requests that CloudFront sends to the origin.
+        /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and in requests that CloudFront sends to the origin.
         public let cookiesConfig: CachePolicyCookiesConfig
-        /// A flag that can affect whether the Accept-Encoding HTTP header is
-        /// 			included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or
-        /// 			both of these fields is true and the viewer request includes the Accept-Encoding
-        /// 			header, then CloudFront does the following:   Normalizes the value of the viewer's Accept-Encoding
-        /// 					header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin, if a request is
-        /// 					necessary   For more information, see Compression support in the
-        /// 				Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin
-        /// 			request policy attached, do not include the Accept-Encoding header in the
-        /// 			origin request policy. CloudFront always includes the Accept-Encoding header in
-        /// 			origin requests when the value of this field is true, so including this
-        /// 			header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the
-        /// 				Accept-Encoding header the same as any other HTTP header in the viewer
-        /// 			request. By default, it's not included in the cache key and it's not included in origin
-        /// 			requests. In this case, you can manually add Accept-Encoding to the headers
-        /// 			whitelist like any other HTTP header.
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer's Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin, if a request is necessary   For more information, see Compression support in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it's not included in the cache key and it's not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         public let enableAcceptEncodingBrotli: Bool?
-        /// A flag that can affect whether the Accept-Encoding HTTP header is
-        /// 			included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingBrotli field. If one or
-        /// 			both of these fields is true and the viewer request includes the Accept-Encoding
-        /// 			header, then CloudFront does the following:   Normalizes the value of the viewer's Accept-Encoding
-        /// 					header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin, if a request is
-        /// 					necessary   For more information, see Compression support in the
-        /// 				Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin
-        /// 			request policy attached, do not include the Accept-Encoding header in the
-        /// 			origin request policy. CloudFront always includes the Accept-Encoding header in
-        /// 			origin requests when the value of this field is true, so including this
-        /// 			header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the
-        /// 				Accept-Encoding header the same as any other HTTP header in the viewer
-        /// 			request. By default, it's not included in the cache key and it's not included in origin
-        /// 			requests. In this case, you can manually add Accept-Encoding to the headers
-        /// 			whitelist like any other HTTP header.
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingBrotli field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer's Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin, if a request is necessary   For more information, see Compression support in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it's not included in the cache key and it's not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         public let enableAcceptEncodingGzip: Bool
-        /// An object that determines whether any HTTP headers (and if so, which headers) are included
-        /// 			in the cache key and in requests that CloudFront sends to the origin.
+        /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and in requests that CloudFront sends to the origin.
         public let headersConfig: CachePolicyHeadersConfig
-        /// An object that determines whether any URL query strings in viewer requests (and if so, which
-        /// 			query strings) are included in the cache key and in requests that CloudFront sends to the
-        /// 			origin.
+        /// An object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the cache key and in requests that CloudFront sends to the origin.
         public let queryStringsConfig: CachePolicyQueryStringsConfig
 
         @inlinable
@@ -8224,8 +8782,7 @@ extension CloudFront {
         /// A complex type that contains a list of the paths that you want to invalidate.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
-        /// The number of invalidation paths specified for the objects that you want to
-        /// 			invalidate.
+        /// The number of invalidation paths specified for the objects that you want to invalidate.
         public let quantity: Int
 
         @inlinable
@@ -8263,11 +8820,9 @@ extension CloudFront {
     }
 
     public struct PublicKeyConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A string included in the request to help make sure that the request can't be
-        /// 			replayed.
+        /// A string included in the request to help make sure that the request can't be replayed.
         public let callerReference: String
-        /// A comment to describe the public key. The comment cannot be longer than 128
-        /// 			characters.
+        /// A comment to describe the public key. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// The public key that you can use with signed URLs and signed cookies, or with field-level encryption.
         public let encodedKey: String
@@ -8298,9 +8853,7 @@ extension CloudFront {
         public var items: [PublicKeySummary]?
         /// The maximum number of public keys you want in the response.
         public let maxItems: Int
-        /// If there are more elements to be listed, this element is present and contains the
-        /// 			value that you can use for the Marker request parameter to continue listing
-        /// 			your public keys where you left off.
+        /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your public keys where you left off.
         public let nextMarker: String?
         /// The number of public keys in the list.
         public let quantity: Int
@@ -8322,8 +8875,7 @@ extension CloudFront {
     }
 
     public struct PublicKeySummary: AWSDecodableShape {
-        /// A comment to describe the public key. The comment cannot be longer than 128
-        /// 			characters.
+        /// A comment to describe the public key. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// The date and time when the public key was uploaded.
         public let createdTime: Date
@@ -8353,8 +8905,7 @@ extension CloudFront {
     }
 
     public struct PublishFunctionRequest: AWSEncodableShape {
-        /// The current version (ETag value) of the function that you are publishing,
-        /// 			which you can get using DescribeFunction.
+        /// The current version (ETag value) of the function that you are publishing, which you can get using DescribeFunction.
         public let ifMatch: String
         /// The name of the function that you are publishing.
         public let name: String
@@ -8411,11 +8962,9 @@ extension CloudFront {
     }
 
     public struct QueryArgProfileConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Flag to set if you want a request to be forwarded to the origin even if the profile
-        /// 			specified by the field-level encryption query argument, fle-profile, is unknown.
+        /// Flag to set if you want a request to be forwarded to the origin even if the profile specified by the field-level encryption query argument, fle-profile, is unknown.
         public let forwardWhenQueryArgProfileIsUnknown: Bool
-        /// Profiles specified for query argument-profile mapping for field-level
-        /// 			encryption.
+        /// Profiles specified for query argument-profile mapping for field-level encryption.
         public let queryArgProfiles: QueryArgProfiles?
 
         @inlinable
@@ -8436,8 +8985,7 @@ extension CloudFront {
         /// Number of items for query argument-profile mapping for field-level encryption.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, QueryArgProfile>>
         public var items: [QueryArgProfile]?
-        /// Number of profiles for query argument-profile mapping for field-level
-        /// 			encryption.
+        /// Number of profiles for query argument-profile mapping for field-level encryption.
         public let quantity: Int
 
         @inlinable
@@ -8455,13 +9003,10 @@ extension CloudFront {
     public struct QueryStringCacheKeys: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Name" }
 
-        /// A list that contains the query string parameters that you want CloudFront to use as a basis
-        /// 			for caching for a cache behavior. If Quantity is 0, you can omit
-        /// 				Items.
+        /// A list that contains the query string parameters that you want CloudFront to use as a basis for caching for a cache behavior. If Quantity is 0, you can omit Items.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
-        /// The number of whitelisted query string parameters for a cache
-        /// 			behavior.
+        /// The number of whitelisted query string parameters for a cache behavior.
         public let quantity: Int
 
         @inlinable
@@ -8502,21 +9047,15 @@ extension CloudFront {
 
         /// The Amazon Resource Name (ARN) of this real-time log configuration.
         public let arn: String
-        /// Contains information about the Amazon Kinesis data stream where you are sending real-time
-        /// 			log data for this real-time log configuration.
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data for this real-time log configuration.
         @CustomCoding<StandardArrayCoder<EndPoint>>
         public var endPoints: [EndPoint]
-        /// A list of fields that are included in each real-time log record. In an API response,
-        /// 			the fields are provided in the same order in which they are sent to the Amazon Kinesis data
-        /// 			stream. For more information about fields, see Real-time log configuration fields in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// A list of fields that are included in each real-time log record. In an API response, the fields are provided in the same order in which they are sent to the Amazon Kinesis data stream. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
         @CustomCoding<ArrayCoder<_FieldsEncoding, String>>
         public var fields: [String]
         /// The unique name of this real-time log configuration.
         public let name: String
-        /// The sampling rate for this real-time log configuration. The sampling rate determines
-        /// 			the percentage of viewer requests that are represented in the real-time log data. The
-        /// 			sampling rate is an integer between 1 and 100, inclusive.
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. The sampling rate is an integer between 1 and 100, inclusive.
         public let samplingRate: Int64
 
         @inlinable
@@ -8538,21 +9077,16 @@ extension CloudFront {
     }
 
     public struct RealtimeLogConfigs: AWSDecodableShape {
-        /// A flag that indicates whether there are more real-time log configurations than are
-        /// 			contained in this list.
+        /// A flag that indicates whether there are more real-time log configurations than are contained in this list.
         public let isTruncated: Bool
         /// Contains the list of real-time log configurations.
         @OptionalCustomCoding<StandardArrayCoder<RealtimeLogConfig>>
         public var items: [RealtimeLogConfig]?
-        /// This parameter indicates where this list of real-time log configurations begins. This
-        /// 			list includes real-time log configurations that occur after the marker.
+        /// This parameter indicates where this list of real-time log configurations begins. This list includes real-time log configurations that occur after the marker.
         public let marker: String
         /// The maximum number of real-time log configurations requested.
         public let maxItems: Int
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing real-time log configurations where you left off.
-        ///
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing real-time log configurations where you left off.
         public let nextMarker: String?
 
         @inlinable
@@ -8574,8 +9108,7 @@ extension CloudFront {
     }
 
     public struct RealtimeMetricsSubscriptionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A flag that indicates whether additional CloudWatch metrics are enabled for a given
-        /// 			CloudFront distribution.
+        /// A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
         public let realtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus
 
         @inlinable
@@ -8613,8 +9146,7 @@ extension CloudFront {
     public struct ResponseHeadersPolicyAccessControlAllowHeaders: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Header" }
 
-        /// The list of HTTP header names. You can specify * to allow all
-        /// 			headers.
+        /// The list of HTTP header names. You can specify * to allow all headers.
         @CustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]
         /// The number of HTTP header names in the list.
@@ -8635,8 +9167,7 @@ extension CloudFront {
     public struct ResponseHeadersPolicyAccessControlAllowMethods: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Method" }
 
-        /// The list of HTTP methods. Valid values are:    GET     DELETE     HEAD     OPTIONS     PATCH     POST     PUT     ALL     ALL is a special value that includes all of the listed HTTP
-        /// 			methods.
+        /// The list of HTTP methods. Valid values are:    GET     DELETE     HEAD     OPTIONS     PATCH     POST     PUT     ALL     ALL is a special value that includes all of the listed HTTP methods.
         @CustomCoding<ArrayCoder<_ItemsEncoding, ResponseHeadersPolicyAccessControlAllowMethodsValues>>
         public var items: [ResponseHeadersPolicyAccessControlAllowMethodsValues]
         /// The number of HTTP methods in the list.
@@ -8657,8 +9188,7 @@ extension CloudFront {
     public struct ResponseHeadersPolicyAccessControlAllowOrigins: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Origin" }
 
-        /// The list of origins (domain names). You can specify * to allow all
-        /// 			origins.
+        /// The list of origins (domain names). You can specify * to allow all origins.
         @CustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]
         /// The number of origins in the list.
@@ -8700,8 +9230,7 @@ extension CloudFront {
     public struct ResponseHeadersPolicyConfig: AWSEncodableShape & AWSDecodableShape {
         /// A comment to describe the response headers policy. The comment cannot be longer than 128 characters.
         public let comment: String?
-        /// A configuration for a set of HTTP response headers that are used for cross-origin
-        /// 			resource sharing (CORS).
+        /// A configuration for a set of HTTP response headers that are used for cross-origin resource sharing (CORS).
         public let corsConfig: ResponseHeadersPolicyCorsConfig?
         /// A configuration for a set of custom HTTP response headers.
         public let customHeadersConfig: ResponseHeadersPolicyCustomHeadersConfig?
@@ -8711,8 +9240,7 @@ extension CloudFront {
         public let removeHeadersConfig: ResponseHeadersPolicyRemoveHeadersConfig?
         /// A configuration for a set of security-related HTTP response headers.
         public let securityHeadersConfig: ResponseHeadersPolicySecurityHeadersConfig?
-        /// A configuration for enabling the Server-Timing header in HTTP responses
-        /// 			sent from CloudFront.
+        /// A configuration for enabling the Server-Timing header in HTTP responses sent from CloudFront.
         public let serverTimingHeadersConfig: ResponseHeadersPolicyServerTimingHeadersConfig?
 
         @inlinable
@@ -8742,12 +9270,9 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyContentSecurityPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The policy directives and their values that CloudFront includes as values for the
-        /// 				Content-Security-Policy HTTP response header.
+        /// The policy directives and their values that CloudFront includes as values for the Content-Security-Policy HTTP response header.
         public let contentSecurityPolicy: String
-        /// A Boolean that determines whether CloudFront overrides the
-        /// 				Content-Security-Policy HTTP response header received from the origin
-        /// 			with the one specified in this response headers policy.
+        /// A Boolean that determines whether CloudFront overrides the Content-Security-Policy HTTP response header received from the origin with the one specified in this response headers policy.
         public let override: Bool
 
         @inlinable
@@ -8763,9 +9288,7 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyContentTypeOptions: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean that determines whether CloudFront overrides the
-        /// 				X-Content-Type-Options HTTP response header received from the origin
-        /// 			with the one specified in this response headers policy.
+        /// A Boolean that determines whether CloudFront overrides the X-Content-Type-Options HTTP response header received from the origin with the one specified in this response headers policy.
         public let override: Bool
 
         @inlinable
@@ -8779,32 +9302,19 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyCorsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean that CloudFront uses as the value for the
-        /// 				Access-Control-Allow-Credentials HTTP response header. For more information about the Access-Control-Allow-Credentials HTTP
-        /// 			response header, see Access-Control-Allow-Credentials in the MDN Web Docs.
+        /// A Boolean that CloudFront uses as the value for the Access-Control-Allow-Credentials HTTP response header. For more information about the Access-Control-Allow-Credentials HTTP response header, see Access-Control-Allow-Credentials in the MDN Web Docs.
         public let accessControlAllowCredentials: Bool
-        /// A list of HTTP header names that CloudFront includes as values for the
-        /// 				Access-Control-Allow-Headers HTTP response header. For more information about the Access-Control-Allow-Headers HTTP response
-        /// 			header, see Access-Control-Allow-Headers in the MDN Web Docs.
+        /// A list of HTTP header names that CloudFront includes as values for the Access-Control-Allow-Headers HTTP response header. For more information about the Access-Control-Allow-Headers HTTP response header, see Access-Control-Allow-Headers in the MDN Web Docs.
         public let accessControlAllowHeaders: ResponseHeadersPolicyAccessControlAllowHeaders
-        /// A list of HTTP methods that CloudFront includes as values for the
-        /// 				Access-Control-Allow-Methods HTTP response header. For more information about the Access-Control-Allow-Methods HTTP response
-        /// 			header, see Access-Control-Allow-Methods in the MDN Web Docs.
+        /// A list of HTTP methods that CloudFront includes as values for the Access-Control-Allow-Methods HTTP response header. For more information about the Access-Control-Allow-Methods HTTP response header, see Access-Control-Allow-Methods in the MDN Web Docs.
         public let accessControlAllowMethods: ResponseHeadersPolicyAccessControlAllowMethods
-        /// A list of origins (domain names) that CloudFront can use as the value for the
-        /// 				Access-Control-Allow-Origin HTTP response header. For more information about the Access-Control-Allow-Origin HTTP response
-        /// 			header, see Access-Control-Allow-Origin in the MDN Web Docs.
+        /// A list of origins (domain names) that CloudFront can use as the value for the Access-Control-Allow-Origin HTTP response header. For more information about the Access-Control-Allow-Origin HTTP response header, see Access-Control-Allow-Origin in the MDN Web Docs.
         public let accessControlAllowOrigins: ResponseHeadersPolicyAccessControlAllowOrigins
-        /// A list of HTTP headers that CloudFront includes as values for the
-        /// 				Access-Control-Expose-Headers HTTP response header. For more information about the Access-Control-Expose-Headers HTTP
-        /// 			response header, see Access-Control-Expose-Headers in the MDN Web Docs.
+        /// A list of HTTP headers that CloudFront includes as values for the Access-Control-Expose-Headers HTTP response header. For more information about the Access-Control-Expose-Headers HTTP response header, see Access-Control-Expose-Headers in the MDN Web Docs.
         public let accessControlExposeHeaders: ResponseHeadersPolicyAccessControlExposeHeaders?
-        /// A number that CloudFront uses as the value for the Access-Control-Max-Age HTTP
-        /// 			response header. For more information about the Access-Control-Max-Age HTTP response
-        /// 			header, see Access-Control-Max-Age in the MDN Web Docs.
+        /// A number that CloudFront uses as the value for the Access-Control-Max-Age HTTP response header. For more information about the Access-Control-Max-Age HTTP response header, see Access-Control-Max-Age in the MDN Web Docs.
         public let accessControlMaxAgeSec: Int?
-        /// A Boolean that determines whether CloudFront overrides HTTP response headers received from
-        /// 			the origin with the ones specified in this response headers policy.
+        /// A Boolean that determines whether CloudFront overrides HTTP response headers received from the origin with the ones specified in this response headers policy.
         public let originOverride: Bool
 
         @inlinable
@@ -8832,8 +9342,7 @@ extension CloudFront {
     public struct ResponseHeadersPolicyCustomHeader: AWSEncodableShape & AWSDecodableShape {
         /// The HTTP response header name.
         public let header: String
-        /// A Boolean that determines whether CloudFront overrides a response header with the same name
-        /// 			received from the origin with the header specified here.
+        /// A Boolean that determines whether CloudFront overrides a response header with the same name received from the origin with the header specified here.
         public let override: Bool
         /// The value for the HTTP response header.
         public let value: String
@@ -8874,12 +9383,9 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyFrameOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The value of the X-Frame-Options HTTP response header. Valid values are
-        /// 				DENY and SAMEORIGIN. For more information about these values, see X-Frame-Options in the MDN Web Docs.
+        /// The value of the X-Frame-Options HTTP response header. Valid values are DENY and SAMEORIGIN. For more information about these values, see X-Frame-Options in the MDN Web Docs.
         public let frameOption: FrameOptionsList
-        /// A Boolean that determines whether CloudFront overrides the X-Frame-Options HTTP
-        /// 			response header received from the origin with the one specified in this response headers
-        /// 			policy.
+        /// A Boolean that determines whether CloudFront overrides the X-Frame-Options HTTP response header received from the origin with the one specified in this response headers policy.
         public let override: Bool
 
         @inlinable
@@ -8902,10 +9408,7 @@ extension CloudFront {
         public var items: [ResponseHeadersPolicySummary]?
         /// The maximum number of response headers policies requested.
         public let maxItems: Int
-        /// If there are more items in the list than are in this response, this element is
-        /// 			present. It contains the value that you should use in the Marker field of a
-        /// 			subsequent request to continue listing response headers policies where you left
-        /// 			off.
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing response headers policies where you left off.
         public let nextMarker: String?
         /// The number of response headers policies returned.
         public let quantity: Int
@@ -8927,12 +9430,9 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyReferrerPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean that determines whether CloudFront overrides the Referrer-Policy HTTP
-        /// 			response header received from the origin with the one specified in this response headers
-        /// 			policy.
+        /// A Boolean that determines whether CloudFront overrides the Referrer-Policy HTTP response header received from the origin with the one specified in this response headers policy.
         public let override: Bool
-        /// The value of the Referrer-Policy HTTP response header. Valid values
-        /// 			are:    no-referrer     no-referrer-when-downgrade     origin     origin-when-cross-origin     same-origin     strict-origin     strict-origin-when-cross-origin     unsafe-url    For more information about these values, see Referrer-Policy in the MDN Web Docs.
+        /// The value of the Referrer-Policy HTTP response header. Valid values are:    no-referrer     no-referrer-when-downgrade     origin     origin-when-cross-origin     same-origin     strict-origin     strict-origin-when-cross-origin     unsafe-url    For more information about these values, see Referrer-Policy in the MDN Web Docs.
         public let referrerPolicy: ReferrerPolicyList
 
         @inlinable
@@ -8983,29 +9483,17 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicySecurityHeadersConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The policy directives and their values that CloudFront includes as values for the
-        /// 				Content-Security-Policy HTTP response header. For more information about the Content-Security-Policy HTTP response
-        /// 			header, see Content-Security-Policy in the MDN Web Docs.
+        /// The policy directives and their values that CloudFront includes as values for the Content-Security-Policy HTTP response header. For more information about the Content-Security-Policy HTTP response header, see Content-Security-Policy in the MDN Web Docs.
         public let contentSecurityPolicy: ResponseHeadersPolicyContentSecurityPolicy?
-        /// Determines whether CloudFront includes the X-Content-Type-Options HTTP response
-        /// 			header with its value set to nosniff. For more information about the X-Content-Type-Options HTTP response
-        /// 			header, see X-Content-Type-Options in the MDN Web Docs.
+        /// Determines whether CloudFront includes the X-Content-Type-Options HTTP response header with its value set to nosniff. For more information about the X-Content-Type-Options HTTP response header, see X-Content-Type-Options in the MDN Web Docs.
         public let contentTypeOptions: ResponseHeadersPolicyContentTypeOptions?
-        /// Determines whether CloudFront includes the X-Frame-Options HTTP response header
-        /// 			and the header's value. For more information about the X-Frame-Options HTTP response header, see
-        /// 				X-Frame-Options in the MDN Web Docs.
+        /// Determines whether CloudFront includes the X-Frame-Options HTTP response header and the header's value. For more information about the X-Frame-Options HTTP response header, see X-Frame-Options in the MDN Web Docs.
         public let frameOptions: ResponseHeadersPolicyFrameOptions?
-        /// Determines whether CloudFront includes the Referrer-Policy HTTP response header
-        /// 			and the header's value. For more information about the Referrer-Policy HTTP response header, see
-        /// 				Referrer-Policy in the MDN Web Docs.
+        /// Determines whether CloudFront includes the Referrer-Policy HTTP response header and the header's value. For more information about the Referrer-Policy HTTP response header, see Referrer-Policy in the MDN Web Docs.
         public let referrerPolicy: ResponseHeadersPolicyReferrerPolicy?
-        /// Determines whether CloudFront includes the Strict-Transport-Security HTTP
-        /// 			response header and the header's value. For more information about the Strict-Transport-Security HTTP response
-        /// 			header, see Security headers in the Amazon CloudFront Developer Guide and Strict-Transport-Security in the MDN Web Docs.
+        /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header's value. For more information about the Strict-Transport-Security HTTP response header, see Security headers in the Amazon CloudFront Developer Guide and Strict-Transport-Security in the MDN Web Docs.
         public let strictTransportSecurity: ResponseHeadersPolicyStrictTransportSecurity?
-        /// Determines whether CloudFront includes the X-XSS-Protection HTTP response
-        /// 			header and the header's value. For more information about the X-XSS-Protection HTTP response header, see
-        /// 				X-XSS-Protection in the MDN Web Docs.
+        /// Determines whether CloudFront includes the X-XSS-Protection HTTP response header and the header's value. For more information about the X-XSS-Protection HTTP response header, see X-XSS-Protection in the MDN Web Docs.
         public let xssProtection: ResponseHeadersPolicyXSSProtection?
 
         @inlinable
@@ -9029,17 +9517,9 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyServerTimingHeadersConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean that determines whether CloudFront adds the Server-Timing header to
-        /// 			HTTP responses that it sends in response to requests that match a cache behavior that's
-        /// 			associated with this response headers policy.
+        /// A Boolean that determines whether CloudFront adds the Server-Timing header to HTTP responses that it sends in response to requests that match a cache behavior that's associated with this response headers policy.
         public let enabled: Bool
-        /// A number 0–100 (inclusive) that specifies the percentage of responses that you want
-        /// 			CloudFront to add the Server-Timing header to. When you set the sampling rate to
-        /// 			100, CloudFront adds the Server-Timing header to the HTTP response for every
-        /// 			request that matches the cache behavior that this response headers policy is attached
-        /// 			to. When you set it to 50, CloudFront adds the header to 50% of the responses for requests
-        /// 			that match the cache behavior. You can set the sampling rate to any number 0–100 with up
-        /// 			to four decimal places.
+        /// A number 0–100 (inclusive) that specifies the percentage of responses that you want CloudFront to add the Server-Timing header to. When you set the sampling rate to 100, CloudFront adds the Server-Timing header to the HTTP response for every request that matches the cache behavior that this response headers policy is attached to. When you set it to 50, CloudFront adds the header to 50% of the responses for requests that match the cache behavior. You can set the sampling rate to any number 0–100 with up to four decimal places.
         public let samplingRate: Double?
 
         @inlinable
@@ -9060,18 +9540,13 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyStrictTransportSecurity: AWSEncodableShape & AWSDecodableShape {
-        /// A number that CloudFront uses as the value for the max-age directive in the
-        /// 				Strict-Transport-Security HTTP response header.
+        /// A number that CloudFront uses as the value for the max-age directive in the Strict-Transport-Security HTTP response header.
         public let accessControlMaxAgeSec: Int
-        /// A Boolean that determines whether CloudFront includes the includeSubDomains
-        /// 			directive in the Strict-Transport-Security HTTP response header.
+        /// A Boolean that determines whether CloudFront includes the includeSubDomains directive in the Strict-Transport-Security HTTP response header.
         public let includeSubdomains: Bool?
-        /// A Boolean that determines whether CloudFront overrides the
-        /// 				Strict-Transport-Security HTTP response header received from the origin
-        /// 			with the one specified in this response headers policy.
+        /// A Boolean that determines whether CloudFront overrides the Strict-Transport-Security HTTP response header received from the origin with the one specified in this response headers policy.
         public let override: Bool
-        /// A Boolean that determines whether CloudFront includes the preload directive in
-        /// 			the Strict-Transport-Security HTTP response header.
+        /// A Boolean that determines whether CloudFront includes the preload directive in the Strict-Transport-Security HTTP response header.
         public let preload: Bool?
 
         @inlinable
@@ -9093,8 +9568,7 @@ extension CloudFront {
     public struct ResponseHeadersPolicySummary: AWSDecodableShape {
         /// The response headers policy.
         public let responseHeadersPolicy: ResponseHeadersPolicy
-        /// The type of response headers policy, either managed (created by Amazon Web Services) or
-        /// 				custom (created in this Amazon Web Services account).
+        /// The type of response headers policy, either managed (created by Amazon Web Services) or custom (created in this Amazon Web Services account).
         public let type: ResponseHeadersPolicyType
 
         @inlinable
@@ -9110,22 +9584,13 @@ extension CloudFront {
     }
 
     public struct ResponseHeadersPolicyXSSProtection: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean that determines whether CloudFront includes the mode=block directive
-        /// 			in the X-XSS-Protection header. For more information about this directive, see X-XSS-Protection in the MDN Web Docs.
+        /// A Boolean that determines whether CloudFront includes the mode=block directive in the X-XSS-Protection header. For more information about this directive, see X-XSS-Protection in the MDN Web Docs.
         public let modeBlock: Bool?
-        /// A Boolean that determines whether CloudFront overrides the X-XSS-Protection
-        /// 			HTTP response header received from the origin with the one specified in this response
-        /// 			headers policy.
+        /// A Boolean that determines whether CloudFront overrides the X-XSS-Protection HTTP response header received from the origin with the one specified in this response headers policy.
         public let override: Bool
-        /// A Boolean that determines the value of the X-XSS-Protection HTTP response
-        /// 			header. When this setting is true, the value of the
-        /// 				X-XSS-Protection header is 1. When this setting is
-        /// 				false, the value of the X-XSS-Protection header is
-        /// 				0. For more information about these settings, see X-XSS-Protection in the MDN Web Docs.
+        /// A Boolean that determines the value of the X-XSS-Protection HTTP response header. When this setting is true, the value of the X-XSS-Protection header is 1. When this setting is false, the value of the X-XSS-Protection header is 0. For more information about these settings, see X-XSS-Protection in the MDN Web Docs.
         public let protection: Bool
-        /// A reporting URI, which CloudFront uses as the value of the report directive in
-        /// 			the X-XSS-Protection header. You cannot specify a ReportUri when ModeBlock is
-        /// 				true. For more information about using a reporting URL, see X-XSS-Protection in the MDN Web Docs.
+        /// A reporting URI, which CloudFront uses as the value of the report directive in the X-XSS-Protection header. You cannot specify a ReportUri when ModeBlock is true. For more information about using a reporting URL, see X-XSS-Protection in the MDN Web Docs.
         public let reportUri: String?
 
         @inlinable
@@ -9145,8 +9610,7 @@ extension CloudFront {
     }
 
     public struct Restrictions: AWSEncodableShape & AWSDecodableShape {
-        /// A complex type that controls the countries in which your content is distributed. CloudFront
-        /// 			determines the location of your users using MaxMind GeoIP databases.
+        /// A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
         public let geoRestriction: GeoRestriction
 
         @inlinable
@@ -9162,14 +9626,7 @@ extension CloudFront {
     public struct S3Origin: AWSEncodableShape & AWSDecodableShape {
         /// The DNS name of the Amazon S3 origin.
         public let domainName: String
-        /// The CloudFront origin access identity to associate with the distribution. Use an origin
-        /// 			access identity to configure the distribution so that end users can only access objects
-        /// 			in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the
-        /// 			Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the
-        /// 			distribution configuration and include an empty OriginAccessIdentity
-        /// 			element. To replace the origin access identity, update the distribution configuration and
-        /// 			specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in
-        /// 			the  Amazon CloudFront Developer Guide.
+        /// The CloudFront origin access identity to associate with the distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the  Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
 
         @inlinable
@@ -9185,19 +9642,7 @@ extension CloudFront {
     }
 
     public struct S3OriginConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  If you're using origin access control (OAC) instead of origin access identity,
-        /// 				specify an empty OriginAccessIdentity element. For more information,
-        /// 				see Restricting access to an Amazon Web Services in the
-        /// 					Amazon CloudFront Developer Guide.  The CloudFront origin access identity to associate with the origin. Use an origin access
-        /// 			identity to configure the origin so that viewers can only access
-        /// 			objects in an Amazon S3 bucket through CloudFront. The format of the value is:  origin-access-identity/cloudfront/ID-of-origin-access-identity  The  ID-of-origin-access-identity is the value that CloudFront
-        /// 			returned in the ID element when you created the origin access
-        /// 			identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3
-        /// 			URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the
-        /// 			distribution configuration and include an empty OriginAccessIdentity
-        /// 			element. To replace the origin access identity, update the distribution configuration and
-        /// 			specify the new origin access identity. For more information about the origin access identity, see Serving Private
-        /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
+        ///  If you're using origin access control (OAC) instead of origin access identity, specify an empty OriginAccessIdentity element. For more information, see Restricting access to an Amazon Web Services in the Amazon CloudFront Developer Guide.  The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is:  origin-access-identity/cloudfront/ID-of-origin-access-identity  The  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
 
         @inlinable
@@ -9211,11 +9656,9 @@ extension CloudFront {
     }
 
     public struct SessionStickinessConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The amount of time after which you want sessions to cease if no requests are
-        /// 			received. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to MaximumTTL.
+        /// The amount of time after which you want sessions to cease if no requests are received. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to MaximumTTL.
         public let idleTTL: Int
-        /// The maximum amount of time to consider requests from the viewer as being part of the
-        /// 			same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be greater than or equal to IdleTTL.
+        /// The maximum amount of time to consider requests from the viewer as being part of the same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be greater than or equal to IdleTTL.
         public let maximumTTL: Int
 
         @inlinable
@@ -9231,10 +9674,7 @@ extension CloudFront {
     }
 
     public struct Signer: AWSDecodableShape {
-        /// An Amazon Web Services account number that contains active CloudFront key pairs that CloudFront can use to
-        /// 			verify the signatures of signed URLs and signed cookies. If the Amazon Web Services account that owns
-        /// 			the key pairs is the same account that owns the CloudFront distribution, the value of this
-        /// 			field is self.
+        /// An Amazon Web Services account number that contains active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If the Amazon Web Services account that owns the key pairs is the same account that owns the CloudFront distribution, the value of this field is self.
         public let awsAccountNumber: String?
         /// A list of CloudFront key pair identifiers.
         public let keyPairIds: KeyPairIds?
@@ -9298,30 +9738,17 @@ extension CloudFront {
     }
 
     public struct StreamingDistribution: AWSDecodableShape {
-        /// A complex type that lists the Amazon Web Services accounts, if any, that you included in the
-        /// 				TrustedSigners complex type for this distribution. These are the
-        /// 			accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the Amazon Web Services account number of the trusted
-        /// 			signer or self if the signer is the Amazon Web Services account that created the
-        /// 			distribution. The Signer element also includes the IDs of any active CloudFront
-        /// 			key pairs that are associated with the trusted signer's Amazon Web Services account. If no
-        /// 				KeyPairId element appears for a Signer, that signer can't
-        /// 			create signed URLs. For more information, see Serving Private
-        /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that lists the Amazon Web Services accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the Amazon Web Services account number of the trusted signer or self if the signer is the Amazon Web Services account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's Amazon Web Services account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let activeTrustedSigners: ActiveTrustedSigners
-        /// The ARN (Amazon Resource Name) for the distribution. For example:
-        /// 				arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where
-        /// 				123456789012 is your Amazon Web Services account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         public let arn: String
-        /// The domain name that corresponds to the streaming distribution, for example,
-        /// 				s5c39gqb8ow64r.cloudfront.net.
+        /// The domain name that corresponds to the streaming distribution, for example, s5c39gqb8ow64r.cloudfront.net.
         public let domainName: String
-        /// The identifier for the RTMP distribution. For example:
-        /// 			EGTXBD79EXAMPLE.
+        /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
         public let id: String
         /// The date and time that the distribution was last modified.
         public let lastModifiedTime: Date?
-        /// The current status of the RTMP distribution. When the status is Deployed,
-        /// 			the distribution's information is propagated to all CloudFront edge locations.
+        /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public let status: String
         /// The current configuration information for the RTMP distribution.
         public let streamingDistributionConfig: StreamingDistributionConfig
@@ -9349,35 +9776,21 @@ extension CloudFront {
     }
 
     public struct StreamingDistributionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A complex type that contains information about CNAMEs (alternate domain names), if
-        /// 			any, for this streaming distribution.
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
         public let aliases: Aliases?
-        /// A unique value (for example, a date-time stamp) that ensures that the request can't be
-        /// 			replayed. If the value of CallerReference is new (regardless of the content of the
-        /// 				StreamingDistributionConfig object), CloudFront creates a new
-        /// 			distribution. If CallerReference is a value that you already sent in a previous request
-        /// 			to create a distribution, CloudFront returns a DistributionAlreadyExists
-        /// 			error.
+        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the StreamingDistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
         public let callerReference: String
         /// Any comments you want to include about the streaming distribution.
         public let comment: String
-        /// Whether the streaming distribution is enabled to accept user requests for
-        /// 			content.
+        /// Whether the streaming distribution is enabled to accept user requests for content.
         public let enabled: Bool
-        /// A complex type that controls whether access logs are written for the streaming
-        /// 			distribution.
+        /// A complex type that controls whether access logs are written for the streaming distribution.
         public let logging: StreamingLoggingConfig?
-        /// A complex type that contains information about price class for this streaming
-        /// 			distribution.
+        /// A complex type that contains information about price class for this streaming distribution.
         public let priceClass: PriceClass?
-        /// A complex type that contains information about the Amazon S3 bucket from which you want
-        /// 			CloudFront to get your media files for distribution.
+        /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
         public let s3Origin: S3Origin
-        /// A complex type that specifies any Amazon Web Services accounts that you want to permit to create
-        /// 			signed URLs for private content. If you want the distribution to use signed URLs,
-        /// 			include this element; if you want the distribution to use public URLs, remove this
-        /// 			element. For more information, see Serving Private
-        /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that specifies any Amazon Web Services accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
         @inlinable
@@ -9429,25 +9842,18 @@ extension CloudFront {
     public struct StreamingDistributionList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "StreamingDistributionSummary" }
 
-        /// A flag that indicates whether more streaming distributions remain to be listed. If
-        /// 			your results were truncated, you can make a follow-up pagination request using the
-        /// 				Marker request parameter to retrieve more distributions in the list.
-        ///
+        /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one StreamingDistributionSummary element for
-        /// 			each distribution that was created by the current Amazon Web Services account.
+        /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current Amazon Web Services account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, StreamingDistributionSummary>>
         public var items: [StreamingDistributionSummary]?
         /// The value you provided for the Marker request parameter.
         public let marker: String
         /// The value you provided for the MaxItems request parameter.
         public let maxItems: Int
-        /// If IsTruncated is true, this element is present and contains
-        /// 			the value you can use for the Marker request parameter to continue listing
-        /// 			your RTMP distributions where they left off.
+        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your RTMP distributions where they left off.
         public let nextMarker: String?
         /// The number of streaming distributions that were created by the current Amazon Web Services account.
-        ///
         public let quantity: Int
 
         @inlinable
@@ -9471,17 +9877,13 @@ extension CloudFront {
     }
 
     public struct StreamingDistributionSummary: AWSDecodableShape {
-        /// A complex type that contains information about CNAMEs (alternate domain names), if
-        /// 			any, for this streaming distribution.
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
         public let aliases: Aliases
-        /// The ARN (Amazon Resource Name) for the streaming distribution. For example:
-        /// 				arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5,
-        /// 			where 123456789012 is your Amazon Web Services account ID.
+        /// The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         public let arn: String
         /// The comment originally specified when this distribution was created.
         public let comment: String
-        /// The domain name corresponding to the distribution, for example,
-        /// 				d111111abcdef8.cloudfront.net.
+        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net.
         public let domainName: String
         /// Whether the distribution is enabled to accept end user requests for content.
         public let enabled: Bool
@@ -9489,28 +9891,13 @@ extension CloudFront {
         public let id: String
         /// The date and time the distribution was last modified.
         public let lastModifiedTime: Date
-        /// A complex type that contains information about price class for this streaming
-        /// 			distribution.
+        /// A complex type that contains information about price class for this streaming distribution.
         public let priceClass: PriceClass
-        /// A complex type that contains information about the Amazon S3 bucket from which you want
-        /// 			CloudFront to get your media files for distribution.
+        /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
         public let s3Origin: S3Origin
-        /// Indicates the current status of the distribution. When the status is
-        /// 				Deployed, the distribution's information is fully propagated throughout
-        /// 			the Amazon CloudFront system.
+        /// Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
-        /// A complex type that specifies the Amazon Web Services accounts, if any, that you want to allow to
-        /// 			create signed URLs for private content. If you want to require signed URLs in requests
-        /// 			for objects in the target origin that match the PathPattern for this cache
-        /// 			behavior, specify true for Enabled, and specify the applicable
-        /// 			values for Quantity and Items.If you don't want to require
-        /// 			signed URLs in requests for objects that match PathPattern, specify
-        /// 				false for Enabled and 0 for
-        /// 				Quantity. Omit Items. To add, change, or remove one or
-        /// 			more trusted signers, change Enabled to true (if it's
-        /// 			currently false), change Quantity as applicable, and specify
-        /// 			all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private
-        /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that specifies the Amazon Web Services accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
         @inlinable
@@ -9544,21 +9931,11 @@ extension CloudFront {
     }
 
     public struct StreamingLoggingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 bucket to store the access logs in, for example,
-        /// 				amzn-s3-demo-bucket.s3.amazonaws.com.
+        /// The Amazon S3 bucket to store the access logs in, for example, amzn-s3-demo-bucket.s3.amazonaws.com.
         public let bucket: String
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't
-        /// 			want to enable logging when you create a streaming distribution or if you want to
-        /// 			disable logging for an existing streaming distribution, specify false for
-        /// 				Enabled, and specify empty Bucket and Prefix
-        /// 			elements. If you specify false for Enabled but you specify
-        /// 			values for Bucket and Prefix, the values are automatically
-        /// 			deleted.
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted.
         public let enabled: Bool
-        /// An optional string that you want CloudFront to prefix to the access log filenames for this
-        /// 			streaming distribution, for example, myprefix/. If you want to enable
-        /// 			logging, but you don't want to specify a prefix, you still must include an empty
-        /// 				Prefix element in the Logging element.
+        /// An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
         public let prefix: String
 
         @inlinable
@@ -9575,14 +9952,37 @@ extension CloudFront {
         }
     }
 
+    public struct StringSchemaConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A comment to describe the parameter.
+        public let comment: String?
+        /// The default value of the parameter.
+        public let defaultValue: String?
+        /// Whether the defined parameter is required.
+        public let required: Bool
+
+        @inlinable
+        public init(comment: String? = nil, defaultValue: String? = nil, required: Bool) {
+            self.comment = comment
+            self.defaultValue = defaultValue
+            self.required = required
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 256)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case defaultValue = "DefaultValue"
+            case required = "Required"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include
-        /// 				a-z, A-Z, 0-9, space, and the special
-        /// 			characters _ - . : / = + @.
+        /// A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let key: String
-        /// A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include
-        /// 				a-z, A-Z, 0-9, space, and the special
-        /// 			characters _ - . : / = + @.
+        /// A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let value: String?
 
         @inlinable
@@ -9681,17 +10081,35 @@ extension CloudFront {
         }
     }
 
+    public struct TenantConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The parameters that you specify for a distribution tenant.
+        @OptionalCustomCoding<StandardArrayCoder<ParameterDefinition>>
+        public var parameterDefinitions: [ParameterDefinition]?
+
+        @inlinable
+        public init(parameterDefinitions: [ParameterDefinition]? = nil) {
+            self.parameterDefinitions = parameterDefinitions
+        }
+
+        public func validate(name: String) throws {
+            try self.parameterDefinitions?.forEach {
+                try $0.validate(name: "\(name).parameterDefinitions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterDefinitions = "ParameterDefinitions"
+        }
+    }
+
     public struct TestFunctionRequest: AWSEncodableShape {
-        /// The event object to test the function with. For more information about the structure
-        /// 			of the event object, see Testing functions in the Amazon CloudFront Developer Guide.
+        /// The event object to test the function with. For more information about the structure of the event object, see Testing functions in the Amazon CloudFront Developer Guide.
         public let eventObject: AWSBase64Data
-        /// The current version (ETag value) of the function that you are testing,
-        /// 			which you can get using DescribeFunction.
+        /// The current version (ETag value) of the function that you are testing, which you can get using DescribeFunction.
         public let ifMatch: String
         /// The name of the function that you are testing.
         public let name: String
-        /// The stage of the function that you are testing, either DEVELOPMENT or
-        /// 				LIVE.
+        /// The stage of the function that you are testing, either DEVELOPMENT or LIVE.
         public let stage: FunctionStage?
 
         @inlinable
@@ -9722,8 +10140,7 @@ extension CloudFront {
     }
 
     public struct TestFunctionResult: AWSDecodableShape {
-        /// An object that represents the result of running the function with the provided event
-        /// 			object.
+        /// An object that represents the result of running the function with the provided event object.
         public let testResult: TestResult
 
         @inlinable
@@ -9740,22 +10157,16 @@ extension CloudFront {
     }
 
     public struct TestResult: AWSDecodableShape {
-        /// The amount of time that the function took to run as a percentage of the maximum
-        /// 			allowed time. For example, a compute utilization of 35 means that the function completed
-        /// 			in 35% of the maximum allowed time.
+        /// The amount of time that the function took to run as a percentage of the maximum allowed time. For example, a compute utilization of 35 means that the function completed in 35% of the maximum allowed time.
         public let computeUtilization: String?
-        /// If the result of testing the function was an error, this field contains the error
-        /// 			message.
+        /// If the result of testing the function was an error, this field contains the error message.
         public let functionErrorMessage: String?
         /// Contains the log lines that the function wrote (if any) when running the test.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var functionExecutionLogs: [String]?
-        /// The event object returned by the function. For more information about the structure of
-        /// 			the event object, see Event
-        /// 				object structure in the Amazon CloudFront Developer Guide.
+        /// The event object returned by the function. For more information about the structure of the event object, see Event object structure in the Amazon CloudFront Developer Guide.
         public let functionOutput: String?
-        /// Contains configuration information and metadata about the CloudFront function that was
-        /// 			tested.
+        /// Contains configuration information and metadata about the CloudFront function that was tested.
         public let functionSummary: FunctionSummary?
 
         @inlinable
@@ -9801,9 +10212,7 @@ extension CloudFront {
     public struct TrustedKeyGroups: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyGroup" }
 
-        /// This field is true if any of the key groups in the list have public keys
-        /// 			that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not,
-        /// 			this field is false.
+        /// This field is true if any of the key groups in the list have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
         /// A list of key groups identifiers.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
@@ -9828,8 +10237,7 @@ extension CloudFront {
     public struct TrustedSigners: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "AwsAccountNumber" }
 
-        /// This field is true if any of the Amazon Web Services accounts in the list are configured as
-        /// 			trusted signers. If not, this field is false.
+        /// This field is true if any of the Amazon Web Services accounts in the list are configured as trusted signers. If not, this field is false.
         public let enabled: Bool
         /// A list of Amazon Web Services account identifiers.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
@@ -9883,13 +10291,9 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "CachePolicyConfig"
         /// A cache policy configuration.
         public let cachePolicyConfig: CachePolicyConfig
-        /// The unique identifier for the cache policy that you are updating. The identifier is
-        /// 			returned in a cache behavior's CachePolicyId field in the response to
-        /// 				GetDistributionConfig.
+        /// The unique identifier for the cache policy that you are updating. The identifier is returned in a cache behavior's CachePolicyId field in the response to GetDistributionConfig.
         public let id: String
-        /// The version of the cache policy that you are updating. The version is returned in the
-        /// 			cache policy's ETag field in the response to
-        /// 				GetCachePolicyConfig.
+        /// The version of the cache policy that you are updating. The version is returned in the cache policy's ETag field in the response to GetCachePolicyConfig.
         public let ifMatch: String?
 
         @inlinable
@@ -9938,8 +10342,7 @@ extension CloudFront {
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
         /// The identity's id.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the
-        /// 			identity's configuration. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -9963,8 +10366,7 @@ extension CloudFront {
     public struct UpdateCloudFrontOriginAccessIdentityResult: AWSDecodableShape {
         /// The origin access identity's information.
         public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity
-        /// The current version of the configuration. For example:
-        /// 			E2QWRUHAPOMQZL.
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
 
         @inlinable
@@ -9983,14 +10385,73 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateConnectionGroupRequest: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// Whether the connection group is enabled.
+        public let enabled: Bool?
+        /// The ID of the connection group.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the connection group that you're updating.
+        public let ifMatch: String
+        /// Enable IPv6 for the connection group. For more information, see Enable IPv6 in the Amazon CloudFront Developer Guide.
+        public let ipv6Enabled: Bool?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, enabled: Bool? = nil, id: String, ifMatch: String, ipv6Enabled: Bool? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.enabled = enabled
+            self.id = id
+            self.ifMatch = ifMatch
+            self.ipv6Enabled = ipv6Enabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.anycastIpListId, forKey: .anycastIpListId)
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encodeIfPresent(self.ipv6Enabled, forKey: .ipv6Enabled)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case enabled = "Enabled"
+            case ipv6Enabled = "Ipv6Enabled"
+        }
+    }
+
+    public struct UpdateConnectionGroupResult: AWSDecodableShape {
+        /// The connection group that you updated.
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct UpdateContinuousDeploymentPolicyRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "ContinuousDeploymentPolicyConfig"
         /// The continuous deployment policy configuration.
         public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
         /// The identifier of the continuous deployment policy that you are updating.
         public let id: String
-        /// The current version (ETag value) of the continuous deployment policy that
-        /// 			you are updating.
+        /// The current version (ETag value) of the continuous deployment policy that you are updating.
         public let ifMatch: String?
 
         @inlinable
@@ -10014,8 +10475,7 @@ extension CloudFront {
     public struct UpdateContinuousDeploymentPolicyResult: AWSDecodableShape {
         /// A continuous deployment policy.
         public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
-        /// The version identifier for the current version of the continuous deployment
-        /// 			policy.
+        /// The version identifier for the current version of the continuous deployment policy.
         public let eTag: String?
 
         @inlinable
@@ -10040,8 +10500,7 @@ extension CloudFront {
         public let distributionConfig: DistributionConfig
         /// The distribution's id.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the
-        /// 			distribution's configuration. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -10069,8 +10528,7 @@ extension CloudFront {
     public struct UpdateDistributionResult: AWSDecodableShape {
         /// The distribution's information.
         public let distribution: Distribution
-        /// The current version of the configuration. For example:
-        /// 			E2QWRUHAPOMQZL.
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
 
         @inlinable
@@ -10089,12 +10547,98 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateDistributionWithStagingConfigRequest: AWSEncodableShape {
-        /// The identifier of the primary distribution to which you are copying a staging distribution's
-        /// 			configuration.
+    public struct UpdateDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the target connection group.
+        public let connectionGroupId: String?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The ID for the multi-tenant distribution.
+        public let distributionId: String?
+        /// The domains to update for the distribution tenant. A domain object can contain only a domain property. You must specify at least one domain. Each distribution tenant can have up to 5 domains.
+        @OptionalCustomCoding<StandardArrayCoder<DomainItem>>
+        public var domains: [DomainItem]?
+        /// Indicates whether the distribution tenant should be updated to an enabled state. If you update the distribution tenant and it's not enabled, the distribution tenant won't serve traffic.
+        public let enabled: Bool?
+        /// The ID of the distribution tenant.
         public let id: String
-        /// The current versions (ETag values) of both primary and staging distributions.
-        /// 			Provide these in the following format:  &lt;primary ETag&gt;, &lt;staging ETag&gt;
+        /// The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the response of the GetDistributionTenant API operation.
+        public let ifMatch: String
+        /// An object that contains the CloudFront managed ACM certificate request.
+        public let managedCertificateRequest: ManagedCertificateRequest?
+        /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+        @OptionalCustomCoding<StandardArrayCoder<Parameter>>
+        public var parameters: [Parameter]?
+
+        @inlinable
+        public init(connectionGroupId: String? = nil, customizations: Customizations? = nil, distributionId: String? = nil, domains: [DomainItem]? = nil, enabled: Bool? = nil, id: String, ifMatch: String, managedCertificateRequest: ManagedCertificateRequest? = nil, parameters: [Parameter]? = nil) {
+            self.connectionGroupId = connectionGroupId
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.id = id
+            self.ifMatch = ifMatch
+            self.managedCertificateRequest = managedCertificateRequest
+            self.parameters = parameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.connectionGroupId, forKey: .connectionGroupId)
+            try container.encodeIfPresent(self.customizations, forKey: .customizations)
+            try container.encodeIfPresent(self.distributionId, forKey: .distributionId)
+            try container.encodeIfPresent(self.domains, forKey: .domains)
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encodeIfPresent(self.managedCertificateRequest, forKey: .managedCertificateRequest)
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroupId = "ConnectionGroupId"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case managedCertificateRequest = "ManagedCertificateRequest"
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct UpdateDistributionTenantResult: AWSDecodableShape {
+        /// The distribution tenant that you're updating.
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateDistributionWithStagingConfigRequest: AWSEncodableShape {
+        /// The identifier of the primary distribution to which you are copying a staging distribution's configuration.
+        public let id: String
+        /// The current versions (ETag values) of both primary and staging distributions. Provide these in the following format:  &lt;primary ETag&gt;, &lt;staging ETag&gt;
         public let ifMatch: String?
         /// The identifier of the staging distribution whose configuration you are copying to the primary distribution.
         public let stagingDistributionId: String?
@@ -10138,14 +10682,71 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateDomainAssociationRequest: AWSEncodableShape {
+        /// The domain to update.
+        public let domain: String
+        /// The value of the ETag identifier for the distribution or distribution tenant that will be associated with the domain.
+        public let ifMatch: String?
+        /// The target distribution resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
+        public let targetResource: DistributionResourceId
+
+        @inlinable
+        public init(domain: String, ifMatch: String? = nil, targetResource: DistributionResourceId) {
+            self.domain = domain
+            self.ifMatch = ifMatch
+            self.targetResource = targetResource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.domain, forKey: .domain)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.targetResource, forKey: .targetResource)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case targetResource = "TargetResource"
+        }
+    }
+
+    public struct UpdateDomainAssociationResult: AWSDecodableShape {
+        /// The domain that you're moving.
+        public let domain: String?
+        /// The current version of the target distribution or distribution tenant that was associated with the domain.
+        public let eTag: String?
+        /// The intended destination for the domain.
+        public let resourceId: String?
+
+        @inlinable
+        public init(domain: String? = nil, eTag: String? = nil, resourceId: String? = nil) {
+            self.domain = domain
+            self.eTag = eTag
+            self.resourceId = resourceId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.domain = try container.decodeIfPresent(String.self, forKey: .domain)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.resourceId = try container.decodeIfPresent(String.self, forKey: .resourceId)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct UpdateFieldLevelEncryptionConfigRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "FieldLevelEncryptionConfig"
         /// Request to update a field-level encryption configuration.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
         /// The ID of the configuration you want to update.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the
-        /// 			configuration identity to update. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -10167,8 +10768,7 @@ extension CloudFront {
     }
 
     public struct UpdateFieldLevelEncryptionConfigResult: AWSDecodableShape {
-        /// The value of the ETag header that you received when updating the
-        /// 			configuration. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when updating the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the results of updating the configuration.
         public let fieldLevelEncryption: FieldLevelEncryption
@@ -10195,8 +10795,7 @@ extension CloudFront {
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
         /// The ID of the field-level encryption profile request.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the
-        /// 			profile identity to update. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
         @inlinable
@@ -10240,14 +10839,11 @@ extension CloudFront {
     }
 
     public struct UpdateFunctionRequest: AWSEncodableShape {
-        /// The function code. For more information about writing a CloudFront function, see Writing
-        /// 				function code for CloudFront Functions in the
-        /// 			Amazon CloudFront Developer Guide.
+        /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide.
         public let functionCode: AWSBase64Data
         /// Configuration information about the function.
         public let functionConfig: FunctionConfig
-        /// The current version (ETag value) of the function that you are updating,
-        /// 			which you can get using DescribeFunction.
+        /// The current version (ETag value) of the function that you are updating, which you can get using DescribeFunction.
         public let ifMatch: String
         /// The name of the function that you are updating.
         public let name: String
@@ -10307,8 +10903,7 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "KeyGroupConfig"
         /// The identifier of the key group that you are updating.
         public let id: String
-        /// The version of the key group that you are updating. The version is the key group's
-        /// 				ETag value.
+        /// The version of the key group that you are updating. The version is the key group's ETag value.
         public let ifMatch: String?
         /// The key group configuration.
         public let keyGroupConfig: KeyGroupConfig
@@ -10414,8 +11009,7 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "OriginAccessControlConfig"
         /// The unique identifier of the origin access control that you are updating.
         public let id: String
-        /// The current version (ETag value) of the origin access control that you
-        /// 			are updating.
+        /// The current version (ETag value) of the origin access control that you are updating.
         public let ifMatch: String?
         /// An origin access control.
         public let originAccessControlConfig: OriginAccessControlConfig
@@ -10462,13 +11056,9 @@ extension CloudFront {
 
     public struct UpdateOriginRequestPolicyRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "OriginRequestPolicyConfig"
-        /// The unique identifier for the origin request policy that you are updating. The
-        /// 			identifier is returned in a cache behavior's OriginRequestPolicyId field in
-        /// 			the response to GetDistributionConfig.
+        /// The unique identifier for the origin request policy that you are updating. The identifier is returned in a cache behavior's OriginRequestPolicyId field in the response to GetDistributionConfig.
         public let id: String
-        /// The version of the origin request policy that you are updating. The version is
-        /// 			returned in the origin request policy's ETag field in the response to
-        /// 				GetOriginRequestPolicyConfig.
+        /// The version of the origin request policy that you are updating. The version is returned in the origin request policy's ETag field in the response to GetOriginRequestPolicyConfig.
         public let ifMatch: String?
         /// An origin request policy configuration.
         public let originRequestPolicyConfig: OriginRequestPolicyConfig
@@ -10517,8 +11107,7 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "PublicKeyConfig"
         /// The identifier of the public key that you are updating.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the public
-        /// 			key to update. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
         /// A public key configuration.
         public let publicKeyConfig: PublicKeyConfig
@@ -10568,19 +11157,15 @@ extension CloudFront {
 
         /// The Amazon Resource Name (ARN) for this real-time log configuration.
         public let arn: String?
-        /// Contains information about the Amazon Kinesis data stream where you are sending real-time
-        /// 			log data.
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
         @OptionalCustomCoding<StandardArrayCoder<EndPoint>>
         public var endPoints: [EndPoint]?
-        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the
-        /// 				Amazon CloudFront Developer Guide.
+        /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
         @OptionalCustomCoding<ArrayCoder<_FieldsEncoding, String>>
         public var fields: [String]?
         /// The name for this real-time log configuration.
         public let name: String?
-        /// The sampling rate for this real-time log configuration. The sampling rate determines
-        /// 			the percentage of viewer requests that are represented in the real-time log data. You
-        /// 			must provide an integer between 1 and 100, inclusive.
+        /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
         public let samplingRate: Int64?
 
         @inlinable
@@ -10619,8 +11204,7 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "ResponseHeadersPolicyConfig"
         /// The identifier for the response headers policy that you are updating.
         public let id: String
-        /// The version of the response headers policy that you are updating. The version is returned in the cache policy's ETag field in the response
-        /// 			to GetResponseHeadersPolicyConfig.
+        /// The version of the response headers policy that you are updating. The version is returned in the cache policy's ETag field in the response to GetResponseHeadersPolicyConfig.
         public let ifMatch: String?
         /// A response headers policy configuration.
         public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
@@ -10673,8 +11257,7 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "StreamingDistributionConfig"
         /// The streaming distribution's id.
         public let id: String
-        /// The value of the ETag header that you received when retrieving the
-        /// 			streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
@@ -10698,8 +11281,7 @@ extension CloudFront {
     }
 
     public struct UpdateStreamingDistributionResult: AWSDecodableShape {
-        /// The current version of the configuration. For example:
-        /// 			E2QWRUHAPOMQZL.
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
@@ -10769,51 +11351,77 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ValidationTokenDetail: AWSDecodableShape {
+        /// The domain name.
+        public let domain: String
+        /// The domain to redirect from.
+        public let redirectFrom: String?
+        /// The domain to redirect to.
+        public let redirectTo: String?
+
+        @inlinable
+        public init(domain: String, redirectFrom: String? = nil, redirectTo: String? = nil) {
+            self.domain = domain
+            self.redirectFrom = redirectFrom
+            self.redirectTo = redirectTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case redirectFrom = "RedirectFrom"
+            case redirectTo = "RedirectTo"
+        }
+    }
+
+    public struct VerifyDnsConfigurationRequest: AWSEncodableShape {
+        /// The domain name that you're verifying.
+        public let domain: String?
+        /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+        public let identifier: String
+
+        @inlinable
+        public init(domain: String? = nil, identifier: String) {
+            self.domain = domain
+            self.identifier = identifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct VerifyDnsConfigurationResult: AWSDecodableShape {
+        public struct _DnsConfigurationListEncoding: ArrayCoderProperties { public static let member = "DnsConfiguration" }
+
+        /// The list of domain names, their statuses, and a description of each status.
+        @OptionalCustomCoding<ArrayCoder<_DnsConfigurationListEncoding, DnsConfiguration>>
+        public var dnsConfigurationList: [DnsConfiguration]?
+
+        @inlinable
+        public init(dnsConfigurationList: [DnsConfiguration]? = nil) {
+            self.dnsConfigurationList = dnsConfigurationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsConfigurationList = "DnsConfigurationList"
+        }
+    }
+
     public struct ViewerCertificate: AWSEncodableShape & AWSDecodableShape {
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and
-        /// 			the SSL/TLS certificate is stored in Certificate Manager (ACM), provide the Amazon Resource Name
-        /// 			(ARN) of the ACM certificate. CloudFront only supports ACM certificates in the US East
-        /// 			(N. Virginia) Region (us-east-1). If you specify an ACM certificate ARN, you must also specify values for
-        /// 				MinimumProtocolVersion and SSLSupportMethod.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in Certificate Manager (ACM), provide the Amazon Resource Name (ARN) of the ACM certificate. CloudFront only supports ACM certificates in the US East (N. Virginia) Region (us-east-1). If you specify an ACM certificate ARN, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
         public let acmCertificateArn: String?
         /// This field is deprecated. Use one of the following fields instead:    ACMCertificateArn     IAMCertificateId     CloudFrontDefaultCertificate
         public let certificate: String?
         /// This field is deprecated. Use one of the following fields instead:    ACMCertificateArn     IAMCertificateId     CloudFrontDefaultCertificate
         public let certificateSource: CertificateSource?
-        /// If the distribution uses the CloudFront domain name such as
-        /// 				d111111abcdef8.cloudfront.net, set this field to
-        /// 			true. If the distribution uses Aliases (alternate domain names or CNAMEs), set
-        /// 			this field to false and specify values for the following fields:    ACMCertificateArn or IAMCertificateId (specify a
-        /// 					value for one, not both)    MinimumProtocolVersion     SSLSupportMethod
+        /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, set this field to true. If the distribution uses Aliases (alternate domain names or CNAMEs), set this field to false and specify values for the following fields:    ACMCertificateArn or IAMCertificateId (specify a value for one, not both)    MinimumProtocolVersion     SSLSupportMethod
         public let cloudFrontDefaultCertificate: Bool?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and
-        /// 			the SSL/TLS certificate is stored in Identity and Access Management (IAM), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for
-        /// 				MinimumProtocolVersion and SSLSupportMethod.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in Identity and Access Management (IAM), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
         public let iamCertificateId: String?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs),
-        /// 			specify the security policy that you want CloudFront to use for HTTPS connections with
-        /// 			viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with
-        /// 					viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to
-        /// 					viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and
-        /// 				CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security
-        /// 					Policy.  When you're using SNI only (you set SSLSupportMethod to
-        /// 				sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as
-        /// 				d111111abcdef8.cloudfront.net (you set
-        /// 				CloudFrontDefaultCertificate to true), CloudFront automatically
-        /// 			sets the security policy to TLSv1 regardless of the value that you set
-        /// 			here.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you're using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public let minimumProtocolVersion: MinimumProtocolVersion?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs),
-        /// 			specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only
-        /// 					viewers that support server name
-        /// 						indication (SNI). This is recommended. Most browsers and clients
-        /// 					support SNI.    vip – The distribution accepts HTTPS connections from all viewers
-        /// 					including those that don't support SNI. This is not recommended, and results in
-        /// 					additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution
-        /// 					has been enabled for this feature by the CloudFront team. If you have a use case
-        /// 					that requires static IP addresses for a distribution, contact CloudFront through
-        /// 					the Amazon Web ServicesSupport Center.   If the distribution uses the CloudFront domain name such as
-        /// 				d111111abcdef8.cloudfront.net, don't set a value for this field.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the Amazon Web ServicesSupport Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
         public let sslSupportMethod: SSLSupportMethod?
 
         @inlinable
@@ -10885,16 +11493,9 @@ extension CloudFront {
     }
 
     public struct VpcOriginConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The
-        /// 			minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't
-        /// 			specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the
-        /// 			Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is
-        /// 			also known as the origin response timeout. The minimum timeout is 1
-        /// 			second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is
-        /// 			30 seconds. For more information, see Response timeout (custom origins only) in the
-        /// 			Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
         /// The VPC origin ID.
         public let vpcOriginId: String
@@ -10949,10 +11550,7 @@ extension CloudFront {
     public struct VpcOriginList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "VpcOriginSummary" }
 
-        /// A flag that indicates whether more VPC origins remain to be listed. If
-        /// 			your results were truncated, you can make a follow-up pagination request using the
-        /// 			Marker request parameter to retrieve more VPC origins in the
-        /// 			list.
+        /// A flag that indicates whether more VPC origins remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more VPC origins in the list.
         public let isTruncated: Bool
         /// The items of the VPC origins list.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, VpcOriginSummary>>
@@ -11023,6 +11621,24 @@ extension CloudFront {
             case status = "Status"
         }
     }
+
+    public struct WebAclCustomization: AWSEncodableShape & AWSDecodableShape {
+        /// The action for the WAF web ACL customization. You can specify override to specify a separate WAF web ACL for the distribution tenant. If you specify disable, the distribution tenant won't have WAF web ACL protections and won't inherit from the multi-tenant distribution.
+        public let action: CustomizationActionType
+        /// The Amazon Resource Name (ARN) of the WAF web ACL.
+        public let arn: String?
+
+        @inlinable
+        public init(action: CustomizationActionType, arn: String? = nil) {
+            self.action = action
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case arn = "Arn"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -11062,6 +11678,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case illegalUpdate = "IllegalUpdate"
         case inconsistentQuantities = "InconsistentQuantities"
         case invalidArgument = "InvalidArgument"
+        case invalidAssociation = "InvalidAssociation"
         case invalidDefaultRootObject = "InvalidDefaultRootObject"
         case invalidDomainNameForOriginAccessControl = "InvalidDomainNameForOriginAccessControl"
         case invalidErrorCode = "InvalidErrorCode"
@@ -11119,6 +11736,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case realtimeLogConfigInUse = "RealtimeLogConfigInUse"
         case realtimeLogConfigOwnerMismatch = "RealtimeLogConfigOwnerMismatch"
         case resourceInUse = "ResourceInUse"
+        case resourceNotDisabled = "ResourceNotDisabled"
         case responseHeadersPolicyAlreadyExists = "ResponseHeadersPolicyAlreadyExists"
         case responseHeadersPolicyInUse = "ResponseHeadersPolicyInUse"
         case stagingDistributionInUse = "StagingDistributionInUse"
@@ -11204,11 +11822,9 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var accessDenied: Self { .init(.accessDenied) }
     /// Invalidation batch specified is too large.
     public static var batchTooLarge: Self { .init(.batchTooLarge) }
-    /// A cache policy with this name already exists. You must provide a unique name. To
-    /// 			modify an existing cache policy, use UpdateCachePolicy.
+    /// A cache policy with this name already exists. You must provide a unique name. To modify an existing cache policy, use UpdateCachePolicy.
     public static var cachePolicyAlreadyExists: Self { .init(.cachePolicyAlreadyExists) }
-    /// Cannot delete the cache policy because it is attached to one or more cache
-    /// 			behaviors.
+    /// Cannot delete the cache policy because it is attached to one or more cache behaviors.
     public static var cachePolicyInUse: Self { .init(.cachePolicyInUse) }
     /// You can't change the value of a public key.
     public static var cannotChangeImmutablePublicKeyFields: Self { .init(.cannotChangeImmutablePublicKeyFields) }
@@ -11216,11 +11832,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var cannotDeleteEntityWhileInUse: Self { .init(.cannotDeleteEntityWhileInUse) }
     /// The entity cannot be updated while it is in use.
     public static var cannotUpdateEntityWhileInUse: Self { .init(.cannotUpdateEntityWhileInUse) }
-    /// If the CallerReference is a value you already sent in a previous request
-    /// 			to create an identity but the content of the
-    /// 				CloudFrontOriginAccessIdentityConfig is different from the original
-    /// 			request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
-    ///
+    /// If the CallerReference is a value you already sent in a previous request to create an identity but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
     public static var cloudFrontOriginAccessIdentityAlreadyExists: Self { .init(.cloudFrontOriginAccessIdentityAlreadyExists) }
     /// The Origin Access Identity specified is already in use.
     public static var cloudFrontOriginAccessIdentityInUse: Self { .init(.cloudFrontOriginAccessIdentityInUse) }
@@ -11228,17 +11840,13 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var cnameAlreadyExists: Self { .init(.cnameAlreadyExists) }
     /// A continuous deployment policy with this configuration already exists.
     public static var continuousDeploymentPolicyAlreadyExists: Self { .init(.continuousDeploymentPolicyAlreadyExists) }
-    /// You cannot delete a continuous deployment policy that is associated with a primary
-    /// 			distribution.
+    /// You cannot delete a continuous deployment policy that is associated with a primary distribution.
     public static var continuousDeploymentPolicyInUse: Self { .init(.continuousDeploymentPolicyInUse) }
-    /// The caller reference you attempted to create the distribution with is associated with
-    /// 			another distribution.
+    /// The caller reference you attempted to create the distribution with is associated with another distribution.
     public static var distributionAlreadyExists: Self { .init(.distributionAlreadyExists) }
-    /// The specified CloudFront distribution is not disabled. You must disable the distribution
-    /// 			before you can delete it.
+    /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
     public static var distributionNotDisabled: Self { .init(.distributionNotDisabled) }
-    /// The entity already exists. You must provide a unique
-    /// 			entity.
+    /// The entity already exists. You must provide a unique entity.
     public static var entityAlreadyExists: Self { .init(.entityAlreadyExists) }
     /// The entity limit has been exceeded.
     public static var entityLimitExceeded: Self { .init(.entityLimitExceeded) }
@@ -11256,41 +11864,33 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var fieldLevelEncryptionProfileInUse: Self { .init(.fieldLevelEncryptionProfileInUse) }
     /// The maximum size of a profile for field-level encryption was exceeded.
     public static var fieldLevelEncryptionProfileSizeExceeded: Self { .init(.fieldLevelEncryptionProfileSizeExceeded) }
-    /// A function with the same name already exists in this Amazon Web Services account. To create a
-    /// 			function, you must provide a unique name. To update an existing function, use
-    /// 				UpdateFunction.
+    /// A function with the same name already exists in this Amazon Web Services account. To create a function, you must provide a unique name. To update an existing function, use UpdateFunction.
     public static var functionAlreadyExists: Self { .init(.functionAlreadyExists) }
-    /// Cannot delete the function because it's attached to one or more cache
-    /// 			behaviors.
+    /// Cannot delete the function because it's attached to one or more cache behaviors.
     public static var functionInUse: Self { .init(.functionInUse) }
-    /// The function is too large. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The function is too large. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var functionSizeLimitExceeded: Self { .init(.functionSizeLimitExceeded) }
     /// Deletion is not allowed for this entity.
     public static var illegalDelete: Self { .init(.illegalDelete) }
-    /// The specified configuration for field-level encryption can't be associated with the
-    /// 			specified cache behavior.
+    /// The specified configuration for field-level encryption can't be associated with the specified cache behavior.
     public static var illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: Self { .init(.illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior) }
-    /// An origin cannot contain both an origin access control (OAC) and an origin access
-    /// 			identity (OAI).
+    /// An origin cannot contain both an origin access control (OAC) and an origin access identity (OAI).
     public static var illegalOriginAccessConfiguration: Self { .init(.illegalOriginAccessConfiguration) }
     /// The update contains modifications that are not allowed.
     public static var illegalUpdate: Self { .init(.illegalUpdate) }
-    /// The value of Quantity and the size of Items don't
-    /// 			match.
+    /// The value of Quantity and the size of Items don't match.
     public static var inconsistentQuantities: Self { .init(.inconsistentQuantities) }
     /// An argument is invalid.
     public static var invalidArgument: Self { .init(.invalidArgument) }
+    /// The specified CloudFront resource can't be associated.
+    public static var invalidAssociation: Self { .init(.invalidAssociation) }
     /// The default root object file name is too big or contains an invalid character.
     public static var invalidDefaultRootObject: Self { .init(.invalidDefaultRootObject) }
-    /// An origin access control is associated with an origin whose domain name is not
-    /// 			supported.
+    /// An origin access control is associated with an origin whose domain name is not supported.
     public static var invalidDomainNameForOriginAccessControl: Self { .init(.invalidDomainNameForOriginAccessControl) }
     /// An invalid error code was specified.
     public static var invalidErrorCode: Self { .init(.invalidErrorCode) }
-    /// Your request contains forward cookies option which doesn't match with the expectation
-    /// 			for the whitelisted list of cookie names. Either list of cookie names has
-    /// 			been specified when not allowed or list of cookie names is missing when expected.
+    /// Your request contains forward cookies option which doesn't match with the expectation for the whitelisted list of cookie names. Either list of cookie names has been specified when not allowed or list of cookie names is missing when expected.
     public static var invalidForwardCookies: Self { .init(.invalidForwardCookies) }
     /// A CloudFront function association is invalid.
     public static var invalidFunctionAssociation: Self { .init(.invalidFunctionAssociation) }
@@ -11316,17 +11916,13 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var invalidOriginKeepaliveTimeout: Self { .init(.invalidOriginKeepaliveTimeout) }
     /// The read timeout specified for the origin is not valid.
     public static var invalidOriginReadTimeout: Self { .init(.invalidOriginReadTimeout) }
-    /// You cannot specify SSLv3 as the minimum protocol version if you only want to support
-    /// 			only clients that support Server Name Indication (SNI).
+    /// You cannot specify SSLv3 as the minimum protocol version if you only want to support only clients that support Server Name Indication (SNI).
     public static var invalidProtocolSettings: Self { .init(.invalidProtocolSettings) }
     /// The query string parameters specified are not valid.
     public static var invalidQueryStringParameters: Self { .init(.invalidQueryStringParameters) }
-    /// The relative path is too big, is not URL-encoded, or does not begin with a slash
-    /// 			(/).
+    /// The relative path is too big, is not URL-encoded, or does not begin with a slash (/).
     public static var invalidRelativePath: Self { .init(.invalidRelativePath) }
-    /// This operation requires the HTTPS protocol. Ensure that you specify the HTTPS protocol
-    /// 			in your request, or omit the RequiredProtocols element from your
-    /// 			distribution configuration.
+    /// This operation requires the HTTPS protocol. Ensure that you specify the HTTPS protocol in your request, or omit the RequiredProtocols element from your distribution configuration.
     public static var invalidRequiredProtocol: Self { .init(.invalidRequiredProtocol) }
     /// A response code is not valid.
     public static var invalidResponseCode: Self { .init(.invalidResponseCode) }
@@ -11336,17 +11932,11 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var invalidTagging: Self { .init(.invalidTagging) }
     /// A viewer certificate specified is not valid.
     public static var invalidViewerCertificate: Self { .init(.invalidViewerCertificate) }
-    /// A web ACL ID specified is not valid. To specify a web ACL created using the latest
-    /// 			version of WAF, use the ACL ARN, for example
-    /// 				arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a.
-    /// 			To specify a web ACL created using WAF Classic, use the ACL ID, for example
-    /// 				473e64fd-f30b-4765-81a0-62ad96dd167a.
+    /// A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
     public static var invalidWebACLId: Self { .init(.invalidWebACLId) }
-    /// A key group with this name already exists. You must provide a unique name. To modify
-    /// 			an existing key group, use UpdateKeyGroup.
+    /// A key group with this name already exists. You must provide a unique name. To modify an existing key group, use UpdateKeyGroup.
     public static var keyGroupAlreadyExists: Self { .init(.keyGroupAlreadyExists) }
-    /// This operation requires a body. Ensure that the body is present and the
-    /// 				Content-Type header is set.
+    /// This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     public static var missingBody: Self { .init(.missingBody) }
     /// A monitoring subscription already exists for the specified distribution.
     public static var monitoringSubscriptionAlreadyExists: Self { .init(.monitoringSubscriptionAlreadyExists) }
@@ -11386,18 +11976,13 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchStreamingDistribution: Self { .init(.noSuchStreamingDistribution) }
     /// An origin access control with the specified parameters already exists.
     public static var originAccessControlAlreadyExists: Self { .init(.originAccessControlAlreadyExists) }
-    /// Cannot delete the origin access control because it's in use by one or more
-    /// 			distributions.
+    /// Cannot delete the origin access control because it's in use by one or more distributions.
     public static var originAccessControlInUse: Self { .init(.originAccessControlInUse) }
-    /// An origin request policy with this name already exists. You must provide a unique
-    /// 			name. To modify an existing origin request policy, use
-    /// 				UpdateOriginRequestPolicy.
+    /// An origin request policy with this name already exists. You must provide a unique name. To modify an existing origin request policy, use UpdateOriginRequestPolicy.
     public static var originRequestPolicyAlreadyExists: Self { .init(.originRequestPolicyAlreadyExists) }
-    /// Cannot delete the origin request policy because it is attached to one or more cache
-    /// 			behaviors.
+    /// Cannot delete the origin request policy because it is attached to one or more cache behaviors.
     public static var originRequestPolicyInUse: Self { .init(.originRequestPolicyInUse) }
-    /// The precondition in one or more of the request fields evaluated to
-    /// 			false.
+    /// The precondition in one or more of the request fields evaluated to false.
     public static var preconditionFailed: Self { .init(.preconditionFailed) }
     /// The specified public key already exists.
     public static var publicKeyAlreadyExists: Self { .init(.publicKeyAlreadyExists) }
@@ -11405,202 +11990,129 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var publicKeyInUse: Self { .init(.publicKeyInUse) }
     /// No profile specified for the field-level encryption query argument.
     public static var queryArgProfileEmpty: Self { .init(.queryArgProfileEmpty) }
-    /// A real-time log configuration with this name already exists. You must provide a unique
-    /// 			name. To modify an existing real-time log configuration, use
-    /// 				UpdateRealtimeLogConfig.
+    /// A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
     public static var realtimeLogConfigAlreadyExists: Self { .init(.realtimeLogConfigAlreadyExists) }
-    /// Cannot delete the real-time log configuration because it is attached to one or more
-    /// 			cache behaviors.
+    /// Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
     public static var realtimeLogConfigInUse: Self { .init(.realtimeLogConfigInUse) }
     /// The specified real-time log configuration belongs to a different Amazon Web Services account.
     public static var realtimeLogConfigOwnerMismatch: Self { .init(.realtimeLogConfigOwnerMismatch) }
     /// Cannot delete this resource because it is in use.
     public static var resourceInUse: Self { .init(.resourceInUse) }
-    /// A response headers policy with this name already exists. You must provide a unique
-    /// 			name. To modify an existing response headers policy, use
-    /// 				UpdateResponseHeadersPolicy.
+    /// The specified CloudFront resource hasn't been disabled yet.
+    public static var resourceNotDisabled: Self { .init(.resourceNotDisabled) }
+    /// A response headers policy with this name already exists. You must provide a unique name. To modify an existing response headers policy, use UpdateResponseHeadersPolicy.
     public static var responseHeadersPolicyAlreadyExists: Self { .init(.responseHeadersPolicyAlreadyExists) }
-    /// Cannot delete the response headers policy because it is attached to one or more cache
-    /// 			behaviors in a CloudFront distribution.
+    /// Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
     public static var responseHeadersPolicyInUse: Self { .init(.responseHeadersPolicyInUse) }
     /// A continuous deployment policy for this staging distribution already exists.
     public static var stagingDistributionInUse: Self { .init(.stagingDistributionInUse) }
-    /// The caller reference you attempted to create the streaming distribution with is
-    /// 			associated with another distribution
+    /// The caller reference you attempted to create the streaming distribution with is associated with another distribution
     public static var streamingDistributionAlreadyExists: Self { .init(.streamingDistributionAlreadyExists) }
-    /// The specified CloudFront distribution is not disabled. You must disable the distribution
-    /// 			before you can delete it.
+    /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
     public static var streamingDistributionNotDisabled: Self { .init(.streamingDistributionNotDisabled) }
     /// The CloudFront function failed.
     public static var testFunctionFailed: Self { .init(.testFunctionFailed) }
-    /// The length of the Content-Security-Policy header value in the response
-    /// 			headers policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The length of the Content-Security-Policy header value in the response headers policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooLongCSPInResponseHeadersPolicy: Self { .init(.tooLongCSPInResponseHeadersPolicy) }
     /// You cannot create more cache behaviors for the distribution.
     public static var tooManyCacheBehaviors: Self { .init(.tooManyCacheBehaviors) }
-    /// You have reached the maximum number of cache policies for this Amazon Web Services account. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of cache policies for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCachePolicies: Self { .init(.tooManyCachePolicies) }
     /// You cannot create anymore custom SSL/TLS certificates.
     public static var tooManyCertificates: Self { .init(.tooManyCertificates) }
-    /// Processing your request would cause you to exceed the maximum number of origin access
-    /// 			identities allowed.
+    /// Processing your request would cause you to exceed the maximum number of origin access identities allowed.
     public static var tooManyCloudFrontOriginAccessIdentities: Self { .init(.tooManyCloudFrontOriginAccessIdentities) }
-    /// You have reached the maximum number of continuous deployment policies for this
-    /// 			Amazon Web Services account.
+    /// You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
     public static var tooManyContinuousDeploymentPolicies: Self { .init(.tooManyContinuousDeploymentPolicies) }
-    /// Your request contains more cookie names in the whitelist than are allowed per cache
-    /// 			behavior.
+    /// Your request contains more cookie names in the whitelist than are allowed per cache behavior.
     public static var tooManyCookieNamesInWhiteList: Self { .init(.tooManyCookieNamesInWhiteList) }
-    /// The number of cookies in the cache policy exceeds the maximum. For more information,
-    /// 			see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of cookies in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCookiesInCachePolicy: Self { .init(.tooManyCookiesInCachePolicy) }
-    /// The number of cookies in the origin request policy exceeds the maximum. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of cookies in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCookiesInOriginRequestPolicy: Self { .init(.tooManyCookiesInOriginRequestPolicy) }
-    /// The number of custom headers in the response headers policy exceeds the
-    /// 			maximum. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of custom headers in the response headers policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCustomHeadersInResponseHeadersPolicy: Self { .init(.tooManyCustomHeadersInResponseHeadersPolicy) }
     /// Your request contains more CNAMEs than are allowed per distribution.
     public static var tooManyDistributionCNAMEs: Self { .init(.tooManyDistributionCNAMEs) }
-    /// Processing your request would cause you to exceed the maximum number of distributions
-    /// 			allowed.
+    /// Processing your request would cause you to exceed the maximum number of distributions allowed.
     public static var tooManyDistributions: Self { .init(.tooManyDistributions) }
-    /// The maximum number of distributions have been associated with the specified cache
-    /// 			policy. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The maximum number of distributions have been associated with the specified cache policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToCachePolicy: Self { .init(.tooManyDistributionsAssociatedToCachePolicy) }
-    /// The maximum number of distributions have been associated with the specified
-    /// 			configuration for field-level encryption.
+    /// The maximum number of distributions have been associated with the specified configuration for field-level encryption.
     public static var tooManyDistributionsAssociatedToFieldLevelEncryptionConfig: Self { .init(.tooManyDistributionsAssociatedToFieldLevelEncryptionConfig) }
-    /// The number of distributions that reference this key group is more than the maximum
-    /// 			allowed. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of distributions that reference this key group is more than the maximum allowed. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToKeyGroup: Self { .init(.tooManyDistributionsAssociatedToKeyGroup) }
-    /// The maximum number of distributions have been associated with the specified origin
-    /// 			access control. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The maximum number of distributions have been associated with the specified origin access control. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToOriginAccessControl: Self { .init(.tooManyDistributionsAssociatedToOriginAccessControl) }
-    /// The maximum number of distributions have been associated with the specified origin
-    /// 			request policy. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The maximum number of distributions have been associated with the specified origin request policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToOriginRequestPolicy: Self { .init(.tooManyDistributionsAssociatedToOriginRequestPolicy) }
-    /// The maximum number of distributions have been associated with the specified response
-    /// 			headers policy. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The maximum number of distributions have been associated with the specified response headers policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToResponseHeadersPolicy: Self { .init(.tooManyDistributionsAssociatedToResponseHeadersPolicy) }
-    /// You have reached the maximum number of distributions that are associated with a CloudFront
-    /// 			function. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of distributions that are associated with a CloudFront function. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsWithFunctionAssociations: Self { .init(.tooManyDistributionsWithFunctionAssociations) }
-    /// Processing your request would cause the maximum number of distributions with
-    /// 			Lambda@Edge function associations per owner to be exceeded.
+    /// Processing your request would cause the maximum number of distributions with Lambda@Edge function associations per owner to be exceeded.
     public static var tooManyDistributionsWithLambdaAssociations: Self { .init(.tooManyDistributionsWithLambdaAssociations) }
-    /// The maximum number of distributions have been associated with the specified
-    /// 			Lambda@Edge function.
+    /// The maximum number of distributions have been associated with the specified Lambda@Edge function.
     public static var tooManyDistributionsWithSingleFunctionARN: Self { .init(.tooManyDistributionsWithSingleFunctionARN) }
-    /// The maximum number of configurations for field-level encryption have been
-    /// 			created.
+    /// The maximum number of configurations for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionConfigs: Self { .init(.tooManyFieldLevelEncryptionConfigs) }
-    /// The maximum number of content type profiles for field-level encryption have been
-    /// 			created.
+    /// The maximum number of content type profiles for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionContentTypeProfiles: Self { .init(.tooManyFieldLevelEncryptionContentTypeProfiles) }
-    /// The maximum number of encryption entities for field-level encryption have been
-    /// 			created.
+    /// The maximum number of encryption entities for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionEncryptionEntities: Self { .init(.tooManyFieldLevelEncryptionEncryptionEntities) }
-    /// The maximum number of field patterns for field-level encryption have been
-    /// 			created.
+    /// The maximum number of field patterns for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionFieldPatterns: Self { .init(.tooManyFieldLevelEncryptionFieldPatterns) }
     /// The maximum number of profiles for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionProfiles: Self { .init(.tooManyFieldLevelEncryptionProfiles) }
-    /// The maximum number of query arg profiles for field-level encryption have been
-    /// 			created.
+    /// The maximum number of query arg profiles for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionQueryArgProfiles: Self { .init(.tooManyFieldLevelEncryptionQueryArgProfiles) }
-    /// You have reached the maximum number of CloudFront function associations for this
-    /// 			distribution. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of CloudFront function associations for this distribution. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyFunctionAssociations: Self { .init(.tooManyFunctionAssociations) }
-    /// You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyFunctions: Self { .init(.tooManyFunctions) }
-    /// The number of headers in the cache policy exceeds the maximum. For more information,
-    /// 			see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of headers in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyHeadersInCachePolicy: Self { .init(.tooManyHeadersInCachePolicy) }
     /// Your request contains too many headers in forwarded values.
     public static var tooManyHeadersInForwardedValues: Self { .init(.tooManyHeadersInForwardedValues) }
-    /// The number of headers in the origin request policy exceeds the maximum. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of headers in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyHeadersInOriginRequestPolicy: Self { .init(.tooManyHeadersInOriginRequestPolicy) }
-    /// You have exceeded the maximum number of allowable InProgress invalidation batch
-    /// 			requests, or invalidation objects.
+    /// You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
     public static var tooManyInvalidationsInProgress: Self { .init(.tooManyInvalidationsInProgress) }
-    /// You have reached the maximum number of key groups for this Amazon Web Services account. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyKeyGroups: Self { .init(.tooManyKeyGroups) }
-    /// The number of key groups referenced by this distribution is more than the maximum
-    /// 			allowed. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of key groups referenced by this distribution is more than the maximum allowed. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyKeyGroupsAssociatedToDistribution: Self { .init(.tooManyKeyGroupsAssociatedToDistribution) }
-    /// Your request contains more Lambda@Edge function associations than are allowed per
-    /// 			distribution.
+    /// Your request contains more Lambda@Edge function associations than are allowed per distribution.
     public static var tooManyLambdaFunctionAssociations: Self { .init(.tooManyLambdaFunctionAssociations) }
-    /// The number of origin access controls in your Amazon Web Services account exceeds the maximum
-    /// 			allowed. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyOriginAccessControls: Self { .init(.tooManyOriginAccessControls) }
     /// Your request contains too many origin custom headers.
     public static var tooManyOriginCustomHeaders: Self { .init(.tooManyOriginCustomHeaders) }
-    /// Processing your request would cause you to exceed the maximum number of origin groups
-    /// 			allowed.
+    /// Processing your request would cause you to exceed the maximum number of origin groups allowed.
     public static var tooManyOriginGroupsPerDistribution: Self { .init(.tooManyOriginGroupsPerDistribution) }
-    /// You have reached the maximum number of origin request policies for this Amazon Web Services account.
-    /// 			For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyOriginRequestPolicies: Self { .init(.tooManyOriginRequestPolicies) }
     /// You cannot create more origins for the distribution.
     public static var tooManyOrigins: Self { .init(.tooManyOrigins) }
-    /// The maximum number of public keys for field-level encryption have been created. To
-    /// 			create a new public key, delete one of the existing keys.
+    /// The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
     public static var tooManyPublicKeys: Self { .init(.tooManyPublicKeys) }
-    /// The number of public keys in this key group is more than the maximum allowed. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of public keys in this key group is more than the maximum allowed. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyPublicKeysInKeyGroup: Self { .init(.tooManyPublicKeysInKeyGroup) }
     /// Your request contains too many query string parameters.
     public static var tooManyQueryStringParameters: Self { .init(.tooManyQueryStringParameters) }
-    /// The number of query strings in the cache policy exceeds the maximum. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of query strings in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyQueryStringsInCachePolicy: Self { .init(.tooManyQueryStringsInCachePolicy) }
-    /// The number of query strings in the origin request policy exceeds the maximum. For more
-    /// 			information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// The number of query strings in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyQueryStringsInOriginRequestPolicy: Self { .init(.tooManyQueryStringsInOriginRequestPolicy) }
-    /// You have reached the maximum number of real-time log configurations for this
-    /// 			Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyRealtimeLogConfigs: Self { .init(.tooManyRealtimeLogConfigs) }
-    /// The number of headers in RemoveHeadersConfig in the response headers
-    /// 			policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the
-    /// 			Amazon CloudFront Developer Guide.
+    /// The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyRemoveHeadersInResponseHeadersPolicy: Self { .init(.tooManyRemoveHeadersInResponseHeadersPolicy) }
-    /// You have reached the maximum number of response headers policies for this
-    /// 			Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the
-    /// 				Amazon CloudFront Developer Guide.
+    /// You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyResponseHeadersPolicies: Self { .init(.tooManyResponseHeadersPolicies) }
     /// Your request contains more CNAMEs than are allowed per distribution.
     public static var tooManyStreamingDistributionCNAMEs: Self { .init(.tooManyStreamingDistributionCNAMEs) }
-    /// Processing your request would cause you to exceed the maximum number of streaming
-    /// 			distributions allowed.
+    /// Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
     public static var tooManyStreamingDistributions: Self { .init(.tooManyStreamingDistributions) }
     /// Your request contains more trusted signers than are allowed per distribution.
     public static var tooManyTrustedSigners: Self { .init(.tooManyTrustedSigners) }

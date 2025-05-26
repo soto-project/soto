@@ -3618,6 +3618,7 @@ public struct MediaLive: AWSService {
     /// Updates a channel.
     ///
     /// Parameters:
+    ///   - anywhereSettings: The Elemental Anywhere settings for this channel.
     ///   - cdiInputSpecification: Specification of CDI inputs for this channel
     ///   - channelEngineVersion: Channel engine version for this channel
     ///   - channelId: channel ID
@@ -3633,6 +3634,7 @@ public struct MediaLive: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateChannel(
+        anywhereSettings: AnywhereSettings? = nil,
         cdiInputSpecification: CdiInputSpecification? = nil,
         channelEngineVersion: ChannelEngineVersionRequest? = nil,
         channelId: String,
@@ -3648,6 +3650,7 @@ public struct MediaLive: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateChannelResponse {
         let input = UpdateChannelRequest(
+            anywhereSettings: anywhereSettings, 
             cdiInputSpecification: cdiInputSpecification, 
             channelEngineVersion: channelEngineVersion, 
             channelId: channelId, 

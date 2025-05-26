@@ -81,6 +81,43 @@ extension Budgets {
         public var description: String { return self.rawValue }
     }
 
+    public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case az = "AZ"
+        case billingEntity = "BILLING_ENTITY"
+        case cacheEngine = "CACHE_ENGINE"
+        case costCategoryName = "COST_CATEGORY_NAME"
+        case databaseEngine = "DATABASE_ENGINE"
+        case deploymentOption = "DEPLOYMENT_OPTION"
+        case instanceType = "INSTANCE_TYPE"
+        case instanceTypeFamily = "INSTANCE_TYPE_FAMILY"
+        case invoicingEntity = "INVOICING_ENTITY"
+        case legalEntityName = "LEGAL_ENTITY_NAME"
+        case linkedAccount = "LINKED_ACCOUNT"
+        case linkedAccountName = "LINKED_ACCOUNT_NAME"
+        case operatingSystem = "OPERATING_SYSTEM"
+        case operation = "OPERATION"
+        case paymentOption = "PAYMENT_OPTION"
+        case platform = "PLATFORM"
+        case purchaseType = "PURCHASE_TYPE"
+        case recordType = "RECORD_TYPE"
+        case region = "REGION"
+        case reservationId = "RESERVATION_ID"
+        case reservationModified = "RESERVATION_MODIFIED"
+        case resourceId = "RESOURCE_ID"
+        case rightsizingType = "RIGHTSIZING_TYPE"
+        case savingsPlanArn = "SAVINGS_PLAN_ARN"
+        case savingsPlansType = "SAVINGS_PLANS_TYPE"
+        case scope = "SCOPE"
+        case service = "SERVICE"
+        case serviceCode = "SERVICE_CODE"
+        case subscriptionId = "SUBSCRIPTION_ID"
+        case tagKey = "TAG_KEY"
+        case tenancy = "TENANCY"
+        case usageType = "USAGE_TYPE"
+        case usageTypeGroup = "USAGE_TYPE_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createAction = "CREATE_ACTION"
         case deleteAction = "DELETE_ACTION"
@@ -95,6 +132,30 @@ extension Budgets {
         case resetBudgetAction = "RESET_BUDGET_ACTION"
         case retryBudgetAction = "RETRY_BUDGET_ACTION"
         case reverseBudgetAction = "REVERSE_BUDGET_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MatchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case absent = "ABSENT"
+        case caseInsensitive = "CASE_INSENSITIVE"
+        case caseSensitive = "CASE_SENSITIVE"
+        case contains = "CONTAINS"
+        case endsWith = "ENDS_WITH"
+        case equals = "EQUALS"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case startsWith = "STARTS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Metric: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amortizedCost = "AmortizedCost"
+        case blendedCost = "BlendedCost"
+        case hours = "Hours"
+        case netAmortizedCost = "NetAmortizedCost"
+        case netUnblendedCost = "NetUnblendedCost"
+        case normalizedUsageAmount = "NormalizedUsageAmount"
+        case unblendedCost = "UnblendedCost"
+        case usageQuantity = "UsageQuantity"
         public var description: String { return self.rawValue }
     }
 
@@ -301,8 +362,12 @@ extension Budgets {
         /// 				SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE
         /// 			budgets do not have CostTypes.
         public let costTypes: CostTypes?
+        /// The filtering dimensions for the budget and their corresponding values.
+        public let filterExpression: Expression?
         /// The last time that you updated this budget.
         public let lastUpdatedTime: Date?
+        /// The definition for how the budget data is aggregated.
+        public let metrics: [Metric]?
         /// A map containing multiple BudgetLimit, including current or future
         /// 			limits.  PlannedBudgetLimits is available for cost or usage budget and supports
         /// 			both monthly and quarterly TimeUnit.  For monthly budgets, provide 12 months of PlannedBudgetLimits values.
@@ -323,7 +388,7 @@ extension Budgets {
         /// 				BudgetLimit. They don't contain
         /// 			PlannedBudgetLimits.
         public let plannedBudgetLimits: [String: Spend]?
-        /// The period of time that's covered by a budget. You setthe start date and end date. The
+        /// The period of time that's covered by a budget. You set the start date and end date. The
         /// 			start date must come before the end date. The end date must come before 06/15/87
         /// 				00:00 UTC.  If you create your budget and don't specify a start date, Amazon Web Services defaults
         /// 			to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For
@@ -338,7 +403,25 @@ extension Budgets {
         public let timeUnit: TimeUnit
 
         @inlinable
-        public init(autoAdjustData: AutoAdjustData? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, lastUpdatedTime: Date? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
+        public init(autoAdjustData: AutoAdjustData? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, filterExpression: Expression? = nil, lastUpdatedTime: Date? = nil, metrics: [Metric]? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
+            self.autoAdjustData = autoAdjustData
+            self.budgetLimit = budgetLimit
+            self.budgetName = budgetName
+            self.budgetType = budgetType
+            self.calculatedSpend = calculatedSpend
+            self.costFilters = nil
+            self.costTypes = nil
+            self.filterExpression = filterExpression
+            self.lastUpdatedTime = lastUpdatedTime
+            self.metrics = metrics
+            self.plannedBudgetLimits = plannedBudgetLimits
+            self.timePeriod = timePeriod
+            self.timeUnit = timeUnit
+        }
+
+        @available(*, deprecated, message: "Members costFilters, costTypes have been deprecated")
+        @inlinable
+        public init(autoAdjustData: AutoAdjustData? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, filterExpression: Expression? = nil, lastUpdatedTime: Date? = nil, metrics: [Metric]? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
             self.autoAdjustData = autoAdjustData
             self.budgetLimit = budgetLimit
             self.budgetName = budgetName
@@ -346,7 +429,9 @@ extension Budgets {
             self.calculatedSpend = calculatedSpend
             self.costFilters = costFilters
             self.costTypes = costTypes
+            self.filterExpression = filterExpression
             self.lastUpdatedTime = lastUpdatedTime
+            self.metrics = metrics
             self.plannedBudgetLimits = plannedBudgetLimits
             self.timePeriod = timePeriod
             self.timeUnit = timeUnit
@@ -363,6 +448,8 @@ extension Budgets {
                 try validate($0.key, name: "costFilters.key", parent: name, max: 2147483647)
                 try validate($0.key, name: "costFilters.key", parent: name, pattern: ".*")
             }
+            try self.filterExpression?.validate(name: "\(name).filterExpression")
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 1)
             try self.plannedBudgetLimits?.forEach {
                 try validate($0.key, name: "plannedBudgetLimits.key", parent: name, max: 2147483647)
                 try validate($0.key, name: "plannedBudgetLimits.key", parent: name, pattern: ".*")
@@ -378,7 +465,9 @@ extension Budgets {
             case calculatedSpend = "CalculatedSpend"
             case costFilters = "CostFilters"
             case costTypes = "CostTypes"
+            case filterExpression = "FilterExpression"
             case lastUpdatedTime = "LastUpdatedTime"
+            case metrics = "Metrics"
             case plannedBudgetLimits = "PlannedBudgetLimits"
             case timePeriod = "TimePeriod"
             case timeUnit = "TimeUnit"
@@ -476,6 +565,36 @@ extension Budgets {
         private enum CodingKeys: String, CodingKey {
             case actualSpend = "ActualSpend"
             case forecastedSpend = "ForecastedSpend"
+        }
+    }
+
+    public struct CostCategoryValues: AWSEncodableShape & AWSDecodableShape {
+        /// The unique name of the cost category.
+        public let key: String?
+        /// The match options that you can use to filter your results.
+        public let matchOptions: [MatchOption]?
+        /// The specific value of the cost category.
+        public let values: [String]?
+
+        @inlinable
+        public init(key: String? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case matchOptions = "MatchOptions"
+            case values = "Values"
         }
     }
 
@@ -1259,11 +1378,14 @@ extension Budgets {
         public let accountId: String
         /// The name of the budget that you want a description of.
         public let budgetName: String
+        /// Specifies whether the response includes the filter expression associated with the budget. By showing the filter expression, you can see detailed filtering logic applied to the budget, such as Amazon Web Services services or tags that are being tracked.
+        public let showFilterExpression: Bool?
 
         @inlinable
-        public init(accountId: String, budgetName: String) {
+        public init(accountId: String, budgetName: String, showFilterExpression: Bool? = nil) {
             self.accountId = accountId
             self.budgetName = budgetName
+            self.showFilterExpression = showFilterExpression
         }
 
         public func validate(name: String) throws {
@@ -1278,6 +1400,7 @@ extension Budgets {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case budgetName = "BudgetName"
+            case showFilterExpression = "ShowFilterExpression"
         }
     }
 
@@ -1302,12 +1425,15 @@ extension Budgets {
         public let maxResults: Int?
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
+        /// Specifies whether the response includes the filter expression associated with the budgets. By showing the filter expression, you can see detailed filtering logic applied to the budgets, such as Amazon Web Services services or tags that are being tracked.
+        public let showFilterExpression: Bool?
 
         @inlinable
-        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, showFilterExpression: Bool? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.showFilterExpression = showFilterExpression
         }
 
         public func validate(name: String) throws {
@@ -1324,6 +1450,7 @@ extension Budgets {
             case accountId = "AccountId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case showFilterExpression = "ShowFilterExpression"
         }
     }
 
@@ -1521,6 +1648,85 @@ extension Budgets {
             case actionId = "ActionId"
             case budgetName = "BudgetName"
             case executionType = "ExecutionType"
+        }
+    }
+
+    public final class Expression: AWSEncodableShape & AWSDecodableShape {
+        /// Return results that match both Dimension objects.
+        public let and: [Expression]?
+        /// The filter that's based on CostCategoryValues.
+        public let costCategories: CostCategoryValues?
+        /// The specific Dimension to use for Expression.
+        public let dimensions: ExpressionDimensionValues?
+        /// Return results that don't match a Dimension object.
+        public let not: Expression?
+        /// Return results that match either Dimension object.
+        public let or: [Expression]?
+        /// The specific Tag to use for Expression.
+        public let tags: TagValues?
+
+        @inlinable
+        public init(and: [Expression]? = nil, costCategories: CostCategoryValues? = nil, dimensions: ExpressionDimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
+            self.and = and
+            self.costCategories = costCategories
+            self.dimensions = dimensions
+            self.not = not
+            self.or = or
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.and?.forEach {
+                try $0.validate(name: "\(name).and[]")
+            }
+            try self.costCategories?.validate(name: "\(name).costCategories")
+            try self.dimensions?.validate(name: "\(name).dimensions")
+            try self.not?.validate(name: "\(name).not")
+            try self.or?.forEach {
+                try $0.validate(name: "\(name).or[]")
+            }
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "And"
+            case costCategories = "CostCategories"
+            case dimensions = "Dimensions"
+            case not = "Not"
+            case or = "Or"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ExpressionDimensionValues: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the dimension that you want to filter on.
+        public let key: Dimension
+        /// The match options that you can use to filter your results. You can specify only one of these
+        /// 			values in the array.
+        public let matchOptions: [MatchOption]?
+        /// The metadata values you can specify to filter upon, so that the results all match at least
+        /// 			one of the specified values.
+        public let values: [String]
+
+        @inlinable
+        public init(key: Dimension, matchOptions: [MatchOption]? = nil, values: [String]) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case matchOptions = "MatchOptions"
+            case values = "Values"
         }
     }
 
@@ -1898,6 +2104,38 @@ extension Budgets {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TagValues: AWSEncodableShape & AWSDecodableShape {
+        /// The key for the tag.
+        public let key: String?
+        /// The match options that you can use to filter your results.
+        public let matchOptions: [MatchOption]?
+        /// The specific value of the tag.
+        public let values: [String]?
+
+        @inlinable
+        public init(key: String? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\S\\s]*$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case matchOptions = "MatchOptions"
+            case values = "Values"
+        }
     }
 
     public struct TimePeriod: AWSEncodableShape & AWSDecodableShape {

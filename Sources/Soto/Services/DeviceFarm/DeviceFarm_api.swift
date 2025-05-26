@@ -857,6 +857,7 @@ public struct DeviceFarm: AWSService {
     ///   - appArn: The ARN of the app that is associated with the specified device pool.
     ///   - configuration: An object that contains information about the settings for a run.
     ///   - devicePoolArn: The device pool's ARN.
+    ///   - projectArn: The ARN of the project for which you want to check device pool compatibility.
     ///   - test: Information about the uploaded test to be run against the device pool.
     ///   - testType: The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ.   APPIUM_JAVA_JUNIT.   APPIUM_JAVA_TESTNG.   APPIUM_PYTHON.   APPIUM_NODE.   APPIUM_RUBY.   APPIUM_WEB_JAVA_JUNIT.   APPIUM_WEB_JAVA_TESTNG.   APPIUM_WEB_PYTHON.   APPIUM_WEB_NODE.   APPIUM_WEB_RUBY.   INSTRUMENTATION.   XCTEST.   XCTEST_UI.
     ///   - logger: Logger use during operation
@@ -865,6 +866,7 @@ public struct DeviceFarm: AWSService {
         appArn: String? = nil,
         configuration: ScheduleRunConfiguration? = nil,
         devicePoolArn: String,
+        projectArn: String? = nil,
         test: ScheduleRunTest? = nil,
         testType: TestType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -873,6 +875,7 @@ public struct DeviceFarm: AWSService {
             appArn: appArn, 
             configuration: configuration, 
             devicePoolArn: devicePoolArn, 
+            projectArn: projectArn, 
             test: test, 
             testType: testType
         )

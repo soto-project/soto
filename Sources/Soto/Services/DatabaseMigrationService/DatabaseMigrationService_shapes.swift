@@ -173,6 +173,12 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum MySQLAuthenticationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iam = "iam"
+        case password = "password"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NestingLevelValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "none"
         case one = "one"
@@ -201,6 +207,12 @@ extension DatabaseMigrationService {
         case noPreference = "no-preference"
         case pglogical = "pglogical"
         case testDecoding = "test-decoding"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PostgreSQLAuthenticationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iam = "iam"
+        case password = "password"
         public var description: String { return self.rawValue }
     }
 
@@ -2500,6 +2512,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case migrationProjectIdentifier = "MigrationProjectIdentifier"
         }
@@ -2929,6 +2945,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case marker = "Marker"
@@ -3209,6 +3229,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case marker = "Marker"
@@ -3251,6 +3275,10 @@ extension DatabaseMigrationService {
             self.marker = marker
             self.maxRecords = maxRecords
             self.migrationProjectIdentifier = migrationProjectIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3297,6 +3325,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case marker = "Marker"
@@ -3341,6 +3373,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case marker = "Marker"
@@ -3383,6 +3419,10 @@ extension DatabaseMigrationService {
             self.marker = marker
             self.maxRecords = maxRecords
             self.migrationProjectIdentifier = migrationProjectIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3531,7 +3571,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeRecommendationLimitationsRequest: AWSEncodableShape {
-        /// Filters applied to the limitations described in the form of key-value pairs.
+        /// Filters applied to the limitations described in the form of key-value pairs. Valid filter names: database-id | engine-name
         public let filters: [Filter]?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
@@ -3571,7 +3611,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeRecommendationsRequest: AWSEncodableShape {
-        /// Filters applied to the target engine recommendations described in the form of key-value pairs.
+        /// Filters applied to the target engine recommendations described in the form of key-value pairs. Valid filter names: database-id | engine-name
         public let filters: [Filter]?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
@@ -4019,7 +4059,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationsMessage: AWSEncodableShape {
-        /// Filters applied to the replications.
+        /// Filters applied to the replications. Valid filter names: replication-config-arn | replication-config-id
         public let filters: [Filter]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -4655,6 +4695,7 @@ extension DatabaseMigrationService {
 
         public func validate(name: String) throws {
             try self.validate(self.assessmentReportTypes, name: "assessmentReportTypes", parent: name, min: 1)
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5523,6 +5564,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case conversionConfiguration = "ConversionConfiguration"
             case migrationProjectIdentifier = "MigrationProjectIdentifier"
@@ -6357,6 +6402,8 @@ extension DatabaseMigrationService {
     public struct MySQLSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public let afterConnectScript: String?
+        /// This attribute allows you to specify the authentication method as "iam auth".
+        public let authenticationMethod: MySQLAuthenticationMethod?
         /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. For example, in a situation where running an alter DDL on the table could result in different information about the table cached in the replication instance.
         public let cleanSourceMetadataOnMismatch: Bool?
         /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
@@ -6381,14 +6428,17 @@ extension DatabaseMigrationService {
         public let serverName: String?
         /// Specifies the time zone for the source MySQL database. Example: serverTimezone=US/Pacific;  Note: Do not enclose time zones in single quotes.
         public let serverTimezone: String?
+        /// The IAM role you can use to authenticate when connecting to your endpoint. Ensure to include iam:PassRole and rds-db:connect actions in permission policy.
+        public let serviceAccessRoleArn: String?
         /// Specifies where to migrate source tables on the target, either to a single database or multiple databases. If you specify SPECIFIC_DATABASE, specify the database name using the DatabaseName parameter of the Endpoint object. Example: targetDbType=MULTIPLE_DATABASES
         public let targetDbType: TargetDbType?
         /// Endpoint connection user name.
         public let username: String?
 
         @inlinable
-        public init(afterConnectScript: String? = nil, cleanSourceMetadataOnMismatch: Bool? = nil, databaseName: String? = nil, eventsPollInterval: Int? = nil, executeTimeout: Int? = nil, maxFileSize: Int? = nil, parallelLoadThreads: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serverTimezone: String? = nil, targetDbType: TargetDbType? = nil, username: String? = nil) {
+        public init(afterConnectScript: String? = nil, authenticationMethod: MySQLAuthenticationMethod? = nil, cleanSourceMetadataOnMismatch: Bool? = nil, databaseName: String? = nil, eventsPollInterval: Int? = nil, executeTimeout: Int? = nil, maxFileSize: Int? = nil, parallelLoadThreads: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serverTimezone: String? = nil, serviceAccessRoleArn: String? = nil, targetDbType: TargetDbType? = nil, username: String? = nil) {
             self.afterConnectScript = afterConnectScript
+            self.authenticationMethod = authenticationMethod
             self.cleanSourceMetadataOnMismatch = cleanSourceMetadataOnMismatch
             self.databaseName = databaseName
             self.eventsPollInterval = eventsPollInterval
@@ -6401,12 +6451,14 @@ extension DatabaseMigrationService {
             self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.serverTimezone = serverTimezone
+            self.serviceAccessRoleArn = serviceAccessRoleArn
             self.targetDbType = targetDbType
             self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
             case afterConnectScript = "AfterConnectScript"
+            case authenticationMethod = "AuthenticationMethod"
             case cleanSourceMetadataOnMismatch = "CleanSourceMetadataOnMismatch"
             case databaseName = "DatabaseName"
             case eventsPollInterval = "EventsPollInterval"
@@ -6419,6 +6471,7 @@ extension DatabaseMigrationService {
             case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case serverTimezone = "ServerTimezone"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case targetDbType = "TargetDbType"
             case username = "Username"
         }
@@ -6807,6 +6860,8 @@ extension DatabaseMigrationService {
     public struct PostgreSQLSettings: AWSEncodableShape & AWSDecodableShape {
         /// For use with change data capture (CDC) only, this attribute has DMS bypass foreign keys and user triggers to reduce the time it takes to bulk load data. Example: afterConnectScript=SET session_replication_role='replica'
         public let afterConnectScript: String?
+        /// This attribute allows you to specify the authentication method as "iam auth".
+        public let authenticationMethod: PostgreSQLAuthenticationMethod?
         /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
         public let babelfishDatabaseName: String?
         /// To capture DDL events, DMS creates various artifacts in the PostgreSQL database when the task starts. You can later remove these artifacts. The default value is true. If this value is set to N, you don't have to create tables or triggers on the source database.
@@ -6849,6 +6904,8 @@ extension DatabaseMigrationService {
         public let secretsManagerSecretId: String?
         /// The host name of the endpoint database.  For an Amazon RDS PostgreSQL instance, this is the output of DescribeDBInstances, in the  Endpoint.Address field. For an Aurora PostgreSQL instance, this is the output of DescribeDBClusters, in the Endpoint field.
         public let serverName: String?
+        /// The IAM role arn you can use to authenticate the connection to your endpoint. Ensure to include iam:PassRole and rds-db:connect actions in permission policy.
+        public let serviceAccessRoleArn: String?
         /// Sets the name of a previously created logical replication slot for a change data capture (CDC) load of the PostgreSQL source instance.  When used with the CdcStartPosition request parameter for the DMS API , this attribute also makes it possible to use native CDC start points. DMS verifies that the specified logical replication slot exists before starting the CDC load task. It also verifies that the task was created with a valid setting of CdcStartPosition. If the specified slot doesn't exist or the task doesn't have a valid CdcStartPosition setting, DMS raises an error. For more information about setting the CdcStartPosition request parameter, see Determining a CDC native start point in the Database Migration Service User Guide. For more information about using CdcStartPosition, see CreateReplicationTask, StartReplicationTask, and ModifyReplicationTask.
         public let slotName: String?
         /// Use the TrimSpaceInChar source endpoint setting to trim data on CHAR and NCHAR data types during migration. The default value is true.
@@ -6857,8 +6914,9 @@ extension DatabaseMigrationService {
         public let username: String?
 
         @inlinable
-        public init(afterConnectScript: String? = nil, babelfishDatabaseName: String? = nil, captureDdls: Bool? = nil, databaseMode: DatabaseMode? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, disableUnicodeSourceFilter: Bool? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, heartbeatEnable: Bool? = nil, heartbeatFrequency: Int? = nil, heartbeatSchema: String? = nil, mapBooleanAsBoolean: Bool? = nil, mapJsonbAsClob: Bool? = nil, mapLongVarcharAs: LongVarcharMappingType? = nil, maxFileSize: Int? = nil, password: String? = nil, pluginName: PluginNameValue? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, slotName: String? = nil, trimSpaceInChar: Bool? = nil, username: String? = nil) {
+        public init(afterConnectScript: String? = nil, authenticationMethod: PostgreSQLAuthenticationMethod? = nil, babelfishDatabaseName: String? = nil, captureDdls: Bool? = nil, databaseMode: DatabaseMode? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, disableUnicodeSourceFilter: Bool? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, heartbeatEnable: Bool? = nil, heartbeatFrequency: Int? = nil, heartbeatSchema: String? = nil, mapBooleanAsBoolean: Bool? = nil, mapJsonbAsClob: Bool? = nil, mapLongVarcharAs: LongVarcharMappingType? = nil, maxFileSize: Int? = nil, password: String? = nil, pluginName: PluginNameValue? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, slotName: String? = nil, trimSpaceInChar: Bool? = nil, username: String? = nil) {
             self.afterConnectScript = afterConnectScript
+            self.authenticationMethod = authenticationMethod
             self.babelfishDatabaseName = babelfishDatabaseName
             self.captureDdls = captureDdls
             self.databaseMode = databaseMode
@@ -6880,6 +6938,7 @@ extension DatabaseMigrationService {
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
             self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
             self.slotName = slotName
             self.trimSpaceInChar = trimSpaceInChar
             self.username = username
@@ -6887,6 +6946,7 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case afterConnectScript = "AfterConnectScript"
+            case authenticationMethod = "AuthenticationMethod"
             case babelfishDatabaseName = "BabelfishDatabaseName"
             case captureDdls = "CaptureDdls"
             case databaseMode = "DatabaseMode"
@@ -6908,6 +6968,7 @@ extension DatabaseMigrationService {
             case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
             case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case slotName = "SlotName"
             case trimSpaceInChar = "TrimSpaceInChar"
             case username = "Username"
@@ -8781,6 +8842,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case migrationProjectIdentifier = "MigrationProjectIdentifier"
         }
@@ -8810,6 +8875,10 @@ extension DatabaseMigrationService {
         public init(migrationProjectIdentifier: String, selectionRules: String) {
             self.migrationProjectIdentifier = migrationProjectIdentifier
             self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8842,6 +8911,10 @@ extension DatabaseMigrationService {
         public init(migrationProjectIdentifier: String, selectionRules: String) {
             self.migrationProjectIdentifier = migrationProjectIdentifier
             self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8882,6 +8955,10 @@ extension DatabaseMigrationService {
             self.selectionRules = selectionRules
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fileName = "FileName"
             case migrationProjectIdentifier = "MigrationProjectIdentifier"
@@ -8917,6 +8994,10 @@ extension DatabaseMigrationService {
             self.migrationProjectIdentifier = migrationProjectIdentifier
             self.overwriteExtensionPack = overwriteExtensionPack
             self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8956,6 +9037,10 @@ extension DatabaseMigrationService {
             self.origin = origin
             self.refresh = refresh
             self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9403,6 +9488,16 @@ extension DatabaseMigrationService {
         public let inserts: Int64?
         /// The last time a table was updated.
         public let lastUpdateTime: Date?
+        /// Calculates the percentage of failed validations that were successfully resynced to the system.
+        public let resyncProgress: Double?
+        /// Records the total number of mismatched data rows where the system attempted to apply fixes in the target database.
+        public let resyncRowsAttempted: Int64?
+        /// Records the total number of mismatched data rows where fix attempts failed in the target database.
+        public let resyncRowsFailed: Int64?
+        /// Records the total number of mismatched data rows where fixes were successfully applied in the target database.
+        public let resyncRowsSucceeded: Int64?
+        /// Records the current state of table resynchronization in the migration task. This parameter can have the following values:   Not enabled – Resync is not enabled for the table in the migration task.   Pending – The tables are waiting for resync.   In progress – Resync in progress for some records in the table.   No primary key – The table could not be resynced because it has no primary key.   Last resync at: date/time – Resync session is finished at time. Time provided in UTC format.
+        public let resyncState: String?
         /// The schema name.
         public let schemaName: String?
         /// The name of the table.
@@ -9423,7 +9518,7 @@ extension DatabaseMigrationService {
         public let validationSuspendedRecords: Int64?
 
         @inlinable
-        public init(appliedDdls: Int64? = nil, appliedDeletes: Int64? = nil, appliedInserts: Int64? = nil, appliedUpdates: Int64? = nil, ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadEndTime: Date? = nil, fullLoadErrorRows: Int64? = nil, fullLoadReloaded: Bool? = nil, fullLoadRows: Int64? = nil, fullLoadStartTime: Date? = nil, inserts: Int64? = nil, lastUpdateTime: Date? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
+        public init(appliedDdls: Int64? = nil, appliedDeletes: Int64? = nil, appliedInserts: Int64? = nil, appliedUpdates: Int64? = nil, ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadEndTime: Date? = nil, fullLoadErrorRows: Int64? = nil, fullLoadReloaded: Bool? = nil, fullLoadRows: Int64? = nil, fullLoadStartTime: Date? = nil, inserts: Int64? = nil, lastUpdateTime: Date? = nil, resyncProgress: Double? = nil, resyncRowsAttempted: Int64? = nil, resyncRowsFailed: Int64? = nil, resyncRowsSucceeded: Int64? = nil, resyncState: String? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
             self.appliedDdls = appliedDdls
             self.appliedDeletes = appliedDeletes
             self.appliedInserts = appliedInserts
@@ -9438,6 +9533,11 @@ extension DatabaseMigrationService {
             self.fullLoadStartTime = fullLoadStartTime
             self.inserts = inserts
             self.lastUpdateTime = lastUpdateTime
+            self.resyncProgress = resyncProgress
+            self.resyncRowsAttempted = resyncRowsAttempted
+            self.resyncRowsFailed = resyncRowsFailed
+            self.resyncRowsSucceeded = resyncRowsSucceeded
+            self.resyncState = resyncState
             self.schemaName = schemaName
             self.tableName = tableName
             self.tableState = tableState
@@ -9464,6 +9564,11 @@ extension DatabaseMigrationService {
             case fullLoadStartTime = "FullLoadStartTime"
             case inserts = "Inserts"
             case lastUpdateTime = "LastUpdateTime"
+            case resyncProgress = "ResyncProgress"
+            case resyncRowsAttempted = "ResyncRowsAttempted"
+            case resyncRowsFailed = "ResyncRowsFailed"
+            case resyncRowsSucceeded = "ResyncRowsSucceeded"
+            case resyncState = "ResyncState"
             case schemaName = "SchemaName"
             case tableName = "TableName"
             case tableState = "TableState"

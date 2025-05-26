@@ -1344,7 +1344,7 @@ extension CloudWatch {
         public let nextToken: String?
         /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached. If you omit this parameter, the default of TimestampDescending is used.
         public let scanBy: ScanBy?
-        /// The time stamp indicating the earliest data to be returned. The value specified is inclusive; results include data points with the specified time stamp.  CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.  For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
+        /// The time stamp indicating the earliest data to be returned. The value specified is inclusive; results include data points with the specified time stamp.  CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, 20, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, 20-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.  For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
         public let startTime: Date?
 
         @inlinable
@@ -1412,9 +1412,9 @@ extension CloudWatch {
         public let metricName: String?
         /// The namespace of the metric, with or without spaces.
         public let namespace: String?
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
         public let period: Int?
-        /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
+        /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, 20, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, 20-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
         public let startTime: Date?
         /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
         @OptionalCustomCoding<StandardArrayCoder<Statistic>>
@@ -1597,6 +1597,8 @@ extension CloudWatch {
     }
 
     public struct InsightRule: AWSDecodableShape {
+        /// Displays whether the rule is evaluated on the transformed versions of logs, for log groups that have Log transformation enabled. If this is false, log events are evaluated before they are transformed.
+        public let applyOnTransformedLogs: Bool?
         /// The definition of the rule, as a JSON object. The definition contains the keywords used to define contributors, the value to aggregate on if this rule returns a sum instead of a count, and the filters. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let definition: String?
         ///  An optional built-in rule that Amazon Web Services manages.
@@ -1609,7 +1611,8 @@ extension CloudWatch {
         public let state: String?
 
         @inlinable
-        public init(definition: String? = nil, managedRule: Bool? = nil, name: String? = nil, schema: String? = nil, state: String? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, definition: String? = nil, managedRule: Bool? = nil, name: String? = nil, schema: String? = nil, state: String? = nil) {
+            self.applyOnTransformedLogs = applyOnTransformedLogs
             self.definition = definition
             self.managedRule = managedRule
             self.name = name
@@ -1618,6 +1621,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnTransformedLogs = "ApplyOnTransformedLogs"
             case definition = "Definition"
             case managedRule = "ManagedRule"
             case name = "Name"
@@ -1852,7 +1856,7 @@ extension CloudWatch {
     }
 
     public struct ListMetricsInput: AWSEncodableShape {
-        /// The dimensions to filter against. Only the dimensions that match exactly will be returned.
+        /// The dimensions to filter against. Only the dimension with names that match exactly will be returned. If you specify one dimension name and a metric has that dimension and also other dimensions, it will be returned.
         @OptionalCustomCoding<StandardArrayCoder<DimensionFilter>>
         public var dimensions: [DimensionFilter]?
         /// If you are using this operation in a monitoring account, specify true to include metrics from source accounts in the returned data. The default is false.
@@ -2245,7 +2249,7 @@ extension CloudWatch {
         public let label: String?
         /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let metricStat: MetricStat?
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second.
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second.
         public let period: Int?
         /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify false. If you omit this, the default of true is used. When used in PutMetricAlarm, specify true for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public let returnData: Bool?
@@ -2403,7 +2407,7 @@ extension CloudWatch {
     public struct MetricStat: AWSEncodableShape & AWSDecodableShape {
         /// The metric to return, including the metric name, namespace, and dimensions.
         public let metric: Metric?
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
         public let period: Int?
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic.
         public let stat: String?
@@ -2662,7 +2666,7 @@ extension CloudWatch {
         public let actionsSuppressorExtensionPeriod: Int?
         ///  The maximum time in seconds that the composite alarm waits for the suppressor alarm to go into the ALARM state. After this time, the composite alarm performs its actions.    WaitPeriod is required only when ActionsSuppressor is specified.
         public let actionsSuppressorWaitPeriod: Int?
-        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: ]  Amazon SNS actions:   arn:aws:sns:region:account-id:sns-topic-name    Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      Systems Manager actions:   arn:aws:ssm:region:account-id:opsitem:severity    Start a Amazon Q Developer operational investigation   arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: ]  Amazon SNS actions:   arn:aws:sns:region:account-id:sns-topic-name    Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      Systems Manager actions:   arn:aws:ssm:region:account-id:opsitem:severity    Start a Amazon Q Developer operational investigation   arn:aws:aiops:region:account-id:investigation-group:investigation-group-id
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmActions: [String]?
         /// The description for the composite alarm.
@@ -2773,6 +2777,8 @@ extension CloudWatch {
     }
 
     public struct PutInsightRuleInput: AWSEncodableShape {
+        /// Specify true to have this rule evalute log events after they have been transformed by   Log transformation. If you specify true, then the log events in log groups that have transformers will  be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false   If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors.
+        public let applyOnTransformedLogs: Bool?
         /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let ruleDefinition: String?
         /// A unique name for the rule.
@@ -2784,7 +2790,8 @@ extension CloudWatch {
         public var tags: [Tag]?
 
         @inlinable
-        public init(ruleDefinition: String? = nil, ruleName: String? = nil, ruleState: String? = nil, tags: [Tag]? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, ruleDefinition: String? = nil, ruleName: String? = nil, ruleState: String? = nil, tags: [Tag]? = nil) {
+            self.applyOnTransformedLogs = applyOnTransformedLogs
             self.ruleDefinition = ruleDefinition
             self.ruleName = ruleName
             self.ruleState = ruleState
@@ -2807,6 +2814,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnTransformedLogs = "ApplyOnTransformedLogs"
             case ruleDefinition = "RuleDefinition"
             case ruleName = "RuleName"
             case ruleState = "RuleState"
@@ -2857,7 +2865,7 @@ extension CloudWatch {
     public struct PutMetricAlarmInput: AWSEncodableShape {
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
         public let actionsEnabled: Bool?
-        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name      Start a Amazon Q Developer operational investigation   arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name      Start a Amazon Q Developer operational investigation   arn:aws:aiops:region:account-id:investigation-group:investigation-group-id
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmActions: [String]?
         /// The description for the alarm.
@@ -2873,7 +2881,7 @@ extension CloudWatch {
         public var dimensions: [Dimension]?
         ///  Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid Values: evaluate | ignore
         public let evaluateLowSampleCountPercentile: String?
-        /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N. An alarm's total current evaluation period can be no longer than one day, so this number multiplied by Period cannot be more than 86,400 seconds.
+        /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N.
         public let evaluationPeriods: Int?
         /// The extended statistic for the metric specified in MetricName. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:    p90     tm90     tc90     ts90     wm90     IQM     PR(n:m) where n and m are values of the metric    TC(X%:X%) where X is between 10 and 90 inclusive.    TM(X%:X%) where X is between 10 and 90 inclusive.    TS(X%:X%) where X is between 10 and 90 inclusive.    WM(X%:X%) where X is between 10 and 90 inclusive.   For more information about these extended statistics, see CloudWatch statistics definitions.
         public let extendedStatistic: String?
@@ -2890,7 +2898,7 @@ extension CloudWatch {
         /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var okActions: [String]?
-        /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
+        /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 20, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10, 20, or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10, 20, or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10, 20, or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than seven days, so Period multiplied by EvaluationPeriods can't be more than 604,800 seconds. For alarms with a period of less than one hour (3,600 seconds), the total evaluation period can't be longer than one day (86,400 seconds).
         public let period: Int?
         /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
         public let statistic: Statistic?
@@ -3417,6 +3425,7 @@ extension CloudWatch {
 public struct CloudWatchErrorType: AWSErrorType {
     enum Code: String {
         case concurrentModificationException = "ConcurrentModificationException"
+        case conflictException = "ConflictException"
         case dashboardInvalidInputError = "InvalidParameterInput"
         case dashboardNotFoundError = "DashboardNotFoundError"
         case internalServiceFault = "InternalServiceError"
@@ -3451,6 +3460,8 @@ public struct CloudWatchErrorType: AWSErrorType {
 
     /// More than one process tried to modify a resource at the same time.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// This operation attempted to create a resource that already exists.
+    public static var conflictException: Self { .init(.conflictException) }
     /// Some part of the dashboard data is invalid.
     public static var dashboardInvalidInputError: Self { .init(.dashboardInvalidInputError) }
     /// The specified dashboard does not exist.

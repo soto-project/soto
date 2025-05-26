@@ -270,6 +270,47 @@ public struct EMR: AWSService {
         return try await self.cancelSteps(input, logger: logger)
     }
 
+    /// Creates a persistent application user interface.
+    @Sendable
+    @inlinable
+    public func createPersistentAppUI(_ input: CreatePersistentAppUIInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePersistentAppUIOutput {
+        try await self.client.execute(
+            operation: "CreatePersistentAppUI", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a persistent application user interface.
+    ///
+    /// Parameters:
+    ///   - emrContainersConfig: The EMR containers configuration.
+    ///   - profilerType: The profiler type for the persistent application user interface. Valid values are SHS, TEZUI, or YTS.
+    ///   - tags: Tags for the persistent application user interface.
+    ///   - targetResourceArn: The unique Amazon Resource Name (ARN) of the target resource.
+    ///   - xReferer: The cross reference for the persistent application user interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPersistentAppUI(
+        emrContainersConfig: EMRContainersConfig? = nil,
+        profilerType: ProfilerType? = nil,
+        tags: [Tag]? = nil,
+        targetResourceArn: String? = nil,
+        xReferer: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePersistentAppUIOutput {
+        let input = CreatePersistentAppUIInput(
+            emrContainersConfig: emrContainersConfig, 
+            profilerType: profilerType, 
+            tags: tags, 
+            targetResourceArn: targetResourceArn, 
+            xReferer: xReferer
+        )
+        return try await self.createPersistentAppUI(input, logger: logger)
+    }
+
     /// Creates a security configuration, which is stored in the service and can be specified when a cluster is created.
     @Sendable
     @inlinable
@@ -612,6 +653,35 @@ public struct EMR: AWSService {
         return try await self.describeNotebookExecution(input, logger: logger)
     }
 
+    /// Describes a persistent application user interface.
+    @Sendable
+    @inlinable
+    public func describePersistentAppUI(_ input: DescribePersistentAppUIInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePersistentAppUIOutput {
+        try await self.client.execute(
+            operation: "DescribePersistentAppUI", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a persistent application user interface.
+    ///
+    /// Parameters:
+    ///   - persistentAppUIId: The identifier for the persistent application user interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describePersistentAppUI(
+        persistentAppUIId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribePersistentAppUIOutput {
+        let input = DescribePersistentAppUIInput(
+            persistentAppUIId: persistentAppUIId
+        )
+        return try await self.describePersistentAppUI(input, logger: logger)
+    }
+
     /// Provides Amazon EMR release label details, such as the releases available the Region where the API request is run, and the available applications for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a specified version of Spark.
     @Sendable
     @inlinable
@@ -851,6 +921,88 @@ public struct EMR: AWSService {
             clusterId: clusterId
         )
         return try await self.getManagedScalingPolicy(input, logger: logger)
+    }
+
+    /// The presigned URL properties for the cluster's application user interface.
+    @Sendable
+    @inlinable
+    public func getOnClusterAppUIPresignedURL(_ input: GetOnClusterAppUIPresignedURLInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOnClusterAppUIPresignedURLOutput {
+        try await self.client.execute(
+            operation: "GetOnClusterAppUIPresignedURL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The presigned URL properties for the cluster's application user interface.
+    ///
+    /// Parameters:
+    ///   - applicationId: The application ID associated with the cluster's application user interface presigned URL.
+    ///   - clusterId: The cluster ID associated with the cluster's application user interface presigned URL.
+    ///   - dryRun: Determines if the user interface presigned URL is for a dry run.
+    ///   - executionRoleArn: The execution role ARN associated with the cluster's application user interface  presigned URL.
+    ///   - onClusterAppUIType: The application UI type associated with the cluster's application user interface presigned URL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getOnClusterAppUIPresignedURL(
+        applicationId: String? = nil,
+        clusterId: String? = nil,
+        dryRun: Bool? = nil,
+        executionRoleArn: String? = nil,
+        onClusterAppUIType: OnClusterAppUIType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetOnClusterAppUIPresignedURLOutput {
+        let input = GetOnClusterAppUIPresignedURLInput(
+            applicationId: applicationId, 
+            clusterId: clusterId, 
+            dryRun: dryRun, 
+            executionRoleArn: executionRoleArn, 
+            onClusterAppUIType: onClusterAppUIType
+        )
+        return try await self.getOnClusterAppUIPresignedURL(input, logger: logger)
+    }
+
+    /// The presigned URL properties for the cluster's application user interface.
+    @Sendable
+    @inlinable
+    public func getPersistentAppUIPresignedURL(_ input: GetPersistentAppUIPresignedURLInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPersistentAppUIPresignedURLOutput {
+        try await self.client.execute(
+            operation: "GetPersistentAppUIPresignedURL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The presigned URL properties for the cluster's application user interface.
+    ///
+    /// Parameters:
+    ///   - applicationId: The application ID associated with the presigned URL.
+    ///   - authProxyCall: A boolean that represents if the caller is an authentication proxy call.
+    ///   - executionRoleArn: The execution role ARN associated with the presigned URL.
+    ///   - persistentAppUIId: The persistent application user interface ID associated with the presigned URL.
+    ///   - persistentAppUIType: The persistent application user interface type associated with the presigned URL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPersistentAppUIPresignedURL(
+        applicationId: String? = nil,
+        authProxyCall: Bool? = nil,
+        executionRoleArn: String? = nil,
+        persistentAppUIId: String? = nil,
+        persistentAppUIType: PersistentAppUIType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPersistentAppUIPresignedURLOutput {
+        let input = GetPersistentAppUIPresignedURLInput(
+            applicationId: applicationId, 
+            authProxyCall: authProxyCall, 
+            executionRoleArn: executionRoleArn, 
+            persistentAppUIId: persistentAppUIId, 
+            persistentAppUIType: persistentAppUIType
+        )
+        return try await self.getPersistentAppUIPresignedURL(input, logger: logger)
     }
 
     /// Fetches mapping details for the specified Amazon EMR Studio and identity (user or group).

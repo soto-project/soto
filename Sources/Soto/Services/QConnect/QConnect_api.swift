@@ -329,11 +329,11 @@ public struct QConnect: AWSService {
     /// Creates an Amazon Q in Connect AI Prompt.
     ///
     /// Parameters:
-    ///   - apiFormat: The API Format of the AI Prompt.
+    ///   - apiFormat: The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS   The values ANTHROPIC_CLAUDE_MESSAGES | ANTHROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the AI Prompt.
-    ///   - modelId: The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0
+    ///   - modelId: The identifier of the model used for this AI Prompt.
     ///   - name: The name of the AI Prompt.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
@@ -1845,6 +1845,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextChunkToken: The token for the next set of chunks. Use the value returned in the previous response in the next request to retrieve the next set of chunks.
     ///   - sessionId: The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - waitTimeSeconds: The duration (in seconds) for which the call waits for a recommendation to be made available before returning. If a recommendation is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list.
     ///   - logger: Logger use during operation
@@ -1853,6 +1854,7 @@ public struct QConnect: AWSService {
     public func getRecommendations(
         assistantId: String,
         maxResults: Int? = nil,
+        nextChunkToken: String? = nil,
         sessionId: String,
         waitTimeSeconds: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1860,6 +1862,7 @@ public struct QConnect: AWSService {
         let input = GetRecommendationsRequest(
             assistantId: assistantId, 
             maxResults: maxResults, 
+            nextChunkToken: nextChunkToken, 
             sessionId: sessionId, 
             waitTimeSeconds: waitTimeSeconds
         )
@@ -2905,6 +2908,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field.For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - configuration: The configuration of the SendMessage request.
     ///   - conversationContext: The conversation context before the Amazon Q in Connect session.
     ///   - message: The message data to submit to the Amazon Q in Connect session.
     ///   - sessionId: The identifier of the Amazon Q in Connect session.
@@ -2914,6 +2918,7 @@ public struct QConnect: AWSService {
     public func sendMessage(
         assistantId: String,
         clientToken: String? = SendMessageRequest.idempotencyToken(),
+        configuration: MessageConfiguration? = nil,
         conversationContext: ConversationContext? = nil,
         message: MessageInput,
         sessionId: String,
@@ -2923,6 +2928,7 @@ public struct QConnect: AWSService {
         let input = SendMessageRequest(
             assistantId: assistantId, 
             clientToken: clientToken, 
+            configuration: configuration, 
             conversationContext: conversationContext, 
             message: message, 
             sessionId: sessionId, 
