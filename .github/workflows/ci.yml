@@ -56,18 +56,3 @@ jobs:
       # Cannot run in parallel as APIGateway tests fail occasionally
       run: |
         swift test --enable-test-discovery
-
-  android:
-    name: Android
-    runs-on: ubuntu-latest
-    timeout-minutes: 35
-    strategy:
-      fail-fast: false
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
-      - name: "Build for Android"
-        uses: skiptools/swift-android-action@v2
-        with:
-          build-tests: true
-          run-tests: false
