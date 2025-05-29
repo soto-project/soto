@@ -245,6 +245,12 @@ extension CognitoIdentityProvider {
         public var description: String { return self.rawValue }
     }
 
+    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FeedbackValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalid = "Invalid"
         case valid = "Valid"
@@ -2816,6 +2822,8 @@ extension CognitoIdentityProvider {
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
         public let readAttributes: [String]?
+        /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
+        public let refreshTokenRotation: RefreshTokenRotationType?
         /// The refresh token time limit. After this limit expires, your user can't use
         /// their refresh token. To specify the time unit for RefreshTokenValidity as
         /// seconds, minutes, hours, or days,
@@ -2837,7 +2845,7 @@ extension CognitoIdentityProvider {
         public let writeAttributes: [String]?
 
         @inlinable
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenRotation: RefreshTokenRotationType? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -2855,6 +2863,7 @@ extension CognitoIdentityProvider {
             self.logoutURLs = logoutURLs
             self.preventUserExistenceErrors = preventUserExistenceErrors
             self.readAttributes = readAttributes
+            self.refreshTokenRotation = refreshTokenRotation
             self.refreshTokenValidity = refreshTokenValidity
             self.supportedIdentityProviders = supportedIdentityProviders
             self.tokenValidityUnits = tokenValidityUnits
@@ -2899,6 +2908,7 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "readAttributes[]", parent: name, max: 2048)
                 try validate($0, name: "readAttributes[]", parent: name, min: 1)
             }
+            try self.refreshTokenRotation?.validate(name: "\(name).refreshTokenRotation")
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, max: 315360000)
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, min: 0)
             try self.supportedIdentityProviders?.forEach {
@@ -2933,6 +2943,7 @@ extension CognitoIdentityProvider {
             case logoutURLs = "LogoutURLs"
             case preventUserExistenceErrors = "PreventUserExistenceErrors"
             case readAttributes = "ReadAttributes"
+            case refreshTokenRotation = "RefreshTokenRotation"
             case refreshTokenValidity = "RefreshTokenValidity"
             case supportedIdentityProviders = "SupportedIdentityProviders"
             case tokenValidityUnits = "TokenValidityUnits"
@@ -4491,6 +4502,67 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
+        }
+    }
+
+    public struct GetTokensFromRefreshTokenRequest: AWSEncodableShape {
+        /// The app client that issued the refresh token to the user who wants to request new tokens.
+        public let clientId: String
+        /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetTokensFromRefreshToken API action, Amazon Cognito invokes the Lambda function the pre token generation trigger. For more information, see
+        /// Using Lambda triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
+        public let clientMetadata: [String: String]?
+        /// The client secret of the requested app client, if the client has a secret.
+        public let clientSecret: String?
+        /// When you enable device remembering, Amazon Cognito issues a device key that you can use for device authentication that bypasses multi-factor authentication (MFA). To implement GetTokensFromRefreshToken in a user pool with device remembering, you must capture the device key from the initial authentication request. If your application doesn't provide the key of a registered device, Amazon Cognito issues a new one. You must provide the confirmed device key in this request if device remembering is enabled in your user pool. For more information about device remembering, see Working with devices.
+        public let deviceKey: String?
+        /// A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete.
+        public let refreshToken: String
+
+        @inlinable
+        public init(clientId: String, clientMetadata: [String: String]? = nil, clientSecret: String? = nil, deviceKey: String? = nil, refreshToken: String) {
+            self.clientId = clientId
+            self.clientMetadata = clientMetadata
+            self.clientSecret = clientSecret
+            self.deviceKey = deviceKey
+            self.refreshToken = refreshToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[\\w+]+$")
+            try self.clientMetadata?.forEach {
+                try validate($0.key, name: "clientMetadata.key", parent: name, max: 131072)
+                try validate($0.value, name: "clientMetadata[\"\($0.key)\"]", parent: name, max: 131072)
+            }
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 64)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[\\w+]+$")
+            try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
+            try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
+            try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "^[\\w-]+_[0-9a-f-]+$")
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "^[A-Za-z0-9-_=.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientMetadata = "ClientMetadata"
+            case clientSecret = "ClientSecret"
+            case deviceKey = "DeviceKey"
+            case refreshToken = "RefreshToken"
+        }
+    }
+
+    public struct GetTokensFromRefreshTokenResponse: AWSDecodableShape {
+        public let authenticationResult: AuthenticationResultType?
+
+        @inlinable
+        public init(authenticationResult: AuthenticationResultType? = nil) {
+            self.authenticationResult = authenticationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationResult = "AuthenticationResult"
         }
     }
 
@@ -6113,6 +6185,29 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct RefreshTokenRotationType: AWSEncodableShape & AWSDecodableShape {
+        /// The state of refresh token rotation for the current app client.
+        public let feature: FeatureType
+        /// When you request a token refresh with GetTokensFromRefreshToken, the original refresh token that you're rotating out can remain valid for a period of time of up to 60 seconds. This allows for client-side retries. When RetryGracePeriodSeconds is 0, the grace period is disabled and a successful request immediately invalidates the submitted refresh token.
+        public let retryGracePeriodSeconds: Int?
+
+        @inlinable
+        public init(feature: FeatureType, retryGracePeriodSeconds: Int? = nil) {
+            self.feature = feature
+            self.retryGracePeriodSeconds = retryGracePeriodSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retryGracePeriodSeconds, name: "retryGracePeriodSeconds", parent: name, max: 60)
+            try self.validate(self.retryGracePeriodSeconds, name: "retryGracePeriodSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feature = "Feature"
+            case retryGracePeriodSeconds = "RetryGracePeriodSeconds"
+        }
+    }
+
     public struct ResendConfirmationCodeRequest: AWSEncodableShape {
         /// Information that supports analytics outcomes with Amazon Pinpoint, including the
         /// user's endpoint ID. The endpoint ID is a destination for Amazon Pinpoint push notifications, for example a device identifier,
@@ -7716,6 +7811,8 @@ extension CognitoIdentityProvider {
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
         public let readAttributes: [String]?
+        /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
+        public let refreshTokenRotation: RefreshTokenRotationType?
         /// The refresh token time limit. After this limit expires, your user can't use
         /// their refresh token. To specify the time unit for RefreshTokenValidity as
         /// seconds, minutes, hours, or days,
@@ -7737,7 +7834,7 @@ extension CognitoIdentityProvider {
         public let writeAttributes: [String]?
 
         @inlinable
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenRotation: RefreshTokenRotationType? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -7755,6 +7852,7 @@ extension CognitoIdentityProvider {
             self.logoutURLs = logoutURLs
             self.preventUserExistenceErrors = preventUserExistenceErrors
             self.readAttributes = readAttributes
+            self.refreshTokenRotation = refreshTokenRotation
             self.refreshTokenValidity = refreshTokenValidity
             self.supportedIdentityProviders = supportedIdentityProviders
             self.tokenValidityUnits = tokenValidityUnits
@@ -7802,6 +7900,7 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "readAttributes[]", parent: name, max: 2048)
                 try validate($0, name: "readAttributes[]", parent: name, min: 1)
             }
+            try self.refreshTokenRotation?.validate(name: "\(name).refreshTokenRotation")
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, max: 315360000)
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, min: 0)
             try self.supportedIdentityProviders?.forEach {
@@ -7836,6 +7935,7 @@ extension CognitoIdentityProvider {
             case logoutURLs = "LogoutURLs"
             case preventUserExistenceErrors = "PreventUserExistenceErrors"
             case readAttributes = "ReadAttributes"
+            case refreshTokenRotation = "RefreshTokenRotation"
             case refreshTokenValidity = "RefreshTokenValidity"
             case supportedIdentityProviders = "SupportedIdentityProviders"
             case tokenValidityUnits = "TokenValidityUnits"
@@ -8264,6 +8364,8 @@ extension CognitoIdentityProvider {
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
         public let readAttributes: [String]?
+        /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
+        public let refreshTokenRotation: RefreshTokenRotationType?
         /// The refresh token time limit. After this limit expires, your user can't use
         /// their refresh token. To specify the time unit for RefreshTokenValidity as
         /// seconds, minutes, hours, or days,
@@ -8285,7 +8387,7 @@ extension CognitoIdentityProvider {
         public let writeAttributes: [String]?
 
         @inlinable
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: Date? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, lastModifiedDate: Date? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: Date? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, lastModifiedDate: Date? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenRotation: RefreshTokenRotationType? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -8306,6 +8408,7 @@ extension CognitoIdentityProvider {
             self.logoutURLs = logoutURLs
             self.preventUserExistenceErrors = preventUserExistenceErrors
             self.readAttributes = readAttributes
+            self.refreshTokenRotation = refreshTokenRotation
             self.refreshTokenValidity = refreshTokenValidity
             self.supportedIdentityProviders = supportedIdentityProviders
             self.tokenValidityUnits = tokenValidityUnits
@@ -8334,6 +8437,7 @@ extension CognitoIdentityProvider {
             case logoutURLs = "LogoutURLs"
             case preventUserExistenceErrors = "PreventUserExistenceErrors"
             case readAttributes = "ReadAttributes"
+            case refreshTokenRotation = "RefreshTokenRotation"
             case refreshTokenValidity = "RefreshTokenValidity"
             case supportedIdentityProviders = "SupportedIdentityProviders"
             case tokenValidityUnits = "TokenValidityUnits"
@@ -8899,6 +9003,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
         case passwordHistoryPolicyViolationException = "PasswordHistoryPolicyViolationException"
         case passwordResetRequiredException = "PasswordResetRequiredException"
         case preconditionNotMetException = "PreconditionNotMetException"
+        case refreshTokenReuseException = "RefreshTokenReuseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case scopeDoesNotExistException = "ScopeDoesNotExistException"
         case softwareTokenMFANotFoundException = "SoftwareTokenMFANotFoundException"
@@ -8999,6 +9104,8 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var passwordResetRequiredException: Self { .init(.passwordResetRequiredException) }
     /// This exception is thrown when a precondition is not met.
     public static var preconditionNotMetException: Self { .init(.preconditionNotMetException) }
+    /// This exception is throw when your application requests token refresh with a refresh token that has been invalidated by refresh-token rotation.
+    public static var refreshTokenReuseException: Self { .init(.refreshTokenReuseException) }
     /// This exception is thrown when the Amazon Cognito service can't find the requested resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// This exception is thrown when the specified scope doesn't exist.

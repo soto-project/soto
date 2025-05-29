@@ -57,6 +57,22 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueryLoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Query logging configuration is active.
+        case active = "ACTIVE"
+        /// Query logging configuration is being created.
+        case creating = "CREATING"
+        /// Query logging configuration creation failed.
+        case creationFailed = "CREATION_FAILED"
+        /// Query logging configuration is being deleted.
+        case deleting = "DELETING"
+        /// Query logging configuration update failed.
+        case updateFailed = "UPDATE_FAILED"
+        /// Query logging configuration is being updated.
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuleGroupsNamespaceStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Namespace has been created/updated. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
@@ -96,6 +112,16 @@ extension Amp {
         case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
         case other = "OTHER"
         case unknownOperation = "UNKNOWN_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Workspace configuration has been updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
+        case active = "ACTIVE"
+        /// Workspace configuration update failed.
+        case updateFailed = "UPDATE_FAILED"
+        /// Workspace configuration is being updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -174,6 +200,24 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case workspaceArn = "workspaceArn"
+        }
+    }
+
+    public struct CloudWatchLogDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
+        public let logGroupArn: String
+
+        @inlinable
+        public init(logGroupArn: String) {
+            self.logGroupArn = logGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[-a-z]*:logs:[-a-z0-9]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn = "logGroupArn"
         }
     }
 
@@ -304,6 +348,63 @@ extension Amp {
         }
     }
 
+    public struct CreateQueryLoggingConfigurationRequest: AWSEncodableShape {
+        /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element.
+        public let destinations: [LoggingDestination]
+        /// The ID of the workspace for which to create the query logging configuration.
+        public let workspaceId: String
+
+        @inlinable
+        public init(clientToken: String? = CreateQueryLoggingConfigurationRequest.idempotencyToken(), destinations: [LoggingDestination], workspaceId: String) {
+            self.clientToken = clientToken
+            self.destinations = destinations
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.destinations, forKey: .destinations)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.destinations.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.validate(self.destinations, name: "destinations", parent: name, max: 1)
+            try self.validate(self.destinations, name: "destinations", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case destinations = "destinations"
+        }
+    }
+
+    public struct CreateQueryLoggingConfigurationResponse: AWSDecodableShape {
+        /// The current status of the query logging configuration.
+        public let status: QueryLoggingConfigurationStatus
+
+        @inlinable
+        public init(status: QueryLoggingConfigurationStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct CreateRuleGroupsNamespaceRequest: AWSEncodableShape {
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
@@ -396,9 +497,9 @@ extension Amp {
         public let clientToken: String?
         /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         public let destination: Destination
-        /// The scraper role configuration for the workspace.
+        /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
-        /// The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User  Guide.
+        /// The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide.
         public let scrapeConfiguration: ScrapeConfiguration
         /// The Amazon EKS cluster from which the scraper will collect metrics.
         public let source: Source
@@ -478,7 +579,7 @@ extension Amp {
         public let alias: String?
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
-        /// (optional) The ARN for a customer managed KMS key to use for  encrypting data within your workspace. For more information about using your own key in your workspace, see Encryption at rest in the Amazon Managed Service for Prometheus User  Guide.
+        /// (optional) The ARN for a customer managed KMS key to use for encrypting data within your workspace. For more information about using your own key in your workspace, see Encryption at rest in the Amazon Managed Service for Prometheus User Guide.
         public let kmsKeyArn: String?
         /// The list of tag keys and values to associate with the workspace.
         public let tags: [String: String]?
@@ -521,7 +622,7 @@ extension Amp {
     public struct CreateWorkspaceResponse: AWSDecodableShape {
         /// The ARN for the new workspace.
         public let arn: String
-        /// (optional) If the workspace was created with a customer managed KMS  key, the ARN for the key used.
+        /// (optional) If the workspace was created with a customer managed KMS key, the ARN for the key used.
         public let kmsKeyArn: String?
         /// The current status of the new workspace. Immediately after you create the workspace, the status is usually CREATING.
         public let status: WorkspaceStatus
@@ -610,6 +711,37 @@ extension Amp {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteQueryLoggingConfigurationRequest: AWSEncodableShape {
+        /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the workspace from which to delete the query logging configuration.
+        public let workspaceId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteQueryLoggingConfigurationRequest.idempotencyToken(), workspaceId: String) {
+            self.clientToken = clientToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRuleGroupsNamespaceRequest: AWSEncodableShape {
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
@@ -649,7 +781,7 @@ extension Amp {
     }
 
     public struct DeleteScraperRequest: AWSEncodableShape {
-        /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the  idempotency of the request.
+        /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
         public let clientToken: String?
         /// The ID of the scraper to delete.
         public let scraperId: String
@@ -804,6 +936,44 @@ extension Amp {
         }
     }
 
+    public struct DescribeQueryLoggingConfigurationRequest: AWSEncodableShape {
+        /// The ID of the workspace for which to retrieve the query logging configuration.
+        public let workspaceId: String
+
+        @inlinable
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeQueryLoggingConfigurationResponse: AWSDecodableShape {
+        /// The detailed information about the query logging configuration for the specified workspace.
+        public let queryLoggingConfiguration: QueryLoggingConfigurationMetadata
+
+        @inlinable
+        public init(queryLoggingConfiguration: QueryLoggingConfigurationMetadata) {
+            self.queryLoggingConfiguration = queryLoggingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryLoggingConfiguration = "queryLoggingConfiguration"
+        }
+    }
+
     public struct DescribeRuleGroupsNamespaceRequest: AWSEncodableShape {
         /// The name of the rule groups namespace that you want information for.
         public let name: String
@@ -884,6 +1054,44 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case scraper = "scraper"
+        }
+    }
+
+    public struct DescribeWorkspaceConfigurationRequest: AWSEncodableShape {
+        /// The ID of the workspace that you want to retrieve information for. To find the IDs of your workspaces, use the ListWorkspaces operation.
+        public let workspaceId: String
+
+        @inlinable
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeWorkspaceConfigurationResponse: AWSDecodableShape {
+        /// This structure contains the information about the workspace configuration.
+        public let workspaceConfiguration: WorkspaceConfigurationDescription
+
+        @inlinable
+        public init(workspaceConfiguration: WorkspaceConfigurationDescription) {
+            self.workspaceConfiguration = workspaceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceConfiguration = "workspaceConfiguration"
         }
     }
 
@@ -968,7 +1176,7 @@ extension Amp {
     }
 
     public struct GetDefaultScraperConfigurationResponse: AWSDecodableShape {
-        /// The configuration file. Base 64 encoded.  For more information, see Scraper configurationin the Amazon Managed Service for Prometheus User  Guide.
+        /// The configuration file. Base 64 encoded. For more information, see Scraper configurationin the Amazon Managed Service for Prometheus User Guide.
         public let configuration: AWSBase64Data
 
         @inlinable
@@ -1002,6 +1210,46 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct LimitsPerLabelSet: AWSEncodableShape & AWSDecodableShape {
+        /// This defines one label set that will have an enforced active time series limit.  Label values accept ASCII characters and must contain at least one character that isn't whitespace. ASCII control characters are not accepted. If the label name is metric name label __name__, then the metric part of the name must conform to the following pattern: [a-zA-Z_:][a-zA-Z0-9_:]*
+        public let labelSet: [String: String]
+        /// This structure contains the information about the limits that apply to time series that match this label set.
+        public let limits: LimitsPerLabelSetEntry
+
+        @inlinable
+        public init(labelSet: [String: String], limits: LimitsPerLabelSetEntry) {
+            self.labelSet = labelSet
+            self.limits = limits
+        }
+
+        public func validate(name: String) throws {
+            try self.labelSet.forEach {
+                try validate($0.key, name: "labelSet.key", parent: name, min: 1)
+                try validate($0.key, name: "labelSet.key", parent: name, pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "labelSet[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelSet = "labelSet"
+            case limits = "limits"
+        }
+    }
+
+    public struct LimitsPerLabelSetEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of active series that can be ingested that match this label set.  Setting this to 0 causes no label set limit to be enforced, but it does cause Amazon Managed Service for Prometheus to vend label set metrics to CloudWatch
+        public let maxSeries: Int64?
+
+        @inlinable
+        public init(maxSeries: Int64? = nil) {
+            self.maxSeries = maxSeries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSeries = "maxSeries"
         }
     }
 
@@ -1064,7 +1312,7 @@ extension Amp {
     }
 
     public struct ListScrapersRequest: AWSEncodableShape {
-        /// (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status, sourceArn,  destinationArn, and alias. Filters on the same key are OR'd together, and filters on different keys are AND'd together. For example,  status=ACTIVE&amp;status=CREATING&amp;alias=Test, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query:  status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012  If this is included, it filters the results to only the scrapers that match  the filter.
+        /// (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status, sourceArn, destinationArn, and alias. Filters on the same key are OR'd together, and filters on different keys are AND'd together. For example, status=ACTIVE&amp;status=CREATING&amp;alias=Test, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query:  status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012  If this is included, it filters the results to only the scrapers that match the filter.
         public let filters: [String: [String]]?
         /// Optional) The maximum number of scrapers to return in one ListScrapers operation. The range is 1-1000. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
@@ -1232,7 +1480,7 @@ extension Amp {
     }
 
     public struct LoggingConfigurationStatus: AWSDecodableShape {
-        /// The current status of the logging configuration.
+        /// The current status of the current rules and alerting logging configuration.  These logging configurations are only for rules and alerting logs.
         public let statusCode: LoggingConfigurationStatusCode
         /// If failed, the reason for the failure.
         public let statusReason: String?
@@ -1246,6 +1494,42 @@ extension Amp {
         private enum CodingKeys: String, CodingKey {
             case statusCode = "statusCode"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct LoggingDestination: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration details for logging to CloudWatch Logs.
+        public let cloudWatchLogs: CloudWatchLogDestination
+        /// Filtering criteria that determine which queries are logged.
+        public let filters: LoggingFilter
+
+        @inlinable
+        public init(cloudWatchLogs: CloudWatchLogDestination, filters: LoggingFilter) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.filters = filters
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogs.validate(name: "\(name).cloudWatchLogs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "cloudWatchLogs"
+            case filters = "filters"
+        }
+    }
+
+    public struct LoggingFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs.
+        public let qspThreshold: Int64
+
+        @inlinable
+        public init(qspThreshold: Int64) {
+            self.qspThreshold = qspThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qspThreshold = "qspThreshold"
         }
     }
 
@@ -1372,6 +1656,54 @@ extension Amp {
         }
     }
 
+    public struct QueryLoggingConfigurationMetadata: AWSDecodableShape {
+        /// The date and time when the query logging configuration was created.
+        public let createdAt: Date
+        /// The configured destinations for the query logging configuration.
+        public let destinations: [LoggingDestination]
+        /// The date and time when the query logging configuration was last modified.
+        public let modifiedAt: Date
+        /// The current status of the query logging configuration.
+        public let status: QueryLoggingConfigurationStatus
+        /// The ID of the workspace associated with this query logging configuration.
+        public let workspace: String
+
+        @inlinable
+        public init(createdAt: Date, destinations: [LoggingDestination], modifiedAt: Date, status: QueryLoggingConfigurationStatus, workspace: String) {
+            self.createdAt = createdAt
+            self.destinations = destinations
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.workspace = workspace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case destinations = "destinations"
+            case modifiedAt = "modifiedAt"
+            case status = "status"
+            case workspace = "workspace"
+        }
+    }
+
+    public struct QueryLoggingConfigurationStatus: AWSDecodableShape {
+        /// The current status of the query logging configuration.
+        public let statusCode: QueryLoggingConfigurationStatusCode
+        /// If there is a failure, the reason for the failure.
+        public let statusReason: String?
+
+        @inlinable
+        public init(statusCode: QueryLoggingConfigurationStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSErrorShape {
         /// Description of the error.
         public let message: String
@@ -1395,9 +1727,9 @@ extension Amp {
     }
 
     public struct RoleConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A ARN identifying the source role configuration.
+        /// The Amazon Resource Name (ARN) of the role used in the source account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup.
         public let sourceRoleArn: String?
-        /// A ARN identifying the target role configuration.
+        /// The Amazon Resource Name (ARN) of the role used in the target account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup.
         public let targetRoleArn: String?
 
         @inlinable
@@ -1418,7 +1750,7 @@ extension Amp {
     }
 
     public struct RuleGroupsNamespaceDescription: AWSDecodableShape {
-        /// The ARN of the rule groups namespace. For example,  arn:aws:aps:&lt;region&gt;:123456789012:rulegroupsnamespace/ws-example1-1234-abcd-5678-ef90abcd1234/rulesfile1.
+        /// The ARN of the rule groups namespace. For example, arn:aws:aps:&lt;region&gt;:123456789012:rulegroupsnamespace/ws-example1-1234-abcd-5678-ef90abcd1234/rulesfile1.
         public let arn: String
         /// The date and time that the rule groups namespace was created.
         public let createdAt: Date
@@ -1510,7 +1842,7 @@ extension Amp {
     public struct ScraperDescription: AWSDecodableShape {
         /// (Optional) A name associated with the scraper.
         public let alias: String?
-        /// The Amazon Resource Name (ARN) of the scraper. For example,  arn:aws:aps:&lt;region&gt;:123456798012:scraper/s-example1-1234-abcd-5678-ef9012abcd34.
+        /// The Amazon Resource Name (ARN) of the scraper. For example, arn:aws:aps:&lt;region&gt;:123456798012:scraper/s-example1-1234-abcd-5678-ef9012abcd34.
         public let arn: String
         /// The date and time that the scraper was created.
         public let createdAt: Date
@@ -1518,8 +1850,9 @@ extension Amp {
         public let destination: Destination
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
-        /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         public let roleArn: String
+        /// This structure displays information about the IAM roles used for cross-account scraping configuration.
         public let roleConfiguration: RoleConfiguration?
         /// The configuration in use by the scraper.
         public let scrapeConfiguration: ScrapeConfiguration
@@ -1593,8 +1926,9 @@ extension Amp {
         public let destination: Destination
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
-        /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf.
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
         public let roleArn: String
+        /// This structure displays information about the IAM roles used for cross-account scraping configuration.
         public let roleConfiguration: RoleConfiguration?
         /// The ID of the scraper.
         public let scraperId: String
@@ -1829,6 +2163,63 @@ extension Amp {
         }
     }
 
+    public struct UpdateQueryLoggingConfigurationRequest: AWSEncodableShape {
+        /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element.
+        public let destinations: [LoggingDestination]
+        /// The ID of the workspace for which to update the query logging configuration.
+        public let workspaceId: String
+
+        @inlinable
+        public init(clientToken: String? = UpdateQueryLoggingConfigurationRequest.idempotencyToken(), destinations: [LoggingDestination], workspaceId: String) {
+            self.clientToken = clientToken
+            self.destinations = destinations
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.destinations, forKey: .destinations)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.destinations.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.validate(self.destinations, name: "destinations", parent: name, max: 1)
+            try self.validate(self.destinations, name: "destinations", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case destinations = "destinations"
+        }
+    }
+
+    public struct UpdateQueryLoggingConfigurationResponse: AWSDecodableShape {
+        /// The current status of the query logging configuration.
+        public let status: QueryLoggingConfigurationStatus
+
+        @inlinable
+        public init(status: QueryLoggingConfigurationStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct UpdateScraperRequest: AWSEncodableShape {
         /// The new alias of the scraper.
         public let alias: String?
@@ -1836,9 +2227,9 @@ extension Amp {
         public let clientToken: String?
         /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
         public let destination: Destination?
-        /// The scraper role configuration for the workspace.
+        /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
-        /// Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
+        /// Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
         public let scrapeConfiguration: ScrapeConfiguration?
         /// The ID of the scraper to update.
         public let scraperId: String
@@ -1953,6 +2344,66 @@ extension Amp {
         }
     }
 
+    public struct UpdateWorkspaceConfigurationRequest: AWSEncodableShape {
+        /// You can include a token in your operation to make it an idempotent opeartion.
+        public let clientToken: String?
+        /// This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique.
+        public let limitsPerLabelSet: [LimitsPerLabelSet]?
+        /// Specifies how many days that metrics will be retained in the workspace.
+        public let retentionPeriodInDays: Int?
+        /// The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation.
+        public let workspaceId: String
+
+        @inlinable
+        public init(clientToken: String? = UpdateWorkspaceConfigurationRequest.idempotencyToken(), limitsPerLabelSet: [LimitsPerLabelSet]? = nil, retentionPeriodInDays: Int? = nil, workspaceId: String) {
+            self.clientToken = clientToken
+            self.limitsPerLabelSet = limitsPerLabelSet
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.limitsPerLabelSet, forKey: .limitsPerLabelSet)
+            try container.encodeIfPresent(self.retentionPeriodInDays, forKey: .retentionPeriodInDays)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.limitsPerLabelSet?.forEach {
+                try $0.validate(name: "\(name).limitsPerLabelSet[]")
+            }
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case limitsPerLabelSet = "limitsPerLabelSet"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+        }
+    }
+
+    public struct UpdateWorkspaceConfigurationResponse: AWSDecodableShape {
+        /// The status of the workspace configuration.
+        public let status: WorkspaceConfigurationStatus
+
+        @inlinable
+        public init(status: WorkspaceConfigurationStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct ValidationException: AWSErrorShape {
         /// The field that caused the error, if applicable.
         public let fieldList: [ValidationExceptionField]?
@@ -1993,14 +2444,54 @@ extension Amp {
         }
     }
 
+    public struct WorkspaceConfigurationDescription: AWSDecodableShape {
+        /// This is an array of structures, where each structure displays one label sets for the workspace and the limits for that label set.
+        public let limitsPerLabelSet: [LimitsPerLabelSet]?
+        /// This field displays how many days that metrics are retained in the workspace.
+        public let retentionPeriodInDays: Int?
+        /// This structure displays the current status of the workspace configuration, and might also contain a reason for that status.
+        public let status: WorkspaceConfigurationStatus
+
+        @inlinable
+        public init(limitsPerLabelSet: [LimitsPerLabelSet]? = nil, retentionPeriodInDays: Int? = nil, status: WorkspaceConfigurationStatus) {
+            self.limitsPerLabelSet = limitsPerLabelSet
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitsPerLabelSet = "limitsPerLabelSet"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+            case status = "status"
+        }
+    }
+
+    public struct WorkspaceConfigurationStatus: AWSDecodableShape {
+        /// The current status of the workspace configuration.
+        public let statusCode: WorkspaceConfigurationStatusCode
+        /// The reason for the current status, if a reason is available.
+        public let statusReason: String?
+
+        @inlinable
+        public init(statusCode: WorkspaceConfigurationStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct WorkspaceDescription: AWSDecodableShape {
         /// The alias that is assigned to this workspace to help identify it. It does not need to be unique.
         public let alias: String?
-        /// The ARN of the workspace. For example,  arn:aws:aps:&lt;region&gt;:123456789012:workspace/ws-example1-1234-abcd-5678-ef90abcd1234.
+        /// The ARN of the workspace. For example, arn:aws:aps:&lt;region&gt;:123456789012:workspace/ws-example1-1234-abcd-5678-ef90abcd1234.
         public let arn: String
         /// The date and time that the workspace was created.
         public let createdAt: Date
-        /// (optional) If the workspace was created with a customer managed KMS  key, the ARN for the key used.
+        /// (optional) If the workspace was created with a customer managed KMS key, the ARN for the key used.
         public let kmsKeyArn: String?
         /// The Prometheus endpoint available for this workspace. For example, https://aps-workspaces.&lt;region&gt;.amazonaws.com/workspaces/ws-example1-1234-abcd-5678-ef90abcd1234/api/v1/.
         public let prometheusEndpoint: String?
@@ -2008,7 +2499,7 @@ extension Amp {
         public let status: WorkspaceStatus
         /// The list of tag keys and values that are associated with the workspace.
         public let tags: [String: String]?
-        /// The unique ID for the workspace. For example,  ws-example1-1234-abcd-5678-ef90abcd1234.
+        /// The unique ID for the workspace. For example, ws-example1-1234-abcd-5678-ef90abcd1234.
         public let workspaceId: String
 
         @inlinable
@@ -2050,13 +2541,13 @@ extension Amp {
     }
 
     public struct WorkspaceSummary: AWSDecodableShape {
-        /// The alias that is assigned to this workspace to help identify it. It does not  need to be unique.
+        /// The alias that is assigned to this workspace to help identify it. It does not need to be unique.
         public let alias: String?
         /// The ARN of the workspace.
         public let arn: String
         /// The date and time that the workspace was created.
         public let createdAt: Date
-        /// (optional) If the workspace was created with a customer managed KMS  key, the ARN for the key used.
+        /// (optional) If the workspace was created with a customer managed KMS key, the ARN for the key used.
         public let kmsKeyArn: String?
         /// The current status of the workspace.
         public let status: WorkspaceStatus

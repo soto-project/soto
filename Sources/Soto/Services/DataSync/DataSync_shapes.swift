@@ -54,34 +54,6 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum DiscoveryJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case completedWithIssues = "COMPLETED_WITH_ISSUES"
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        case terminated = "TERMINATED"
-        case warning = "WARNING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DiscoveryResourceFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case svm = "SVM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DiscoveryResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cluster = "CLUSTER"
-        case svm = "SVM"
-        case volume = "VOLUME"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DiscoverySystemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case netAppONTAP = "NetAppONTAP"
-        public var description: String { return self.rawValue }
-    }
-
     public enum EfsInTransitEncryption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case tls12 = "TLS1_2"
@@ -231,14 +203,6 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public enum ReportLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case errorsOnly = "ERRORS_ONLY"
         case successesAndErrors = "SUCCESSES_AND_ERRORS"
@@ -294,13 +258,6 @@ extension DataSync {
         case smb2 = "SMB2"
         case smb20 = "SMB2_0"
         case smb3 = "SMB3"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StorageSystemConnectivityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fail = "FAIL"
-        case pass = "PASS"
-        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -365,83 +322,6 @@ extension DataSync {
     }
 
     // MARK: Shapes
-
-    public struct AddStorageSystemRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface. You can only specify one ARN.
-        public let agentArns: [String]
-        /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
-        public let clientToken: String
-        /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
-        public let cloudWatchLogGroupArn: String?
-        /// Specifies the user name and password for accessing your on-premises storage system's management interface.
-        public let credentials: Credentials
-        /// Specifies a familiar name for your on-premises storage system.
-        public let name: String?
-        /// Specifies the server name and network port required to connect with the management interface of your on-premises storage system.
-        public let serverConfiguration: DiscoveryServerConfiguration
-        /// Specifies the type of on-premises storage system that you want DataSync Discovery to collect information about.  DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
-        public let systemType: DiscoverySystemType
-        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your on-premises storage system.
-        public let tags: [TagListEntry]?
-
-        @inlinable
-        public init(agentArns: [String], clientToken: String = AddStorageSystemRequest.idempotencyToken(), cloudWatchLogGroupArn: String? = nil, credentials: Credentials, name: String? = nil, serverConfiguration: DiscoveryServerConfiguration, systemType: DiscoverySystemType, tags: [TagListEntry]? = nil) {
-            self.agentArns = agentArns
-            self.clientToken = clientToken
-            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-            self.credentials = credentials
-            self.name = name
-            self.serverConfiguration = serverConfiguration
-            self.systemType = systemType
-            self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.agentArns.forEach {
-                try validate($0, name: "agentArns[]", parent: name, max: 128)
-                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
-            }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 1)
-            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, max: 562)
-            try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]+:[0-9]{12}:log-group:([^:\\*]*)(:\\*)?$")
-            try self.credentials.validate(name: "\(name).credentials")
-            try self.validate(self.name, name: "name", parent: name, max: 256)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\s+=._:@\\/-]+$")
-            try self.serverConfiguration.validate(name: "\(name).serverConfiguration")
-            try self.tags?.forEach {
-                try $0.validate(name: "\(name).tags[]")
-            }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArns = "AgentArns"
-            case clientToken = "ClientToken"
-            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
-            case credentials = "Credentials"
-            case name = "Name"
-            case serverConfiguration = "ServerConfiguration"
-            case systemType = "SystemType"
-            case tags = "Tags"
-        }
-    }
-
-    public struct AddStorageSystemResponse: AWSDecodableShape {
-        /// The ARN of the on-premises storage system that you can use with DataSync Discovery.
-        public let storageSystemArn: String
-
-        @inlinable
-        public init(storageSystemArn: String) {
-            self.storageSystemArn = storageSystemArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageSystemArn = "StorageSystemArn"
-        }
-    }
 
     public struct AgentListEntry: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of a DataSync agent.
@@ -510,32 +390,6 @@ extension DataSync {
 
     public struct CancelTaskExecutionResponse: AWSDecodableShape {
         public init() {}
-    }
-
-    public struct Capacity: AWSDecodableShape {
-        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
-        public let clusterCloudStorageUsed: Int64?
-        /// The amount of space that's being used in a storage system resource without accounting for compression or deduplication.
-        public let logicalUsed: Int64?
-        /// The total amount of space available in a storage system resource.
-        public let provisioned: Int64?
-        /// The amount of space that's being used in a storage system resource.
-        public let used: Int64?
-
-        @inlinable
-        public init(clusterCloudStorageUsed: Int64? = nil, logicalUsed: Int64? = nil, provisioned: Int64? = nil, used: Int64? = nil) {
-            self.clusterCloudStorageUsed = clusterCloudStorageUsed
-            self.logicalUsed = logicalUsed
-            self.provisioned = provisioned
-            self.used = used
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterCloudStorageUsed = "ClusterCloudStorageUsed"
-            case logicalUsed = "LogicalUsed"
-            case provisioned = "Provisioned"
-            case used = "Used"
-        }
     }
 
     public struct CreateAgentRequest: AWSEncodableShape {
@@ -1014,7 +868,7 @@ extension DataSync {
         public let authenticationType: HdfsAuthenticationType
         /// The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
         public let blockSize: Int?
-        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you're using the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
+        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.  If KERBEROS is specified for AuthenticationType, this parameter is required.
         public let kerberosKeytab: AWSBase64Data?
         /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
         public let kerberosKrb5Conf: AWSBase64Data?
@@ -1272,7 +1126,7 @@ extension DataSync {
         public let s3Config: S3Config
         /// Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see Storage class considerations with Amazon S3 transfers.
         public let s3StorageClass: S3StorageClass?
-        /// Specifies a prefix in the S3 bucket that DataSync  reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
+        /// Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
         public let subdirectory: String?
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
         public let tags: [TagListEntry]?
@@ -1338,7 +1192,7 @@ extension DataSync {
         public let dnsIpAddresses: [String]?
         /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
         public let domain: String?
-        /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+        /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
         public let kerberosKeytab: AWSBase64Data?
         /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
         public let kerberosKrb5Conf: AWSBase64Data?
@@ -1538,31 +1392,6 @@ extension DataSync {
         }
     }
 
-    public struct Credentials: AWSEncodableShape {
-        /// Specifies the password for your storage system's management interface.
-        public let password: String
-        /// Specifies the user name for your storage system's management interface.
-        public let username: String
-
-        @inlinable
-        public init(password: String, username: String) {
-            self.password = password
-            self.username = username
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.password, name: "password", parent: name, max: 1024)
-            try self.validate(self.password, name: "password", parent: name, pattern: "^(?!.*[:\\\"][^:\"]*$).+$")
-            try self.validate(self.username, name: "username", parent: name, max: 1024)
-            try self.validate(self.username, name: "username", parent: name, pattern: "^(?!.*[:\\\"][^:\"]*$).+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case password = "Password"
-            case username = "Username"
-        }
-    }
-
     public struct DeleteAgentRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
         public let agentArn: String
@@ -1690,59 +1519,6 @@ extension DataSync {
             case platform = "Platform"
             case privateLinkConfig = "PrivateLinkConfig"
             case status = "Status"
-        }
-    }
-
-    public struct DescribeDiscoveryJobRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want information about.
-        public let discoveryJobArn: String
-
-        @inlinable
-        public init(discoveryJobArn: String) {
-            self.discoveryJobArn = discoveryJobArn
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, max: 256)
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobArn = "DiscoveryJobArn"
-        }
-    }
-
-    public struct DescribeDiscoveryJobResponse: AWSDecodableShape {
-        /// The number of minutes that the discovery job runs.
-        public let collectionDurationMinutes: Int?
-        /// The ARN of the discovery job.
-        public let discoveryJobArn: String?
-        /// The time when the discovery job ended.
-        public let jobEndTime: Date?
-        /// The time when the discovery job started.
-        public let jobStartTime: Date?
-        /// Indicates the status of a discovery job. For more information, see Discovery job statuses.
-        public let status: DiscoveryJobStatus?
-        /// The ARN of the on-premises storage system you're running the discovery job on.
-        public let storageSystemArn: String?
-
-        @inlinable
-        public init(collectionDurationMinutes: Int? = nil, discoveryJobArn: String? = nil, jobEndTime: Date? = nil, jobStartTime: Date? = nil, status: DiscoveryJobStatus? = nil, storageSystemArn: String? = nil) {
-            self.collectionDurationMinutes = collectionDurationMinutes
-            self.discoveryJobArn = discoveryJobArn
-            self.jobEndTime = jobEndTime
-            self.jobStartTime = jobStartTime
-            self.status = status
-            self.storageSystemArn = storageSystemArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case collectionDurationMinutes = "CollectionDurationMinutes"
-            case discoveryJobArn = "DiscoveryJobArn"
-            case jobEndTime = "JobEndTime"
-            case jobStartTime = "JobStartTime"
-            case status = "Status"
-            case storageSystemArn = "StorageSystemArn"
         }
     }
 
@@ -2369,207 +2145,6 @@ extension DataSync {
         }
     }
 
-    public struct DescribeStorageSystemRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system that you're using with DataSync Discovery.
-        public let storageSystemArn: String
-
-        @inlinable
-        public init(storageSystemArn: String) {
-            self.storageSystemArn = storageSystemArn
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, max: 128)
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageSystemArn = "StorageSystemArn"
-        }
-    }
-
-    public struct DescribeStorageSystemResourceMetricsRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
-        public let discoveryJobArn: String
-        /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with StartTime.
-        public let endTime: Date?
-        /// Specifies how many results that you want in the response.
-        public let maxResults: Int?
-        /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-        /// Specifies the universally unique identifier (UUID) of the storage system resource that you want information about.
-        public let resourceId: String
-        /// Specifies the kind of storage system resource that you want information about.
-        public let resourceType: DiscoveryResourceType
-        /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
-        public let startTime: Date?
-
-        @inlinable
-        public init(discoveryJobArn: String, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: DiscoveryResourceType, startTime: Date? = nil) {
-            self.discoveryJobArn = discoveryJobArn
-            self.endTime = endTime
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-            self.startTime = startTime
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, max: 256)
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobArn = "DiscoveryJobArn"
-            case endTime = "EndTime"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-            case startTime = "StartTime"
-        }
-    }
-
-    public struct DescribeStorageSystemResourceMetricsResponse: AWSDecodableShape {
-        /// The details that your discovery job collected about your storage system resource.
-        public let metrics: [ResourceMetrics]?
-        /// The opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-
-        @inlinable
-        public init(metrics: [ResourceMetrics]? = nil, nextToken: String? = nil) {
-            self.metrics = metrics
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metrics = "Metrics"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeStorageSystemResourcesRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the discovery job that's collecting data from your on-premises storage system.
-        public let discoveryJobArn: String
-        /// Filters the storage system resources that you want returned. For example, this might be volumes associated with a specific storage virtual machine (SVM).
-        public let filter: [DiscoveryResourceFilter: [String]]?
-        /// Specifies the maximum number of storage system resources that you want to list in a response.
-        public let maxResults: Int?
-        /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-        /// Specifies the universally unique identifiers (UUIDs) of the storage system resources that you want information about. You can't use this parameter in combination with the Filter parameter.
-        public let resourceIds: [String]?
-        /// Specifies what kind of storage system resources that you want information about.
-        public let resourceType: DiscoveryResourceType
-
-        @inlinable
-        public init(discoveryJobArn: String, filter: [DiscoveryResourceFilter: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceType: DiscoveryResourceType) {
-            self.discoveryJobArn = discoveryJobArn
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.resourceIds = resourceIds
-            self.resourceType = resourceType
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, max: 256)
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
-            try self.resourceIds?.forEach {
-                try validate($0, name: "resourceIds[]", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            }
-            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 100)
-            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobArn = "DiscoveryJobArn"
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case resourceIds = "ResourceIds"
-            case resourceType = "ResourceType"
-        }
-    }
-
-    public struct DescribeStorageSystemResourcesResponse: AWSDecodableShape {
-        /// The opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-        /// The information collected about your storage system's resources. A response can also include Amazon Web Services storage service recommendations. For more information, see storage resource information collected by and recommendations provided by DataSync Discovery.
-        public let resourceDetails: ResourceDetails?
-
-        @inlinable
-        public init(nextToken: String? = nil, resourceDetails: ResourceDetails? = nil) {
-            self.nextToken = nextToken
-            self.resourceDetails = resourceDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case resourceDetails = "ResourceDetails"
-        }
-    }
-
-    public struct DescribeStorageSystemResponse: AWSDecodableShape {
-        /// The ARN of the DataSync agent that connects to and reads from your on-premises storage system.
-        public let agentArns: [String]?
-        /// The ARN of the Amazon CloudWatch log group that's used to monitor and log discovery job events.
-        public let cloudWatchLogGroupArn: String?
-        /// Indicates whether your DataSync agent can connect to your on-premises storage system.
-        public let connectivityStatus: StorageSystemConnectivityStatus?
-        /// The time when you added the on-premises storage system to DataSync Discovery.
-        public let creationTime: Date?
-        /// Describes the connectivity error that the DataSync agent is encountering with your on-premises storage system.
-        public let errorMessage: String?
-        /// The name that you gave your on-premises storage system when adding it to DataSync Discovery.
-        public let name: String?
-        /// The ARN of the secret that stores your on-premises storage system's credentials. DataSync Discovery stores these credentials in Secrets Manager.
-        public let secretsManagerArn: String?
-        /// The server name and network port required to connect with your on-premises storage system's management interface.
-        public let serverConfiguration: DiscoveryServerConfiguration?
-        /// The ARN of the on-premises storage system that the discovery job looked at.
-        public let storageSystemArn: String?
-        /// The type of on-premises storage system.  DataSync Discovery currently only supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
-        public let systemType: DiscoverySystemType?
-
-        @inlinable
-        public init(agentArns: [String]? = nil, cloudWatchLogGroupArn: String? = nil, connectivityStatus: StorageSystemConnectivityStatus? = nil, creationTime: Date? = nil, errorMessage: String? = nil, name: String? = nil, secretsManagerArn: String? = nil, serverConfiguration: DiscoveryServerConfiguration? = nil, storageSystemArn: String? = nil, systemType: DiscoverySystemType? = nil) {
-            self.agentArns = agentArns
-            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-            self.connectivityStatus = connectivityStatus
-            self.creationTime = creationTime
-            self.errorMessage = errorMessage
-            self.name = name
-            self.secretsManagerArn = secretsManagerArn
-            self.serverConfiguration = serverConfiguration
-            self.storageSystemArn = storageSystemArn
-            self.systemType = systemType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArns = "AgentArns"
-            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
-            case connectivityStatus = "ConnectivityStatus"
-            case creationTime = "CreationTime"
-            case errorMessage = "ErrorMessage"
-            case name = "Name"
-            case secretsManagerArn = "SecretsManagerArn"
-            case serverConfiguration = "ServerConfiguration"
-            case storageSystemArn = "StorageSystemArn"
-            case systemType = "SystemType"
-        }
-    }
-
     public struct DescribeTaskExecutionRequest: AWSEncodableShape {
         /// Specifies the Amazon Resource Name (ARN) of the task execution that you want information about.
         public let taskExecutionArn: String
@@ -2803,49 +2378,6 @@ extension DataSync {
         }
     }
 
-    public struct DiscoveryJobListEntry: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a discovery job.
-        public let discoveryJobArn: String?
-        /// The status of a discovery job. For more information, see Discovery job statuses.
-        public let status: DiscoveryJobStatus?
-
-        @inlinable
-        public init(discoveryJobArn: String? = nil, status: DiscoveryJobStatus? = nil) {
-            self.discoveryJobArn = discoveryJobArn
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobArn = "DiscoveryJobArn"
-            case status = "Status"
-        }
-    }
-
-    public struct DiscoveryServerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The domain name or IP address of your storage system's management interface.
-        public let serverHostname: String
-        /// The network port for accessing the storage system's management interface.
-        public let serverPort: Int?
-
-        @inlinable
-        public init(serverHostname: String, serverPort: Int? = nil) {
-            self.serverHostname = serverHostname
-            self.serverPort = serverPort
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
-            try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
-            try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65535)
-            try self.validate(self.serverPort, name: "serverPort", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverHostname = "ServerHostname"
-            case serverPort = "ServerPort"
-        }
-    }
-
     public struct Ec2Config: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target.
         public let securityGroupArns: [String]
@@ -3022,42 +2554,6 @@ extension DataSync {
         }
     }
 
-    public struct GenerateRecommendationsRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
-        public let discoveryJobArn: String
-        /// Specifies the universally unique identifiers (UUIDs) of the resources in your storage system that you want recommendations on.
-        public let resourceIds: [String]
-        /// Specifies the type of resource in your storage system that you want recommendations on.
-        public let resourceType: DiscoveryResourceType
-
-        @inlinable
-        public init(discoveryJobArn: String, resourceIds: [String], resourceType: DiscoveryResourceType) {
-            self.discoveryJobArn = discoveryJobArn
-            self.resourceIds = resourceIds
-            self.resourceType = resourceType
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, max: 256)
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.resourceIds.forEach {
-                try validate($0, name: "resourceIds[]", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            }
-            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 100)
-            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobArn = "DiscoveryJobArn"
-            case resourceIds = "ResourceIds"
-            case resourceType = "ResourceType"
-        }
-    }
-
-    public struct GenerateRecommendationsResponse: AWSDecodableShape {
-        public init() {}
-    }
-
     public struct HdfsNameNode: AWSEncodableShape & AWSDecodableShape {
         /// The hostname of the NameNode in the HDFS cluster. This value is the IP address or Domain Name Service (DNS) name of the NameNode. An agent that's installed on-premises uses this hostname to communicate with the NameNode in the network.
         public let hostname: String
@@ -3081,32 +2577,6 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case hostname = "Hostname"
             case port = "Port"
-        }
-    }
-
-    public struct IOPS: AWSDecodableShape {
-        /// Peak IOPS unrelated to read and write operations.
-        public let other: Double?
-        /// Peak IOPS related to read operations.
-        public let read: Double?
-        /// Peak total IOPS on your on-premises storage system resource.
-        public let total: Double?
-        /// Peak IOPS related to write operations.
-        public let write: Double?
-
-        @inlinable
-        public init(other: Double? = nil, read: Double? = nil, total: Double? = nil, write: Double? = nil) {
-            self.other = other
-            self.read = read
-            self.total = total
-            self.write = write
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case other = "Other"
-            case read = "Read"
-            case total = "Total"
-            case write = "Write"
         }
     }
 
@@ -3142,28 +2612,6 @@ extension DataSync {
             case datasyncErrorCode = "datasyncErrorCode"
             case errorCode = "errorCode"
             case message = "message"
-        }
-    }
-
-    public struct Latency: AWSDecodableShape {
-        /// Peak latency for operations unrelated to read and write operations.
-        public let other: Double?
-        /// Peak latency for read operations.
-        public let read: Double?
-        /// Peak latency for write operations.
-        public let write: Double?
-
-        @inlinable
-        public init(other: Double? = nil, read: Double? = nil, write: Double? = nil) {
-            self.other = other
-            self.read = read
-            self.write = write
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case other = "Other"
-            case read = "Read"
-            case write = "Write"
         }
     }
 
@@ -3206,55 +2654,6 @@ extension DataSync {
 
         private enum CodingKeys: String, CodingKey {
             case agents = "Agents"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListDiscoveryJobsRequest: AWSEncodableShape {
-        /// Specifies how many results you want in the response.
-        public let maxResults: Int?
-        /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-        /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system. Use this parameter if you only want to list the discovery jobs that are associated with a specific storage system.
-        public let storageSystemArn: String?
-
-        @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, storageSystemArn: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.storageSystemArn = storageSystemArn
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, max: 128)
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case storageSystemArn = "StorageSystemArn"
-        }
-    }
-
-    public struct ListDiscoveryJobsResponse: AWSDecodableShape {
-        /// The discovery jobs that you've run.
-        public let discoveryJobs: [DiscoveryJobListEntry]?
-        /// The opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-
-        @inlinable
-        public init(discoveryJobs: [DiscoveryJobListEntry]? = nil, nextToken: String? = nil) {
-            self.discoveryJobs = discoveryJobs
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobs = "DiscoveryJobs"
             case nextToken = "NextToken"
         }
     }
@@ -3306,49 +2705,6 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case locations = "Locations"
             case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListStorageSystemsRequest: AWSEncodableShape {
-        /// Specifies how many results you want in the response.
-        public let maxResults: Int?
-        /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-
-        @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListStorageSystemsResponse: AWSDecodableShape {
-        /// The opaque string that indicates the position to begin the next list of results in the response.
-        public let nextToken: String?
-        /// The Amazon Resource Names ARNs) of the on-premises storage systems that you're using with DataSync Discovery.
-        public let storageSystems: [StorageSystemListEntry]?
-
-        @inlinable
-        public init(nextToken: String? = nil, storageSystems: [StorageSystemListEntry]? = nil) {
-            self.nextToken = nextToken
-            self.storageSystems = storageSystems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case storageSystems = "StorageSystems"
         }
     }
 
@@ -3574,254 +2930,6 @@ extension DataSync {
         }
     }
 
-    public struct MaxP95Performance: AWSDecodableShape {
-        /// Peak IOPS unrelated to read and write operations.
-        public let iopsOther: Double?
-        /// Peak IOPS related to read operations.
-        public let iopsRead: Double?
-        /// Peak total IOPS on your on-premises storage system resource.
-        public let iopsTotal: Double?
-        /// Peak IOPS related to write operations.
-        public let iopsWrite: Double?
-        /// Peak latency for operations unrelated to read and write operations.
-        public let latencyOther: Double?
-        /// Peak latency for read operations.
-        public let latencyRead: Double?
-        /// Peak latency for write operations.
-        public let latencyWrite: Double?
-        /// Peak throughput unrelated to read and write operations.
-        public let throughputOther: Double?
-        /// Peak throughput related to read operations.
-        public let throughputRead: Double?
-        /// Peak total throughput on your on-premises storage system resource.
-        public let throughputTotal: Double?
-        /// Peak throughput related to write operations.
-        public let throughputWrite: Double?
-
-        @inlinable
-        public init(iopsOther: Double? = nil, iopsRead: Double? = nil, iopsTotal: Double? = nil, iopsWrite: Double? = nil, latencyOther: Double? = nil, latencyRead: Double? = nil, latencyWrite: Double? = nil, throughputOther: Double? = nil, throughputRead: Double? = nil, throughputTotal: Double? = nil, throughputWrite: Double? = nil) {
-            self.iopsOther = iopsOther
-            self.iopsRead = iopsRead
-            self.iopsTotal = iopsTotal
-            self.iopsWrite = iopsWrite
-            self.latencyOther = latencyOther
-            self.latencyRead = latencyRead
-            self.latencyWrite = latencyWrite
-            self.throughputOther = throughputOther
-            self.throughputRead = throughputRead
-            self.throughputTotal = throughputTotal
-            self.throughputWrite = throughputWrite
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iopsOther = "IopsOther"
-            case iopsRead = "IopsRead"
-            case iopsTotal = "IopsTotal"
-            case iopsWrite = "IopsWrite"
-            case latencyOther = "LatencyOther"
-            case latencyRead = "LatencyRead"
-            case latencyWrite = "LatencyWrite"
-            case throughputOther = "ThroughputOther"
-            case throughputRead = "ThroughputRead"
-            case throughputTotal = "ThroughputTotal"
-            case throughputWrite = "ThroughputWrite"
-        }
-    }
-
-    public struct NetAppONTAPCluster: AWSDecodableShape {
-        /// The number of CIFS shares in the cluster.
-        public let cifsShareCount: Int64?
-        /// The storage space that's being used in the cluster without accounting for compression or deduplication.
-        public let clusterBlockStorageLogicalUsed: Int64?
-        /// The total storage space that's available in the cluster.
-        public let clusterBlockStorageSize: Int64?
-        /// The storage space that's being used in a cluster.
-        public let clusterBlockStorageUsed: Int64?
-        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
-        public let clusterCloudStorageUsed: Int64?
-        /// The name of the cluster.
-        public let clusterName: String?
-        /// The number of LUNs (logical unit numbers) in the cluster.
-        public let lunCount: Int64?
-        /// The performance data that DataSync Discovery collects about the cluster.
-        public let maxP95Performance: MaxP95Performance?
-        /// The number of NFS volumes in the cluster.
-        public let nfsExportedVolumes: Int64?
-        /// The Amazon Web Services storage services that DataSync Discovery recommends for the cluster. For more information, see Recommendations provided by DataSync Discovery.
-        public let recommendations: [Recommendation]?
-        /// Indicates whether DataSync Discovery recommendations for the cluster are ready to view, incomplete, or can't be determined. For more information, see Recommendation statuses.
-        public let recommendationStatus: RecommendationStatus?
-        /// The universally unique identifier (UUID) of the cluster.
-        public let resourceId: String?
-
-        @inlinable
-        public init(cifsShareCount: Int64? = nil, clusterBlockStorageLogicalUsed: Int64? = nil, clusterBlockStorageSize: Int64? = nil, clusterBlockStorageUsed: Int64? = nil, clusterCloudStorageUsed: Int64? = nil, clusterName: String? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil) {
-            self.cifsShareCount = cifsShareCount
-            self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
-            self.clusterBlockStorageSize = clusterBlockStorageSize
-            self.clusterBlockStorageUsed = clusterBlockStorageUsed
-            self.clusterCloudStorageUsed = clusterCloudStorageUsed
-            self.clusterName = clusterName
-            self.lunCount = lunCount
-            self.maxP95Performance = maxP95Performance
-            self.nfsExportedVolumes = nfsExportedVolumes
-            self.recommendations = recommendations
-            self.recommendationStatus = recommendationStatus
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cifsShareCount = "CifsShareCount"
-            case clusterBlockStorageLogicalUsed = "ClusterBlockStorageLogicalUsed"
-            case clusterBlockStorageSize = "ClusterBlockStorageSize"
-            case clusterBlockStorageUsed = "ClusterBlockStorageUsed"
-            case clusterCloudStorageUsed = "ClusterCloudStorageUsed"
-            case clusterName = "ClusterName"
-            case lunCount = "LunCount"
-            case maxP95Performance = "MaxP95Performance"
-            case nfsExportedVolumes = "NfsExportedVolumes"
-            case recommendations = "Recommendations"
-            case recommendationStatus = "RecommendationStatus"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct NetAppONTAPSVM: AWSDecodableShape {
-        /// The number of CIFS shares in the SVM.
-        public let cifsShareCount: Int64?
-        /// The universally unique identifier (UUID) of the cluster associated with the SVM.
-        public let clusterUuid: String?
-        /// The data transfer protocols (such as NFS) configured for the SVM.
-        public let enabledProtocols: [String]?
-        /// The number of LUNs (logical unit numbers) in the SVM.
-        public let lunCount: Int64?
-        /// The performance data that DataSync Discovery collects about the SVM.
-        public let maxP95Performance: MaxP95Performance?
-        /// The number of NFS volumes in the SVM.
-        public let nfsExportedVolumes: Int64?
-        /// The Amazon Web Services storage services that DataSync Discovery recommends for the SVM. For more information, see Recommendations provided by DataSync Discovery.
-        public let recommendations: [Recommendation]?
-        /// Indicates whether DataSync Discovery recommendations for the SVM are ready to view, incomplete, or can't be determined. For more information, see Recommendation statuses.
-        public let recommendationStatus: RecommendationStatus?
-        /// The UUID of the SVM.
-        public let resourceId: String?
-        /// The name of the SVM
-        public let svmName: String?
-        /// The total storage space that's available in the SVM.
-        public let totalCapacityProvisioned: Int64?
-        /// The storage space that's being used in the SVM.
-        public let totalCapacityUsed: Int64?
-        /// The storage space that's being used in the SVM without accounting for compression or deduplication.
-        public let totalLogicalCapacityUsed: Int64?
-        /// The amount of storage in the SVM that's being used for snapshots.
-        public let totalSnapshotCapacityUsed: Int64?
-
-        @inlinable
-        public init(cifsShareCount: Int64? = nil, clusterUuid: String? = nil, enabledProtocols: [String]? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, svmName: String? = nil, totalCapacityProvisioned: Int64? = nil, totalCapacityUsed: Int64? = nil, totalLogicalCapacityUsed: Int64? = nil, totalSnapshotCapacityUsed: Int64? = nil) {
-            self.cifsShareCount = cifsShareCount
-            self.clusterUuid = clusterUuid
-            self.enabledProtocols = enabledProtocols
-            self.lunCount = lunCount
-            self.maxP95Performance = maxP95Performance
-            self.nfsExportedVolumes = nfsExportedVolumes
-            self.recommendations = recommendations
-            self.recommendationStatus = recommendationStatus
-            self.resourceId = resourceId
-            self.svmName = svmName
-            self.totalCapacityProvisioned = totalCapacityProvisioned
-            self.totalCapacityUsed = totalCapacityUsed
-            self.totalLogicalCapacityUsed = totalLogicalCapacityUsed
-            self.totalSnapshotCapacityUsed = totalSnapshotCapacityUsed
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cifsShareCount = "CifsShareCount"
-            case clusterUuid = "ClusterUuid"
-            case enabledProtocols = "EnabledProtocols"
-            case lunCount = "LunCount"
-            case maxP95Performance = "MaxP95Performance"
-            case nfsExportedVolumes = "NfsExportedVolumes"
-            case recommendations = "Recommendations"
-            case recommendationStatus = "RecommendationStatus"
-            case resourceId = "ResourceId"
-            case svmName = "SvmName"
-            case totalCapacityProvisioned = "TotalCapacityProvisioned"
-            case totalCapacityUsed = "TotalCapacityUsed"
-            case totalLogicalCapacityUsed = "TotalLogicalCapacityUsed"
-            case totalSnapshotCapacityUsed = "TotalSnapshotCapacityUsed"
-        }
-    }
-
-    public struct NetAppONTAPVolume: AWSDecodableShape {
-        /// The total storage space that's available in the volume.
-        public let capacityProvisioned: Int64?
-        /// The storage space that's being used in the volume.
-        public let capacityUsed: Int64?
-        /// The number of CIFS shares in the volume.
-        public let cifsShareCount: Int64?
-        /// The storage space that's being used in the volume without accounting for compression or deduplication.
-        public let logicalCapacityUsed: Int64?
-        /// The number of LUNs (logical unit numbers) in the volume.
-        public let lunCount: Int64?
-        /// The performance data that DataSync Discovery collects about the volume.
-        public let maxP95Performance: MaxP95Performance?
-        /// The number of NFS volumes in the volume.
-        public let nfsExported: Bool?
-        /// The Amazon Web Services storage services that DataSync Discovery recommends for the volume. For more information, see Recommendations provided by DataSync Discovery.
-        public let recommendations: [Recommendation]?
-        /// Indicates whether DataSync Discovery recommendations for the volume are ready to view, incomplete, or can't be determined. For more information, see Recommendation statuses.
-        public let recommendationStatus: RecommendationStatus?
-        /// The universally unique identifier (UUID) of the volume.
-        public let resourceId: String?
-        /// The volume's security style (such as Unix or NTFS).
-        public let securityStyle: String?
-        /// The amount of storage in the volume that's being used for snapshots.
-        public let snapshotCapacityUsed: Int64?
-        /// The name of the SVM associated with the volume.
-        public let svmName: String?
-        /// The UUID of the storage virtual machine (SVM) associated with the volume.
-        public let svmUuid: String?
-        /// The name of the volume.
-        public let volumeName: String?
-
-        @inlinable
-        public init(capacityProvisioned: Int64? = nil, capacityUsed: Int64? = nil, cifsShareCount: Int64? = nil, logicalCapacityUsed: Int64? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExported: Bool? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, securityStyle: String? = nil, snapshotCapacityUsed: Int64? = nil, svmName: String? = nil, svmUuid: String? = nil, volumeName: String? = nil) {
-            self.capacityProvisioned = capacityProvisioned
-            self.capacityUsed = capacityUsed
-            self.cifsShareCount = cifsShareCount
-            self.logicalCapacityUsed = logicalCapacityUsed
-            self.lunCount = lunCount
-            self.maxP95Performance = maxP95Performance
-            self.nfsExported = nfsExported
-            self.recommendations = recommendations
-            self.recommendationStatus = recommendationStatus
-            self.resourceId = resourceId
-            self.securityStyle = securityStyle
-            self.snapshotCapacityUsed = snapshotCapacityUsed
-            self.svmName = svmName
-            self.svmUuid = svmUuid
-            self.volumeName = volumeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capacityProvisioned = "CapacityProvisioned"
-            case capacityUsed = "CapacityUsed"
-            case cifsShareCount = "CifsShareCount"
-            case logicalCapacityUsed = "LogicalCapacityUsed"
-            case lunCount = "LunCount"
-            case maxP95Performance = "MaxP95Performance"
-            case nfsExported = "NfsExported"
-            case recommendations = "Recommendations"
-            case recommendationStatus = "RecommendationStatus"
-            case resourceId = "ResourceId"
-            case securityStyle = "SecurityStyle"
-            case snapshotCapacityUsed = "SnapshotCapacityUsed"
-            case svmName = "SvmName"
-            case svmUuid = "SvmUuid"
-            case volumeName = "VolumeName"
-        }
-    }
-
     public struct NfsMountOptions: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:    AUTOMATIC (default): DataSync chooses NFS version 4.1.    NFS3: Stateless protocol version that allows for asynchronous writes on the server.    NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.    NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.    DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
         public let version: NfsVersion?
@@ -3933,28 +3041,6 @@ extension DataSync {
         }
     }
 
-    public struct P95Metrics: AWSDecodableShape {
-        /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-        public let iops: IOPS?
-        /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-        public let latency: Latency?
-        /// The throughput peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-        public let throughput: Throughput?
-
-        @inlinable
-        public init(iops: IOPS? = nil, latency: Latency? = nil, throughput: Throughput? = nil) {
-            self.iops = iops
-            self.latency = latency
-            self.throughput = throughput
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iops = "IOPS"
-            case latency = "Latency"
-            case throughput = "Throughput"
-        }
-    }
-
     public struct Platform: AWSDecodableShape {
         /// The version of the DataSync agent.
         public let version: String?
@@ -4011,51 +3097,6 @@ extension DataSync {
             case dataTransferProtection = "DataTransferProtection"
             case rpcProtection = "RpcProtection"
         }
-    }
-
-    public struct Recommendation: AWSDecodableShape {
-        /// The estimated monthly cost of the recommended Amazon Web Services storage service.
-        public let estimatedMonthlyStorageCost: String?
-        /// Information about how you can set up a recommended Amazon Web Services storage service.
-        public let storageConfiguration: [String: String]?
-        /// A recommended Amazon Web Services storage service that you can migrate data to based on information that DataSync Discovery collects about your on-premises storage system.
-        public let storageType: String?
-
-        @inlinable
-        public init(estimatedMonthlyStorageCost: String? = nil, storageConfiguration: [String: String]? = nil, storageType: String? = nil) {
-            self.estimatedMonthlyStorageCost = estimatedMonthlyStorageCost
-            self.storageConfiguration = storageConfiguration
-            self.storageType = storageType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case estimatedMonthlyStorageCost = "EstimatedMonthlyStorageCost"
-            case storageConfiguration = "StorageConfiguration"
-            case storageType = "StorageType"
-        }
-    }
-
-    public struct RemoveStorageSystemRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the storage system that you want to permanently remove from DataSync Discovery.
-        public let storageSystemArn: String
-
-        @inlinable
-        public init(storageSystemArn: String) {
-            self.storageSystemArn = storageSystemArn
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, max: 128)
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storageSystemArn = "StorageSystemArn"
-        }
-    }
-
-    public struct RemoveStorageSystemResponse: AWSDecodableShape {
-        public init() {}
     }
 
     public struct ReportDestination: AWSEncodableShape & AWSDecodableShape {
@@ -4169,58 +3210,6 @@ extension DataSync {
         }
     }
 
-    public struct ResourceDetails: AWSDecodableShape {
-        /// The information that DataSync Discovery collects about the cluster in your on-premises storage system.
-        public let netAppONTAPClusters: [NetAppONTAPCluster]?
-        /// The information that DataSync Discovery collects about storage virtual machines (SVMs) in your on-premises storage system.
-        public let netAppONTAPSVMs: [NetAppONTAPSVM]?
-        /// The information that DataSync Discovery collects about volumes in your on-premises storage system.
-        public let netAppONTAPVolumes: [NetAppONTAPVolume]?
-
-        @inlinable
-        public init(netAppONTAPClusters: [NetAppONTAPCluster]? = nil, netAppONTAPSVMs: [NetAppONTAPSVM]? = nil, netAppONTAPVolumes: [NetAppONTAPVolume]? = nil) {
-            self.netAppONTAPClusters = netAppONTAPClusters
-            self.netAppONTAPSVMs = netAppONTAPSVMs
-            self.netAppONTAPVolumes = netAppONTAPVolumes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case netAppONTAPClusters = "NetAppONTAPClusters"
-            case netAppONTAPSVMs = "NetAppONTAPSVMs"
-            case netAppONTAPVolumes = "NetAppONTAPVolumes"
-        }
-    }
-
-    public struct ResourceMetrics: AWSDecodableShape {
-        /// The storage capacity of the on-premises storage system resource.
-        public let capacity: Capacity?
-        /// The types of performance data that DataSync Discovery collects about the on-premises storage system resource.
-        public let p95Metrics: P95Metrics?
-        /// The universally unique identifier (UUID) of the on-premises storage system resource.
-        public let resourceId: String?
-        /// The type of on-premises storage system resource.
-        public let resourceType: DiscoveryResourceType?
-        /// The time when DataSync Discovery collected this information from the resource.
-        public let timestamp: Date?
-
-        @inlinable
-        public init(capacity: Capacity? = nil, p95Metrics: P95Metrics? = nil, resourceId: String? = nil, resourceType: DiscoveryResourceType? = nil, timestamp: Date? = nil) {
-            self.capacity = capacity
-            self.p95Metrics = p95Metrics
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-            self.timestamp = timestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capacity = "Capacity"
-            case p95Metrics = "P95Metrics"
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-            case timestamp = "Timestamp"
-        }
-    }
-
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket.
         public let bucketAccessRoleArn: String
@@ -4310,58 +3299,6 @@ extension DataSync {
         }
     }
 
-    public struct StartDiscoveryJobRequest: AWSEncodableShape {
-        /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
-        public let clientToken: String
-        /// Specifies in minutes how long you want the discovery job to run.  For more accurate recommendations, we recommend a duration of at least 14 days. Longer durations allow time to collect a sufficient number of data points and provide a realistic representation of storage performance and utilization.
-        public let collectionDurationMinutes: Int
-        /// Specifies the Amazon Resource Name (ARN) of the on-premises storage system that you want to run the discovery job on.
-        public let storageSystemArn: String
-        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources.
-        public let tags: [TagListEntry]?
-
-        @inlinable
-        public init(clientToken: String = StartDiscoveryJobRequest.idempotencyToken(), collectionDurationMinutes: Int, storageSystemArn: String, tags: [TagListEntry]? = nil) {
-            self.clientToken = clientToken
-            self.collectionDurationMinutes = collectionDurationMinutes
-            self.storageSystemArn = storageSystemArn
-            self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.validate(self.collectionDurationMinutes, name: "collectionDurationMinutes", parent: name, max: 44640)
-            try self.validate(self.collectionDurationMinutes, name: "collectionDurationMinutes", parent: name, min: 60)
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, max: 128)
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.tags?.forEach {
-                try $0.validate(name: "\(name).tags[]")
-            }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "ClientToken"
-            case collectionDurationMinutes = "CollectionDurationMinutes"
-            case storageSystemArn = "StorageSystemArn"
-            case tags = "Tags"
-        }
-    }
-
-    public struct StartDiscoveryJobResponse: AWSDecodableShape {
-        /// The ARN of the discovery job that you started.
-        public let discoveryJobArn: String?
-
-        @inlinable
-        public init(discoveryJobArn: String? = nil) {
-            self.discoveryJobArn = discoveryJobArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobArn = "DiscoveryJobArn"
-        }
-    }
-
     public struct StartTaskExecutionRequest: AWSEncodableShape {
         /// Specifies a list of filter rules that determines which files to exclude from a task. The list contains a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let excludes: [FilterRule]?
@@ -4430,47 +3367,6 @@ extension DataSync {
 
         private enum CodingKeys: String, CodingKey {
             case taskExecutionArn = "TaskExecutionArn"
-        }
-    }
-
-    public struct StopDiscoveryJobRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to stop.
-        public let discoveryJobArn: String
-
-        @inlinable
-        public init(discoveryJobArn: String) {
-            self.discoveryJobArn = discoveryJobArn
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, max: 256)
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case discoveryJobArn = "DiscoveryJobArn"
-        }
-    }
-
-    public struct StopDiscoveryJobResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct StorageSystemListEntry: AWSDecodableShape {
-        /// The name of an on-premises storage system that you added to DataSync Discovery.
-        public let name: String?
-        /// The Amazon Resource Names (ARN) of an on-premises storage system that you added to DataSync Discovery.
-        public let storageSystemArn: String?
-
-        @inlinable
-        public init(name: String? = nil, storageSystemArn: String? = nil) {
-            self.name = name
-            self.storageSystemArn = storageSystemArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case storageSystemArn = "StorageSystemArn"
         }
     }
 
@@ -4778,32 +3674,6 @@ extension DataSync {
         }
     }
 
-    public struct Throughput: AWSDecodableShape {
-        /// Peak throughput unrelated to read and write operations.
-        public let other: Double?
-        /// Peak throughput related to read operations.
-        public let read: Double?
-        /// Peak total throughput on your on-premises storage system resource.
-        public let total: Double?
-        /// Peak throughput related to write operations.
-        public let write: Double?
-
-        @inlinable
-        public init(other: Double? = nil, read: Double? = nil, total: Double? = nil, write: Double? = nil) {
-            self.other = other
-            self.read = read
-            self.total = total
-            self.write = write
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case other = "Other"
-            case read = "Read"
-            case total = "Total"
-            case write = "Write"
-        }
-    }
-
     public struct UntagResourceRequest: AWSEncodableShape {
         /// Specifies the keys in the tags that you want to remove.
         public let keys: [String]
@@ -4864,35 +3734,6 @@ extension DataSync {
     }
 
     public struct UpdateAgentResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct UpdateDiscoveryJobRequest: AWSEncodableShape {
-        /// Specifies in minutes how long that you want the discovery job to run. (You can't set this parameter to less than the number of minutes that the job has already run for.)
-        public let collectionDurationMinutes: Int
-        /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to update.
-        public let discoveryJobArn: String
-
-        @inlinable
-        public init(collectionDurationMinutes: Int, discoveryJobArn: String) {
-            self.collectionDurationMinutes = collectionDurationMinutes
-            self.discoveryJobArn = discoveryJobArn
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.collectionDurationMinutes, name: "collectionDurationMinutes", parent: name, max: 44640)
-            try self.validate(self.collectionDurationMinutes, name: "collectionDurationMinutes", parent: name, min: 60)
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, max: 256)
-            try self.validate(self.discoveryJobArn, name: "discoveryJobArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/job/discovery-job-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case collectionDurationMinutes = "CollectionDurationMinutes"
-            case discoveryJobArn = "DiscoveryJobArn"
-        }
-    }
-
-    public struct UpdateDiscoveryJobResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -5147,7 +3988,7 @@ extension DataSync {
         public let authenticationType: HdfsAuthenticationType?
         /// The size of the data blocks to write into the HDFS cluster.
         public let blockSize: Int?
-        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
+        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.
         public let kerberosKeytab: AWSBase64Data?
         /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
         public let kerberosKrb5Conf: AWSBase64Data?
@@ -5358,7 +4199,7 @@ extension DataSync {
         public let s3Config: S3Config?
         /// Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see Storage class considerations with Amazon S3 transfers.
         public let s3StorageClass: S3StorageClass?
-        /// Specifies a prefix in the S3 bucket that DataSync  reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
+        /// Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
         public let subdirectory: String?
 
         @inlinable
@@ -5398,7 +4239,7 @@ extension DataSync {
         public let dnsIpAddresses: [String]?
         /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
         public let domain: String?
-        /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+        /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
         public let kerberosKeytab: AWSBase64Data?
         /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
         public let kerberosKrb5Conf: AWSBase64Data?
@@ -5483,62 +4324,6 @@ extension DataSync {
     }
 
     public struct UpdateLocationSmbResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct UpdateStorageSystemRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system. You can only specify one ARN.
-        public let agentArns: [String]?
-        /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
-        public let cloudWatchLogGroupArn: String?
-        /// Specifies the user name and password for accessing your on-premises storage system's management interface.
-        public let credentials: Credentials?
-        /// Specifies a familiar name for your on-premises storage system.
-        public let name: String?
-        /// Specifies the server name and network port required to connect with your on-premises storage system's management interface.
-        public let serverConfiguration: DiscoveryServerConfiguration?
-        /// Specifies the ARN of the on-premises storage system that you want reconfigure.
-        public let storageSystemArn: String
-
-        @inlinable
-        public init(agentArns: [String]? = nil, cloudWatchLogGroupArn: String? = nil, credentials: Credentials? = nil, name: String? = nil, serverConfiguration: DiscoveryServerConfiguration? = nil, storageSystemArn: String) {
-            self.agentArns = agentArns
-            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-            self.credentials = credentials
-            self.name = name
-            self.serverConfiguration = serverConfiguration
-            self.storageSystemArn = storageSystemArn
-        }
-
-        public func validate(name: String) throws {
-            try self.agentArns?.forEach {
-                try validate($0, name: "agentArns[]", parent: name, max: 128)
-                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
-            }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 1)
-            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
-            try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, max: 562)
-            try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]+:[0-9]{12}:log-group:([^:\\*]*)(:\\*)?$")
-            try self.credentials?.validate(name: "\(name).credentials")
-            try self.validate(self.name, name: "name", parent: name, max: 256)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\s+=._:@\\/-]+$")
-            try self.serverConfiguration?.validate(name: "\(name).serverConfiguration")
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, max: 128)
-            try self.validate(self.storageSystemArn, name: "storageSystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:system/storage-system-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentArns = "AgentArns"
-            case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
-            case credentials = "Credentials"
-            case name = "Name"
-            case serverConfiguration = "ServerConfiguration"
-            case storageSystemArn = "StorageSystemArn"
-        }
-    }
-
-    public struct UpdateStorageSystemResponse: AWSDecodableShape {
         public init() {}
     }
 

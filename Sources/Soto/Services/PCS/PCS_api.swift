@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS PCS service.
 ///
-/// Amazon Web Services Parallel Computing Service (Amazon Web Services PCS) is a managed service that makes it easier for you to run and scale your high performance computing (HPC) workloads, and build scientific and engineering models on Amazon Web Services using Slurm.  For more information, see  the Amazon Web Services Parallel Computing Service User Guide. This reference describes the actions and data types of the service management API. You can use the Amazon Web Services SDKs to call the API actions in software, or use the Command Line Interface (CLI) to call the API actions manually. These API actions manage the service through an Amazon Web Services account. The API actions operate on Amazon Web Services PCS resources. A resource is an entity in Amazon Web Services that you can work with. Amazon Web Services services create resources when you use the features of the service. Examples of Amazon Web Services PCS resources include clusters, compute node groups, and queues. For more information about resources in Amazon Web Services, see Resource in the Resource Explorer User Guide.  An Amazon Web Services PCS compute node is an Amazon EC2 instance. You don't launch compute nodes directly. Amazon Web Services PCS uses configuration information that you provide to launch compute nodes in your Amazon Web Services account. You receive billing charges for your running compute nodes. Amazon Web Services PCS automatically terminates your compute nodes when you delete the Amazon Web Services PCS resources related to those compute nodes.
+/// Amazon Web Services Parallel Computing Service (Amazon Web Services PCS) is a managed service that makes it easier for you to run and scale your high performance computing (HPC) workloads, and build scientific and engineering models on Amazon Web Services using Slurm. For more information, see the Amazon Web Services Parallel Computing Service User Guide. This reference describes the actions and data types of the service management API. You can use the Amazon Web Services SDKs to call the API actions in software, or use the Command Line Interface (CLI) to call the API actions manually. These API actions manage the service through an Amazon Web Services account. The API actions operate on Amazon Web Services PCS resources. A resource is an entity in Amazon Web Services that you can work with. Amazon Web Services services create resources when you use the features of the service. Examples of Amazon Web Services PCS resources include clusters, compute node groups, and queues. For more information about resources in Amazon Web Services, see Resource in the Resource Explorer User Guide.  An Amazon Web Services PCS compute node is an Amazon EC2 instance. You don't launch compute nodes directly. Amazon Web Services PCS uses configuration information that you provide to launch compute nodes in your Amazon Web Services account. You receive billing charges for your running compute nodes. Amazon Web Services PCS automatically terminates your compute nodes when you delete the Amazon Web Services PCS resources related to those compute nodes.
 public struct PCS: AWSService {
     // MARK: Member variables
 
@@ -95,7 +95,7 @@ public struct PCS: AWSService {
     /// Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action.  It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterName: A name to identify the cluster. Example: MyCluster
     ///   - networking: The networking configuration used to set up the cluster's control plane.
     ///   - scheduler: The cluster management and job scheduling software associated with the cluster.
@@ -143,11 +143,11 @@ public struct PCS: AWSService {
     ///
     /// Parameters:
     ///   - amiId:  The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster to create a compute node group in.
     ///   - computeNodeGroupName: A name to identify the cluster. Example: MyCluster
     ///   - customLaunchTemplate: 
-    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance  profile used to pass an IAM role when launching EC2 instances. The role contained  in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with  AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
     ///   - instanceConfigs: A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
     ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
@@ -207,7 +207,7 @@ public struct PCS: AWSService {
     /// Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster for which to create a queue.
     ///   - computeNodeGroupConfigurations: The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups.
     ///   - queueName: A name to identify the queue.
@@ -248,7 +248,7 @@ public struct PCS: AWSService {
     /// Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -280,7 +280,7 @@ public struct PCS: AWSService {
     /// Deletes a compute node group. You must delete all queues associated with the compute node group first.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster of the compute node group.
     ///   - computeNodeGroupIdentifier: The name or ID of the compute node group to delete.
     ///   - logger: Logger use during operation
@@ -315,7 +315,7 @@ public struct PCS: AWSService {
     /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, Amazon Web Services PCS terminates all the compute nodes for this queue.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster of the queue.
     ///   - queueIdentifier: The name or ID of the queue to delete.
     ///   - logger: Logger use during operation
@@ -443,8 +443,8 @@ public struct PCS: AWSService {
     /// Returns a list of running clusters in your account.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
-    ///   - nextToken: The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
+    ///   - nextToken: The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listClusters(
@@ -476,8 +476,8 @@ public struct PCS: AWSService {
     ///
     /// Parameters:
     ///   - clusterIdentifier: The name or ID of the cluster to list compute node groups for.
-    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
-    ///   - nextToken: The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
+    ///   - nextToken: The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listComputeNodeGroups(
@@ -511,8 +511,8 @@ public struct PCS: AWSService {
     ///
     /// Parameters:
     ///   - clusterIdentifier: The name or ID of the cluster to list queues for.
-    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
-    ///   - nextToken: The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
+    ///   - nextToken: The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listQueues(
@@ -671,11 +671,11 @@ public struct PCS: AWSService {
     ///
     /// Parameters:
     ///   - amiId: The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster of the compute node group.
     ///   - computeNodeGroupIdentifier: The name or ID of the compute node group.
     ///   - customLaunchTemplate: 
-    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance  profile used to pass an IAM role when launching EC2 instances. The role contained  in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with  AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
     ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
     ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
@@ -729,7 +729,7 @@ public struct PCS: AWSService {
     /// Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster of the queue.
     ///   - computeNodeGroupConfigurations: The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups.
     ///   - queueIdentifier: The name or ID of the queue.
@@ -786,7 +786,7 @@ extension PCS {
     /// Return PaginatorSequence for operation ``listClusters(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
     ///   - logger: Logger used for logging
     @inlinable
     public func listClustersPaginator(
@@ -821,7 +821,7 @@ extension PCS {
     ///
     /// - Parameters:
     ///   - clusterIdentifier: The name or ID of the cluster to list compute node groups for.
-    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
     ///   - logger: Logger used for logging
     @inlinable
     public func listComputeNodeGroupsPaginator(
@@ -858,7 +858,7 @@ extension PCS {
     ///
     /// - Parameters:
     ///   - clusterIdentifier: The name or ID of the cluster to list queues for.
-    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
     ///   - logger: Logger used for logging
     @inlinable
     public func listQueuesPaginator(

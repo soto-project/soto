@@ -725,7 +725,7 @@ extension Athena {
         public let parameters: [String: String]?
         /// A list of comma separated tags to add to the data catalog that is created. All the resources that are created by the CreateDataCatalog API operation with FEDERATED type will have the tag federated_athena_datacatalog="true". This includes the CFN Stack, Glue Connection, Athena DataCatalog, and all the resources created as part of the CFN Stack (Lambda Function, IAM policies/roles).
         public let tags: [Tag]?
-        /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass.
+        /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass. For FEDERATED type, we do not support IAM identity center.
         public let type: DataCatalogType
 
         @inlinable
@@ -3250,7 +3250,7 @@ extension Athena {
         public let resultConfiguration: ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public let resultReuseConfiguration: ResultReuseConfiguration?
-        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE TABLE.
+        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, EXPLAIN, DESCRIBE, or SHOW TABLES.
         public let statementType: StatementType?
         /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
         public let statistics: QueryExecutionStatistics?

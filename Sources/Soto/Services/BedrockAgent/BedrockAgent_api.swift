@@ -455,6 +455,7 @@ public struct BedrockAgent: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - concurrencyConfiguration: The configuration that specifies how nodes in the flow are executed in parallel.
     ///   - description: A description for the alias.
     ///   - flowIdentifier: The unique identifier of the flow for which to create an alias.
     ///   - name: A name for the alias.
@@ -464,6 +465,7 @@ public struct BedrockAgent: AWSService {
     @inlinable
     public func createFlowAlias(
         clientToken: String? = CreateFlowAliasRequest.idempotencyToken(),
+        concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil,
         description: String? = nil,
         flowIdentifier: String,
         name: String,
@@ -473,6 +475,7 @@ public struct BedrockAgent: AWSService {
     ) async throws -> CreateFlowAliasResponse {
         let input = CreateFlowAliasRequest(
             clientToken: clientToken, 
+            concurrencyConfiguration: concurrencyConfiguration, 
             description: description, 
             flowIdentifier: flowIdentifier, 
             name: name, 
@@ -2671,6 +2674,7 @@ public struct BedrockAgent: AWSService {
     ///
     /// Parameters:
     ///   - aliasIdentifier: The unique identifier of the alias.
+    ///   - concurrencyConfiguration: The configuration that specifies how nodes in the flow are executed in parallel.
     ///   - description: A description for the alias.
     ///   - flowIdentifier: The unique identifier of the flow.
     ///   - name: The name of the alias.
@@ -2679,6 +2683,7 @@ public struct BedrockAgent: AWSService {
     @inlinable
     public func updateFlowAlias(
         aliasIdentifier: String,
+        concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil,
         description: String? = nil,
         flowIdentifier: String,
         name: String,
@@ -2687,6 +2692,7 @@ public struct BedrockAgent: AWSService {
     ) async throws -> UpdateFlowAliasResponse {
         let input = UpdateFlowAliasRequest(
             aliasIdentifier: aliasIdentifier, 
+            concurrencyConfiguration: concurrencyConfiguration, 
             description: description, 
             flowIdentifier: flowIdentifier, 
             name: name, 

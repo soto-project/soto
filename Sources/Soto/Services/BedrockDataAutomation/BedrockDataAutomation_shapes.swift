@@ -72,6 +72,14 @@ extension BedrockDataAutomation {
         public var description: String { return self.rawValue }
     }
 
+    public enum DesiredModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audio = "AUDIO"
+        case document = "DOCUMENT"
+        case image = "IMAGE"
+        case video = "VIDEO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DocumentExtractionGranularityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case document = "DOCUMENT"
         case element = "ELEMENT"
@@ -130,8 +138,10 @@ extension BedrockDataAutomation {
     }
 
     public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audio = "AUDIO"
         case document = "DOCUMENT"
         case image = "IMAGE"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
@@ -150,6 +160,19 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case state = "state"
             case types = "types"
+        }
+    }
+
+    public struct AudioOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let modalityProcessing: ModalityProcessingConfiguration?
+
+        @inlinable
+        public init(modalityProcessing: ModalityProcessingConfiguration? = nil) {
+            self.modalityProcessing = modalityProcessing
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modalityProcessing = "modalityProcessing"
         }
     }
 
@@ -753,14 +776,17 @@ extension BedrockDataAutomation {
     }
 
     public struct DocumentOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let modalityProcessing: ModalityProcessingConfiguration?
         public let splitter: SplitterConfiguration?
 
         @inlinable
-        public init(splitter: SplitterConfiguration? = nil) {
+        public init(modalityProcessing: ModalityProcessingConfiguration? = nil, splitter: SplitterConfiguration? = nil) {
+            self.modalityProcessing = modalityProcessing
             self.splitter = splitter
         }
 
         private enum CodingKeys: String, CodingKey {
+            case modalityProcessing = "modalityProcessing"
             case splitter = "splitter"
         }
     }
@@ -965,6 +991,19 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct ImageOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let modalityProcessing: ModalityProcessingConfiguration?
+
+        @inlinable
+        public init(modalityProcessing: ModalityProcessingConfiguration? = nil) {
+            self.modalityProcessing = modalityProcessing
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modalityProcessing = "modalityProcessing"
+        }
+    }
+
     public struct ImageStandardExtraction: AWSEncodableShape & AWSDecodableShape {
         public let boundingBox: ImageBoundingBox
         public let category: ImageExtractionCategory
@@ -1150,16 +1189,63 @@ extension BedrockDataAutomation {
         }
     }
 
-    public struct OverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public let document: DocumentOverrideConfiguration?
+    public struct ModalityProcessingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let state: State?
 
         @inlinable
-        public init(document: DocumentOverrideConfiguration? = nil) {
-            self.document = document
+        public init(state: State? = nil) {
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct ModalityRoutingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let jpeg: DesiredModality?
+        public let mov: DesiredModality?
+        public let mp4: DesiredModality?
+        public let png: DesiredModality?
+
+        @inlinable
+        public init(jpeg: DesiredModality? = nil, mov: DesiredModality? = nil, mp4: DesiredModality? = nil, png: DesiredModality? = nil) {
+            self.jpeg = jpeg
+            self.mov = mov
+            self.mp4 = mp4
+            self.png = png
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jpeg = "jpeg"
+            case mov = "mov"
+            case mp4 = "mp4"
+            case png = "png"
+        }
+    }
+
+    public struct OverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let audio: AudioOverrideConfiguration?
+        public let document: DocumentOverrideConfiguration?
+        public let image: ImageOverrideConfiguration?
+        public let modalityRouting: ModalityRoutingConfiguration?
+        public let video: VideoOverrideConfiguration?
+
+        @inlinable
+        public init(audio: AudioOverrideConfiguration? = nil, document: DocumentOverrideConfiguration? = nil, image: ImageOverrideConfiguration? = nil, modalityRouting: ModalityRoutingConfiguration? = nil, video: VideoOverrideConfiguration? = nil) {
+            self.audio = audio
+            self.document = document
+            self.image = image
+            self.modalityRouting = modalityRouting
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audio = "audio"
             case document = "document"
+            case image = "image"
+            case modalityRouting = "modalityRouting"
+            case video = "video"
         }
     }
 
@@ -1461,6 +1547,19 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case state = "state"
             case types = "types"
+        }
+    }
+
+    public struct VideoOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let modalityProcessing: ModalityProcessingConfiguration?
+
+        @inlinable
+        public init(modalityProcessing: ModalityProcessingConfiguration? = nil) {
+            self.modalityProcessing = modalityProcessing
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modalityProcessing = "modalityProcessing"
         }
     }
 

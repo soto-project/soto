@@ -2370,7 +2370,7 @@ public struct AutoScaling: AWSService {
     ///   - availabilityZoneDistribution:  The instance capacity distribution across Availability Zones.
     ///   - availabilityZoneImpairmentPolicy:  The policy for Availability Zone impairment.
     ///   - availabilityZones: One or more Availability Zones for the group.
-    ///   - capacityRebalance: Enables or disables Capacity Rebalancing. For more information, see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the Amazon EC2 Auto Scaling User Guide.
+    ///   - capacityRebalance: Enables or disables Capacity Rebalancing. If Capacity Rebalancing is disabled, proactive replacement of at-risk Spot Instances does not occur. For more information, see Capacity Rebalancing in Auto Scaling to replace at-risk Spot Instances in the Amazon EC2 Auto Scaling User Guide.  To suspend rebalancing across Availability Zones, use the SuspendProcesses API.
     ///   - capacityReservationSpecification:  The capacity reservation specification for the Auto Scaling group.
     ///   - context: Reserved.
     ///   - defaultCooldown:  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.

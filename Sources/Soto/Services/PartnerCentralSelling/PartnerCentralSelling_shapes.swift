@@ -993,7 +993,6 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.alias, name: "alias", parent: name, max: 80)
-            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}\\p{Z}]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^([0-9]{12}|\\w{1,12})$")
         }
 
@@ -1156,7 +1155,7 @@ extension PartnerCentralSelling {
         public let catalog: String
         /// Requires the Opportunity's unique identifier when you want to associate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association.
         public let opportunityIdentifier: String
-        /// Requires the related entity's unique identifier when you want to associate it with the Opportunity. For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the  Amazon Web Services Marketplace API to obtain the ARN.
+        /// Requires the related entity's unique identifier when you want to associate it with the  Opportunity. For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the  Amazon Web Services Marketplace API to obtain the ARN.
         public let relatedEntityIdentifier: String
         /// Specifies the entity type that you're associating with the  Opportunity. This helps to categorize and properly process the association.
         public let relatedEntityType: RelatedEntityType
@@ -1580,7 +1579,7 @@ extension PartnerCentralSelling {
         public let resourceSnapshotTemplateIdentifier: String
         /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity
         public let resourceType: ResourceType
-        /// A list of objects specifying each tag name and value.
+        /// A map of the key-value pairs of the tag or tags to assign.
         public let tags: [Tag]?
 
         @inlinable
@@ -1854,7 +1853,6 @@ extension PartnerCentralSelling {
         public func validate(name: String) throws {
             try self.validate(self.companyName, name: "companyName", parent: name, max: 120)
             try self.validate(self.companyName, name: "companyName", parent: name, min: 1)
-            try self.validate(self.companyName, name: "companyName", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}\\p{Z}]+$")
             try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, max: 255)
             try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, min: 4)
             try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^((http|https)://)??(www[.])??([a-zA-Z0-9]|-)+?([.][a-zA-Z0-9(-|/|=|?)??]+?)+?$")
@@ -2471,7 +2469,7 @@ extension PartnerCentralSelling {
     }
 
     public struct GetResourceSnapshotJobRequest: AWSEncodableShape {
-        /// Specifies the catalog related to the request. Valid values are:   AWS: Retrieves the snapshot job from the production AWS environment.    Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes.
+        /// Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the snapshot job from the production AWS environment.     Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes.
         public let catalog: String
         /// The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query.
         public let resourceSnapshotJobIdentifier: String
@@ -2886,7 +2884,7 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementByAcceptingInvitationTasksRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+        ///  Specifies the catalog related to the request. Valid values are:     AWS: Retrieves the request from the production AWS environment.     Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
         public let catalog: String
         ///  Filters tasks by the identifiers of the engagement invitations they are processing.
         public let engagementInvitationIdentifier: [String]?
@@ -3020,7 +3018,7 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementFromOpportunityTasksRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+        ///  Specifies the catalog related to the request. Valid values are:     AWS: Retrieves the request from the production AWS environment.     Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
         public let catalog: String
         ///  Filters tasks by the identifiers of the engagements they created or are associated with.
         public let engagementIdentifier: [String]?
@@ -3311,7 +3309,6 @@ extension PartnerCentralSelling {
         public let maxResults: Int?
         /// The token for the next set of results. This value is returned from a previous call.
         public let nextToken: String?
-        ///  An object that specifies the sort order of the results.
         public let sort: EngagementSort?
 
         @inlinable
@@ -3986,7 +3983,7 @@ extension PartnerCentralSelling {
             try self.expectedCustomerSpend?.forEach {
                 try $0.validate(name: "\(name).expectedCustomerSpend[]")
             }
-            try self.validate(self.expectedCustomerSpend, name: "expectedCustomerSpend", parent: name, min: 1)
+            try self.validate(self.expectedCustomerSpend, name: "expectedCustomerSpend", parent: name, max: 10)
             try self.validate(self.relatedOpportunityIdentifier, name: "relatedOpportunityIdentifier", parent: name, pattern: "^O[0-9]{1,19}$")
         }
 
@@ -4030,7 +4027,7 @@ extension PartnerCentralSelling {
             try self.expectedCustomerSpend.forEach {
                 try $0.validate(name: "\(name).expectedCustomerSpend[]")
             }
-            try self.validate(self.expectedCustomerSpend, name: "expectedCustomerSpend", parent: name, min: 1)
+            try self.validate(self.expectedCustomerSpend, name: "expectedCustomerSpend", parent: name, max: 10)
             try self.validate(self.targetCompletionDate, name: "targetCompletionDate", parent: name, pattern: "^[1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
         }
 
@@ -4191,7 +4188,7 @@ extension PartnerCentralSelling {
         public let engagementId: String?
         ///  The unique identifier for the resource snapshot job within the AWS Partner Central system. This ID is used for direct references to the job within the service.
         public let id: String?
-        /// The current status of the snapshot job. Valid values:   STOPPED: The job is not currently running.    RUNNING: The job is actively executing.
+        /// The current status of the snapshot job. Valid values:    STOPPED: The job is not currently running.     RUNNING: The job is actively executing.
         public let status: ResourceSnapshotJobStatus?
 
         @inlinable
@@ -4397,7 +4394,7 @@ extension PartnerCentralSelling {
         public let clientToken: String
         /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed.
         public let identifier: String
-        /// A list of objects specifying each tag name and value.
+        /// A map of the key-value pairs of the tag or tags to assign.
         public let tags: [Tag]?
 
         @inlinable
@@ -4484,7 +4481,7 @@ extension PartnerCentralSelling {
         public let clientToken: String
         /// The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity.
         public let identifier: String
-        /// A list of objects specifying each tag name and value.
+        /// A map of the key-value pairs of the tag or tags to assign.
         public let tags: [Tag]?
 
         @inlinable
@@ -4673,7 +4670,7 @@ extension PartnerCentralSelling {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
-        /// A map of the key-value pairs of the tag or tags to assign to the resource.
+        /// A map of the key-value pairs of the tag or tags to assign.
         public let tags: [Tag]
 
         @inlinable

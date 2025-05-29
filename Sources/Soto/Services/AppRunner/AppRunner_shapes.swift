@@ -129,6 +129,7 @@ extension AppRunner {
         case nodejs14 = "NODEJS_14"
         case nodejs16 = "NODEJS_16"
         case nodejs18 = "NODEJS_18"
+        case nodejs22 = "NODEJS_22"
         case php81 = "PHP_81"
         case python3 = "PYTHON_3"
         case python311 = "PYTHON_311"

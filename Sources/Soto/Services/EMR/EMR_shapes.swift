@@ -243,6 +243,16 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum OnClusterAppUIType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationMaster = "ApplicationMaster"
+        case jobHistoryServer = "JobHistoryServer"
+        case resourceManager = "ResourceManager"
+        case sparkHistoryServer = "SparkHistoryServer"
+        case tezUI = "TezUI"
+        case yarnTimelineService = "YarnTimelineService"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OnDemandCapacityReservationPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "none"
         case open = "open"
@@ -265,11 +275,25 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum PersistentAppUIType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case shs = "SHS"
+        case tez = "TEZ"
+        case yts = "YTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cluster = "CLUSTER"
         case none = "NONE"
         case partition = "PARTITION"
         case spread = "SPREAD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfilerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case shs = "SHS"
+        case tezui = "TEZUI"
+        case yts = "YTS"
         public var description: String { return self.rawValue }
     }
 
@@ -1200,6 +1224,60 @@ extension EMR {
         }
     }
 
+    public struct CreatePersistentAppUIInput: AWSEncodableShape {
+        /// The EMR containers configuration.
+        public let emrContainersConfig: EMRContainersConfig?
+        /// The profiler type for the persistent application user interface. Valid values are SHS, TEZUI, or YTS.
+        public let profilerType: ProfilerType?
+        /// Tags for the persistent application user interface.
+        public let tags: [Tag]?
+        /// The unique Amazon Resource Name (ARN) of the target resource.
+        public let targetResourceArn: String?
+        /// The cross reference for the persistent application user interface.
+        public let xReferer: String?
+
+        @inlinable
+        public init(emrContainersConfig: EMRContainersConfig? = nil, profilerType: ProfilerType? = nil, tags: [Tag]? = nil, targetResourceArn: String? = nil, xReferer: String? = nil) {
+            self.emrContainersConfig = emrContainersConfig
+            self.profilerType = profilerType
+            self.tags = tags
+            self.targetResourceArn = targetResourceArn
+            self.xReferer = xReferer
+        }
+
+        public func validate(name: String) throws {
+            try self.emrContainersConfig?.validate(name: "\(name).emrContainersConfig")
+            try self.validate(self.targetResourceArn, name: "targetResourceArn", parent: name, max: 2048)
+            try self.validate(self.targetResourceArn, name: "targetResourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emrContainersConfig = "EMRContainersConfig"
+            case profilerType = "ProfilerType"
+            case tags = "Tags"
+            case targetResourceArn = "TargetResourceArn"
+            case xReferer = "XReferer"
+        }
+    }
+
+    public struct CreatePersistentAppUIOutput: AWSDecodableShape {
+        /// The persistent application user interface identifier.
+        public let persistentAppUIId: String?
+        /// Represents if the EMR on EC2 cluster that the persisent application user interface is created for is a runtime role  enabled cluster or not.
+        public let runtimeRoleEnabledCluster: Bool?
+
+        @inlinable
+        public init(persistentAppUIId: String? = nil, runtimeRoleEnabledCluster: Bool? = nil) {
+            self.persistentAppUIId = persistentAppUIId
+            self.runtimeRoleEnabledCluster = runtimeRoleEnabledCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case persistentAppUIId = "PersistentAppUIId"
+            case runtimeRoleEnabledCluster = "RuntimeRoleEnabledCluster"
+        }
+    }
+
     public struct CreateSecurityConfigurationInput: AWSEncodableShape {
         /// The name of the security configuration.
         public let name: String?
@@ -1590,6 +1668,39 @@ extension EMR {
         }
     }
 
+    public struct DescribePersistentAppUIInput: AWSEncodableShape {
+        /// The identifier for the persistent application user interface.
+        public let persistentAppUIId: String?
+
+        @inlinable
+        public init(persistentAppUIId: String? = nil) {
+            self.persistentAppUIId = persistentAppUIId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.persistentAppUIId, name: "persistentAppUIId", parent: name, max: 256)
+            try self.validate(self.persistentAppUIId, name: "persistentAppUIId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case persistentAppUIId = "PersistentAppUIId"
+        }
+    }
+
+    public struct DescribePersistentAppUIOutput: AWSDecodableShape {
+        /// The persistent application user interface.
+        public let persistentAppUI: PersistentAppUI?
+
+        @inlinable
+        public init(persistentAppUI: PersistentAppUI? = nil) {
+            self.persistentAppUI = persistentAppUI
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case persistentAppUI = "PersistentAppUI"
+        }
+    }
+
     public struct DescribeReleaseLabelInput: AWSEncodableShape {
         /// Reserved for future use. Currently set to null.
         public let maxResults: Int?
@@ -1746,6 +1857,25 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case studio = "Studio"
+        }
+    }
+
+    public struct EMRContainersConfig: AWSEncodableShape {
+        /// The Job run ID for the container configuration.
+        public let jobRunId: String?
+
+        @inlinable
+        public init(jobRunId: String? = nil) {
+            self.jobRunId = jobRunId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 256)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobRunId = "JobRunId"
         }
     }
 
@@ -2083,6 +2213,120 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case managedScalingPolicy = "ManagedScalingPolicy"
+        }
+    }
+
+    public struct GetOnClusterAppUIPresignedURLInput: AWSEncodableShape {
+        /// The application ID associated with the cluster's application user interface presigned URL.
+        public let applicationId: String?
+        /// The cluster ID associated with the cluster's application user interface presigned URL.
+        public let clusterId: String?
+        /// Determines if the user interface presigned URL is for a dry run.
+        public let dryRun: Bool?
+        /// The execution role ARN associated with the cluster's application user interface  presigned URL.
+        public let executionRoleArn: String?
+        /// The application UI type associated with the cluster's application user interface presigned URL.
+        public let onClusterAppUIType: OnClusterAppUIType?
+
+        @inlinable
+        public init(applicationId: String? = nil, clusterId: String? = nil, dryRun: Bool? = nil, executionRoleArn: String? = nil, onClusterAppUIType: OnClusterAppUIType? = nil) {
+            self.applicationId = applicationId
+            self.clusterId = clusterId
+            self.dryRun = dryRun
+            self.executionRoleArn = executionRoleArn
+            self.onClusterAppUIType = onClusterAppUIType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 256)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case clusterId = "ClusterId"
+            case dryRun = "DryRun"
+            case executionRoleArn = "ExecutionRoleArn"
+            case onClusterAppUIType = "OnClusterAppUIType"
+        }
+    }
+
+    public struct GetOnClusterAppUIPresignedURLOutput: AWSDecodableShape {
+        /// The cluster's generated presigned URL.
+        public let presignedURL: String?
+        /// Used to determine if the presigned URL is ready.
+        public let presignedURLReady: Bool?
+
+        @inlinable
+        public init(presignedURL: String? = nil, presignedURLReady: Bool? = nil) {
+            self.presignedURL = presignedURL
+            self.presignedURLReady = presignedURLReady
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case presignedURL = "PresignedURL"
+            case presignedURLReady = "PresignedURLReady"
+        }
+    }
+
+    public struct GetPersistentAppUIPresignedURLInput: AWSEncodableShape {
+        /// The application ID associated with the presigned URL.
+        public let applicationId: String?
+        /// A boolean that represents if the caller is an authentication proxy call.
+        public let authProxyCall: Bool?
+        /// The execution role ARN associated with the presigned URL.
+        public let executionRoleArn: String?
+        /// The persistent application user interface ID associated with the presigned URL.
+        public let persistentAppUIId: String?
+        /// The persistent application user interface type associated with the presigned URL.
+        public let persistentAppUIType: PersistentAppUIType?
+
+        @inlinable
+        public init(applicationId: String? = nil, authProxyCall: Bool? = nil, executionRoleArn: String? = nil, persistentAppUIId: String? = nil, persistentAppUIType: PersistentAppUIType? = nil) {
+            self.applicationId = applicationId
+            self.authProxyCall = authProxyCall
+            self.executionRoleArn = executionRoleArn
+            self.persistentAppUIId = persistentAppUIId
+            self.persistentAppUIType = persistentAppUIType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 256)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.persistentAppUIId, name: "persistentAppUIId", parent: name, max: 256)
+            try self.validate(self.persistentAppUIId, name: "persistentAppUIId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case authProxyCall = "AuthProxyCall"
+            case executionRoleArn = "ExecutionRoleArn"
+            case persistentAppUIId = "PersistentAppUIId"
+            case persistentAppUIType = "PersistentAppUIType"
+        }
+    }
+
+    public struct GetPersistentAppUIPresignedURLOutput: AWSDecodableShape {
+        /// The returned presigned URL.
+        public let presignedURL: String?
+        /// Used to determine if the presigned URL is ready.
+        public let presignedURLReady: Bool?
+
+        @inlinable
+        public init(presignedURL: String? = nil, presignedURLReady: Bool? = nil) {
+            self.presignedURL = presignedURL
+            self.presignedURLReady = presignedURLReady
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case presignedURL = "PresignedURL"
+            case presignedURLReady = "PresignedURLReady"
         }
     }
 
@@ -4332,6 +4576,48 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case key = "Key"
+        }
+    }
+
+    public struct PersistentAppUI: AWSDecodableShape {
+        /// The author ID for the persistent application user interface object.
+        public let authorId: String?
+        /// The creation date and time for the persistent application user interface object.
+        public let creationTime: Date?
+        /// The date and time the persistent application user interface object was last changed.
+        public let lastModifiedTime: Date?
+        /// The reason the persistent application user interface object was last changed.
+        public let lastStateChangeReason: String?
+        /// The identifier for the persistent application user interface object.
+        public let persistentAppUIId: String?
+        /// The status for the persistent application user interface object.
+        public let persistentAppUIStatus: String?
+        /// The type list for the persistent application user interface object. Valid values  include SHS, YTS, or TEZ.
+        public let persistentAppUITypeList: [PersistentAppUIType]?
+        /// A collection of tags for the persistent application user interface object.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(authorId: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, lastStateChangeReason: String? = nil, persistentAppUIId: String? = nil, persistentAppUIStatus: String? = nil, persistentAppUITypeList: [PersistentAppUIType]? = nil, tags: [Tag]? = nil) {
+            self.authorId = authorId
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.lastStateChangeReason = lastStateChangeReason
+            self.persistentAppUIId = persistentAppUIId
+            self.persistentAppUIStatus = persistentAppUIStatus
+            self.persistentAppUITypeList = persistentAppUITypeList
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorId = "AuthorId"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case persistentAppUIId = "PersistentAppUIId"
+            case persistentAppUIStatus = "PersistentAppUIStatus"
+            case persistentAppUITypeList = "PersistentAppUITypeList"
+            case tags = "Tags"
         }
     }
 

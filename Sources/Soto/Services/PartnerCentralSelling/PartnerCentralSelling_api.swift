@@ -164,7 +164,7 @@ public struct PartnerCentralSelling: AWSService {
     /// Parameters:
     ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     ///   - opportunityIdentifier: Requires the Opportunity's unique identifier when you want to associate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association.
-    ///   - relatedEntityIdentifier: Requires the related entity's unique identifier when you want to associate it with the Opportunity. For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the  Amazon Web Services Marketplace API to obtain the ARN.
+    ///   - relatedEntityIdentifier: Requires the related entity's unique identifier when you want to associate it with the  Opportunity. For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the  Amazon Web Services Marketplace API to obtain the ARN.
     ///   - relatedEntityType: Specifies the entity type that you're associating with the  Opportunity. This helps to categorize and properly process the association.
     ///   - logger: Logger use during operation
     @inlinable
@@ -394,7 +394,7 @@ public struct PartnerCentralSelling: AWSService {
     ///   - resourceIdentifier: Specifies the identifier of the specific resource to be snapshotted. The format depends on the  ResourceType.
     ///   - resourceSnapshotTemplateIdentifier: Specifies the name of the template that defines the schema for the snapshot.
     ///   - resourceType: The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity
-    ///   - tags: A list of objects specifying each tag name and value.
+    ///   - tags: A map of the key-value pairs of the tag or tags to assign.
     ///   - logger: Logger use during operation
     @inlinable
     public func createResourceSnapshotJob(
@@ -677,7 +677,7 @@ public struct PartnerCentralSelling: AWSService {
     /// Use this action to retrieves information about a specific resource snapshot job.
     ///
     /// Parameters:
-    ///   - catalog: Specifies the catalog related to the request. Valid values are:   AWS: Retrieves the snapshot job from the production AWS environment.    Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes.
+    ///   - catalog: Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the snapshot job from the production AWS environment.     Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes.
     ///   - resourceSnapshotJobIdentifier: The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query.
     ///   - logger: Logger use during operation
     @inlinable
@@ -738,7 +738,7 @@ public struct PartnerCentralSelling: AWSService {
     ///  Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:     AWS: Retrieves the request from the production AWS environment.     Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
     ///   - engagementInvitationIdentifier:  Filters tasks by the identifiers of the engagement invitations they are processing.
     ///   - maxResults:  Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
     ///   - nextToken:  Use this parameter for pagination when the result set spans multiple pages. This value is obtained from the NextToken field in the response of a previous call to this API.
@@ -788,7 +788,7 @@ public struct PartnerCentralSelling: AWSService {
     ///  Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:     AWS: Retrieves the request from the production AWS environment.     Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
     ///   - engagementIdentifier:  Filters tasks by the identifiers of the engagements they created or are associated with.
     ///   - maxResults:  Specifies the maximum number of results to return in a single page of the response.Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
     ///   - nextToken:  The token for requesting the next page of results. This value is obtained from the NextToken field in the response of a previous call to this API. Use this parameter for pagination when the result set spans multiple pages.
@@ -982,7 +982,7 @@ public struct PartnerCentralSelling: AWSService {
     ///   - excludeCreatedBy: An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
     ///   - maxResults: The maximum number of results to return in a single call.
     ///   - nextToken: The token for the next set of results. This value is returned from a previous call.
-    ///   - sort:  An object that specifies the sort order of the results.
+    ///   - sort: 
     ///   - logger: Logger use during operation
     @inlinable
     public func listEngagements(
@@ -1316,7 +1316,7 @@ public struct PartnerCentralSelling: AWSService {
     ///   - catalog: Specifies the catalog related to the task. Use AWS for production engagements and Sandbox for testing scenarios.
     ///   - clientToken: A unique, case-sensitive identifier provided by the client that helps to ensure the idempotency of the request. This can be a random or meaningful string but must be unique for each request.
     ///   - identifier: Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed.
-    ///   - tags: A list of objects specifying each tag name and value.
+    ///   - tags: A map of the key-value pairs of the tag or tags to assign.
     ///   - logger: Logger use during operation
     @inlinable
     public func startEngagementByAcceptingInvitationTask(
@@ -1355,7 +1355,7 @@ public struct PartnerCentralSelling: AWSService {
     ///   - catalog: Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environments.
     ///   - clientToken: A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times.
     ///   - identifier: The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity.
-    ///   - tags: A list of objects specifying each tag name and value.
+    ///   - tags: A map of the key-value pairs of the tag or tags to assign.
     ///   - logger: Logger use during operation
     @inlinable
     public func startEngagementFromOpportunityTask(
@@ -1495,7 +1495,7 @@ public struct PartnerCentralSelling: AWSService {
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to tag.
-    ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
+    ///   - tags: A map of the key-value pairs of the tag or tags to assign.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -1639,7 +1639,7 @@ extension PartnerCentralSelling {
     /// Return PaginatorSequence for operation ``listEngagementByAcceptingInvitationTasks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - catalog:  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:     AWS: Retrieves the request from the production AWS environment.     Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
     ///   - engagementInvitationIdentifier:  Filters tasks by the identifiers of the engagement invitations they are processing.
     ///   - maxResults:  Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
     ///   - opportunityIdentifier:  Filters tasks by the identifiers of the opportunities they created or are associated with.
@@ -1691,7 +1691,7 @@ extension PartnerCentralSelling {
     /// Return PaginatorSequence for operation ``listEngagementFromOpportunityTasks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - catalog:  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:     AWS: Retrieves the request from the production AWS environment.     Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
     ///   - engagementIdentifier:  Filters tasks by the identifiers of the engagements they created or are associated with.
     ///   - maxResults:  Specifies the maximum number of results to return in a single page of the response.Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
     ///   - opportunityIdentifier:  The identifier of the original opportunity associated with this task.
@@ -1892,7 +1892,7 @@ extension PartnerCentralSelling {
     ///   - engagementIdentifier: An array of strings representing engagement identifiers to retrieve.
     ///   - excludeCreatedBy: An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
     ///   - maxResults: The maximum number of results to return in a single call.
-    ///   - sort:  An object that specifies the sort order of the results.
+    ///   - sort: 
     ///   - logger: Logger used for logging
     @inlinable
     public func listEngagementsPaginator(

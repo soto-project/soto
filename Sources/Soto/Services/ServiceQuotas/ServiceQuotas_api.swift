@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ServiceQuotas service.
 ///
-/// With Service Quotas, you can view and manage your quotas easily as your Amazon Web Services workloads grow. Quotas, also referred to as limits, are the maximum number of resources that you can create in your Amazon Web Services account. For more information, see the Service Quotas User Guide.
+/// With Service Quotas, you can view and manage your quotas easily as your Amazon Web Services workloads grow. Quotas, also referred to as limits, are the maximum number of resources that you can create in your Amazon Web Services account. For more information, see the Service Quotas User Guide. You need Amazon Web Services CLI version 2.13.20 or higher to view and manage resource-level quotas such as Instances per domain for Amazon OpenSearch Service.
 public struct ServiceQuotas: AWSService {
     // MARK: Member variables
 
@@ -111,6 +111,35 @@ public struct ServiceQuotas: AWSService {
         let input = AssociateServiceQuotaTemplateRequest(
         )
         return try await self.associateServiceQuotaTemplate(input, logger: logger)
+    }
+
+    /// Creates a Support case for an existing quota increase request. This call only creates  a Support case if the request has a Pending status.
+    @Sendable
+    @inlinable
+    public func createSupportCase(_ input: CreateSupportCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSupportCaseResponse {
+        try await self.client.execute(
+            operation: "CreateSupportCase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Support case for an existing quota increase request. This call only creates  a Support case if the request has a Pending status.
+    ///
+    /// Parameters:
+    ///   - requestId: The ID of the pending quota increase request for which you want to open a Support case.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSupportCase(
+        requestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSupportCaseResponse {
+        let input = CreateSupportCaseRequest(
+            requestId: requestId
+        )
+        return try await self.createSupportCase(input, logger: logger)
     }
 
     /// Deletes the quota increase request for the specified quota from your quota request template.
@@ -261,7 +290,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.getRequestedServiceQuotaChange(input, logger: logger)
     }
 
-    /// Retrieves the applied quota value for the specified quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Retrieves the applied quota value for the specified account-level or resource-level quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     @Sendable
     @inlinable
     public func getServiceQuota(_ input: GetServiceQuotaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceQuotaResponse {
@@ -274,10 +303,10 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the applied quota value for the specified quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Retrieves the applied quota value for the specified account-level or resource-level quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
     /// Parameters:
-    ///   - contextId: Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+    ///   - contextId: Specifies the resource with an Amazon Resource Name (ARN).
     ///   - quotaCode: Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
     ///   - logger: Logger use during operation
@@ -331,7 +360,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.getServiceQuotaIncreaseRequestFromTemplate(input, logger: logger)
     }
 
-    /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases.
     @Sendable
     @inlinable
     public func listAWSDefaultServiceQuotas(_ input: ListAWSDefaultServiceQuotasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAWSDefaultServiceQuotasResponse {
@@ -344,7 +373,7 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -366,7 +395,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.listAWSDefaultServiceQuotas(input, logger: logger)
     }
 
-    /// Retrieves the quota increase requests for the specified Amazon Web Service.
+    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at  either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
     @Sendable
     @inlinable
     public func listRequestedServiceQuotaChangeHistory(_ input: ListRequestedServiceQuotaChangeHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRequestedServiceQuotaChangeHistoryResponse {
@@ -379,12 +408,12 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the quota increase requests for the specified Amazon Web Service.
+    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at  either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - nextToken: Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
-    ///   - quotaRequestedAtLevel: Specifies at which level within the Amazon Web Services account the quota request applies to.
+    ///   - quotaRequestedAtLevel: Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
     ///   - status: Specifies that you want to filter the results to only the requests with the matching status.
     ///   - logger: Logger use during operation
@@ -407,7 +436,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.listRequestedServiceQuotaChangeHistory(input, logger: logger)
     }
 
-    /// Retrieves the quota increase requests for the specified quota.
+    /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, resource level, or all levels.
     @Sendable
     @inlinable
     public func listRequestedServiceQuotaChangeHistoryByQuota(_ input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
@@ -420,13 +449,13 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the quota increase requests for the specified quota.
+    /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, resource level, or all levels.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - nextToken: Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
     ///   - quotaCode: Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
-    ///   - quotaRequestedAtLevel: Specifies at which level within the Amazon Web Services account the quota request applies to.
+    ///   - quotaRequestedAtLevel: Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
     ///   - status: Specifies that you want to filter the results to only the requests with the matching status.
     ///   - logger: Logger use during operation
@@ -489,7 +518,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.listServiceQuotaIncreaseRequestsInTemplate(input, logger: logger)
     }
 
-    /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. Filter responses to return applied quota values at either the account level, resource level, or all levels.
     @Sendable
     @inlinable
     public func listServiceQuotas(_ input: ListServiceQuotasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceQuotasResponse {
@@ -502,12 +531,12 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. Filter responses to return applied quota values at either the account level, resource level, or all levels.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - nextToken: Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
-    ///   - quotaAppliedAtLevel: Specifies at which level of granularity that the quota value is applied.
+    ///   - quotaAppliedAtLevel: Filters the response to return applied quota values for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     ///   - quotaCode: Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
     ///   - logger: Logger use during operation
@@ -530,7 +559,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.listServiceQuotas(input, logger: logger)
     }
 
-    /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
+    /// Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
     @Sendable
     @inlinable
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesResponse {
@@ -543,7 +572,7 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
+    /// Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -629,7 +658,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.putServiceQuotaIncreaseRequestIntoTemplate(input, logger: logger)
     }
 
-    /// Submits a quota increase request for the specified quota.
+    /// Submits a quota increase request for the specified quota at the account or resource level.
     @Sendable
     @inlinable
     public func requestServiceQuotaIncrease(_ input: RequestServiceQuotaIncreaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestServiceQuotaIncreaseResponse {
@@ -642,13 +671,14 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Submits a quota increase request for the specified quota.
+    /// Submits a quota increase request for the specified quota at the account or resource level.
     ///
     /// Parameters:
-    ///   - contextId: Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+    ///   - contextId: Specifies the resource with an Amazon Resource Name (ARN).
     ///   - desiredValue: Specifies the new, increased value for the quota.
     ///   - quotaCode: Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
+    ///   - supportCaseAllowed: Specifies if an Amazon Web Services Support case can be opened for the quota increase request. This parameter is optional.  By default, this flag is set to True and Amazon Web Services may create a support case for some quota increase requests.  You can set this flag to False  if you do not want a support case created when you request a quota increase. If you set the flag to False,  Amazon Web Services does not open a support case and updates the request status to Not approved.
     ///   - logger: Logger use during operation
     @inlinable
     public func requestServiceQuotaIncrease(
@@ -656,13 +686,15 @@ public struct ServiceQuotas: AWSService {
         desiredValue: Double,
         quotaCode: String,
         serviceCode: String,
+        supportCaseAllowed: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RequestServiceQuotaIncreaseResponse {
         let input = RequestServiceQuotaIncreaseRequest(
             contextId: contextId, 
             desiredValue: desiredValue, 
             quotaCode: quotaCode, 
-            serviceCode: serviceCode
+            serviceCode: serviceCode, 
+            supportCaseAllowed: supportCaseAllowed
         )
         return try await self.requestServiceQuotaIncrease(input, logger: logger)
     }
@@ -804,7 +836,7 @@ extension ServiceQuotas {
     ///
     /// - Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - quotaRequestedAtLevel: Specifies at which level within the Amazon Web Services account the quota request applies to.
+    ///   - quotaRequestedAtLevel: Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
     ///   - status: Specifies that you want to filter the results to only the requests with the matching status.
     ///   - logger: Logger used for logging
@@ -848,7 +880,7 @@ extension ServiceQuotas {
     /// - Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - quotaCode: Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
-    ///   - quotaRequestedAtLevel: Specifies at which level within the Amazon Web Services account the quota request applies to.
+    ///   - quotaRequestedAtLevel: Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
     ///   - status: Specifies that you want to filter the results to only the requests with the matching status.
     ///   - logger: Logger used for logging
@@ -933,7 +965,7 @@ extension ServiceQuotas {
     ///
     /// - Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - quotaAppliedAtLevel: Specifies at which level of granularity that the quota value is applied.
+    ///   - quotaAppliedAtLevel: Filters the response to return applied quota values for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     ///   - quotaCode: Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
     ///   - serviceCode: Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
     ///   - logger: Logger used for logging

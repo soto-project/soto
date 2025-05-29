@@ -304,7 +304,7 @@ public struct ACM: AWSService {
         return try await self.importCertificate(input, logger: logger)
     }
 
-    /// Retrieves a list of certificate ARNs and domain names. By default, the API returns RSA_2048 certificates. To return all certificates in the account, include the keyType filter with the values [RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1]. In addition to keyType, you can also filter by the CertificateStatuses, keyUsage, and extendedKeyUsage attributes on the certificate. For more information, see Filters.
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.
     @Sendable
     @inlinable
     public func listCertificates(_ input: ListCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificatesResponse {
@@ -317,7 +317,7 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of certificate ARNs and domain names. By default, the API returns RSA_2048 certificates. To return all certificates in the account, include the keyType filter with the values [RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1]. In addition to keyType, you can also filter by the CertificateStatuses, keyUsage, and extendedKeyUsage attributes on the certificate. For more information, see Filters.
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.
     ///
     /// Parameters:
     ///   - certificateStatuses: Filter the certificate list by status value.
@@ -491,6 +491,7 @@ public struct ACM: AWSService {
     ///   - domainValidationOptions: The domain name that you want ACM to use to send you emails so that you can validate domain ownership.
     ///   - idempotencyToken: Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
     ///   - keyAlgorithm: Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certificate. For more information about selecting an algorithm, see Key algorithms.  Algorithms supported for an ACM certificate request include:     RSA_2048     EC_prime256v1     EC_secp384r1    Other listed algorithms are for imported certificates only.    When you request a private PKI certificate signed by a CA from Amazon Web Services Private CA, the specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key.  Default: RSA_2048
+    ///   - managedBy: Identifies the Amazon Web Services service that manages the certificate issued by ACM.
     ///   - options: Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging.
     ///   - subjectAlternativeNames: Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas. The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
     ///   - tags: One or more resource tags to associate with the certificate.
@@ -503,6 +504,7 @@ public struct ACM: AWSService {
         domainValidationOptions: [DomainValidationOption]? = nil,
         idempotencyToken: String? = nil,
         keyAlgorithm: KeyAlgorithm? = nil,
+        managedBy: CertificateManagedBy? = nil,
         options: CertificateOptions? = nil,
         subjectAlternativeNames: [String]? = nil,
         tags: [Tag]? = nil,
@@ -515,6 +517,7 @@ public struct ACM: AWSService {
             domainValidationOptions: domainValidationOptions, 
             idempotencyToken: idempotencyToken, 
             keyAlgorithm: keyAlgorithm, 
+            managedBy: managedBy, 
             options: options, 
             subjectAlternativeNames: subjectAlternativeNames, 
             tags: tags, 

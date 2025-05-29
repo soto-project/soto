@@ -1705,6 +1705,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - logoutURLs: A list of allowed logout URLs for managed login authentication. When you pass logout_uri and client_id parameters to /logout, Amazon Cognito signs out your user and redirects them to the logout URL. This parameter describes the URLs that you want to be the permitted targets of logout_uri. A typical use of these URLs is when a user selects "Sign out" and you redirect them to your public homepage. For more information, see Logout endpoint.
     ///   - preventUserExistenceErrors: When ENABLED, suppresses messages that might indicate a valid user exists  when someone attempts sign-in. This parameters sets your preference for the errors and  responses that you want Amazon Cognito APIs to return during authentication, account confirmation, and password recovery when the user doesn't exist in the user pool. When set to ENABLED and the user doesn't exist, authentication returns an error indicating either the username or password was incorrect. Account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException exception if the user doesn't exist in the user pool. Defaults to LEGACY.
     ///   - readAttributes: The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
+    ///   - refreshTokenRotation: The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
     ///   - refreshTokenValidity: The refresh token time limit. After this limit expires, your user can't use
     ///   - supportedIdentityProviders: A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This parameter sets the IdPs that managed  login will display on the login page for your app client. The removal of  COGNITO from this list doesn't prevent authentication operations  for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent  SDK-based authentication is to block access with a WAF rule.
     ///   - tokenValidityUnits: The units that validity times are represented in. The default unit for refresh tokens is days, and the default for ID and access tokens are hours.
@@ -1730,6 +1731,7 @@ public struct CognitoIdentityProvider: AWSService {
         logoutURLs: [String]? = nil,
         preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil,
         readAttributes: [String]? = nil,
+        refreshTokenRotation: RefreshTokenRotationType? = nil,
         refreshTokenValidity: Int? = nil,
         supportedIdentityProviders: [String]? = nil,
         tokenValidityUnits: TokenValidityUnitsType? = nil,
@@ -1755,6 +1757,7 @@ public struct CognitoIdentityProvider: AWSService {
             logoutURLs: logoutURLs, 
             preventUserExistenceErrors: preventUserExistenceErrors, 
             readAttributes: readAttributes, 
+            refreshTokenRotation: refreshTokenRotation, 
             refreshTokenValidity: refreshTokenValidity, 
             supportedIdentityProviders: supportedIdentityProviders, 
             tokenValidityUnits: tokenValidityUnits, 
@@ -2661,6 +2664,47 @@ public struct CognitoIdentityProvider: AWSService {
             userPoolId: userPoolId
         )
         return try await self.getSigningCertificate(input, logger: logger)
+    }
+
+    /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If refresh token rotation is disabled, issues new ID and access tokens only.
+    @Sendable
+    @inlinable
+    public func getTokensFromRefreshToken(_ input: GetTokensFromRefreshTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTokensFromRefreshTokenResponse {
+        try await self.client.execute(
+            operation: "GetTokensFromRefreshToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If refresh token rotation is disabled, issues new ID and access tokens only.
+    ///
+    /// Parameters:
+    ///   - clientId: The app client that issued the refresh token to the user who wants to request new tokens.
+    ///   - clientMetadata: A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetTokensFromRefreshToken API action, Amazon Cognito invokes the Lambda function the pre token generation trigger. For more information, see
+    ///   - clientSecret: The client secret of the requested app client, if the client has a secret.
+    ///   - deviceKey: When you enable device remembering, Amazon Cognito issues a device key that you can use for device authentication that bypasses multi-factor authentication (MFA). To implement GetTokensFromRefreshToken in a user pool with device remembering, you must capture the device key from the initial authentication request. If your application doesn't provide the key of a registered device, Amazon Cognito issues a new one. You must provide the confirmed device key in this request if device remembering is enabled in your user pool. For more information about device remembering, see Working with devices.
+    ///   - refreshToken: A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTokensFromRefreshToken(
+        clientId: String,
+        clientMetadata: [String: String]? = nil,
+        clientSecret: String? = nil,
+        deviceKey: String? = nil,
+        refreshToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTokensFromRefreshTokenResponse {
+        let input = GetTokensFromRefreshTokenRequest(
+            clientId: clientId, 
+            clientMetadata: clientMetadata, 
+            clientSecret: clientSecret, 
+            deviceKey: deviceKey, 
+            refreshToken: refreshToken
+        )
+        return try await self.getTokensFromRefreshToken(input, logger: logger)
     }
 
     /// Given a user pool ID or app client, returns information about classic hosted UI branding that you applied, if any. Returns user-pool level branding information if no app client branding is applied, or if you don't specify an app client ID. Returns an empty object if you haven't applied hosted UI branding to either the client or the user pool. For more information, see Hosted UI (classic) branding.
@@ -4237,6 +4281,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - logoutURLs: A list of allowed logout URLs for managed login authentication. When you pass logout_uri and client_id parameters to /logout, Amazon Cognito signs out your user and redirects them to the logout URL. This parameter describes the URLs that you want to be the permitted targets of logout_uri. A typical use of these URLs is when a user selects "Sign out" and you redirect them to your public homepage. For more information, see Logout endpoint.
     ///   - preventUserExistenceErrors: When ENABLED, suppresses messages that might indicate a valid user exists  when someone attempts sign-in. This parameters sets your preference for the errors and  responses that you want Amazon Cognito APIs to return during authentication, account confirmation, and password recovery when the user doesn't exist in the user pool. When set to ENABLED and the user doesn't exist, authentication returns an error indicating either the username or password was incorrect. Account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException exception if the user doesn't exist in the user pool. Defaults to LEGACY.
     ///   - readAttributes: The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
+    ///   - refreshTokenRotation: The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
     ///   - refreshTokenValidity: The refresh token time limit. After this limit expires, your user can't use
     ///   - supportedIdentityProviders: A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This parameter sets the IdPs that managed  login will display on the login page for your app client. The removal of  COGNITO from this list doesn't prevent authentication operations  for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent  SDK-based authentication is to block access with a WAF rule.
     ///   - tokenValidityUnits: The units that validity times are represented in. The default unit for refresh tokens is days, and the default for ID and access tokens are hours.
@@ -4262,6 +4307,7 @@ public struct CognitoIdentityProvider: AWSService {
         logoutURLs: [String]? = nil,
         preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil,
         readAttributes: [String]? = nil,
+        refreshTokenRotation: RefreshTokenRotationType? = nil,
         refreshTokenValidity: Int? = nil,
         supportedIdentityProviders: [String]? = nil,
         tokenValidityUnits: TokenValidityUnitsType? = nil,
@@ -4287,6 +4333,7 @@ public struct CognitoIdentityProvider: AWSService {
             logoutURLs: logoutURLs, 
             preventUserExistenceErrors: preventUserExistenceErrors, 
             readAttributes: readAttributes, 
+            refreshTokenRotation: refreshTokenRotation, 
             refreshTokenValidity: refreshTokenValidity, 
             supportedIdentityProviders: supportedIdentityProviders, 
             tokenValidityUnits: tokenValidityUnits, 

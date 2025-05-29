@@ -5895,6 +5895,12 @@
                         "smithy.api#documentation": "<p>Specifies a command-separated value (CSV) data store stored in Amazon S3.</p>"
                     }
                 },
+                "S3ExcelSource": {
+                    "target": "com.amazonaws.glue#S3ExcelSource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines configuration parameters for reading Excel files from Amazon S3.</p>"
+                    }
+                },
                 "S3JsonSource": {
                     "target": "com.amazonaws.glue#S3JsonSource",
                     "traits": {
@@ -5955,10 +5961,22 @@
                         "smithy.api#documentation": "<p>Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.</p>"
                     }
                 },
+                "S3HyperDirectTarget": {
+                    "target": "com.amazonaws.glue#S3HyperDirectTarget",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines configuration parameters for writing data to Amazon S3 using HyperDirect optimization.</p>"
+                    }
+                },
                 "S3DirectTarget": {
                     "target": "com.amazonaws.glue#S3DirectTarget",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies a data target that writes to Amazon S3.</p>"
+                    }
+                },
+                "S3IcebergDirectTarget": {
+                    "target": "com.amazonaws.glue#S3IcebergDirectTarget",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines configuration parameters for writing data to Amazon S3 as an Apache Iceberg table.</p>"
                     }
                 },
                 "ApplyMapping": {
@@ -8356,16 +8374,46 @@
                         "smithy.api#documentation": "<p>The name of the connection type.</p>"
                     }
                 },
+                "DisplayName": {
+                    "target": "com.amazonaws.glue#DisplayName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The human-readable name for the connection type that is displayed in the Glue console.</p>"
+                    }
+                },
+                "Vendor": {
+                    "target": "com.amazonaws.glue#Vendor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the vendor or provider that created or maintains this connection type.</p>"
+                    }
+                },
                 "Description": {
                     "target": "com.amazonaws.glue#Description",
                     "traits": {
                         "smithy.api#documentation": "<p>A description of the connection type.</p>"
                     }
                 },
+                "Categories": {
+                    "target": "com.amazonaws.glue#ListOfString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of categories that this connection type belongs to. Categories help users filter and find appropriate connection types based on their \n      use cases.</p>"
+                    }
+                },
                 "Capabilities": {
                     "target": "com.amazonaws.glue#Capabilities",
                     "traits": {
                         "smithy.api#documentation": "<p>The supported authentication types, data interface types (compute environments), and data operations of the connector.</p>"
+                    }
+                },
+                "LogoUrl": {
+                    "target": "com.amazonaws.glue#UrlString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The URL of the logo associated with a connection type.</p>"
+                    }
+                },
+                "ConnectionTypeVariants": {
+                    "target": "com.amazonaws.glue#ConnectionTypeVariantList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of variants available for this connection type. Different variants may provide specialized configurations for specific use cases or \n      implementations of the same general connection type.</p>"
                     }
                 }
             },
@@ -8377,6 +8425,44 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.glue#ConnectionTypeBrief"
+            }
+        },
+        "com.amazonaws.glue#ConnectionTypeVariant": {
+            "type": "structure",
+            "members": {
+                "ConnectionTypeVariantName": {
+                    "target": "com.amazonaws.glue#DisplayName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier for the connection type variant. This name is used internally to identify the specific variant of a connection type.\n    </p>"
+                    }
+                },
+                "DisplayName": {
+                    "target": "com.amazonaws.glue#DisplayName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The human-readable name for the connection type variant that is displayed in the Glue console.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.glue#Description",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A detailed description of the connection type variant, including its purpose, use cases, and any specific configuration requirements.</p>"
+                    }
+                },
+                "LogoUrl": {
+                    "target": "com.amazonaws.glue#UrlString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The URL of the logo associated with a connection type variant.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents a variant of a connection type in Glue Data Catalog. Connection type variants provide specific configurations and behaviors \n      for different implementations of the same general connection type.</p>"
+            }
+        },
+        "com.amazonaws.glue#ConnectionTypeVariantList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#ConnectionTypeVariant"
             }
         },
         "com.amazonaws.glue#ConnectionsList": {
@@ -10376,6 +10462,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Metadata assigned to the resource consisting of a list of key-value pairs.</p>"
                     }
+                },
+                "IntegrationConfig": {
+                    "target": "com.amazonaws.glue#IntegrationConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration settings.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10554,6 +10646,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Selects source tables for the integration using Maxwell filter syntax.</p>"
                     }
+                },
+                "IntegrationConfig": {
+                    "target": "com.amazonaws.glue#IntegrationConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration settings.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10601,7 +10699,7 @@
                 "ResourceArn": {
                     "target": "com.amazonaws.glue#String128",
                     "traits": {
-                        "smithy.api#documentation": "<p>The connection ARN of the source, or the database ARN of the target.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the target table for which to create integration table properties. Currently, this API only supports creating \n      integration table properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for \n      creating integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.\n    </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -10615,7 +10713,7 @@
                 "SourceTableConfig": {
                     "target": "com.amazonaws.glue#SourceTableConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>A structure for the source table configuration.</p>"
+                        "smithy.api#documentation": "<p>A structure for the source table configuration. See the <code>SourceTableConfig</code> structure to see list of supported source properties.</p>"
                     }
                 },
                 "TargetTableConfig": {
@@ -16862,6 +16960,15 @@
                 "smithy.api#documentation": "<p>A policy that specifies update behavior for the crawler.</p>"
             }
         },
+        "com.amazonaws.glue#DisplayName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                }
+            }
+        },
         "com.amazonaws.glue#Double": {
             "type": "double",
             "traits": {
@@ -21293,7 +21400,7 @@
                 "ResourceArn": {
                     "target": "com.amazonaws.glue#String128",
                     "traits": {
-                        "smithy.api#documentation": "<p>The connection ARN of the source, or the database ARN of the target.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving \n      properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration \n      table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.\n    </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -21315,7 +21422,7 @@
                 "ResourceArn": {
                     "target": "com.amazonaws.glue#String128",
                     "traits": {
-                        "smithy.api#documentation": "<p>The connection ARN of the source, or the database ARN of the target.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving \n      properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration \n      table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.\n    </p>"
                     }
                 },
                 "TableName": {
@@ -25643,6 +25750,17 @@
                 "target": "com.amazonaws.glue#HudiTarget"
             }
         },
+        "com.amazonaws.glue#HyperTargetCompressionType": {
+            "type": "enum",
+            "members": {
+                "UNCOMPRESSED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "uncompressed"
+                    }
+                }
+            }
+        },
         "com.amazonaws.glue#IAMRoleArn": {
             "type": "string",
             "traits": {
@@ -25877,6 +25995,35 @@
                 "smithy.api#documentation": "<p>Specifies an Apache Iceberg data source where Iceberg tables are stored in Amazon S3.</p>"
             }
         },
+        "com.amazonaws.glue#IcebergTargetCompressionType": {
+            "type": "enum",
+            "members": {
+                "GZIP": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "gzip"
+                    }
+                },
+                "LZO": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "lzo"
+                    }
+                },
+                "UNCOMPRESSED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "uncompressed"
+                    }
+                },
+                "SNAPPY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "snappy"
+                    }
+                }
+            }
+        },
         "com.amazonaws.glue#IcebergTargetList": {
             "type": "list",
             "member": {
@@ -26056,6 +26203,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "IntegrationConfig": {
+                    "target": "com.amazonaws.glue#IntegrationConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Properties associated with the integration.</p>"
+                    }
+                },
                 "Errors": {
                     "target": "com.amazonaws.glue#IntegrationErrorList",
                     "traits": {
@@ -26187,6 +26340,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "IntegrationConfig": {
+                    "target": "com.amazonaws.glue#IntegrationConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Properties associated with the integration.</p>"
+                    }
+                },
                 "Errors": {
                     "target": "com.amazonaws.glue#IntegrationErrorList",
                     "traits": {
@@ -26211,6 +26370,20 @@
             },
             "value": {
                 "target": "com.amazonaws.glue#IntegrationString"
+            }
+        },
+        "com.amazonaws.glue#IntegrationConfig": {
+            "type": "structure",
+            "members": {
+                "RefreshInterval": {
+                    "target": "com.amazonaws.glue#String128",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align \n      the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from  \n    15 minutes to 8640 minutes (six days). Currently supports creation of <code>RefreshInterval</code> only.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Properties associated with the integration.</p>"
             }
         },
         "com.amazonaws.glue#IntegrationConflictOperationFault": {
@@ -26325,13 +26498,19 @@
                 "FieldName": {
                     "target": "com.amazonaws.glue#String128",
                     "traits": {
-                        "smithy.api#documentation": "<p>The field name used to partition data on the target.</p>"
+                        "smithy.api#documentation": "<p>The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, `LastModifiedTimestamp`, \n      `SystemModTimeStamp`) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions, \n      which can lead to performance issues.</p>"
                     }
                 },
                 "FunctionSpec": {
                     "target": "com.amazonaws.glue#String128",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies a function used to partition data on the target.</p>"
+                        "smithy.api#documentation": "<p>Specifies the function used to partition data on the target. The only accepted value for this parameter is `'identity'` (string). \n      The `'identity'` function ensures that the data partitioning on the target follows the same scheme as the source. In other words, the partitioning \n      structure of the source data is preserved in the target destination.</p>"
+                    }
+                },
+                "ConversionSpec": {
+                    "target": "com.amazonaws.glue#String128",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the timestamp format of the source data. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>epoch_sec</code> - Unix epoch timestamp in seconds</p>\n            </li>\n            <li>\n               <p>\n                  <code>epoch_milli</code> - Unix epoch timestamp in milliseconds</p>\n            </li>\n            <li>\n               <p>\n                  <code>iso</code> - ISO 8601 formatted timestamp</p>\n            </li>\n         </ul>\n         <note>\n            <p>\n        Only specify <code>ConversionSpec</code> when using timestamp-based partition functions (year, month, day, or hour). \n        Glue Zero-ETL uses this parameter to correctly transform source data into timestamp format before partitioning.\n      </p>\n            <p>\n        Do not use high-cardinality columns with the <code>identity</code> partition function. High-cardinality columns include:\n      </p>\n            <ul>\n               <li>\n                  <p>Primary keys</p>\n               </li>\n               <li>\n                  <p>Timestamp fields (such as <code>LastModifiedTimestamp</code>, <code>CreatedDate</code>)</p>\n               </li>\n               <li>\n                  <p>System-generated timestamps</p>\n               </li>\n            </ul>\n            <p>\n        Using high-cardinality columns with identity partitioning creates many small partitions, which can significantly degrade ingestion performance.\n      </p>\n         </note>"
                     }
                 }
             },
@@ -31784,6 +31963,9 @@
         "com.amazonaws.glue#NullableString": {
             "type": "string"
         },
+        "com.amazonaws.glue#NumberTargetPartitionsString": {
+            "type": "string"
+        },
         "com.amazonaws.glue#OAuth2ClientApplication": {
             "type": "structure",
             "members": {
@@ -32501,6 +32683,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "gzip"
+                    }
+                },
+                "BROTLI": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "brotli"
+                    }
+                },
+                "LZ4": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "lz4"
                     }
                 },
                 "UNCOMPRESSED": {
@@ -35517,6 +35711,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "NumberTargetPartitions": {
+                    "target": "com.amazonaws.glue#NumberTargetPartitionsString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the number of target partitions for distributing Delta Lake dataset files across Amazon S3.</p>"
+                    }
+                },
                 "Format": {
                     "target": "com.amazonaws.glue#TargetFormat",
                     "traits": {
@@ -35649,6 +35849,12 @@
                         "smithy.api#documentation": "<p>Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are <code>\"gzip\"</code> and <code>\"bzip\"</code>).</p>"
                     }
                 },
+                "NumberTargetPartitions": {
+                    "target": "com.amazonaws.glue#NumberTargetPartitionsString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the number of target partitions when writing data directly to Amazon S3.</p>"
+                    }
+                },
                 "Format": {
                     "target": "com.amazonaws.glue#TargetFormat",
                     "traits": {
@@ -35716,6 +35922,94 @@
                 }
             }
         },
+        "com.amazonaws.glue#S3ExcelSource": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the S3 Excel data source.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Paths": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The S3 paths where the Excel files are located.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "CompressionType": {
+                    "target": "com.amazonaws.glue#ParquetCompressionType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The compression format used for the Excel files.</p>"
+                    }
+                },
+                "Exclusions": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Patterns to exclude specific files or paths from processing.</p>"
+                    }
+                },
+                "GroupSize": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the size of file groups for batch processing.</p>"
+                    }
+                },
+                "GroupFiles": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how files should be grouped for processing.</p>"
+                    }
+                },
+                "Recurse": {
+                    "target": "com.amazonaws.glue#BoxedBoolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether to recursively process subdirectories.</p>"
+                    }
+                },
+                "MaxBand": {
+                    "target": "com.amazonaws.glue#BoxedNonNegativeInt",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of processing bands to use.</p>"
+                    }
+                },
+                "MaxFilesInBand": {
+                    "target": "com.amazonaws.glue#BoxedNonNegativeInt",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of files to process in each band.</p>"
+                    }
+                },
+                "AdditionalOptions": {
+                    "target": "com.amazonaws.glue#S3DirectSourceAdditionalOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional configuration options for S3 direct source processing.</p>"
+                    }
+                },
+                "NumberRows": {
+                    "target": "com.amazonaws.glue#BoxedLong",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of rows to process from each Excel file.</p>"
+                    }
+                },
+                "SkipFooter": {
+                    "target": "com.amazonaws.glue#BoxedNonNegativeInt",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of rows to skip at the end of each Excel file.</p>"
+                    }
+                },
+                "OutputSchemas": {
+                    "target": "com.amazonaws.glue#GlueSchemas",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The AWS Glue schemas to apply to the processed data.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies an S3 Excel data source.</p>"
+            }
+        },
         "com.amazonaws.glue#S3GlueParquetTarget": {
             "type": "structure",
             "members": {
@@ -35750,6 +36044,12 @@
                     "target": "com.amazonaws.glue#ParquetCompressionType",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are <code>\"gzip\"</code> and <code>\"bzip\"</code>).</p>"
+                    }
+                },
+                "NumberTargetPartitions": {
+                    "target": "com.amazonaws.glue#NumberTargetPartitionsString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the number of target partitions for Parquet files when writing to Amazon S3 using AWS Glue.</p>"
                     }
                 },
                 "SchemaChangePolicy": {
@@ -35849,6 +36149,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "NumberTargetPartitions": {
+                    "target": "com.amazonaws.glue#NumberTargetPartitionsString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the number of target partitions for distributing Hudi dataset files across Amazon S3.</p>"
+                    }
+                },
                 "PartitionKeys": {
                     "target": "com.amazonaws.glue#GlueStudioPathList",
                     "traits": {
@@ -35918,6 +36224,120 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Specifies a Hudi data source stored in Amazon S3.</p>"
+            }
+        },
+        "com.amazonaws.glue#S3HyperDirectTarget": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier for the HyperDirect target node.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Inputs": {
+                    "target": "com.amazonaws.glue#OneInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the input source for the HyperDirect target.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "PartitionKeys": {
+                    "target": "com.amazonaws.glue#GlueStudioPathList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the partitioning strategy for the output data.</p>"
+                    }
+                },
+                "Path": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The S3 location where the output data will be written.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Compression": {
+                    "target": "com.amazonaws.glue#HyperTargetCompressionType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The compression type to apply to the output data.</p>"
+                    }
+                },
+                "SchemaChangePolicy": {
+                    "target": "com.amazonaws.glue#DirectSchemaChangePolicy",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines how schema changes are handled during write operations.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies a HyperDirect data target that writes to Amazon S3.</p>"
+            }
+        },
+        "com.amazonaws.glue#S3IcebergDirectTarget": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the unique identifier for the Iceberg target node in your data pipeline.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Inputs": {
+                    "target": "com.amazonaws.glue#OneInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the single input source that provides data to this Iceberg target.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "PartitionKeys": {
+                    "target": "com.amazonaws.glue#GlueStudioPathList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the columns used to partition the Iceberg table data in S3.</p>"
+                    }
+                },
+                "Path": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the S3 location where the Iceberg table data will be stored.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Format": {
+                    "target": "com.amazonaws.glue#TargetFormat",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the file format used for storing Iceberg table data (e.g., Parquet, ORC).</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "AdditionalOptions": {
+                    "target": "com.amazonaws.glue#AdditionalOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Provides additional configuration options for customizing the Iceberg table behavior.</p>"
+                    }
+                },
+                "SchemaChangePolicy": {
+                    "target": "com.amazonaws.glue#DirectSchemaChangePolicy",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines how schema changes are handled when writing data to the Iceberg table.</p>"
+                    }
+                },
+                "Compression": {
+                    "target": "com.amazonaws.glue#IcebergTargetCompressionType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the compression codec used for Iceberg table files in S3.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NumberTargetPartitions": {
+                    "target": "com.amazonaws.glue#NumberTargetPartitionsString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Sets the number of target partitions for distributing Iceberg table files across S3.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies a target that writes to an Iceberg data source in Amazon S3.</p>"
             }
         },
         "com.amazonaws.glue#S3JsonSource": {
@@ -37587,25 +38007,25 @@
                 "Fields": {
                     "target": "com.amazonaws.glue#SourceTableFieldsList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of fields used for column-level filtering.</p>"
+                        "smithy.api#documentation": "<p>A list of fields used for column-level filtering. Currently unsupported.</p>"
                     }
                 },
                 "FilterPredicate": {
                     "target": "com.amazonaws.glue#String128",
                     "traits": {
-                        "smithy.api#documentation": "<p>A condition clause used for row-level filtering.</p>"
+                        "smithy.api#documentation": "<p>A condition clause used for row-level filtering. Currently unsupported.</p>"
                     }
                 },
                 "PrimaryKey": {
                     "target": "com.amazonaws.glue#PrimaryKeyList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Unique identifier of a record.</p>"
+                        "smithy.api#documentation": "<p>Provide the primary key set for this table. Currently supported specifically for SAP <code>EntityOf</code> entities upon request. Contact \n      Amazon Web Services Support to make this feature available.</p>"
                     }
                 },
                 "RecordUpdateField": {
                     "target": "com.amazonaws.glue#String128",
                     "traits": {
-                        "smithy.api#documentation": "<p>Incremental pull timestamp-based field.</p>"
+                        "smithy.api#documentation": "<p>Incremental pull timestamp-based field. Currently unsupported.</p>"
                     }
                 }
             },
@@ -40765,6 +41185,24 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "delta"
+                    }
+                },
+                "ICEBERG": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "iceberg"
+                    }
+                },
+                "HYPER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "hyper"
+                    }
+                },
+                "XML": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "xml"
                     }
                 }
             }
@@ -44541,6 +44979,9 @@
         "com.amazonaws.glue#UriString": {
             "type": "string"
         },
+        "com.amazonaws.glue#UrlString": {
+            "type": "string"
+        },
         "com.amazonaws.glue#UsageProfileDefinition": {
             "type": "structure",
             "members": {
@@ -44738,6 +45179,15 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.glue#ValueString"
+            }
+        },
+        "com.amazonaws.glue#Vendor": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                }
             }
         },
         "com.amazonaws.glue#VersionId": {

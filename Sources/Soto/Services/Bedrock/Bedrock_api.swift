@@ -246,6 +246,7 @@ public struct Bedrock: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request  completes no more than once. If this token matches a previous request,  Amazon Bedrock ignores the request, but does not return an error.  For more information, see Ensuring  idempotency in the Amazon S3 User Guide.
     ///   - contentPolicyConfig: The content filter policies to configure for the guardrail.
     ///   - contextualGroundingPolicyConfig: The contextual grounding policy configuration used to create a guardrail.
+    ///   - crossRegionConfig: The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the Amazon Bedrock User Guide.
     ///   - description: A description of the guardrail.
     ///   - kmsKeyId: The ARN of the KMS key that you use to encrypt the guardrail.
     ///   - name: The name to give the guardrail.
@@ -261,6 +262,7 @@ public struct Bedrock: AWSService {
         clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(),
         contentPolicyConfig: GuardrailContentPolicyConfig? = nil,
         contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil,
+        crossRegionConfig: GuardrailCrossRegionConfig? = nil,
         description: String? = nil,
         kmsKeyId: String? = nil,
         name: String,
@@ -276,6 +278,7 @@ public struct Bedrock: AWSService {
             clientRequestToken: clientRequestToken, 
             contentPolicyConfig: contentPolicyConfig, 
             contextualGroundingPolicyConfig: contextualGroundingPolicyConfig, 
+            crossRegionConfig: crossRegionConfig, 
             description: description, 
             kmsKeyId: kmsKeyId, 
             name: name, 
@@ -1859,7 +1862,7 @@ public struct Bedrock: AWSService {
     ///   - nextToken: If there were more results than the value you specified in the maxResults field in a previous ListModelInvocationJobs request, the response would have returned a nextToken value. To see the next batch of results, send the nextToken value in another request.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web ServicesSupport Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger use during operation
@@ -2237,6 +2240,7 @@ public struct Bedrock: AWSService {
     ///   - blockedOutputsMessaging: The message to return when the guardrail blocks a model response.
     ///   - contentPolicyConfig: The content policy to configure for the guardrail.
     ///   - contextualGroundingPolicyConfig: The contextual grounding policy configuration used to update a guardrail.
+    ///   - crossRegionConfig: The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the Amazon Bedrock User Guide.
     ///   - description: A description of the guardrail.
     ///   - guardrailIdentifier: The unique identifier of the guardrail.  This can be an ID or the ARN.
     ///   - kmsKeyId: The ARN of the KMS key with which to encrypt the guardrail.
@@ -2251,6 +2255,7 @@ public struct Bedrock: AWSService {
         blockedOutputsMessaging: String,
         contentPolicyConfig: GuardrailContentPolicyConfig? = nil,
         contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil,
+        crossRegionConfig: GuardrailCrossRegionConfig? = nil,
         description: String? = nil,
         guardrailIdentifier: String,
         kmsKeyId: String? = nil,
@@ -2265,6 +2270,7 @@ public struct Bedrock: AWSService {
             blockedOutputsMessaging: blockedOutputsMessaging, 
             contentPolicyConfig: contentPolicyConfig, 
             contextualGroundingPolicyConfig: contextualGroundingPolicyConfig, 
+            crossRegionConfig: crossRegionConfig, 
             description: description, 
             guardrailIdentifier: guardrailIdentifier, 
             kmsKeyId: kmsKeyId, 
@@ -2820,7 +2826,7 @@ extension Bedrock {
     ///   - nameContains: Specify a string to filter for batch inference jobs whose names contain the string.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web ServicesSupport Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger used for logging

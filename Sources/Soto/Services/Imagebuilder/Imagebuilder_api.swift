@@ -493,7 +493,7 @@ public struct Imagebuilder: AWSService {
     ///   - components: The components included in the image recipe.
     ///   - description: The description of the image recipe.
     ///   - name: The name of the image recipe.
-    ///   - parentImage: The base image of the image recipe. The value of the string can be the ARN of the base
+    ///   - parentImage: The base image for customizations specified in the image recipe. You can specify the
     ///   - semanticVersion: The semantic version of the image recipe. This version follows the semantic version
     ///   - tags: The tags of the image recipe.
     ///   - workingDirectory: The working directory used during build and test workflows.

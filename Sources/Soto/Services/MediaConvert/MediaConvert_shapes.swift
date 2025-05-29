@@ -292,6 +292,7 @@ extension MediaConvert {
     }
 
     public enum AudioSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allPcm = "ALL_PCM"
         case hlsRenditionGroup = "HLS_RENDITION_GROUP"
         case languageCode = "LANGUAGE_CODE"
         case pid = "PID"
@@ -549,6 +550,12 @@ extension MediaConvert {
         case teletext = "TELETEXT"
         case ttml = "TTML"
         case webvtt = "WEBVTT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaptionSourceUpconvertSTLToTeletext: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case upconvert = "UPCONVERT"
         public var description: String { return self.rawValue }
     }
 
@@ -1313,6 +1320,16 @@ extension MediaConvert {
         case mp4 = "mp4"
         case quicktime = "quicktime"
         case webm = "webm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FrameMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case msSsim = "MS_SSIM"
+        case psnr = "PSNR"
+        case psnrHvs = "PSNR_HVS"
+        case qvbr = "QVBR"
+        case ssim = "SSIM"
+        case vmaf = "VMAF"
         public var description: String { return self.rawValue }
     }
 
@@ -3839,7 +3856,7 @@ extension MediaConvert {
         /// The bit depth of the audio track.
         public let bitDepth: Int?
         /// The bit rate of the audio track, in bits per second.
-        public let bitRate: Int?
+        public let bitRate: Int64?
         /// The number of audio channels in the audio track.
         public let channels: Int?
         /// The frame rate of the video or audio track.
@@ -3850,7 +3867,7 @@ extension MediaConvert {
         public let sampleRate: Int?
 
         @inlinable
-        public init(bitDepth: Int? = nil, bitRate: Int? = nil, channels: Int? = nil, frameRate: FrameRate? = nil, languageCode: String? = nil, sampleRate: Int? = nil) {
+        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, channels: Int? = nil, frameRate: FrameRate? = nil, languageCode: String? = nil, sampleRate: Int? = nil) {
             self.bitDepth = bitDepth
             self.bitRate = bitRate
             self.channels = channels
@@ -4013,7 +4030,7 @@ extension MediaConvert {
     public struct AutomatedAbrSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public let maxAbrBitrate: Int?
-        /// Optional. Specify the QVBR quality level to use for all renditions in your automated ABR stack. To have MediaConvert automatically determine the quality level: Leave blank. To manually specify a quality level: Enter an integer from 1 to 10. MediaConvert will use a quality level up to the value that you specify, depending on your source. For more information about QVBR quality levels, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/qvbr-guidelines.html
+        /// Optional. Specify the QVBR quality level to use for all renditions in your automated ABR stack. To have MediaConvert automatically determine the quality level: Leave blank. To manually specify a quality level: Enter a value from 1 to 10. MediaConvert will use a quality level up to the value that you specify, depending on your source. For more information about QVBR quality levels, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/qvbr-guidelines.html
         public let maxQualityLevel: Double?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
         public let maxRenditions: Int?
@@ -4114,6 +4131,8 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding, we recommend using 7 or 15. Choose a larger number for a lower bitrate and smaller file size; choose a smaller number for better video quality.
         public let numberBFramesBetweenReferenceFrames: Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public let qvbrSettings: Av1QvbrSettings?
         /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
@@ -4124,7 +4143,7 @@ extension MediaConvert {
         public let spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization?
 
         @inlinable
-        public init(adaptiveQuantization: Av1AdaptiveQuantization? = nil, bitDepth: Av1BitDepth? = nil, filmGrainSynthesis: Av1FilmGrainSynthesis? = nil, framerateControl: Av1FramerateControl? = nil, framerateConversionAlgorithm: Av1FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, maxBitrate: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, qvbrSettings: Av1QvbrSettings? = nil, rateControlMode: Av1RateControlMode? = nil, slices: Int? = nil, spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization? = nil) {
+        public init(adaptiveQuantization: Av1AdaptiveQuantization? = nil, bitDepth: Av1BitDepth? = nil, filmGrainSynthesis: Av1FilmGrainSynthesis? = nil, framerateControl: Av1FramerateControl? = nil, framerateConversionAlgorithm: Av1FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, maxBitrate: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qvbrSettings: Av1QvbrSettings? = nil, rateControlMode: Av1RateControlMode? = nil, slices: Int? = nil, spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitDepth = bitDepth
             self.filmGrainSynthesis = filmGrainSynthesis
@@ -4135,6 +4154,7 @@ extension MediaConvert {
             self.gopSize = gopSize
             self.maxBitrate = maxBitrate
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
+            self.perFrameMetrics = perFrameMetrics
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
             self.slices = slices
@@ -4166,6 +4186,7 @@ extension MediaConvert {
             case gopSize = "gopSize"
             case maxBitrate = "maxBitrate"
             case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case perFrameMetrics = "perFrameMetrics"
             case qvbrSettings = "qvbrSettings"
             case rateControlMode = "rateControlMode"
             case slices = "slices"
@@ -4207,6 +4228,8 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: AvcIntraInterlaceMode?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: AvcIntraScanTypeConversionMode?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
@@ -4215,7 +4238,7 @@ extension MediaConvert {
         public let telecine: AvcIntraTelecine?
 
         @inlinable
-        public init(avcIntraClass: AvcIntraClass? = nil, avcIntraUhdSettings: AvcIntraUhdSettings? = nil, framerateControl: AvcIntraFramerateControl? = nil, framerateConversionAlgorithm: AvcIntraFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, interlaceMode: AvcIntraInterlaceMode? = nil, scanTypeConversionMode: AvcIntraScanTypeConversionMode? = nil, slowPal: AvcIntraSlowPal? = nil, telecine: AvcIntraTelecine? = nil) {
+        public init(avcIntraClass: AvcIntraClass? = nil, avcIntraUhdSettings: AvcIntraUhdSettings? = nil, framerateControl: AvcIntraFramerateControl? = nil, framerateConversionAlgorithm: AvcIntraFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, interlaceMode: AvcIntraInterlaceMode? = nil, perFrameMetrics: [FrameMetricType]? = nil, scanTypeConversionMode: AvcIntraScanTypeConversionMode? = nil, slowPal: AvcIntraSlowPal? = nil, telecine: AvcIntraTelecine? = nil) {
             self.avcIntraClass = avcIntraClass
             self.avcIntraUhdSettings = avcIntraUhdSettings
             self.framerateControl = framerateControl
@@ -4223,6 +4246,7 @@ extension MediaConvert {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.interlaceMode = interlaceMode
+            self.perFrameMetrics = perFrameMetrics
             self.scanTypeConversionMode = scanTypeConversionMode
             self.slowPal = slowPal
             self.telecine = telecine
@@ -4243,6 +4267,7 @@ extension MediaConvert {
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
             case interlaceMode = "interlaceMode"
+            case perFrameMetrics = "perFrameMetrics"
             case scanTypeConversionMode = "scanTypeConversionMode"
             case slowPal = "slowPal"
             case telecine = "telecine"
@@ -5250,7 +5275,7 @@ extension MediaConvert {
     public struct CreateJobRequest: AWSEncodableShape {
         /// Optional. Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
         public let accelerationSettings: AccelerationSettings?
-        /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
+        /// Optionally choose a Billing tags source that AWS Billing and Cost Management will use to display tags for individual output costs on any billing report that you set up. Leave blank to use the default value, Job.
         public let billingTagsSource: BillingTagsSource?
         /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
         public let clientRequestToken: String?
@@ -6698,9 +6723,11 @@ extension MediaConvert {
         public let timeDelta: Int?
         /// When you use the setting Time delta to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units, MediaConvert uses seconds by default.
         public let timeDeltaUnits: FileSourceTimeDeltaUnits?
+        /// Specify whether this set of input captions appears in your outputs in both STL and Teletext format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the STL data through using the Teletext compatibility bytes fields of the Teletext wrapper, and it also translates the STL data into Teletext.
+        public let upconvertSTLToTeletext: CaptionSourceUpconvertSTLToTeletext?
 
         @inlinable
-        public init(byteRateLimit: CaptionSourceByteRateLimit? = nil, convert608To708: FileSourceConvert608To708? = nil, convertPaintToPop: CaptionSourceConvertPaintOnToPopOn? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil, timeDeltaUnits: FileSourceTimeDeltaUnits? = nil) {
+        public init(byteRateLimit: CaptionSourceByteRateLimit? = nil, convert608To708: FileSourceConvert608To708? = nil, convertPaintToPop: CaptionSourceConvertPaintOnToPopOn? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil, timeDeltaUnits: FileSourceTimeDeltaUnits? = nil, upconvertSTLToTeletext: CaptionSourceUpconvertSTLToTeletext? = nil) {
             self.byteRateLimit = byteRateLimit
             self.convert608To708 = convert608To708
             self.convertPaintToPop = convertPaintToPop
@@ -6708,6 +6735,7 @@ extension MediaConvert {
             self.sourceFile = sourceFile
             self.timeDelta = timeDelta
             self.timeDeltaUnits = timeDeltaUnits
+            self.upconvertSTLToTeletext = upconvertSTLToTeletext
         }
 
         public func validate(name: String) throws {
@@ -6726,6 +6754,7 @@ extension MediaConvert {
             case sourceFile = "sourceFile"
             case timeDelta = "timeDelta"
             case timeDeltaUnits = "timeDeltaUnits"
+            case upconvertSTLToTeletext = "upconvertSTLToTeletext"
         }
     }
 
@@ -7107,6 +7136,8 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// The Quality tuning level you choose represents a trade-off between the encoding speed of your job and the output video quality. For the fastest encoding speed at the cost of video quality: Choose Single pass. For a good balance between encoding speed and video quality: Leave blank or keep the default value Single pass HQ. For the best video quality, at the cost of encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass on your input followed by an encoding pass. Outputs that use this feature incur pro-tier pricing.
         public let qualityTuningLevel: H264QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
@@ -7141,7 +7172,7 @@ extension MediaConvert {
         public let writeMp4PackagingType: H264WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, saliencyAwareEncoding: H264SaliencyAwareEncoding? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H264WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, saliencyAwareEncoding: H264SaliencyAwareEncoding? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H264WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
@@ -7171,6 +7202,7 @@ extension MediaConvert {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
@@ -7253,6 +7285,7 @@ extension MediaConvert {
             case parControl = "parControl"
             case parDenominator = "parDenominator"
             case parNumerator = "parNumerator"
+            case perFrameMetrics = "perFrameMetrics"
             case qualityTuningLevel = "qualityTuningLevel"
             case qvbrSettings = "qvbrSettings"
             case rateControlMode = "rateControlMode"
@@ -7360,6 +7393,8 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: H265QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
@@ -7392,7 +7427,7 @@ extension MediaConvert {
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
             self.bandwidthReductionFilter = bandwidthReductionFilter
@@ -7422,6 +7457,7 @@ extension MediaConvert {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
@@ -7501,6 +7537,7 @@ extension MediaConvert {
             case parControl = "parControl"
             case parDenominator = "parDenominator"
             case parNumerator = "parNumerator"
+            case perFrameMetrics = "perFrameMetrics"
             case qualityTuningLevel = "qualityTuningLevel"
             case qvbrSettings = "qvbrSettings"
             case rateControlMode = "rateControlMode"
@@ -8746,7 +8783,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
@@ -8900,7 +8937,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?
@@ -10181,6 +10218,8 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: Mpeg2QualityTuningLevel?
         /// Use Rate control mode to specify whether the bitrate is variable (vbr) or constant (cbr).
@@ -10203,7 +10242,7 @@ extension MediaConvert {
         public let temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization?
 
         @inlinable
-        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, scanTypeConversionMode: Mpeg2ScanTypeConversionMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
+        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, scanTypeConversionMode: Mpeg2ScanTypeConversionMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitrate = bitrate
             self.codecLevel = codecLevel
@@ -10227,6 +10266,7 @@ extension MediaConvert {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.rateControlMode = rateControlMode
             self.scanTypeConversionMode = scanTypeConversionMode
@@ -10292,6 +10332,7 @@ extension MediaConvert {
             case parControl = "parControl"
             case parDenominator = "parDenominator"
             case parNumerator = "parNumerator"
+            case perFrameMetrics = "perFrameMetrics"
             case qualityTuningLevel = "qualityTuningLevel"
             case rateControlMode = "rateControlMode"
             case scanTypeConversionMode = "scanTypeConversionMode"
@@ -10892,16 +10933,19 @@ extension MediaConvert {
         public let hlsGroupSettings: HlsGroupSettings?
         /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
         public let type: OutputGroupType?
 
         @inlinable
-        public init(cmafGroupSettings: CmafGroupSettings? = nil, dashIsoGroupSettings: DashIsoGroupSettings? = nil, fileGroupSettings: FileGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, type: OutputGroupType? = nil) {
+        public init(cmafGroupSettings: CmafGroupSettings? = nil, dashIsoGroupSettings: DashIsoGroupSettings? = nil, fileGroupSettings: FileGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, perFrameMetrics: [FrameMetricType]? = nil, type: OutputGroupType? = nil) {
             self.cmafGroupSettings = cmafGroupSettings
             self.dashIsoGroupSettings = dashIsoGroupSettings
             self.fileGroupSettings = fileGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
             self.msSmoothGroupSettings = msSmoothGroupSettings
+            self.perFrameMetrics = perFrameMetrics
             self.type = type
         }
 
@@ -10919,6 +10963,7 @@ extension MediaConvert {
             case fileGroupSettings = "fileGroupSettings"
             case hlsGroupSettings = "hlsGroupSettings"
             case msSmoothGroupSettings = "msSmoothGroupSettings"
+            case perFrameMetrics = "perFrameMetrics"
             case type = "type"
         }
     }
@@ -11143,6 +11188,8 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: ProresScanTypeConversionMode?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
@@ -11151,7 +11198,7 @@ extension MediaConvert {
         public let telecine: ProresTelecine?
 
         @inlinable
-        public init(chromaSampling: ProresChromaSampling? = nil, codecProfile: ProresCodecProfile? = nil, framerateControl: ProresFramerateControl? = nil, framerateConversionAlgorithm: ProresFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, interlaceMode: ProresInterlaceMode? = nil, parControl: ProresParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, scanTypeConversionMode: ProresScanTypeConversionMode? = nil, slowPal: ProresSlowPal? = nil, telecine: ProresTelecine? = nil) {
+        public init(chromaSampling: ProresChromaSampling? = nil, codecProfile: ProresCodecProfile? = nil, framerateControl: ProresFramerateControl? = nil, framerateConversionAlgorithm: ProresFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, interlaceMode: ProresInterlaceMode? = nil, parControl: ProresParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, scanTypeConversionMode: ProresScanTypeConversionMode? = nil, slowPal: ProresSlowPal? = nil, telecine: ProresTelecine? = nil) {
             self.chromaSampling = chromaSampling
             self.codecProfile = codecProfile
             self.framerateControl = framerateControl
@@ -11162,6 +11209,7 @@ extension MediaConvert {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.scanTypeConversionMode = scanTypeConversionMode
             self.slowPal = slowPal
             self.telecine = telecine
@@ -11189,6 +11237,7 @@ extension MediaConvert {
             case parControl = "parControl"
             case parDenominator = "parDenominator"
             case parNumerator = "parNumerator"
+            case perFrameMetrics = "perFrameMetrics"
             case scanTypeConversionMode = "scanTypeConversionMode"
             case slowPal = "slowPal"
             case telecine = "telecine"
@@ -12546,6 +12595,8 @@ extension MediaConvert {
     }
 
     public struct VideoOverlay: AWSEncodableShape & AWSDecodableShape {
+        /// Specify a rectangle of content to crop and use from your video overlay's input video. When you do, MediaConvert uses the cropped dimensions that you specify under X offset, Y offset, Width, and Height.
+        public let crop: VideoOverlayCrop?
         /// Enter the end timecode in the base input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the base input video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS isthe second, and FF is the frame number. When entering this value, take into account your choice for the base input video's timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
         public let endTimecode: String?
         /// Specify the Initial position of your video overlay. To specify the Initial position of your video overlay, including distance from the left or top edge of the base input video's frame, or size: Enter a value for X position, Y position, Width, or Height. To use the full frame of the base input video: Leave blank.
@@ -12560,7 +12611,8 @@ extension MediaConvert {
         public let transitions: [VideoOverlayTransition]?
 
         @inlinable
-        public init(endTimecode: String? = nil, initialPosition: VideoOverlayPosition? = nil, input: VideoOverlayInput? = nil, playback: VideoOverlayPlayBackMode? = nil, startTimecode: String? = nil, transitions: [VideoOverlayTransition]? = nil) {
+        public init(crop: VideoOverlayCrop? = nil, endTimecode: String? = nil, initialPosition: VideoOverlayPosition? = nil, input: VideoOverlayInput? = nil, playback: VideoOverlayPlayBackMode? = nil, startTimecode: String? = nil, transitions: [VideoOverlayTransition]? = nil) {
+            self.crop = crop
             self.endTimecode = endTimecode
             self.initialPosition = initialPosition
             self.input = input
@@ -12570,6 +12622,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.crop?.validate(name: "\(name).crop")
             try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
             try self.initialPosition?.validate(name: "\(name).initialPosition")
             try self.input?.validate(name: "\(name).input")
@@ -12580,12 +12633,54 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crop = "crop"
             case endTimecode = "endTimecode"
             case initialPosition = "initialPosition"
             case input = "input"
             case playback = "playback"
             case startTimecode = "startTimecode"
             case transitions = "transitions"
+        }
+    }
+
+    public struct VideoOverlayCrop: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the height of the video overlay cropping rectangle. To use the same height as your overlay input video: Keep blank, or enter 0. To specify a different height for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels high. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 108 pixels high.
+        public let height: Int?
+        /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
+        public let unit: VideoOverlayUnit?
+        /// Specify the width of the video overlay cropping rectangle. To use the same width as your overlay input video: Keep blank, or enter 0. To specify a different width for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels wide. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 192 pixels wide.
+        public let width: Int?
+        /// Specify the distance between the cropping rectangle and the left edge of your overlay video's frame. To position the cropping rectangle along the left edge: Keep blank, or enter 0. To position the cropping rectangle to the right, relative to the left edge of your overlay video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, the cropping rectangle will be positioned 10 pixels from the left edge of the overlay video's frame. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be positioned 192 pixels from the left edge of the overlay video's frame.
+        public let x: Int?
+        /// Specify the distance between the cropping rectangle and the top edge of your overlay video's frame. To position the cropping rectangle along the top edge: Keep blank, or enter 0. To position the cropping rectangle down, relative to the top edge of your overlay video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, the cropping rectangle will be positioned 10 pixels from the top edge of the overlay video's frame. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be positioned 108 pixels from the top edge of the overlay video's frame.
+        public let y: Int?
+
+        @inlinable
+        public init(height: Int? = nil, unit: VideoOverlayUnit? = nil, width: Int? = nil, x: Int? = nil, y: Int? = nil) {
+            self.height = height
+            self.unit = unit
+            self.width = width
+            self.x = x
+            self.y = y
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.height, name: "height", parent: name, max: 2147483647)
+            try self.validate(self.height, name: "height", parent: name, min: 0)
+            try self.validate(self.width, name: "width", parent: name, max: 2147483647)
+            try self.validate(self.width, name: "width", parent: name, min: 0)
+            try self.validate(self.x, name: "x", parent: name, max: 2147483647)
+            try self.validate(self.x, name: "x", parent: name, min: 0)
+            try self.validate(self.y, name: "y", parent: name, max: 2147483647)
+            try self.validate(self.y, name: "y", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "height"
+            case unit = "unit"
+            case width = "width"
+            case x = "x"
+            case y = "y"
         }
     }
 
@@ -12774,7 +12869,7 @@ extension MediaConvert {
         /// The bit depth of the video track.
         public let bitDepth: Int?
         /// The bit rate of the video track, in bits per second.
-        public let bitRate: Int?
+        public let bitRate: Int64?
         /// The color space color primaries of the video track.
         public let colorPrimaries: ColorPrimaries?
         /// The frame rate of the video or audio track.
@@ -12789,7 +12884,7 @@ extension MediaConvert {
         public let width: Int?
 
         @inlinable
-        public init(bitDepth: Int? = nil, bitRate: Int? = nil, colorPrimaries: ColorPrimaries? = nil, frameRate: FrameRate? = nil, height: Int? = nil, matrixCoefficients: MatrixCoefficients? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
+        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, colorPrimaries: ColorPrimaries? = nil, frameRate: FrameRate? = nil, height: Int? = nil, matrixCoefficients: MatrixCoefficients? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
             self.bitDepth = bitDepth
             self.bitRate = bitRate
             self.colorPrimaries = colorPrimaries
@@ -13319,6 +13414,8 @@ extension MediaConvert {
         public let framerateDenominator: Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateNumerator: Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public let perFrameMetrics: [FrameMetricType]?
         /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
         public let profile: XavcProfile?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Frame rate to 25.
@@ -13341,13 +13438,14 @@ extension MediaConvert {
         public let xavcHdProfileSettings: XavcHdProfileSettings?
 
         @inlinable
-        public init(adaptiveQuantization: XavcAdaptiveQuantization? = nil, entropyEncoding: XavcEntropyEncoding? = nil, framerateControl: XavcFramerateControl? = nil, framerateConversionAlgorithm: XavcFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, profile: XavcProfile? = nil, slowPal: XavcSlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: XavcSpatialAdaptiveQuantization? = nil, temporalAdaptiveQuantization: XavcTemporalAdaptiveQuantization? = nil, xavc4kIntraCbgProfileSettings: Xavc4kIntraCbgProfileSettings? = nil, xavc4kIntraVbrProfileSettings: Xavc4kIntraVbrProfileSettings? = nil, xavc4kProfileSettings: Xavc4kProfileSettings? = nil, xavcHdIntraCbgProfileSettings: XavcHdIntraCbgProfileSettings? = nil, xavcHdProfileSettings: XavcHdProfileSettings? = nil) {
+        public init(adaptiveQuantization: XavcAdaptiveQuantization? = nil, entropyEncoding: XavcEntropyEncoding? = nil, framerateControl: XavcFramerateControl? = nil, framerateConversionAlgorithm: XavcFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, profile: XavcProfile? = nil, slowPal: XavcSlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: XavcSpatialAdaptiveQuantization? = nil, temporalAdaptiveQuantization: XavcTemporalAdaptiveQuantization? = nil, xavc4kIntraCbgProfileSettings: Xavc4kIntraCbgProfileSettings? = nil, xavc4kIntraVbrProfileSettings: Xavc4kIntraVbrProfileSettings? = nil, xavc4kProfileSettings: Xavc4kProfileSettings? = nil, xavcHdIntraCbgProfileSettings: XavcHdIntraCbgProfileSettings? = nil, xavcHdProfileSettings: XavcHdProfileSettings? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.entropyEncoding = entropyEncoding
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.profile = profile
             self.slowPal = slowPal
             self.softness = softness
@@ -13378,6 +13476,7 @@ extension MediaConvert {
             case framerateConversionAlgorithm = "framerateConversionAlgorithm"
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
+            case perFrameMetrics = "perFrameMetrics"
             case profile = "profile"
             case slowPal = "slowPal"
             case softness = "softness"

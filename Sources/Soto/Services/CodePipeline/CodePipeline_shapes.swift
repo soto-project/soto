@@ -101,6 +101,12 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case plaintext = "PLAINTEXT"
+        case secretsManager = "SECRETS_MANAGER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case parallel = "PARALLEL"
         case queued = "QUEUED"
@@ -243,6 +249,11 @@ extension CodePipeline {
     public enum StartTimeRange: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "All"
         case latest = "Latest"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case targetStatus = "TARGET_STATUS"
         public var description: String { return self.rawValue }
     }
 
@@ -1702,6 +1713,88 @@ extension CodePipeline {
         public init() {}
     }
 
+    public struct DeployActionExecutionTarget: AWSDecodableShape {
+        /// The end time for the deploy action.
+        public let endTime: Date?
+        /// The lifecycle events for the deploy action.
+        public let events: [DeployTargetEvent]?
+        /// The start time for the deploy action.
+        public let startTime: Date?
+        /// The status of the deploy action.
+        public let status: String?
+        /// The ID of the target for the deploy action.
+        public let targetId: String?
+        /// The type of target for the deploy action.
+        public let targetType: String?
+
+        @inlinable
+        public init(endTime: Date? = nil, events: [DeployTargetEvent]? = nil, startTime: Date? = nil, status: String? = nil, targetId: String? = nil, targetType: String? = nil) {
+            self.endTime = endTime
+            self.events = events
+            self.startTime = startTime
+            self.status = status
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case events = "events"
+            case startTime = "startTime"
+            case status = "status"
+            case targetId = "targetId"
+            case targetType = "targetType"
+        }
+    }
+
+    public struct DeployTargetEvent: AWSDecodableShape {
+        /// The context for the event for the deploy action.
+        public let context: DeployTargetEventContext?
+        /// The end time for the event for the deploy action.
+        public let endTime: Date?
+        /// The name of the event for the deploy action.
+        public let name: String?
+        /// The start time for the event for the deploy action.
+        public let startTime: Date?
+        /// The status of the event for the deploy action.
+        public let status: String?
+
+        @inlinable
+        public init(context: DeployTargetEventContext? = nil, endTime: Date? = nil, name: String? = nil, startTime: Date? = nil, status: String? = nil) {
+            self.context = context
+            self.endTime = endTime
+            self.name = name
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+            case endTime = "endTime"
+            case name = "name"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
+
+    public struct DeployTargetEventContext: AWSDecodableShape {
+        /// The context message for the event for the deploy action.
+        public let message: String?
+        /// The command ID for the event for the deploy action.
+        public let ssmCommandId: String?
+
+        @inlinable
+        public init(message: String? = nil, ssmCommandId: String? = nil) {
+            self.message = message
+            self.ssmCommandId = ssmCommandId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case ssmCommandId = "ssmCommandId"
+        }
+    }
+
     public struct DeregisterWebhookWithThirdPartyInput: AWSEncodableShape {
         /// The name of the webhook you want to deregister.
         public let webhookName: String?
@@ -1821,12 +1914,15 @@ extension CodePipeline {
     public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
         /// The environment variable name in the key-value pair.
         public let name: String
+        /// Specifies the type of use for the environment variable value. The value can be either PLAINTEXT or SECRETS_MANAGER. If the value is SECRETS_MANAGER, provide the Secrets reference in the EnvironmentVariable value.
+        public let type: EnvironmentVariableType?
         /// The environment variable value in the key-value pair.
         public let value: String
 
         @inlinable
-        public init(name: String, value: String) {
+        public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
             self.name = name
+            self.type = type
             self.value = value
         }
 
@@ -1841,6 +1937,7 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+            case type = "type"
             case value = "value"
         }
     }
@@ -2731,6 +2828,67 @@ extension CodePipeline {
         }
     }
 
+    public struct ListDeployActionExecutionTargetsInput: AWSEncodableShape {
+        /// The execution ID for the deploy action.
+        public let actionExecutionId: String
+        /// Filters the targets for a specified deploy action.
+        public let filters: [TargetFilter]?
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
+        public let nextToken: String?
+        /// The name of the pipeline with the deploy action.
+        public let pipelineName: String?
+
+        @inlinable
+        public init(actionExecutionId: String, filters: [TargetFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String? = nil) {
+            self.actionExecutionId = actionExecutionId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineName = pipelineName
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionExecutionId = "actionExecutionId"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct ListDeployActionExecutionTargetsOutput: AWSDecodableShape {
+        /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
+        public let nextToken: String?
+        /// The targets for the deploy action.
+        public let targets: [DeployActionExecutionTarget]?
+
+        @inlinable
+        public init(nextToken: String? = nil, targets: [DeployActionExecutionTarget]? = nil) {
+            self.nextToken = nextToken
+            self.targets = targets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case targets = "targets"
+        }
+    }
+
     public struct ListPipelineExecutionsInput: AWSEncodableShape {
         /// The pipeline execution to filter on.
         public let filter: PipelineExecutionFilter?
@@ -3352,7 +3510,7 @@ extension CodePipeline {
         public let created: Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public let pipelineArn: String?
-        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format. You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see Migrate polling pipelines to use event-based change detection in the CodePipeline User Guide.
+        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format.   Pipelines that are inactive for longer than 30 days will have polling disabled for the pipeline. For more information, see pollingDisabledAt in the pipeline structure reference. For the steps to migrate your pipeline from polling to event-based change detection, see Migrate polling pipelines to use event-based change detection.  You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see Migrate polling pipelines to use event-based change detection in the CodePipeline User Guide.
         public let pollingDisabledAt: Date?
         /// The date and time the pipeline was last updated, in timestamp format.
         public let updated: Date?
@@ -4970,6 +5128,30 @@ extension CodePipeline {
         public init() {}
     }
 
+    public struct TargetFilter: AWSEncodableShape {
+        /// The name on which to filter.
+        public let name: TargetFilterName?
+        /// The values on which to filter.
+        public let values: [String]?
+
+        @inlinable
+        public init(name: TargetFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
     public struct ThirdPartyJob: AWSDecodableShape {
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientId: String?
@@ -5265,6 +5447,7 @@ extension CodePipeline {
 /// Error enum for CodePipeline
 public struct CodePipelineErrorType: AWSErrorType {
     enum Code: String {
+        case actionExecutionNotFoundException = "ActionExecutionNotFoundException"
         case actionNotFoundException = "ActionNotFoundException"
         case actionTypeNotFoundException = "ActionTypeNotFoundException"
         case approvalAlreadyCompletedException = "ApprovalAlreadyCompletedException"
@@ -5325,6 +5508,8 @@ public struct CodePipelineErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The action execution was not found.
+    public static var actionExecutionNotFoundException: Self { .init(.actionExecutionNotFoundException) }
     /// The specified action cannot be found.
     public static var actionNotFoundException: Self { .init(.actionNotFoundException) }
     /// The specified action type cannot be found.

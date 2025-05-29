@@ -25,6 +25,12 @@ import Foundation
 extension PCS {
     // MARK: Enums
 
+    public enum AccountingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
@@ -100,6 +106,42 @@ extension PCS {
 
     // MARK: Shapes
 
+    public struct Accounting: AWSDecodableShape {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the slurmdbd.conf documentation at SchedMD. The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists.   0 isn't a valid value.
+        public let defaultPurgeTimeInDays: Int?
+        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        public let mode: AccountingMode
+
+        @inlinable
+        public init(defaultPurgeTimeInDays: Int? = nil, mode: AccountingMode) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultPurgeTimeInDays = "defaultPurgeTimeInDays"
+            case mode = "mode"
+        }
+    }
+
+    public struct AccountingRequest: AWSEncodableShape {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the slurmdbd.conf documentation at SchedMD. The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists.   0 isn't a valid value.
+        public let defaultPurgeTimeInDays: Int?
+        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        public let mode: AccountingMode
+
+        @inlinable
+        public init(defaultPurgeTimeInDays: Int? = nil, mode: AccountingMode) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultPurgeTimeInDays = "defaultPurgeTimeInDays"
+            case mode = "mode"
+        }
+    }
+
     public struct Cluster: AWSDecodableShape {
         /// The unique Amazon Resource Name (ARN) of the cluster.
         public let arn: String
@@ -157,6 +199,8 @@ extension PCS {
     }
 
     public struct ClusterSlurmConfiguration: AWSDecodableShape {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public let accounting: Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public let authKey: SlurmAuthKey?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
@@ -165,13 +209,15 @@ extension PCS {
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(authKey: SlurmAuthKey? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(accounting: Accounting? = nil, authKey: SlurmAuthKey? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.accounting = accounting
             self.authKey = authKey
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accounting = "accounting"
             case authKey = "authKey"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
@@ -179,18 +225,22 @@ extension PCS {
     }
 
     public struct ClusterSlurmConfigurationRequest: AWSEncodableShape {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public let accounting: AccountingRequest?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(accounting: AccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accounting = "accounting"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
         }
@@ -242,7 +292,7 @@ extension PCS {
         public let customLaunchTemplate: CustomLaunchTemplate
         /// The list of errors that occurred during compute node group provisioning.
         public let errorInfo: [ErrorInfo]?
-        /// The Amazon Resource Name (ARN) of the IAM instance  profile used to pass an IAM role when launching EC2 instances. The role contained  in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with  AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
         public let iamInstanceProfileArn: String
         /// The generated unique ID of the compute node group.
         public let id: String
@@ -259,7 +309,7 @@ extension PCS {
         public let spotOptions: SpotOptions?
         /// The provisioning status of the compute node group.  The provisioning status doesn't indicate the overall health of the compute node group.
         public let status: ComputeNodeGroupStatus
-        /// The list of subnet IDs where instances are provisioned by the compute node group.  The subnets must be in the same VPC as the cluster.
+        /// The list of subnet IDs where instances are provisioned by the compute node group. The subnets must be in the same VPC as the cluster.
         public let subnetIds: [String]
 
         @inlinable
@@ -406,7 +456,7 @@ extension PCS {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// A name to identify the cluster. Example: MyCluster
         public let clusterName: String
@@ -476,14 +526,14 @@ extension PCS {
     public struct CreateComputeNodeGroupRequest: AWSEncodableShape {
         ///  The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
         public let amiId: String?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// The name or ID of the cluster to create a compute node group in.
         public let clusterIdentifier: String
         /// A name to identify the cluster. Example: MyCluster
         public let computeNodeGroupName: String
         public let customLaunchTemplate: CustomLaunchTemplate
-        /// The Amazon Resource Name (ARN) of the IAM instance  profile used to pass an IAM role when launching EC2 instances. The role contained  in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with  AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
         public let iamInstanceProfileArn: String
         /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
         public let instanceConfigs: [InstanceConfig]
@@ -565,7 +615,7 @@ extension PCS {
     }
 
     public struct CreateQueueRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// The name or ID of the cluster for which to create a queue.
         public let clusterIdentifier: String
@@ -624,7 +674,7 @@ extension PCS {
     }
 
     public struct CustomLaunchTemplate: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the EC2 launch template to use to provision instances. Example: lt-xxxx
+        /// The ID of the EC2 launch template to use to provision instances.  Example: lt-xxxx
         public let id: String
         /// The version of the EC2 launch template to use to provision instances.
         public let version: String
@@ -642,7 +692,7 @@ extension PCS {
     }
 
     public struct DeleteClusterRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// The name or ID of the cluster to delete.
         public let clusterIdentifier: String
@@ -670,7 +720,7 @@ extension PCS {
     }
 
     public struct DeleteComputeNodeGroupRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the compute node group.
         public let clusterIdentifier: String
@@ -703,7 +753,7 @@ extension PCS {
     }
 
     public struct DeleteQueueRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the queue.
         public let clusterIdentifier: String
@@ -736,7 +786,7 @@ extension PCS {
     }
 
     public struct Endpoint: AWSDecodableShape {
-        /// The endpoint's connection port number. Example: 1234
+        /// The endpoint's connection port number.  Example: 1234
         public let port: String
         /// The endpoint's private IP address. Example: 2.2.2.2
         public let privateIpAddress: String
@@ -884,7 +934,7 @@ extension PCS {
     }
 
     public struct InstanceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The EC2 instance type that Amazon Web Services PCS can provision in the compute node group. Example: t2.xlarge
+        /// The EC2 instance type that Amazon Web Services PCS can provision in the compute node group.  Example: t2.xlarge
         public let instanceType: String?
 
         @inlinable
@@ -898,9 +948,9 @@ extension PCS {
     }
 
     public struct ListClustersRequest: AWSEncodableShape {
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
         public let maxResults: Int?
-        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -927,7 +977,7 @@ extension PCS {
     public struct ListClustersResponse: AWSDecodableShape {
         /// The list of clusters.
         public let clusters: [ClusterSummary]
-        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -945,9 +995,9 @@ extension PCS {
     public struct ListComputeNodeGroupsRequest: AWSEncodableShape {
         /// The name or ID of the cluster to list compute node groups for.
         public let clusterIdentifier: String
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
         public let maxResults: Int?
-        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -973,7 +1023,7 @@ extension PCS {
     public struct ListComputeNodeGroupsResponse: AWSDecodableShape {
         /// The list of compute node groups for the cluster.
         public let computeNodeGroups: [ComputeNodeGroupSummary]
-        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -991,9 +1041,9 @@ extension PCS {
     public struct ListQueuesRequest: AWSEncodableShape {
         /// The name or ID of the cluster to list queues for.
         public let clusterIdentifier: String
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default  is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses  the default.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
         public let maxResults: Int?
-        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -1017,7 +1067,7 @@ extension PCS {
     }
 
     public struct ListQueuesResponse: AWSDecodableShape {
-        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
+        /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token returns an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The list of queues associated with the cluster.
         public let queues: [QueueSummary]
@@ -1069,9 +1119,9 @@ extension PCS {
     }
 
     public struct Networking: AWSDecodableShape {
-        /// The list of security group IDs associated  with the Elastic Network Interface (ENI) created in subnets. The following rules are required:   Inbound rule 1   Protocol: All   Ports: All   Source: Self     Outbound rule 1   Protocol: All   Ports: All   Destination: 0.0.0.0/0 (IPv4)     Outbound rule 2   Protocol: All   Ports: All   Destination: Self
+        /// The list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets. The following rules are required:   Inbound rule 1   Protocol: All   Ports: All   Source: Self     Outbound rule 1   Protocol: All   Ports: All   Destination: 0.0.0.0/0 (IPv4)     Outbound rule 2   Protocol: All   Ports: All   Destination: Self
         public let securityGroupIds: [String]?
-        /// The ID of the subnet where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. The subnet must have an available IP address, cannot reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone. Example: subnet-abcd1234
+        /// The ID of the subnet where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. The subnet must have an available IP address, cannot reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone.  Example: subnet-abcd1234
         public let subnetIds: [String]?
 
         @inlinable
@@ -1089,7 +1139,7 @@ extension PCS {
     public struct NetworkingRequest: AWSEncodableShape {
         /// A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.
         public let securityGroupIds: [String]?
-        /// The list of subnet IDs where Amazon Web Services PCS creates an  Elastic Network Interface (ENI) to enable communication between managed controllers  and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone.  Amazon Web Services PCS currently supports only 1 subnet in this list.
+        /// The list of subnet IDs where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone.  Amazon Web Services PCS currently supports only 1 subnet in this list.
         public let subnetIds: [String]?
 
         @inlinable
@@ -1119,7 +1169,7 @@ extension PCS {
         public let arn: String
         /// The ID of the cluster of the queue.
         public let clusterId: String
-        /// The list of compute node group configurations associated with the queue. Queues  assign jobs to associated compute node groups.
+        /// The list of compute node group configurations associated with the queue. Queues assign jobs to associated compute node groups.
         public let computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]
         /// The date and time the resource was created.
         public let createdAt: Date
@@ -1173,7 +1223,7 @@ extension PCS {
         public let modifiedAt: Date
         /// The name that identifies the queue.
         public let name: String
-        /// The provisioning status of the queue.  The provisioning status doesn't indicate the overall health of the queue.
+        /// The provisioning status of the queue.   The provisioning status doesn't indicate the overall health of the queue.
         public let status: QueueStatus
 
         @inlinable
@@ -1305,7 +1355,7 @@ extension PCS {
     public struct Scheduler: AWSDecodableShape {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in Amazon Web Services PCS in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         public let version: String
 
         @inlinable
@@ -1323,7 +1373,7 @@ extension PCS {
     public struct SchedulerRequest: AWSEncodableShape {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in Amazon Web Services PCS in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         public let version: String
 
         @inlinable
@@ -1404,7 +1454,7 @@ extension PCS {
     }
 
     public struct SpotOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon EC2 allocation strategy Amazon Web Services PCS uses to provision EC2 instances.  Amazon Web Services PCS supports lowest price,  capacity optimized, and  price capacity optimized.  For more information, see Use  allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
+        /// The Amazon EC2 allocation strategy Amazon Web Services PCS uses to provision EC2 instances. Amazon Web Services PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
         public let allocationStrategy: SpotAllocationStrategy?
 
         @inlinable
@@ -1510,14 +1560,14 @@ extension PCS {
     public struct UpdateComputeNodeGroupRequest: AWSEncodableShape {
         /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
         public let amiId: String?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the compute node group.
         public let clusterIdentifier: String
         /// The name or ID of the compute node group.
         public let computeNodeGroupIdentifier: String
         public let customLaunchTemplate: CustomLaunchTemplate?
-        /// The Amazon Resource Name (ARN) of the IAM instance  profile used to pass an IAM role when launching EC2 instances. The role contained  in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with  AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
         public let iamInstanceProfileArn: String?
         /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
@@ -1596,7 +1646,7 @@ extension PCS {
     }
 
     public struct UpdateQueueRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original  request completes successfully, the subsequent retries with the same  client token return the result from the original successful request and  they have no additional effect. If you don't specify a client token, the  CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the queue.
         public let clusterIdentifier: String

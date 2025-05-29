@@ -44,6 +44,12 @@ extension S3Tables {
         public var description: String { return self.rawValue }
     }
 
+    public enum SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes256 = "AES256"
+        case awsKms = "aws:kms"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TableBucketMaintenanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case icebergUnreferencedFileRemoval = "icebergUnreferencedFileRemoval"
         public var description: String { return self.rawValue }
@@ -172,11 +178,14 @@ extension S3Tables {
     }
 
     public struct CreateTableBucketRequest: AWSEncodableShape {
+        /// The encryption configuration to use for the table bucket. This configuration specifies the default encryption settings that will be applied to all tables created in this bucket unless overridden at the table level. The configuration includes the encryption algorithm and, if using SSE-KMS, the KMS key to use.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The name for the table bucket.
         public let name: String
 
         @inlinable
-        public init(name: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, name: String) {
+            self.encryptionConfiguration = encryptionConfiguration
             self.name = name
         }
 
@@ -187,6 +196,7 @@ extension S3Tables {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
             case name = "name"
         }
     }
@@ -206,6 +216,8 @@ extension S3Tables {
     }
 
     public struct CreateTableRequest: AWSEncodableShape {
+        /// The encryption configuration to use for the table. This configuration specifies the encryption algorithm and, if using SSE-KMS, the KMS key to use for encrypting the table.   If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The format for the table.
         public let format: OpenTableFormat
         /// The metadata for the table.
@@ -218,7 +230,8 @@ extension S3Tables {
         public let tableBucketARN: String
 
         @inlinable
-        public init(format: OpenTableFormat, metadata: TableMetadata? = nil, name: String, namespace: String, tableBucketARN: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, format: OpenTableFormat, metadata: TableMetadata? = nil, name: String, namespace: String, tableBucketARN: String) {
+            self.encryptionConfiguration = encryptionConfiguration
             self.format = format
             self.metadata = metadata
             self.name = name
@@ -229,6 +242,7 @@ extension S3Tables {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encode(self.format, forKey: .format)
             try container.encodeIfPresent(self.metadata, forKey: .metadata)
             try container.encode(self.name, forKey: .name)
@@ -247,6 +261,7 @@ extension S3Tables {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
             case format = "format"
             case metadata = "metadata"
             case name = "name"
@@ -294,6 +309,28 @@ extension S3Tables {
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTableBucketEncryptionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(tableBucketARN: String) {
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
             try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
         }
 
@@ -422,6 +459,24 @@ extension S3Tables {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the KMS key to use for encryption. This field is required only when sseAlgorithm is set to aws:kms.
+        public let kmsKeyArn: String?
+        /// The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+        public let sseAlgorithm: SSEAlgorithm
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, sseAlgorithm: SSEAlgorithm) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "kmsKeyArn"
+            case sseAlgorithm = "sseAlgorithm"
+        }
+    }
+
     public struct GetNamespaceRequest: AWSEncodableShape {
         /// The name of the namespace.
         public let namespace: String
@@ -458,22 +513,66 @@ extension S3Tables {
         public let createdBy: String
         /// The name of the namespace.
         public let namespace: [String]
+        /// The unique identifier of the namespace.
+        public let namespaceId: String?
         /// The ID of the account that owns the namespcace.
         public let ownerAccountId: String
+        /// The unique identifier of the table bucket containing this namespace.
+        public let tableBucketId: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, namespace: [String], ownerAccountId: String) {
+        public init(createdAt: Date, createdBy: String, namespace: [String], namespaceId: String? = nil, ownerAccountId: String, tableBucketId: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.namespace = namespace
+            self.namespaceId = namespaceId
             self.ownerAccountId = ownerAccountId
+            self.tableBucketId = tableBucketId
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case namespace = "namespace"
+            case namespaceId = "namespaceId"
             case ownerAccountId = "ownerAccountId"
+            case tableBucketId = "tableBucketId"
+        }
+    }
+
+    public struct GetTableBucketEncryptionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(tableBucketARN: String) {
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableBucketEncryptionResponse: AWSDecodableShape {
+        /// The encryption configuration for the table bucket.
+        public let encryptionConfiguration: EncryptionConfiguration
+
+        @inlinable
+        public init(encryptionConfiguration: EncryptionConfiguration) {
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
         }
     }
 
@@ -584,13 +683,16 @@ extension S3Tables {
         public let name: String
         /// The ID of the account that owns the table bucket.
         public let ownerAccountId: String
+        /// The unique identifier of the table bucket.
+        public let tableBucketId: String?
 
         @inlinable
-        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String) {
+        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String, tableBucketId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.tableBucketId = tableBucketId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -598,6 +700,57 @@ extension S3Tables {
             case createdAt = "createdAt"
             case name = "name"
             case ownerAccountId = "ownerAccountId"
+            case tableBucketId = "tableBucketId"
+        }
+    }
+
+    public struct GetTableEncryptionRequest: AWSEncodableShape {
+        /// The name of the table.
+        public let name: String
+        /// The namespace associated with the table.
+        public let namespace: String
+        /// The Amazon Resource Name (ARN) of the table bucket containing the table.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(name: String, namespace: String, tableBucketARN: String) {
+            self.name = name
+            self.namespace = namespace
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.namespace, key: "namespace")
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableEncryptionResponse: AWSDecodableShape {
+        /// The encryption configuration for the table.
+        public let encryptionConfiguration: EncryptionConfiguration
+
+        @inlinable
+        public init(encryptionConfiguration: EncryptionConfiguration) {
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
         }
     }
 
@@ -872,10 +1025,14 @@ extension S3Tables {
         public let name: String
         /// The namespace associated with the table.
         public let namespace: [String]
+        /// The unique identifier of the namespace containing this table.
+        public let namespaceId: String?
         /// The ID of the account that owns the table.
         public let ownerAccountId: String
         /// The Amazon Resource Name (ARN) of the table.
         public let tableARN: String
+        /// The unique identifier of the table bucket containing this table.
+        public let tableBucketId: String?
         /// The type of the table.
         public let type: TableType
         /// The version token of the table.
@@ -884,7 +1041,7 @@ extension S3Tables {
         public let warehouseLocation: String
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, format: OpenTableFormat, managedByService: String? = nil, metadataLocation: String? = nil, modifiedAt: Date, modifiedBy: String, name: String, namespace: [String], ownerAccountId: String, tableARN: String, type: TableType, versionToken: String, warehouseLocation: String) {
+        public init(createdAt: Date, createdBy: String, format: OpenTableFormat, managedByService: String? = nil, metadataLocation: String? = nil, modifiedAt: Date, modifiedBy: String, name: String, namespace: [String], namespaceId: String? = nil, ownerAccountId: String, tableARN: String, tableBucketId: String? = nil, type: TableType, versionToken: String, warehouseLocation: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.format = format
@@ -894,8 +1051,10 @@ extension S3Tables {
             self.modifiedBy = modifiedBy
             self.name = name
             self.namespace = namespace
+            self.namespaceId = namespaceId
             self.ownerAccountId = ownerAccountId
             self.tableARN = tableARN
+            self.tableBucketId = tableBucketId
             self.type = type
             self.versionToken = versionToken
             self.warehouseLocation = warehouseLocation
@@ -911,8 +1070,10 @@ extension S3Tables {
             case modifiedBy = "modifiedBy"
             case name = "name"
             case namespace = "namespace"
+            case namespaceId = "namespaceId"
             case ownerAccountId = "ownerAccountId"
             case tableARN = "tableARN"
+            case tableBucketId = "tableBucketId"
             case type = "type"
             case versionToken = "versionToken"
             case warehouseLocation = "warehouseLocation"
@@ -995,7 +1156,6 @@ extension S3Tables {
         /// The number of days an object has to be non-current before it is deleted.
         public let nonCurrentDays: Int?
         /// The number of days an object has to be unreferenced before it is marked as non-current.
-        ///
         public let unreferencedDays: Int?
 
         @inlinable
@@ -1194,22 +1354,58 @@ extension S3Tables {
         public let createdBy: String
         /// The name of the namespace.
         public let namespace: [String]
+        /// The system-assigned unique identifier for the namespace.
+        public let namespaceId: String?
         /// The ID of the account that owns the namespace.
         public let ownerAccountId: String
+        /// The system-assigned unique identifier for the table bucket that contains this namespace.
+        public let tableBucketId: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, namespace: [String], ownerAccountId: String) {
+        public init(createdAt: Date, createdBy: String, namespace: [String], namespaceId: String? = nil, ownerAccountId: String, tableBucketId: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.namespace = namespace
+            self.namespaceId = namespaceId
             self.ownerAccountId = ownerAccountId
+            self.tableBucketId = tableBucketId
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case namespace = "namespace"
+            case namespaceId = "namespaceId"
             case ownerAccountId = "ownerAccountId"
+            case tableBucketId = "tableBucketId"
+        }
+    }
+
+    public struct PutTableBucketEncryptionRequest: AWSEncodableShape {
+        /// The encryption configuration to apply to the table bucket.
+        public let encryptionConfiguration: EncryptionConfiguration
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(encryptionConfiguration: EncryptionConfiguration, tableBucketARN: String) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.encryptionConfiguration, forKey: .encryptionConfiguration)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
         }
     }
 
@@ -1480,13 +1676,16 @@ extension S3Tables {
         public let name: String
         /// The ID of the account that owns the table bucket.
         public let ownerAccountId: String
+        /// The system-assigned unique identifier for the table bucket.
+        public let tableBucketId: String?
 
         @inlinable
-        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String) {
+        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String, tableBucketId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.tableBucketId = tableBucketId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1494,6 +1693,7 @@ extension S3Tables {
             case createdAt = "createdAt"
             case name = "name"
             case ownerAccountId = "ownerAccountId"
+            case tableBucketId = "tableBucketId"
         }
     }
 
@@ -1550,18 +1750,24 @@ extension S3Tables {
         public let name: String
         /// The name of the namespace.
         public let namespace: [String]
+        /// The unique identifier for the namespace that contains this table.
+        public let namespaceId: String?
         /// The Amazon Resource Name (ARN) of the table.
         public let tableARN: String
+        /// The unique identifier for the table bucket that contains this table.
+        public let tableBucketId: String?
         /// The type of the table.
         public let type: TableType
 
         @inlinable
-        public init(createdAt: Date, modifiedAt: Date, name: String, namespace: [String], tableARN: String, type: TableType) {
+        public init(createdAt: Date, modifiedAt: Date, name: String, namespace: [String], namespaceId: String? = nil, tableARN: String, tableBucketId: String? = nil, type: TableType) {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.name = name
             self.namespace = namespace
+            self.namespaceId = namespaceId
             self.tableARN = tableARN
+            self.tableBucketId = tableBucketId
             self.type = type
         }
 
@@ -1570,7 +1776,9 @@ extension S3Tables {
             case modifiedAt = "modifiedAt"
             case name = "name"
             case namespace = "namespace"
+            case namespaceId = "namespaceId"
             case tableARN = "tableARN"
+            case tableBucketId = "tableBucketId"
             case type = "type"
         }
     }

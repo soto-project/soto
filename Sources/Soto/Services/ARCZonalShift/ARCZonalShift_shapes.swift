@@ -82,6 +82,7 @@ extension ARCZonalShift {
     }
 
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoshiftUpdateNotAllowed = "AutoshiftUpdateNotAllowed"
         case fisExperimentUpdateNotAllowed = "FISExperimentUpdateNotAllowed"
         case invalidAlarmCondition = "InvalidAlarmCondition"
         case invalidAz = "InvalidAz"

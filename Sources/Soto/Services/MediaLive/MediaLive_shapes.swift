@@ -231,6 +231,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Av1RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cbr = "CBR"
+        case qvbr = "QVBR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Av1SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -3079,6 +3085,8 @@ extension MediaLive {
         /// FIXED: the AFD value will be the value configured in the fixedAfd parameter.
         /// NONE: MediaLive won't write AFD into the video
         public let afdSignaling: AfdSignaling?
+        /// Average bitrate in bits/second. Required when the rate control mode is CBR. Not used for QVBR.
+        public let bitrate: Int?
         /// The size of the buffer (HRD buffer model) in bits.
         public let bufSize: Int?
         /// Color Space settings
@@ -3120,14 +3128,21 @@ extension MediaLive {
         /// PC or tablet: qvbrQualityLevel: Leave empty. maxBitrate: 1,500,000 to 3,000,000
         /// Smartphone: qvbrQualityLevel: Leave empty. maxBitrate: 1,000,000 to 1,500,000
         public let qvbrQualityLevel: Int?
+        /// Rate control mode.
+        /// QVBR: Quality will match the specified quality level except when it is constrained by the
+        /// maximum bitrate.  Recommended if you or your viewers pay for bandwidth.
+        /// CBR: Quality varies, depending on the video complexity. Recommended only if you distribute
+        /// your assets to devices that cannot handle variable bitrates.
+        public let rateControlMode: Av1RateControlMode?
         /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
         public let sceneChangeDetect: Av1SceneChangeDetect?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
         public let timecodeBurninSettings: TimecodeBurninSettings?
 
         @inlinable
-        public init(afdSignaling: AfdSignaling? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
+        public init(afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
             self.afdSignaling = afdSignaling
+            self.bitrate = bitrate
             self.bufSize = bufSize
             self.colorSpaceSettings = colorSpaceSettings
             self.fixedAfd = fixedAfd
@@ -3142,11 +3157,14 @@ extension MediaLive {
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
             self.qvbrQualityLevel = qvbrQualityLevel
+            self.rateControlMode = rateControlMode
             self.sceneChangeDetect = sceneChangeDetect
             self.timecodeBurninSettings = timecodeBurninSettings
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 8000000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 50000)
             try self.validate(self.bufSize, name: "bufSize", parent: name, max: 16000000)
             try self.validate(self.bufSize, name: "bufSize", parent: name, min: 50000)
             try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
@@ -3166,6 +3184,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case afdSignaling = "afdSignaling"
+            case bitrate = "bitrate"
             case bufSize = "bufSize"
             case colorSpaceSettings = "colorSpaceSettings"
             case fixedAfd = "fixedAfd"
@@ -3180,6 +3199,7 @@ extension MediaLive {
             case parDenominator = "parDenominator"
             case parNumerator = "parNumerator"
             case qvbrQualityLevel = "qvbrQualityLevel"
+            case rateControlMode = "rateControlMode"
             case sceneChangeDetect = "sceneChangeDetect"
             case timecodeBurninSettings = "timecodeBurninSettings"
         }
@@ -14367,6 +14387,8 @@ extension MediaLive {
     public struct OutputDestination: AWSEncodableShape & AWSDecodableShape {
         /// User-specified id. This is used in an output group or an output.
         public let id: String?
+        /// Optional assignment of an output to a logical interface on the Node. Only applies to on premises channels.
+        public let logicalInterfaceNames: [String]?
         /// Destination settings for a MediaPackage output; one destination for both encoders.
         public let mediaPackageSettings: [MediaPackageOutputDestinationSettings]?
         /// Destination settings for a Multiplex output; one destination for both encoders.
@@ -14377,8 +14399,9 @@ extension MediaLive {
         public let srtSettings: [SrtOutputDestinationSettings]?
 
         @inlinable
-        public init(id: String? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, multiplexSettings: MultiplexProgramChannelDestinationSettings? = nil, settings: [OutputDestinationSettings]? = nil, srtSettings: [SrtOutputDestinationSettings]? = nil) {
+        public init(id: String? = nil, logicalInterfaceNames: [String]? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, multiplexSettings: MultiplexProgramChannelDestinationSettings? = nil, settings: [OutputDestinationSettings]? = nil, srtSettings: [SrtOutputDestinationSettings]? = nil) {
             self.id = id
+            self.logicalInterfaceNames = logicalInterfaceNames
             self.mediaPackageSettings = mediaPackageSettings
             self.multiplexSettings = multiplexSettings
             self.settings = settings
@@ -14394,6 +14417,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case id = "id"
+            case logicalInterfaceNames = "logicalInterfaceNames"
             case mediaPackageSettings = "mediaPackageSettings"
             case multiplexSettings = "multiplexSettings"
             case settings = "settings"
@@ -17596,6 +17620,8 @@ extension MediaLive {
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
+        /// The Elemental Anywhere settings for this channel.
+        public let anywhereSettings: AnywhereSettings?
         /// Specification of CDI inputs for this channel
         public let cdiInputSpecification: CdiInputSpecification?
         /// Channel engine version for this channel
@@ -17620,7 +17646,8 @@ extension MediaLive {
         public let roleArn: String?
 
         @inlinable
-        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelId: String, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceUpdateSettings? = nil, name: String? = nil, roleArn: String? = nil) {
+        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelId: String, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceUpdateSettings? = nil, name: String? = nil, roleArn: String? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.cdiInputSpecification = cdiInputSpecification
             self.channelEngineVersion = channelEngineVersion
             self.channelId = channelId
@@ -17638,6 +17665,7 @@ extension MediaLive {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.anywhereSettings, forKey: .anywhereSettings)
             try container.encodeIfPresent(self.cdiInputSpecification, forKey: .cdiInputSpecification)
             try container.encodeIfPresent(self.channelEngineVersion, forKey: .channelEngineVersion)
             request.encodePath(self.channelId, key: "ChannelId")
@@ -17664,6 +17692,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelEngineVersion = "channelEngineVersion"
             case destinations = "destinations"

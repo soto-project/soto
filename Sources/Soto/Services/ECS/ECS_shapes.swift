@@ -355,6 +355,7 @@ extension ECS {
         case pending = "PENDING"
         case rollbackFailed = "ROLLBACK_FAILED"
         case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
+        case rollbackRequested = "ROLLBACK_REQUESTED"
         case rollbackSuccessful = "ROLLBACK_SUCCESSFUL"
         case stopRequested = "STOP_REQUESTED"
         case stopped = "STOPPED"
@@ -371,6 +372,7 @@ extension ECS {
         case awsvpcTrunking = "awsvpcTrunking"
         case containerInsights = "containerInsights"
         case containerInstanceLongArnFormat = "containerInstanceLongArnFormat"
+        case defaultLogDriverMode = "defaultLogDriverMode"
         case fargateFipsMode = "fargateFIPSMode"
         case fargateTaskRetirementWaitPeriod = "fargateTaskRetirementWaitPeriod"
         case guardDutyActivate = "guardDutyActivate"
@@ -395,6 +397,12 @@ extension ECS {
     public enum StabilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case stabilizing = "STABILIZING"
         case steadyState = "STEADY_STATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StopServiceDeploymentStopType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case abort = "ABORT"
+        case rollback = "ROLLBACK"
         public var description: String { return self.rawValue }
     }
 
@@ -647,9 +655,9 @@ extension ECS {
     }
 
     public struct AwsVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Whether the task's elastic network interface receives a public IP address.  Consider the following when you set this value:   When you use create-service or update-service, the default is
-        /// 						DISABLED.    When the service deploymentController is ECS, the value must be
-        /// 						DISABLED.
+        /// Whether the task's elastic network interface receives a public IP address.  Consider the following when you set this value:   When you use create-service or update-service, the
+        /// 					default is DISABLED.    When the service deploymentController is ECS, the
+        /// 					value must be DISABLED.
         public let assignPublicIp: AssignPublicIp?
         /// The IDs of the security groups associated with the task or service. If you don't
         /// 			specify a security group, the default security group for the VPC is used. There's a
@@ -784,7 +792,7 @@ extension ECS {
         public let clusterArn: String?
         /// A user-generated string that you use to identify your cluster.
         public let clusterName: String?
-        /// The execute command configuration for the cluster.
+        /// The execute command and managed storage configuration for the cluster.
         public let configuration: ClusterConfiguration?
         /// The default capacity provider strategy for the cluster. When services or tasks are run
         /// 			in the cluster with no launch type or capacity provider strategy specified, the default
@@ -905,8 +913,8 @@ extension ECS {
     public struct ClusterServiceConnectDefaultsRequest: AWSEncodableShape {
         /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace that's used when you create a service and don't specify
         /// 			a Service Connect configuration. The namespace name can include up to 1024 characters.
-        /// 			The name is case-sensitive. The name can't include greater than
-        /// 			(>), less than ( If you enter an existing namespace name or ARN, then that namespace will be used.
+        /// 			The name is case-sensitive. The name can't include greater than (>), less than
+        /// 			( If you enter an existing namespace name or ARN, then that namespace will be used.
         /// 			Any namespace type is supported. The namespace must be in this account and this Amazon Web Services
         /// 			Region. If you enter a new name, a Cloud Map namespace will be created. Amazon ECS creates a
         /// 			Cloud Map namespace with the "API calls" method of instance discovery only. This instance
@@ -1001,8 +1009,8 @@ extension ECS {
         public let networkBindings: [NetworkBinding]?
         /// The network interfaces associated with the container.
         public let networkInterfaces: [NetworkInterface]?
-        /// A short (255 max characters) human-readable string to provide additional details about
-        /// 			a running or stopped container.
+        /// A short (1024 max characters) human-readable string to provide additional details about a
+        /// 			running or stopped container.
         public let reason: String?
         /// The ID of the Docker container.
         public let runtimeId: String?
@@ -1233,8 +1241,8 @@ extension ECS {
         /// 				isolation is achieved on the container instance using security groups and VPC
         /// 				settings.
         public let links: [String]?
-        /// Linux-specific modifications that are applied to the default Docker container configuration, such as Linux kernel
-        /// 			capabilities. For more information see KernelCapabilities.  This parameter is not supported for Windows containers.
+        /// Linux-specific modifications that are applied to the default Docker container
+        /// 			configuration, such as Linux kernel capabilities. For more information see KernelCapabilities.  This parameter is not supported for Windows containers.
         public let linuxParameters: LinuxParameters?
         /// The log configuration specification for the container. This parameter maps to LogConfig in the docker container create command
         /// 			and the --log-driver option to docker run. By default, containers use the
@@ -2387,10 +2395,10 @@ extension ECS {
         /// 				awsvpcTrunking is specified, the ENI limit for your Amazon ECS container
         /// 			instances is affected.
         public let name: SettingName
-        /// The Amazon Resource Name (ARN) of the principal. It can be an user, role, or the
+        /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the
         /// 			root user. If you specify the root user, it disables the account setting for all users, roles,
         /// 			and the root user of the account unless a user or role explicitly overrides these settings.
-        /// 			If this field is omitted, the setting is changed only for the authenticated user.
+        /// 			If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.
         public let principalArn: String?
 
         @inlinable
@@ -2834,9 +2842,10 @@ extension ECS {
         /// 			remain in the RUNNING state while the container instances are in the
         /// 				DRAINING state.  You can't specify a custom maximumPercent value for a service that
         /// 				uses either the blue/green (CODE_DEPLOY) or EXTERNAL
-        /// 				deployment types and has tasks that use the EC2 launch type.  If the service uses either the blue/green (CODE_DEPLOY) or EXTERNAL
-        /// 			deployment types, and the tasks in the service use the Fargate launch type, the maximum
-        /// 			percent value is not used. The value is still returned when describing your service.
+        /// 				deployment types and has tasks that use the EC2 launch type.  If the service uses either the blue/green (CODE_DEPLOY) or
+        /// 				EXTERNAL deployment types, and the tasks in the service use the
+        /// 			Fargate launch type, the maximum percent value is not used. The value is
+        /// 			still returned when describing your service.
         public let maximumPercent: Int?
         /// If a service is using the rolling update (ECS) deployment type, the
         /// 				minimumHealthyPercent represents a lower limit on the number of your
@@ -3941,9 +3950,9 @@ extension ECS {
         /// 			more information, see HealthCheck in the docker container create
         /// 			command.
         public let command: [String]
-        /// The time period in seconds between each health check execution. You may specify between 5
-        /// 			and 300 seconds. The default value is 30 seconds. This value applies only when you
-        /// 			specify a command.
+        /// The time period in seconds between each health check execution. You may specify
+        /// 			between 5 and 300 seconds. The default value is 30 seconds. This value applies only when
+        /// 			you specify a command.
         public let interval: Int?
         /// The number of times to retry a failed health check before the container is considered
         /// 			unhealthy. You may specify between 1 and 10 retries. The default value is 3. This value
@@ -3956,9 +3965,9 @@ extension ECS {
         /// 				is considered healthy and any subsequent failures count toward the maximum number of
         /// 				retries.
         public let startPeriod: Int?
-        /// The time period in seconds to wait for a health check to succeed before it is considered a
-        /// 			failure. You may specify between 2 and 60 seconds. The default value is 5. This value
-        /// 			applies only when you specify a command.
+        /// The time period in seconds to wait for a health check to succeed before it is
+        /// 			considered a failure. You may specify between 2 and 60 seconds. The default value is 5.
+        /// 			This value applies only when you specify a command.
         public let timeout: Int?
 
         @inlinable
@@ -4236,7 +4245,7 @@ extension ECS {
         /// 			of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
         /// The ARN of the principal, which can be a user, role, or the root user. If this field is
-        /// 			omitted, the account settings are listed only for the authenticated user.  Federated users assume the account setting of the root user and can't have explicit
+        /// 			omitted, the account settings are listed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.  Federated users assume the account setting of the root user and can't have explicit
         /// 				account settings set for them.
         public let principalArn: String?
         /// The value of the account settings to filter results with. You must also specify an
@@ -5023,9 +5032,7 @@ extension ECS {
         /// 						they're all visible in one location. Otherwise, you can separate them by
         /// 						Region for more granularity. Make sure that the specified log group exists
         /// 						in the Region that you specify with this option.  awslogs-group  Required: Yes Make sure to specify a log group that the awslogs log driver
-        /// 						sends its log streams to.  awslogs-stream-prefix  Required: Yes, when using the Fargate launch
-        /// 							type.Optional for the EC2 launch type,
-        /// 							required for the Fargate launch type. Use the awslogs-stream-prefix option to associate a log
+        /// 						sends its log streams to.  awslogs-stream-prefix  Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log
         /// 						stream with the specified prefix, the container name, and the ID of the
         /// 						Amazon ECS task that the container belongs to. If you specify a prefix with this
         /// 						option, then the log stream takes the format
@@ -5053,19 +5060,24 @@ extension ECS {
         /// 						configured. You cannot configure both the awslogs-datetime-format and
         /// 							awslogs-multiline-pattern options.  Multiline logging performs regular expression parsing and matching of
         /// 							all log messages. This might have a negative impact on logging
-        /// 							performance.   mode  Required: No Valid values: non-blocking | blocking  This option defines the delivery mode of log messages from the container
-        /// 						to CloudWatch Logs. The delivery mode you choose affects application availability when
-        /// 						the flow of logs from container to CloudWatch is interrupted. If you use the blocking mode and the flow of logs to CloudWatch is
+        /// 							performance.    The following options apply to all supported log drivers.  mode  Required: No Valid values: non-blocking | blocking  This option defines the delivery mode of log messages from the container
+        /// 						to the log driver specified using logDriver. The delivery mode
+        /// 						you choose affects application availability when the flow of logs from
+        /// 						container is interrupted. If you use the blocking mode and the flow of logs is
         /// 						interrupted, calls from container code to write to the stdout
         /// 						and stderr streams will block. The logging thread of the
         /// 						application will block as a result. This may cause the application to become
         /// 						unresponsive and lead to container healthcheck failure.  If you use the non-blocking mode, the container's logs are
         /// 						instead stored in an in-memory intermediate buffer configured with the
         /// 							max-buffer-size option. This prevents the application from
-        /// 						becoming unresponsive when logs cannot be sent to CloudWatch. We recommend using
-        /// 						this mode if you want to ensure service availability and are okay with some
-        /// 						log loss. For more information, see Preventing log loss with non-blocking mode in the awslogs
-        /// 							container log driver.  max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used, the
+        /// 						becoming unresponsive when logs cannot be sent. We recommend using this mode
+        /// 						if you want to ensure service availability and are okay with some log loss.
+        /// 						For more information, see Preventing log loss with non-blocking mode in the awslogs
+        /// 							container log driver. You can set a default mode for all containers in a specific
+        /// 						Amazon Web Services Region by using the defaultLogDriverMode account setting.
+        /// 						If you don't specify the mode option or
+        /// 						configure the account setting, Amazon ECS will default to the
+        /// 							blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used, the
         /// 							max-buffer-size log option controls the size of the buffer
         /// 						that's used for intermediate message storage. Make sure to specify an
         /// 						adequate buffer size based on your application. When the buffer fills up,
@@ -5082,8 +5094,9 @@ extension ECS {
         /// 				region and a data stream name with stream. When you export logs to Amazon OpenSearch Service, you can specify options like Name,
         /// 				Host (OpenSearch Service endpoint without protocol), Port,
         /// 				Index, Type, Aws_auth,
-        /// 				Aws_region, Suppress_Type_Name, and
-        /// 			tls. For more information, see Under the hood: FireLens for Amazon ECS Tasks. When you export logs to Amazon S3, you can specify the bucket using the bucket
+        /// 				Aws_region, Suppress_Type_Name, and tls. For
+        /// 			more information, see Under the hood:
+        /// 				FireLens for Amazon ECS Tasks. When you export logs to Amazon S3, you can specify the bucket using the bucket
         /// 			option. You can also specify region, total_file_size,
         /// 				upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public let options: [String: String]?
@@ -5215,9 +5228,16 @@ extension ECS {
     }
 
     public struct ManagedStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the Key Management Service key ID for the Fargate ephemeral storage. The key must be a single Region key.
+        /// Specify the Key Management Service key ID for Fargate ephemeral storage. When you specify a fargateEphemeralStorageKmsKeyId, Amazon Web Services Fargate uses
+        /// 			the key to encrypt data at rest in ephemeral storage. For more information about
+        /// 			Fargate ephemeral storage encryption, see Customer managed keys for Amazon Web Services Fargate ephemeral storage for
+        /// 				Amazon ECS in the Amazon Elastic Container Service Developer Guide. The key must be a single Region key.
         public let fargateEphemeralStorageKmsKeyId: String?
-        /// Specify a Key Management Service key ID to encrypt the managed storage. The key must be a single Region key.
+        /// Specify a Key Management Service key ID to encrypt Amazon ECS managed storage. When you specify a kmsKeyId, Amazon ECS uses the key to encrypt data volumes
+        /// 			managed by Amazon ECS that are attached to tasks in the cluster. The following data volumes
+        /// 			are managed by Amazon ECS: Amazon EBS. For more information about encryption of Amazon EBS volumes
+        /// 			attached to Amazon ECS tasks, see Encrypt data stored in Amazon EBS volumes for Amazon ECS in the
+        /// 			Amazon Elastic Container Service Developer Guide. The key must be a single Region key.
         public let kmsKeyId: String?
 
         @inlinable
@@ -5615,7 +5635,14 @@ extension ECS {
         /// 					verify if users or roles have permissions to create tags. Therefore, you must
         /// 					grant explicit permissions to use the ecs:TagResource action. For
         /// 					more information, see Grant permission to tag resources on creation in the
-        /// 						Amazon ECS Developer Guide.    guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
+        /// 						Amazon ECS Developer Guide.    defaultLogDriverMode -Amazon ECS supports setting a default delivery
+        /// 					mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects
+        /// 					application stability when the flow of logs from the container to the log driver is
+        /// 					interrupted. The defaultLogDriverMode setting supports two values:
+        /// 						blocking and non-blocking. If you don't specify a
+        /// 					delivery mode in your container definition's logConfiguration, the
+        /// 					mode you specify using this account setting will be used as the default. For
+        /// 					more information about log delivery modes, see LogConfiguration.    guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
         /// 			Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your
         /// 			Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring.
         public let name: SettingName
@@ -5707,14 +5734,21 @@ extension ECS {
         /// 					verify if users or roles have permissions to create tags. Therefore, you must
         /// 					grant explicit permissions to use the ecs:TagResource action. For
         /// 					more information, see Grant permission to tag resources on creation in the
-        /// 						Amazon ECS Developer Guide.    guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
+        /// 						Amazon ECS Developer Guide.    defaultLogDriverMode - Amazon ECS supports setting a default delivery
+        /// 					mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects
+        /// 					application stability when the flow of logs from the container to the log driver is
+        /// 					interrupted. The defaultLogDriverMode setting supports two values:
+        /// 					blocking and non-blocking. If you don't specify a
+        /// 					delivery mode in your container definition's logConfiguration, the
+        /// 					mode you specify using this account setting will be used as the default. For
+        /// 					more information about log delivery modes, see LogConfiguration.    guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
         /// 			Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your
         /// 			Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring.
         public let name: SettingName
         /// The ARN of the principal, which can be a user, role, or the root user. If you specify
         /// 			the root user, it modifies the account setting for all users, roles, and the root user of the
         /// 			account unless a user or role explicitly overrides these settings. If this field is
-        /// 			omitted, the setting is changed only for the authenticated user.  You must use the root user when you set the Fargate wait time
+        /// 			omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.  You must use the root user when you set the Fargate wait time
         /// 					(fargateTaskRetirementWaitPeriod).  Federated users assume the account setting of the root user and can't have explicit
         /// 				account settings set for them.
         public let principalArn: String?
@@ -5931,16 +5965,14 @@ extension ECS {
         /// 				vCPU or 1 vcpu) in a task definition. String values are
         /// 			converted to an integer indicating the CPU units when the task definition is
         /// 			registered.  Task-level CPU and memory parameters are ignored for Windows containers. We
-        /// 				recommend specifying container-level resources for Windows containers.  If you're using the EC2 launch type or external launch type, this field is
-        /// 			optional. Supported values are between 128 CPU units (0.125
+        /// 				recommend specifying container-level resources for Windows containers.  If you're using the EC2 launch type or external launch type, this field
+        /// 			is optional. Supported values are between 128 CPU units (0.125
         /// 			vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify
-        /// 			a value, the parameter is ignored. If you're using the Fargate launch type, this field is required and you
-        /// 			must use one of the following values, which determines your range of supported values
-        /// 			for the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on
-        /// 			Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+        /// 			a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see Task size in the Amazon Elastic Container Service Developer Guide.
         public let cpu: String?
-        /// Enables fault injection when you register your task definition and allows for fault injection requests
-        /// 			to be accepted from the task's containers. The default value is false.
+        /// Enables fault injection when you register your task definition and allows for fault
+        /// 			injection requests to be accepted from the task's containers. The default value is
+        /// 				false.
         public let enableFaultInjection: Bool?
         /// The amount of ephemeral storage to allocate for the task. This parameter is used to
         /// 			expand the total amount of ephemeral storage available, beyond the default amount, for
@@ -6187,7 +6219,8 @@ extension ECS {
         /// 			characters in the range of 33-126, inclusive. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on.
-        /// 			If you do not specify a cluster, the default cluster is assumed.
+        /// 			If you do not specify a cluster, the default cluster is assumed. Each account receives a default cluster the first time you use the service, but you
+        /// 			may also create other clusters.
         public let cluster: String?
         /// The number of instantiations of the specified task to place on your cluster. You can
         /// 			specify up to 10 tasks for each call.
@@ -6990,14 +7023,15 @@ extension ECS {
     }
 
     public struct ServiceManagedEBSVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the volume should be encrypted. If no value is specified, encryption
-        /// 			is turned on by default. This parameter maps 1:1 with the Encrypted
-        /// 			parameter of the CreateVolume API in
-        /// 			the Amazon EC2 API Reference.
+        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS
+        /// 			encryption by default but set this value as false, the setting is
+        /// 			overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption
+        /// 			by default. This parameter maps 1:1 with the Encrypted parameter of the
+        /// 				CreateVolume API in the Amazon EC2 API Reference.
         public let encrypted: Bool?
         /// The filesystem type for the volume. For volumes created from a snapshot, you must
         /// 			specify the same filesystem type that the volume was using when the snapshot was
-        /// 			created. If there is a filesystem type mismatch, the task will fail to start. The available Linux filesystem types are  ext3, ext4, and
+        /// 			created. If there is a filesystem type mismatch, the tasks will fail to start. The available Linux filesystem types are  ext3, ext4, and
         /// 				xfs. If no value is specified, the xfs filesystem type is
         /// 			used by default. The available Windows filesystem types are NTFS.
         public let filesystemType: TaskFilesystemType?
@@ -7010,11 +7044,12 @@ extension ECS {
         /// 			supported for st1, sc1, or standard volume
         /// 			types. This parameter maps 1:1 with the Iops parameter of the CreateVolume API in the Amazon EC2 API Reference.
         public let iops: Int?
-        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When
-        /// 			encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key
-        /// 			for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId
-        /// 			parameter of the CreateVolume API in
-        /// 			the Amazon EC2 API Reference.  Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key
+        /// 			is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key
+        /// 			that you specified for cluster-level managed storage encryption. This parameter maps 1:1
+        /// 			with the KmsKeyId parameter of the CreateVolume API in
+        /// 			the Amazon EC2 API Reference. For more information about encrypting
+        /// 			Amazon EBS volumes attached to tasks, see Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks.  Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an
         /// 				ID, alias, or ARN that is invalid, the action can appear to complete, but
         /// 				eventually fails.
         public let kmsKeyId: String?
@@ -7030,9 +7065,10 @@ extension ECS {
         /// 			You can optionally specify a volume size greater than or equal to the snapshot size.
         /// 			This parameter maps 1:1 with the Size parameter of the CreateVolume API in the Amazon EC2 API Reference. The following are the supported volume size values for each volume type.    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024
         public let sizeInGiB: Int?
-        /// The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot
-        /// 			ID or a volume size. This parameter maps 1:1 with the SnapshotId parameter
-        /// 			of the CreateVolume API in
+        /// The snapshot that Amazon ECS uses to create volumes for attachment to tasks maintained by
+        /// 			the service. You must specify either snapshotId or sizeInGiB
+        /// 			in your volume configuration. This parameter maps 1:1 with the SnapshotId
+        /// 			parameter of the CreateVolume API in
         /// 			the Amazon EC2 API Reference.
         public let snapshotId: String?
         /// The tags to apply to the volume. Amazon ECS applies service-managed tags by default. This
@@ -7041,6 +7077,12 @@ extension ECS {
         /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s.
         /// 			This parameter maps 1:1 with the Throughput parameter of the CreateVolume API in the Amazon EC2 API Reference.  This parameter is only supported for the gp3 volume type.
         public let throughput: Int?
+        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing EBS volume
+        /// 			to create new volumes for attachment to the tasks maintained by the service. This
+        /// 			property can be specified only if you specify a snapshotId. For more
+        /// 			information, see Initialize Amazon EBS volumes in the Amazon EBS User
+        /// 				Guide.
+        public let volumeInitializationRate: Int?
         /// The volume type. This parameter maps 1:1 with the VolumeType parameter of
         /// 			the CreateVolume API in the Amazon EC2 API Reference. For more
         /// 			information, see Amazon EBS volume types in
@@ -7048,7 +7090,7 @@ extension ECS {
         public let volumeType: String?
 
         @inlinable
-        public init(encrypted: Bool? = nil, filesystemType: TaskFilesystemType? = nil, iops: Int? = nil, kmsKeyId: String? = nil, roleArn: String, sizeInGiB: Int? = nil, snapshotId: String? = nil, tagSpecifications: [EBSTagSpecification]? = nil, throughput: Int? = nil, volumeType: String? = nil) {
+        public init(encrypted: Bool? = nil, filesystemType: TaskFilesystemType? = nil, iops: Int? = nil, kmsKeyId: String? = nil, roleArn: String, sizeInGiB: Int? = nil, snapshotId: String? = nil, tagSpecifications: [EBSTagSpecification]? = nil, throughput: Int? = nil, volumeInitializationRate: Int? = nil, volumeType: String? = nil) {
             self.encrypted = encrypted
             self.filesystemType = filesystemType
             self.iops = iops
@@ -7058,6 +7100,7 @@ extension ECS {
             self.snapshotId = snapshotId
             self.tagSpecifications = tagSpecifications
             self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
         }
 
@@ -7077,6 +7120,7 @@ extension ECS {
             case snapshotId = "snapshotId"
             case tagSpecifications = "tagSpecifications"
             case throughput = "throughput"
+            case volumeInitializationRate = "volumeInitializationRate"
             case volumeType = "volumeType"
         }
     }
@@ -7425,6 +7469,38 @@ extension ECS {
         }
     }
 
+    public struct StopServiceDeploymentRequest: AWSEncodableShape {
+        /// The ARN of the service deployment that you want to stop.
+        public let serviceDeploymentArn: String
+        /// How you want Amazon ECS to stop the service.  The valid values are ROLLBACK.
+        public let stopType: StopServiceDeploymentStopType?
+
+        @inlinable
+        public init(serviceDeploymentArn: String, stopType: StopServiceDeploymentStopType? = nil) {
+            self.serviceDeploymentArn = serviceDeploymentArn
+            self.stopType = stopType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceDeploymentArn = "serviceDeploymentArn"
+            case stopType = "stopType"
+        }
+    }
+
+    public struct StopServiceDeploymentResponse: AWSDecodableShape {
+        /// The ARN of the stopped service deployment.
+        public let serviceDeploymentArn: String?
+
+        @inlinable
+        public init(serviceDeploymentArn: String? = nil) {
+            self.serviceDeploymentArn = serviceDeploymentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceDeploymentArn = "serviceDeploymentArn"
+        }
+    }
+
     public struct StopTaskRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop.
         /// 			If you do not specify a cluster, the default cluster is assumed.
@@ -7625,7 +7701,8 @@ extension ECS {
         /// 				| "kernel.sem" | "kernel.shmall" | "kernel.shmmax" | "kernel.shmmni" |
         /// 				"kernel.shm_rmid_forced", and Sysctls that start with
         /// 				"fs.mqueue.*"  Valid network namespace values: Sysctls that start with
-        /// 				"net.*"  All of these values are supported by Fargate.
+        /// 				"net.*". Only namespaced Sysctls that exist within the
+        /// 			container starting with "net.* are accepted. All of these values are supported by Fargate.
         public let value: String?
 
         @inlinable
@@ -7673,7 +7750,8 @@ extension ECS {
         /// 			Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container
         /// 			instances. In order to tag a service that has the following ARN format, you need to migrate the
         /// 			service to the long ARN. For more information, see Migrate an Amazon ECS short service ARN to a long ARN in the Amazon Elastic Container Service
-        /// 				Developer Guide.  arn:aws:ecs:region:aws_account_id:service/service-name  After the migration is complete, the service has the long ARN format, as shown below. Use this ARN to tag the service.  arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name  If you try to tag a service with a short ARN, you receive an InvalidParameterException error.
+        /// 				Developer Guide.  arn:aws:ecs:region:aws_account_id:service/service-name  After the migration is complete, the service has the long ARN format, as shown below. Use this ARN to tag the service.  arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name  If you try to tag a service with a short ARN, you receive an
+        /// 				InvalidParameterException error.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [Tag]
@@ -7729,10 +7807,7 @@ extension ECS {
         /// 			when the task definition is registered. If you're using the EC2 launch type or the external launch type, this field is
         /// 			optional. Supported values are between 128 CPU units (0.125
         /// 			vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify
-        /// 			a value, the parameter is ignored. If you're using the Fargate launch type, this field is required. You must use
-        /// 			one of the following values. These values determine the range of supported values for
-        /// 			the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on
-        /// 			Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+        /// 			a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see Task size in the Amazon Elastic Container Service Developer Guide.
         public let cpu: String?
         /// The Unix timestamp for the time when the task was created. More specifically, it's for
         /// 			the time when the task entered the PENDING state.
@@ -7929,13 +8004,12 @@ extension ECS {
         /// 			determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this
         /// 			field is optional. Supported values are between 128 CPU units
         /// 				(0.125 vCPUs) and 196608 CPU units (192
-        /// 			vCPUs). The CPU units cannot be less than 1 vCPU when you use Windows containers on
-        /// 			Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+        /// 			vCPUs).  This field is required for Fargate. For information about the valid values, see Task size in the Amazon Elastic Container Service Developer Guide.
         public let cpu: String?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public let deregisteredAt: Date?
-        /// Enables fault injection and allows for fault injection requests to be accepted from the task's containers.
-        /// 			The default value is false.
+        /// Enables fault injection and allows for fault injection requests to be accepted from
+        /// 			the task's containers. The default value is false.
         public let enableFaultInjection: Bool?
         /// The ephemeral storage settings to use for tasks run with the task definition.
         public let ephemeralStorage: EphemeralStorage?
@@ -8110,10 +8184,11 @@ extension ECS {
     }
 
     public struct TaskManagedEBSVolumeConfiguration: AWSEncodableShape {
-        /// Indicates whether the volume should be encrypted. If no value is specified, encryption
-        /// 			is turned on by default. This parameter maps 1:1 with the Encrypted
-        /// 			parameter of the CreateVolume API in
-        /// 			the Amazon EC2 API Reference.
+        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS
+        /// 			encryption by default but set this value as false, the setting is
+        /// 			overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption
+        /// 			by default. This parameter maps 1:1 with the Encrypted parameter of the
+        /// 				CreateVolume API in the Amazon EC2 API Reference.
         public let encrypted: Bool?
         /// The Linux filesystem type for the volume. For volumes created from a snapshot, you
         /// 			must specify the same filesystem type that the volume was using when the snapshot was
@@ -8130,11 +8205,12 @@ extension ECS {
         /// 			supported for st1, sc1, or standard volume
         /// 			types. This parameter maps 1:1 with the Iops parameter of the CreateVolume API in the Amazon EC2 API Reference.
         public let iops: Int?
-        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When
-        /// 			encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key
-        /// 			for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId
-        /// 			parameter of the CreateVolume API in
-        /// 			the Amazon EC2 API Reference.  Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key
+        /// 			is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key
+        /// 			that you specified for cluster-level managed storage encryption. This parameter maps 1:1
+        /// 			with the KmsKeyId parameter of the CreateVolume API in
+        /// 			the Amazon EC2 API Reference. For more information about encrypting
+        /// 			Amazon EBS volumes attached to a task, see Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks.  Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an
         /// 				ID, alias, or ARN that is invalid, the action can appear to complete, but
         /// 				eventually fails.
         public let kmsKeyId: String?
@@ -8164,6 +8240,11 @@ extension ECS {
         /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s.
         /// 			This parameter maps 1:1 with the Throughput parameter of the CreateVolume API in the Amazon EC2 API Reference.  This parameter is only supported for the gp3 volume type.
         public let throughput: Int?
+        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing Amazon EBS
+        /// 			volume to create a new volume for attachment to the task. This property can be specified
+        /// 			only if you specify a snapshotId. For more information, see Initialize Amazon EBS volumes in the Amazon EBS User
+        /// 				Guide.
+        public let volumeInitializationRate: Int?
         /// The volume type. This parameter maps 1:1 with the VolumeType parameter of
         /// 			the CreateVolume API in the Amazon EC2 API Reference. For more
         /// 			information, see Amazon EBS volume types in
@@ -8171,7 +8252,7 @@ extension ECS {
         public let volumeType: String?
 
         @inlinable
-        public init(encrypted: Bool? = nil, filesystemType: TaskFilesystemType? = nil, iops: Int? = nil, kmsKeyId: String? = nil, roleArn: String, sizeInGiB: Int? = nil, snapshotId: String? = nil, tagSpecifications: [EBSTagSpecification]? = nil, terminationPolicy: TaskManagedEBSVolumeTerminationPolicy? = nil, throughput: Int? = nil, volumeType: String? = nil) {
+        public init(encrypted: Bool? = nil, filesystemType: TaskFilesystemType? = nil, iops: Int? = nil, kmsKeyId: String? = nil, roleArn: String, sizeInGiB: Int? = nil, snapshotId: String? = nil, tagSpecifications: [EBSTagSpecification]? = nil, terminationPolicy: TaskManagedEBSVolumeTerminationPolicy? = nil, throughput: Int? = nil, volumeInitializationRate: Int? = nil, volumeType: String? = nil) {
             self.encrypted = encrypted
             self.filesystemType = filesystemType
             self.iops = iops
@@ -8182,6 +8263,7 @@ extension ECS {
             self.tagSpecifications = tagSpecifications
             self.terminationPolicy = terminationPolicy
             self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
         }
 
@@ -8202,6 +8284,7 @@ extension ECS {
             case tagSpecifications = "tagSpecifications"
             case terminationPolicy = "terminationPolicy"
             case throughput = "throughput"
+            case volumeInitializationRate = "volumeInitializationRate"
             case volumeType = "volumeType"
         }
     }
@@ -9244,6 +9327,7 @@ public struct ECSErrorType: AWSErrorType {
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serverException = "ServerException"
+        case serviceDeploymentNotFoundException = "ServiceDeploymentNotFoundException"
         case serviceNotActiveException = "ServiceNotActiveException"
         case serviceNotFoundException = "ServiceNotFoundException"
         case targetNotConnectedException = "TargetNotConnectedException"
@@ -9282,11 +9366,7 @@ public struct ECSErrorType: AWSErrorType {
     public static var blockedException: Self { .init(.blockedException) }
     /// These errors are usually caused by a client action. This client action might be using
     /// 			an action or resource on behalf of a user that doesn't have permissions to use the
-    /// 			action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:   The RunTask could not be processed because you use managed
-    /// 					scaling and there is a capacity error because the quota of tasks in the
-    /// 						PROVISIONING per cluster has been reached. For information
-    /// 					about the service quotas, see Amazon ECS
-    /// 						service quotas.
+    /// 			action or resource. Or, it might be specifying an identifier that isn't valid.
     public static var clientException: Self { .init(.clientException) }
     /// You can't delete a cluster that has registered container instances. First, deregister
     /// 			the container instances before you can delete the cluster. For more information, see
@@ -9301,14 +9381,11 @@ public struct ECSErrorType: AWSErrorType {
     public static var clusterContainsTasksException: Self { .init(.clusterContainsTasksException) }
     /// The specified cluster wasn't found. You can view your available clusters with ListClusters. Amazon ECS clusters are Region specific.
     public static var clusterNotFoundException: Self { .init(.clusterNotFoundException) }
-    /// The RunTask request could not be processed due to conflicts. The provided
-    /// 				clientToken is already in use with a different RunTask
-    /// 			request. The resourceIds are the existing task ARNs which are already
-    /// 			associated with the clientToken.  To fix this issue:   Run RunTask with a unique clientToken.   Run RunTask with the clientToken and the original
-    /// 					set of parameters
+    /// The request could not be processed because of conflict in the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
     /// The specified parameter isn't valid. Review the available parameters for the API
-    /// 			request. For more information about service event errors, see Amazon ECS service event messages.
+    /// 			request. For more information about service event errors, see Amazon ECS service
+    /// 				event messages.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The limit for the resource was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
@@ -9334,6 +9411,8 @@ public struct ECSErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// These errors are usually caused by a server issue.
     public static var serverException: Self { .init(.serverException) }
+    /// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+    public static var serviceDeploymentNotFoundException: Self { .init(.serviceDeploymentNotFoundException) }
     /// The specified service isn't active. You can't update a service that's inactive. If you
     /// 			have previously deleted a service, you can re-create it with CreateService.
     public static var serviceNotActiveException: Self { .init(.serviceNotActiveException) }

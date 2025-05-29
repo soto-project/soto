@@ -62,15 +62,15 @@ extension OAM {
     }
 
     public struct CreateLinkInput: AWSEncodableShape {
-        /// Specify a friendly human-readable name to use to identify this source account when you are viewing data from it in the monitoring account. You can use a custom label or use the following variables:    $AccountName is the name of the account    $AccountEmail is the globally unique email address of the account    $AccountEmailNoDomain is the email address of the account without the domain name
+        /// Specify a friendly human-readable name to use to identify this source account when you are viewing data from it in the monitoring account. You can use a custom label or use the following variables:    $AccountName is the name of the account    $AccountEmail is the globally unique email address of the account    $AccountEmailNoDomain is the email address of the account without the domain name    In the Amazon Web Services GovCloud (US-East) and Amazon Web Services GovCloud (US-West) Regions, the only supported option is to use custom labels, and the $AccountName, $AccountEmail, and $AccountEmailNoDomain variables all resolve as account-id instead of the specified variable.
         public let labelTemplate: String
-        /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from  the source account to the monitoring account.
+        /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from the source account to the monitoring account.
         public let linkConfiguration: LinkConfiguration?
-        /// An array of strings that define which types of data that the source account shares with the monitoring  account.
+        /// An array of strings that define which types of data that the source account shares with the monitoring account.
         public let resourceTypes: [ResourceType]
-        /// The ARN of the sink to use to create this link. You can use ListSinks to find the ARNs of sinks. For more information about sinks, see  CreateSink.
+        /// The ARN of the sink to use to create this link. You can use ListSinks to find the ARNs of sinks. For more information about sinks, see CreateSink.
         public let sinkIdentifier: String
-        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
+        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
         @inlinable
@@ -111,11 +111,11 @@ extension OAM {
         public let arn: String?
         /// The random ID string that Amazon Web Services generated as part of the link ARN.
         public let id: String?
-        /// The label that you assigned to this link. If the labelTemplate includes variables,  this field displays the variables resolved to their actual values.
+        /// The label that you assigned to this link. If the labelTemplate includes variables, this field displays the variables resolved to their actual values.
         public let label: String?
         /// The exact label template that you specified, with the variables not resolved.
         public let labelTemplate: String?
-        /// This structure includes filters that specify which metric namespaces and which log groups are shared from  the source account to the monitoring account.
+        /// This structure includes filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
         public let linkConfiguration: LinkConfiguration?
         /// The resource types supported by this link.
         public let resourceTypes: [String]?
@@ -151,7 +151,7 @@ extension OAM {
     public struct CreateSinkInput: AWSEncodableShape {
         /// A name for the sink.
         public let name: String
-        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
+        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
         @inlinable
@@ -249,10 +249,13 @@ extension OAM {
     public struct GetLinkInput: AWSEncodableShape {
         /// The ARN of the link to retrieve information for.
         public let identifier: String
+        /// Specifies whether to include the tags associated with the link in the response. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+        public let includeTags: Bool?
 
         @inlinable
-        public init(identifier: String) {
+        public init(identifier: String, includeTags: Bool? = nil) {
             self.identifier = identifier
+            self.includeTags = includeTags
         }
 
         public func validate(name: String) throws {
@@ -261,6 +264,7 @@ extension OAM {
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
+            case includeTags = "IncludeTags"
         }
     }
 
@@ -273,7 +277,7 @@ extension OAM {
         public let label: String?
         /// The exact label template that was specified when the link was created, with the template variables not resolved.
         public let labelTemplate: String?
-        /// This structure includes filters that specify which metric namespaces and which log groups are shared from  the source account to the monitoring account.
+        /// This structure includes filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
         public let linkConfiguration: LinkConfiguration?
         /// The resource types supported by this link.
         public let resourceTypes: [String]?
@@ -309,10 +313,13 @@ extension OAM {
     public struct GetSinkInput: AWSEncodableShape {
         /// The ARN of the sink to retrieve information for.
         public let identifier: String
+        /// Specifies whether to include the tags associated with the sink in the response. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+        public let includeTags: Bool?
 
         @inlinable
-        public init(identifier: String) {
+        public init(identifier: String, includeTags: Bool? = nil) {
             self.identifier = identifier
+            self.includeTags = includeTags
         }
 
         public func validate(name: String) throws {
@@ -321,6 +328,7 @@ extension OAM {
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
+            case includeTags = "IncludeTags"
         }
     }
 
@@ -437,9 +445,9 @@ extension OAM {
     }
 
     public struct LinkConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Use this structure to filter which log groups are to send log events from  the source account to the monitoring account.
+        /// Use this structure to filter which log groups are to send log events from the source account to the monitoring account.
         public let logGroupConfiguration: LogGroupConfiguration?
-        /// Use this structure to filter which metric namespaces are to be shared from  the source account to the monitoring account.
+        /// Use this structure to filter which metric namespaces are to be shared from the source account to the monitoring account.
         public let metricConfiguration: MetricConfiguration?
 
         @inlinable
@@ -662,7 +670,7 @@ extension OAM {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        /// The ARN of the  resource that you want to view tags for. The ARN format of a sink is  arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs  resources and operations.  Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks.
+        /// The ARN of the resource that you want to view tags for. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs resources and operations.  Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks.
         public let resourceArn: String
 
         @inlinable
@@ -698,7 +706,7 @@ extension OAM {
     }
 
     public struct LogGroupConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Use this field to specify which log groups are to share their log events with the monitoring account. Use the term LogGroupName and one or more of the following operands.  Use single quotation marks (')  around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    LogGroupName IN ('This-Log-Group', 'Other-Log-Group') includes only the log groups with names This-Log-Group and  Other-Log-Group.    LogGroupName NOT IN ('Private-Log-Group', 'Private-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and  Private-Log-Group-2.    LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or  AWSLogs.    If you are updating a link that uses filters, you can specify * as the only value for the  filter parameter to delete the filter and share all log groups with the monitoring account.
+        /// Use this field to specify which log groups are to share their log events with the monitoring account. Use the term LogGroupName and one or more of the following operands. Use single quotation marks (') around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    LogGroupName IN ('This-Log-Group', 'Other-Log-Group') includes only the log groups with names This-Log-Group and Other-Log-Group.    LogGroupName NOT IN ('Private-Log-Group', 'Private-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and Private-Log-Group-2.    LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or AWSLogs.    If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all log groups with the monitoring account.
         public let filter: String
 
         @inlinable
@@ -717,7 +725,7 @@ extension OAM {
     }
 
     public struct MetricConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/, such as custom namespaces.    Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces.     Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' includes only the EC2 namespace and your custom namespaces.    If you are updating a link that uses filters, you can specify * as the only value for the  filter parameter to delete the filter and share all metric namespaces with the monitoring account.
+        /// Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/, such as custom namespaces.    Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces.     Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' includes only the EC2 namespace and your custom namespaces.    If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all metric namespaces with the monitoring account.
         public let filter: String
 
         @inlinable
@@ -849,7 +857,7 @@ extension OAM {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        /// The ARN of the  resource that you're adding tags to. The ARN format of a sink is  arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs  resources and operations.
+        /// The ARN of the resource that you're adding tags to. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs resources and operations.
         public let resourceArn: String
         /// The list of key-value pairs to associate with the resource.
         public let tags: [String: String]
@@ -887,7 +895,7 @@ extension OAM {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        /// The ARN of the resource that you're removing tags from. The ARN format of a sink is  arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs  resources and operations.
+        /// The ARN of the resource that you're removing tags from. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs resources and operations.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
@@ -923,14 +931,17 @@ extension OAM {
     public struct UpdateLinkInput: AWSEncodableShape {
         /// The ARN of the link that you want to update.
         public let identifier: String
-        /// Use this structure to filter which metric namespaces and which log groups are to be shared from  the source account to the monitoring account.
+        /// Specifies whether to include the tags associated with the link in the response after the update operation. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception.  The default value is false.
+        public let includeTags: Bool?
+        /// Use this structure to filter which metric namespaces and which log groups are to be shared from the source account to the monitoring account.
         public let linkConfiguration: LinkConfiguration?
-        /// An array of strings that define which types of data that the source account will send to the monitoring  account. Your input here replaces the current set of data types that are shared.
+        /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared.
         public let resourceTypes: [ResourceType]
 
         @inlinable
-        public init(identifier: String, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [ResourceType]) {
+        public init(identifier: String, includeTags: Bool? = nil, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [ResourceType]) {
             self.identifier = identifier
+            self.includeTags = includeTags
             self.linkConfiguration = linkConfiguration
             self.resourceTypes = resourceTypes
         }
@@ -944,6 +955,7 @@ extension OAM {
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
+            case includeTags = "IncludeTags"
             case linkConfiguration = "LinkConfiguration"
             case resourceTypes = "ResourceTypes"
         }
@@ -958,7 +970,7 @@ extension OAM {
         public let label: String?
         /// The exact label template that was specified when the link was created, with the template variables not resolved.
         public let labelTemplate: String?
-        /// This structure includes filters that specify which metric namespaces and which log groups are shared from  the source account to the monitoring account.
+        /// This structure includes filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
         public let linkConfiguration: LinkConfiguration?
         /// The resource types now supported by this link.
         public let resourceTypes: [String]?

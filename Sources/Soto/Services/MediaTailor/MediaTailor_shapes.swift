@@ -113,6 +113,13 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListPrefetchScheduleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case recurring = "RECURRING"
+        case single = "SINGLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asRun = "AS_RUN"
         public var description: String { return self.rawValue }
@@ -190,6 +197,12 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum PrefetchScheduleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case recurring = "RECURRING"
+        case single = "SINGLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelativePosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterProgram = "AFTER_PROGRAM"
         case beforeProgram = "BEFORE_PROGRAM"
@@ -212,6 +225,11 @@ extension MediaTailor {
     public enum Tier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficShapingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case retrievalWindow = "RETRIEVAL_WINDOW"
         public var description: String { return self.rawValue }
     }
 
@@ -290,7 +308,7 @@ extension MediaTailor {
     }
 
     public struct AdConditioningConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS.  TRANSCODE indicates that MediaTailor must transcode the ads.  NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow.  For more information about ad conditioning see Using preconditioned ads in the Elemental MediaTailor user guide.
+        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS. TRANSCODE indicates that MediaTailor must transcode the ads. NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow. For more information about ad conditioning see Using preconditioned ads in the Elemental MediaTailor user guide.
         public let streamingMediaFileConditioning: StreamingMediaFileConditioning
 
         @inlinable
@@ -618,7 +636,7 @@ extension MediaTailor {
     public struct ConfigureLogsForPlaybackConfigurationRequest: AWSEncodableShape {
         /// The event types that MediaTailor emits in logs for interactions with the ADS.
         public let adsInteractionLog: AdsInteractionLog?
-        /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to  send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2].
+        /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2].
         public let enabledLoggingStrategies: [LoggingStrategy]?
         /// The event types that MediaTailor emits in logs for interactions with the origin server.
         public let manifestServiceInteractionLog: ManifestServiceInteractionLog?
@@ -863,39 +881,49 @@ extension MediaTailor {
     }
 
     public struct CreatePrefetchScheduleRequest: AWSEncodableShape {
-        /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
-        public let consumption: PrefetchConsumption
+        /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
+        public let consumption: PrefetchConsumption?
         /// The name to assign to the schedule request.
         public let name: String
         /// The name to assign to the playback configuration.
         public let playbackConfigurationName: String
+        /// The configuration that defines how and when MediaTailor performs ad prefetching in a live event.
+        public let recurringPrefetchConfiguration: RecurringPrefetchConfiguration?
         /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
-        public let retrieval: PrefetchRetrieval
+        public let retrieval: PrefetchRetrieval?
+        /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see Prefetching ads in Elemental MediaTailor.
+        public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
         public let streamId: String?
 
         @inlinable
-        public init(consumption: PrefetchConsumption, name: String, playbackConfigurationName: String, retrieval: PrefetchRetrieval, streamId: String? = nil) {
+        public init(consumption: PrefetchConsumption? = nil, name: String, playbackConfigurationName: String, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
             self.consumption = consumption
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
+            self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
             self.retrieval = retrieval
+            self.scheduleType = scheduleType
             self.streamId = streamId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.consumption, forKey: .consumption)
+            try container.encodeIfPresent(self.consumption, forKey: .consumption)
             request.encodePath(self.name, key: "Name")
             request.encodePath(self.playbackConfigurationName, key: "PlaybackConfigurationName")
-            try container.encode(self.retrieval, forKey: .retrieval)
+            try container.encodeIfPresent(self.recurringPrefetchConfiguration, forKey: .recurringPrefetchConfiguration)
+            try container.encodeIfPresent(self.retrieval, forKey: .retrieval)
+            try container.encodeIfPresent(self.scheduleType, forKey: .scheduleType)
             try container.encodeIfPresent(self.streamId, forKey: .streamId)
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumption = "Consumption"
+            case recurringPrefetchConfiguration = "RecurringPrefetchConfiguration"
             case retrieval = "Retrieval"
+            case scheduleType = "ScheduleType"
             case streamId = "StreamId"
         }
     }
@@ -903,24 +931,30 @@ extension MediaTailor {
     public struct CreatePrefetchScheduleResponse: AWSDecodableShape {
         /// The ARN to assign to the prefetch schedule.
         public let arn: String?
-        /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
+        /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
         public let consumption: PrefetchConsumption?
         /// The name to assign to the prefetch schedule.
         public let name: String?
         /// The name to assign to the playback configuration.
         public let playbackConfigurationName: String?
+        /// The configuration that defines how MediaTailor performs recurring prefetch.
+        public let recurringPrefetchConfiguration: RecurringPrefetchConfiguration?
         /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
         public let retrieval: PrefetchRetrieval?
+        /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event.
+        public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
         public let streamId: String?
 
         @inlinable
-        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, retrieval: PrefetchRetrieval? = nil, streamId: String? = nil) {
+        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
+            self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
             self.retrieval = retrieval
+            self.scheduleType = scheduleType
             self.streamId = streamId
         }
 
@@ -929,7 +963,9 @@ extension MediaTailor {
             case consumption = "Consumption"
             case name = "Name"
             case playbackConfigurationName = "PlaybackConfigurationName"
+            case recurringPrefetchConfiguration = "RecurringPrefetchConfiguration"
             case retrieval = "Retrieval"
+            case scheduleType = "ScheduleType"
             case streamId = "StreamId"
         }
     }
@@ -2068,24 +2104,30 @@ extension MediaTailor {
     public struct GetPrefetchScheduleResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the prefetch schedule.
         public let arn: String?
-        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+        /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
         public let consumption: PrefetchConsumption?
         /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
         public let name: String?
         /// The name of the playback configuration to create the prefetch schedule for.
         public let playbackConfigurationName: String?
+        /// The configuration that defines how and when MediaTailor performs ad prefetching in a live event.
+        public let recurringPrefetchConfiguration: RecurringPrefetchConfiguration?
         /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
         public let retrieval: PrefetchRetrieval?
+        /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event.
+        public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public let streamId: String?
 
         @inlinable
-        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, retrieval: PrefetchRetrieval? = nil, streamId: String? = nil) {
+        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
+            self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
             self.retrieval = retrieval
+            self.scheduleType = scheduleType
             self.streamId = streamId
         }
 
@@ -2094,7 +2136,9 @@ extension MediaTailor {
             case consumption = "Consumption"
             case name = "Name"
             case playbackConfigurationName = "PlaybackConfigurationName"
+            case recurringPrefetchConfiguration = "RecurringPrefetchConfiguration"
             case retrieval = "Retrieval"
+            case scheduleType = "ScheduleType"
             case streamId = "StreamId"
         }
     }
@@ -2376,18 +2420,21 @@ extension MediaTailor {
     public struct ListPrefetchSchedulesRequest: AWSEncodableShape {
         /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
-        /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
+        /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results.  For the first ListPrefetchSchedulesRequest request, omit this value.  For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.  If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
         public let nextToken: String?
         /// Retrieves the prefetch schedule(s) for a specific playback configuration.
         public let playbackConfigurationName: String
+        /// The type of prefetch schedules that you want to list. SINGLE indicates that you want to list the configured single prefetch schedules. RECURRING indicates that you want to list the configured recurring prefetch schedules. ALL indicates that you want to list all configured prefetch schedules.
+        public let scheduleType: ListPrefetchScheduleType?
         /// An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
         public let streamId: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, playbackConfigurationName: String, streamId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, playbackConfigurationName: String, scheduleType: ListPrefetchScheduleType? = nil, streamId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.playbackConfigurationName = playbackConfigurationName
+            self.scheduleType = scheduleType
             self.streamId = streamId
         }
 
@@ -2397,6 +2444,7 @@ extension MediaTailor {
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
             request.encodePath(self.playbackConfigurationName, key: "PlaybackConfigurationName")
+            try container.encodeIfPresent(self.scheduleType, forKey: .scheduleType)
             try container.encodeIfPresent(self.streamId, forKey: .streamId)
         }
 
@@ -2408,6 +2456,7 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case scheduleType = "ScheduleType"
             case streamId = "StreamId"
         }
     }
@@ -2809,42 +2858,56 @@ extension MediaTailor {
         /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var startTime: Date?
+        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        public let trafficShapingRetrievalWindow: TrafficShapingRetrievalWindow?
+        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        public let trafficShapingType: TrafficShapingType?
 
         @inlinable
-        public init(dynamicVariables: [String: String]? = nil, endTime: Date, startTime: Date? = nil) {
+        public init(dynamicVariables: [String: String]? = nil, endTime: Date, startTime: Date? = nil, trafficShapingRetrievalWindow: TrafficShapingRetrievalWindow? = nil, trafficShapingType: TrafficShapingType? = nil) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
             self.startTime = startTime
+            self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingType = trafficShapingType
         }
 
         private enum CodingKeys: String, CodingKey {
             case dynamicVariables = "DynamicVariables"
             case endTime = "EndTime"
             case startTime = "StartTime"
+            case trafficShapingRetrievalWindow = "TrafficShapingRetrievalWindow"
+            case trafficShapingType = "TrafficShapingType"
         }
     }
 
     public struct PrefetchSchedule: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the prefetch schedule.
         public let arn: String
-        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
-        public let consumption: PrefetchConsumption
+        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks for single prefetch schedules. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+        public let consumption: PrefetchConsumption?
         /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
         public let name: String
         /// The name of the playback configuration to create the prefetch schedule for.
         public let playbackConfigurationName: String
+        /// The settings that determine how and when MediaTailor prefetches ads and inserts them into ad breaks.
+        public let recurringPrefetchConfiguration: RecurringPrefetchConfiguration?
         /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
-        public let retrieval: PrefetchRetrieval
+        public let retrieval: PrefetchRetrieval?
+        /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see Prefetching ads in Elemental MediaTailor.
+        public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public let streamId: String?
 
         @inlinable
-        public init(arn: String, consumption: PrefetchConsumption, name: String, playbackConfigurationName: String, retrieval: PrefetchRetrieval, streamId: String? = nil) {
+        public init(arn: String, consumption: PrefetchConsumption? = nil, name: String, playbackConfigurationName: String, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
+            self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
             self.retrieval = retrieval
+            self.scheduleType = scheduleType
             self.streamId = streamId
         }
 
@@ -2853,7 +2916,9 @@ extension MediaTailor {
             case consumption = "Consumption"
             case name = "Name"
             case playbackConfigurationName = "PlaybackConfigurationName"
+            case recurringPrefetchConfiguration = "RecurringPrefetchConfiguration"
             case retrieval = "Retrieval"
+            case scheduleType = "ScheduleType"
             case streamId = "StreamId"
         }
     }
@@ -3055,6 +3120,78 @@ extension MediaTailor {
             case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
+        }
+    }
+
+    public struct RecurringConsumption: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the dynamic variables that determine which ad breaks that MediaTailor inserts prefetched ads in.
+        public let availMatchingCriteria: [AvailMatchingCriteria]?
+        /// The number of seconds that an ad is available for insertion after it was prefetched.
+        public let retrievedAdExpirationSeconds: Int?
+
+        @inlinable
+        public init(availMatchingCriteria: [AvailMatchingCriteria]? = nil, retrievedAdExpirationSeconds: Int? = nil) {
+            self.availMatchingCriteria = availMatchingCriteria
+            self.retrievedAdExpirationSeconds = retrievedAdExpirationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availMatchingCriteria = "AvailMatchingCriteria"
+            case retrievedAdExpirationSeconds = "RetrievedAdExpirationSeconds"
+        }
+    }
+
+    public struct RecurringPrefetchConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The end time for the window that MediaTailor prefetches and inserts ads in a live event.
+        @CustomCoding<UnixEpochDateCoder>
+        public var endTime: Date
+        /// The settings that determine how and when MediaTailor places prefetched ads into upcoming ad breaks for recurring prefetch scedules.
+        public let recurringConsumption: RecurringConsumption
+        /// The configuration for prefetch ad retrieval from the ADS.
+        public let recurringRetrieval: RecurringRetrieval
+        /// The start time for the window that MediaTailor prefetches and inserts ads in a live event.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var startTime: Date?
+
+        @inlinable
+        public init(endTime: Date, recurringConsumption: RecurringConsumption, recurringRetrieval: RecurringRetrieval, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.recurringConsumption = recurringConsumption
+            self.recurringRetrieval = recurringRetrieval
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case recurringConsumption = "RecurringConsumption"
+            case recurringRetrieval = "RecurringRetrieval"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct RecurringRetrieval: AWSEncodableShape & AWSDecodableShape {
+        /// The number of seconds that MediaTailor waits after an ad avail before prefetching ads for the next avail. If not set, the default is 0 (no delay).
+        public let delayAfterAvailEndSeconds: Int?
+        /// The dynamic variables to use for substitution during prefetch requests to the ADS.
+        public let dynamicVariables: [String: String]?
+        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        public let trafficShapingRetrievalWindow: TrafficShapingRetrievalWindow?
+        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        public let trafficShapingType: TrafficShapingType?
+
+        @inlinable
+        public init(delayAfterAvailEndSeconds: Int? = nil, dynamicVariables: [String: String]? = nil, trafficShapingRetrievalWindow: TrafficShapingRetrievalWindow? = nil, trafficShapingType: TrafficShapingType? = nil) {
+            self.delayAfterAvailEndSeconds = delayAfterAvailEndSeconds
+            self.dynamicVariables = dynamicVariables
+            self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingType = trafficShapingType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delayAfterAvailEndSeconds = "DelayAfterAvailEndSeconds"
+            case dynamicVariables = "DynamicVariables"
+            case trafficShapingRetrievalWindow = "TrafficShapingRetrievalWindow"
+            case trafficShapingType = "TrafficShapingType"
         }
     }
 
@@ -3457,7 +3594,7 @@ extension MediaTailor {
     }
 
     public struct TimeShiftConfiguration: AWSEncodableShape & AWSDecodableShape {
-        ///  The maximum time delay for time-shifted viewing. The minimum allowed maximum time delay is 0 seconds,  and the maximum allowed maximum time delay is 21600 seconds (6 hours).
+        ///  The maximum time delay for time-shifted viewing. The minimum allowed maximum time delay is 0 seconds, and the maximum allowed maximum time delay is 21600 seconds (6 hours).
         public let maxTimeDelaySeconds: Int
 
         @inlinable
@@ -3481,6 +3618,20 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case segmentationDescriptors = "SegmentationDescriptors"
+        }
+    }
+
+    public struct TrafficShapingRetrievalWindow: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time, in seconds, that MediaTailor spreads prefetch requests to the ADS.
+        public let retrievalWindowDurationSeconds: Int?
+
+        @inlinable
+        public init(retrievalWindowDurationSeconds: Int? = nil) {
+            self.retrievalWindowDurationSeconds = retrievalWindowDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrievalWindowDurationSeconds = "RetrievalWindowDurationSeconds"
         }
     }
 

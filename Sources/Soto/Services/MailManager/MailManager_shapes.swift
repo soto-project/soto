@@ -318,6 +318,18 @@ extension MailManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum SnsNotificationEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case base64 = "BASE64"
+        case utf8 = "UTF-8"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnsNotificationPayloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case content = "CONTENT"
+        case headers = "HEADERS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ArchiveFilterCondition: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A boolean expression to evaluate against email attributes.
         case booleanExpression(ArchiveBooleanExpression)
@@ -692,6 +704,8 @@ extension MailManager {
         case deliverToQBusiness(DeliverToQBusinessAction)
         /// This action terminates the evaluation of rules in the rule set.
         case drop(DropAction)
+        /// This action publishes the email content to an Amazon SNS topic.
+        case publishToSns(SnsAction)
         /// This action relays the email to another SMTP server.
         case relay(RelayAction)
         /// The action replaces certain or all recipients with a different set of recipients.
@@ -726,6 +740,9 @@ extension MailManager {
             case .drop:
                 let value = try container.decode(DropAction.self, forKey: .drop)
                 self = .drop(value)
+            case .publishToSns:
+                let value = try container.decode(SnsAction.self, forKey: .publishToSns)
+                self = .publishToSns(value)
             case .relay:
                 let value = try container.decode(RelayAction.self, forKey: .relay)
                 self = .relay(value)
@@ -754,6 +771,8 @@ extension MailManager {
                 try container.encode(value, forKey: .deliverToQBusiness)
             case .drop(let value):
                 try container.encode(value, forKey: .drop)
+            case .publishToSns(let value):
+                try container.encode(value, forKey: .publishToSns)
             case .relay(let value):
                 try container.encode(value, forKey: .relay)
             case .replaceRecipient(let value):
@@ -775,6 +794,8 @@ extension MailManager {
                 try value.validate(name: "\(name).deliverToMailbox")
             case .deliverToQBusiness(let value):
                 try value.validate(name: "\(name).deliverToQBusiness")
+            case .publishToSns(let value):
+                try value.validate(name: "\(name).publishToSns")
             case .relay(let value):
                 try value.validate(name: "\(name).relay")
             case .replaceRecipient(let value):
@@ -794,6 +815,7 @@ extension MailManager {
             case deliverToMailbox = "DeliverToMailbox"
             case deliverToQBusiness = "DeliverToQBusiness"
             case drop = "Drop"
+            case publishToSns = "PublishToSns"
             case relay = "Relay"
             case replaceRecipient = "ReplaceRecipient"
             case send = "Send"
@@ -4625,6 +4647,45 @@ extension MailManager {
         private enum CodingKeys: String, CodingKey {
             case actionFailurePolicy = "ActionFailurePolicy"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct SnsAction: AWSEncodableShape & AWSDecodableShape {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, specified SNS topic has been deleted or the role lacks necessary permissions to call the sns:Publish API.
+        public let actionFailurePolicy: ActionFailurePolicy?
+        /// The encoding to use for the email within the Amazon SNS notification. The default value is UTF-8. Use BASE64 if you need to preserve all special characters, especially when the original message uses a different encoding format.
+        public let encoding: SnsNotificationEncoding?
+        /// The expected payload type within the Amazon SNS notification. CONTENT attempts to publish the full email content with 20KB of headers content. HEADERS extracts up to 100KB of header content to include in the notification, email content will not be included to the notification. The default value is CONTENT.
+        public let payloadType: SnsNotificationPayloadType?
+        /// The Amazon Resource Name (ARN) of the IAM Role to use while writing to Amazon SNS. This role must have access to the sns:Publish API for the given topic.
+        public let roleArn: String
+        /// The Amazon Resource Name (ARN) of the Amazon SNS Topic to which notification for the email received will be published.
+        public let topicArn: String
+
+        @inlinable
+        public init(actionFailurePolicy: ActionFailurePolicy? = nil, encoding: SnsNotificationEncoding? = nil, payloadType: SnsNotificationPayloadType? = nil, roleArn: String, topicArn: String) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.encoding = encoding
+            self.payloadType = payloadType
+            self.roleArn = roleArn
+            self.topicArn = topicArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
+            try self.validate(self.topicArn, name: "topicArn", parent: name, max: 2048)
+            try self.validate(self.topicArn, name: "topicArn", parent: name, min: 20)
+            try self.validate(self.topicArn, name: "topicArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):sns:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:[\\w\\-]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionFailurePolicy = "ActionFailurePolicy"
+            case encoding = "Encoding"
+            case payloadType = "PayloadType"
+            case roleArn = "RoleArn"
+            case topicArn = "TopicArn"
         }
     }
 

@@ -123,6 +123,7 @@ extension CodeBuild {
         case buildLambda2Gb = "BUILD_LAMBDA_2GB"
         case buildLambda4Gb = "BUILD_LAMBDA_4GB"
         case buildLambda8Gb = "BUILD_LAMBDA_8GB"
+        case customInstanceType = "CUSTOM_INSTANCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -1503,6 +1504,8 @@ extension CodeBuild {
     public struct ComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The amount of disk space of the instance type included in your fleet.
         public let disk: Int64?
+        /// The EC2 instance type to be launched in your fleet.
+        public let instanceType: String?
         /// The machine type of the instance type included in your fleet.
         public let machineType: MachineType?
         /// The amount of memory of the instance type included in your fleet.
@@ -1511,15 +1514,21 @@ extension CodeBuild {
         public let vCpu: Int64?
 
         @inlinable
-        public init(disk: Int64? = nil, machineType: MachineType? = nil, memory: Int64? = nil, vCpu: Int64? = nil) {
+        public init(disk: Int64? = nil, instanceType: String? = nil, machineType: MachineType? = nil, memory: Int64? = nil, vCpu: Int64? = nil) {
             self.disk = disk
+            self.instanceType = instanceType
             self.machineType = machineType
             self.memory = memory
             self.vCpu = vCpu
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case disk = "disk"
+            case instanceType = "instanceType"
             case machineType = "machineType"
             case memory = "memory"
             case vCpu = "vCpu"
@@ -1529,9 +1538,9 @@ extension CodeBuild {
     public struct CreateFleetInput: AWSEncodableShape {
         /// The initial number of machines allocated to the ﬂeet, which deﬁnes the number of builds that can run in parallel.
         public let baseCapacity: Int
-        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE or CUSTOM_INSTANCE_TYPE.
         public let computeConfiguration: ComputeConfiguration?
-        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
+        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     CUSTOM_INSTANCE_TYPE: Specify the instance type for your compute fleet. For a list of supported instance types, see Supported instance families in the CodeBuild User Guide.    BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType
         /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type ARM_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType
@@ -1568,14 +1577,13 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
             try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
             try self.validate(self.imageId, name: "imageId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,127}$")
             try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
-            try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2199,6 +2207,53 @@ extension CodeBuild {
         }
     }
 
+    public struct DockerServer: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the compute resources the docker server uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for your docker server.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for your docker server.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for your docker server.    BUILD_GENERAL1_XLARGE: Use up to 64 GiB memory and 32 vCPUs for your docker server.    BUILD_GENERAL1_2XLARGE: Use up to 128 GiB memory and 64 vCPUs for your docker server.
+        public let computeType: ComputeType
+        /// A list of one or more security groups IDs.  Security groups configured for Docker servers should allow ingress network traffic from the VPC configured in the project. They should allow ingress on port 9876.
+        public let securityGroupIds: [String]?
+        /// A DockerServerStatus object to use for this docker server.
+        public let status: DockerServerStatus?
+
+        @inlinable
+        public init(computeType: ComputeType, securityGroupIds: [String]? = nil, status: DockerServerStatus? = nil) {
+            self.computeType = computeType
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeType = "computeType"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+        }
+    }
+
+    public struct DockerServerStatus: AWSEncodableShape & AWSDecodableShape {
+        /// A message associated with the status of a docker server.
+        public let message: String?
+        /// The status of the docker server.
+        public let status: String?
+
+        @inlinable
+        public init(message: String? = nil, status: String? = nil) {
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case status = "status"
+        }
+    }
+
     public struct EnvironmentImage: AWSDecodableShape {
         /// The description of the Docker image.
         public let description: String?
@@ -2306,9 +2361,9 @@ extension CodeBuild {
         public let arn: String?
         /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
         public let baseCapacity: Int?
-        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE or CUSTOM_INSTANCE_TYPE.
         public let computeConfiguration: ComputeConfiguration?
-        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
+        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     CUSTOM_INSTANCE_TYPE: Specify the instance type for your compute fleet. For a list of supported instance types, see Supported instance families in the CodeBuild User Guide.    BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType?
         /// The time at which the compute fleet was created.
         public let created: Date?
@@ -3653,6 +3708,8 @@ extension CodeBuild {
         public let computeConfiguration: ComputeConfiguration?
         /// Information about the compute resources the build project uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType
+        /// A DockerServer object to use for this build project.
+        public let dockerServer: DockerServer?
         /// A set of environment variables to make available to builds for this build project.
         public let environmentVariables: [EnvironmentVariable]?
         /// A ProjectFleet object to use for this build project.
@@ -3669,10 +3726,11 @@ extension CodeBuild {
         public let type: EnvironmentType
 
         @inlinable
-        public init(certificate: String? = nil, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, fleet: ProjectFleet? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
+        public init(certificate: String? = nil, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType, dockerServer: DockerServer? = nil, environmentVariables: [EnvironmentVariable]? = nil, fleet: ProjectFleet? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
             self.certificate = certificate
             self.computeConfiguration = computeConfiguration
             self.computeType = computeType
+            self.dockerServer = dockerServer
             self.environmentVariables = environmentVariables
             self.fleet = fleet
             self.image = image
@@ -3683,6 +3741,8 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
+            try self.dockerServer?.validate(name: "\(name).dockerServer")
             try self.environmentVariables?.forEach {
                 try $0.validate(name: "\(name).environmentVariables[]")
             }
@@ -3694,6 +3754,7 @@ extension CodeBuild {
             case certificate = "certificate"
             case computeConfiguration = "computeConfiguration"
             case computeType = "computeType"
+            case dockerServer = "dockerServer"
             case environmentVariables = "environmentVariables"
             case fleet = "fleet"
             case image = "image"
@@ -4442,10 +4503,6 @@ extension CodeBuild {
             self.targetTrackingScalingConfigs = targetTrackingScalingConfigs
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxCapacity, name: "maxCapacity", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case maxCapacity = "maxCapacity"
             case scalingType = "scalingType"
@@ -4484,7 +4541,7 @@ extension CodeBuild {
         public let domain: String?
         /// The name of either the group, enterprise, or organization that will send webhook events to CodeBuild, depending on the type of webhook.
         public let name: String
-        /// The type of scope for a GitHub or GitLab webhook.
+        /// The type of scope for a GitHub or GitLab webhook. The scope default is GITHUB_ORGANIZATION.
         public let scope: WebhookScopeType
 
         @inlinable
@@ -5234,9 +5291,9 @@ extension CodeBuild {
         public let arn: String
         /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
         public let baseCapacity: Int?
-        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE or CUSTOM_INSTANCE_TYPE.
         public let computeConfiguration: ComputeConfiguration?
-        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
+        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     CUSTOM_INSTANCE_TYPE: Specify the instance type for your compute fleet. For a list of supported instance types, see Supported instance families in the CodeBuild User Guide.    BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType?
         /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type ARM_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType?
@@ -5272,11 +5329,10 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
             try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
             try self.validate(self.imageId, name: "imageId", parent: name, min: 1)
             try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
-            try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }

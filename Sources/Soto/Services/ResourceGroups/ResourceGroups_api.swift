@@ -480,7 +480,7 @@ public struct ResourceGroups: AWSService {
     /// Returns a list of existing Resource Groups in your account.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroups
     ///
     /// Parameters:
-    ///   - filters: Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::ResourceGroups::ApplicationGroup     AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroups     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
+    ///   - filters: Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::ResourceGroups::ApplicationGroup     AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroup     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
     ///   - maxResults: The total number of results that you want included on each page of the
     ///   - nextToken: The parameter for receiving additional results if you receive a
     ///   - logger: Logger use during operation
@@ -601,7 +601,7 @@ public struct ResourceGroups: AWSService {
         return try await self.searchResources(input, logger: logger)
     }
 
-    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an  application.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:StartTagSyncTask on the application group    resource-groups:CreateGroup     iam:PassRole on the role provided in the request
+    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an  application. To start a tag-sync task, you need a resource tagging role.  The resource tagging role grants permissions to tag and untag applications resources and must include a  trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf.  For instructions on creating a tag-sync task, see Create a tag-sync  using the Resource Groups API in the Amazon Web Services Service Catalog AppRegistry Administrator Guide.    Minimum permissions  To run this command, you must have the following permissions:    resource-groups:StartTagSyncTask on the application group    resource-groups:CreateGroup     iam:PassRole on the role provided in the request
     @Sendable
     @inlinable
     public func startTagSyncTask(_ input: StartTagSyncTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTagSyncTaskOutput {
@@ -614,24 +614,27 @@ public struct ResourceGroups: AWSService {
             logger: logger
         )
     }
-    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an  application.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:StartTagSyncTask on the application group    resource-groups:CreateGroup     iam:PassRole on the role provided in the request
+    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an  application. To start a tag-sync task, you need a resource tagging role.  The resource tagging role grants permissions to tag and untag applications resources and must include a  trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf.  For instructions on creating a tag-sync task, see Create a tag-sync  using the Resource Groups API in the Amazon Web Services Service Catalog AppRegistry Administrator Guide.    Minimum permissions  To run this command, you must have the following permissions:    resource-groups:StartTagSyncTask on the application group    resource-groups:CreateGroup     iam:PassRole on the role provided in the request
     ///
     /// Parameters:
     ///   - group: The Amazon resource name (ARN) or name of the application group for which you want to create a tag-sync task.
+    ///   - resourceQuery: The query you can use to create the tag-sync task. With this method, all resources matching the query  are added to the specified application group. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. For more information on defining a resource query for a  tag-sync task, see the tag-based query type in  Types of resource group queries in Resource Groups User Guide.  When using the ResourceQuery parameter, you cannot use the TagKey and TagValue parameters.  When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example:  --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}'  In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see Quoting strings in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see Resources you can use with Resource Groups and Tag Editor in the Resource Groups User Guide. For example:  "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
     ///   - roleArn: The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
-    ///   - tagKey: The tag key. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
-    ///   - tagValue: The tag value. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
+    ///   - tagKey: The tag key. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.  When using the TagKey parameter, you must also specify the TagValue parameter. If you specify a tag key-value pair,  you can't use the ResourceQuery parameter.
+    ///   - tagValue: The tag value. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.  When using the TagValue parameter, you must also specify the TagKey parameter. If you specify a tag key-value pair,  you can't use the ResourceQuery parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func startTagSyncTask(
         group: String,
+        resourceQuery: ResourceQuery? = nil,
         roleArn: String,
-        tagKey: String,
-        tagValue: String,
+        tagKey: String? = nil,
+        tagValue: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartTagSyncTaskOutput {
         let input = StartTagSyncTaskInput(
             group: group, 
+            resourceQuery: resourceQuery, 
             roleArn: roleArn, 
             tagKey: tagKey, 
             tagValue: tagValue
@@ -952,7 +955,7 @@ extension ResourceGroups {
     /// Return PaginatorSequence for operation ``listGroups(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::ResourceGroups::ApplicationGroup     AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroups     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
+    ///   - filters: Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::ResourceGroups::ApplicationGroup     AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroup     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
     ///   - maxResults: The total number of results that you want included on each page of the
     ///   - logger: Logger used for logging
     @inlinable

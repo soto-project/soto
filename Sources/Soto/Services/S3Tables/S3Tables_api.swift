@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS S3Tables service.
 ///
-/// An Amazon S3 table represents a structured dataset consisting of tabular data in Apache Parquet format and related metadata. This data is stored inside an S3 table as a subresource. All tables in a table bucket are stored in the Apache Iceberg table format. Through integration with the AWS Glue Data Catalog you can interact with your tables using AWS analytics services, such as Amazon Athena and Amazon Redshift. Amazon S3 manages maintenance of your tables through automatic file compaction and snapshot management. For more information, see Amazon S3 table buckets.
+/// An Amazon S3 table represents a structured dataset consisting of tabular data in Apache Parquet format and related metadata. This data is stored inside an S3 table as a subresource. All tables in a table bucket are stored in the Apache Iceberg table format. Through integration with the Amazon Web Services Glue Data Catalog you can interact with your tables using Amazon Web Services analytics services, such as Amazon Athena and Amazon Redshift. Amazon S3 manages maintenance of your tables through automatic file compaction and snapshot management. For more information, see Amazon S3 table buckets.
 public struct S3Tables: AWSService {
     // MARK: Member variables
 
@@ -110,7 +110,7 @@ public struct S3Tables: AWSService {
         return try await self.createNamespace(input, logger: logger)
     }
 
-    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTable permission to use this operation.   Additionally, you must have the s3tables:PutTableData permission to use this operation with the optional metadata request parameter.
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally,
     @Sendable
     @inlinable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
@@ -123,9 +123,10 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTable permission to use this operation.   Additionally, you must have the s3tables:PutTableData permission to use this operation with the optional metadata request parameter.
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally,
     ///
     /// Parameters:
+    ///   - encryptionConfiguration: The encryption configuration to use for the table. This configuration specifies the encryption algorithm and, if using SSE-KMS, the KMS key to use for encrypting the table.   If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
     ///   - format: The format for the table.
     ///   - metadata: The metadata for the table.
     ///   - name: The name for the table.
@@ -134,6 +135,7 @@ public struct S3Tables: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createTable(
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         format: OpenTableFormat,
         metadata: TableMetadata? = nil,
         name: String,
@@ -142,6 +144,7 @@ public struct S3Tables: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTableResponse {
         let input = CreateTableRequest(
+            encryptionConfiguration: encryptionConfiguration, 
             format: format, 
             metadata: metadata, 
             name: name, 
@@ -151,7 +154,7 @@ public struct S3Tables: AWSService {
         return try await self.createTable(input, logger: logger)
     }
 
-    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTableBucket permission to use this operation.
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTableBucket permission to use this operation.    If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.
     @Sendable
     @inlinable
     public func createTableBucket(_ input: CreateTableBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableBucketResponse {
@@ -164,17 +167,20 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTableBucket permission to use this operation.
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTableBucket permission to use this operation.    If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.
     ///
     /// Parameters:
+    ///   - encryptionConfiguration: The encryption configuration to use for the table bucket. This configuration specifies the default encryption settings that will be applied to all tables created in this bucket unless overridden at the table level. The configuration includes the encryption algorithm and, if using SSE-KMS, the KMS key to use.
     ///   - name: The name for the table bucket.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTableBucket(
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTableBucketResponse {
         let input = CreateTableBucketRequest(
+            encryptionConfiguration: encryptionConfiguration, 
             name: name
         )
         return try await self.createTableBucket(input, logger: logger)
@@ -277,6 +283,35 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.deleteTableBucket(input, logger: logger)
+    }
+
+    /// Deletes the encryption configuration for a table bucket.  Permissions  You must have the s3tables:DeleteTableBucketEncryption permission to use this operation.
+    @Sendable
+    @inlinable
+    public func deleteTableBucketEncryption(_ input: DeleteTableBucketEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTableBucketEncryption", 
+            path: "/buckets/{tableBucketARN}/encryption", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the encryption configuration for a table bucket.  Permissions  You must have the s3tables:DeleteTableBucketEncryption permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTableBucketEncryption(
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTableBucketEncryptionRequest(
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.deleteTableBucketEncryption(input, logger: logger)
     }
 
     /// Deletes a table bucket policy. For more information, see Deleting a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTableBucketPolicy permission to use this operation.
@@ -439,6 +474,35 @@ public struct S3Tables: AWSService {
         return try await self.getTableBucket(input, logger: logger)
     }
 
+    /// Gets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:GetTableBucketEncryption permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableBucketEncryption(_ input: GetTableBucketEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableBucketEncryptionResponse {
+        try await self.client.execute(
+            operation: "GetTableBucketEncryption", 
+            path: "/buckets/{tableBucketARN}/encryption", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:GetTableBucketEncryption permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableBucketEncryption(
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableBucketEncryptionResponse {
+        let input = GetTableBucketEncryptionRequest(
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.getTableBucketEncryption(input, logger: logger)
+    }
+
     /// Gets details about a maintenance configuration for a given table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucketMaintenanceConfiguration permission to use this operation.
     @Sendable
     @inlinable
@@ -495,6 +559,41 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.getTableBucketPolicy(input, logger: logger)
+    }
+
+    /// Gets the encryption configuration for a table.  Permissions  You must have the s3tables:GetTableEncryption permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableEncryption(_ input: GetTableEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableEncryptionResponse {
+        try await self.client.execute(
+            operation: "GetTableEncryption", 
+            path: "/tables/{tableBucketARN}/{namespace}/{name}/encryption", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the encryption configuration for a table.  Permissions  You must have the s3tables:GetTableEncryption permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - name: The name of the table.
+    ///   - namespace: The namespace associated with the table.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket containing the table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableEncryption(
+        name: String,
+        namespace: String,
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableEncryptionResponse {
+        let input = GetTableEncryptionRequest(
+            name: name, 
+            namespace: namespace, 
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.getTableEncryption(input, logger: logger)
     }
 
     /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
@@ -749,6 +848,38 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.listTables(input, logger: logger)
+    }
+
+    /// Sets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketEncryption permission to use this operation.  If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption
+    @Sendable
+    @inlinable
+    public func putTableBucketEncryption(_ input: PutTableBucketEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutTableBucketEncryption", 
+            path: "/buckets/{tableBucketARN}/encryption", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketEncryption permission to use this operation.  If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption
+    ///
+    /// Parameters:
+    ///   - encryptionConfiguration: The encryption configuration to apply to the table bucket.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTableBucketEncryption(
+        encryptionConfiguration: EncryptionConfiguration,
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutTableBucketEncryptionRequest(
+            encryptionConfiguration: encryptionConfiguration, 
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.putTableBucketEncryption(input, logger: logger)
     }
 
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation.

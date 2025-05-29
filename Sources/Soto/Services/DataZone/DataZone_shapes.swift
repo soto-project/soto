@@ -381,6 +381,7 @@ extension DataZone {
         case delegateCreateEnvironmentProfile = "DELEGATE_CREATE_ENVIRONMENT_PROFILE"
         case overrideDomainUnitOwners = "OVERRIDE_DOMAIN_UNIT_OWNERS"
         case overrideProjectOwners = "OVERRIDE_PROJECT_OWNERS"
+        case useAssetType = "USE_ASSET_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -576,6 +577,7 @@ extension DataZone {
     }
 
     public enum TargetEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assetType = "ASSET_TYPE"
         case domainUnit = "DOMAIN_UNIT"
         case environmentBlueprintConfiguration = "ENVIRONMENT_BLUEPRINT_CONFIGURATION"
         case environmentProfile = "ENVIRONMENT_PROFILE"
@@ -1303,6 +1305,8 @@ extension DataZone {
         case overrideDomainUnitOwners(OverrideDomainUnitOwnersPolicyGrantDetail)
         /// Specifies whether to override project owners.
         case overrideProjectOwners(OverrideProjectOwnersPolicyGrantDetail)
+        ///  Specifies the domain unit(s) whose projects can use this asset type while creating asset or asset revisions.
+        case useAssetType(UseAssetTypePolicyGrantDetail)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -1353,6 +1357,9 @@ extension DataZone {
             case .overrideProjectOwners:
                 let value = try container.decode(OverrideProjectOwnersPolicyGrantDetail.self, forKey: .overrideProjectOwners)
                 self = .overrideProjectOwners(value)
+            case .useAssetType:
+                let value = try container.decode(UseAssetTypePolicyGrantDetail.self, forKey: .useAssetType)
+                self = .useAssetType(value)
             }
         }
 
@@ -1385,6 +1392,8 @@ extension DataZone {
                 try container.encode(value, forKey: .overrideDomainUnitOwners)
             case .overrideProjectOwners(let value):
                 try container.encode(value, forKey: .overrideProjectOwners)
+            case .useAssetType(let value):
+                try container.encode(value, forKey: .useAssetType)
             }
         }
 
@@ -1392,6 +1401,8 @@ extension DataZone {
             switch self {
             case .createEnvironmentProfile(let value):
                 try value.validate(name: "\(name).createEnvironmentProfile")
+            case .useAssetType(let value):
+                try value.validate(name: "\(name).useAssetType")
             default:
                 break
             }
@@ -1411,6 +1422,7 @@ extension DataZone {
             case delegateCreateEnvironmentProfile = "delegateCreateEnvironmentProfile"
             case overrideDomainUnitOwners = "overrideDomainUnitOwners"
             case overrideProjectOwners = "overrideProjectOwners"
+            case useAssetType = "useAssetType"
         }
     }
 
@@ -20634,7 +20646,7 @@ extension DataZone {
     public struct UpdateSubscriptionTargetOutput: AWSDecodableShape {
         /// The applicable asset types to be updated as part of the UpdateSubscriptionTarget action.
         public let applicableAssetTypes: [String]
-        /// The authorized principals to be updated as part of the UpdateSubscriptionTarget action.
+        /// The authorized principals to be updated as part of the UpdateSubscriptionTarget action. Updates are supported in batches of 5 at a time.
         public let authorizedPrincipals: [String]
         /// The timestamp of when a subscription target was created.
         public let createdAt: Date
@@ -20765,6 +20777,26 @@ extension DataZone {
             case id = "id"
             case status = "status"
             case type = "type"
+        }
+    }
+
+    public struct UseAssetTypePolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
+
+        @inlinable
+        public init(domainUnitId: String? = nil) {
+            self.domainUnitId = domainUnitId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, max: 256)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, min: 1)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnitId = "domainUnitId"
         }
     }
 

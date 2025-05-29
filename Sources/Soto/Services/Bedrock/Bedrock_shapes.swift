@@ -223,6 +223,16 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobStatusDetails: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case notStarted = "NotStarted"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelCopyJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
@@ -656,6 +666,47 @@ extension Bedrock {
         }
     }
 
+    public enum RatingScaleItemValue: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A floating point number representing the value for a rating in a custom metric rating scale.
+        case floatValue(Float)
+        /// A string representing the value for a rating in a custom metric rating scale.
+        case stringValue(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .floatValue:
+                let value = try container.decode(Float.self, forKey: .floatValue)
+                self = .floatValue(value)
+            case .stringValue:
+                let value = try container.decode(String.self, forKey: .stringValue)
+                self = .stringValue(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .floatValue(let value):
+                try container.encode(value, forKey: .floatValue)
+            case .stringValue(let value):
+                try container.encode(value, forKey: .stringValue)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case floatValue = "floatValue"
+            case stringValue = "stringValue"
+        }
+    }
+
     public enum RequestMetadataFilters: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Include results where all of the based filters match.
         case andAll([RequestMetadataBaseFilters])
@@ -905,18 +956,22 @@ extension Bedrock {
     // MARK: Shapes
 
     public struct AutomatedEvaluationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the configuration of custom metrics to be used in an evaluation job.
+        public let customMetricConfig: AutomatedEvaluationCustomMetricConfig?
         /// Configuration details of the prompt datasets and metrics you want to use for your evaluation job.
         public let datasetMetricConfigs: [EvaluationDatasetMetricConfig]
         /// Contains the evaluator model configuration details. EvaluatorModelConfig is required for evaluation jobs that use a knowledge base or in model evaluation job that use a model as judge. This model computes all evaluation related metrics.
         public let evaluatorModelConfig: EvaluatorModelConfig?
 
         @inlinable
-        public init(datasetMetricConfigs: [EvaluationDatasetMetricConfig], evaluatorModelConfig: EvaluatorModelConfig? = nil) {
+        public init(customMetricConfig: AutomatedEvaluationCustomMetricConfig? = nil, datasetMetricConfigs: [EvaluationDatasetMetricConfig], evaluatorModelConfig: EvaluatorModelConfig? = nil) {
+            self.customMetricConfig = customMetricConfig
             self.datasetMetricConfigs = datasetMetricConfigs
             self.evaluatorModelConfig = evaluatorModelConfig
         }
 
         public func validate(name: String) throws {
+            try self.customMetricConfig?.validate(name: "\(name).customMetricConfig")
             try self.datasetMetricConfigs.forEach {
                 try $0.validate(name: "\(name).datasetMetricConfigs[]")
             }
@@ -926,7 +981,35 @@ extension Bedrock {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customMetricConfig = "customMetricConfig"
             case datasetMetricConfigs = "datasetMetricConfigs"
+            case evaluatorModelConfig = "evaluatorModelConfig"
+        }
+    }
+
+    public struct AutomatedEvaluationCustomMetricConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Defines a list of custom metrics to be used in an Amazon Bedrock evaluation job.
+        public let customMetrics: [AutomatedEvaluationCustomMetricSource]
+        /// Configuration of the evaluator model you want to use to evaluate custom metrics in an Amazon Bedrock evaluation job.
+        public let evaluatorModelConfig: CustomMetricEvaluatorModelConfig
+
+        @inlinable
+        public init(customMetrics: [AutomatedEvaluationCustomMetricSource], evaluatorModelConfig: CustomMetricEvaluatorModelConfig) {
+            self.customMetrics = customMetrics
+            self.evaluatorModelConfig = evaluatorModelConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.customMetrics.forEach {
+                try $0.validate(name: "\(name).customMetrics[]")
+            }
+            try self.validate(self.customMetrics, name: "customMetrics", parent: name, max: 10)
+            try self.validate(self.customMetrics, name: "customMetrics", parent: name, min: 1)
+            try self.evaluatorModelConfig.validate(name: "\(name).evaluatorModelConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customMetrics = "customMetrics"
             case evaluatorModelConfig = "evaluatorModelConfig"
         }
     }
@@ -1191,6 +1274,8 @@ extension Bedrock {
         public let contentPolicyConfig: GuardrailContentPolicyConfig?
         /// The contextual grounding policy configuration used to create a guardrail.
         public let contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig?
+        /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the Amazon Bedrock User Guide.
+        public let crossRegionConfig: GuardrailCrossRegionConfig?
         /// A description of the guardrail.
         public let description: String?
         /// The ARN of the KMS key that you use to encrypt the guardrail.
@@ -1207,12 +1292,13 @@ extension Bedrock {
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
         @inlinable
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, crossRegionConfig: GuardrailCrossRegionConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.clientRequestToken = clientRequestToken
             self.contentPolicyConfig = contentPolicyConfig
             self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
+            self.crossRegionConfig = crossRegionConfig
             self.description = description
             self.kmsKeyId = kmsKeyId
             self.name = name
@@ -1232,6 +1318,7 @@ extension Bedrock {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.contentPolicyConfig?.validate(name: "\(name).contentPolicyConfig")
             try self.contextualGroundingPolicyConfig?.validate(name: "\(name).contextualGroundingPolicyConfig")
+            try self.crossRegionConfig?.validate(name: "\(name).crossRegionConfig")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
@@ -1255,6 +1342,7 @@ extension Bedrock {
             case clientRequestToken = "clientRequestToken"
             case contentPolicyConfig = "contentPolicyConfig"
             case contextualGroundingPolicyConfig = "contextualGroundingPolicyConfig"
+            case crossRegionConfig = "crossRegionConfig"
             case description = "description"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
@@ -1507,7 +1595,7 @@ extension Bedrock {
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
             try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, max: 1011)
             try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, min: 20)
-            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.targetModelName, name: "targetModelName", parent: name, max: 63)
             try self.validate(self.targetModelName, name: "targetModelName", parent: name, min: 1)
             try self.validate(self.targetModelName, name: "targetModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
@@ -1964,6 +2052,83 @@ extension Bedrock {
         }
     }
 
+    public struct CustomMetricBedrockEvaluatorModel: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the evaluator model for custom metrics. For a list of supported evaluator models, see Evaluate model performance  using another LLM as a judge and Evaluate the performance of RAG sources using Amazon Bedrock evaluations.
+        public let modelIdentifier: String
+
+        @inlinable
+        public init(modelIdentifier: String) {
+            self.modelIdentifier = modelIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:inference-profile/(([a-z-]{2,8}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))))$|(^[a-z0-9-]+[.][a-z0-9-]+([.][a-z0-9-]+)*(:[a-z0-9-]+)?$)|^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelIdentifier = "modelIdentifier"
+        }
+    }
+
+    public struct CustomMetricDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The prompt for a custom metric that instructs the evaluator model how to rate the model or RAG source under evaluation.
+        public let instructions: String
+        /// The name for a custom metric. Names must be unique in your Amazon Web Services region.
+        public let name: String
+        /// Defines the rating scale to be used for a custom metric. We recommend that you always define a ratings scale when creating a custom metric. If you don't  define a scale, Amazon Bedrock won't be able to visually display the results of the evaluation in the console or calculate average values of numerical scores. For  more information on specifying a rating scale, see Specifying an output schema (rating scale).
+        public let ratingScale: [RatingScaleItem]?
+
+        @inlinable
+        public init(instructions: String, name: String, ratingScale: [RatingScaleItem]? = nil) {
+            self.instructions = instructions
+            self.name = name
+            self.ratingScale = ratingScale
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instructions, name: "instructions", parent: name, max: 5000)
+            try self.validate(self.instructions, name: "instructions", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
+            try self.ratingScale?.forEach {
+                try $0.validate(name: "\(name).ratingScale[]")
+            }
+            try self.validate(self.ratingScale, name: "ratingScale", parent: name, max: 10)
+            try self.validate(self.ratingScale, name: "ratingScale", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instructions = "instructions"
+            case name = "name"
+            case ratingScale = "ratingScale"
+        }
+    }
+
+    public struct CustomMetricEvaluatorModelConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the model you want to evaluate custom metrics in an Amazon Bedrock evaluation job.
+        public let bedrockEvaluatorModels: [CustomMetricBedrockEvaluatorModel]
+
+        @inlinable
+        public init(bedrockEvaluatorModels: [CustomMetricBedrockEvaluatorModel]) {
+            self.bedrockEvaluatorModels = bedrockEvaluatorModels
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockEvaluatorModels.forEach {
+                try $0.validate(name: "\(name).bedrockEvaluatorModels[]")
+            }
+            try self.validate(self.bedrockEvaluatorModels, name: "bedrockEvaluatorModels", parent: name, max: 1)
+            try self.validate(self.bedrockEvaluatorModels, name: "bedrockEvaluatorModels", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockEvaluatorModels = "bedrockEvaluatorModels"
+        }
+    }
+
     public struct CustomModelSummary: AWSDecodableShape {
         /// The base model Amazon Resource Name (ARN).
         public let baseModelArn: String
@@ -2018,6 +2183,30 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case customModelUnitsPerModelCopy = "customModelUnitsPerModelCopy"
             case customModelUnitsVersion = "customModelUnitsVersion"
+        }
+    }
+
+    public struct DataProcessingDetails: AWSDecodableShape {
+        /// The start time of the data processing sub-task of the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The latest update to the data processing sub-task of the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The status of the data processing sub-task of the job.
+        public let status: JobStatusDetails?
+
+        @inlinable
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, status: JobStatusDetails? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case lastModifiedTime = "lastModifiedTime"
+            case status = "status"
         }
     }
 
@@ -2289,7 +2478,7 @@ extension Bedrock {
             try self.validate(self.inferenceParams, name: "inferenceParams", parent: name, min: 1)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:application-inference-profile/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z-]{2,8}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([0-9]{12}:(default-prompt-router|prompt-router)/[a-zA-Z0-9-:.]+)))|(([a-z]{2}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|arn:aws(-[^:]+)?:sagemaker:[a-z0-9-]{1,20}:[0-9]{12}:endpoint/[a-z0-9-]{1,63}$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:application-inference-profile/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z-]{2,8}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([0-9]{12}:(default-prompt-router|prompt-router)/[a-zA-Z0-9-:.]+)))|(([a-z]{2,4}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|arn:aws(-[^:]+)?:sagemaker:[a-z0-9-]{1,20}:[0-9]{12}:endpoint/[a-z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2327,7 +2516,7 @@ extension Bedrock {
     public struct EvaluationDatasetMetricConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the prompt dataset.
         public let dataset: EvaluationDataset
-        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are   "Builtin.ContextRelevance", "Builtin.ContextConverage". For knowledge base evaluation jobs that evaluate retrieval with response generation,  valid values are  "Builtin.Correctness", "Builtin.Completeness",  "Builtin.Helpfulness", "Builtin.LogicalCoherence",  "Builtin.Faithfulness", "Builtin.Harmfulness",  "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the  name parameter specified in HumanEvaluationCustomMetric.
+        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are   "Builtin.ContextRelevance", "Builtin.ContextCoverage". For knowledge base evaluation jobs that evaluate retrieval with response generation,  valid values are  "Builtin.Correctness", "Builtin.Completeness",  "Builtin.Helpfulness", "Builtin.LogicalCoherence",  "Builtin.Faithfulness", "Builtin.Harmfulness",  "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the  name parameter specified in HumanEvaluationCustomMetric.
         public let metricNames: [String]
         /// The the type of task you want to evaluate for your evaluation job. This applies only  to model evaluation jobs and is ignored for knowledge base evaluation jobs.
         public let taskType: EvaluationTaskType
@@ -2346,7 +2535,7 @@ extension Bedrock {
                 try validate($0, name: "metricNames[]", parent: name, min: 1)
                 try validate($0, name: "metricNames[]", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
             }
-            try self.validate(self.metricNames, name: "metricNames", parent: name, max: 15)
+            try self.validate(self.metricNames, name: "metricNames", parent: name, max: 25)
             try self.validate(self.metricNames, name: "metricNames", parent: name, min: 1)
         }
 
@@ -2405,7 +2594,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2497,6 +2686,8 @@ extension Bedrock {
         /// The time the evaluation job was created.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
+        /// The Amazon Resource Names (ARNs) of the models used to compute custom metrics in an Amazon Bedrock evaluation job.
+        public let customMetricsEvaluatorModelIdentifiers: [String]?
         /// The type of task for model evaluation.
         public let evaluationTaskTypes: [EvaluationTaskType]
         /// The Amazon Resource Names (ARNs) of the models used to compute the metrics for a knowledge base evaluation job.
@@ -2517,9 +2708,10 @@ extension Bedrock {
         public let status: EvaluationJobStatus
 
         @inlinable
-        public init(applicationType: ApplicationType? = nil, creationTime: Date, evaluationTaskTypes: [EvaluationTaskType], evaluatorModelIdentifiers: [String]? = nil, inferenceConfigSummary: EvaluationInferenceConfigSummary? = nil, jobArn: String, jobName: String, jobType: EvaluationJobType, status: EvaluationJobStatus) {
+        public init(applicationType: ApplicationType? = nil, creationTime: Date, customMetricsEvaluatorModelIdentifiers: [String]? = nil, evaluationTaskTypes: [EvaluationTaskType], evaluatorModelIdentifiers: [String]? = nil, inferenceConfigSummary: EvaluationInferenceConfigSummary? = nil, jobArn: String, jobName: String, jobType: EvaluationJobType, status: EvaluationJobStatus) {
             self.applicationType = applicationType
             self.creationTime = creationTime
+            self.customMetricsEvaluatorModelIdentifiers = customMetricsEvaluatorModelIdentifiers
             self.evaluationTaskTypes = evaluationTaskTypes
             self.evaluatorModelIdentifiers = evaluatorModelIdentifiers
             self.inferenceConfigSummary = inferenceConfigSummary
@@ -2533,9 +2725,10 @@ extension Bedrock {
 
         @available(*, deprecated, message: "Members modelIdentifiers, ragIdentifiers have been deprecated")
         @inlinable
-        public init(applicationType: ApplicationType? = nil, creationTime: Date, evaluationTaskTypes: [EvaluationTaskType], evaluatorModelIdentifiers: [String]? = nil, inferenceConfigSummary: EvaluationInferenceConfigSummary? = nil, jobArn: String, jobName: String, jobType: EvaluationJobType, modelIdentifiers: [String]? = nil, ragIdentifiers: [String]? = nil, status: EvaluationJobStatus) {
+        public init(applicationType: ApplicationType? = nil, creationTime: Date, customMetricsEvaluatorModelIdentifiers: [String]? = nil, evaluationTaskTypes: [EvaluationTaskType], evaluatorModelIdentifiers: [String]? = nil, inferenceConfigSummary: EvaluationInferenceConfigSummary? = nil, jobArn: String, jobName: String, jobType: EvaluationJobType, modelIdentifiers: [String]? = nil, ragIdentifiers: [String]? = nil, status: EvaluationJobStatus) {
             self.applicationType = applicationType
             self.creationTime = creationTime
+            self.customMetricsEvaluatorModelIdentifiers = customMetricsEvaluatorModelIdentifiers
             self.evaluationTaskTypes = evaluationTaskTypes
             self.evaluatorModelIdentifiers = evaluatorModelIdentifiers
             self.inferenceConfigSummary = inferenceConfigSummary
@@ -2550,6 +2743,7 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case applicationType = "applicationType"
             case creationTime = "creationTime"
+            case customMetricsEvaluatorModelIdentifiers = "customMetricsEvaluatorModelIdentifiers"
             case evaluationTaskTypes = "evaluationTaskTypes"
             case evaluatorModelIdentifiers = "evaluatorModelIdentifiers"
             case inferenceConfigSummary = "inferenceConfigSummary"
@@ -2643,7 +2837,7 @@ extension Bedrock {
             try self.generationConfiguration?.validate(name: "\(name).generationConfiguration")
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
             try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))))|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
@@ -3094,6 +3288,8 @@ extension Bedrock {
         /// The date and time at which the guardrail was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
+        /// Details about the system-defined guardrail profile that you're using with your guardrail, including the guardrail profile ID and Amazon Resource Name (ARN).
+        public let crossRegionDetails: GuardrailCrossRegionDetails?
         /// The description of the guardrail.
         public let description: String?
         /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
@@ -3123,12 +3319,13 @@ extension Bedrock {
         public let wordPolicy: GuardrailWordPolicy?
 
         @inlinable
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicy? = nil, createdAt: Date, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicy? = nil, createdAt: Date, crossRegionDetails: GuardrailCrossRegionDetails? = nil, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
             self.createdAt = createdAt
+            self.crossRegionDetails = crossRegionDetails
             self.description = description
             self.failureRecommendations = failureRecommendations
             self.guardrailArn = guardrailArn
@@ -3150,6 +3347,7 @@ extension Bedrock {
             case contentPolicy = "contentPolicy"
             case contextualGroundingPolicy = "contextualGroundingPolicy"
             case createdAt = "createdAt"
+            case crossRegionDetails = "crossRegionDetails"
             case description = "description"
             case failureRecommendations = "failureRecommendations"
             case guardrailArn = "guardrailArn"
@@ -3488,6 +3686,8 @@ extension Bedrock {
         public let roleArn: String
         /// The status of the job. A successful job transitions from in-progress to completed when the output model is ready to use. If the job failed, the failure message contains information about why the job failed.
         public let status: ModelCustomizationJobStatus?
+        /// For a Distillation job, the details about the statuses of the sub-tasks of the customization job.
+        public let statusDetails: StatusDetails?
         /// Contains information about the training dataset.
         public let trainingDataConfig: TrainingDataConfig
         /// Contains training metrics from the job creation.
@@ -3500,7 +3700,7 @@ extension Bedrock {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(baseModelArn: String, clientRequestToken: String? = nil, creationTime: Date, customizationConfig: CustomizationConfig? = nil, customizationType: CustomizationType? = nil, endTime: Date? = nil, failureMessage: String? = nil, hyperParameters: [String: String]? = nil, jobArn: String, jobName: String, lastModifiedTime: Date? = nil, outputDataConfig: OutputDataConfig, outputModelArn: String? = nil, outputModelKmsKeyArn: String? = nil, outputModelName: String, roleArn: String, status: ModelCustomizationJobStatus? = nil, trainingDataConfig: TrainingDataConfig, trainingMetrics: TrainingMetrics? = nil, validationDataConfig: ValidationDataConfig, validationMetrics: [ValidatorMetric]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(baseModelArn: String, clientRequestToken: String? = nil, creationTime: Date, customizationConfig: CustomizationConfig? = nil, customizationType: CustomizationType? = nil, endTime: Date? = nil, failureMessage: String? = nil, hyperParameters: [String: String]? = nil, jobArn: String, jobName: String, lastModifiedTime: Date? = nil, outputDataConfig: OutputDataConfig, outputModelArn: String? = nil, outputModelKmsKeyArn: String? = nil, outputModelName: String, roleArn: String, status: ModelCustomizationJobStatus? = nil, statusDetails: StatusDetails? = nil, trainingDataConfig: TrainingDataConfig, trainingMetrics: TrainingMetrics? = nil, validationDataConfig: ValidationDataConfig, validationMetrics: [ValidatorMetric]? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseModelArn = baseModelArn
             self.clientRequestToken = clientRequestToken
             self.creationTime = creationTime
@@ -3518,6 +3718,7 @@ extension Bedrock {
             self.outputModelName = outputModelName
             self.roleArn = roleArn
             self.status = status
+            self.statusDetails = statusDetails
             self.trainingDataConfig = trainingDataConfig
             self.trainingMetrics = trainingMetrics
             self.validationDataConfig = validationDataConfig
@@ -3543,6 +3744,7 @@ extension Bedrock {
             case outputModelName = "outputModelName"
             case roleArn = "roleArn"
             case status = "status"
+            case statusDetails = "statusDetails"
             case trainingDataConfig = "trainingDataConfig"
             case trainingMetrics = "trainingMetrics"
             case validationDataConfig = "validationDataConfig"
@@ -3688,7 +3890,7 @@ extension Bedrock {
         public let outputDataConfig: ModelInvocationJobOutputDataConfig
         /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
         public let roleArn: String
-        /// The status of the batch inference job. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
+        /// The status of the batch inference job. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web ServicesSupport Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
         public let status: ModelInvocationJobStatus?
         /// The time at which the batch inference job was submitted.
         @CustomCoding<ISO8601DateCoder>
@@ -4154,6 +4356,44 @@ extension Bedrock {
         }
     }
 
+    public struct GuardrailCrossRegionConfig: AWSEncodableShape {
+        /// The ID or Amazon Resource Name (ARN) of the guardrail profile that your guardrail is using. Guardrail profile availability depends on your current Amazon Web Services Region. For more information, see the Amazon Bedrock User Guide.
+        public let guardrailProfileIdentifier: String
+
+        @inlinable
+        public init(guardrailProfileIdentifier: String) {
+            self.guardrailProfileIdentifier = guardrailProfileIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailProfileIdentifier, name: "guardrailProfileIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailProfileIdentifier, name: "guardrailProfileIdentifier", parent: name, min: 15)
+            try self.validate(self.guardrailProfileIdentifier, name: "guardrailProfileIdentifier", parent: name, pattern: "^[a-z0-9-]+[.]{1}guardrail[.]{1}v[0-9:]+|arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail-profile/[a-z0-9-]+[.]{1}guardrail[.]{1}v[0-9:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailProfileIdentifier = "guardrailProfileIdentifier"
+        }
+    }
+
+    public struct GuardrailCrossRegionDetails: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the guardrail profile that you're using with your guardrail.
+        public let guardrailProfileArn: String?
+        /// The ID of the guardrail profile that your guardrail is using. Profile availability depends on your current Amazon Web Services Region. For more information, see the Amazon Bedrock User Guide.
+        public let guardrailProfileId: String?
+
+        @inlinable
+        public init(guardrailProfileArn: String? = nil, guardrailProfileId: String? = nil) {
+            self.guardrailProfileArn = guardrailProfileArn
+            self.guardrailProfileId = guardrailProfileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailProfileArn = "guardrailProfileArn"
+            case guardrailProfileId = "guardrailProfileId"
+        }
+    }
+
     public struct GuardrailManagedWords: AWSDecodableShape {
         /// The action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
         public let inputAction: GuardrailWordAction?
@@ -4414,6 +4654,8 @@ extension Bedrock {
         /// The date and time at which the guardrail was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
+        /// Details about the system-defined guardrail profile that you're using with your guardrail, including the guardrail profile ID and Amazon Resource Name (ARN).
+        public let crossRegionDetails: GuardrailCrossRegionDetails?
         /// A description of the guardrail.
         public let description: String?
         /// The unique identifier of the guardrail.
@@ -4429,9 +4671,10 @@ extension Bedrock {
         public let version: String
 
         @inlinable
-        public init(arn: String, createdAt: Date, description: String? = nil, id: String, name: String, status: GuardrailStatus, updatedAt: Date, version: String) {
+        public init(arn: String, createdAt: Date, crossRegionDetails: GuardrailCrossRegionDetails? = nil, description: String? = nil, id: String, name: String, status: GuardrailStatus, updatedAt: Date, version: String) {
             self.arn = arn
             self.createdAt = createdAt
+            self.crossRegionDetails = crossRegionDetails
             self.description = description
             self.id = id
             self.name = name
@@ -4443,6 +4686,7 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
+            case crossRegionDetails = "crossRegionDetails"
             case description = "description"
             case id = "id"
             case name = "name"
@@ -4965,7 +5209,7 @@ extension Bedrock {
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
             try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))))|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.retrievalConfiguration?.validate(name: "\(name).retrievalConfiguration")
         }
 
@@ -5060,7 +5304,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, max: 1011)
             try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, min: 20)
-            try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.foundationModelArnEquals, name: "foundationModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -5517,7 +5761,7 @@ extension Bedrock {
             try self.validate(self.sourceAccountEquals, name: "sourceAccountEquals", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, max: 1011)
             try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, min: 20)
-            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, max: 63)
             try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, min: 1)
             try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
@@ -5709,7 +5953,7 @@ extension Bedrock {
         public let sortBy: SortJobsBy?
         /// Specifies whether to sort the results by ascending or descending order.
         public let sortOrder: SortOrder?
-        /// Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
+        /// Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web ServicesSupport Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
         public let statusEquals: ModelInvocationJobStatus?
         /// Specify a time to filter for batch inference jobs that were submitted after the time you specify.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -5881,7 +6125,7 @@ extension Bedrock {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, max: 1011)
             try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, min: 20)
-            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
@@ -6147,9 +6391,11 @@ extension Bedrock {
         public var lastModifiedTime: Date?
         /// Status of the customization job.
         public let status: ModelCustomizationJobStatus
+        /// Details about the status of the data processing sub-task of the job.
+        public let statusDetails: StatusDetails?
 
         @inlinable
-        public init(baseModelArn: String, creationTime: Date, customizationType: CustomizationType? = nil, customModelArn: String? = nil, customModelName: String? = nil, endTime: Date? = nil, jobArn: String, jobName: String, lastModifiedTime: Date? = nil, status: ModelCustomizationJobStatus) {
+        public init(baseModelArn: String, creationTime: Date, customizationType: CustomizationType? = nil, customModelArn: String? = nil, customModelName: String? = nil, endTime: Date? = nil, jobArn: String, jobName: String, lastModifiedTime: Date? = nil, status: ModelCustomizationJobStatus, statusDetails: StatusDetails? = nil) {
             self.baseModelArn = baseModelArn
             self.creationTime = creationTime
             self.customizationType = customizationType
@@ -6160,6 +6406,7 @@ extension Bedrock {
             self.jobName = jobName
             self.lastModifiedTime = lastModifiedTime
             self.status = status
+            self.statusDetails = statusDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6173,6 +6420,7 @@ extension Bedrock {
             case jobName = "jobName"
             case lastModifiedTime = "lastModifiedTime"
             case status = "status"
+            case statusDetails = "statusDetails"
         }
     }
 
@@ -6240,7 +6488,7 @@ extension Bedrock {
             try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6272,7 +6520,7 @@ extension Bedrock {
             try self.validate(self.s3EncryptionKeyId, name: "s3EncryptionKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6308,7 +6556,7 @@ extension Bedrock {
         public let outputDataConfig: ModelInvocationJobOutputDataConfig
         /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
         public let roleArn: String
-        /// The status of the batch inference job. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
+        /// The status of the batch inference job. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web ServicesSupport Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
         public let status: ModelInvocationJobStatus?
         /// The time at which the batch inference job was submitted.
         @CustomCoding<ISO8601DateCoder>
@@ -6382,7 +6630,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6592,6 +6840,29 @@ extension Bedrock {
         }
     }
 
+    public struct RatingScaleItem: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the definition for one rating in a custom metric rating scale.
+        public let definition: String
+        /// Defines the value for one rating in a custom metric rating scale.
+        public let value: RatingScaleItemValue
+
+        @inlinable
+        public init(definition: String, value: RatingScaleItemValue) {
+            self.definition = definition
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.definition, name: "definition", parent: name, max: 100)
+            try self.validate(self.definition, name: "definition", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "definition"
+            case value = "value"
+        }
+    }
+
     public struct RegisterMarketplaceModelEndpointRequest: AWSEncodableShape {
         /// The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace.
         public let endpointIdentifier: String
@@ -6762,7 +7033,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6829,6 +7100,28 @@ extension Bedrock {
             case instanceType = "instanceType"
             case kmsEncryptionKey = "kmsEncryptionKey"
             case vpc = "vpc"
+        }
+    }
+
+    public struct StatusDetails: AWSDecodableShape {
+        /// The status details for the data processing sub-task of the job.
+        public let dataProcessingDetails: DataProcessingDetails?
+        /// The status details for the training sub-task of the job.
+        public let trainingDetails: TrainingDetails?
+        /// The status details for the validation sub-task of the job.
+        public let validationDetails: ValidationDetails?
+
+        @inlinable
+        public init(dataProcessingDetails: DataProcessingDetails? = nil, trainingDetails: TrainingDetails? = nil, validationDetails: ValidationDetails? = nil) {
+            self.dataProcessingDetails = dataProcessingDetails
+            self.trainingDetails = trainingDetails
+            self.validationDetails = validationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataProcessingDetails = "dataProcessingDetails"
+            case trainingDetails = "trainingDetails"
+            case validationDetails = "validationDetails"
         }
     }
 
@@ -6984,7 +7277,7 @@ extension Bedrock {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.teacherModelIdentifier, name: "teacherModelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.teacherModelIdentifier, name: "teacherModelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$)|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7062,12 +7355,36 @@ extension Bedrock {
             try self.invocationLogsConfig?.validate(name: "\(name).invocationLogsConfig")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case invocationLogsConfig = "invocationLogsConfig"
             case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct TrainingDetails: AWSDecodableShape {
+        /// The start time of the training sub-task of the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The latest update to the training sub-task of the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The status of the training sub-task of the job.
+        public let status: JobStatusDetails?
+
+        @inlinable
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, status: JobStatusDetails? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case lastModifiedTime = "lastModifiedTime"
+            case status = "status"
         }
     }
 
@@ -7128,6 +7445,8 @@ extension Bedrock {
         public let contentPolicyConfig: GuardrailContentPolicyConfig?
         /// The contextual grounding policy configuration used to update a guardrail.
         public let contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig?
+        /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the Amazon Bedrock User Guide.
+        public let crossRegionConfig: GuardrailCrossRegionConfig?
         /// A description of the guardrail.
         public let description: String?
         /// The unique identifier of the guardrail.  This can be an ID or the ARN.
@@ -7144,11 +7463,12 @@ extension Bedrock {
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
         @inlinable
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, crossRegionConfig: GuardrailCrossRegionConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.contentPolicyConfig = contentPolicyConfig
             self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
+            self.crossRegionConfig = crossRegionConfig
             self.description = description
             self.guardrailIdentifier = guardrailIdentifier
             self.kmsKeyId = kmsKeyId
@@ -7165,6 +7485,7 @@ extension Bedrock {
             try container.encode(self.blockedOutputsMessaging, forKey: .blockedOutputsMessaging)
             try container.encodeIfPresent(self.contentPolicyConfig, forKey: .contentPolicyConfig)
             try container.encodeIfPresent(self.contextualGroundingPolicyConfig, forKey: .contextualGroundingPolicyConfig)
+            try container.encodeIfPresent(self.crossRegionConfig, forKey: .crossRegionConfig)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
             try container.encodeIfPresent(self.kmsKeyId, forKey: .kmsKeyId)
@@ -7181,6 +7502,7 @@ extension Bedrock {
             try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, min: 1)
             try self.contentPolicyConfig?.validate(name: "\(name).contentPolicyConfig")
             try self.contextualGroundingPolicyConfig?.validate(name: "\(name).contextualGroundingPolicyConfig")
+            try self.crossRegionConfig?.validate(name: "\(name).crossRegionConfig")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
@@ -7201,6 +7523,7 @@ extension Bedrock {
             case blockedOutputsMessaging = "blockedOutputsMessaging"
             case contentPolicyConfig = "contentPolicyConfig"
             case contextualGroundingPolicyConfig = "contextualGroundingPolicyConfig"
+            case crossRegionConfig = "crossRegionConfig"
             case description = "description"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
@@ -7352,6 +7675,30 @@ extension Bedrock {
         }
     }
 
+    public struct ValidationDetails: AWSDecodableShape {
+        /// The start time of the validation sub-task of the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The latest update to the validation sub-task of the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The status of the validation sub-task of the job.
+        public let status: JobStatusDetails?
+
+        @inlinable
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, status: JobStatusDetails? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case lastModifiedTime = "lastModifiedTime"
+            case status = "status"
+        }
+    }
+
     public struct Validator: AWSEncodableShape & AWSDecodableShape {
         /// The S3 URI where the validation data is stored.
         public let s3Uri: String
@@ -7364,7 +7711,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7419,8 +7766,26 @@ extension Bedrock {
         }
     }
 
+    public struct AutomatedEvaluationCustomMetricSource: AWSEncodableShape & AWSDecodableShape {
+        /// The definition of a custom metric for use in an Amazon Bedrock evaluation job.
+        public let customMetricDefinition: CustomMetricDefinition?
+
+        @inlinable
+        public init(customMetricDefinition: CustomMetricDefinition? = nil) {
+            self.customMetricDefinition = customMetricDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.customMetricDefinition?.validate(name: "\(name).customMetricDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customMetricDefinition = "customMetricDefinition"
+        }
+    }
+
     public struct CustomizationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The distillation configuration for the custom model.
+        /// The Distillation configuration for the custom model.
         public let distillationConfig: DistillationConfig?
 
         @inlinable
@@ -7467,7 +7832,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7529,7 +7894,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {

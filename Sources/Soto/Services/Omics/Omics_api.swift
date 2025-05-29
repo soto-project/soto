@@ -343,7 +343,7 @@ public struct Omics: AWSService {
     ///   - storeFormat: The annotation file format of the store.
     ///   - storeOptions: File parsing options for the annotation store.
     ///   - tags: Tags for the store.
-    ///   - versionName: The name given to an annotation store version to distinguish it from other versions.
+    ///   - versionName:  The name given to an annotation store version to distinguish it from other versions.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAnnotationStore(
@@ -370,7 +370,7 @@ public struct Omics: AWSService {
         return try await self.createAnnotationStore(input, logger: logger)
     }
 
-    /// Creates a new version of an annotation store.
+    ///  Creates a new version of an annotation store.
     @Sendable
     @inlinable
     public func createAnnotationStoreVersion(_ input: CreateAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnnotationStoreVersionResponse {
@@ -384,14 +384,14 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Creates a new version of an annotation store.
+    ///  Creates a new version of an annotation store.
     ///
     /// Parameters:
-    ///   - description: The description of an annotation store version.
-    ///   - name: The name of an annotation store version from which versions are being created.
-    ///   - tags: Any tags added to annotation store version.
-    ///   - versionName: The name given to an annotation store version to distinguish it from other versions.
-    ///   - versionOptions: The options for an annotation store version.
+    ///   - description:  The description of an annotation store version.
+    ///   - name:  The name of an annotation store version from which versions are being created.
+    ///   - tags:  Any tags added to annotation store version.
+    ///   - versionName:  The name given to an annotation store version to distinguish it from other versions.
+    ///   - versionOptions:  The options for an annotation store version.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAnnotationStoreVersion(
@@ -511,7 +511,7 @@ public struct Omics: AWSService {
         return try await self.createReferenceStore(input, logger: logger)
     }
 
-    /// You can create a run cache to save the task outputs from completed tasks in a run for a private workflow.  Subsequent runs use the task outputs from the cache, rather than computing the task outputs again. You specify an Amazon S3 location where HealthOmics saves the cached data. This data must be  immediately accessible (not in an archived state). For more information, see Creating a run cache in the AWS HealthOmics User Guide.
+    /// You can create a run cache to save the task outputs from completed tasks in a run for a private workflow. Subsequent runs use the task outputs from the cache, rather than computing the task outputs again. You specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible (not in an archived state). For more information, see Creating a run cache in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func createRunCache(_ input: CreateRunCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRunCacheResponse {
@@ -525,15 +525,15 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// You can create a run cache to save the task outputs from completed tasks in a run for a private workflow.  Subsequent runs use the task outputs from the cache, rather than computing the task outputs again. You specify an Amazon S3 location where HealthOmics saves the cached data. This data must be  immediately accessible (not in an archived state). For more information, see Creating a run cache in the AWS HealthOmics User Guide.
+    /// You can create a run cache to save the task outputs from completed tasks in a run for a private workflow. Subsequent runs use the task outputs from the cache, rather than computing the task outputs again. You specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible (not in an archived state). For more information, see Creating a run cache in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
-    ///   - cacheBehavior: Default cache behavior for runs that use this cache. Supported values are:  CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is  useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run.  CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
-    ///   - cacheBucketOwnerId: The AWS account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
+    ///   - cacheBehavior: Default cache behavior for runs that use this cache. Supported values are:  CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run.  CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide.
+    ///   - cacheBucketOwnerId: The Amazon Web Services account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
     ///   - cacheS3Location: Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state).
     ///   - description: Enter a description of the run cache.
     ///   - name: Enter a user-friendly name for the run cache.
-    ///   - requestId: A unique request token, to ensure idempotency. If you don't specify a token,  HealthOmics automatically generates a universally unique identifier (UUID) for the request.
+    ///   - requestId: A unique request token, to ensure idempotency. If you don't specify a token, Amazon Web Services HealthOmics automatically generates a universally unique identifier (UUID) for the request.
     ///   - tags: Specify one or more tags to associate with this run cache.
     ///   - logger: Logger use during operation
     @inlinable
@@ -661,7 +661,7 @@ public struct Omics: AWSService {
         return try await self.createSequenceStore(input, logger: logger)
     }
 
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource  with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
     @Sendable
     @inlinable
     public func createShare(_ input: CreateShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateShareResponse {
@@ -675,7 +675,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource  with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
     ///
     /// Parameters:
     ///   - principalSubscriber: The principal subscriber is the account being offered shared access to the resource.
@@ -739,7 +739,7 @@ public struct Omics: AWSService {
         return try await self.createVariantStore(input, logger: logger)
     }
 
-    /// Creates a workflow.
+    /// Creates a private workflow.Private workflows depend on a variety of resources that you create and configure before creating the workflow:    Input data: Input data for the workflow, stored in an S3 bucket or a Amazon Web Services HealthOmics sequence store.     Workflow definition files: Define your workflow in one or more workflow definition files, written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements.    Parameter template files: Define run parameters using a parameter template file (written in JSON).     ECR container images: Create one or more container images for the workflow. Store the images in a private ECR repository.   (Optional) Sentieon licenses: Request a Sentieon license if you plan to use Sentieon software in a private workflow.   For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func createWorkflow(_ input: CreateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowResponse {
@@ -753,19 +753,20 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Creates a workflow.
+    /// Creates a private workflow.Private workflows depend on a variety of resources that you create and configure before creating the workflow:    Input data: Input data for the workflow, stored in an S3 bucket or a Amazon Web Services HealthOmics sequence store.     Workflow definition files: Define your workflow in one or more workflow definition files, written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements.    Parameter template files: Define run parameters using a parameter template file (written in JSON).     ECR container images: Create one or more container images for the workflow. Store the images in a private ECR repository.   (Optional) Sentieon licenses: Request a Sentieon license if you plan to use Sentieon software in a private workflow.   For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - accelerators: The computational accelerator specified to run the workflow.
     ///   - definitionUri: The URI of a definition for the workflow.
     ///   - definitionZip: A ZIP archive for the workflow.
     ///   - description: A description for the workflow.
-    ///   - engine: An engine for the workflow.
+    ///   - engine: The workflow engine for the workflow.
     ///   - main: The path of the main definition file for the workflow.
     ///   - name: A name for the workflow.
     ///   - parameterTemplate: A parameter template for the workflow.
     ///   - requestId: To ensure that requests don't run multiple times, specify a unique ID for each request.
-    ///   - storageCapacity: The default storage capacity for the workflow runs, in gibibytes.
+    ///   - storageCapacity: The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    ///   - storageType:  The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
     ///   - tags: Tags for the workflow.
     ///   - logger: Logger use during operation
     @inlinable
@@ -780,6 +781,7 @@ public struct Omics: AWSService {
         parameterTemplate: [String: WorkflowParameter]? = nil,
         requestId: String = CreateWorkflowRequest.idempotencyToken(),
         storageCapacity: Int? = nil,
+        storageType: StorageType? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWorkflowResponse {
@@ -794,9 +796,79 @@ public struct Omics: AWSService {
             parameterTemplate: parameterTemplate, 
             requestId: requestId, 
             storageCapacity: storageCapacity, 
+            storageType: storageType, 
             tags: tags
         )
         return try await self.createWorkflow(input, logger: logger)
+    }
+
+    /// Creates a new workflow version for the workflow that you specify with the workflowId parameter. When you create a new version of a workflow, you need to specify the configuration for the new version. It doesn't inherit any configuration values from the workflow. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version.  Don’t include any personally identifiable information (PII) in the version name. Version names appear in the workflow version ARN.  For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func createWorkflowVersion(_ input: CreateWorkflowVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowVersionResponse {
+        try await self.client.execute(
+            operation: "CreateWorkflowVersion", 
+            path: "/workflow/{workflowId}/version", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Creates a new workflow version for the workflow that you specify with the workflowId parameter. When you create a new version of a workflow, you need to specify the configuration for the new version. It doesn't inherit any configuration values from the workflow. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version.  Don’t include any personally identifiable information (PII) in the version name. Version names appear in the workflow version ARN.  For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - accelerators: The computational accelerator for this workflow version.
+    ///   - definitionUri: The URI specifies the location of the workflow definition for this workflow version.
+    ///   - definitionZip: A zip archive containing the workflow definition for this workflow version.
+    ///   - description: A description for this workflow version.
+    ///   - engine: The workflow engine for this workflow version.
+    ///   - main: The path of the main definition file for this workflow version.
+    ///   - parameterTemplate: The parameter template defines the input parameters for runs that use this workflow version.
+    ///   - requestId: To ensure that requests don't run multiple times, specify a unique ID for each request.
+    ///   - storageCapacity: The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    ///   - storageType: The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+    ///   - tags: Optional tags to associate with this workflow version.
+    ///   - versionName: A name for the workflow version. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version.  The version name must start with a letter or number and it can include upper-case and lower-case letters, numbers, hyphens, periods and underscores. The maximum length is 64 characters. You can use a simple naming scheme, such as version1, version2, version3. You can also match your workflow versions with your own internal versioning conventions, such as 2.7.0, 2.7.1, 2.7.2.
+    ///   - workflowBucketOwnerId: Amazon Web Services Id of the owner of the S3 bucket that contains the workflow definition. You need to specify this parameter if your account is not the bucket owner.
+    ///   - workflowId: The ID of the workflow where you are creating the new version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWorkflowVersion(
+        accelerators: Accelerators? = nil,
+        definitionUri: String? = nil,
+        definitionZip: AWSBase64Data? = nil,
+        description: String? = nil,
+        engine: WorkflowEngine? = nil,
+        main: String? = nil,
+        parameterTemplate: [String: WorkflowParameter]? = nil,
+        requestId: String = CreateWorkflowVersionRequest.idempotencyToken(),
+        storageCapacity: Int? = nil,
+        storageType: StorageType? = nil,
+        tags: [String: String]? = nil,
+        versionName: String,
+        workflowBucketOwnerId: String? = nil,
+        workflowId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWorkflowVersionResponse {
+        let input = CreateWorkflowVersionRequest(
+            accelerators: accelerators, 
+            definitionUri: definitionUri, 
+            definitionZip: definitionZip, 
+            description: description, 
+            engine: engine, 
+            main: main, 
+            parameterTemplate: parameterTemplate, 
+            requestId: requestId, 
+            storageCapacity: storageCapacity, 
+            storageType: storageType, 
+            tags: tags, 
+            versionName: versionName, 
+            workflowBucketOwnerId: workflowBucketOwnerId, 
+            workflowId: workflowId
+        )
+        return try await self.createWorkflowVersion(input, logger: logger)
     }
 
     /// Deletes an annotation store.
@@ -832,7 +904,7 @@ public struct Omics: AWSService {
         return try await self.deleteAnnotationStore(input, logger: logger)
     }
 
-    /// Deletes one or multiple versions of an annotation store.
+    ///  Deletes one or multiple versions of an annotation store.
     @Sendable
     @inlinable
     public func deleteAnnotationStoreVersions(_ input: DeleteAnnotationStoreVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnnotationStoreVersionsResponse {
@@ -846,12 +918,12 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Deletes one or multiple versions of an annotation store.
+    ///  Deletes one or multiple versions of an annotation store.
     ///
     /// Parameters:
-    ///   - force: Forces the deletion of an annotation store version when imports are in-progress..
-    ///   - name: The name of the annotation store from which versions are being deleted.
-    ///   - versions: The versions of an annotation store to be deleted.
+    ///   - force:  Forces the deletion of an annotation store version when imports are in-progress..
+    ///   - name:  The name of the annotation store from which versions are being deleted.
+    ///   - versions:  The versions of an annotation store to be deleted.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAnnotationStoreVersions(
@@ -961,7 +1033,7 @@ public struct Omics: AWSService {
         return try await self.deleteRun(input, logger: logger)
     }
 
-    /// Delete a run cache. This action removes the cache metadata stored in the service account,  but doesn't delete the data in Amazon S3.  You can access the cache data in Amazon S3, for inspection or to troubleshoot issues.  You can remove old cache data using standard S3 Delete operations.  For more information, see Deleting a run cache in the AWS HealthOmics User Guide.
+    /// Delete a run cache. This action removes the cache metadata stored in the service account, but doesn't delete the data in Amazon S3. You can access the cache data in Amazon S3, for inspection or to troubleshoot issues. You can remove old cache data using standard S3 Delete operations.  For more information, see Deleting a run cache in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func deleteRunCache(_ input: DeleteRunCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -975,7 +1047,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Delete a run cache. This action removes the cache metadata stored in the service account,  but doesn't delete the data in Amazon S3.  You can access the cache data in Amazon S3, for inspection or to troubleshoot issues.  You can remove old cache data using standard S3 Delete operations.  For more information, see Deleting a run cache in the AWS HealthOmics User Guide.
+    /// Delete a run cache. This action removes the cache metadata stored in the service account, but doesn't delete the data in Amazon S3. You can access the cache data in Amazon S3, for inspection or to troubleshoot issues. You can remove old cache data using standard S3 Delete operations.  For more information, see Deleting a run cache in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - id: Run cache identifier for the cache you want to delete.
@@ -1081,7 +1153,7 @@ public struct Omics: AWSService {
         return try await self.deleteSequenceStore(input, logger: logger)
     }
 
-    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have  access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
+    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
     @Sendable
     @inlinable
     public func deleteShare(_ input: DeleteShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteShareResponse {
@@ -1095,7 +1167,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have  access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
+    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
     ///
     /// Parameters:
     ///   - shareId: The ID for the resource share to be deleted.
@@ -1174,6 +1246,39 @@ public struct Omics: AWSService {
         return try await self.deleteWorkflow(input, logger: logger)
     }
 
+    /// Deletes a workflow version. Deleting a workflow version doesn't affect any ongoing runs that are using the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func deleteWorkflowVersion(_ input: DeleteWorkflowVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteWorkflowVersion", 
+            path: "/workflow/{workflowId}/version/{versionName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Deletes a workflow version. Deleting a workflow version doesn't affect any ongoing runs that are using the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - versionName: The workflow version name.
+    ///   - workflowId: The workflow's ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteWorkflowVersion(
+        versionName: String,
+        workflowId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteWorkflowVersionRequest(
+            versionName: versionName, 
+            workflowId: workflowId
+        )
+        return try await self.deleteWorkflowVersion(input, logger: logger)
+    }
+
     /// Gets information about an annotation import job.
     @Sendable
     @inlinable
@@ -1234,7 +1339,7 @@ public struct Omics: AWSService {
         return try await self.getAnnotationStore(input, logger: logger)
     }
 
-    /// Retrieves the metadata for an annotation store version.
+    ///  Retrieves the metadata for an annotation store version.
     @Sendable
     @inlinable
     public func getAnnotationStoreVersion(_ input: GetAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationStoreVersionResponse {
@@ -1248,11 +1353,11 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the metadata for an annotation store version.
+    ///  Retrieves the metadata for an annotation store version.
     ///
     /// Parameters:
-    ///   - name: The name given to an annotation store version to distinguish it from others.
-    ///   - versionName: The name given to an annotation store version to distinguish it from others.
+    ///   - name:  The name given to an annotation store version to distinguish it from others.
+    ///   - versionName:  The name given to an annotation store version to distinguish it from others.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAnnotationStoreVersion(
@@ -1576,7 +1681,7 @@ public struct Omics: AWSService {
         return try await self.getReferenceStore(input, logger: logger)
     }
 
-    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run. HealthOmics stores a fixed number of runs that are available to the console and API. If  GetRun doesn't return the requested run, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
+    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run. Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. If GetRun doesn't return the requested run, you can find run logs for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func getRun(_ input: GetRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunResponse {
@@ -1590,7 +1695,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run. HealthOmics stores a fixed number of runs that are available to the console and API. If  GetRun doesn't return the requested run, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
+    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run. Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. If GetRun doesn't return the requested run, you can find run logs for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - export: The run's export format.
@@ -1609,7 +1714,7 @@ public struct Omics: AWSService {
         return try await self.getRun(input, logger: logger)
     }
 
-    /// Retrieve the details for the specified run cache. For more information, see Call caching for HealthOmics runs in the AWS HealthOmics User Guide.
+    /// Retrieve the details for the specified run cache. For more information, see Call caching for Amazon Web Services HealthOmics runs in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func getRunCache(_ input: GetRunCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunCacheResponse {
@@ -1623,7 +1728,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieve the details for the specified run cache. For more information, see Call caching for HealthOmics runs in the AWS HealthOmics User Guide.
+    /// Retrieve the details for the specified run cache. For more information, see Call caching for Amazon Web Services HealthOmics runs in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - id: The identifier of the run cache to retrieve.
@@ -1891,6 +1996,48 @@ public struct Omics: AWSService {
         return try await self.getWorkflow(input, logger: logger)
     }
 
+    /// Gets information about a workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func getWorkflowVersion(_ input: GetWorkflowVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowVersionResponse {
+        try await self.client.execute(
+            operation: "GetWorkflowVersion", 
+            path: "/workflow/{workflowId}/version/{versionName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Gets information about a workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - export: The export format for the workflow.
+    ///   - type: The workflow's type.
+    ///   - versionName: The workflow version name.
+    ///   - workflowId: The workflow's ID.
+    ///   - workflowOwnerId: Amazon Web Services Id of the owner of the workflow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getWorkflowVersion(
+        export: [WorkflowExport]? = nil,
+        type: WorkflowType? = nil,
+        versionName: String,
+        workflowId: String,
+        workflowOwnerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetWorkflowVersionResponse {
+        let input = GetWorkflowVersionRequest(
+            export: export, 
+            type: type, 
+            versionName: versionName, 
+            workflowId: workflowId, 
+            workflowOwnerId: workflowOwnerId
+        )
+        return try await self.getWorkflowVersion(input, logger: logger)
+    }
+
     /// Retrieves a list of annotation import jobs.
     @Sendable
     @inlinable
@@ -1930,7 +2077,7 @@ public struct Omics: AWSService {
         return try await self.listAnnotationImportJobs(input, logger: logger)
     }
 
-    /// Lists the versions of an annotation store.
+    ///  Lists the versions of an annotation store.
     @Sendable
     @inlinable
     public func listAnnotationStoreVersions(_ input: ListAnnotationStoreVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationStoreVersionsResponse {
@@ -1944,13 +2091,13 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Lists the versions of an annotation store.
+    ///  Lists the versions of an annotation store.
     ///
     /// Parameters:
-    ///   - filter: A filter to apply to the list of annotation store versions.
-    ///   - maxResults: The maximum number of annotation store versions to return in one page of results.
-    ///   - name: The name of an annotation store.
-    ///   - nextToken: Specifies the pagination token from a previous request to retrieve the next page of results.
+    ///   - filter:  A filter to apply to the list of annotation store versions.
+    ///   - maxResults:  The maximum number of annotation store versions to return in one page of results.
+    ///   - name:  The name of an annotation store.
+    ///   - nextToken:  Specifies the pagination token from a previous request to retrieve the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAnnotationStoreVersions(
@@ -2008,7 +2155,7 @@ public struct Omics: AWSService {
         return try await self.listAnnotationStores(input, logger: logger)
     }
 
-    /// Lists multipart read set uploads and for in progress uploads.  Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
+    /// Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
     @Sendable
     @inlinable
     public func listMultipartReadSetUploads(_ input: ListMultipartReadSetUploadsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultipartReadSetUploadsResponse {
@@ -2022,11 +2169,11 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Lists multipart read set uploads and for in progress uploads.  Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
+    /// Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of multipart uploads returned in a page.
-    ///   - nextToken: Next token returned in the response of a previous ListMultipartReadSetUploads call.  Used to get the next page of results.
+    ///   - nextToken: Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
     ///   - sequenceStoreId: The Sequence Store ID used for the multipart uploads.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2467,7 +2614,7 @@ public struct Omics: AWSService {
         return try await self.listRunTasks(input, logger: logger)
     }
 
-    /// Retrieves a list of runs. HealthOmics stores a fixed number of runs that are available to the console and API. If  the ListRuns response doesn't include specific runs that you expected, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
+    /// Retrieves a list of runs. Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find run logs for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func listRuns(_ input: ListRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRunsResponse {
@@ -2481,7 +2628,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of runs. HealthOmics stores a fixed number of runs that are available to the console and API. If  the ListRuns response doesn't include specific runs that you expected, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
+    /// Retrieves a list of runs. Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find run logs for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of runs to return in one page of results.
@@ -2545,7 +2692,7 @@ public struct Omics: AWSService {
         return try await self.listSequenceStores(input, logger: logger)
     }
 
-    /// Retrieves the resource shares associated with an account. Use the filter parameter to  retrieve a specific subset of the shares.
+    /// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
     @Sendable
     @inlinable
     public func listShares(_ input: ListSharesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSharesResponse {
@@ -2559,7 +2706,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the resource shares associated with an account. Use the filter parameter to  retrieve a specific subset of the shares.
+    /// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
     ///
     /// Parameters:
     ///   - filter: Attributes that you use to filter for a specific subset of resource shares.
@@ -2692,6 +2839,48 @@ public struct Omics: AWSService {
         return try await self.listVariantStores(input, logger: logger)
     }
 
+    /// Lists the workflow versions for the specified workflow. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func listWorkflowVersions(_ input: ListWorkflowVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowVersionsResponse {
+        try await self.client.execute(
+            operation: "ListWorkflowVersions", 
+            path: "/workflow/{workflowId}/version", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Lists the workflow versions for the specified workflow. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of workflows to return in one page of results.
+    ///   - startingToken: Specify the pagination token from a previous request to retrieve the next page of results.
+    ///   - type: The workflow type.
+    ///   - workflowId: The workflow's ID.
+    ///   - workflowOwnerId: Amazon Web Services Id of the owner of the workflow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listWorkflowVersions(
+        maxResults: Int? = nil,
+        startingToken: String? = nil,
+        type: WorkflowType? = nil,
+        workflowId: String,
+        workflowOwnerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListWorkflowVersionsResponse {
+        let input = ListWorkflowVersionsRequest(
+            maxResults: maxResults, 
+            startingToken: startingToken, 
+            type: type, 
+            workflowId: workflowId, 
+            workflowOwnerId: workflowOwnerId
+        )
+        return try await self.listWorkflowVersions(input, logger: logger)
+    }
+
     /// Retrieves a list of workflows.
     @Sendable
     @inlinable
@@ -2787,7 +2976,7 @@ public struct Omics: AWSService {
     ///   - items: Items to import.
     ///   - roleArn: A service role for the job.
     ///   - runLeftNormalization: The job's left normalization setting.
-    ///   - versionName: The name of the annotation store version.
+    ///   - versionName:  The name of the annotation store version.
     ///   - logger: Logger use during operation
     @inlinable
     public func startAnnotationImportJob(
@@ -2968,7 +3157,7 @@ public struct Omics: AWSService {
         return try await self.startReferenceImportJob(input, logger: logger)
     }
 
-    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. HealthOmics stores a fixed number of runs that are available to the console and API. By default, HealthOmics doesn't any remove any runs. If HealthOmics reaches the maximum  number of runs, you must manually remove runs. To have older runs removed automatically, set the retention mode to REMOVE. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field.  You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see Running workflows  in the AWS HealthOmics User Guide.
+    /// Starts a new run or duplicates an existing run. For a new run, specify a unique requestId, the workflowId, and a role ARN. If you're using static run storage (the default), specify the required storageCapacity. You duplicate a run by specifing a unique requestId, the runID of the run to duplicate, and a role ARN. For more information about the optional parameters in the StartRun request, see Starting a run in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func startRun(_ input: StartRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRunResponse {
@@ -2982,27 +3171,28 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. HealthOmics stores a fixed number of runs that are available to the console and API. By default, HealthOmics doesn't any remove any runs. If HealthOmics reaches the maximum  number of runs, you must manually remove runs. To have older runs removed automatically, set the retention mode to REMOVE. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field.  You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see Running workflows  in the AWS HealthOmics User Guide.
+    /// Starts a new run or duplicates an existing run. For a new run, specify a unique requestId, the workflowId, and a role ARN. If you're using static run storage (the default), specify the required storageCapacity. You duplicate a run by specifing a unique requestId, the runID of the run to duplicate, and a role ARN. For more information about the optional parameters in the StartRun request, see Starting a run in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
-    ///   - cacheBehavior: The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
-    ///   - cacheId: Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached  for this run.
+    ///   - cacheBehavior: The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide.
+    ///   - cacheId: Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached for this run.
     ///   - logLevel: A log level for the run.
     ///   - name: A name for the run.
     ///   - outputUri: An output URI for the run.
     ///   - parameters: Parameters for the run.
     ///   - priority: A priority for the run.
     ///   - requestId: To ensure that requests don't run multiple times, specify a unique ID for each request.
-    ///   - retentionMode: The retention mode for the run. The default value is RETAIN.  HealthOmics stores a fixed number of runs that are available to the console and API.  In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, HealthOmics automatically  removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode  in the AWS HealthOmics User Guide.
+    ///   - retentionMode: The retention mode for the run. The default value is RETAIN.  Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode in the Amazon Web Services HealthOmics User Guide.
     ///   - roleArn: A service role for the run.
     ///   - runGroupId: The run's group ID.
     ///   - runId: The ID of a run to duplicate.
-    ///   - storageCapacity: A storage capacity for the run in gibibytes. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
-    ///   - storageType: The run's storage type. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, HealthOmics dynamically scales the storage up  or down, based on file system utilization.
+    ///   - storageCapacity: The static storage capacity (in gibibytes) for this run. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
+    ///   - storageType: The storage type for the run. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
     ///   - tags: Tags for the run.
     ///   - workflowId: The run's workflow ID.
     ///   - workflowOwnerId: The ID of the workflow owner.
     ///   - workflowType: The run's workflow type.
+    ///   - workflowVersionName: The name of the workflow version.
     ///   - logger: Logger use during operation
     @inlinable
     public func startRun(
@@ -3024,6 +3214,7 @@ public struct Omics: AWSService {
         workflowId: String? = nil,
         workflowOwnerId: String? = nil,
         workflowType: WorkflowType? = nil,
+        workflowVersionName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartRunResponse {
         let input = StartRunRequest(
@@ -3044,7 +3235,8 @@ public struct Omics: AWSService {
             tags: tags, 
             workflowId: workflowId, 
             workflowOwnerId: workflowOwnerId, 
-            workflowType: workflowType
+            workflowType: workflowType, 
+            workflowVersionName: workflowVersionName
         )
         return try await self.startRun(input, logger: logger)
     }
@@ -3190,7 +3382,7 @@ public struct Omics: AWSService {
         return try await self.updateAnnotationStore(input, logger: logger)
     }
 
-    /// Updates the description of an annotation store version.
+    ///  Updates the description of an annotation store version.
     @Sendable
     @inlinable
     public func updateAnnotationStoreVersion(_ input: UpdateAnnotationStoreVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnnotationStoreVersionResponse {
@@ -3204,12 +3396,12 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Updates the description of an annotation store version.
+    ///  Updates the description of an annotation store version.
     ///
     /// Parameters:
-    ///   - description: The description of an annotation store.
-    ///   - name: The name of an annotation store.
-    ///   - versionName: The name of an annotation store version.
+    ///   - description:  The description of an annotation store.
+    ///   - name:  The name of an annotation store.
+    ///   - versionName:  The name of an annotation store version.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAnnotationStoreVersion(
@@ -3391,7 +3583,7 @@ public struct Omics: AWSService {
         return try await self.updateVariantStore(input, logger: logger)
     }
 
-    /// Updates a workflow.
+    /// Updates information about a workflow. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func updateWorkflow(_ input: UpdateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3405,29 +3597,77 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Updates a workflow.
+    /// Updates information about a workflow. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - description: A description for the workflow.
     ///   - id: The workflow's ID.
     ///   - name: A name for the workflow.
+    ///   - storageCapacity: The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    ///   - storageType: The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWorkflow(
         description: String? = nil,
         id: String,
         name: String? = nil,
+        storageCapacity: Int? = nil,
+        storageType: StorageType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = UpdateWorkflowRequest(
             description: description, 
             id: id, 
-            name: name
+            name: name, 
+            storageCapacity: storageCapacity, 
+            storageType: storageType
         )
         return try await self.updateWorkflow(input, logger: logger)
     }
 
-    /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number,  the previously uploaded part will be overwritten.
+    /// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func updateWorkflowVersion(_ input: UpdateWorkflowVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateWorkflowVersion", 
+            path: "/workflow/{workflowId}/version/{versionName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - description: Description of the workflow version.
+    ///   - storageCapacity: The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    ///   - storageType: The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+    ///   - versionName: The name of the workflow version.
+    ///   - workflowId: The workflow's ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWorkflowVersion(
+        description: String? = nil,
+        storageCapacity: Int? = nil,
+        storageType: StorageType? = nil,
+        versionName: String,
+        workflowId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateWorkflowVersionRequest(
+            description: description, 
+            storageCapacity: storageCapacity, 
+            storageType: storageType, 
+            versionName: versionName, 
+            workflowId: workflowId
+        )
+        return try await self.updateWorkflowVersion(input, logger: logger)
+    }
+
+    /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
     @Sendable
     @inlinable
     public func uploadReadSetPart(_ input: UploadReadSetPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UploadReadSetPartResponse {
@@ -3441,7 +3681,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number,  the previously uploaded part will be overwritten.
+    /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
     ///
     /// Parameters:
     ///   - partNumber: The number of the part being uploaded.
@@ -3544,9 +3784,9 @@ extension Omics {
     /// Return PaginatorSequence for operation ``listAnnotationStoreVersions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: A filter to apply to the list of annotation store versions.
-    ///   - maxResults: The maximum number of annotation store versions to return in one page of results.
-    ///   - name: The name of an annotation store.
+    ///   - filter:  A filter to apply to the list of annotation store versions.
+    ///   - maxResults:  The maximum number of annotation store versions to return in one page of results.
+    ///   - name:  The name of an annotation store.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAnnotationStoreVersionsPaginator(
@@ -4274,6 +4514,49 @@ extension Omics {
         return self.listVariantStoresPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listWorkflowVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listWorkflowVersionsPaginator(
+        _ input: ListWorkflowVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkflowVersionsRequest, ListWorkflowVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkflowVersions,
+            inputKey: \ListWorkflowVersionsRequest.startingToken,
+            outputKey: \ListWorkflowVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listWorkflowVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of workflows to return in one page of results.
+    ///   - type: The workflow type.
+    ///   - workflowId: The workflow's ID.
+    ///   - workflowOwnerId: Amazon Web Services Id of the owner of the workflow.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listWorkflowVersionsPaginator(
+        maxResults: Int? = nil,
+        type: WorkflowType? = nil,
+        workflowId: String,
+        workflowOwnerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListWorkflowVersionsRequest, ListWorkflowVersionsResponse> {
+        let input = ListWorkflowVersionsRequest(
+            maxResults: maxResults, 
+            type: type, 
+            workflowId: workflowId, 
+            workflowOwnerId: workflowOwnerId
+        )
+        return self.listWorkflowVersionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listWorkflows(_:logger:)``.
     ///
     /// - Parameters:
@@ -4552,6 +4835,19 @@ extension Omics.ListVariantStoresRequest: AWSPaginateToken {
     }
 }
 
+extension Omics.ListWorkflowVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Omics.ListWorkflowVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            startingToken: token,
+            type: self.type,
+            workflowId: self.workflowId,
+            workflowOwnerId: self.workflowOwnerId
+        )
+    }
+}
+
 extension Omics.ListWorkflowsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Omics.ListWorkflowsRequest {
@@ -4715,8 +5011,8 @@ extension Omics {
     /// Waiter for operation ``getAnnotationStoreVersion(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - name: The name given to an annotation store version to distinguish it from others.
-    ///   - versionName: The name given to an annotation store version to distinguish it from others.
+    ///   - name:  The name given to an annotation store version to distinguish it from others.
+    ///   - versionName:  The name given to an annotation store version to distinguish it from others.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilAnnotationStoreVersionCreated(
@@ -4757,8 +5053,8 @@ extension Omics {
     /// Waiter for operation ``getAnnotationStoreVersion(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - name: The name given to an annotation store version to distinguish it from others.
-    ///   - versionName: The name given to an annotation store version to distinguish it from others.
+    ///   - name:  The name given to an annotation store version to distinguish it from others.
+    ///   - versionName:  The name given to an annotation store version to distinguish it from others.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilAnnotationStoreVersionDeleted(
@@ -5302,5 +5598,57 @@ extension Omics {
             workflowOwnerId: workflowOwnerId
         )
         try await self.waitUntilWorkflowActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getWorkflowVersion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilWorkflowVersionActive(
+        _ input: GetWorkflowVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetWorkflowVersionRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "CREATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "UPDATING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(3),
+            maxDelayTime: .seconds(30),
+            command: self.getWorkflowVersion
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getWorkflowVersion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - export: The export format for the workflow.
+    ///   - type: The workflow's type.
+    ///   - versionName: The workflow version name.
+    ///   - workflowId: The workflow's ID.
+    ///   - workflowOwnerId: Amazon Web Services Id of the owner of the workflow.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilWorkflowVersionActive(
+        export: [WorkflowExport]? = nil,
+        type: WorkflowType? = nil,
+        versionName: String,
+        workflowId: String,
+        workflowOwnerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetWorkflowVersionRequest(
+            export: export, 
+            type: type, 
+            versionName: versionName, 
+            workflowId: workflowId, 
+            workflowOwnerId: workflowOwnerId
+        )
+        try await self.waitUntilWorkflowVersionActive(input, logger: logger)
     }
 }

@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS DSQL service.
 ///
-/// This is an interface reference for Amazon Aurora DSQL. It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Aurora DSQL. Amazon Aurora DSQL is a serverless, distributed SQL database suitable for workloads of any size. Aurora DSQL is available in both single-Region and multi-Region configurations, so your clusters and databases are always available even if an Availability Zone or an Amazon Web Services Region are unavailable. Aurora DSQL lets you focus on using your data to acquire new insights for your business and customers.
+/// This is an interface reference for Amazon Aurora DSQL. It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Aurora DSQL. Amazon Aurora DSQL is a serverless, distributed SQL database suitable for workloads of any size. is available in both single-Region and multi-Region configurations, so your clusters and databases are always available even if an Availability Zone or an Amazon Web Services Region are unavailable.  lets you focus on using your data to acquire new insights for your business and customers.
 public struct DSQL: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct DSQL: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a cluster in Amazon Aurora DSQL.
+    /// The CreateCluster API allows you to create both single-region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.  Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below.   Required permissions   dsql:CreateCluster  Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:TagResource  Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:PutMultiRegionProperties  Permission to configure multi-region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:AddPeerCluster  When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/*    Each peer cluster: exact ARN of each specified peer cluster    dsql:PutWitnessRegion  When specifying multiRegionProperties.witnessRegion, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region. Resources: arn:aws:dsql:region:account-id:cluster/*  Condition Keys: dsql:WitnessRegion (matching the specified witness region)      The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
     @Sendable
     @inlinable
     public func createCluster(_ input: CreateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterOutput {
@@ -91,64 +91,32 @@ public struct DSQL: AWSService {
             logger: logger
         )
     }
-    /// Creates a cluster in Amazon Aurora DSQL.
+    /// The CreateCluster API allows you to create both single-region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.  Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below.   Required permissions   dsql:CreateCluster  Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:TagResource  Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:PutMultiRegionProperties  Permission to configure multi-region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:AddPeerCluster  When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/*    Each peer cluster: exact ARN of each specified peer cluster    dsql:PutWitnessRegion  When specifying multiRegionProperties.witnessRegion, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region. Resources: arn:aws:dsql:region:account-id:cluster/*  Condition Keys: dsql:WitnessRegion (matching the specified witness region)      The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully, the subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
     ///   - deletionProtectionEnabled: If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
+    ///   - kmsEncryptionKey: The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+    ///   - multiRegionProperties: The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
     ///   - tags: A map of key and value pairs to use to tag your cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCluster(
         clientToken: String? = CreateClusterInput.idempotencyToken(),
         deletionProtectionEnabled: Bool? = nil,
+        kmsEncryptionKey: String? = nil,
+        multiRegionProperties: MultiRegionProperties? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateClusterOutput {
         let input = CreateClusterInput(
             clientToken: clientToken, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
+            kmsEncryptionKey: kmsEncryptionKey, 
+            multiRegionProperties: multiRegionProperties, 
             tags: tags
         )
         return try await self.createCluster(input, logger: logger)
-    }
-
-    /// Creates multi-Region clusters in Amazon Aurora DSQL.  Multi-Region clusters require a linked Region list, which is an array of the Regions in which you want to create linked clusters. Multi-Region clusters require a witness Region, which participates in quorum in failure scenarios.
-    @Sendable
-    @inlinable
-    public func createMultiRegionClusters(_ input: CreateMultiRegionClustersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiRegionClustersOutput {
-        try await self.client.execute(
-            operation: "CreateMultiRegionClusters", 
-            path: "/multi-region-clusters", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Creates multi-Region clusters in Amazon Aurora DSQL.  Multi-Region clusters require a linked Region list, which is an array of the Regions in which you want to create linked clusters. Multi-Region clusters require a witness Region, which participates in quorum in failure scenarios.
-    ///
-    /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
-    ///   - clusterProperties: A mapping of properties to use when creating linked clusters.
-    ///   - linkedRegionList: An array of the Regions in which you want to create additional clusters.
-    ///   - witnessRegion: The witness Region of multi-Region clusters.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createMultiRegionClusters(
-        clientToken: String? = CreateMultiRegionClustersInput.idempotencyToken(),
-        clusterProperties: [String: LinkedClusterProperties]? = nil,
-        linkedRegionList: [String],
-        witnessRegion: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateMultiRegionClustersOutput {
-        let input = CreateMultiRegionClustersInput(
-            clientToken: clientToken, 
-            clusterProperties: clusterProperties, 
-            linkedRegionList: linkedRegionList, 
-            witnessRegion: witnessRegion
-        )
-        return try await self.createMultiRegionClusters(input, logger: logger)
     }
 
     /// Deletes a cluster in Amazon Aurora DSQL.
@@ -167,7 +135,7 @@ public struct DSQL: AWSService {
     /// Deletes a cluster in Amazon Aurora DSQL.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
     ///   - identifier: The ID of the cluster to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -181,38 +149,6 @@ public struct DSQL: AWSService {
             identifier: identifier
         )
         return try await self.deleteCluster(input, logger: logger)
-    }
-
-    /// Deletes a multi-Region cluster in Amazon Aurora DSQL.
-    @Sendable
-    @inlinable
-    public func deleteMultiRegionClusters(_ input: DeleteMultiRegionClustersInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteMultiRegionClusters", 
-            path: "/multi-region-clusters", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Deletes a multi-Region cluster in Amazon Aurora DSQL.
-    ///
-    /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
-    ///   - linkedClusterArns: The ARNs of the clusters linked to the cluster you want to delete.  also deletes these clusters as part of the operation.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteMultiRegionClusters(
-        clientToken: String? = DeleteMultiRegionClustersInput.idempotencyToken(),
-        linkedClusterArns: [String],
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws {
-        let input = DeleteMultiRegionClustersInput(
-            clientToken: clientToken, 
-            linkedClusterArns: linkedClusterArns
-        )
-        return try await self.deleteMultiRegionClusters(input, logger: logger)
     }
 
     /// Retrieves information about a cluster.
@@ -244,6 +180,35 @@ public struct DSQL: AWSService {
         return try await self.getCluster(input, logger: logger)
     }
 
+    /// Retrieves the VPC endpoint service name.
+    @Sendable
+    @inlinable
+    public func getVpcEndpointServiceName(_ input: GetVpcEndpointServiceNameInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVpcEndpointServiceNameOutput {
+        try await self.client.execute(
+            operation: "GetVpcEndpointServiceName", 
+            path: "/clusters/{identifier}/vpc-endpoint-service-name", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the VPC endpoint service name.
+    ///
+    /// Parameters:
+    ///   - identifier: The ID of the cluster to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getVpcEndpointServiceName(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetVpcEndpointServiceNameOutput {
+        let input = GetVpcEndpointServiceNameInput(
+            identifier: identifier
+        )
+        return try await self.getVpcEndpointServiceName(input, logger: logger)
+    }
+
     /// Retrieves information about a list of clusters.
     @Sendable
     @inlinable
@@ -260,8 +225,8 @@ public struct DSQL: AWSService {
     /// Retrieves information about a list of clusters.
     ///
     /// Parameters:
-    ///   - maxResults: An optional parameter that specifies the maximum number of results to return.  You can use nextToken to display the next page of results.
-    ///   - nextToken: If your initial ListClusters operation returns a nextToken, you can include the returned nextToken in following ListClusters operations,  which returns results in the next page.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+    ///   - nextToken: If your initial ListClusters operation returns a nextToken, you can include the returned nextToken in following ListClusters operations, which returns results in the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listClusters(
@@ -369,7 +334,7 @@ public struct DSQL: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates a cluster.
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.  Note that updating multi-region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section.   Required permissions   dsql:UpdateCluster  Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:GetCluster  Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id    dsql:AddPeerCluster  Permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id     Each peer cluster: exact ARN of each specified peer cluster    dsql:RemovePeerCluster  Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/*     dsql:PutWitnessRegion  Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   Condition Keys: dsql:WitnessRegion (matching the specified witness Region)  This permission is checked both in the cluster Region and in the witness Region.       The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.   When updating clusters with peer relationships, permissions are checked for both adding and removing peers.   The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
     @Sendable
     @inlinable
     public func updateCluster(_ input: UpdateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterOutput {
@@ -382,24 +347,30 @@ public struct DSQL: AWSService {
             logger: logger
         )
     }
-    /// Updates a cluster.
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.  Note that updating multi-region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section.   Required permissions   dsql:UpdateCluster  Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:GetCluster  Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id    dsql:AddPeerCluster  Permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id     Each peer cluster: exact ARN of each specified peer cluster    dsql:RemovePeerCluster  Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/*     dsql:PutWitnessRegion  Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   Condition Keys: dsql:WitnessRegion (matching the specified witness Region)  This permission is checked both in the cluster Region and in the witness Region.       The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.   When updating clusters with peer relationships, permissions are checked for both adding and removing peers.   The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully. The subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
     ///   - deletionProtectionEnabled: Specifies whether to enable deletion protection in your cluster.
     ///   - identifier: The ID of the cluster you want to update.
+    ///   - kmsEncryptionKey: The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+    ///   - multiRegionProperties: The new multi-Region cluster configuration settings to be applied during an update operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCluster(
         clientToken: String? = UpdateClusterInput.idempotencyToken(),
         deletionProtectionEnabled: Bool? = nil,
         identifier: String,
+        kmsEncryptionKey: String? = nil,
+        multiRegionProperties: MultiRegionProperties? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterOutput {
         let input = UpdateClusterInput(
             clientToken: clientToken, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
-            identifier: identifier
+            identifier: identifier, 
+            kmsEncryptionKey: kmsEncryptionKey, 
+            multiRegionProperties: multiRegionProperties
         )
         return try await self.updateCluster(input, logger: logger)
     }
@@ -439,7 +410,7 @@ extension DSQL {
     /// Return PaginatorSequence for operation ``listClusters(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: An optional parameter that specifies the maximum number of results to return.  You can use nextToken to display the next page of results.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listClustersPaginator(

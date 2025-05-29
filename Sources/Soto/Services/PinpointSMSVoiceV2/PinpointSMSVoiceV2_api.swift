@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS PinpointSMSVoiceV2 service.
 ///
-/// Welcome to the AWS End User Messaging SMS and Voice, version 2 API Reference. This guide provides information about AWS End User Messaging SMS and Voice, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The AWS End User Messaging SMS and Voice, version 2 API provides programmatic access to options that are unique to the SMS and voice channels. AWS End User Messaging SMS and Voice, version 2 resources such as phone numbers, sender IDs, and opt-out lists can be used by the Amazon Pinpoint API. If you're new to AWS End User Messaging SMS and Voice, it's also helpful to review the  AWS End User Messaging SMS User Guide. The AWS End User Messaging SMS User Guide provides tutorials, code samples, and procedures that demonstrate how to use AWS End User Messaging SMS and Voice features programmatically and how to integrate functionality into mobile apps and other types of applications. The guide also provides key information, such as AWS End User Messaging SMS and Voice integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The AWS End User Messaging SMS and Voice version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
+/// Welcome to the AWS End User Messaging SMS and Voice, version 2 API Reference. This guide provides information about AWS End User Messaging SMS and Voice, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The AWS End User Messaging SMS and Voice, version 2 API provides programmatic access to options that are unique to the SMS and voice channels. AWS End User Messaging SMS and Voice, version 2 resources such as phone numbers, sender IDs, and opt-out lists can be used by the Amazon Pinpoint API. If you're new to AWS End User Messaging SMS and Voice, it's also helpful to review the  AWS End User Messaging SMS User Guide. The AWS End User Messaging SMS User Guide  provides tutorials, code samples, and procedures that demonstrate how to use AWS End User Messaging SMS and Voice features programmatically and how to integrate functionality into mobile apps and other types of applications. The guide also provides key information, such as AWS End User Messaging SMS and Voice integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The AWS End User Messaging SMS and Voice version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
 public struct PinpointSMSVoiceV2: AWSService {
     // MARK: Member variables
 
@@ -240,7 +240,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.createConfigurationSet(input, logger: logger)
     }
 
-    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
+    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.  You can only create one event destination at a time. You must provide a value for a single event destination using either CloudWatchLogsDestination, KinesisFirehoseDestination or SnsDestination. If an event destination isn't provided then an exception is returned. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
     @Sendable
     @inlinable
     public func createEventDestination(_ input: CreateEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventDestinationResult {
@@ -253,7 +253,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
+    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.  You can only create one event destination at a time. You must provide a value for a single event destination using either CloudWatchLogsDestination, KinesisFirehoseDestination or SnsDestination. If an event destination isn't provided then an exception is returned. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
@@ -625,7 +625,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.deleteConfigurationSet(input, logger: logger)
     }
 
-    /// Deletes an existing default message type on a configuration set. A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
+    /// Deletes an existing default message type on a configuration set.  A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
     @Sendable
     @inlinable
     public func deleteDefaultMessageType(_ input: DeleteDefaultMessageTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDefaultMessageTypeResult {
@@ -638,7 +638,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing default message type on a configuration set. A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
+    /// Deletes an existing default message type on a configuration set.  A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
     ///
     /// Parameters:
     ///   - configurationSetName: The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default message type from. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
@@ -1785,7 +1785,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.describeSenderIds(input, logger: logger)
     }
 
-    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota in the AWS End User Messaging SMS User Guide.
+    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota  in the AWS End User Messaging SMS User Guide.
     @Sendable
     @inlinable
     public func describeSpendLimits(_ input: DescribeSpendLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSpendLimitsResult {
@@ -1798,7 +1798,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota in the AWS End User Messaging SMS User Guide.
+    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota  in the AWS End User Messaging SMS User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per each request.
@@ -2161,7 +2161,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Creates or updates a keyword configuration on an origination phone number or pool.  A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     @Sendable
     @inlinable
     public func putKeyword(_ input: PutKeywordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutKeywordResult {
@@ -2174,7 +2174,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Creates or updates a keyword configuration on an origination phone number or pool.  A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     ///
     /// Parameters:
     ///   - keyword: The new keyword to add.
@@ -2199,7 +2199,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.putKeyword(input, logger: logger)
     }
 
-    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId.   If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
+    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId.  If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
     @Sendable
     @inlinable
     public func putMessageFeedback(_ input: PutMessageFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMessageFeedbackResult {
@@ -2212,7 +2212,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId.   If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
+    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId.  If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
     ///
     /// Parameters:
     ///   - messageFeedbackStatus: Set the message feedback to be either RECEIVED or FAILED.
@@ -2263,7 +2263,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.putOptedOutNumber(input, logger: logger)
     }
 
-    /// Create or update a RuleSetNumberOverride and associate it with a protect configuration.
+    /// Create or update a phone number rule override and associate it with a protect configuration.
     @Sendable
     @inlinable
     public func putProtectConfigurationRuleSetNumberOverride(_ input: PutProtectConfigurationRuleSetNumberOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutProtectConfigurationRuleSetNumberOverrideResult {
@@ -2276,7 +2276,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Create or update a RuleSetNumberOverride and associate it with a protect configuration.
+    /// Create or update a phone number rule override and associate it with a protect configuration.
     ///
     /// Parameters:
     ///   - action: The action for the rule to either block or allow messages to the destination phone number.
@@ -2459,7 +2459,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     ///   - messageType: The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     ///   - numberCapabilities: Indicates if the phone number will be used for text messages, voice messages, or both.
-    ///   - numberType: The type of phone number to request.
+    ///   - numberType: The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
     ///   - optOutListName: The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - poolId: The pool to associated with the phone number. You can use the PoolId or PoolArn.   If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - registrationId: Use this field to attach your phone number for an external registration process.
@@ -2606,7 +2606,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - destinationPhoneNumber: The destination phone number in E.164 format.
     ///   - dryRun: When set to true, the message is checked and validated, but isn't sent to the end recipient.
     ///   - maxPrice: The maximum amount that you want to spend, in US dollars, per each MMS message.
-    ///   - mediaUrls: An array of URLs to each media file to send.  The media files have to be stored in a publicly available S3 bucket. Supported media file formats are listed in MMS file types, size and character limits. For more information on creating an S3 bucket and managing objects, see Creating a bucket and Uploading objects in the S3 user guide.
+    ///   - mediaUrls: An array of URLs to each media file to send.  The media files have to be stored in an S3 bucket. Supported media file formats are listed in MMS file types, size and character limits. For more information on creating an S3 bucket and managing objects, see Creating a bucket, Uploading objects in the Amazon S3 User Guide, and Setting up an Amazon S3 bucket for MMS files in the Amazon Web Services End User Messaging SMS User Guide.
     ///   - messageBody: The text body of the message.
     ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
     ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -2669,7 +2669,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - maxPrice: The maximum amount that you want to spend, in US dollars, per each text message. If the calculated amount to send the text message is greater than MaxPrice, the message is not sent and an error is returned.
     ///   - messageBody: The body of the text message.
     ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
-    ///   - messageType: The type of message. Valid values are            for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+    ///   - messageType: The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
     ///   - timeToLive: How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return TTL_EXPIRED event.
@@ -3012,7 +3012,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.submitRegistrationVersion(input, logger: logger)
     }
 
-    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the AWS End User Messaging SMS User Guide.
+    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the AWS End User Messaging SMS User Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
@@ -3025,7 +3025,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the AWS End User Messaging SMS User Guide.
+    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the AWS End User Messaging SMS User Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -3252,7 +3252,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.updateProtectConfiguration(input, logger: logger)
     }
 
-    /// Update a country rule set to ALLOW or BLOCK messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
+    /// Update a country rule set to ALLOW, BLOCK, MONITOR, or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
     @Sendable
     @inlinable
     public func updateProtectConfigurationCountryRuleSet(_ input: UpdateProtectConfigurationCountryRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProtectConfigurationCountryRuleSetResult {
@@ -3265,10 +3265,10 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Update a country rule set to ALLOW or BLOCK messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
+    /// Update a country rule set to ALLOW, BLOCK, MONITOR, or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
     ///
     /// Parameters:
-    ///   - countryRuleSetUpdates: A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide.
+    ///   - countryRuleSetUpdates: A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
     ///   - numberCapability: The number capability to apply the CountryRuleSetUpdates updates to.
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
     ///   - logger: Logger use during operation

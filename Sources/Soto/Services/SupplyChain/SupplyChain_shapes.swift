@@ -34,7 +34,22 @@ extension SupplyChain {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataIntegrationEventDatasetLoadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationEventDatasetOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case append = "APPEND"
+        case delete = "DELETE"
+        case upsert = "UPSERT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataIntegrationEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataset = "scn.data.dataset"
         case forecast = "scn.data.forecast"
         case inboundOrder = "scn.data.inboundorder"
         case inboundOrderLine = "scn.data.inboundorderline"
@@ -50,6 +65,24 @@ extension SupplyChain {
         case shipmentStop = "scn.data.shipmentstop"
         case shipmentStopOrder = "scn.data.shipmentstoporder"
         case supplyPlan = "scn.data.supplyplan"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationFlowDedupeStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldPriority = "FIELD_PRIORITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationFlowExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationFlowFieldPriorityDedupeSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
@@ -84,9 +117,19 @@ extension SupplyChain {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataLakeDatasetPartitionTransformType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case day = "DAY"
+        case hour = "HOUR"
+        case identity = "IDENTITY"
+        case month = "MONTH"
+        case year = "YEAR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataLakeDatasetSchemaFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case double = "DOUBLE"
         case int = "INT"
+        case long = "LONG"
         case string = "STRING"
         case timestamp = "TIMESTAMP"
         public var description: String { return self.rawValue }
@@ -277,19 +320,22 @@ extension SupplyChain {
         public let instanceId: String
         /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
         public let name: String
-        /// The name space of the dataset.    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
-        /// The custom schema of the data lake dataset and is only required when the name space is default.
+        /// The partition specification of the dataset. Partitioning can effectively improve the dataset query performance by reducing the amount of data scanned during query execution. But partitioning or not will affect how data get ingested by data ingestion methods, such as SendDataIntegrationEvent's dataset UPSERT will upsert records within partition (instead of within whole dataset). For more details, refer to those data ingestion documentations.
+        public let partitionSpec: DataLakeDatasetPartitionSpec?
+        /// The custom schema of the data lake dataset and required for dataset in default and custom namespaces.
         public let schema: DataLakeDatasetSchema?
         /// The tags of the dataset.
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, instanceId: String, name: String, namespace: String, schema: DataLakeDatasetSchema? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, instanceId: String, name: String, namespace: String, partitionSpec: DataLakeDatasetPartitionSpec? = nil, schema: DataLakeDatasetSchema? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.instanceId = instanceId
             self.name = name
             self.namespace = namespace
+            self.partitionSpec = partitionSpec
             self.schema = schema
             self.tags = tags
         }
@@ -301,6 +347,7 @@ extension SupplyChain {
             request.encodePath(self.instanceId, key: "instanceId")
             request.encodePath(self.name, key: "name")
             request.encodePath(self.namespace, key: "namespace")
+            try container.encodeIfPresent(self.partitionSpec, forKey: .partitionSpec)
             try container.encodeIfPresent(self.schema, forKey: .schema)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -316,7 +363,8 @@ extension SupplyChain {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9_]+$")
+            try self.partitionSpec?.validate(name: "\(name).partitionSpec")
             try self.schema?.validate(name: "\(name).schema")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -328,6 +376,7 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case partitionSpec = "partitionSpec"
             case schema = "schema"
             case tags = "tags"
         }
@@ -344,6 +393,70 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case dataset = "dataset"
+        }
+    }
+
+    public struct CreateDataLakeNamespaceRequest: AWSEncodableShape {
+        /// The description of the namespace.
+        public let description: String?
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the namespace. Noted you cannot create namespace with name starting with asc, default, scn, aws, amazon, amzn
+        public let name: String
+        /// The tags of the namespace.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDataLakeNamespaceResponse: AWSDecodableShape {
+        /// The detail of created namespace.
+        public let namespace: DataLakeNamespace
+
+        @inlinable
+        public init(namespace: DataLakeNamespace) {
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "namespace"
         }
     }
 
@@ -413,6 +526,104 @@ extension SupplyChain {
         }
     }
 
+    public struct DataIntegrationEvent: AWSDecodableShape {
+        /// The target dataset details for a DATASET event type.
+        public let datasetTargetDetails: DataIntegrationEventDatasetTargetDetails?
+        /// Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning.
+        public let eventGroupId: String
+        /// The unique event identifier.
+        public let eventId: String
+        /// The event timestamp (in epoch seconds).
+        public let eventTimestamp: Date
+        /// The data event type.
+        public let eventType: DataIntegrationEventType
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+
+        @inlinable
+        public init(datasetTargetDetails: DataIntegrationEventDatasetTargetDetails? = nil, eventGroupId: String, eventId: String, eventTimestamp: Date, eventType: DataIntegrationEventType, instanceId: String) {
+            self.datasetTargetDetails = datasetTargetDetails
+            self.eventGroupId = eventGroupId
+            self.eventId = eventId
+            self.eventTimestamp = eventTimestamp
+            self.eventType = eventType
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetTargetDetails = "datasetTargetDetails"
+            case eventGroupId = "eventGroupId"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventType = "eventType"
+            case instanceId = "instanceId"
+        }
+    }
+
+    public struct DataIntegrationEventDatasetLoadExecutionDetails: AWSDecodableShape {
+        /// The failure message (if any) of failed event load execution to dataset.
+        public let message: String?
+        /// The event load execution status to target dataset.
+        public let status: DataIntegrationEventDatasetLoadStatus
+
+        @inlinable
+        public init(message: String? = nil, status: DataIntegrationEventDatasetLoadStatus) {
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case status = "status"
+        }
+    }
+
+    public struct DataIntegrationEventDatasetTargetConfiguration: AWSEncodableShape {
+        /// The datalake dataset ARN identifier.
+        public let datasetIdentifier: String
+        /// The target dataset load operation type.
+        public let operationType: DataIntegrationEventDatasetOperationType
+
+        @inlinable
+        public init(datasetIdentifier: String, operationType: DataIntegrationEventDatasetOperationType) {
+            self.datasetIdentifier = datasetIdentifier
+            self.operationType = operationType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, max: 1011)
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, min: 20)
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, pattern: "^arn:aws:scn:([a-z0-9-]+):([0-9]+):instance/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/namespaces/[^/]+/datasets/[^/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetIdentifier = "datasetIdentifier"
+            case operationType = "operationType"
+        }
+    }
+
+    public struct DataIntegrationEventDatasetTargetDetails: AWSDecodableShape {
+        /// The datalake dataset ARN identifier.
+        public let datasetIdentifier: String
+        /// The target dataset load execution.
+        public let datasetLoadExecution: DataIntegrationEventDatasetLoadExecutionDetails
+        /// The target dataset load operation type. The available options are:    APPEND - Add new records to the dataset. Noted that this operation type will just try to append records as-is without any primary key or partition constraints.    UPSERT - Modify existing records in the dataset with primary key configured, events for datasets without primary keys are not allowed. If event data contains primary keys that match records in the dataset within same partition, then those existing records (in that partition) will be updated. If primary keys do not match, new records will be added. Note that if dataset contain records with duplicate primary key values in the same partition, those duplicate records will be deduped into one updated record.    DELETE - Remove existing records in the dataset with primary key configured, events for datasets without primary keys are not allowed. If event data contains primary keys that match records in the dataset within same partition, then those existing records (in that partition) will be deleted. If primary keys do not match, no actions will be done. Note that if dataset contain records with duplicate primary key values in the same partition, all those duplicates will be removed.
+        public let operationType: DataIntegrationEventDatasetOperationType
+
+        @inlinable
+        public init(datasetIdentifier: String, datasetLoadExecution: DataIntegrationEventDatasetLoadExecutionDetails, operationType: DataIntegrationEventDatasetOperationType) {
+            self.datasetIdentifier = datasetIdentifier
+            self.datasetLoadExecution = datasetLoadExecution
+            self.operationType = operationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetIdentifier = "datasetIdentifier"
+            case datasetLoadExecution = "datasetLoadExecution"
+            case operationType = "operationType"
+        }
+    }
+
     public struct DataIntegrationFlow: AWSDecodableShape {
         /// The DataIntegrationFlow creation timestamp.
         public let createdTime: Date
@@ -452,20 +663,42 @@ extension SupplyChain {
     }
 
     public struct DataIntegrationFlowDatasetOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The dataset load option to remove duplicates.
+        /// The option to perform deduplication on data records sharing same primary key values. If disabled, transformed data with duplicate primary key values will ingest into dataset, for datasets within asc namespace, such duplicates will cause ingestion fail. If enabled without dedupeStrategy, deduplication is done by retaining a random data record among those sharing the same primary key values. If enabled with dedupeStragtegy, the deduplication is done following the strategy. Note that target dataset may have partition configured, when dedupe is enabled, it only dedupe against primary keys and retain only one record out of those duplicates regardless of its partition status.
         public let dedupeRecords: Bool?
-        /// The dataset data load type in dataset options.
+        /// The deduplication strategy to dedupe the data records sharing same primary key values of the target dataset. This strategy only applies to target dataset with primary keys and with dedupeRecords option enabled. If transformed data still got duplicates after the dedupeStrategy evaluation, a random data record is chosen to be retained.
+        public let dedupeStrategy: DataIntegrationFlowDedupeStrategy?
+        /// The target dataset's data load type. This only affects how source S3 files are selected in the S3-to-dataset flow.    REPLACE - Target dataset will get replaced with the new file added under the source s3 prefix.    INCREMENTAL - Target dataset will get updated with the up-to-date content under S3 prefix incorporating any file additions or removals there.
         public let loadType: DataIntegrationFlowLoadType?
 
         @inlinable
-        public init(dedupeRecords: Bool? = nil, loadType: DataIntegrationFlowLoadType? = nil) {
+        public init(dedupeRecords: Bool? = nil, dedupeStrategy: DataIntegrationFlowDedupeStrategy? = nil, loadType: DataIntegrationFlowLoadType? = nil) {
             self.dedupeRecords = dedupeRecords
+            self.dedupeStrategy = dedupeStrategy
             self.loadType = loadType
+        }
+
+        public func validate(name: String) throws {
+            try self.dedupeStrategy?.validate(name: "\(name).dedupeStrategy")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dedupeRecords = "dedupeRecords"
+            case dedupeStrategy = "dedupeStrategy"
             case loadType = "loadType"
+        }
+    }
+
+    public struct DataIntegrationFlowDatasetSource: AWSDecodableShape {
+        /// The ARN of the dataset source.
+        public let datasetIdentifier: String
+
+        @inlinable
+        public init(datasetIdentifier: String) {
+            self.datasetIdentifier = datasetIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetIdentifier = "datasetIdentifier"
         }
     }
 
@@ -485,6 +718,7 @@ extension SupplyChain {
             try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, max: 1011)
             try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, min: 1)
             try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, pattern: "^[-_/A-Za-z0-9:]+$")
+            try self.options?.validate(name: "\(name).options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -509,11 +743,162 @@ extension SupplyChain {
             try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, max: 1011)
             try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, min: 1)
             try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, pattern: "^[-_/A-Za-z0-9:]+$")
+            try self.options?.validate(name: "\(name).options")
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetIdentifier = "datasetIdentifier"
             case options = "options"
+        }
+    }
+
+    public struct DataIntegrationFlowDedupeStrategy: AWSEncodableShape & AWSDecodableShape {
+        /// The field priority deduplication strategy.
+        public let fieldPriority: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration?
+        /// The type of the deduplication strategy.    FIELD_PRIORITY - Field priority configuration for the deduplication strategy specifies an ordered list of fields used to tie-break the data records sharing the same primary key values. Fields earlier in the list have higher priority for evaluation. For each field, the sort order determines whether to retain data record with larger or smaller field value.
+        public let type: DataIntegrationFlowDedupeStrategyType
+
+        @inlinable
+        public init(fieldPriority: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration? = nil, type: DataIntegrationFlowDedupeStrategyType) {
+            self.fieldPriority = fieldPriority
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldPriority?.validate(name: "\(name).fieldPriority")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPriority = "fieldPriority"
+            case type = "type"
+        }
+    }
+
+    public struct DataIntegrationFlowExecution: AWSDecodableShape {
+        /// The flow execution end timestamp.
+        public let endTime: Date?
+        /// The flow executionId.
+        public let executionId: String
+        /// The flow execution's flowName.
+        public let flowName: String
+        /// The flow execution's instanceId.
+        public let instanceId: String
+        /// The failure message (if any) of failed flow execution.
+        public let message: String?
+        /// The flow execution output metadata.
+        public let outputMetadata: DataIntegrationFlowExecutionOutputMetadata?
+        /// The source information for a flow execution.
+        public let sourceInfo: DataIntegrationFlowExecutionSourceInfo?
+        /// The flow execution start timestamp.
+        public let startTime: Date?
+        /// The status of flow execution.
+        public let status: DataIntegrationFlowExecutionStatus?
+
+        @inlinable
+        public init(endTime: Date? = nil, executionId: String, flowName: String, instanceId: String, message: String? = nil, outputMetadata: DataIntegrationFlowExecutionOutputMetadata? = nil, sourceInfo: DataIntegrationFlowExecutionSourceInfo? = nil, startTime: Date? = nil, status: DataIntegrationFlowExecutionStatus? = nil) {
+            self.endTime = endTime
+            self.executionId = executionId
+            self.flowName = flowName
+            self.instanceId = instanceId
+            self.message = message
+            self.outputMetadata = outputMetadata
+            self.sourceInfo = sourceInfo
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case executionId = "executionId"
+            case flowName = "flowName"
+            case instanceId = "instanceId"
+            case message = "message"
+            case outputMetadata = "outputMetadata"
+            case sourceInfo = "sourceInfo"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
+
+    public struct DataIntegrationFlowExecutionOutputMetadata: AWSDecodableShape {
+        /// The S3 URI under which all diagnostic files (such as deduped records if any) are stored.
+        public let diagnosticReportsRootS3URI: String?
+
+        @inlinable
+        public init(diagnosticReportsRootS3URI: String? = nil) {
+            self.diagnosticReportsRootS3URI = diagnosticReportsRootS3URI
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diagnosticReportsRootS3URI = "diagnosticReportsRootS3URI"
+        }
+    }
+
+    public struct DataIntegrationFlowExecutionSourceInfo: AWSDecodableShape {
+        /// The source details of a flow execution with dataset source.
+        public let datasetSource: DataIntegrationFlowDatasetSource?
+        /// The source details of a flow execution with S3 source.
+        public let s3Source: DataIntegrationFlowS3Source?
+        /// The data integration flow execution source type.
+        public let sourceType: DataIntegrationFlowSourceType
+
+        @inlinable
+        public init(datasetSource: DataIntegrationFlowDatasetSource? = nil, s3Source: DataIntegrationFlowS3Source? = nil, sourceType: DataIntegrationFlowSourceType) {
+            self.datasetSource = datasetSource
+            self.s3Source = s3Source
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetSource = "datasetSource"
+            case s3Source = "s3Source"
+            case sourceType = "sourceType"
+        }
+    }
+
+    public struct DataIntegrationFlowFieldPriorityDedupeField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the deduplication field. Must exist in the dataset and not be a primary key.
+        public let name: String
+        /// The sort order for the deduplication field.
+        public let sortOrder: DataIntegrationFlowFieldPriorityDedupeSortOrder
+
+        @inlinable
+        public init(name: String, sortOrder: DataIntegrationFlowFieldPriorityDedupeSortOrder) {
+            self.name = name
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of field names and their sort order for deduplication, arranged in descending priority from highest to lowest.
+        public let fields: [DataIntegrationFlowFieldPriorityDedupeField]
+
+        @inlinable
+        public init(fields: [DataIntegrationFlowFieldPriorityDedupeField]) {
+            self.fields = fields
+        }
+
+        public func validate(name: String) throws {
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.validate(self.fields, name: "fields", parent: name, max: 10)
+            try self.validate(self.fields, name: "fields", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
         }
     }
 
@@ -531,12 +916,30 @@ extension SupplyChain {
         }
     }
 
+    public struct DataIntegrationFlowS3Source: AWSDecodableShape {
+        /// The S3 bucket name of the S3 source.
+        public let bucketName: String
+        /// The S3 object key of the S3 source.
+        public let key: String
+
+        @inlinable
+        public init(bucketName: String, key: String) {
+            self.bucketName = bucketName
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case key = "key"
+        }
+    }
+
     public struct DataIntegrationFlowS3SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The bucketName of the S3 source objects.
         public let bucketName: String
         /// The other options of the S3 DataIntegrationFlow source.
         public let options: DataIntegrationFlowS3Options?
-        /// The prefix of the S3 source objects.
+        /// The prefix of the S3 source objects. To trigger data ingestion, S3 files need to be put under s3://bucketName/prefix/.
         public let prefix: String
 
         @inlinable
@@ -645,7 +1048,7 @@ extension SupplyChain {
     }
 
     public struct DataIntegrationFlowTarget: AWSEncodableShape & AWSDecodableShape {
-        /// The dataset DataIntegrationFlow target.
+        /// The dataset DataIntegrationFlow target. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated.
         public let datasetTarget: DataIntegrationFlowDatasetTargetConfiguration?
         /// The S3 DataIntegrationFlow target.
         public let s3Target: DataIntegrationFlowS3TargetConfiguration?
@@ -704,15 +1107,16 @@ extension SupplyChain {
         public let instanceId: String
         /// The last modified time of the dataset.
         public let lastModifiedTime: Date
-        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        /// The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
         public let name: String
-        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
+        public let partitionSpec: DataLakeDatasetPartitionSpec?
         /// The schema of the dataset.
         public let schema: DataLakeDatasetSchema
 
         @inlinable
-        public init(arn: String, createdTime: Date, description: String? = nil, instanceId: String, lastModifiedTime: Date, name: String, namespace: String, schema: DataLakeDatasetSchema) {
+        public init(arn: String, createdTime: Date, description: String? = nil, instanceId: String, lastModifiedTime: Date, name: String, namespace: String, partitionSpec: DataLakeDatasetPartitionSpec? = nil, schema: DataLakeDatasetSchema) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -720,6 +1124,7 @@ extension SupplyChain {
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
+            self.partitionSpec = partitionSpec
             self.schema = schema
         }
 
@@ -731,7 +1136,88 @@ extension SupplyChain {
             case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case namespace = "namespace"
+            case partitionSpec = "partitionSpec"
             case schema = "schema"
+        }
+    }
+
+    public struct DataLakeDatasetPartitionField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the partition field.
+        public let name: String
+        /// The transformation of the partition field. A transformation specifies how to partition on a given field. For example, with timestamp you can specify that you'd like to partition fields by day, e.g. data record with value 2025-01-03T00:00:00Z in partition field is in 2025-01-03 partition. Also noted that data record without any value in optional partition field is in NULL partition.
+        public let transform: DataLakeDatasetPartitionFieldTransform
+
+        @inlinable
+        public init(name: String, transform: DataLakeDatasetPartitionFieldTransform) {
+            self.name = name
+            self.transform = transform
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case transform = "transform"
+        }
+    }
+
+    public struct DataLakeDatasetPartitionFieldTransform: AWSEncodableShape & AWSDecodableShape {
+        /// The type of partitioning transformation for this field. The available options are:    IDENTITY - Partitions data on a given field by its exact values.    YEAR - Partitions data on a timestamp field using year granularity.    MONTH - Partitions data on a timestamp field using month granularity.    DAY - Partitions data on a timestamp field using day granularity.    HOUR - Partitions data on a timestamp field using hour granularity.
+        public let type: DataLakeDatasetPartitionTransformType
+
+        @inlinable
+        public init(type: DataLakeDatasetPartitionTransformType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
+    public struct DataLakeDatasetPartitionSpec: AWSEncodableShape & AWSDecodableShape {
+        /// The fields on which to partition a dataset. The partitions will be applied hierarchically based on the order of this list.
+        public let fields: [DataLakeDatasetPartitionField]
+
+        @inlinable
+        public init(fields: [DataLakeDatasetPartitionField]) {
+            self.fields = fields
+        }
+
+        public func validate(name: String) throws {
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.validate(self.fields, name: "fields", parent: name, max: 10)
+            try self.validate(self.fields, name: "fields", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+        }
+    }
+
+    public struct DataLakeDatasetPrimaryKeyField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the primary key field.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
@@ -740,11 +1226,14 @@ extension SupplyChain {
         public let fields: [DataLakeDatasetSchemaField]
         /// The name of the dataset schema.
         public let name: String
+        /// The list of primary key fields for the dataset. Primary keys defined can help data ingestion methods to ensure data uniqueness: CreateDataIntegrationFlow's dedupe strategy will leverage primary keys to perform records deduplication before write to dataset; SendDataIntegrationEvent's UPSERT and DELETE can only work with dataset with primary keys. For more details, refer to those data ingestion documentations. Note that defining primary keys does not necessarily mean the dataset cannot have duplicate records, duplicate records can still be ingested if CreateDataIntegrationFlow's dedupe disabled or through SendDataIntegrationEvent's APPEND operation.
+        public let primaryKeys: [DataLakeDatasetPrimaryKeyField]?
 
         @inlinable
-        public init(fields: [DataLakeDatasetSchemaField], name: String) {
+        public init(fields: [DataLakeDatasetSchemaField], name: String, primaryKeys: [DataLakeDatasetPrimaryKeyField]? = nil) {
             self.fields = fields
             self.name = name
+            self.primaryKeys = primaryKeys
         }
 
         public func validate(name: String) throws {
@@ -756,11 +1245,17 @@ extension SupplyChain {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9]+$")
+            try self.primaryKeys?.forEach {
+                try $0.validate(name: "\(name).primaryKeys[]")
+            }
+            try self.validate(self.primaryKeys, name: "primaryKeys", parent: name, max: 20)
+            try self.validate(self.primaryKeys, name: "primaryKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
             case name = "name"
+            case primaryKeys = "primaryKeys"
         }
     }
 
@@ -789,6 +1284,40 @@ extension SupplyChain {
             case isRequired = "isRequired"
             case name = "name"
             case type = "type"
+        }
+    }
+
+    public struct DataLakeNamespace: AWSDecodableShape {
+        /// The arn of the namespace.
+        public let arn: String
+        /// The creation time of the namespace.
+        public let createdTime: Date
+        /// The description of the namespace.
+        public let description: String?
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The last modified time of the namespace.
+        public let lastModifiedTime: Date
+        /// The name of the namespace.
+        public let name: String
+
+        @inlinable
+        public init(arn: String, createdTime: Date, description: String? = nil, instanceId: String, lastModifiedTime: Date, name: String) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case instanceId = "instanceId"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
         }
     }
 
@@ -844,9 +1373,9 @@ extension SupplyChain {
     public struct DeleteDataLakeDatasetRequest: AWSEncodableShape {
         /// The AWS Supply Chain instance identifier.
         public let instanceId: String
-        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        /// The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
         public let name: String
-        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
 
         @inlinable
@@ -873,7 +1402,7 @@ extension SupplyChain {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -884,7 +1413,7 @@ extension SupplyChain {
         public let instanceId: String
         /// The name of deleted dataset.
         public let name: String
-        /// The name space of deleted dataset.
+        /// The namespace of deleted dataset.
         public let namespace: String
 
         @inlinable
@@ -898,6 +1427,55 @@ extension SupplyChain {
             case instanceId = "instanceId"
             case name = "name"
             case namespace = "namespace"
+        }
+    }
+
+    public struct DeleteDataLakeNamespaceRequest: AWSEncodableShape {
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the namespace. Noted you cannot delete pre-defined namespace like asc, default which are only deleted through instance deletion.
+        public let name: String
+
+        @inlinable
+        public init(instanceId: String, name: String) {
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataLakeNamespaceResponse: AWSDecodableShape {
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of deleted namespace.
+        public let name: String
+
+        @inlinable
+        public init(instanceId: String, name: String) {
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case name = "name"
         }
     }
 
@@ -984,6 +1562,103 @@ extension SupplyChain {
         }
     }
 
+    public struct GetDataIntegrationEventRequest: AWSEncodableShape {
+        /// The unique event identifier.
+        public let eventId: String
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+
+        @inlinable
+        public init(eventId: String, instanceId: String) {
+            self.eventId = eventId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.eventId, key: "eventId")
+            request.encodePath(self.instanceId, key: "instanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventId, name: "eventId", parent: name, max: 36)
+            try self.validate(self.eventId, name: "eventId", parent: name, min: 36)
+            try self.validate(self.eventId, name: "eventId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataIntegrationEventResponse: AWSDecodableShape {
+        /// The details of the DataIntegrationEvent returned.
+        public let event: DataIntegrationEvent
+
+        @inlinable
+        public init(event: DataIntegrationEvent) {
+            self.event = event
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "event"
+        }
+    }
+
+    public struct GetDataIntegrationFlowExecutionRequest: AWSEncodableShape {
+        /// The flow execution identifier.
+        public let executionId: String
+        /// The flow name.
+        public let flowName: String
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+
+        @inlinable
+        public init(executionId: String, flowName: String, instanceId: String) {
+            self.executionId = executionId
+            self.flowName = flowName
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionId, key: "executionId")
+            request.encodePath(self.flowName, key: "flowName")
+            request.encodePath(self.instanceId, key: "instanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionId, name: "executionId", parent: name, max: 36)
+            try self.validate(self.executionId, name: "executionId", parent: name, min: 36)
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
+            try self.validate(self.flowName, name: "flowName", parent: name, min: 1)
+            try self.validate(self.flowName, name: "flowName", parent: name, pattern: "^[A-Za-z0-9-]+$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataIntegrationFlowExecutionResponse: AWSDecodableShape {
+        /// The flow execution details.
+        public let flowExecution: DataIntegrationFlowExecution
+
+        @inlinable
+        public init(flowExecution: DataIntegrationFlowExecution) {
+            self.flowExecution = flowExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowExecution = "flowExecution"
+        }
+    }
+
     public struct GetDataIntegrationFlowRequest: AWSEncodableShape {
         /// The Amazon Web Services Supply Chain instance identifier.
         public let instanceId: String
@@ -1032,9 +1707,9 @@ extension SupplyChain {
     public struct GetDataLakeDatasetRequest: AWSEncodableShape {
         /// The Amazon Web Services Supply Chain instance identifier.
         public let instanceId: String
-        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        /// The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
         public let name: String
-        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
 
         @inlinable
@@ -1061,7 +1736,7 @@ extension SupplyChain {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1078,6 +1753,51 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case dataset = "dataset"
+        }
+    }
+
+    public struct GetDataLakeNamespaceRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the namespace. Besides the namespaces user created, you can also specify the pre-defined namespaces:    asc - Pre-defined namespace containing Amazon Web Services Supply Chain supported datasets, see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - Pre-defined namespace containing datasets with custom user-defined schemas.
+        public let name: String
+
+        @inlinable
+        public init(instanceId: String, name: String) {
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataLakeNamespaceResponse: AWSDecodableShape {
+        /// The fetched namespace details.
+        public let namespace: DataLakeNamespace
+
+        @inlinable
+        public init(namespace: DataLakeNamespace) {
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "namespace"
         }
     }
 
@@ -1173,6 +1893,125 @@ extension SupplyChain {
         }
     }
 
+    public struct ListDataIntegrationEventsRequest: AWSEncodableShape {
+        /// List data integration events for the specified eventType.
+        public let eventType: DataIntegrationEventType?
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// Specify the maximum number of data integration events to fetch in one paginated request.
+        public let maxResults: Int?
+        /// The pagination token to fetch the next page of the data integration events.
+        public let nextToken: String?
+
+        @inlinable
+        public init(eventType: DataIntegrationEventType? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.eventType = eventType
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eventType, key: "eventType")
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataIntegrationEventsResponse: AWSDecodableShape {
+        /// The list of data integration events.
+        public let events: [DataIntegrationEvent]
+        /// The pagination token to fetch the next page of the ListDataIntegrationEvents.
+        public let nextToken: String?
+
+        @inlinable
+        public init(events: [DataIntegrationEvent], nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataIntegrationFlowExecutionsRequest: AWSEncodableShape {
+        /// The flow name.
+        public let flowName: String
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+        /// The number to specify the max number of flow executions to fetch in this paginated request.
+        public let maxResults: Int?
+        /// The pagination token to fetch next page of flow executions.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowName: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.flowName = flowName
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowName, key: "flowName")
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
+            try self.validate(self.flowName, name: "flowName", parent: name, min: 1)
+            try self.validate(self.flowName, name: "flowName", parent: name, pattern: "^[A-Za-z0-9-]+$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataIntegrationFlowExecutionsResponse: AWSDecodableShape {
+        /// The list of flow executions.
+        public let flowExecutions: [DataIntegrationFlowExecution]
+        /// The pagination token to fetch next page of flow executions.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowExecutions: [DataIntegrationFlowExecution], nextToken: String? = nil) {
+            self.flowExecutions = flowExecutions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowExecutions = "flowExecutions"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDataIntegrationFlowsRequest: AWSEncodableShape {
         /// The Amazon Web Services Supply Chain instance identifier.
         public let instanceId: String
@@ -1232,7 +2071,7 @@ extension SupplyChain {
         public let instanceId: String
         /// The max number of datasets to fetch in this paginated request.
         public let maxResults: Int?
-        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
         /// The pagination token to fetch next page of datasets.
         public let nextToken: String?
@@ -1262,7 +2101,7 @@ extension SupplyChain {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9_]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1284,6 +2123,60 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case datasets = "datasets"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataLakeNamespacesRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The max number of namespaces to fetch in this paginated request.
+        public let maxResults: Int?
+        /// The pagination token to fetch next page of namespaces.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataLakeNamespacesResponse: AWSDecodableShape {
+        /// The list of fetched namespace details. Noted it only contains custom namespaces, pre-defined namespaces are not included.
+        public let namespaces: [DataLakeNamespace]
+        /// The pagination token to fetch next page of namespaces.
+        public let nextToken: String?
+
+        @inlinable
+        public init(namespaces: [DataLakeNamespace], nextToken: String? = nil) {
+            self.namespaces = namespaces
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaces = "namespaces"
             case nextToken = "nextToken"
         }
     }
@@ -1388,23 +2281,26 @@ extension SupplyChain {
     }
 
     public struct SendDataIntegrationEventRequest: AWSEncodableShape {
-        /// The idempotent client token.
+        /// The idempotent client token. The token is active for 8 hours, and within its lifetime, it ensures the request completes only once upon retry with same client token. If omitted, the AWS SDK generates a unique value so that AWS SDK can safely retry the request upon network errors.
         public let clientToken: String?
-        /// The data payload of the event. For more information on the data schema to use, see Data entities supported in AWS Supply Chain.
+        /// The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain. To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated.
         public let data: String
-        /// Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
+        /// The target dataset configuration for scn.data.dataset event type.
+        public let datasetTarget: DataIntegrationEventDatasetTargetConfiguration?
+        /// Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server.
         public let eventGroupId: String
-        /// The event timestamp (in epoch seconds).
+        /// The timestamp (in epoch seconds) associated with the event. If not provided, it will be assigned with current timestamp.
         public let eventTimestamp: Date?
-        /// The data event type.
+        /// The data event type.    scn.data.dataset - Send data directly to any specified dataset.    scn.data.supplyplan - Send data to supply_plan dataset.    scn.data.shipmentstoporder - Send data to shipment_stop_order dataset.    scn.data.shipmentstop - Send data to shipment_stop dataset.    scn.data.shipment - Send data to shipment dataset.    scn.data.reservation - Send data to reservation dataset.    scn.data.processproduct - Send data to process_product dataset.    scn.data.processoperation - Send data to process_operation dataset.    scn.data.processheader - Send data to process_header dataset.    scn.data.forecast - Send data to forecast dataset.    scn.data.inventorylevel - Send data to inv_level dataset.    scn.data.inboundorder - Send data to inbound_order dataset.    scn.data.inboundorderline - Send data to inbound_order_line dataset.    scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset.    scn.data.outboundorderline - Send data to outbound_order_line dataset.    scn.data.outboundshipment - Send data to outbound_shipment dataset.
         public let eventType: DataIntegrationEventType
         /// The AWS Supply Chain instance identifier.
         public let instanceId: String
 
         @inlinable
-        public init(clientToken: String? = SendDataIntegrationEventRequest.idempotencyToken(), data: String, eventGroupId: String, eventTimestamp: Date? = nil, eventType: DataIntegrationEventType, instanceId: String) {
+        public init(clientToken: String? = SendDataIntegrationEventRequest.idempotencyToken(), data: String, datasetTarget: DataIntegrationEventDatasetTargetConfiguration? = nil, eventGroupId: String, eventTimestamp: Date? = nil, eventType: DataIntegrationEventType, instanceId: String) {
             self.clientToken = clientToken
             self.data = data
+            self.datasetTarget = datasetTarget
             self.eventGroupId = eventGroupId
             self.eventTimestamp = eventTimestamp
             self.eventType = eventType
@@ -1416,6 +2312,7 @@ extension SupplyChain {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.data, forKey: .data)
+            try container.encodeIfPresent(self.datasetTarget, forKey: .datasetTarget)
             try container.encode(self.eventGroupId, forKey: .eventGroupId)
             try container.encodeIfPresent(self.eventTimestamp, forKey: .eventTimestamp)
             try container.encode(self.eventType, forKey: .eventType)
@@ -1427,6 +2324,7 @@ extension SupplyChain {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
             try self.validate(self.data, name: "data", parent: name, max: 1048576)
             try self.validate(self.data, name: "data", parent: name, min: 1)
+            try self.datasetTarget?.validate(name: "\(name).datasetTarget")
             try self.validate(self.eventGroupId, name: "eventGroupId", parent: name, max: 255)
             try self.validate(self.eventGroupId, name: "eventGroupId", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
@@ -1437,6 +2335,7 @@ extension SupplyChain {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case data = "data"
+            case datasetTarget = "datasetTarget"
             case eventGroupId = "eventGroupId"
             case eventTimestamp = "eventTimestamp"
             case eventType = "eventType"
@@ -1607,9 +2506,9 @@ extension SupplyChain {
         public let description: String?
         /// The Amazon Web Services Chain instance identifier.
         public let instanceId: String
-        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        /// The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
         public let name: String
-        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
 
         @inlinable
@@ -1640,7 +2539,7 @@ extension SupplyChain {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1659,6 +2558,59 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case dataset = "dataset"
+        }
+    }
+
+    public struct UpdateDataLakeNamespaceRequest: AWSEncodableShape {
+        /// The updated description of the data lake namespace.
+        public let description: String?
+        /// The Amazon Web Services Chain instance identifier.
+        public let instanceId: String
+        /// The name of the namespace. Noted you cannot update namespace with name starting with asc, default, scn, aws, amazon, amzn
+        public let name: String
+
+        @inlinable
+        public init(description: String? = nil, instanceId: String, name: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateDataLakeNamespaceResponse: AWSDecodableShape {
+        /// The updated namespace details.
+        public let namespace: DataLakeNamespace
+
+        @inlinable
+        public init(namespace: DataLakeNamespace) {
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "namespace"
         }
     }
 

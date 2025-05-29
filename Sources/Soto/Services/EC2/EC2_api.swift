@@ -207,7 +207,7 @@ public struct EC2: AWSService {
     /// Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - reservedInstanceIds: The IDs of the Convertible Reserved Instances to exchange for another Convertible Reserved Instance of the same or higher value.
     ///   - targetConfigurations: The configuration of the target Convertible Reserved Instance to exchange for your current Convertible Reserved Instances.
     ///   - logger: Logger use during operation
@@ -502,6 +502,7 @@ public struct EC2: AWSService {
     ///   - assetIds: The IDs of the Outpost hardware assets on which to allocate the Dedicated Hosts. Targeting  specific hardware assets on an Outpost can help to minimize latency between your workloads.  This parameter is supported only if you specify OutpostArn.  If you are allocating the Dedicated Hosts in a Region, omit this parameter.   If you specify this parameter, you can omit Quantity.  In this case, Amazon EC2 allocates a Dedicated Host on each specified hardware  asset.   If you specify both AssetIds and  Quantity, then the value for  Quantity must be equal to the number of asset IDs  specified.
     ///   - autoPlacement: Indicates whether the host accepts any untargeted instance launches that match its instance type configuration, or if it only accepts Host tenancy instance launches that specify its unique host ID. For more information, see  Understanding auto-placement and affinity in the Amazon EC2 User Guide. Default: off
     ///   - availabilityZone: The Availability Zone in which to allocate the Dedicated Host.
+    ///   - availabilityZoneId: The ID of the Availability Zone.
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
     ///   - hostMaintenance: Indicates whether to enable or disable host maintenance for the Dedicated Host. For more information, see Host maintenance in the Amazon EC2 User Guide.
     ///   - hostRecovery: Indicates whether to enable or disable host recovery for the Dedicated Host. Host recovery is disabled by default. For more information, see  Host recovery in the Amazon EC2 User Guide. Default: off
@@ -516,6 +517,7 @@ public struct EC2: AWSService {
         assetIds: [String]? = nil,
         autoPlacement: AutoPlacement? = nil,
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         clientToken: String? = nil,
         hostMaintenance: HostMaintenance? = nil,
         hostRecovery: HostRecovery? = nil,
@@ -530,6 +532,7 @@ public struct EC2: AWSService {
             assetIds: assetIds, 
             autoPlacement: autoPlacement, 
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             clientToken: clientToken, 
             hostMaintenance: hostMaintenance, 
             hostRecovery: hostRecovery, 
@@ -651,7 +654,7 @@ public struct EC2: AWSService {
     /// Assigns the specified IPv6 addresses to the specified network interface. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - ipv6AddressCount: The number of additional IPv6 addresses to assign to the network interface.  		The specified number of IPv6 addresses are assigned in addition to the  		existing IPv6 addresses that are already assigned to the network interface.  		Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You  		can't use this option if specifying specific IPv6 addresses.
+    ///   - ipv6AddressCount: The number of additional IPv6 addresses to assign to the network interface. The specified number of IPv6 addresses are assigned in addition to the existing IPv6 addresses that are already assigned to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
     ///   - ipv6Addresses: The IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
     ///   - ipv6PrefixCount: The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes option.
     ///   - ipv6Prefixes: One or more IPv6 prefixes assigned to the network interface. You can't use this option if you use the Ipv6PrefixCount option.
@@ -676,7 +679,7 @@ public struct EC2: AWSService {
         return try await self.assignIpv6Addresses(input, logger: logger)
     }
 
-    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned from the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
+    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssignPrivateIpAddressesResult {
@@ -689,7 +692,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned from the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
+    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - allowReassignment: Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
@@ -1611,16 +1614,18 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - deviceIndex: The index of the device for the network interface attachment.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - enaQueueCount: The number of ENA queues to be created with the instance.
     ///   - enaSrdSpecification: Configures ENA Express for the network interface that this action attaches to the instance.
     ///   - instanceId: The ID of the instance.
-    ///   - networkCardIndex: The index of the network card. Some instance types support multiple network cards.  The primary network interface must be assigned to network card index 0.  The default is network card index 0.
+    ///   - networkCardIndex: The index of the network card. Some instance types support multiple network cards. The primary network interface must be assigned to network card index 0. The default is network card index 0.
     ///   - networkInterfaceId: The ID of the network interface.
     ///   - logger: Logger use during operation
     @inlinable
     public func attachNetworkInterface(
         deviceIndex: Int? = nil,
         dryRun: Bool? = nil,
+        enaQueueCount: Int? = nil,
         enaSrdSpecification: EnaSrdSpecification? = nil,
         instanceId: String? = nil,
         networkCardIndex: Int? = nil,
@@ -1630,6 +1635,7 @@ public struct EC2: AWSService {
         let input = AttachNetworkInterfaceRequest(
             deviceIndex: deviceIndex, 
             dryRun: dryRun, 
+            enaQueueCount: enaQueueCount, 
             enaSrdSpecification: enaSrdSpecification, 
             instanceId: instanceId, 
             networkCardIndex: networkCardIndex, 
@@ -2428,7 +2434,7 @@ public struct EC2: AWSService {
     ///   - encrypted: Specifies whether the destination snapshots of the copied image should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used unless you specify a non-default Key Management Service (KMS) KMS key using KmsKeyId. For more information, see Use encryption with EBS-backed AMIs in the Amazon EC2 User Guide.
     ///   - kmsKeyId: The identifier of the symmetric Key Management Service (KMS) KMS key to use when creating encrypted volumes. If this parameter is not specified, your Amazon Web Services managed KMS key for Amazon EBS is used. If you specify a KMS key, you must also set the encrypted state to true. You can specify a KMS key using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an identifier that is not valid, the action can appear to complete, but eventually fails. The specified KMS key must exist in the destination Region. Amazon EBS does not support asymmetric KMS keys.
     ///   - name: The name of the new AMI in the destination Region.
-    ///   - snapshotCopyCompletionDurationMinutes: Specify a completion duration, in 15 minute increments, to initiate a time-based  AMI copy. The specified completion duration applies to each of the snapshots associated  with the AMI. Each snapshot associated with the AMI will be completed within the  specified completion duration, regardless of their size. If you do not specify a value, the AMI copy operation is completed on a best-effort  basis. For more information, see  Time-based copies.
+    ///   - snapshotCopyCompletionDurationMinutes: Specify a completion duration, in 15 minute increments, to initiate a time-based AMI copy. The specified completion duration applies to each of the snapshots associated with the AMI. Each snapshot associated with the AMI will be completed within the specified completion duration, with copy throughput automatically adjusted for each snapshot based on its size to meet the timing target. If you do not specify a value, the AMI copy operation is completed on a best-effort  basis. For more information, see  Time-based copies.
     ///   - sourceImageId: The ID of the AMI to copy.
     ///   - sourceRegion: The name of the Region that contains the AMI to copy.
     ///   - tagSpecifications: The tags to apply to the new AMI and new snapshots. You can tag the AMI, the snapshots, or both.   To tag the new AMI, the value for ResourceType must be image.   To tag the new snapshots, the value for ResourceType must be snapshot. The same tag is applied to all the new snapshots.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
@@ -2794,10 +2800,11 @@ public struct EC2: AWSService {
     ///   - clientCidrBlock: The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. Client CIDR range must have a size of at least /22 and must not be greater than /12.
     ///   - clientConnectOptions: The options for managing connection authorization for new client connections.
     ///   - clientLoginBannerOptions: Options for enabling a customizable text banner that will be displayed on
+    ///   - clientRouteEnforcementOptions: Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - connectionLogOptions: Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
     ///   - description: A brief description of the Client VPN endpoint.
-    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is false.
+    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is true.
     ///   - dnsServers: Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - securityGroupIds: The IDs of one or more security groups to apply to the target network. You must also specify the ID of the VPC that contains the security groups.
@@ -2816,6 +2823,7 @@ public struct EC2: AWSService {
         clientCidrBlock: String? = nil,
         clientConnectOptions: ClientConnectOptions? = nil,
         clientLoginBannerOptions: ClientLoginBannerOptions? = nil,
+        clientRouteEnforcementOptions: ClientRouteEnforcementOptions? = nil,
         clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(),
         connectionLogOptions: ConnectionLogOptions? = nil,
         description: String? = nil,
@@ -2838,6 +2846,7 @@ public struct EC2: AWSService {
             clientCidrBlock: clientCidrBlock, 
             clientConnectOptions: clientConnectOptions, 
             clientLoginBannerOptions: clientLoginBannerOptions, 
+            clientRouteEnforcementOptions: clientRouteEnforcementOptions, 
             clientToken: clientToken, 
             connectionLogOptions: connectionLogOptions, 
             description: description, 
@@ -3098,6 +3107,47 @@ public struct EC2: AWSService {
             dryRun: dryRun
         )
         return try await self.createDefaultVpc(input, logger: logger)
+    }
+
+    /// Delegates ownership of the Amazon EBS root volume for an Apple silicon  Mac instance to an administrative user.
+    @Sendable
+    @inlinable
+    public func createDelegateMacVolumeOwnershipTask(_ input: CreateDelegateMacVolumeOwnershipTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDelegateMacVolumeOwnershipTaskResult {
+        try await self.client.execute(
+            operation: "CreateDelegateMacVolumeOwnershipTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delegates ownership of the Amazon EBS root volume for an Apple silicon  Mac instance to an administrative user.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - instanceId: The ID of the Amazon EC2 Mac instance.
+    ///   - macCredentials: Specifies the following credentials:    Internal disk administrative user     Username - Only the default administrative user  (aws-managed-user) is supported and it is used by default. You can't  specify a different administrative user.    Password - If you did not change the default  password for aws-managed-user, specify the default password, which is  blank. Otherwise, specify your password.      Amazon EBS root volume administrative user     Username - If you did not change the default  administrative user, specify ec2-user. Otherwise, specify the username  for your administrative user.    Password - Specify the password for the  administrative user.     The credentials must be specified in the following JSON format:  { "internalDiskPassword":"internal-disk-admin_password", "rootVolumeUsername":"root-volume-admin_username", "rootVolumepassword":"root-volume-admin_password"
+    ///   - tagSpecifications: The tags to assign to the volume ownership delegation task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDelegateMacVolumeOwnershipTask(
+        clientToken: String? = CreateDelegateMacVolumeOwnershipTaskRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        instanceId: String? = nil,
+        macCredentials: String? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDelegateMacVolumeOwnershipTaskResult {
+        let input = CreateDelegateMacVolumeOwnershipTaskRequest(
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            instanceId: instanceId, 
+            macCredentials: macCredentials, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createDelegateMacVolumeOwnershipTask(input, logger: logger)
     }
 
     /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate
@@ -3593,6 +3643,7 @@ public struct EC2: AWSService {
     ///   - description: A description for the IPAM.
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - enablePrivateGua: Enable this option to use your own GUA ranges as private IPv6 addresses. This option is disabled by default.
+    ///   - meteredAccount: A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide. Possible values:    ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM.    resource-owner: The Amazon Web Services account that owns the IP address is charged for the active IP address.
     ///   - operatingRegions: The operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.  For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide.
     ///   - tagSpecifications: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
     ///   - tier: IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing > IPAM tab.
@@ -3603,6 +3654,7 @@ public struct EC2: AWSService {
         description: String? = nil,
         dryRun: Bool? = nil,
         enablePrivateGua: Bool? = nil,
+        meteredAccount: IpamMeteredAccount? = nil,
         operatingRegions: [AddIpamOperatingRegion]? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         tier: IpamTier? = nil,
@@ -3613,6 +3665,7 @@ public struct EC2: AWSService {
             description: description, 
             dryRun: dryRun, 
             enablePrivateGua: enablePrivateGua, 
+            meteredAccount: meteredAccount, 
             operatingRegions: operatingRegions, 
             tagSpecifications: tagSpecifications, 
             tier: tier
@@ -3858,7 +3911,7 @@ public struct EC2: AWSService {
         return try await self.createKeyPair(input, logger: logger)
     }
 
-    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
+    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createLaunchTemplate(_ input: CreateLaunchTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchTemplateResult {
@@ -3871,7 +3924,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
+    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
@@ -3905,7 +3958,7 @@ public struct EC2: AWSService {
         return try await self.createLaunchTemplate(input, logger: logger)
     }
 
-    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits  parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon EC2 User Guide.
+    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createLaunchTemplateVersion(_ input: CreateLaunchTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchTemplateVersionResult {
@@ -3918,7 +3971,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits  parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon EC2 User Guide.
+    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
@@ -3927,7 +3980,7 @@ public struct EC2: AWSService {
     ///   - launchTemplateId: The ID of the launch template. You must specify either the launch template ID or the launch template name, but not both.
     ///   - launchTemplateName: The name of the launch template. You must specify either the launch template ID or the launch template name, but not both.
     ///   - resolveAlias: If true, and if a Systems Manager parameter is specified for ImageId, the AMI ID is displayed in the response for imageID. For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide. Default: false
-    ///   - sourceVersion: The version of the launch template on which to base the new version.  Snapshots applied to the block device mapping are ignored when creating a new version  unless they are explicitly included. If you specify this parameter, the new version inherits the launch parameters from the source version. If you specify additional launch parameters for the new version, they  overwrite any corresponding launch parameters inherited from the source version. If you omit this parameter, the new version contains only the launch parameters that you specify for the new version.
+    ///   - sourceVersion: The version of the launch template on which to base the new version. Snapshots applied to the block device mapping are ignored when creating a new version unless they are explicitly included. If you specify this parameter, the new version inherits the launch parameters from the source version. If you specify additional launch parameters for the new version, they overwrite any corresponding launch parameters inherited from the source version. If you omit this parameter, the new version contains only the launch parameters that you specify for the new version.
     ///   - versionDescription: A description for the version of the launch template.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4111,6 +4164,147 @@ public struct EC2: AWSService {
             vpcId: vpcId
         )
         return try await self.createLocalGatewayRouteTableVpcAssociation(input, logger: logger)
+    }
+
+    /// Create a virtual interface for a local gateway.
+    @Sendable
+    @inlinable
+    public func createLocalGatewayVirtualInterface(_ input: CreateLocalGatewayVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocalGatewayVirtualInterfaceResult {
+        try await self.client.execute(
+            operation: "CreateLocalGatewayVirtualInterface", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a virtual interface for a local gateway.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - localAddress: The IP address assigned to the local gateway virtual interface on the Outpost side. Only IPv4 is supported.
+    ///   - localGatewayVirtualInterfaceGroupId: The ID of the local gateway virtual interface group.
+    ///   - outpostLagId: References the Link Aggregation Group (LAG) that connects the Outpost to on-premises network devices.
+    ///   - peerAddress: The peer IP address for the local gateway virtual interface. Only IPv4 is supported.
+    ///   - peerBgpAsn: The Autonomous System Number (ASN) of the Border Gateway Protocol (BGP) peer.
+    ///   - peerBgpAsnExtended: The extended 32-bit ASN of the BGP peer for use with larger ASN values.
+    ///   - tagSpecifications: The tags to apply to a resource when the local gateway virtual interface is being created.
+    ///   - vlan: The virtual local area network (VLAN) used for the local gateway virtual interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLocalGatewayVirtualInterface(
+        dryRun: Bool? = nil,
+        localAddress: String? = nil,
+        localGatewayVirtualInterfaceGroupId: String? = nil,
+        outpostLagId: String? = nil,
+        peerAddress: String? = nil,
+        peerBgpAsn: Int? = nil,
+        peerBgpAsnExtended: Int64? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        vlan: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLocalGatewayVirtualInterfaceResult {
+        let input = CreateLocalGatewayVirtualInterfaceRequest(
+            dryRun: dryRun, 
+            localAddress: localAddress, 
+            localGatewayVirtualInterfaceGroupId: localGatewayVirtualInterfaceGroupId, 
+            outpostLagId: outpostLagId, 
+            peerAddress: peerAddress, 
+            peerBgpAsn: peerBgpAsn, 
+            peerBgpAsnExtended: peerBgpAsnExtended, 
+            tagSpecifications: tagSpecifications, 
+            vlan: vlan
+        )
+        return try await self.createLocalGatewayVirtualInterface(input, logger: logger)
+    }
+
+    /// Create a local gateway virtual interface group.
+    @Sendable
+    @inlinable
+    public func createLocalGatewayVirtualInterfaceGroup(_ input: CreateLocalGatewayVirtualInterfaceGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocalGatewayVirtualInterfaceGroupResult {
+        try await self.client.execute(
+            operation: "CreateLocalGatewayVirtualInterfaceGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a local gateway virtual interface group.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - localBgpAsn: The Autonomous System Number(ASN) for the local Border Gateway Protocol (BGP).
+    ///   - localBgpAsnExtended: The extended 32-bit ASN for the local BGP configuration.
+    ///   - localGatewayId: The ID of the local gateway.
+    ///   - tagSpecifications: The tags to apply to the local gateway virtual interface group when the resource is being created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLocalGatewayVirtualInterfaceGroup(
+        dryRun: Bool? = nil,
+        localBgpAsn: Int? = nil,
+        localBgpAsnExtended: Int64? = nil,
+        localGatewayId: String? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLocalGatewayVirtualInterfaceGroupResult {
+        let input = CreateLocalGatewayVirtualInterfaceGroupRequest(
+            dryRun: dryRun, 
+            localBgpAsn: localBgpAsn, 
+            localBgpAsnExtended: localBgpAsnExtended, 
+            localGatewayId: localGatewayId, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createLocalGatewayVirtualInterfaceGroup(input, logger: logger)
+    }
+
+    /// Creates a System Integrity Protection (SIP) modification task to configure the SIP settings  for an x86 Mac instance or Apple silicon Mac instance. For more information, see   Configure SIP for Amazon EC2 instances in the Amazon EC2 User Guide. When you configure the SIP settings for your instance, you can either enable  or disable all SIP settings, or you can specify a custom SIP configuration that  selectively enables or disables specific SIP settings.  If you implement a custom configuration,  connect to the instance and verify the settings to ensure that your  requirements are properly implemented and functioning as intended. SIP configurations might change with macOS updates. We recommend that you  review custom SIP settings after any macOS version upgrade to ensure  continued compatibility and proper functionality of your security configurations.  To enable or disable all SIP settings, use the MacSystemIntegrityProtectionStatus  parameter only. For example, to enable all SIP settings, specify the following:    MacSystemIntegrityProtectionStatus=enabled    To specify a custom configuration that selectively enables or disables specific SIP  settings, use the MacSystemIntegrityProtectionStatus  parameter to enable or disable all SIP settings, and then use the  MacSystemIntegrityProtectionConfiguration parameter  to specify exceptions. In this case, the exceptions you specify for MacSystemIntegrityProtectionConfiguration override the value  you specify for MacSystemIntegrityProtectionStatus.  For example, to enable all SIP settings, except NvramProtections,  specify the following:    MacSystemIntegrityProtectionStatus=enabled     MacSystemIntegrityProtectionConfigurationRequest "NvramProtections=disabled"
+    @Sendable
+    @inlinable
+    public func createMacSystemIntegrityProtectionModificationTask(_ input: CreateMacSystemIntegrityProtectionModificationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMacSystemIntegrityProtectionModificationTaskResult {
+        try await self.client.execute(
+            operation: "CreateMacSystemIntegrityProtectionModificationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a System Integrity Protection (SIP) modification task to configure the SIP settings  for an x86 Mac instance or Apple silicon Mac instance. For more information, see   Configure SIP for Amazon EC2 instances in the Amazon EC2 User Guide. When you configure the SIP settings for your instance, you can either enable  or disable all SIP settings, or you can specify a custom SIP configuration that  selectively enables or disables specific SIP settings.  If you implement a custom configuration,  connect to the instance and verify the settings to ensure that your  requirements are properly implemented and functioning as intended. SIP configurations might change with macOS updates. We recommend that you  review custom SIP settings after any macOS version upgrade to ensure  continued compatibility and proper functionality of your security configurations.  To enable or disable all SIP settings, use the MacSystemIntegrityProtectionStatus  parameter only. For example, to enable all SIP settings, specify the following:    MacSystemIntegrityProtectionStatus=enabled    To specify a custom configuration that selectively enables or disables specific SIP  settings, use the MacSystemIntegrityProtectionStatus  parameter to enable or disable all SIP settings, and then use the  MacSystemIntegrityProtectionConfiguration parameter  to specify exceptions. In this case, the exceptions you specify for MacSystemIntegrityProtectionConfiguration override the value  you specify for MacSystemIntegrityProtectionStatus.  For example, to enable all SIP settings, except NvramProtections,  specify the following:    MacSystemIntegrityProtectionStatus=enabled     MacSystemIntegrityProtectionConfigurationRequest "NvramProtections=disabled"
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - instanceId: The ID of the Amazon EC2 Mac instance.
+    ///   - macCredentials:  [Apple silicon Mac instances only] Specifies the  following credentials:    Internal disk administrative user     Username - Only the default administrative  user (aws-managed-user) is supported and it is used by default. You  can't specify a different administrative user.    Password - If you did not change the default  password for aws-managed-user, specify the default password, which  is blank. Otherwise, specify your password.      Amazon EBS root volume administrative user     Username - If you did not change the default  administrative user, specify ec2-user. Otherwise, specify the username  for your administrative user.    Password - Specify the password for the  administrative user.     The credentials must be specified in the following JSON format:  { "internalDiskPassword":"internal-disk-admin_password", "rootVolumeUsername":"root-volume-admin_username", "rootVolumepassword":"root-volume-admin_password"
+    ///   - macSystemIntegrityProtectionConfiguration: Specifies the overrides to selectively enable or disable individual SIP settings.  The individual settings you specify here override the overall SIP status you specify  for MacSystemIntegrityProtectionStatus.
+    ///   - macSystemIntegrityProtectionStatus: Specifies the overall SIP status for the instance. To enable all SIP settings, specify  enabled. To disable all SIP settings, specify disabled.
+    ///   - tagSpecifications: Specifies tags to apply to the SIP modification task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMacSystemIntegrityProtectionModificationTask(
+        clientToken: String? = CreateMacSystemIntegrityProtectionModificationTaskRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        instanceId: String? = nil,
+        macCredentials: String? = nil,
+        macSystemIntegrityProtectionConfiguration: MacSystemIntegrityProtectionConfigurationRequest? = nil,
+        macSystemIntegrityProtectionStatus: MacSystemIntegrityProtectionSettingStatus? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMacSystemIntegrityProtectionModificationTaskResult {
+        let input = CreateMacSystemIntegrityProtectionModificationTaskRequest(
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            instanceId: instanceId, 
+            macCredentials: macCredentials, 
+            macSystemIntegrityProtectionConfiguration: macSystemIntegrityProtectionConfiguration, 
+            macSystemIntegrityProtectionStatus: macSystemIntegrityProtectionStatus, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createMacSystemIntegrityProtectionModificationTask(input, logger: logger)
     }
 
     /// Creates a managed prefix list. You can specify entries for the prefix list.  Each entry consists of a CIDR block and an optional description.
@@ -4420,7 +4614,7 @@ public struct EC2: AWSService {
         return try await self.createNetworkInsightsPath(input, logger: logger)
     }
 
-    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network interfaces  in the Amazon EC2 User Guide.
+    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network interfaces in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createNetworkInterface(_ input: CreateNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkInterfaceResult {
@@ -4433,20 +4627,20 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network interfaces  in the Amazon EC2 User Guide.
+    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network interfaces in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
     ///   - connectionTrackingSpecification: A connection tracking specification for the network interface.
     ///   - description: A description for the network interface.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - enablePrimaryIpv6: If you’re creating a network interface in a dual-stack or IPv6-only subnet, you have the option to assign a primary IPv6 IP address. A primary IPv6 address is an IPv6 GUA address associated with an ENI that you have enabled to use a primary IPv6 address. Use this option if the instance that this ENI will be attached to relies on its IPv6 address not changing. Amazon Web Services will automatically assign an IPv6 address associated with the ENI attached to your instance to be the primary IPv6 address. Once you enable an IPv6 GUA address to be a primary IPv6, you cannot disable it. When you enable an IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made the primary IPv6 address until the instance is terminated or the network interface is detached. If you have multiple IPv6 addresses associated with an ENI attached to your instance and you enable a primary IPv6 address, the first IPv6 GUA address associated with the ENI becomes the primary IPv6 address.
     ///   - groups: The IDs of the security groups.
-    ///   - interfaceType: The type of network interface. The default is interface. If you specify efa-only, do not assign any IP addresses to the network  interface. EFA-only network interfaces do not support IP addresses. The only supported values are interface, efa, efa-only, and trunk.
+    ///   - interfaceType: The type of network interface. The default is interface. If you specify efa-only, do not assign any IP addresses to the network interface. EFA-only network interfaces do not support IP addresses. The only supported values are interface, efa, efa-only, and trunk.
     ///   - ipv4PrefixCount: The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You can't specify a count of IPv4 prefixes if you've specified one of the following: specific IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
     ///   - ipv4Prefixes: The IPv4 prefixes assigned to the network interface. You can't specify IPv4 prefixes if you've specified one of the following: a count of IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
-    ///   - ipv6AddressCount: The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't specify a count of IPv6 addresses using this parameter if you've specified  one of the following: specific IPv6 addresses, specific IPv6 prefixes, or a count of IPv6 prefixes. If your subnet has the AssignIpv6AddressOnCreation attribute set, you can override that setting by specifying 0 as the IPv6 address count.
-    ///   - ipv6Addresses: The IPv6 addresses from the IPv6 CIDR block range of your subnet. You can't specify IPv6 addresses using this parameter if you've specified one of the  following: a count of IPv6 addresses, specific IPv6 prefixes, or a count of IPv6 prefixes.
+    ///   - ipv6AddressCount: The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't specify a count of IPv6 addresses using this parameter if you've specified one of the following: specific IPv6 addresses, specific IPv6 prefixes, or a count of IPv6 prefixes. If your subnet has the AssignIpv6AddressOnCreation attribute set, you can override that setting by specifying 0 as the IPv6 address count.
+    ///   - ipv6Addresses: The IPv6 addresses from the IPv6 CIDR block range of your subnet. You can't specify IPv6 addresses using this parameter if you've specified one of the following: a count of IPv6 addresses, specific IPv6 prefixes, or a count of IPv6 prefixes.
     ///   - ipv6PrefixCount: The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface. You can't specify a count of IPv6 prefixes if you've specified one of the following: specific IPv6 prefixes, specific IPv6 addresses, or a count of IPv6 addresses.
     ///   - ipv6Prefixes: The IPv6 prefixes assigned to the network interface. You can't specify IPv6 prefixes if you've specified one of the following: a count of IPv6 prefixes, specific IPv6 addresses, or a count of IPv6 addresses.
     ///   - operator: Reserved for internal use.
@@ -4521,7 +4715,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
     ///   - awsService: The Amazon Web Services service. Currently not supported.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - networkInterfaceId: The ID of the network interface.
     ///   - permission: The type of permission to grant.
     ///   - logger: Logger use during operation
@@ -4646,6 +4840,7 @@ public struct EC2: AWSService {
     ///   - instanceId: The ID of the instance for which to replace the root volume.
     ///   - snapshotId: The ID of the snapshot from which to restore the replacement root volume. The  specified snapshot must be a snapshot that you previously created from the original  root volume. If you want to restore the replacement root volume to the initial launch state,  or if you want to restore the replacement root volume from an AMI, omit this  parameter.
     ///   - tagSpecifications: The tags to apply to the root volume replacement task.
+    ///   - volumeInitializationRate: Specifies the Amazon EBS Provisioned Rate for Volume Initialization (volume initialization rate), in MiB/s, at which to download  the snapshot blocks from Amazon S3 to the replacement root volume. This is also known as  volume initialization. Specifying a volume initialization rate ensures that  the volume is initialized at a predictable and consistent rate after creation. Omit this parameter if:   You want to create the volume using fast snapshot restore. You must specify a snapshot  that is enabled for fast snapshot restore. In this case, the volume is fully initialized at  creation.  If you specify a snapshot that is enabled for fast snapshot restore and a volume initialization rate,  the volume will be initialized at the specified rate instead of fast snapshot restore.    You want to create a volume that is initialized at the default rate.   For more information, see  Initialize Amazon EBS volumes in the Amazon EC2 User Guide. Valid range: 100 - 300 MiB/s
     ///   - logger: Logger use during operation
     @inlinable
     public func createReplaceRootVolumeTask(
@@ -4656,6 +4851,7 @@ public struct EC2: AWSService {
         instanceId: String? = nil,
         snapshotId: String? = nil,
         tagSpecifications: [TagSpecification]? = nil,
+        volumeInitializationRate: Int64? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateReplaceRootVolumeTaskResult {
         let input = CreateReplaceRootVolumeTaskRequest(
@@ -4665,14 +4861,13 @@ public struct EC2: AWSService {
             imageId: imageId, 
             instanceId: instanceId, 
             snapshotId: snapshotId, 
-            tagSpecifications: tagSpecifications
+            tagSpecifications: tagSpecifications, 
+            volumeInitializationRate: volumeInitializationRate
         )
         return try await self.createReplaceRootVolumeTask(input, logger: logger)
     }
 
-    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance
-    /// 			Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your
-    /// 			Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.  Convertible Reserved Instances cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
+    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createReservedInstancesListing(_ input: CreateReservedInstancesListingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReservedInstancesListingResult {
@@ -4685,12 +4880,10 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance
-    /// 			Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your
-    /// 			Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.  Convertible Reserved Instances cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
+    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of your
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
     ///   - instanceCount: The number of instances that are a part of a Reserved Instance account to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
     ///   - priceSchedules: A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term.
     ///   - reservedInstancesId: The ID of the active Standard Reserved Instance.
@@ -6274,6 +6467,7 @@ public struct EC2: AWSService {
     ///   - snapshotId: The snapshot from which to create the volume. You must specify either a snapshot ID or a volume size.
     ///   - tagSpecifications: The tags to apply to the volume during creation.
     ///   - throughput: The throughput to provision for a volume, with a maximum of 1,000 MiB/s. This parameter is valid only for gp3 volumes. Valid Range: Minimum value of 125. Maximum value of 1000.
+    ///   - volumeInitializationRate: Specifies the Amazon EBS Provisioned Rate for Volume Initialization (volume initialization rate), in MiB/s, at which to download  the snapshot blocks from Amazon S3 to the volume. This is also known as volume  initialization. Specifying a volume initialization rate ensures that the volume is  initialized at a predictable and consistent rate after creation. This parameter is supported only for volumes created from snapshots. Omit this parameter  if:   You want to create the volume using fast snapshot restore. You must specify a snapshot  that is enabled for fast snapshot restore. In this case, the volume is fully initialized at  creation.  If you specify a snapshot that is enabled for fast snapshot restore and a volume initialization rate,  the volume will be initialized at the specified rate instead of fast snapshot restore.    You want to create a volume that is initialized at the default rate.   For more information, see  Initialize Amazon EBS volumes in the Amazon EC2 User Guide. Valid range: 100 - 300 MiB/s
     ///   - volumeType: The volume type. This parameter can be one of the following values:   General Purpose SSD: gp2 | gp3    Provisioned IOPS SSD: io1 | io2    Throughput Optimized HDD: st1    Cold HDD: sc1    Magnetic: standard     Throughput Optimized HDD (st1) and Cold HDD (sc1) volumes can't be used as boot volumes.  For more information, see Amazon EBS volume types in the Amazon EBS User Guide. Default: gp2
     ///   - logger: Logger use during operation
     @inlinable
@@ -6291,6 +6485,7 @@ public struct EC2: AWSService {
         snapshotId: String? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         throughput: Int? = nil,
+        volumeInitializationRate: Int? = nil,
         volumeType: VolumeType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Volume {
@@ -6308,6 +6503,7 @@ public struct EC2: AWSService {
             snapshotId: snapshotId, 
             tagSpecifications: tagSpecifications, 
             throughput: throughput, 
+            volumeInitializationRate: volumeInitializationRate, 
             volumeType: volumeType
         )
         return try await self.createVolume(input, logger: logger)
@@ -6441,7 +6637,7 @@ public struct EC2: AWSService {
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - ipAddressType: The IP address type for the endpoint.
     ///   - policyDocument: (Interface and gateway endpoints) A policy to attach to the endpoint that controls access to the service. The policy must be in valid JSON format. If this parameter is not specified, we attach a default policy that allows full access to the service.
-    ///   - privateDnsEnabled: (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use ModifyVpcAttribute to set the VPC attributes. Default: true
+    ///   - privateDnsEnabled: (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use ModifyVpcAttribute to set the VPC attributes.
     ///   - resourceConfigurationArn: The Amazon Resource Name (ARN) of a resource configuration that will be associated with the VPC endpoint of type resource.
     ///   - routeTableIds: (Gateway endpoint) The route table IDs.
     ///   - securityGroupIds: (Interface endpoint) The IDs of the security groups to associate with the endpoint network interfaces. If this parameter is not specified, we use the default  security group for the VPC.
@@ -7645,6 +7841,70 @@ public struct EC2: AWSService {
         return try await self.deleteLocalGatewayRouteTableVpcAssociation(input, logger: logger)
     }
 
+    /// Deletes the specified local gateway virtual interface.
+    @Sendable
+    @inlinable
+    public func deleteLocalGatewayVirtualInterface(_ input: DeleteLocalGatewayVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLocalGatewayVirtualInterfaceResult {
+        try await self.client.execute(
+            operation: "DeleteLocalGatewayVirtualInterface", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified local gateway virtual interface.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - localGatewayVirtualInterfaceId: The ID of the local virtual interface to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLocalGatewayVirtualInterface(
+        dryRun: Bool? = nil,
+        localGatewayVirtualInterfaceId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLocalGatewayVirtualInterfaceResult {
+        let input = DeleteLocalGatewayVirtualInterfaceRequest(
+            dryRun: dryRun, 
+            localGatewayVirtualInterfaceId: localGatewayVirtualInterfaceId
+        )
+        return try await self.deleteLocalGatewayVirtualInterface(input, logger: logger)
+    }
+
+    /// Delete the specified local gateway interface group.
+    @Sendable
+    @inlinable
+    public func deleteLocalGatewayVirtualInterfaceGroup(_ input: DeleteLocalGatewayVirtualInterfaceGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLocalGatewayVirtualInterfaceGroupResult {
+        try await self.client.execute(
+            operation: "DeleteLocalGatewayVirtualInterfaceGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete the specified local gateway interface group.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - localGatewayVirtualInterfaceGroupId: The ID of the local gateway virtual interface group to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLocalGatewayVirtualInterfaceGroup(
+        dryRun: Bool? = nil,
+        localGatewayVirtualInterfaceGroupId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLocalGatewayVirtualInterfaceGroupResult {
+        let input = DeleteLocalGatewayVirtualInterfaceGroupRequest(
+            dryRun: dryRun, 
+            localGatewayVirtualInterfaceGroupId: localGatewayVirtualInterfaceGroupId
+        )
+        return try await self.deleteLocalGatewayVirtualInterfaceGroup(input, logger: logger)
+    }
+
     /// Deletes the specified managed prefix list. You must first remove all references to the prefix list in your resources.
     @Sendable
     @inlinable
@@ -7923,7 +8183,7 @@ public struct EC2: AWSService {
     /// Deletes the specified network interface. You must detach the network interface before you can delete it.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - networkInterfaceId: The ID of the network interface.
     ///   - logger: Logger use during operation
     @inlinable
@@ -7939,10 +8199,7 @@ public struct EC2: AWSService {
         return try await self.deleteNetworkInterface(input, logger: logger)
     }
 
-    /// Deletes a permission for a network interface. By default, you cannot delete the
-    /// 			permission if the account for which you're removing the permission has attached the
-    /// 			network interface to an instance. However, you can force delete the permission,
-    /// 			regardless of any attachment.
+    /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment.
     @Sendable
     @inlinable
     public func deleteNetworkInterfacePermission(_ input: DeleteNetworkInterfacePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkInterfacePermissionResult {
@@ -7955,14 +8212,11 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deletes a permission for a network interface. By default, you cannot delete the
-    /// 			permission if the account for which you're removing the permission has attached the
-    /// 			network interface to an instance. However, you can force delete the permission,
-    /// 			regardless of any attachment.
+    /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
-    ///   - force: Specify true to remove the permission even if the network interface is
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - force: Specify true to remove the permission even if the network interface is attached to an instance.
     ///   - networkInterfacePermissionId: The ID of the network interface permission.
     ///   - logger: Logger use during operation
     @inlinable
@@ -8063,7 +8317,7 @@ public struct EC2: AWSService {
     /// Deletes the queued purchases for the specified Reserved Instances.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - reservedInstancesIds: The IDs of the Reserved Instances.
     ///   - logger: Logger use during operation
     @inlinable
@@ -10094,7 +10348,7 @@ public struct EC2: AWSService {
     }
 
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. You must select one of the following options.   For reservation durations 1-day increments up 14 days and 7-day increments up to 182 days total    For instance count 1, 2, 4, 8, 16, 32, or 64 instances
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
     @Sendable
     @inlinable
     public func describeCapacityBlockOfferings(_ input: DescribeCapacityBlockOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockOfferingsResult {
@@ -10108,13 +10362,13 @@ public struct EC2: AWSService {
         )
     }
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. You must select one of the following options.   For reservation durations 1-day increments up 14 days and 7-day increments up to 182 days total    For instance count 1, 2, 4, 8, 16, 32, or 64 instances
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
     ///
     /// Parameters:
-    ///   - capacityDurationHours: The number of hours for which to reserve Capacity Block.
+    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - endDateRange: The latest end date for the Capacity Block offering.
-    ///   - instanceCount: The number of instances for which to reserve capacity.
+    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - nextToken: The token to use to retrieve the next page of results.
@@ -11506,7 +11760,7 @@ public struct EC2: AWSService {
         return try await self.describeImageAttribute(input, logger: logger)
     }
 
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see EnableAllowedImagesSettings.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see EnableAllowedImagesSettings. The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImagesResult {
@@ -11519,7 +11773,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see EnableAllowedImagesSettings.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see EnableAllowedImagesSettings. The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
@@ -11869,7 +12123,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceImageMetadata(input, logger: logger)
     }
 
-    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.    The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.   The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
     public func describeInstanceStatus(_ input: DescribeInstanceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceStatusResult {
@@ -11882,7 +12136,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.    The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.   The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11913,7 +12167,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceStatus(input, logger: logger)
     }
 
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types   Returns 3 network nodes in the response    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      Returns 4 network nodes in the response    p6-b200.48xlarge        For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func describeInstanceTopology(_ input: DescribeInstanceTopologyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTopologyResult {
@@ -11926,7 +12180,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types   Returns 3 network nodes in the response    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      Returns 4 network nodes in the response    p6-b200.48xlarge        For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12015,7 +12269,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.flexible-ena-queues-support - Indicates whether an instance supports flexible ENA queues (supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    reboot-migration-support - Indicates whether enabling reboot migration is supported (supported | unsupported).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot | capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -12039,7 +12293,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceTypes(input, logger: logger)
     }
 
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally. The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
     public func describeInstances(_ input: DescribeInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstancesResult {
@@ -12052,7 +12306,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally. The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12911,6 +13165,47 @@ public struct EC2: AWSService {
         return try await self.describeMacHosts(input, logger: logger)
     }
 
+    /// Describes a System Integrity Protection (SIP) modification task or volume ownership delegation  task for an Amazon EC2 Mac instance. For more information, see Configure  SIP for Amazon EC2 instances in the Amazon EC2 User Guide.
+    @Sendable
+    @inlinable
+    public func describeMacModificationTasks(_ input: DescribeMacModificationTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMacModificationTasksResult {
+        try await self.client.execute(
+            operation: "DescribeMacModificationTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a System Integrity Protection (SIP) modification task or volume ownership delegation  task for an Amazon EC2 Mac instance. For more information, see Configure  SIP for Amazon EC2 instances in the Amazon EC2 User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: Specifies one or more filters for the request:    instance-id - The ID of the instance for which the task was created.    task-state - The state of the task (successful | failed |  in-progress | pending).    mac-system-integrity-protection-configuration.sip-status - The overall SIP  state requested in the task (enabled | disabled).    start-time - The date and time the task was created.    task-type - The type of task (sip-modification | volume-ownership-delegation).
+    ///   - macModificationTaskIds: The ID of task.
+    ///   - maxResults: The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.
+    ///   - nextToken: The token to use to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMacModificationTasks(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        macModificationTaskIds: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMacModificationTasksResult {
+        let input = DescribeMacModificationTasksRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            macModificationTaskIds: macModificationTaskIds, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeMacModificationTasks(input, logger: logger)
+    }
+
     /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
     @Sendable
     @inlinable
@@ -13276,7 +13571,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - attribute: The attribute of the network interface. This parameter is required.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - networkInterfaceId: The ID of the network interface.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13310,10 +13605,10 @@ public struct EC2: AWSService {
     /// Describes the permissions for your network interfaces.
     ///
     /// Parameters:
-    ///   - filters: One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the
-    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items,
+    ///   - filters: One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the permission.    network-interface-permission.network-interface-id - The ID of the network interface.    network-interface-permission.aws-account-id - The Amazon Web Services account ID.    network-interface-permission.aws-service - The Amazon Web Services service.    network-interface-permission.permission - The type of permission (INSTANCE-ATTACH | EIP-ASSOCIATE).
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. If this parameter is not specified, up to 50 results are returned by default. For more information, see Pagination.
     ///   - networkInterfacePermissionIds: The network interface permission IDs.
-    ///   - nextToken: The token returned from a previous paginated request.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeNetworkInterfacePermissions(
@@ -13332,7 +13627,7 @@ public struct EC2: AWSService {
         return try await self.describeNetworkInterfacePermissions(input, logger: logger)
     }
 
-    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
+    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id, mac-address, private-dns-name, private-ip-address, subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     @Sendable
     @inlinable
     public func describeNetworkInterfaces(_ input: DescribeNetworkInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNetworkInterfacesResult {
@@ -13345,14 +13640,14 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
+    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id, mac-address, private-dns-name, private-ip-address, subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you
-    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items,
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
     ///   - networkInterfaceIds: The network interface IDs. Default: Describes all your network interfaces.
-    ///   - nextToken: The token returned from a previous paginated request.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeNetworkInterfaces(
@@ -13371,6 +13666,47 @@ public struct EC2: AWSService {
             nextToken: nextToken
         )
         return try await self.describeNetworkInterfaces(input, logger: logger)
+    }
+
+    /// Describes the Outposts link aggregation groups (LAGs).  LAGs are only available for second-generation Outposts racks at this time.
+    @Sendable
+    @inlinable
+    public func describeOutpostLags(_ input: DescribeOutpostLagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOutpostLagsResult {
+        try await self.client.execute(
+            operation: "DescribeOutpostLags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the Outposts link aggregation groups (LAGs).  LAGs are only available for second-generation Outposts racks at this time.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: The filters to use for narrowing down the request. The following filters are supported:    service-link-virtual-interface-id - The ID of the service link virtual interface.    service-link-virtual-interface-arn - The ARN of the service link virtual interface.    outpost-id - The Outpost ID.    outpost-arn - The Outpost ARN.    owner-id - The ID of the Amazon Web Services account that owns the service link virtual interface.    vlan - The ID of the address pool.    local-address - The local address.    peer-address - The peer address.    peer-bgp-asn - The peer BGP ASN.    outpost-lag-id - The Outpost LAG ID.    configuration-state - The configuration state of the service link virtual interface.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - outpostLagIds: The IDs of the Outpost LAGs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeOutpostLags(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        outpostLagIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeOutpostLagsResult {
+        let input = DescribeOutpostLagsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            outpostLagIds: outpostLagIds
+        )
+        return try await self.describeOutpostLags(input, logger: logger)
     }
 
     /// Describes the specified placement groups or all of your placement groups.  To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error.  For more information, see Placement groups in the Amazon EC2 User Guide.
@@ -13607,8 +13943,7 @@ public struct EC2: AWSService {
         return try await self.describeReplaceRootVolumeTasks(input, logger: logger)
     }
 
-    /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved
-    /// 				Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
     public func describeReservedInstances(_ input: DescribeReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesResult {
@@ -13621,14 +13956,13 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved
-    /// 				Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (one year or three years), in seconds (31536000 | 94608000).    end - The time when the Reserved Instance expires (for example, 2015-08-07T11:54:42.000Z).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    scope - The scope of the Reserved Instance (Region or Availability Zone).    product-description - The Reserved Instance product platform description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA |  Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise).    reserved-instances-id - The ID of the Reserved Instance.    start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z).    state - The state of the Reserved Instance (payment-pending | active | payment-failed | retired).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    availability-zone-id - The ID of the Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (one year or three years), in seconds (31536000 | 94608000).    end - The time when the Reserved Instance expires (for example, 2015-08-07T11:54:42.000Z).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    scope - The scope of the Reserved Instance (Region or Availability Zone).    product-description - The Reserved Instance product platform description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise).    reserved-instances-id - The ID of the Reserved Instance.    start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z).    state - The state of the Reserved Instance (payment-pending | active | payment-failed | retired).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
     ///   - offeringClass: Describes whether the Reserved Instance is Standard or Convertible.
-    ///   - offeringType: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API
+    ///   - offeringType: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type.
     ///   - reservedInstancesIds: One or more Reserved Instance IDs. Default: Describes all your Reserved Instances, or only those otherwise specified.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13701,7 +14035,7 @@ public struct EC2: AWSService {
     /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
-    ///   - filters: One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.
+    ///   - filters: One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.availability-zone-id - The ID of the Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.
     ///   - nextToken: The token to retrieve the next page of results.
     ///   - reservedInstancesModificationIds: IDs for the submitted modification request.
     ///   - logger: Logger use during operation
@@ -13736,25 +14070,27 @@ public struct EC2: AWSService {
     /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
-    ///   - availabilityZone: The Availability Zone in which the Reserved Instance can be used.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (for example, one year or three years), in seconds (31536000 | 94608000).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    marketplace - Set to true to show only Reserved Instance Marketplace offerings. When this filter is not used, which is the default behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace are listed.    product-description - The Reserved Instance product platform description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA |  Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise).    reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
+    ///   - availabilityZone: The Availability Zone in which the Reserved Instance can be used. Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+    ///   - availabilityZoneId: The ID of the Availability Zone. Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    availability-zone-id - The ID of the Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (for example, one year or three years), in seconds (31536000 | 94608000).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    marketplace - Set to true to show only Reserved Instance Marketplace offerings. When this filter is not used, which is the default behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace are listed.    product-description - The Reserved Instance product platform description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise).    reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
     ///   - includeMarketplace: Include Reserved Instance Marketplace offerings in the response.
     ///   - instanceTenancy: The tenancy of the instances covered by the reservation. A Reserved Instance with a tenancy of dedicated is applied to instances that run in a VPC on single-tenant hardware (i.e., Dedicated Instances).  Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default
     ///   - instanceType: The instance type that the reservation will cover (for example, m1.small). For more information, see Amazon EC2 instance types in the Amazon EC2 User Guide.
     ///   - maxDuration: The maximum duration (in seconds) to filter when searching for offerings. Default: 94608000 (3 years)
     ///   - maxInstanceCount: The maximum number of instances to filter when searching for offerings. Default: 20
-    ///   - maxResults: The maximum number of results to return for the request in a single page. The remaining
+    ///   - maxResults: The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. The maximum is 100. Default: 100
     ///   - minDuration: The minimum duration (in seconds) to filter when searching for offerings. Default: 2592000 (1 month)
     ///   - nextToken: The token to retrieve the next page of results.
     ///   - offeringClass: The offering class of the Reserved Instance. Can be standard or convertible.
-    ///   - offeringType: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API
+    ///   - offeringType: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type.
     ///   - productDescription: The Reserved Instance product platform description. Instances that include (Amazon VPC) in the description are for use with Amazon VPC.
     ///   - reservedInstancesOfferingIds: One or more Reserved Instances offering IDs.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeReservedInstancesOfferings(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
         includeMarketplace: Bool? = nil,
@@ -13773,6 +14109,7 @@ public struct EC2: AWSService {
     ) async throws -> DescribeReservedInstancesOfferingsResult {
         let input = DescribeReservedInstancesOfferingsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             dryRun: dryRun, 
             filters: filters, 
             includeMarketplace: includeMarketplace, 
@@ -14206,6 +14543,47 @@ public struct EC2: AWSService {
             nextToken: nextToken
         )
         return try await self.describeSecurityGroups(input, logger: logger)
+    }
+
+    /// Describes the Outpost service link virtual interfaces.
+    @Sendable
+    @inlinable
+    public func describeServiceLinkVirtualInterfaces(_ input: DescribeServiceLinkVirtualInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceLinkVirtualInterfacesResult {
+        try await self.client.execute(
+            operation: "DescribeServiceLinkVirtualInterfaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the Outpost service link virtual interfaces.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: The filters to use for narrowing down the request. The following filters are supported:    outpost-lag-id - The ID of the Outpost LAG.    outpost-arn - The Outpost ARN.    owner-id - The ID of the Amazon Web Services account that owns the service link virtual interface.    state - The  state of the Outpost LAG.    vlan - The ID of the address pool.    service-link-virtual-interface-id - The ID of the service link virtual interface.    local-gateway-virtual-interface-id - The ID of the local gateway virtual interface.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - serviceLinkVirtualInterfaceIds: The IDs of the service link virtual interfaces.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServiceLinkVirtualInterfaces(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceLinkVirtualInterfaceIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeServiceLinkVirtualInterfacesResult {
+        let input = DescribeServiceLinkVirtualInterfacesRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceLinkVirtualInterfaceIds: serviceLinkVirtualInterfaceIds
+        )
+        return try await self.describeServiceLinkVirtualInterfaces(input, logger: logger)
     }
 
     /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.
@@ -16057,7 +16435,7 @@ public struct EC2: AWSService {
         return try await self.describeVpcEndpointServiceConfigurations(input, logger: logger)
     }
 
-    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
+    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service. Principal ARNs with path components aren't supported.
     @Sendable
     @inlinable
     public func describeVpcEndpointServicePermissions(_ input: DescribeVpcEndpointServicePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcEndpointServicePermissionsResult {
@@ -16070,7 +16448,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
+    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service. Principal ARNs with path components aren't supported.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -16430,7 +16808,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - attachmentId: The ID of the attachment.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - force: Specifies whether to force a detachment.    Use the Force parameter only as a last resort to detach a network interface from a failed instance.    If you use the Force parameter to detach a network interface, you might not be able to attach a different network interface to the same index on the instance without first stopping and starting the instance.   If you force the detachment of a network interface, the instance metadata might not get updated. This means that the attributes associated with the detached network interface might still be visible. The instance metadata will get updated when you stop and start the instance.
     ///   - logger: Logger use during operation
     @inlinable
@@ -17159,7 +17537,7 @@ public struct EC2: AWSService {
         return try await self.disableVpcClassicLinkDnsSupport(input, logger: logger)
     }
 
-    /// Disassociates an Elastic IP address from the instance or network interface it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
+    /// Disassociates an Elastic IP address from the instance or network interface it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. An address cannot be disassociated if the all of the following conditions are met:   Network interface has a publicDualStackDnsName publicDnsName   Public IPv4 address is the primary public IPv4 address   Network interface only has one remaining public IPv4 address
     @Sendable
     @inlinable
     public func disassociateAddress(_ input: DisassociateAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -17172,7 +17550,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Disassociates an Elastic IP address from the instance or network interface it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
+    /// Disassociates an Elastic IP address from the instance or network interface it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. An address cannot be disassociated if the all of the following conditions are met:   Network interface has a publicDualStackDnsName publicDnsName   Public IPv4 address is the primary public IPv4 address   Network interface only has one remaining public IPv4 address
     ///
     /// Parameters:
     ///   - associationId: The association ID. This parameter is required.
@@ -19705,7 +20083,7 @@ public struct EC2: AWSService {
         return try await self.getIpamResourceCidrs(input, logger: logger)
     }
 
-    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications,  DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
+    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications, DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
     @Sendable
     @inlinable
     public func getLaunchTemplateData(_ input: GetLaunchTemplateDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLaunchTemplateDataResult {
@@ -19718,7 +20096,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications,  DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
+    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications, DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -19934,7 +20312,7 @@ public struct EC2: AWSService {
     /// Returns a quote and exchange information for exchanging one or more specified Convertible Reserved Instances for a new Convertible Reserved Instance. If the exchange cannot be performed, the reason is returned in the response. Use AcceptReservedInstancesExchangeQuote to perform the exchange.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - reservedInstanceIds: The IDs of the Convertible Reserved Instances to exchange.
     ///   - targetConfigurations: The configuration of the target Convertible Reserved Instance to exchange for your current Convertible Reserved Instances.
     ///   - logger: Logger use during operation
@@ -21368,10 +21746,11 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - clientConnectOptions: The options for managing connection authorization for new client connections.
     ///   - clientLoginBannerOptions: Options for enabling a customizable text banner that will be displayed on
+    ///   - clientRouteEnforcementOptions: Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T
     ///   - clientVpnEndpointId: The ID of the Client VPN endpoint to modify.
     ///   - connectionLogOptions: Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
     ///   - description: A brief description of the Client VPN endpoint.
-    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is false.
+    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
     ///   - dnsServers: Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - securityGroupIds: The IDs of one or more security groups to apply to the target network.
@@ -21386,6 +21765,7 @@ public struct EC2: AWSService {
     public func modifyClientVpnEndpoint(
         clientConnectOptions: ClientConnectOptions? = nil,
         clientLoginBannerOptions: ClientLoginBannerOptions? = nil,
+        clientRouteEnforcementOptions: ClientRouteEnforcementOptions? = nil,
         clientVpnEndpointId: String? = nil,
         connectionLogOptions: ConnectionLogOptions? = nil,
         description: String? = nil,
@@ -21404,6 +21784,7 @@ public struct EC2: AWSService {
         let input = ModifyClientVpnEndpointRequest(
             clientConnectOptions: clientConnectOptions, 
             clientLoginBannerOptions: clientLoginBannerOptions, 
+            clientRouteEnforcementOptions: clientRouteEnforcementOptions, 
             clientVpnEndpointId: clientVpnEndpointId, 
             connectionLogOptions: connectionLogOptions, 
             description: description, 
@@ -22044,7 +22425,7 @@ public struct EC2: AWSService {
         return try await self.modifyInstanceEventWindow(input, logger: logger)
     }
 
-    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see Simplified automatic recovery.
+    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see Simplified automatic recovery. Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more information, see Enable or disable reboot migration.
     @Sendable
     @inlinable
     public func modifyInstanceMaintenanceOptions(_ input: ModifyInstanceMaintenanceOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceMaintenanceOptionsResult {
@@ -22057,24 +22438,27 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see Simplified automatic recovery.
+    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see Simplified automatic recovery. Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more information, see Enable or disable reboot migration.
     ///
     /// Parameters:
     ///   - autoRecovery: Disables the automatic recovery behavior of your instance or sets it to default.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - instanceId: The ID of the instance.
+    ///   - rebootMigration: Specifies whether to attempt reboot migration during a user-initiated reboot of an instance that has a scheduled system-reboot event:    default - Amazon EC2 attempts to migrate the instance to new hardware (reboot migration). If successful, the system-reboot event is cleared. If unsuccessful, an in-place reboot occurs and the event remains scheduled.    disabled - Amazon EC2 keeps the instance on the same hardware (in-place reboot). The system-reboot event remains scheduled.   This setting only applies to supported instances that have a scheduled reboot event. For more information, see Enable or disable reboot migration in the Amazon EC2 User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyInstanceMaintenanceOptions(
         autoRecovery: InstanceAutoRecoveryState? = nil,
         dryRun: Bool? = nil,
         instanceId: String? = nil,
+        rebootMigration: InstanceRebootMigrationState? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyInstanceMaintenanceOptionsResult {
         let input = ModifyInstanceMaintenanceOptionsRequest(
             autoRecovery: autoRecovery, 
             dryRun: dryRun, 
-            instanceId: instanceId
+            instanceId: instanceId, 
+            rebootMigration: rebootMigration
         )
         return try await self.modifyInstanceMaintenanceOptions(input, logger: logger)
     }
@@ -22273,6 +22657,7 @@ public struct EC2: AWSService {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - enablePrivateGua: Enable this option to use your own GUA ranges as private IPv6 addresses. This option is disabled by default.
     ///   - ipamId: The ID of the IPAM you want to modify.
+    ///   - meteredAccount: A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide. Possible values:    ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM.    resource-owner: The Amazon Web Services account that owns the IP address is charged for the active IP address.
     ///   - removeOperatingRegions: The operating Regions to remove.
     ///   - tier: IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing > IPAM tab.
     ///   - logger: Logger use during operation
@@ -22283,6 +22668,7 @@ public struct EC2: AWSService {
         dryRun: Bool? = nil,
         enablePrivateGua: Bool? = nil,
         ipamId: String? = nil,
+        meteredAccount: IpamMeteredAccount? = nil,
         removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil,
         tier: IpamTier? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -22293,6 +22679,7 @@ public struct EC2: AWSService {
             dryRun: dryRun, 
             enablePrivateGua: enablePrivateGua, 
             ipamId: ipamId, 
+            meteredAccount: meteredAccount, 
             removeOperatingRegions: removeOperatingRegions, 
             tier: tier
         )
@@ -22632,16 +23019,16 @@ public struct EC2: AWSService {
     /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance.
     ///
     /// Parameters:
-    ///   - associatePublicIpAddress: Indicates whether to assign a public IPv4 address to a network interface.  This option can be enabled for any network interface but will only apply to the primary network interface (eth0).
-    ///   - attachment: Information about the interface attachment. If modifying the delete on
+    ///   - associatePublicIpAddress: Indicates whether to assign a public IPv4 address to a network interface. This option can be enabled for any network interface but will only apply to the primary network interface (eth0).
+    ///   - attachment: Information about the interface attachment. If modifying the delete on termination attribute, you must specify the ID of the interface attachment.
     ///   - connectionTrackingSpecification: A connection tracking specification.
     ///   - description: A description for the network interface.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - enablePrimaryIpv6: If you’re modifying a network interface in a dual-stack or IPv6-only subnet, you have the option to assign a primary IPv6 IP address. A primary IPv6 address is an IPv6 GUA address associated with an ENI that you have enabled to use a primary IPv6 address. Use this option if the instance that this ENI will be attached to relies on its IPv6 address not changing. Amazon Web Services will automatically assign an IPv6 address associated with the ENI attached to your instance to be the primary IPv6 address. Once you enable an IPv6 GUA address to be a primary IPv6, you cannot disable it. When you enable an IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made the primary IPv6 address until the instance is terminated or the network interface is detached. If you have multiple IPv6 addresses associated with an ENI attached to your instance and you enable a primary IPv6 address, the first IPv6 GUA address associated with the ENI becomes the primary IPv6 address.
-    ///   - enaSrdSpecification: Updates the ENA Express configuration for the network interface that’s attached to the
+    ///   - enaSrdSpecification: Updates the ENA Express configuration for the network interface that’s attached to the instance.
     ///   - groups: Changes the security groups for the network interface. The new set of groups you specify replaces the current set. You must specify at least one group, even if it's just the default security group in the VPC. You must specify the ID of the security group, not the name.
     ///   - networkInterfaceId: The ID of the network interface.
-    ///   - sourceDestCheck: Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true, source/destination checks are enabled; otherwise, they are disabled. The default value is true.  You must disable source/destination checks if the instance runs services  such as network address translation, routing, or firewalls.
+    ///   - sourceDestCheck: Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true, source/destination checks are enabled; otherwise, they are disabled. The default value is true. You must disable source/destination checks if the instance runs services such as network address translation, routing, or firewalls.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyNetworkInterfaceAttribute(
@@ -22713,7 +23100,42 @@ public struct EC2: AWSService {
         return try await self.modifyPrivateDnsNameOptions(input, logger: logger)
     }
 
-    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.
+    /// Modify public hostname options for a network interface. For more information, see EC2 instance hostnames, DNS names, and domains in the Amazon EC2 User Guide.
+    @Sendable
+    @inlinable
+    public func modifyPublicIpDnsNameOptions(_ input: ModifyPublicIpDnsNameOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyPublicIpDnsNameOptionsResult {
+        try await self.client.execute(
+            operation: "ModifyPublicIpDnsNameOptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modify public hostname options for a network interface. For more information, see EC2 instance hostnames, DNS names, and domains in the Amazon EC2 User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - hostnameType: The public hostname type. For more information, see EC2 instance hostnames, DNS names, and domains in the Amazon EC2 User Guide.    public-dual-stack-dns-name: A dual-stack public hostname for a network interface. Requests from within the VPC resolve to both the private IPv4 address and the IPv6 Global Unicast Address of the network interface. Requests from the internet resolve to both the public IPv4 and the IPv6 GUA address of the network interface.    public-ipv4-dns-name: An IPv4-enabled public hostname for a network interface. Requests from within the VPC resolve to the private primary IPv4 address of the network interface. Requests from the internet resolve to the public IPv4 address of the network interface.    public-ipv6-dns-name: An IPv6-enabled public hostname for a network interface. Requests from within the VPC or from the internet resolve to the IPv6 GUA of the network interface.
+    ///   - networkInterfaceId: A network interface ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyPublicIpDnsNameOptions(
+        dryRun: Bool? = nil,
+        hostnameType: PublicIpDnsOption? = nil,
+        networkInterfaceId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyPublicIpDnsNameOptionsResult {
+        let input = ModifyPublicIpDnsNameOptionsRequest(
+            dryRun: dryRun, 
+            hostnameType: hostnameType, 
+            networkInterfaceId: networkInterfaceId
+        )
+        return try await self.modifyPublicIpDnsNameOptions(input, logger: logger)
+    }
+
+    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone, instance count, or instance type. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func modifyReservedInstances(_ input: ModifyReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReservedInstancesResult {
@@ -22726,10 +23148,10 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.
+    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone, instance count, or instance type. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive token you provide to ensure idempotency of your modification request. For more information, see  		Ensuring Idempotency.
+    ///   - clientToken: A unique, case-sensitive token you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
     ///   - reservedInstancesIds: The IDs of the Reserved Instances to modify.
     ///   - targetConfigurations: The configuration settings for the Reserved Instances to modify.
     ///   - logger: Logger use during operation
@@ -23988,7 +24410,7 @@ public struct EC2: AWSService {
         return try await self.modifyVpcEndpointServicePayerResponsibility(input, logger: logger)
     }
 
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a
     /// 	        public service can send a request to attach an endpoint. If the service does not require manual approval,
     /// 	        attachments are automatically approved.
     @Sendable
@@ -24003,7 +24425,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a
     /// 	        public service can send a request to attach an endpoint. If the service does not require manual approval,
     /// 	        attachments are automatically approved.
     ///
@@ -24717,9 +25139,7 @@ public struct EC2: AWSService {
         return try await self.purchaseHostReservation(input, logger: logger)
     }
 
-    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower  hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings
-    /// 			that match your specifications. After you've purchased a Reserved Instance, you can check for your
-    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
+    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func purchaseReservedInstancesOffering(_ input: PurchaseReservedInstancesOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedInstancesOfferingResult {
@@ -24732,12 +25152,10 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower  hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings
-    /// 			that match your specifications. After you've purchased a Reserved Instance, you can check for your
-    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
+    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - instanceCount: The number of Reserved Instances to purchase.
     ///   - limitPrice: Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
     ///   - purchaseTime: The time at which to purchase the Reserved Instance, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
@@ -26019,7 +26437,7 @@ public struct EC2: AWSService {
     /// Resets a network interface attribute. You can specify only one attribute at a time.
     ///
     /// Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - networkInterfaceId: The ID of the network interface.
     ///   - sourceDestCheck: The source/destination checking attribute. Resets the value to true.
     ///   - logger: Logger use during operation
@@ -26883,6 +27301,7 @@ public struct EC2: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information,  see How to ensure idempotency.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filterInArns: The Amazon Resource Names (ARN) of the resources that the path must traverse.
+    ///   - filterOutArns: The Amazon Resource Names (ARN) of the resources that the path will ignore.
     ///   - networkInsightsPathId: The ID of the path.
     ///   - tagSpecifications: The tags to apply.
     ///   - logger: Logger use during operation
@@ -26892,6 +27311,7 @@ public struct EC2: AWSService {
         clientToken: String? = nil,
         dryRun: Bool? = nil,
         filterInArns: [String]? = nil,
+        filterOutArns: [String]? = nil,
         networkInsightsPathId: String? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -26901,6 +27321,7 @@ public struct EC2: AWSService {
             clientToken: clientToken, 
             dryRun: dryRun, 
             filterInArns: filterInArns, 
+            filterOutArns: filterOutArns, 
             networkInsightsPathId: networkInsightsPathId, 
             tagSpecifications: tagSpecifications
         )
@@ -26939,7 +27360,7 @@ public struct EC2: AWSService {
         return try await self.startVpcEndpointServicePrivateDnsVerification(input, logger: logger)
     }
 
-    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
+    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can restart your instance at any time. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     @Sendable
     @inlinable
     public func stopInstances(_ input: StopInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopInstancesResult {
@@ -26952,11 +27373,11 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
+    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can restart your instance at any time. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - force: Forces the instances to stop. The instances do not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Default: false
+    ///   - force: Forces the instance to stop. The instance will first attempt a graceful shutdown, which includes flushing file system caches and metadata. If the graceful shutdown fails to complete within the timeout period, the instance shuts down forcibly without flushing the file system caches and metadata. After using this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Default: false
     ///   - hibernate: Hibernates the instance if the instance was enabled for hibernation at launch. If the instance cannot hibernate successfully, a normal shutdown occurs. For more information, see Hibernate your instance in the Amazon EC2 User Guide. Default: false
     ///   - instanceIds: The IDs of the instances.
     ///   - logger: Logger use during operation
@@ -27015,7 +27436,7 @@ public struct EC2: AWSService {
         return try await self.terminateClientVpnConnections(input, logger: logger)
     }
 
-    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds. If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func terminateInstances(_ input: TerminateInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateInstancesResult {
@@ -27028,7 +27449,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds. If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -27082,7 +27503,7 @@ public struct EC2: AWSService {
         return try await self.unassignIpv6Addresses(input, logger: logger)
     }
 
-    /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a  	network interface.
+    /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a network interface.
     @Sendable
     @inlinable
     public func unassignPrivateIpAddresses(_ input: UnassignPrivateIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -27095,12 +27516,12 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a  	network interface.
+    /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a network interface.
     ///
     /// Parameters:
     ///   - ipv4Prefixes: The IPv4 prefixes to unassign from  the network interface.
     ///   - networkInterfaceId: The ID of the network interface.
-    ///   - privateIpAddresses: The secondary private IP addresses to unassign from the network interface. You can specify this  	option multiple times to unassign more than one IP address.
+    ///   - privateIpAddresses: The secondary private IP addresses to unassign from the network interface. You can specify this option multiple times to unassign more than one IP address.
     ///   - logger: Logger use during operation
     @inlinable
     public func unassignPrivateIpAddresses(
@@ -27626,10 +28047,10 @@ extension EC2 {
     /// Return PaginatorSequence for operation ``describeCapacityBlockOfferings(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - capacityDurationHours: The number of hours for which to reserve Capacity Block.
+    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - endDateRange: The latest end date for the Capacity Block offering.
-    ///   - instanceCount: The number of instances for which to reserve capacity.
+    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - startDateRange: The earliest start date for the Capacity Block offering.
@@ -29116,7 +29537,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.flexible-ena-queues-support - Indicates whether an instance supports flexible ENA queues (supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    reboot-migration-support - Indicates whether enabling reboot migration is supported (supported | unsupported).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot | capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - logger: Logger used for logging
@@ -29883,6 +30304,49 @@ extension EC2 {
         return self.describeMacHostsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeMacModificationTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMacModificationTasksPaginator(
+        _ input: DescribeMacModificationTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMacModificationTasksRequest, DescribeMacModificationTasksResult> {
+        return .init(
+            input: input,
+            command: self.describeMacModificationTasks,
+            inputKey: \DescribeMacModificationTasksRequest.nextToken,
+            outputKey: \DescribeMacModificationTasksResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeMacModificationTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: Specifies one or more filters for the request:    instance-id - The ID of the instance for which the task was created.    task-state - The state of the task (successful | failed |  in-progress | pending).    mac-system-integrity-protection-configuration.sip-status - The overall SIP  state requested in the task (enabled | disabled).    start-time - The date and time the task was created.    task-type - The type of task (sip-modification | volume-ownership-delegation).
+    ///   - macModificationTaskIds: The ID of task.
+    ///   - maxResults: The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMacModificationTasksPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        macModificationTaskIds: [String]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeMacModificationTasksRequest, DescribeMacModificationTasksResult> {
+        let input = DescribeMacModificationTasksRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            macModificationTaskIds: macModificationTaskIds, 
+            maxResults: maxResults
+        )
+        return self.describeMacModificationTasksPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeManagedPrefixLists(_:logger:)``.
     ///
     /// - Parameters:
@@ -30266,8 +30730,8 @@ extension EC2 {
     /// Return PaginatorSequence for operation ``describeNetworkInterfacePermissions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the
-    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items,
+    ///   - filters: One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the permission.    network-interface-permission.network-interface-id - The ID of the network interface.    network-interface-permission.aws-account-id - The Amazon Web Services account ID.    network-interface-permission.aws-service - The Amazon Web Services service.    network-interface-permission.permission - The type of permission (INSTANCE-ATTACH | EIP-ASSOCIATE).
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. If this parameter is not specified, up to 50 results are returned by default. For more information, see Pagination.
     ///   - networkInterfacePermissionIds: The network interface permission IDs.
     ///   - logger: Logger used for logging
     @inlinable
@@ -30306,9 +30770,9 @@ extension EC2 {
     /// Return PaginatorSequence for operation ``describeNetworkInterfaces(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you
-    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items,
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
     ///   - networkInterfaceIds: The network interface IDs. Default: Describes all your network interfaces.
     ///   - logger: Logger used for logging
     @inlinable
@@ -30515,7 +30979,7 @@ extension EC2 {
     /// Return PaginatorSequence for operation ``describeReservedInstancesModifications(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.
+    ///   - filters: One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.availability-zone-id - The ID of the Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.
     ///   - reservedInstancesModificationIds: IDs for the submitted modification request.
     ///   - logger: Logger used for logging
     @inlinable
@@ -30552,24 +31016,26 @@ extension EC2 {
     /// Return PaginatorSequence for operation ``describeReservedInstancesOfferings(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - availabilityZone: The Availability Zone in which the Reserved Instance can be used.
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (for example, one year or three years), in seconds (31536000 | 94608000).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    marketplace - Set to true to show only Reserved Instance Marketplace offerings. When this filter is not used, which is the default behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace are listed.    product-description - The Reserved Instance product platform description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA |  Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise).    reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
+    ///   - availabilityZone: The Availability Zone in which the Reserved Instance can be used. Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+    ///   - availabilityZoneId: The ID of the Availability Zone. Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    availability-zone-id - The ID of the Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (for example, one year or three years), in seconds (31536000 | 94608000).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    marketplace - Set to true to show only Reserved Instance Marketplace offerings. When this filter is not used, which is the default behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace are listed.    product-description - The Reserved Instance product platform description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise).    reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
     ///   - includeMarketplace: Include Reserved Instance Marketplace offerings in the response.
     ///   - instanceTenancy: The tenancy of the instances covered by the reservation. A Reserved Instance with a tenancy of dedicated is applied to instances that run in a VPC on single-tenant hardware (i.e., Dedicated Instances).  Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default
     ///   - instanceType: The instance type that the reservation will cover (for example, m1.small). For more information, see Amazon EC2 instance types in the Amazon EC2 User Guide.
     ///   - maxDuration: The maximum duration (in seconds) to filter when searching for offerings. Default: 94608000 (3 years)
     ///   - maxInstanceCount: The maximum number of instances to filter when searching for offerings. Default: 20
-    ///   - maxResults: The maximum number of results to return for the request in a single page. The remaining
+    ///   - maxResults: The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. The maximum is 100. Default: 100
     ///   - minDuration: The minimum duration (in seconds) to filter when searching for offerings. Default: 2592000 (1 month)
     ///   - offeringClass: The offering class of the Reserved Instance. Can be standard or convertible.
-    ///   - offeringType: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API
+    ///   - offeringType: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type.
     ///   - productDescription: The Reserved Instance product platform description. Instances that include (Amazon VPC) in the description are for use with Amazon VPC.
     ///   - reservedInstancesOfferingIds: One or more Reserved Instances offering IDs.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeReservedInstancesOfferingsPaginator(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
         includeMarketplace: Bool? = nil,
@@ -30587,6 +31053,7 @@ extension EC2 {
     ) -> AWSClient.PaginatorSequence<DescribeReservedInstancesOfferingsRequest, DescribeReservedInstancesOfferingsResult> {
         let input = DescribeReservedInstancesOfferingsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             dryRun: dryRun, 
             filters: filters, 
             includeMarketplace: includeMarketplace, 
@@ -34596,6 +35063,19 @@ extension EC2.DescribeMacHostsRequest: AWSPaginateToken {
     }
 }
 
+extension EC2.DescribeMacModificationTasksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeMacModificationTasksRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            macModificationTaskIds: self.macModificationTaskIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EC2.DescribeManagedPrefixListsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> EC2.DescribeManagedPrefixListsRequest {
@@ -34797,6 +35277,7 @@ extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeReservedInstancesOfferingsRequest {
         return .init(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             dryRun: self.dryRun,
             filters: self.filters,
             includeMarketplace: self.includeMarketplace,
@@ -36678,11 +37159,11 @@ extension EC2 {
     /// Waiter for operation ``describeNetworkInterfaces(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you
-    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items,
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
     ///   - networkInterfaceIds: The network interface IDs. Default: Describes all your network interfaces.
-    ///   - nextToken: The token returned from a previous paginated request.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilNetworkInterfaceAvailable(

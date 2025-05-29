@@ -84,6 +84,30 @@ extension ServiceQuotas {
         public init() {}
     }
 
+    public struct CreateSupportCaseRequest: AWSEncodableShape {
+        /// The ID of the pending quota increase request for which you want to open a Support case.
+        public let requestId: String
+
+        @inlinable
+        public init(requestId: String) {
+            self.requestId = requestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[0-9a-zA-Z][a-zA-Z0-9-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct CreateSupportCaseResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteServiceQuotaIncreaseRequestFromTemplateRequest: AWSEncodableShape {
         /// Specifies the Amazon Web Services Region for which the request was made.
         public let awsRegion: String
@@ -131,7 +155,7 @@ extension ServiceQuotas {
     }
 
     public struct ErrorReason: AWSDecodableShape {
-        /// Service Quotas returns the following error values:    DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the Amazon Web Service or quota.    DEPENDENCY_THROTTLING_ERROR - The Amazon Web Service is throttling Service Quotas.     DEPENDENCY_SERVICE_ERROR - The Amazon Web Service is not available.    SERVICE_QUOTA_NOT_AVAILABLE_ERROR - There was an error in Service Quotas.
+        /// Service Quotas returns the following error values:    DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the Amazon Web Services service or quota.    DEPENDENCY_THROTTLING_ERROR - The Amazon Web Services service is throttling Service Quotas.     DEPENDENCY_SERVICE_ERROR - The Amazon Web Services service is not available.    SERVICE_QUOTA_NOT_AVAILABLE_ERROR - There was an error in Service Quotas.
         public let errorCode: ErrorCode?
         /// The error message.
         public let errorMessage: String?
@@ -290,7 +314,7 @@ extension ServiceQuotas {
     }
 
     public struct GetServiceQuotaRequest: AWSEncodableShape {
-        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        /// Specifies the resource with an Amazon Resource Name (ARN).
         public let contextId: String?
         /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
@@ -391,7 +415,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String
-        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        /// Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public let quotaRequestedAtLevel: AppliedLevelEnum?
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
@@ -454,7 +478,7 @@ extension ServiceQuotas {
         public let maxResults: Int?
         /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        /// Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public let quotaRequestedAtLevel: AppliedLevelEnum?
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
@@ -569,7 +593,7 @@ extension ServiceQuotas {
         public let maxResults: Int?
         /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// Specifies at which level of granularity that the quota value is applied.
+        /// Filters the response to return applied quota values for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public let quotaAppliedAtLevel: AppliedLevelEnum?
         /// Specifies the quota identifier. To find the quota code for a specific  quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want.
         public let quotaCode: String?
@@ -653,7 +677,7 @@ extension ServiceQuotas {
     public struct ListServicesResponse: AWSDecodableShape {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
-        /// The list of the Amazon Web Service names and service codes.
+        /// The list of the Amazon Web Services service names and service codes.
         public let services: [ServiceInfo]?
 
         @inlinable
@@ -783,11 +807,11 @@ extension ServiceQuotas {
     }
 
     public struct QuotaContextInfo: AWSDecodableShape {
-        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        /// Specifies the resource, or resources, to which the quota applies. The value for this field is either an Amazon Resource Name (ARN) or *. If the value is an ARN, the quota value applies to that resource. If the value is *, then the quota value applies to all resources listed in the ContextScopeType field. The quota value applies to all resources for which you haven’t previously applied a quota value, and any new resources you create in your Amazon Web Services account.
         public let contextId: String?
-        /// Specifies whether the quota applies to an Amazon Web Services account, or to a resource.
+        /// Specifies the scope to which the quota value is applied. If the scope is RESOURCE, the quota value is applied to each resource in the Amazon Web Services account. If the scope is ACCOUNT, the quota value is applied to the Amazon Web Services account.
         public let contextScope: QuotaContextScope?
-        /// When the ContextScope is RESOURCE, then this specifies the resource type of the specified resource.
+        /// Specifies the resource type to which the quota can be applied.
         public let contextScopeType: String?
 
         @inlinable
@@ -823,7 +847,7 @@ extension ServiceQuotas {
     }
 
     public struct RequestServiceQuotaIncreaseRequest: AWSEncodableShape {
-        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        /// Specifies the resource with an Amazon Resource Name (ARN).
         public let contextId: String?
         /// Specifies the new, increased value for the quota.
         public let desiredValue: Double
@@ -831,13 +855,16 @@ extension ServiceQuotas {
         public let quotaCode: String
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
+        /// Specifies if an Amazon Web Services Support case can be opened for the quota increase request. This parameter is optional.  By default, this flag is set to True and Amazon Web Services may create a support case for some quota increase requests.  You can set this flag to False  if you do not want a support case created when you request a quota increase. If you set the flag to False,  Amazon Web Services does not open a support case and updates the request status to Not approved.
+        public let supportCaseAllowed: Bool?
 
         @inlinable
-        public init(contextId: String? = nil, desiredValue: Double, quotaCode: String, serviceCode: String) {
+        public init(contextId: String? = nil, desiredValue: Double, quotaCode: String, serviceCode: String, supportCaseAllowed: Bool? = nil) {
             self.contextId = contextId
             self.desiredValue = desiredValue
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
+            self.supportCaseAllowed = supportCaseAllowed
         }
 
         public func validate(name: String) throws {
@@ -856,6 +883,7 @@ extension ServiceQuotas {
             case desiredValue = "DesiredValue"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
+            case supportCaseAllowed = "SupportCaseAllowed"
         }
     }
 
@@ -894,7 +922,7 @@ extension ServiceQuotas {
         public let quotaContext: QuotaContextInfo?
         /// Specifies the quota name.
         public let quotaName: String?
-        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        /// Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public let quotaRequestedAtLevel: AppliedLevelEnum?
         /// The IAM identity of the requester.
         public let requester: String?
@@ -902,7 +930,7 @@ extension ServiceQuotas {
         public let serviceCode: String?
         /// Specifies the service name.
         public let serviceName: String?
-        /// The state of the quota increase request.
+        /// The state of the quota increase request.    PENDING: The quota increase request is under review by Amazon Web Services.     CASE_OPENED: Service Quotas opened a support case to process the quota increase request. Follow-up on the support case for more information.    APPROVED: The quota increase request is approved.     DENIED: The quota increase request can't be approved by Service Quotas. Contact Amazon Web Services Support for more details.    NOT APPROVED: The quota increase request can't be approved by Service Quotas. Contact Amazon Web Services Support for more details.    CASE_CLOSED: The support case associated with this quota increase request was closed. Check the support case correspondence for the outcome of your quota request.    INVALID_REQUEST: Service Quotas couldn't process your resource-level quota increase request because the Amazon Resource Name (ARN) specified as part of the ContextId is invalid.
         public let status: RequestStatus?
         /// The unit of measurement.
         public let unit: String?
@@ -968,13 +996,15 @@ extension ServiceQuotas {
     public struct ServiceQuota: AWSDecodableShape {
         /// Indicates whether the quota value can be increased.
         public let adjustable: Bool?
+        /// The quota description.
+        public let description: String?
         /// The error code and error reason.
         public let errorReason: ErrorReason?
         /// Indicates whether the quota is global.
         public let globalQuota: Bool?
         /// The period of time.
         public let period: QuotaPeriod?
-        /// Specifies at which level of granularity that the quota value is applied.
+        /// Filters the response to return applied quota values for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public let quotaAppliedAtLevel: AppliedLevelEnum?
         /// The Amazon Resource Name (ARN) of the quota.
         public let quotaArn: String?
@@ -996,8 +1026,9 @@ extension ServiceQuotas {
         public let value: Double?
 
         @inlinable
-        public init(adjustable: Bool? = nil, errorReason: ErrorReason? = nil, globalQuota: Bool? = nil, period: QuotaPeriod? = nil, quotaAppliedAtLevel: AppliedLevelEnum? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil, usageMetric: MetricInfo? = nil, value: Double? = nil) {
+        public init(adjustable: Bool? = nil, description: String? = nil, errorReason: ErrorReason? = nil, globalQuota: Bool? = nil, period: QuotaPeriod? = nil, quotaAppliedAtLevel: AppliedLevelEnum? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil, usageMetric: MetricInfo? = nil, value: Double? = nil) {
             self.adjustable = adjustable
+            self.description = description
             self.errorReason = errorReason
             self.globalQuota = globalQuota
             self.period = period
@@ -1015,6 +1046,7 @@ extension ServiceQuotas {
 
         private enum CodingKeys: String, CodingKey {
             case adjustable = "Adjustable"
+            case description = "Description"
             case errorReason = "ErrorReason"
             case globalQuota = "GlobalQuota"
             case period = "Period"

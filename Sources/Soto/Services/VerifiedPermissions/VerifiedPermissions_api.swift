@@ -138,7 +138,7 @@ public struct VerifiedPermissions: AWSService {
     /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2. Authorization of bob to view photo1 and photo2, or bob and alice to view photo1, are valid batches.  The request is evaluated against all policies in the specified policy store that match the entities that you declare. The result of the decisions is a series of Allow or Deny responses, along with the IDs of the policies that produced each decision. The entities of a BatchIsAuthorized API request can contain up to 100 principals and up to 100 resources. The requests of a BatchIsAuthorized API request can contain up to 30 requests.  The BatchIsAuthorized operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:IsAuthorized in their IAM policies.
     ///
     /// Parameters:
-    ///   - entities: Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    ///   - entities: (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
     ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
     ///   - requests: An array of up to 30 requests that you want Verified Permissions to evaluate.
     ///   - logger: Logger use during operation
@@ -174,7 +174,7 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - accessToken: Specifies an access token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an access token. Verified Permissions returns an error if the token_use claim in the submitted token isn't access.
-    ///   - entities: Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The BatchIsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
+    ///   - entities: (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The BatchIsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
     ///   - identityToken: Specifies an identity (ID) token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
     ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
     ///   - requests: An array of up to 30 requests that you want Verified Permissions to evaluate.
@@ -198,7 +198,7 @@ public struct VerifiedPermissions: AWSService {
         return try await self.batchIsAuthorizedWithToken(input, logger: logger)
     }
 
-    /// Adds an identity source to a policy store–an Amazon Cognito user pool or OpenID Connect (OIDC) identity provider (IdP).  After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Identity sources provide identity (ID) tokens and access tokens. Verified Permissions derives information about your user and session from token claims. Access tokens provide action context to your policies, and ID tokens provide principal Attributes.  Tokens from an identity source user continue to be usable until they expire.  Token revocation and resource deletion have no effect on the validity of a token in your policy store   To reference a user from this identity source in your Cedar policies, refer to the following syntax examples.   Amazon Cognito user pool: Namespace::[Entity type]::[User pool ID]|[user principal attribute], for example MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.   OpenID Connect (OIDC) provider: Namespace::[Entity type]::[entityIdPrefix]|[user principal attribute], for example MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.     Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Adds an identity source to a policy store–an Amazon Cognito user pool or OpenID Connect (OIDC) identity provider (IdP).  After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Identity sources provide identity (ID) tokens and access tokens. Verified Permissions derives information about your user and session from token claims. Access tokens provide action context to your policies, and ID tokens provide principal Attributes.  Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store   To reference a user from this identity source in your Cedar policies, refer to the following syntax examples.   Amazon Cognito user pool: Namespace::[Entity type]::[User pool ID]|[user principal attribute], for example MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.   OpenID Connect (OIDC) provider: Namespace::[Entity type]::[entityIdPrefix]|[user principal attribute], for example MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.     Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     @Sendable
     @inlinable
     public func createIdentitySource(_ input: CreateIdentitySourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdentitySourceOutput {
@@ -211,10 +211,10 @@ public struct VerifiedPermissions: AWSService {
             logger: logger
         )
     }
-    /// Adds an identity source to a policy store–an Amazon Cognito user pool or OpenID Connect (OIDC) identity provider (IdP).  After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Identity sources provide identity (ID) tokens and access tokens. Verified Permissions derives information about your user and session from token claims. Access tokens provide action context to your policies, and ID tokens provide principal Attributes.  Tokens from an identity source user continue to be usable until they expire.  Token revocation and resource deletion have no effect on the validity of a token in your policy store   To reference a user from this identity source in your Cedar policies, refer to the following syntax examples.   Amazon Cognito user pool: Namespace::[Entity type]::[User pool ID]|[user principal attribute], for example MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.   OpenID Connect (OIDC) provider: Namespace::[Entity type]::[entityIdPrefix]|[user principal attribute], for example MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.     Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Adds an identity source to a policy store–an Amazon Cognito user pool or OpenID Connect (OIDC) identity provider (IdP).  After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Identity sources provide identity (ID) tokens and access tokens. Verified Permissions derives information about your user and session from token claims. Access tokens provide action context to your policies, and ID tokens provide principal Attributes.  Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store   To reference a user from this identity source in your Cedar policies, refer to the following syntax examples.   Amazon Cognito user pool: Namespace::[Entity type]::[User pool ID]|[user principal attribute], for example MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.   OpenID Connect (OIDC) provider: Namespace::[Entity type]::[entityIdPrefix]|[user principal attribute], for example MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.     Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// Parameters:
-    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - configuration: Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
     ///   - policyStoreId: Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source.
     ///   - principalEntityType: Specifies the namespace and data type of the principals generated for identities authenticated by the new identity source.
@@ -252,7 +252,7 @@ public struct VerifiedPermissions: AWSService {
     /// Creates a Cedar policy and saves it in the specified policy store. You can create either a static policy or a policy linked to a policy template.   To create a static policy, provide the Cedar policy text in the StaticPolicy section of the PolicyDefinition.   To create a policy that is dynamically linked to a policy template, specify the policy template ID and the principal and resource to associate with this policy in the templateLinked section of the PolicyDefinition. If the policy template is ever updated, any policies linked to the policy template automatically use the updated template.    Creating a policy causes it to be validated against the schema in the policy store. If the policy doesn't pass validation, the operation fails and the policy isn't stored.   Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// Parameters:
-    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - definition: A structure that specifies the policy type and content to use for the new policy. You must include either a static or a templateLinked element. The policy content must be written in the Cedar policy language.
     ///   - policyStoreId: Specifies the PolicyStoreId of the policy store you want to store the policy in.
     ///   - logger: Logger use during operation
@@ -287,9 +287,10 @@ public struct VerifiedPermissions: AWSService {
     /// Creates a policy store. A policy store is a container for policy resources.  Although Cedar supports multiple namespaces, Verified Permissions currently supports only one namespace per policy store.   Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// Parameters:
-    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - deletionProtection: Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
-    ///   - description: Descriptive text that you can provide to help with identification  of the current policy store.
+    ///   - description: Descriptive text that you can provide to help with identification of the current policy store.
+    ///   - tags: The list of key-value pairs to associate with the policy store.
     ///   - validationSettings: Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode.  We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on.
     ///   - logger: Logger use during operation
     @inlinable
@@ -297,6 +298,7 @@ public struct VerifiedPermissions: AWSService {
         clientToken: String? = CreatePolicyStoreInput.idempotencyToken(),
         deletionProtection: DeletionProtection? = nil,
         description: String? = nil,
+        tags: [String: String]? = nil,
         validationSettings: ValidationSettings,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePolicyStoreOutput {
@@ -304,6 +306,7 @@ public struct VerifiedPermissions: AWSService {
             clientToken: clientToken, 
             deletionProtection: deletionProtection, 
             description: description, 
+            tags: tags, 
             validationSettings: validationSettings
         )
         return try await self.createPolicyStore(input, logger: logger)
@@ -325,7 +328,7 @@ public struct VerifiedPermissions: AWSService {
     /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well.  Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// Parameters:
-    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - description: Specifies a description for the policy template.
     ///   - policyStoreId: The ID of the policy store in which to create the policy template.
     ///   - statement: Specifies the content that you want to use for the new policy template, written in the Cedar policy language.
@@ -379,7 +382,7 @@ public struct VerifiedPermissions: AWSService {
         return try await self.deleteIdentitySource(input, logger: logger)
     }
 
-    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't  exist, the request response returns a successful HTTP 200 status code.
+    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code.
     @Sendable
     @inlinable
     public func deletePolicy(_ input: DeletePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyOutput {
@@ -392,7 +395,7 @@ public struct VerifiedPermissions: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't  exist, the request response returns a successful HTTP 200 status code.
+    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code.
     ///
     /// Parameters:
     ///   - policyId: Specifies the ID of the policy that you want to delete.
@@ -553,14 +556,17 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - policyStoreId: Specifies the ID of the policy store that you want information about.
+    ///   - tags: Specifies whether to return the tags that are attached to the policy store. If this parameter is included in the API call, the tags are returned, otherwise they are not returned.  If this parameter is included in the API call but there are no tags attached to the policy store, the tags response parameter is omitted from the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func getPolicyStore(
         policyStoreId: String,
+        tags: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetPolicyStoreOutput {
         let input = GetPolicyStoreInput(
-            policyStoreId: policyStoreId
+            policyStoreId: policyStoreId, 
+            tags: tags
         )
         return try await self.getPolicyStore(input, logger: logger)
     }
@@ -644,7 +650,7 @@ public struct VerifiedPermissions: AWSService {
     /// Parameters:
     ///   - action: Specifies the requested action to be authorized. For example, is the principal authorized to perform this action on the resource?
     ///   - context: Specifies additional context that can be used to make more granular authorization decisions.
-    ///   - entities: Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    ///   - entities: (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
     ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
     ///   - principal: Specifies the principal for which the authorization decision is to be made.
     ///   - resource: Specifies the resource for which the authorization decision is to be made.
@@ -670,7 +676,7 @@ public struct VerifiedPermissions: AWSService {
         return try await self.isAuthorized(input, logger: logger)
     }
 
-    /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT). The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision. Verified Permissions validates each token that is specified in a request by checking its expiration date and its signature.  Tokens from an identity source user continue to be usable until they expire.  Token revocation and resource deletion have no effect on the validity of a token in your policy store
+    /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT). The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision. Verified Permissions validates each token that is specified in a request by checking its expiration date and its signature.  Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store
     @Sendable
     @inlinable
     public func isAuthorizedWithToken(_ input: IsAuthorizedWithTokenInput, logger: Logger = AWSClient.loggingDisabled) async throws -> IsAuthorizedWithTokenOutput {
@@ -683,13 +689,13 @@ public struct VerifiedPermissions: AWSService {
             logger: logger
         )
     }
-    /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT). The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision. Verified Permissions validates each token that is specified in a request by checking its expiration date and its signature.  Tokens from an identity source user continue to be usable until they expire.  Token revocation and resource deletion have no effect on the validity of a token in your policy store
+    /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT). The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision. Verified Permissions validates each token that is specified in a request by checking its expiration date and its signature.  Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store
     ///
     /// Parameters:
     ///   - accessToken: Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an access token. Verified Permissions returns an error if the token_use claim in the submitted token isn't access.
     ///   - action: Specifies the requested action to be authorized. Is the specified principal authorized to perform this action on the specified resource.
     ///   - context: Specifies additional context that can be used to make more granular authorization decisions.
-    ///   - entities: Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The IsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
+    ///   - entities: (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The IsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
     ///   - identityToken: Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
     ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
     ///   - resource: Specifies the resource for which the authorization decision is made. For example, is the principal allowed to perform the action on the resource?
@@ -734,8 +740,8 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - filters: Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - policyStoreId: Specifies the ID of the policy store that contains the identity sources that you want to list.
     ///   - logger: Logger use during operation
     @inlinable
@@ -772,8 +778,8 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - filter: Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - policyStoreId: Specifies the ID of the policy store you want to list policies from.
     ///   - logger: Logger use during operation
     @inlinable
@@ -809,8 +815,8 @@ public struct VerifiedPermissions: AWSService {
     /// Returns a paginated list of all policy stores in the calling Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPolicyStores(
@@ -841,8 +847,8 @@ public struct VerifiedPermissions: AWSService {
     /// Returns a paginated list of all policy templates in the specified policy store.
     ///
     /// Parameters:
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - policyStoreId: Specifies the ID of the policy store that contains the policy templates you want to list.
     ///   - logger: Logger use during operation
     @inlinable
@@ -858,6 +864,35 @@ public struct VerifiedPermissions: AWSService {
             policyStoreId: policyStoreId
         )
         return try await self.listPolicyTemplates(input, logger: logger)
+    }
+
+    /// Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the resource for which you want to view tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceOutput {
+        let input = ListTagsForResourceInput(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
     }
 
     /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time.  Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
@@ -890,6 +925,70 @@ public struct VerifiedPermissions: AWSService {
             policyStoreId: policyStoreId
         )
         return try await self.putSchema(input, logger: logger)
+    }
+
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the resource that you're adding tags to.
+    ///   - tags: The list of key-value pairs to associate with the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceOutput {
+        let input = TagResourceInput(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the resource from which you are removing tags.
+    ///   - tagKeys: The list of tag keys to remove from the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceOutput {
+        let input = UntagResourceInput(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
     }
 
     /// Updates the specified identity source to use a new identity provider (IdP), or to change the mapping of identities from the IdP to a different principal entity type.  Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
@@ -982,7 +1081,7 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - deletionProtection: Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore, this parameter is unchanged unless explicitly included in the call.
-    ///   - description: Descriptive text that you can provide to help with identification  of the current policy store.
+    ///   - description: Descriptive text that you can provide to help with identification of the current policy store.
     ///   - policyStoreId: Specifies the ID of the policy store that you want to update
     ///   - validationSettings: A structure that defines the validation settings that want to enable for the policy store.
     ///   - logger: Logger use during operation
@@ -1077,7 +1176,7 @@ extension VerifiedPermissions {
     ///
     /// - Parameters:
     ///   - filters: Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
     ///   - policyStoreId: Specifies the ID of the policy store that contains the identity sources that you want to list.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1117,7 +1216,7 @@ extension VerifiedPermissions {
     ///
     /// - Parameters:
     ///   - filter: Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
     ///   - policyStoreId: Specifies the ID of the policy store you want to list policies from.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1156,7 +1255,7 @@ extension VerifiedPermissions {
     /// Return PaginatorSequence for operation ``listPolicyStores(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPolicyStoresPaginator(
@@ -1190,7 +1289,7 @@ extension VerifiedPermissions {
     /// Return PaginatorSequence for operation ``listPolicyTemplates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
     ///   - policyStoreId: Specifies the ID of the policy store that contains the policy templates you want to list.
     ///   - logger: Logger used for logging
     @inlinable

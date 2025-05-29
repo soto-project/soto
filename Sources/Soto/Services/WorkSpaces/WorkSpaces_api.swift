@@ -669,6 +669,7 @@ public struct WorkSpaces: AWSService {
     ///   - description: The pool description.
     ///   - directoryId: The identifier of the directory for the pool.
     ///   - poolName: The name of the pool.
+    ///   - runningMode: The running mode for the pool.
     ///   - tags: The tags for the pool.
     ///   - timeoutSettings: Indicates the timeout settings of the pool.
     ///   - logger: Logger use during operation
@@ -680,6 +681,7 @@ public struct WorkSpaces: AWSService {
         description: String,
         directoryId: String,
         poolName: String,
+        runningMode: PoolsRunningMode? = nil,
         tags: [Tag]? = nil,
         timeoutSettings: TimeoutSettings? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -691,6 +693,7 @@ public struct WorkSpaces: AWSService {
             description: description, 
             directoryId: directoryId, 
             poolName: poolName, 
+            runningMode: runningMode, 
             tags: tags, 
             timeoutSettings: timeoutSettings
         )
@@ -2557,7 +2560,6 @@ public struct WorkSpaces: AWSService {
     ///   - activeDirectoryConfig: The active directory config of the directory.
     ///   - directoryId: The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateException error. If you have already registered the maximum number of directories that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again.
     ///   - enableSelfService: Indicates whether self-service capabilities are enabled or disabled.
-    ///   - enableWorkDocs: Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
     ///   - idcInstanceArn: The Amazon Resource Name (ARN) of the identity center instance.
     ///   - microsoftEntraConfig: The details about Microsoft Entra config.
     ///   - subnetIds: The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these conditions are not met, you will receive an OperationNotSupportedException error.
@@ -2573,7 +2575,6 @@ public struct WorkSpaces: AWSService {
         activeDirectoryConfig: ActiveDirectoryConfig? = nil,
         directoryId: String? = nil,
         enableSelfService: Bool? = nil,
-        enableWorkDocs: Bool? = nil,
         idcInstanceArn: String? = nil,
         microsoftEntraConfig: MicrosoftEntraConfig? = nil,
         subnetIds: [String]? = nil,
@@ -2589,7 +2590,6 @@ public struct WorkSpaces: AWSService {
             activeDirectoryConfig: activeDirectoryConfig, 
             directoryId: directoryId, 
             enableSelfService: enableSelfService, 
-            enableWorkDocs: enableWorkDocs, 
             idcInstanceArn: idcInstanceArn, 
             microsoftEntraConfig: microsoftEntraConfig, 
             subnetIds: subnetIds, 
@@ -3090,6 +3090,7 @@ public struct WorkSpaces: AWSService {
     ///   - description: Describes the specified pool to update.
     ///   - directoryId: The identifier of the directory.
     ///   - poolId: The identifier of the specified pool to update.
+    ///   - runningMode: The desired running mode for the pool. The running mode can only be updated when the pool is in a stopped state.
     ///   - timeoutSettings: Indicates the timeout settings of the specified pool.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3100,6 +3101,7 @@ public struct WorkSpaces: AWSService {
         description: String? = nil,
         directoryId: String? = nil,
         poolId: String,
+        runningMode: PoolsRunningMode? = nil,
         timeoutSettings: TimeoutSettings? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWorkspacesPoolResult {
@@ -3110,6 +3112,7 @@ public struct WorkSpaces: AWSService {
             description: description, 
             directoryId: directoryId, 
             poolId: poolId, 
+            runningMode: runningMode, 
             timeoutSettings: timeoutSettings
         )
         return try await self.updateWorkspacesPool(input, logger: logger)

@@ -82,6 +82,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConcurrencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "Automatic"
+        case manual = "Manual"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfluenceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
@@ -198,15 +204,26 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum FlowNodeInputCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exitLoop = "ExitLoop"
+        case loopCondition = "LoopCondition"
+        case returnValueToLoopStart = "ReturnValueToLoopStart"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FlowNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agent = "Agent"
         case collector = "Collector"
         case condition = "Condition"
+        case inlineCode = "InlineCode"
         case input = "Input"
         case iterator = "Iterator"
         case knowledgeBase = "KnowledgeBase"
         case lambdaFunction = "LambdaFunction"
         case lex = "Lex"
+        case loop = "Loop"
+        case loopController = "LoopController"
+        case loopInput = "LoopInput"
         case output = "Output"
         case prompt = "Prompt"
         case retrieval = "Retrieval"
@@ -233,6 +250,8 @@ extension BedrockAgent {
         case duplicateConditionExpression = "DuplicateConditionExpression"
         case duplicateConnections = "DuplicateConnections"
         case incompatibleConnectionDataType = "IncompatibleConnectionDataType"
+        case invalidLoopBoundary = "InvalidLoopBoundary"
+        case loopIncompatibleNodeType = "LoopIncompatibleNodeType"
         case malformedConditionExpression = "MalformedConditionExpression"
         case malformedNodeInputExpression = "MalformedNodeInputExpression"
         case mismatchedNodeInputType = "MismatchedNodeInputType"
@@ -240,10 +259,14 @@ extension BedrockAgent {
         case missingConnectionConfiguration = "MissingConnectionConfiguration"
         case missingDefaultCondition = "MissingDefaultCondition"
         case missingEndingNodes = "MissingEndingNodes"
+        case missingLoopControllerNode = "MissingLoopControllerNode"
+        case missingLoopInputNode = "MissingLoopInputNode"
         case missingNodeConfiguration = "MissingNodeConfiguration"
         case missingNodeInput = "MissingNodeInput"
         case missingNodeOutput = "MissingNodeOutput"
         case missingStartingNodes = "MissingStartingNodes"
+        case multipleLoopControllerNodes = "MultipleLoopControllerNodes"
+        case multipleLoopInputNodes = "MultipleLoopInputNodes"
         case multipleNodeInputConnections = "MultipleNodeInputConnections"
         case unfulfilledNodeInput = "UnfulfilledNodeInput"
         case unknownConnectionCondition = "UnknownConnectionCondition"
@@ -262,6 +285,14 @@ extension BedrockAgent {
     public enum IncludeExclude: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IncompatibleLoopNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case collector = "Collector"
+        case condition = "Condition"
+        case input = "Input"
+        case iterator = "Iterator"
         public var description: String { return self.rawValue }
     }
 
@@ -367,6 +398,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum PerformanceConfigLatency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optimized = "optimized"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PromptState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -430,6 +467,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum RerankingMetadataSelectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case selective = "SELECTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SalesforceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
@@ -459,6 +502,16 @@ extension BedrockAgent {
 
     public enum SupplementalDataStorageLocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupportedLanguages: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case python3 = "Python_3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VectorSearchRerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
         public var description: String { return self.rawValue }
     }
 
@@ -674,8 +727,10 @@ extension BedrockAgent {
         case agent(AgentFlowNodeConfiguration)
         /// Contains configurations for a collector node in your flow. Collects an iteration of inputs and consolidates them into an array of outputs.
         case collector(CollectorFlowNodeConfiguration)
-        /// Contains configurations for a Condition node in your flow. Defines conditions that lead to different branches of the flow.
+        /// Contains configurations for a condition node in your flow. Defines conditions that lead to different branches of the flow.
         case condition(ConditionFlowNodeConfiguration)
+        /// Contains configurations for an inline code node in your flow. Inline code nodes let you write and execute code directly within your flow, enabling data transformations, custom logic, and integrations without needing an external Lambda function.
+        case inlineCode(InlineCodeFlowNodeConfiguration)
         /// Contains configurations for an input flow node in your flow. The first node in the flow. inputs can't be specified for this node.
         case input(InputFlowNodeConfiguration)
         /// Contains configurations for an iterator node in your flow. Takes an input that is an array and iteratively sends each item of the array as an output to the following node. The size of the array is also returned in the output. The output flow node at the end of the flow iteration will return a response for each member of the array. To return only one response, you can include a collector node downstream from the iterator node.
@@ -686,13 +741,19 @@ extension BedrockAgent {
         case lambdaFunction(LambdaFunctionFlowNodeConfiguration)
         /// Contains configurations for a Lex node in your flow. Invokes an Amazon Lex bot to identify the intent of the input and return the intent as the output.
         case lex(LexFlowNodeConfiguration)
+        /// Contains configurations for a DoWhile loop in your flow.
+        case loop(LoopFlowNodeConfiguration)
+        /// Contains controller node configurations for a DoWhile loop in your flow.
+        case loopController(LoopControllerFlowNodeConfiguration)
+        /// Contains input node configurations for a DoWhile loop in your flow.
+        case loopInput(LoopInputFlowNodeConfiguration)
         /// Contains configurations for an output flow node in your flow. The last node in the flow. outputs can't be specified for this node.
         case output(OutputFlowNodeConfiguration)
         /// Contains configurations for a prompt node in your flow. Runs a prompt and generates the model response as the output. You can use a prompt from Prompt management or you can configure one in this node.
         case prompt(PromptFlowNodeConfiguration)
-        /// Contains configurations for a Retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
+        /// Contains configurations for a retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
         case retrieval(RetrievalFlowNodeConfiguration)
-        /// Contains configurations for a Storage node in your flow. Stores an input in an Amazon S3 location.
+        /// Contains configurations for a storage node in your flow. Stores an input in an Amazon S3 location.
         case storage(StorageFlowNodeConfiguration)
 
         public init(from decoder: Decoder) throws {
@@ -714,6 +775,9 @@ extension BedrockAgent {
             case .condition:
                 let value = try container.decode(ConditionFlowNodeConfiguration.self, forKey: .condition)
                 self = .condition(value)
+            case .inlineCode:
+                let value = try container.decode(InlineCodeFlowNodeConfiguration.self, forKey: .inlineCode)
+                self = .inlineCode(value)
             case .input:
                 let value = try container.decode(InputFlowNodeConfiguration.self, forKey: .input)
                 self = .input(value)
@@ -729,6 +793,15 @@ extension BedrockAgent {
             case .lex:
                 let value = try container.decode(LexFlowNodeConfiguration.self, forKey: .lex)
                 self = .lex(value)
+            case .loop:
+                let value = try container.decode(LoopFlowNodeConfiguration.self, forKey: .loop)
+                self = .loop(value)
+            case .loopController:
+                let value = try container.decode(LoopControllerFlowNodeConfiguration.self, forKey: .loopController)
+                self = .loopController(value)
+            case .loopInput:
+                let value = try container.decode(LoopInputFlowNodeConfiguration.self, forKey: .loopInput)
+                self = .loopInput(value)
             case .output:
                 let value = try container.decode(OutputFlowNodeConfiguration.self, forKey: .output)
                 self = .output(value)
@@ -753,6 +826,8 @@ extension BedrockAgent {
                 try container.encode(value, forKey: .collector)
             case .condition(let value):
                 try container.encode(value, forKey: .condition)
+            case .inlineCode(let value):
+                try container.encode(value, forKey: .inlineCode)
             case .input(let value):
                 try container.encode(value, forKey: .input)
             case .iterator(let value):
@@ -763,6 +838,12 @@ extension BedrockAgent {
                 try container.encode(value, forKey: .lambdaFunction)
             case .lex(let value):
                 try container.encode(value, forKey: .lex)
+            case .loop(let value):
+                try container.encode(value, forKey: .loop)
+            case .loopController(let value):
+                try container.encode(value, forKey: .loopController)
+            case .loopInput(let value):
+                try container.encode(value, forKey: .loopInput)
             case .output(let value):
                 try container.encode(value, forKey: .output)
             case .prompt(let value):
@@ -780,12 +861,18 @@ extension BedrockAgent {
                 try value.validate(name: "\(name).agent")
             case .condition(let value):
                 try value.validate(name: "\(name).condition")
+            case .inlineCode(let value):
+                try value.validate(name: "\(name).inlineCode")
             case .knowledgeBase(let value):
                 try value.validate(name: "\(name).knowledgeBase")
             case .lambdaFunction(let value):
                 try value.validate(name: "\(name).lambdaFunction")
             case .lex(let value):
                 try value.validate(name: "\(name).lex")
+            case .loop(let value):
+                try value.validate(name: "\(name).loop")
+            case .loopController(let value):
+                try value.validate(name: "\(name).loopController")
             case .prompt(let value):
                 try value.validate(name: "\(name).prompt")
             case .retrieval(let value):
@@ -801,11 +888,15 @@ extension BedrockAgent {
             case agent = "agent"
             case collector = "collector"
             case condition = "condition"
+            case inlineCode = "inlineCode"
             case input = "input"
             case iterator = "iterator"
             case knowledgeBase = "knowledgeBase"
             case lambdaFunction = "lambdaFunction"
             case lex = "lex"
+            case loop = "loop"
+            case loopController = "loopController"
+            case loopInput = "loopInput"
             case output = "output"
             case prompt = "prompt"
             case retrieval = "retrieval"
@@ -822,6 +913,10 @@ extension BedrockAgent {
         case duplicateConnections(DuplicateConnectionsFlowValidationDetails)
         /// Details about incompatible data types in a connection.
         case incompatibleConnectionDataType(IncompatibleConnectionDataTypeFlowValidationDetails)
+        /// Details about a flow that includes connections that violate loop boundary rules.
+        case invalidLoopBoundary(InvalidLoopBoundaryFlowValidationDetails)
+        /// Details about a flow that includes incompatible node types in a DoWhile loop.
+        case loopIncompatibleNodeType(LoopIncompatibleNodeTypeFlowValidationDetails)
         /// Details about a malformed condition expression in a node.
         case malformedConditionExpression(MalformedConditionExpressionFlowValidationDetails)
         /// Details about a malformed input expression in a node.
@@ -836,6 +931,10 @@ extension BedrockAgent {
         case missingDefaultCondition(MissingDefaultConditionFlowValidationDetails)
         /// Details about missing ending nodes in the flow.
         case missingEndingNodes(MissingEndingNodesFlowValidationDetails)
+        /// Details about a flow that's missing a required LoopController node in a DoWhile loop.
+        case missingLoopControllerNode(MissingLoopControllerNodeFlowValidationDetails)
+        /// Details about a flow that's missing a required LoopInput node in a DoWhile loop.
+        case missingLoopInputNode(MissingLoopInputNodeFlowValidationDetails)
         /// Details about missing configuration for a node.
         case missingNodeConfiguration(MissingNodeConfigurationFlowValidationDetails)
         /// Details about a missing required input in a node.
@@ -844,6 +943,10 @@ extension BedrockAgent {
         case missingNodeOutput(MissingNodeOutputFlowValidationDetails)
         /// Details about missing starting nodes in the flow.
         case missingStartingNodes(MissingStartingNodesFlowValidationDetails)
+        /// Details about a flow that contains multiple LoopController nodes in a DoWhile loop.
+        case multipleLoopControllerNodes(MultipleLoopControllerNodesFlowValidationDetails)
+        /// Details about a flow that contains multiple LoopInput nodes in a DoWhile loop.
+        case multipleLoopInputNodes(MultipleLoopInputNodesFlowValidationDetails)
         /// Details about multiple connections to a single node input.
         case multipleNodeInputConnections(MultipleNodeInputConnectionsFlowValidationDetails)
         /// Details about an unfulfilled node input with no valid connections.
@@ -891,6 +994,12 @@ extension BedrockAgent {
             case .incompatibleConnectionDataType:
                 let value = try container.decode(IncompatibleConnectionDataTypeFlowValidationDetails.self, forKey: .incompatibleConnectionDataType)
                 self = .incompatibleConnectionDataType(value)
+            case .invalidLoopBoundary:
+                let value = try container.decode(InvalidLoopBoundaryFlowValidationDetails.self, forKey: .invalidLoopBoundary)
+                self = .invalidLoopBoundary(value)
+            case .loopIncompatibleNodeType:
+                let value = try container.decode(LoopIncompatibleNodeTypeFlowValidationDetails.self, forKey: .loopIncompatibleNodeType)
+                self = .loopIncompatibleNodeType(value)
             case .malformedConditionExpression:
                 let value = try container.decode(MalformedConditionExpressionFlowValidationDetails.self, forKey: .malformedConditionExpression)
                 self = .malformedConditionExpression(value)
@@ -912,6 +1021,12 @@ extension BedrockAgent {
             case .missingEndingNodes:
                 let value = try container.decode(MissingEndingNodesFlowValidationDetails.self, forKey: .missingEndingNodes)
                 self = .missingEndingNodes(value)
+            case .missingLoopControllerNode:
+                let value = try container.decode(MissingLoopControllerNodeFlowValidationDetails.self, forKey: .missingLoopControllerNode)
+                self = .missingLoopControllerNode(value)
+            case .missingLoopInputNode:
+                let value = try container.decode(MissingLoopInputNodeFlowValidationDetails.self, forKey: .missingLoopInputNode)
+                self = .missingLoopInputNode(value)
             case .missingNodeConfiguration:
                 let value = try container.decode(MissingNodeConfigurationFlowValidationDetails.self, forKey: .missingNodeConfiguration)
                 self = .missingNodeConfiguration(value)
@@ -924,6 +1039,12 @@ extension BedrockAgent {
             case .missingStartingNodes:
                 let value = try container.decode(MissingStartingNodesFlowValidationDetails.self, forKey: .missingStartingNodes)
                 self = .missingStartingNodes(value)
+            case .multipleLoopControllerNodes:
+                let value = try container.decode(MultipleLoopControllerNodesFlowValidationDetails.self, forKey: .multipleLoopControllerNodes)
+                self = .multipleLoopControllerNodes(value)
+            case .multipleLoopInputNodes:
+                let value = try container.decode(MultipleLoopInputNodesFlowValidationDetails.self, forKey: .multipleLoopInputNodes)
+                self = .multipleLoopInputNodes(value)
             case .multipleNodeInputConnections:
                 let value = try container.decode(MultipleNodeInputConnectionsFlowValidationDetails.self, forKey: .multipleNodeInputConnections)
                 self = .multipleNodeInputConnections(value)
@@ -968,6 +1089,8 @@ extension BedrockAgent {
             case duplicateConditionExpression = "duplicateConditionExpression"
             case duplicateConnections = "duplicateConnections"
             case incompatibleConnectionDataType = "incompatibleConnectionDataType"
+            case invalidLoopBoundary = "invalidLoopBoundary"
+            case loopIncompatibleNodeType = "loopIncompatibleNodeType"
             case malformedConditionExpression = "malformedConditionExpression"
             case malformedNodeInputExpression = "malformedNodeInputExpression"
             case mismatchedNodeInputType = "mismatchedNodeInputType"
@@ -975,10 +1098,14 @@ extension BedrockAgent {
             case missingConnectionConfiguration = "missingConnectionConfiguration"
             case missingDefaultCondition = "missingDefaultCondition"
             case missingEndingNodes = "missingEndingNodes"
+            case missingLoopControllerNode = "missingLoopControllerNode"
+            case missingLoopInputNode = "missingLoopInputNode"
             case missingNodeConfiguration = "missingNodeConfiguration"
             case missingNodeInput = "missingNodeInput"
             case missingNodeOutput = "missingNodeOutput"
             case missingStartingNodes = "missingStartingNodes"
+            case multipleLoopControllerNodes = "multipleLoopControllerNodes"
+            case multipleLoopInputNodes = "multipleLoopInputNodes"
             case multipleNodeInputConnections = "multipleNodeInputConnections"
             case unfulfilledNodeInput = "unfulfilledNodeInput"
             case unknownConnectionCondition = "unknownConnectionCondition"
@@ -1091,6 +1218,58 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case chat = "chat"
             case text = "text"
+        }
+    }
+
+    public enum RerankingMetadataSelectiveModeConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Specifies the metadata fields to exclude from the reranking process.
+        case fieldsToExclude([FieldForReranking])
+        /// Specifies the metadata fields to include in the reranking process.
+        case fieldsToInclude([FieldForReranking])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .fieldsToExclude:
+                let value = try container.decode([FieldForReranking].self, forKey: .fieldsToExclude)
+                self = .fieldsToExclude(value)
+            case .fieldsToInclude:
+                let value = try container.decode([FieldForReranking].self, forKey: .fieldsToInclude)
+                self = .fieldsToInclude(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .fieldsToExclude(let value):
+                try container.encode(value, forKey: .fieldsToExclude)
+            case .fieldsToInclude(let value):
+                try container.encode(value, forKey: .fieldsToInclude)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .fieldsToExclude(let value):
+                try self.validate(value, name: "fieldsToExclude", parent: name, max: 100)
+                try self.validate(value, name: "fieldsToExclude", parent: name, min: 1)
+            case .fieldsToInclude(let value):
+                try self.validate(value, name: "fieldsToInclude", parent: name, max: 100)
+                try self.validate(value, name: "fieldsToInclude", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldsToExclude = "fieldsToExclude"
+            case fieldsToInclude = "fieldsToInclude"
         }
     }
 
@@ -2708,7 +2887,7 @@ extension BedrockAgent {
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
-            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 5400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
@@ -2840,6 +3019,8 @@ extension BedrockAgent {
     public struct CreateFlowAliasRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
+        /// The configuration that specifies how nodes in the flow are executed in parallel.
+        public let concurrencyConfiguration: FlowAliasConcurrencyConfiguration?
         /// A description for the alias.
         public let description: String?
         /// The unique identifier of the flow for which to create an alias.
@@ -2852,8 +3033,9 @@ extension BedrockAgent {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateFlowAliasRequest.idempotencyToken(), description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateFlowAliasRequest.idempotencyToken(), concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil, description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.concurrencyConfiguration = concurrencyConfiguration
             self.description = description
             self.flowIdentifier = flowIdentifier
             self.name = name
@@ -2865,6 +3047,7 @@ extension BedrockAgent {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.concurrencyConfiguration, forKey: .concurrencyConfiguration)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.flowIdentifier, key: "flowIdentifier")
             try container.encode(self.name, forKey: .name)
@@ -2896,6 +3079,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case concurrencyConfiguration = "concurrencyConfiguration"
             case description = "description"
             case name = "name"
             case routingConfiguration = "routingConfiguration"
@@ -2906,6 +3090,8 @@ extension BedrockAgent {
     public struct CreateFlowAliasResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the alias.
         public let arn: String
+        /// The configuration that specifies how nodes in the flow are executed in parallel.
+        public let concurrencyConfiguration: FlowAliasConcurrencyConfiguration?
         /// The time at which the alias was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -2924,8 +3110,9 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+        public init(arn: String, concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
+            self.concurrencyConfiguration = concurrencyConfiguration
             self.createdAt = createdAt
             self.description = description
             self.flowId = flowId
@@ -2937,6 +3124,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case concurrencyConfiguration = "concurrencyConfiguration"
             case createdAt = "createdAt"
             case description = "description"
             case flowId = "flowId"
@@ -4477,6 +4665,20 @@ extension BedrockAgent {
         }
     }
 
+    public struct FieldForReranking: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the metadata field to include or exclude during reranking.
+        public let fieldName: String
+
+        @inlinable
+        public init(fieldName: String) {
+            self.fieldName = fieldName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
+        }
+    }
+
     public struct FixedSizeChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of tokens to include in a chunk.
         public let maxTokens: Int
@@ -4492,6 +4694,24 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case maxTokens = "maxTokens"
             case overlapPercentage = "overlapPercentage"
+        }
+    }
+
+    public struct FlowAliasConcurrencyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of nodes that can be executed concurrently in the flow.
+        public let maxConcurrency: Int?
+        /// The type of concurrency to use for parallel node execution. Specify one of the following options:    Automatic - Amazon Bedrock determines which nodes can be executed in parallel based on the flow definition and its dependencies.    Manual - You specify which nodes can be executed in parallel.
+        public let type: ConcurrencyType
+
+        @inlinable
+        public init(maxConcurrency: Int? = nil, type: ConcurrencyType) {
+            self.maxConcurrency = maxConcurrency
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConcurrency = "maxConcurrency"
+            case type = "type"
         }
     }
 
@@ -4518,6 +4738,8 @@ extension BedrockAgent {
     public struct FlowAliasSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the alias.
         public let arn: String
+        /// The configuration that specifies how nodes in the flow are executed concurrently.
+        public let concurrencyConfiguration: FlowAliasConcurrencyConfiguration?
         /// The time at which the alias was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -4536,8 +4758,9 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+        public init(arn: String, concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
+            self.concurrencyConfiguration = concurrencyConfiguration
             self.createdAt = createdAt
             self.description = description
             self.flowId = flowId
@@ -4549,6 +4772,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case concurrencyConfiguration = "concurrencyConfiguration"
             case createdAt = "createdAt"
             case description = "description"
             case flowId = "flowId"
@@ -4734,15 +4958,18 @@ extension BedrockAgent {
     }
 
     public struct FlowNodeInput: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how input data flows between iterations in a DoWhile loop.    LoopCondition - Controls whether the loop continues by evaluating condition expressions against the input data. Use this category to define the condition that determines if the loop should continue.     ReturnValueToLoopStart - Defines data to pass back to the start of the loop's next iteration. Use this category for variables that you want to update for each loop iteration.    ExitLoop - Defines the value that's available once the loop ends. Use this category to expose loop results to nodes outside the loop.
+        public let category: FlowNodeInputCategory?
         /// An expression that formats the input for the node. For an explanation of how to create expressions, see Expressions in Prompt flows in Amazon Bedrock.
         public let expression: String
-        /// A name for the input that you can reference.
+        /// Specifies a name for the input that you can reference.
         public let name: String
-        /// The data type of the input. If the input doesn't match this type at runtime, a validation error will be thrown.
+        /// Specifies the data type of the input. If the input doesn't match this type at runtime, a validation error will be thrown.
         public let type: FlowNodeIODataType
 
         @inlinable
-        public init(expression: String, name: String, type: FlowNodeIODataType) {
+        public init(category: FlowNodeInputCategory? = nil, expression: String, name: String, type: FlowNodeIODataType) {
+            self.category = category
             self.expression = expression
             self.name = name
             self.type = type
@@ -4755,6 +4982,7 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case category = "category"
             case expression = "expression"
             case name = "name"
             case type = "type"
@@ -5255,6 +5483,8 @@ extension BedrockAgent {
     public struct GetFlowAliasResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the flow.
         public let arn: String
+        /// The configuration that specifies how nodes in the flow are executed in parallel.
+        public let concurrencyConfiguration: FlowAliasConcurrencyConfiguration?
         /// The time at which the flow was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -5273,8 +5503,9 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+        public init(arn: String, concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
+            self.concurrencyConfiguration = concurrencyConfiguration
             self.createdAt = createdAt
             self.description = description
             self.flowId = flowId
@@ -5286,6 +5517,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case concurrencyConfiguration = "concurrencyConfiguration"
             case createdAt = "createdAt"
             case description = "description"
             case flowId = "flowId"
@@ -5755,7 +5987,7 @@ extension BedrockAgent {
         public let temperature: Float?
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for topK is the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topK to 50, the model selects the next token from among the top 50 most likely choices.
         public let topK: Int?
-        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 0.8, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public let topP: Float?
 
         @inlinable
@@ -6025,6 +6257,29 @@ extension BedrockAgent {
         }
     }
 
+    public struct InlineCodeFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The code that's executed in your inline code node. The code can access input data from previous nodes in the flow, perform operations on that data, and produce output that can be used by other nodes in your flow. The code must be valid in the programming language that you specify.
+        public let code: String
+        /// The programming language used by your inline code node. The code must be valid in the programming language that you specify. Currently, only Python 3 (Python_3) is supported.
+        public let language: SupportedLanguages
+
+        @inlinable
+        public init(code: String, language: SupportedLanguages) {
+            self.code = code
+            self.language = language
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 5000000)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case language = "language"
+        }
+    }
+
     public struct InlineContent: AWSEncodableShape {
         /// Contains information about content defined inline in bytes.
         public let byteContent: ByteContentDoc?
@@ -6071,6 +6326,28 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case s3Location = "s3Location"
+        }
+    }
+
+    public struct InvalidLoopBoundaryFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection that violates loop boundary rules.
+        public let connection: String
+        /// The source node of the connection that violates DoWhile loop boundary rules.
+        public let source: String
+        /// The target node of the connection that violates DoWhile loop boundary rules.
+        public let target: String
+
+        @inlinable
+        public init(connection: String, source: String, target: String) {
+            self.connection = connection
+            self.source = source
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+            case source = "source"
+            case target = "target"
         }
     }
 
@@ -6245,31 +6522,109 @@ extension BedrockAgent {
     public struct KnowledgeBaseFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains configurations for a guardrail to apply during query and response generation for the knowledge base in this configuration.
         public let guardrailConfiguration: GuardrailConfiguration?
+        /// Contains inference configurations for the prompt.
+        public let inferenceConfiguration: PromptInferenceConfiguration?
         /// The unique identifier of the knowledge base to query.
         public let knowledgeBaseId: String
         /// The unique identifier of the model or inference profile to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
         public let modelId: String?
+        /// The number of results to retrieve from the knowledge base.
+        public let numberOfResults: Int?
+        /// The configuration for orchestrating the retrieval and generation process in the knowledge base node.
+        public let orchestrationConfiguration: KnowledgeBaseOrchestrationConfiguration?
+        /// A custom prompt template to use with the knowledge base for generating responses.
+        public let promptTemplate: KnowledgeBasePromptTemplate?
+        /// The configuration for reranking the retrieved results from the knowledge base to improve relevance.
+        public let rerankingConfiguration: VectorSearchRerankingConfiguration?
 
         @inlinable
-        public init(guardrailConfiguration: GuardrailConfiguration? = nil, knowledgeBaseId: String, modelId: String? = nil) {
+        public init(guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, knowledgeBaseId: String, modelId: String? = nil, numberOfResults: Int? = nil, orchestrationConfiguration: KnowledgeBaseOrchestrationConfiguration? = nil, promptTemplate: KnowledgeBasePromptTemplate? = nil, rerankingConfiguration: VectorSearchRerankingConfiguration? = nil) {
             self.guardrailConfiguration = guardrailConfiguration
+            self.inferenceConfiguration = inferenceConfiguration
             self.knowledgeBaseId = knowledgeBaseId
             self.modelId = modelId
+            self.numberOfResults = numberOfResults
+            self.orchestrationConfiguration = orchestrationConfiguration
+            self.promptTemplate = promptTemplate
+            self.rerankingConfiguration = rerankingConfiguration
         }
 
         public func validate(name: String) throws {
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
+            try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+            try self.orchestrationConfiguration?.validate(name: "\(name).orchestrationConfiguration")
+            try self.promptTemplate?.validate(name: "\(name).promptTemplate")
+            try self.rerankingConfiguration?.validate(name: "\(name).rerankingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case guardrailConfiguration = "guardrailConfiguration"
+            case inferenceConfiguration = "inferenceConfiguration"
             case knowledgeBaseId = "knowledgeBaseId"
             case modelId = "modelId"
+            case numberOfResults = "numberOfResults"
+            case orchestrationConfiguration = "orchestrationConfiguration"
+            case promptTemplate = "promptTemplate"
+            case rerankingConfiguration = "rerankingConfiguration"
+        }
+    }
+
+    public struct KnowledgeBaseOrchestrationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The additional model-specific request parameters as key-value pairs to be included in the request to the foundation model.
+        public let additionalModelRequestFields: [String: AWSDocument]?
+        /// Contains inference configurations for the prompt.
+        public let inferenceConfig: PromptInferenceConfiguration?
+        /// The performance configuration options for the knowledge base retrieval and generation process.
+        public let performanceConfig: PerformanceConfiguration?
+        /// A custom prompt template for orchestrating the retrieval and generation process.
+        public let promptTemplate: KnowledgeBasePromptTemplate?
+
+        @inlinable
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, inferenceConfig: PromptInferenceConfiguration? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: KnowledgeBasePromptTemplate? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.inferenceConfig = inferenceConfig
+            self.performanceConfig = performanceConfig
+            self.promptTemplate = promptTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
+            try self.promptTemplate?.validate(name: "\(name).promptTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case inferenceConfig = "inferenceConfig"
+            case performanceConfig = "performanceConfig"
+            case promptTemplate = "promptTemplate"
+        }
+    }
+
+    public struct KnowledgeBasePromptTemplate: AWSEncodableShape & AWSDecodableShape {
+        /// The text of the prompt template.
+        public let textPromptTemplate: String?
+
+        @inlinable
+        public init(textPromptTemplate: String? = nil) {
+            self.textPromptTemplate = textPromptTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.textPromptTemplate, name: "textPromptTemplate", parent: name, max: 100000)
+            try self.validate(self.textPromptTemplate, name: "textPromptTemplate", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textPromptTemplate = "textPromptTemplate"
         }
     }
 
@@ -7175,6 +7530,72 @@ extension BedrockAgent {
         }
     }
 
+    public struct LoopControllerFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the condition that determines when the flow exits the DoWhile loop. The loop executes until this condition evaluates to true.
+        public let continueCondition: FlowCondition
+        /// Specifies the maximum number of times the DoWhile loop can iterate before the flow exits the loop.
+        public let maxIterations: Int?
+
+        @inlinable
+        public init(continueCondition: FlowCondition, maxIterations: Int? = nil) {
+            self.continueCondition = continueCondition
+            self.maxIterations = maxIterations
+        }
+
+        public func validate(name: String) throws {
+            try self.continueCondition.validate(name: "\(name).continueCondition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continueCondition = "continueCondition"
+            case maxIterations = "maxIterations"
+        }
+    }
+
+    public struct LoopFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The definition of the DoWhile loop nodes and connections between nodes in the flow.
+        public let definition: FlowDefinition
+
+        @inlinable
+        public init(definition: FlowDefinition) {
+            self.definition = definition
+        }
+
+        public func validate(name: String) throws {
+            try self.definition.validate(name: "\(name).definition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "definition"
+        }
+    }
+
+    public struct LoopIncompatibleNodeTypeFlowValidationDetails: AWSDecodableShape {
+        /// The node that's incompatible in the DoWhile loop.
+        public let incompatibleNodeName: String
+        /// The node type of the incompatible node in the DoWhile loop. Some node types, like a condition node, aren't allowed in a DoWhile loop.
+        public let incompatibleNodeType: IncompatibleLoopNodeType
+        /// The Loop container node that contains an incompatible node.
+        public let node: String
+
+        @inlinable
+        public init(incompatibleNodeName: String, incompatibleNodeType: IncompatibleLoopNodeType, node: String) {
+            self.incompatibleNodeName = incompatibleNodeName
+            self.incompatibleNodeType = incompatibleNodeType
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incompatibleNodeName = "incompatibleNodeName"
+            case incompatibleNodeType = "incompatibleNodeType"
+            case node = "node"
+        }
+    }
+
+    public struct LoopInputFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct MalformedConditionExpressionFlowValidationDetails: AWSDecodableShape {
         /// The error message describing why the condition expression is malformed.
         public let cause: String
@@ -7330,6 +7751,28 @@ extension BedrockAgent {
         }
     }
 
+    public struct MetadataConfigurationForReranking: AWSEncodableShape & AWSDecodableShape {
+        /// The mode for selecting metadata fields for reranking.
+        public let selectionMode: RerankingMetadataSelectionMode
+        /// The configuration for selective metadata field inclusion or exclusion during reranking.
+        public let selectiveModeConfiguration: RerankingMetadataSelectiveModeConfiguration?
+
+        @inlinable
+        public init(selectionMode: RerankingMetadataSelectionMode, selectiveModeConfiguration: RerankingMetadataSelectiveModeConfiguration? = nil) {
+            self.selectionMode = selectionMode
+            self.selectiveModeConfiguration = selectiveModeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.selectiveModeConfiguration?.validate(name: "\(name).selectiveModeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectionMode = "selectionMode"
+            case selectiveModeConfiguration = "selectiveModeConfiguration"
+        }
+    }
+
     public struct MismatchedNodeInputTypeFlowValidationDetails: AWSDecodableShape {
         /// The expected data type for the node input.
         public let expectedType: FlowNodeIODataType
@@ -7406,8 +7849,36 @@ extension BedrockAgent {
         public init() {}
     }
 
+    public struct MissingLoopControllerNodeFlowValidationDetails: AWSDecodableShape {
+        /// The DoWhile loop in a flow that's missing a required LoopController node.
+        public let loopNode: String
+
+        @inlinable
+        public init(loopNode: String) {
+            self.loopNode = loopNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loopNode = "loopNode"
+        }
+    }
+
+    public struct MissingLoopInputNodeFlowValidationDetails: AWSDecodableShape {
+        /// The DoWhile loop in a flow that's missing a required LoopInput node.
+        public let loopNode: String
+
+        @inlinable
+        public init(loopNode: String) {
+            self.loopNode = loopNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loopNode = "loopNode"
+        }
+    }
+
     public struct MissingNodeConfigurationFlowValidationDetails: AWSDecodableShape {
-        /// The name of the node missing configuration.
+        /// The name of the node missing a required configuration.
         public let node: String
 
         @inlinable
@@ -7548,6 +8019,34 @@ extension BedrockAgent {
             case metadataField = "metadataField"
             case textField = "textField"
             case vectorField = "vectorField"
+        }
+    }
+
+    public struct MultipleLoopControllerNodesFlowValidationDetails: AWSDecodableShape {
+        /// The DoWhile loop in a flow that contains multiple LoopController nodes.
+        public let loopNode: String
+
+        @inlinable
+        public init(loopNode: String) {
+            self.loopNode = loopNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loopNode = "loopNode"
+        }
+    }
+
+    public struct MultipleLoopInputNodesFlowValidationDetails: AWSDecodableShape {
+        /// The DoWhile loop in a flow that contains multiple LoopInput nodes.
+        public let loopNode: String
+
+        @inlinable
+        public init(loopNode: String) {
+            self.loopNode = loopNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loopNode = "loopNode"
         }
     }
 
@@ -7882,6 +8381,20 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "filters"
+        }
+    }
+
+    public struct PerformanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The latency optimization setting.
+        public let latency: PerformanceConfigLatency?
+
+        @inlinable
+        public init(latency: PerformanceConfigLatency? = nil) {
+            self.latency = latency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latency = "latency"
         }
     }
 
@@ -10303,7 +10816,7 @@ extension BedrockAgent {
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
-            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 5400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
@@ -10423,6 +10936,8 @@ extension BedrockAgent {
     public struct UpdateFlowAliasRequest: AWSEncodableShape {
         /// The unique identifier of the alias.
         public let aliasIdentifier: String
+        /// The configuration that specifies how nodes in the flow are executed in parallel.
+        public let concurrencyConfiguration: FlowAliasConcurrencyConfiguration?
         /// A description for the alias.
         public let description: String?
         /// The unique identifier of the flow.
@@ -10433,8 +10948,9 @@ extension BedrockAgent {
         public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
 
         @inlinable
-        public init(aliasIdentifier: String, description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem]) {
+        public init(aliasIdentifier: String, concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil, description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem]) {
             self.aliasIdentifier = aliasIdentifier
+            self.concurrencyConfiguration = concurrencyConfiguration
             self.description = description
             self.flowIdentifier = flowIdentifier
             self.name = name
@@ -10445,6 +10961,7 @@ extension BedrockAgent {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.aliasIdentifier, key: "aliasIdentifier")
+            try container.encodeIfPresent(self.concurrencyConfiguration, forKey: .concurrencyConfiguration)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.flowIdentifier, key: "flowIdentifier")
             try container.encode(self.name, forKey: .name)
@@ -10465,6 +10982,7 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case concurrencyConfiguration = "concurrencyConfiguration"
             case description = "description"
             case name = "name"
             case routingConfiguration = "routingConfiguration"
@@ -10474,6 +10992,8 @@ extension BedrockAgent {
     public struct UpdateFlowAliasResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the flow.
         public let arn: String
+        /// The configuration that specifies how nodes in the flow are executed in parallel.
+        public let concurrencyConfiguration: FlowAliasConcurrencyConfiguration?
         /// The time at which the flow was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -10492,8 +11012,9 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+        public init(arn: String, concurrencyConfiguration: FlowAliasConcurrencyConfiguration? = nil, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
+            self.concurrencyConfiguration = concurrencyConfiguration
             self.createdAt = createdAt
             self.description = description
             self.flowId = flowId
@@ -10505,6 +11026,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case concurrencyConfiguration = "concurrencyConfiguration"
             case createdAt = "createdAt"
             case description = "description"
             case flowId = "flowId"
@@ -10957,6 +11479,83 @@ extension BedrockAgent {
             case embeddingModelArn = "embeddingModelArn"
             case embeddingModelConfiguration = "embeddingModelConfiguration"
             case supplementalDataStorageConfiguration = "supplementalDataStorageConfiguration"
+        }
+    }
+
+    public struct VectorSearchBedrockRerankingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how metadata fields should be handled during the reranking process.
+        public let metadataConfiguration: MetadataConfigurationForReranking?
+        /// Specifies the configuration for the Amazon Bedrock reranker model.
+        public let modelConfiguration: VectorSearchBedrockRerankingModelConfiguration
+        /// Specifies the number of results to return after reranking.
+        public let numberOfRerankedResults: Int?
+
+        @inlinable
+        public init(metadataConfiguration: MetadataConfigurationForReranking? = nil, modelConfiguration: VectorSearchBedrockRerankingModelConfiguration, numberOfRerankedResults: Int? = nil) {
+            self.metadataConfiguration = metadataConfiguration
+            self.modelConfiguration = modelConfiguration
+            self.numberOfRerankedResults = numberOfRerankedResults
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataConfiguration = "metadataConfiguration"
+            case modelConfiguration = "modelConfiguration"
+            case numberOfRerankedResults = "numberOfRerankedResults"
+        }
+    }
+
+    public struct VectorSearchBedrockRerankingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional model-specific request parameters as key-value pairs that are included in the request to the Amazon Bedrock reranker model.
+        public let additionalModelRequestFields: [String: AWSDocument]?
+        /// The Amazon Resource Name (ARN) of the Amazon Bedrock reranker model.
+        public let modelArn: String
+
+        @inlinable
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, modelArn: String) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/(.*))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case modelArn = "modelArn"
+        }
+    }
+
+    public struct VectorSearchRerankingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the configuration for using an Amazon Bedrock reranker model to rerank retrieved results.
+        public let bedrockRerankingConfiguration: VectorSearchBedrockRerankingConfiguration?
+        /// Specifies the type of reranking model to use. Currently, the only supported value is BEDROCK_RERANKING_MODEL.
+        public let type: VectorSearchRerankingConfigurationType
+
+        @inlinable
+        public init(bedrockRerankingConfiguration: VectorSearchBedrockRerankingConfiguration? = nil, type: VectorSearchRerankingConfigurationType) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockRerankingConfiguration?.validate(name: "\(name).bedrockRerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
+            case type = "type"
         }
     }
 

@@ -63,6 +63,12 @@ extension ControlTower {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnabledBaselineDriftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drifted = "DRIFTED"
+        case inSync = "IN_SYNC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnablementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
@@ -313,7 +319,7 @@ extension ControlTower {
     }
 
     public struct CreateLandingZoneInput: AWSEncodableShape {
-        /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review  Launch your landing zone.
+        /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review Launch your landing zone.
         public let manifest: AWSDocument
         /// Tags to be applied to the landing zone.
         public let tags: [String: String]?
@@ -349,7 +355,7 @@ extension ControlTower {
     public struct CreateLandingZoneOutput: AWSDecodableShape {
         /// The ARN of the landing zone resource.
         public let arn: String
-        /// A unique identifier assigned to a CreateLandingZone operation. You can use this  identifier as an input of GetLandingZoneOperation to check the operation's status.
+        /// A unique identifier assigned to a CreateLandingZone operation. You can use this identifier as an input of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
         @inlinable
@@ -379,7 +385,7 @@ extension ControlTower {
     }
 
     public struct DeleteLandingZoneOutput: AWSDecodableShape {
-        /// &gt;A unique identifier assigned to a DeleteLandingZone operation. You can use this  identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
+        /// &gt;A unique identifier assigned to a DeleteLandingZone operation. You can use this identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
         @inlinable
@@ -613,6 +619,8 @@ extension ControlTower {
         public let baselineIdentifier: String
         /// The enabled version of the Baseline.
         public let baselineVersion: String?
+        /// The drift status of the enabled baseline.
+        public let driftStatusSummary: EnabledBaselineDriftStatusSummary?
         /// Shows the parameters that are applied when enabling this Baseline.
         public let parameters: [EnabledBaselineParameterSummary]?
         /// An ARN that represents the parent EnabledBaseline at the Organizational Unit (OU) level, from which the child EnabledBaseline inherits its configuration. The value is returned by GetEnabledBaseline.
@@ -622,10 +630,11 @@ extension ControlTower {
         public let targetIdentifier: String
 
         @inlinable
-        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, parameters: [EnabledBaselineParameterSummary]? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
+        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, driftStatusSummary: EnabledBaselineDriftStatusSummary? = nil, parameters: [EnabledBaselineParameterSummary]? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
+            self.driftStatusSummary = driftStatusSummary
             self.parameters = parameters
             self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
@@ -636,6 +645,7 @@ extension ControlTower {
             case arn = "arn"
             case baselineIdentifier = "baselineIdentifier"
             case baselineVersion = "baselineVersion"
+            case driftStatusSummary = "driftStatusSummary"
             case parameters = "parameters"
             case parentIdentifier = "parentIdentifier"
             case statusSummary = "statusSummary"
@@ -643,18 +653,52 @@ extension ControlTower {
         }
     }
 
+    public struct EnabledBaselineDriftStatusSummary: AWSDecodableShape {
+        /// The types of drift that can be detected for an enabled baseline. Amazon Web Services Control Tower detects inheritance drift on enabled baselines that apply at the OU level.
+        public let types: EnabledBaselineDriftTypes?
+
+        @inlinable
+        public init(types: EnabledBaselineDriftTypes? = nil) {
+            self.types = types
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case types = "types"
+        }
+    }
+
+    public struct EnabledBaselineDriftTypes: AWSDecodableShape {
+        /// At least one account within the target OU does not match the baseline configuration defined on that OU. An account is in inheritance drift when it does not match the configuration of a parent OU, possibly a new parent OU, if the account is moved.
+        public let inheritance: EnabledBaselineInheritanceDrift?
+
+        @inlinable
+        public init(inheritance: EnabledBaselineInheritanceDrift? = nil) {
+            self.inheritance = inheritance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inheritance = "inheritance"
+        }
+    }
+
     public struct EnabledBaselineFilter: AWSEncodableShape {
         /// Identifiers for the Baseline objects returned as part of the filter operation.
         public let baselineIdentifiers: [String]?
+        /// A list of EnabledBaselineDriftStatus items for enabled baselines.
+        public let inheritanceDriftStatuses: [EnabledBaselineDriftStatus]?
         /// An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output.
         public let parentIdentifiers: [String]?
+        /// A list of EnablementStatus items.
+        public let statuses: [EnablementStatus]?
         /// Identifiers for the targets of the Baseline filter operation.
         public let targetIdentifiers: [String]?
 
         @inlinable
-        public init(baselineIdentifiers: [String]? = nil, parentIdentifiers: [String]? = nil, targetIdentifiers: [String]? = nil) {
+        public init(baselineIdentifiers: [String]? = nil, inheritanceDriftStatuses: [EnabledBaselineDriftStatus]? = nil, parentIdentifiers: [String]? = nil, statuses: [EnablementStatus]? = nil, targetIdentifiers: [String]? = nil) {
             self.baselineIdentifiers = baselineIdentifiers
+            self.inheritanceDriftStatuses = inheritanceDriftStatuses
             self.parentIdentifiers = parentIdentifiers
+            self.statuses = statuses
             self.targetIdentifiers = targetIdentifiers
         }
 
@@ -666,6 +710,8 @@ extension ControlTower {
             }
             try self.validate(self.baselineIdentifiers, name: "baselineIdentifiers", parent: name, max: 5)
             try self.validate(self.baselineIdentifiers, name: "baselineIdentifiers", parent: name, min: 1)
+            try self.validate(self.inheritanceDriftStatuses, name: "inheritanceDriftStatuses", parent: name, max: 1)
+            try self.validate(self.inheritanceDriftStatuses, name: "inheritanceDriftStatuses", parent: name, min: 1)
             try self.parentIdentifiers?.forEach {
                 try validate($0, name: "parentIdentifiers[]", parent: name, max: 2048)
                 try validate($0, name: "parentIdentifiers[]", parent: name, min: 20)
@@ -673,6 +719,8 @@ extension ControlTower {
             }
             try self.validate(self.parentIdentifiers, name: "parentIdentifiers", parent: name, max: 5)
             try self.validate(self.parentIdentifiers, name: "parentIdentifiers", parent: name, min: 1)
+            try self.validate(self.statuses, name: "statuses", parent: name, max: 1)
+            try self.validate(self.statuses, name: "statuses", parent: name, min: 1)
             try self.targetIdentifiers?.forEach {
                 try validate($0, name: "targetIdentifiers[]", parent: name, max: 2048)
                 try validate($0, name: "targetIdentifiers[]", parent: name, min: 20)
@@ -684,8 +732,24 @@ extension ControlTower {
 
         private enum CodingKeys: String, CodingKey {
             case baselineIdentifiers = "baselineIdentifiers"
+            case inheritanceDriftStatuses = "inheritanceDriftStatuses"
             case parentIdentifiers = "parentIdentifiers"
+            case statuses = "statuses"
             case targetIdentifiers = "targetIdentifiers"
+        }
+    }
+
+    public struct EnabledBaselineInheritanceDrift: AWSDecodableShape {
+        /// The inheritance drift status for enabled baselines.
+        public let status: EnabledBaselineDriftStatus?
+
+        @inlinable
+        public init(status: EnabledBaselineDriftStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
@@ -732,6 +796,8 @@ extension ControlTower {
         public let baselineIdentifier: String
         /// The enabled version of the baseline.
         public let baselineVersion: String?
+        /// The drift status of the enabled baseline.
+        public let driftStatusSummary: EnabledBaselineDriftStatusSummary?
         /// An ARN that represents an object returned by ListEnabledBaseline, to describe an enabled baseline.
         public let parentIdentifier: String?
         public let statusSummary: EnablementStatusSummary
@@ -739,10 +805,11 @@ extension ControlTower {
         public let targetIdentifier: String
 
         @inlinable
-        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
+        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, driftStatusSummary: EnabledBaselineDriftStatusSummary? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
+            self.driftStatusSummary = driftStatusSummary
             self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
@@ -752,6 +819,7 @@ extension ControlTower {
             case arn = "arn"
             case baselineIdentifier = "baselineIdentifier"
             case baselineVersion = "baselineVersion"
+            case driftStatusSummary = "driftStatusSummary"
             case parentIdentifier = "parentIdentifier"
             case statusSummary = "statusSummary"
             case targetIdentifier = "targetIdentifier"
@@ -1189,7 +1257,7 @@ extension ControlTower {
     }
 
     public struct LandingZoneDriftStatusSummary: AWSDecodableShape {
-        /// The drift status of the landing zone.  Valid values:    DRIFTED: The landing zone deployed in this configuration does not match the  configuration that Amazon Web Services Control Tower expected.     IN_SYNC: The landing zone deployed in this configuration matches the  configuration that Amazon Web Services Control Tower expected.
+        /// The drift status of the landing zone.  Valid values:    DRIFTED: The landing zone deployed in this configuration does not match the configuration that Amazon Web Services Control Tower expected.     IN_SYNC: The landing zone deployed in this configuration matches the configuration that Amazon Web Services Control Tower expected.
         public let status: LandingZoneDriftStatus?
 
         @inlinable
@@ -1208,12 +1276,12 @@ extension ControlTower {
         public var endTime: Date?
         /// The operationIdentifier of the landing zone operation.
         public let operationIdentifier: String?
-        /// The landing zone operation type.  Valid values:    DELETE: The DeleteLandingZone operation.      CREATE: The CreateLandingZone operation.     UPDATE: The UpdateLandingZone operation.     RESET: The ResetLandingZone operation.
+        /// The landing zone operation type.  Valid values:    DELETE: The DeleteLandingZone operation.     CREATE: The CreateLandingZone operation.     UPDATE: The UpdateLandingZone operation.     RESET: The ResetLandingZone operation.
         public let operationType: LandingZoneOperationType?
         /// The landing zone operation start time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
-        /// Valid values:    SUCCEEDED: The landing zone operation succeeded.      IN_PROGRESS: The landing zone operation is in progress.     FAILED: The landing zone operation failed.
+        /// Valid values:    SUCCEEDED: The landing zone operation succeeded.     IN_PROGRESS: The landing zone operation is in progress.     FAILED: The landing zone operation failed.
         public let status: LandingZoneOperationStatus?
         /// If the operation result is FAILED, this string contains a message explaining why the operation failed.
         public let statusMessage: String?
@@ -1323,7 +1391,7 @@ extension ControlTower {
     }
 
     public struct ListBaselinesOutput: AWSDecodableShape {
-        /// A  list of Baseline object details.
+        /// A list of Baseline object details.
         public let baselines: [BaselineSummary]
         /// A pagination token.
         public let nextToken: String?
@@ -1390,7 +1458,7 @@ extension ControlTower {
     public struct ListEnabledBaselinesInput: AWSEncodableShape {
         /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
         public let filter: EnabledBaselineFilter?
-        /// A value that can be  set to include the child enabled baselines in responses. The default value is false.
+        /// A value that can be set to include the child enabled baselines in responses. The default value is false.
         public let includeChildren: Bool?
         /// The maximum number of results to be shown.
         public let maxResults: Int?
@@ -1713,7 +1781,7 @@ extension ControlTower {
     }
 
     public struct ResetLandingZoneOutput: AWSDecodableShape {
-        /// A unique identifier assigned to a ResetLandingZone operation. You can use this  identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
+        /// A unique identifier assigned to a ResetLandingZone operation. You can use this identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
         @inlinable
@@ -1922,7 +1990,7 @@ extension ControlTower {
     public struct UpdateLandingZoneInput: AWSEncodableShape {
         /// The unique identifier of the landing zone.
         public let landingZoneIdentifier: String
-        /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review  Launch your landing zone. The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
+        /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review Launch your landing zone. The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
         public let manifest: AWSDocument
         /// The landing zone version, for example, 3.2.
         public let version: String
@@ -1948,7 +2016,7 @@ extension ControlTower {
     }
 
     public struct UpdateLandingZoneOutput: AWSDecodableShape {
-        /// A unique identifier assigned to a UpdateLandingZone operation. You can use this  identifier as an input of GetLandingZoneOperation to check the operation's status.
+        /// A unique identifier assigned to a UpdateLandingZone operation. You can use this identifier as an input of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
         @inlinable
@@ -2002,7 +2070,7 @@ public struct ControlTowerErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request references a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
+    /// The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }

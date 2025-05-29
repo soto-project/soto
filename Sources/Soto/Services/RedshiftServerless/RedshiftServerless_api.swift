@@ -268,6 +268,41 @@ public struct RedshiftServerless: AWSService {
         return try await self.createNamespace(input, logger: logger)
     }
 
+    /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    @Sendable
+    @inlinable
+    public func createReservation(_ input: CreateReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReservationResponse {
+        try await self.client.execute(
+            operation: "CreateReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    ///
+    /// Parameters:
+    ///   - capacity: The number of Redshift Processing Units (RPUs) to reserve.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services  SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see  Making retries safe with idempotent APIs .
+    ///   - offeringId: The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createReservation(
+        capacity: Int = 0,
+        clientToken: String? = CreateReservationRequest.idempotencyToken(),
+        offeringId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateReservationResponse {
+        let input = CreateReservationRequest(
+            capacity: capacity, 
+            clientToken: clientToken, 
+            offeringId: offeringId
+        )
+        return try await self.createReservation(input, logger: logger)
+    }
+
     /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action.  For example, you can create a schedule of when to run the CreateSnapshot API operation.
     @Sendable
     @inlinable
@@ -933,6 +968,64 @@ public struct RedshiftServerless: AWSService {
         return try await self.getRecoveryPoint(input, logger: logger)
     }
 
+    /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    @Sendable
+    @inlinable
+    public func getReservation(_ input: GetReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReservationResponse {
+        try await self.client.execute(
+            operation: "GetReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    ///
+    /// Parameters:
+    ///   - reservationId: The ID of the reservation to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getReservation(
+        reservationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetReservationResponse {
+        let input = GetReservationRequest(
+            reservationId: reservationId
+        )
+        return try await self.getReservation(input, logger: logger)
+    }
+
+    /// Returns the reservation offering. The offering determines the payment schedule for the reservation.
+    @Sendable
+    @inlinable
+    public func getReservationOffering(_ input: GetReservationOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReservationOfferingResponse {
+        try await self.client.execute(
+            operation: "GetReservationOffering", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the reservation offering. The offering determines the payment schedule for the reservation.
+    ///
+    /// Parameters:
+    ///   - offeringId: The identifier for the offering..
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getReservationOffering(
+        offeringId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetReservationOfferingResponse {
+        let input = GetReservationOfferingRequest(
+            offeringId: offeringId
+        )
+        return try await self.getReservationOffering(input, logger: logger)
+    }
+
     /// Returns a resource policy.
     @Sendable
     @inlinable
@@ -1332,6 +1425,70 @@ public struct RedshiftServerless: AWSService {
         return try await self.listRecoveryPoints(input, logger: logger)
     }
 
+    /// Returns the current reservation offerings in your account.
+    @Sendable
+    @inlinable
+    public func listReservationOfferings(_ input: ListReservationOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReservationOfferingsResponse {
+        try await self.client.execute(
+            operation: "ListReservationOfferings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the current reservation offerings in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listReservationOfferings(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListReservationOfferingsResponse {
+        let input = ListReservationOfferingsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listReservationOfferings(input, logger: logger)
+    }
+
+    /// Returns a list of Reservation objects.
+    @Sendable
+    @inlinable
+    public func listReservations(_ input: ListReservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReservationsResponse {
+        try await self.client.execute(
+            operation: "ListReservations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Reservation objects.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listReservations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListReservationsResponse {
+        let input = ListReservationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listReservations(input, logger: logger)
+    }
+
     /// Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions.
     @Sendable
     @inlinable
@@ -1708,7 +1865,7 @@ public struct RedshiftServerless: AWSService {
     ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the restored  snapshot's admin credentials. If MmanageAdminPassword is false or not set,  Amazon Redshift uses the admin credentials that the namespace or cluster  had at the time the snapshot was taken.
     ///   - namespaceName: The name of the namespace to restore the snapshot to.
     ///   - ownerAccount: The Amazon Web Services account that owns the snapshot.
-    ///   - snapshotArn: The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
+    ///   - snapshotArn: The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from a provisioned cluster to Amazon Redshift Serverless. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
     ///   - snapshotName: The name of the snapshot to restore from. Must not be specified at the same time as snapshotArn.
     ///   - workgroupName: The name of the workgroup used to restore the snapshot.
     ///   - logger: Logger use during operation
@@ -2456,6 +2613,74 @@ extension RedshiftServerless {
         return self.listRecoveryPointsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listReservationOfferings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReservationOfferingsPaginator(
+        _ input: ListReservationOfferingsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReservationOfferingsRequest, ListReservationOfferingsResponse> {
+        return .init(
+            input: input,
+            command: self.listReservationOfferings,
+            inputKey: \ListReservationOfferingsRequest.nextToken,
+            outputKey: \ListReservationOfferingsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listReservationOfferings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReservationOfferingsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListReservationOfferingsRequest, ListReservationOfferingsResponse> {
+        let input = ListReservationOfferingsRequest(
+            maxResults: maxResults
+        )
+        return self.listReservationOfferingsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listReservations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReservationsPaginator(
+        _ input: ListReservationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReservationsRequest, ListReservationsResponse> {
+        return .init(
+            input: input,
+            command: self.listReservations,
+            inputKey: \ListReservationsRequest.nextToken,
+            outputKey: \ListReservationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listReservations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReservationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListReservationsRequest, ListReservationsResponse> {
+        let input = ListReservationsRequest(
+            maxResults: maxResults
+        )
+        return self.listReservationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listScheduledActions(_:logger:)``.
     ///
     /// - Parameters:
@@ -2787,6 +3012,26 @@ extension RedshiftServerless.ListRecoveryPointsRequest: AWSPaginateToken {
             namespaceName: self.namespaceName,
             nextToken: token,
             startTime: self.startTime
+        )
+    }
+}
+
+extension RedshiftServerless.ListReservationOfferingsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RedshiftServerless.ListReservationOfferingsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension RedshiftServerless.ListReservationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RedshiftServerless.ListReservationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

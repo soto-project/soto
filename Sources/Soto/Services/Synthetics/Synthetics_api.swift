@@ -192,14 +192,14 @@ public struct Synthetics: AWSService {
     ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  S3 bucket can't include a period (.).
     ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
-    ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days.
+    ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - name: The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
     ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
     ///   - resourcesToReplicateTags: To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
-    ///   - runConfig: A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+    ///   - runConfig: A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
     ///   - runtimeVersion: Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see  Canary Runtime Versions.
     ///   - schedule: A structure that contains information about how often the canary is to run and when these test runs are to stop.
-    ///   - successRetentionPeriodInDays: The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days.
+    ///   - successRetentionPeriodInDays: The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - tags: A list of key-value pairs to associate with the canary.  You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by  granting a user permission to access or change only the resources that have certain tag values. To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function.
     ///   - vpcConfig: If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.  For more information, see  Running a Canary in a VPC.
     ///   - logger: Logger use during operation
@@ -483,14 +483,17 @@ public struct Synthetics: AWSService {
     /// Retrieves complete information about one canary. You must specify the name of the canary that you want. To get a list of canaries and their names, use DescribeCanaries.
     ///
     /// Parameters:
+    ///   - dryRunId: The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
     ///   - name: The name of the canary that you want details for.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCanary(
+        dryRunId: String? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCanaryResponse {
         let input = GetCanaryRequest(
+            dryRunId: dryRunId, 
             name: name
         )
         return try await self.getCanary(input, logger: logger)
@@ -512,21 +515,27 @@ public struct Synthetics: AWSService {
     /// Retrieves a list of runs for a specified canary.
     ///
     /// Parameters:
+    ///   - dryRunId: The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
     ///   - maxResults: Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
     ///   - name: The name of the canary that you want to see runs for.
-    ///   - nextToken: A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next  set of results.
+    ///   - nextToken: A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next  set of results.  When auto retry is enabled for the canary, the first subsequent retry is suffixed with *1 indicating its the first retry and the next subsequent try is suffixed with *2.
+    ///   - runType:   When you provide RunType=CANARY_RUN and dryRunId, you will get an exception      When a value is not provided for RunType, the default value is CANARY_RUN    When CANARY_RUN is provided, all canary runs excluding dry runs are returned   When DRY_RUN is provided, all dry runs excluding canary runs are returned
     ///   - logger: Logger use during operation
     @inlinable
     public func getCanaryRuns(
+        dryRunId: String? = nil,
         maxResults: Int? = nil,
         name: String,
         nextToken: String? = nil,
+        runType: RunType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCanaryRunsResponse {
         let input = GetCanaryRunsRequest(
+            dryRunId: dryRunId, 
             maxResults: maxResults, 
             name: name, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            runType: runType
         )
         return try await self.getCanaryRuns(input, logger: logger)
     }
@@ -720,6 +729,68 @@ public struct Synthetics: AWSService {
         return try await self.startCanary(input, logger: logger)
     }
 
+    /// Use this operation to start a dry run for a canary that has already been created
+    @Sendable
+    @inlinable
+    public func startCanaryDryRun(_ input: StartCanaryDryRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCanaryDryRunResponse {
+        try await self.client.execute(
+            operation: "StartCanaryDryRun", 
+            path: "/canary/{Name}/dry-run/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this operation to start a dry run for a canary that has already been created
+    ///
+    /// Parameters:
+    ///   - artifactConfig: 
+    ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
+    ///   - code: 
+    ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
+    ///   - failureRetentionPeriodInDays: The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+    ///   - name: The name of the canary that you want to dry run. To find canary names, use DescribeCanaries.
+    ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is AUTOMATIC, it means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+    ///   - runConfig: 
+    ///   - runtimeVersion: Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
+    ///   - successRetentionPeriodInDays: The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+    ///   - visualReference: 
+    ///   - vpcConfig: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startCanaryDryRun(
+        artifactConfig: ArtifactConfigInput? = nil,
+        artifactS3Location: String? = nil,
+        code: CanaryCodeInput? = nil,
+        executionRoleArn: String? = nil,
+        failureRetentionPeriodInDays: Int? = nil,
+        name: String,
+        provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil,
+        runConfig: CanaryRunConfigInput? = nil,
+        runtimeVersion: String? = nil,
+        successRetentionPeriodInDays: Int? = nil,
+        visualReference: VisualReferenceInput? = nil,
+        vpcConfig: VpcConfigInput? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartCanaryDryRunResponse {
+        let input = StartCanaryDryRunRequest(
+            artifactConfig: artifactConfig, 
+            artifactS3Location: artifactS3Location, 
+            code: code, 
+            executionRoleArn: executionRoleArn, 
+            failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
+            name: name, 
+            provisionedResourceCleanup: provisionedResourceCleanup, 
+            runConfig: runConfig, 
+            runtimeVersion: runtimeVersion, 
+            successRetentionPeriodInDays: successRetentionPeriodInDays, 
+            visualReference: visualReference, 
+            vpcConfig: vpcConfig
+        )
+        return try await self.startCanaryDryRun(input, logger: logger)
+    }
+
     /// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again  with the canary’s current schedule at any point in the future.
     @Sendable
     @inlinable
@@ -813,7 +884,7 @@ public struct Synthetics: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the configuration of a canary that has  already been created. You can't use this operation to update the tags of an existing canary. To  change the tags of an existing canary, use TagResource.
+    /// Updates the configuration of a canary that has  already been created. You can't use this operation to update the tags of an existing canary. To  change the tags of an existing canary, use TagResource.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     @Sendable
     @inlinable
     public func updateCanary(_ input: UpdateCanaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCanaryResponse {
@@ -826,20 +897,21 @@ public struct Synthetics: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of a canary that has  already been created. You can't use this operation to update the tags of an existing canary. To  change the tags of an existing canary, use TagResource.
+    /// Updates the configuration of a canary that has  already been created. You can't use this operation to update the tags of an existing canary. To  change the tags of an existing canary, use TagResource.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///
     /// Parameters:
     ///   - artifactConfig: A structure that contains the configuration for canary artifacts,  including the encryption-at-rest settings for artifacts that  the canary uploads to Amazon S3.
     ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
     ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.
+    ///   - dryRunId: Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
-    ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary.
+    ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - name: The name of the canary that you want to update. To find the names of your  canaries, use DescribeCanaries. You cannot change the name of a canary that has already been created.
     ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
-    ///   - runConfig: A structure that contains the timeout value that is used for each individual run of the  canary.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+    ///   - runConfig: A structure that contains the timeout value that is used for each individual run of the  canary.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
     ///   - runtimeVersion: Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
     ///   - schedule: A structure that contains information about how often the canary is to run, and when these runs are to stop.
-    ///   - successRetentionPeriodInDays: The number of days to retain data about successful runs of this canary.
+    ///   - successRetentionPeriodInDays: The number of days to retain data about successful runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - visualReference: Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this  parameter, no changes are made to any baseline screenshots that the canary might be using already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see  Visual monitoring and  Visual monitoring blueprint
     ///   - vpcConfig: If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.  For more information, see  Running a Canary in a VPC.
     ///   - logger: Logger use during operation
@@ -848,6 +920,7 @@ public struct Synthetics: AWSService {
         artifactConfig: ArtifactConfigInput? = nil,
         artifactS3Location: String? = nil,
         code: CanaryCodeInput? = nil,
+        dryRunId: String? = nil,
         executionRoleArn: String? = nil,
         failureRetentionPeriodInDays: Int? = nil,
         name: String,
@@ -864,6 +937,7 @@ public struct Synthetics: AWSService {
             artifactConfig: artifactConfig, 
             artifactS3Location: artifactS3Location, 
             code: code, 
+            dryRunId: dryRunId, 
             executionRoleArn: executionRoleArn, 
             failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
             name: name, 
@@ -1021,18 +1095,24 @@ extension Synthetics {
     /// Return PaginatorSequence for operation ``getCanaryRuns(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - dryRunId: The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
     ///   - maxResults: Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
     ///   - name: The name of the canary that you want to see runs for.
+    ///   - runType:   When you provide RunType=CANARY_RUN and dryRunId, you will get an exception      When a value is not provided for RunType, the default value is CANARY_RUN    When CANARY_RUN is provided, all canary runs excluding dry runs are returned   When DRY_RUN is provided, all dry runs excluding canary runs are returned
     ///   - logger: Logger used for logging
     @inlinable
     public func getCanaryRunsPaginator(
+        dryRunId: String? = nil,
         maxResults: Int? = nil,
         name: String,
+        runType: RunType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetCanaryRunsRequest, GetCanaryRunsResponse> {
         let input = GetCanaryRunsRequest(
+            dryRunId: dryRunId, 
             maxResults: maxResults, 
-            name: name
+            name: name, 
+            runType: runType
         )
         return self.getCanaryRunsPaginator(input, logger: logger)
     }
@@ -1182,9 +1262,11 @@ extension Synthetics.GetCanaryRunsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Synthetics.GetCanaryRunsRequest {
         return .init(
+            dryRunId: self.dryRunId,
             maxResults: self.maxResults,
             name: self.name,
-            nextToken: token
+            nextToken: token,
+            runType: self.runType
         )
     }
 }
