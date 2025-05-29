@@ -18,6 +18,8 @@ import Glibc
 import Musl
 #elseif canImport(Darwin)
 import Darwin.C
+#elseif canImport(Android)
+import Android
 #else
 #error("The Soto module was unable to identify your C library.")
 #endif
