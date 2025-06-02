@@ -767,16 +767,20 @@ extension DataExchange {
         public let action: Action
         /// What occurs to start an action.
         public let event: Event
+        /// Key-value pairs that you can associate with the event action.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(action: Action, event: Event) {
+        public init(action: Action, event: Event, tags: [String: String]? = nil) {
             self.action = action
             self.event = event
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case event = "Event"
+            case tags = "Tags"
         }
     }
 
@@ -792,17 +796,20 @@ extension DataExchange {
         public let event: Event?
         /// The unique identifier for the event action.
         public let id: String?
+        /// The tags for the event action.
+        public let tags: [String: String]?
         /// The date and time that the event action was last updated, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
         @inlinable
-        public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
+        public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.action = action
             self.arn = arn
             self.createdAt = createdAt
             self.event = event
             self.id = id
+            self.tags = tags
             self.updatedAt = updatedAt
         }
 
@@ -812,6 +819,7 @@ extension DataExchange {
             case createdAt = "CreatedAt"
             case event = "Event"
             case id = "Id"
+            case tags = "Tags"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -1823,17 +1831,20 @@ extension DataExchange {
         public let event: Event?
         /// The unique identifier for the event action.
         public let id: String?
+        /// The tags for the event action.
+        public let tags: [String: String]?
         /// The date and time that the event action was last updated, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
         @inlinable
-        public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
+        public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.action = action
             self.arn = arn
             self.createdAt = createdAt
             self.event = event
             self.id = id
+            self.tags = tags
             self.updatedAt = updatedAt
         }
 
@@ -1843,6 +1854,7 @@ extension DataExchange {
             case createdAt = "CreatedAt"
             case event = "Event"
             case id = "Id"
+            case tags = "Tags"
             case updatedAt = "UpdatedAt"
         }
     }

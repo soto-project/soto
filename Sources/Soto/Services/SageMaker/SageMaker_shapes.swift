@@ -550,6 +550,11 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityReservationPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityReservationsOnly = "capacity-reservations-only"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacitySizeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityPercent = "CAPACITY_PERCENT"
         case instanceCount = "INSTANCE_COUNT"
@@ -3005,6 +3010,13 @@ extension SageMaker {
     public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "OnDemand"
         case provisioned = "Provisioned"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrackingServerMaintenanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case maintenanceComplete = "MaintenanceComplete"
+        case maintenanceFailed = "MaintenanceFailed"
+        case maintenanceInProgress = "MaintenanceInProgress"
         public var description: String { return self.rawValue }
     }
 
@@ -17631,6 +17643,8 @@ extension SageMaker {
         public let roleArn: String?
         /// The ARN of the described tracking server.
         public let trackingServerArn: String?
+        ///  The current maintenance status of the described MLflow Tracking Server.
+        public let trackingServerMaintenanceStatus: TrackingServerMaintenanceStatus?
         /// The name of the described tracking server.
         public let trackingServerName: String?
         /// The size of the described tracking server.
@@ -17643,7 +17657,7 @@ extension SageMaker {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, trackingServerArn: String? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, trackingServerStatus: TrackingServerStatus? = nil, trackingServerUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, trackingServerArn: String? = nil, trackingServerMaintenanceStatus: TrackingServerMaintenanceStatus? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, trackingServerStatus: TrackingServerStatus? = nil, trackingServerUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
             self.createdBy = createdBy
@@ -17654,6 +17668,7 @@ extension SageMaker {
             self.mlflowVersion = mlflowVersion
             self.roleArn = roleArn
             self.trackingServerArn = trackingServerArn
+            self.trackingServerMaintenanceStatus = trackingServerMaintenanceStatus
             self.trackingServerName = trackingServerName
             self.trackingServerSize = trackingServerSize
             self.trackingServerStatus = trackingServerStatus
@@ -17672,6 +17687,7 @@ extension SageMaker {
             case mlflowVersion = "MlflowVersion"
             case roleArn = "RoleArn"
             case trackingServerArn = "TrackingServerArn"
+            case trackingServerMaintenanceStatus = "TrackingServerMaintenanceStatus"
             case trackingServerName = "TrackingServerName"
             case trackingServerSize = "TrackingServerSize"
             case trackingServerStatus = "TrackingServerStatus"
@@ -20730,6 +20746,32 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case ebsVolumeSizeInGb = "EbsVolumeSizeInGb"
+        }
+    }
+
+    public struct Ec2CapacityReservation: AWSDecodableShape {
+        /// The number of instances that are currently available in the EC2 capacity reservation.
+        public let availableInstanceCount: Int?
+        /// The unique identifier for an EC2 capacity reservation that's part of the ML capacity reservation.
+        public let ec2CapacityReservationId: String?
+        /// The number of instances that you allocated to the EC2 capacity reservation.
+        public let totalInstanceCount: Int?
+        /// The number of instances from the EC2 capacity reservation that are being used by the endpoint.
+        public let usedByCurrentEndpoint: Int?
+
+        @inlinable
+        public init(availableInstanceCount: Int? = nil, ec2CapacityReservationId: String? = nil, totalInstanceCount: Int? = nil, usedByCurrentEndpoint: Int? = nil) {
+            self.availableInstanceCount = availableInstanceCount
+            self.ec2CapacityReservationId = ec2CapacityReservationId
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableInstanceCount = "AvailableInstanceCount"
+            case ec2CapacityReservationId = "Ec2CapacityReservationId"
+            case totalInstanceCount = "TotalInstanceCount"
+            case usedByCurrentEndpoint = "UsedByCurrentEndpoint"
         }
     }
 
@@ -35766,6 +35808,8 @@ extension SageMaker {
     public struct ProductionVariant: AWSEncodableShape & AWSDecodableShape {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public let acceleratorType: ProductionVariantAcceleratorType?
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public let capacityReservationConfig: ProductionVariantCapacityReservationConfig?
         /// The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting. For more information about health check, see How Your Container Should Respond to Health Check (Ping) Requests.
         public let containerStartupHealthCheckTimeoutInSeconds: Int?
         /// Specifies configuration for a core dump from the model container when the process crashes.
@@ -35796,8 +35840,9 @@ extension SageMaker {
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, enableSSMAccess: Bool? = nil, inferenceAmiVersion: ProductionVariantInferenceAmiVersion? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, capacityReservationConfig: ProductionVariantCapacityReservationConfig? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, enableSSMAccess: Bool? = nil, inferenceAmiVersion: ProductionVariantInferenceAmiVersion? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorType = acceleratorType
+            self.capacityReservationConfig = capacityReservationConfig
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
             self.enableSSMAccess = enableSSMAccess
@@ -35815,6 +35860,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.capacityReservationConfig?.validate(name: "\(name).capacityReservationConfig")
             try self.validate(self.containerStartupHealthCheckTimeoutInSeconds, name: "containerStartupHealthCheckTimeoutInSeconds", parent: name, max: 3600)
             try self.validate(self.containerStartupHealthCheckTimeoutInSeconds, name: "containerStartupHealthCheckTimeoutInSeconds", parent: name, min: 60)
             try self.coreDumpConfig?.validate(name: "\(name).coreDumpConfig")
@@ -35834,6 +35880,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case acceleratorType = "AcceleratorType"
+            case capacityReservationConfig = "CapacityReservationConfig"
             case containerStartupHealthCheckTimeoutInSeconds = "ContainerStartupHealthCheckTimeoutInSeconds"
             case coreDumpConfig = "CoreDumpConfig"
             case enableSSMAccess = "EnableSSMAccess"
@@ -35848,6 +35895,64 @@ extension SageMaker {
             case serverlessConfig = "ServerlessConfig"
             case variantName = "VariantName"
             case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct ProductionVariantCapacityReservationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Options that you can choose for the capacity reservation. SageMaker AI supports the following options:  capacity-reservations-only  SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public let capacityReservationPreference: CapacityReservationPreference?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public let mlReservationArn: String?
+
+        @inlinable
+        public init(capacityReservationPreference: CapacityReservationPreference? = nil, mlReservationArn: String? = nil) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.mlReservationArn = mlReservationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, max: 258)
+            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, min: 20)
+            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:ml-reservation/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case mlReservationArn = "MlReservationArn"
+        }
+    }
+
+    public struct ProductionVariantCapacityReservationSummary: AWSDecodableShape {
+        /// The number of instances that are currently available in the ML capacity reservation.
+        public let availableInstanceCount: Int?
+        /// The option that you chose for the capacity reservation. SageMaker AI supports the following options:  capacity-reservations-only  SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public let capacityReservationPreference: CapacityReservationPreference?
+        /// The EC2 capacity reservations that are shared to this ML capacity reservation, if any.
+        public let ec2CapacityReservations: [Ec2CapacityReservation]?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public let mlReservationArn: String?
+        /// The number of instances that you allocated to the ML capacity reservation.
+        public let totalInstanceCount: Int?
+        /// The number of instances from the ML capacity reservation that are being used by the endpoint.
+        public let usedByCurrentEndpoint: Int?
+
+        @inlinable
+        public init(availableInstanceCount: Int? = nil, capacityReservationPreference: CapacityReservationPreference? = nil, ec2CapacityReservations: [Ec2CapacityReservation]? = nil, mlReservationArn: String? = nil, totalInstanceCount: Int? = nil, usedByCurrentEndpoint: Int? = nil) {
+            self.availableInstanceCount = availableInstanceCount
+            self.capacityReservationPreference = capacityReservationPreference
+            self.ec2CapacityReservations = ec2CapacityReservations
+            self.mlReservationArn = mlReservationArn
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableInstanceCount = "AvailableInstanceCount"
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case ec2CapacityReservations = "Ec2CapacityReservations"
+            case mlReservationArn = "MlReservationArn"
+            case totalInstanceCount = "TotalInstanceCount"
+            case usedByCurrentEndpoint = "UsedByCurrentEndpoint"
         }
     }
 
@@ -35996,6 +36101,8 @@ extension SageMaker {
     }
 
     public struct ProductionVariantSummary: AWSDecodableShape {
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public let capacityReservationConfig: ProductionVariantCapacityReservationSummary?
         /// The number of instances associated with the variant.
         public let currentInstanceCount: Int?
         /// The serverless configuration for the endpoint.
@@ -36020,7 +36127,8 @@ extension SageMaker {
         public let variantStatus: [ProductionVariantStatus]?
 
         @inlinable
-        public init(currentInstanceCount: Int? = nil, currentServerlessConfig: ProductionVariantServerlessConfig? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredServerlessConfig: ProductionVariantServerlessConfig? = nil, desiredWeight: Float? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, variantName: String? = nil, variantStatus: [ProductionVariantStatus]? = nil) {
+        public init(capacityReservationConfig: ProductionVariantCapacityReservationSummary? = nil, currentInstanceCount: Int? = nil, currentServerlessConfig: ProductionVariantServerlessConfig? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredServerlessConfig: ProductionVariantServerlessConfig? = nil, desiredWeight: Float? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, variantName: String? = nil, variantStatus: [ProductionVariantStatus]? = nil) {
+            self.capacityReservationConfig = capacityReservationConfig
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
             self.currentWeight = currentWeight
@@ -36035,6 +36143,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityReservationConfig = "CapacityReservationConfig"
             case currentInstanceCount = "CurrentInstanceCount"
             case currentServerlessConfig = "CurrentServerlessConfig"
             case currentWeight = "CurrentWeight"
@@ -38273,7 +38382,7 @@ extension SageMaker {
             try self.validate(self.durationHours, name: "durationHours", parent: name, max: 87600)
             try self.validate(self.durationHours, name: "durationHours", parent: name, min: 1)
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, max: 256)
-            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 1)
+            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
             try self.validate(self.targetResources, name: "targetResources", parent: name, min: 1)
         }
 
@@ -41878,17 +41987,20 @@ extension SageMaker {
         public let projectId: String?
         /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
         public let projectS3Path: String?
+        /// The ARN of the application managed by SageMaker AI and SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
+        public let singleSignOnApplicationArn: String?
         /// Sets whether you can access the domain in Amazon SageMaker Studio:  ENABLED  You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces.  DISABLED  You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface.   To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
         public let studioWebPortalAccess: FeatureStatus?
 
         @inlinable
-        public init(domainAccountId: String? = nil, domainId: String? = nil, domainRegion: String? = nil, environmentId: String? = nil, projectId: String? = nil, projectS3Path: String? = nil, studioWebPortalAccess: FeatureStatus? = nil) {
+        public init(domainAccountId: String? = nil, domainId: String? = nil, domainRegion: String? = nil, environmentId: String? = nil, projectId: String? = nil, projectS3Path: String? = nil, singleSignOnApplicationArn: String? = nil, studioWebPortalAccess: FeatureStatus? = nil) {
             self.domainAccountId = domainAccountId
             self.domainId = domainId
             self.domainRegion = domainRegion
             self.environmentId = environmentId
             self.projectId = projectId
             self.projectS3Path = projectS3Path
+            self.singleSignOnApplicationArn = singleSignOnApplicationArn
             self.studioWebPortalAccess = studioWebPortalAccess
         }
 
@@ -41903,6 +42015,7 @@ extension SageMaker {
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.projectS3Path, name: "projectS3Path", parent: name, max: 1024)
             try self.validate(self.projectS3Path, name: "projectS3Path", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.singleSignOnApplicationArn, name: "singleSignOnApplicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::[0-9]+:application\\/[a-zA-Z0-9-_.]+\\/apl-[a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -41912,6 +42025,7 @@ extension SageMaker {
             case environmentId = "EnvironmentId"
             case projectId = "ProjectId"
             case projectS3Path = "ProjectS3Path"
+            case singleSignOnApplicationArn = "SingleSignOnApplicationArn"
             case studioWebPortalAccess = "StudioWebPortalAccess"
         }
     }
