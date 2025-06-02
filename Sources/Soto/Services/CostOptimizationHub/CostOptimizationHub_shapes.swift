@@ -76,6 +76,13 @@ extension CostOptimizationHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allUpfront = "AllUpfront"
+        case noUpfront = "NoUpfront"
+        case partialUpfront = "PartialUpfront"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case computeSavingsPlans = "ComputeSavingsPlans"
         case dynamoDbReservedCapacity = "DynamoDbReservedCapacity"
@@ -111,6 +118,12 @@ extension CostOptimizationHub {
 
     public enum SummaryMetrics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case savingsPercentage = "SavingsPercentage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Term: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oneYear = "OneYear"
+        case threeYears = "ThreeYears"
         public var description: String { return self.rawValue }
     }
 
@@ -913,17 +926,21 @@ extension CostOptimizationHub {
     public struct GetPreferencesResponse: AWSDecodableShape {
         /// Retrieves the status of the "member account discount visibility" preference.
         public let memberAccountDiscountVisibility: MemberAccountDiscountVisibility?
+        /// Retrieves the current preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+        public let preferredCommitment: PreferredCommitment?
         /// Retrieves the status of the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
         @inlinable
-        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
+        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, preferredCommitment: PreferredCommitment? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+            self.preferredCommitment = preferredCommitment
             self.savingsEstimationMode = savingsEstimationMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberAccountDiscountVisibility = "memberAccountDiscountVisibility"
+            case preferredCommitment = "preferredCommitment"
             case savingsEstimationMode = "savingsEstimationMode"
         }
     }
@@ -1453,6 +1470,24 @@ extension CostOptimizationHub {
         private enum CodingKeys: String, CodingKey {
             case dimension = "dimension"
             case order = "order"
+        }
+    }
+
+    public struct PreferredCommitment: AWSEncodableShape & AWSDecodableShape {
+        /// The preferred upfront payment structure for commitments. If the value is null, it will default to AllUpfront (highest savings) where applicable.
+        public let paymentOption: PaymentOption?
+        /// The preferred length of the commitment period. If the value is null, it will default to ThreeYears (highest savings) where applicable.
+        public let term: Term?
+
+        @inlinable
+        public init(paymentOption: PaymentOption? = nil, term: Term? = nil) {
+            self.paymentOption = paymentOption
+            self.term = term
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paymentOption = "paymentOption"
+            case term = "term"
         }
     }
 
@@ -2092,17 +2127,21 @@ extension CostOptimizationHub {
     public struct UpdatePreferencesRequest: AWSEncodableShape {
         /// Sets the "member account discount visibility" preference.
         public let memberAccountDiscountVisibility: MemberAccountDiscountVisibility?
+        /// Sets the preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+        public let preferredCommitment: PreferredCommitment?
         /// Sets the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
         @inlinable
-        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
+        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, preferredCommitment: PreferredCommitment? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+            self.preferredCommitment = preferredCommitment
             self.savingsEstimationMode = savingsEstimationMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberAccountDiscountVisibility = "memberAccountDiscountVisibility"
+            case preferredCommitment = "preferredCommitment"
             case savingsEstimationMode = "savingsEstimationMode"
         }
     }
@@ -2110,17 +2149,21 @@ extension CostOptimizationHub {
     public struct UpdatePreferencesResponse: AWSDecodableShape {
         /// Shows the status of the "member account discount visibility" preference.
         public let memberAccountDiscountVisibility: MemberAccountDiscountVisibility?
+        /// Shows the updated preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+        public let preferredCommitment: PreferredCommitment?
         /// Shows the status of the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
         @inlinable
-        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
+        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, preferredCommitment: PreferredCommitment? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+            self.preferredCommitment = preferredCommitment
             self.savingsEstimationMode = savingsEstimationMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberAccountDiscountVisibility = "memberAccountDiscountVisibility"
+            case preferredCommitment = "preferredCommitment"
             case savingsEstimationMode = "savingsEstimationMode"
         }
     }
