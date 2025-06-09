@@ -95,6 +95,7 @@ extension EKS {
     }
 
     public enum Category: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case misconfiguration = "MISCONFIGURATION"
         case upgradeReadiness = "UPGRADE_READINESS"
         public var description: String { return self.rawValue }
     }
@@ -3374,7 +3375,7 @@ extension EKS {
     }
 
     public struct InsightsFilter: AWSEncodableShape {
-        /// The categories to use to filter insights.
+        /// The categories to use to filter insights. The following lists the available categories:    UPGRADE_READINESS: Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights.    MISCONFIGURATION: Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration insights.
         public let categories: [Category]?
         /// The Kubernetes versions to use to filter the insights.
         public let kubernetesVersions: [String]?

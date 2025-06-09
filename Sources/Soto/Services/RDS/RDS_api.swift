@@ -1587,7 +1587,7 @@ public struct RDS: AWSService {
     /// Creates a new DB shard group for Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
     ///
     /// Parameters:
-    ///   - computeRedundancy: Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:   0 - Creates a DB shard group without a standby DB shard group. This is the default value.   1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).   2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+    ///   - computeRedundancy: Specifies whether to create standby standby DB data access shard for the DB shard group.  Valid values are the following:   0 - Creates a DB shard group without a standby DB data access shard. This is the default value.   1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ).   2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
     ///   - dbClusterIdentifier: The name of the primary DB cluster for the DB shard group.
     ///   - dbShardGroupIdentifier: The name of the DB shard group.
     ///   - maxACU: The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
@@ -4539,7 +4539,7 @@ public struct RDS: AWSService {
         return try await self.disableHttpEndpoint(input, logger: logger)
     }
 
-    /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
+    /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.  This operation uses resources on database instances. Because of this, we recommend publishing database logs to CloudWatch and then  using the GetLogEvents operation. For more information,  see GetLogEvents in the Amazon CloudWatch Logs API Reference.
     @Sendable
     @inlinable
     public func downloadDBLogFilePortion(_ input: DownloadDBLogFilePortionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DownloadDBLogFilePortionDetails {
@@ -4552,7 +4552,7 @@ public struct RDS: AWSService {
             logger: logger
         )
     }
-    /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
+    /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.  This operation uses resources on database instances. Because of this, we recommend publishing database logs to CloudWatch and then  using the GetLogEvents operation. For more information,  see GetLogEvents in the Amazon CloudWatch Logs API Reference.
     ///
     /// Parameters:
     ///   - dbInstanceIdentifier: The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.

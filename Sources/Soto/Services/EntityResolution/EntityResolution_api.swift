@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS EntityResolution service.
 ///
-/// Welcome to the Entity Resolution API Reference. Entity Resolution is an Amazon Web Services service that provides pre-configured entity resolution capabilities that enable developers and analysts at advertising and marketing companies to build an accurate and complete view of their consumers. With Entity Resolution, you can match source records containing consumer identifiers, such as name, email address, and phone number. This is true even when these records have incomplete or conflicting identifiers. For example, Entity Resolution can effectively match a source record from a customer relationship management (CRM) system with a source record from a marketing system containing campaign information. To learn more about Entity Resolution concepts, procedures, and best practices, see the Entity Resolution User Guide.
+/// Welcome to the Entity Resolution API Reference. Entity Resolution is an Amazon Web Services service that provides pre-configured entity resolution capabilities that enable developers and analysts at advertising and marketing companies to build an accurate and complete view of their consumers.  With Entity Resolution, you can match source records containing consumer identifiers, such as name, email address, and phone number. This is true even when these records have incomplete or conflicting identifiers. For example, Entity Resolution can effectively match a source record from a customer relationship management (CRM) system with a source record from a marketing system containing campaign information. To learn more about Entity Resolution concepts, procedures, and best practices, see the Entity Resolution User Guide.
 public struct EntityResolution: AWSService {
     // MARK: Member variables
 
@@ -97,7 +97,7 @@ public struct EntityResolution: AWSService {
     ///   - action: The action that the principal can use on the resource.  For example, entityresolution:GetIdMappingJob, entityresolution:GetMatchingJob.
     ///   - arn: The Amazon Resource Name (ARN) of the resource that will be accessed by the principal.
     ///   - condition: A set of condition keys that you can use in key policies.
-    ///   - effect: Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).  If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation.
+    ///   - effect: Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).   If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation.
     ///   - principal: The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN.
     ///   - statementId: A statement identifier that differentiates the statement from others in the same policy.
     ///   - logger: Logger use during operation
@@ -487,7 +487,42 @@ public struct EntityResolution: AWSService {
         return try await self.deleteSchemaMapping(input, logger: logger)
     }
 
-    /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
+    /// Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3.  The processing type (processingType) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
+    @Sendable
+    @inlinable
+    public func generateMatchId(_ input: GenerateMatchIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateMatchIdOutput {
+        try await self.client.execute(
+            operation: "GenerateMatchId", 
+            path: "/matchingworkflows/{workflowName}/generateMatches", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3.  The processing type (processingType) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
+    ///
+    /// Parameters:
+    ///   - processingType: The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT.  CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time.  EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3.   EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.
+    ///   - records:  The records to match.
+    ///   - workflowName:  The name of the rule-based matching workflow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func generateMatchId(
+        processingType: ProcessingType? = nil,
+        records: [Record],
+        workflowName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GenerateMatchIdOutput {
+        let input = GenerateMatchIdInput(
+            processingType: processingType, 
+            records: records, 
+            workflowName: workflowName
+        )
+        return try await self.generateMatchId(input, logger: logger)
+    }
+
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     @Sendable
     @inlinable
     public func getIdMappingJob(_ input: GetIdMappingJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdMappingJobOutput {
@@ -500,7 +535,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     ///
     /// Parameters:
     ///   - jobId: The ID of the job.
@@ -612,7 +647,7 @@ public struct EntityResolution: AWSService {
         return try await self.getMatchId(input, logger: logger)
     }
 
-    /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     @Sendable
     @inlinable
     public func getMatchingJob(_ input: GetMatchingJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMatchingJobOutput {
@@ -625,7 +660,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     ///
     /// Parameters:
     ///   - jobId: The ID of the job.

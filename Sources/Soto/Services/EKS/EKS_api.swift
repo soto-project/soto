@@ -81,6 +81,7 @@ public struct EKS: AWSService {
         [.fips]: .init(endpoints: [
             "af-south-1": "fips.eks.af-south-1.amazonaws.com",
             "ap-east-1": "fips.eks.ap-east-1.amazonaws.com",
+            "ap-east-2": "fips.eks.ap-east-2.amazonaws.com",
             "ap-northeast-1": "fips.eks.ap-northeast-1.amazonaws.com",
             "ap-northeast-2": "fips.eks.ap-northeast-2.amazonaws.com",
             "ap-northeast-3": "fips.eks.ap-northeast-3.amazonaws.com",
@@ -1676,7 +1677,7 @@ public struct EKS: AWSService {
         return try await self.listIdentityProviderConfigs(input, logger: logger)
     }
 
-    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status.
+    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status. The default filter lists all categories and every status. The following lists the available categories:    UPGRADE_READINESS: Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights.    MISCONFIGURATION: Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration insights.
     @Sendable
     @inlinable
     public func listInsights(_ input: ListInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInsightsResponse {
@@ -1689,7 +1690,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status.
+    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status. The default filter lists all categories and every status. The following lists the available categories:    UPGRADE_READINESS: Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights.    MISCONFIGURATION: Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration insights.
     ///
     /// Parameters:
     ///   - clusterName: The name of the Amazon EKS cluster associated with the insights.

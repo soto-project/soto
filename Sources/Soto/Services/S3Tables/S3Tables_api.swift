@@ -110,7 +110,7 @@ public struct S3Tables: AWSService {
         return try await self.createNamespace(input, logger: logger)
     }
 
-    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally,
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
     @Sendable
     @inlinable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
@@ -123,7 +123,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally,
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
     ///
     /// Parameters:
     ///   - encryptionConfiguration: The encryption configuration to use for the table. This configuration specifies the encryption algorithm and, if using SSE-KMS, the KMS key to use for encrypting the table.   If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
@@ -416,7 +416,7 @@ public struct S3Tables: AWSService {
     public func getTable(_ input: GetTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableResponse {
         try await self.client.execute(
             operation: "GetTable", 
-            path: "/tables/{tableBucketARN}/{namespace}/{name}", 
+            path: "/get-table", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -428,18 +428,21 @@ public struct S3Tables: AWSService {
     /// Parameters:
     ///   - name: The name of the table.
     ///   - namespace: The name of the namespace the table is associated with.
+    ///   - tableArn: The Amazon Resource Name (ARN) of the table.
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket associated with the table.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTable(
-        name: String,
-        namespace: String,
-        tableBucketARN: String,
+        name: String? = nil,
+        namespace: String? = nil,
+        tableArn: String? = nil,
+        tableBucketARN: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTableResponse {
         let input = GetTableRequest(
             name: name, 
             namespace: namespace, 
+            tableArn: tableArn, 
             tableBucketARN: tableBucketARN
         )
         return try await self.getTable(input, logger: logger)
@@ -850,7 +853,7 @@ public struct S3Tables: AWSService {
         return try await self.listTables(input, logger: logger)
     }
 
-    /// Sets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketEncryption permission to use this operation.  If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption
+    /// Sets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketEncryption permission to use this operation.  If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the Amazon Simple Storage Service User Guide.
     @Sendable
     @inlinable
     public func putTableBucketEncryption(_ input: PutTableBucketEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -863,7 +866,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Sets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketEncryption permission to use this operation.  If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption
+    /// Sets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketEncryption permission to use this operation.  If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the Amazon Simple Storage Service User Guide.
     ///
     /// Parameters:
     ///   - encryptionConfiguration: The encryption configuration to apply to the table bucket.
@@ -1072,7 +1075,7 @@ public struct S3Tables: AWSService {
         return try await self.renameTable(input, logger: logger)
     }
 
-    /// Updates the metadata location for a table.  The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz.  Permissions  You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
+    /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz.  Permissions  You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
     @Sendable
     @inlinable
     public func updateTableMetadataLocation(_ input: UpdateTableMetadataLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableMetadataLocationResponse {
@@ -1085,7 +1088,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Updates the metadata location for a table.  The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz.  Permissions  You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
+    /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz.  Permissions  You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
     ///
     /// Parameters:
     ///   - metadataLocation: The new metadata location for the table.

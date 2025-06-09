@@ -56,6 +56,7 @@ extension Route53 {
     public enum CloudWatchRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
+        case apEast2 = "ap-east-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"
@@ -186,6 +187,7 @@ extension Route53 {
     public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
+        case apEast2 = "ap-east-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"
@@ -246,6 +248,7 @@ extension Route53 {
     public enum VPCRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
+        case apEast2 = "ap-east-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"

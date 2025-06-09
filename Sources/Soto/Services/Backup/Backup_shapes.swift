@@ -71,6 +71,9 @@ extension Backup {
         case copyJobFailed = "COPY_JOB_FAILED"
         case copyJobStarted = "COPY_JOB_STARTED"
         case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
+        case recoveryPointIndexCompleted = "RECOVERY_POINT_INDEX_COMPLETED"
+        case recoveryPointIndexDeleted = "RECOVERY_POINT_INDEX_DELETED"
+        case recoveryPointIndexingFailed = "RECOVERY_POINT_INDEXING_FAILED"
         case recoveryPointModified = "RECOVERY_POINT_MODIFIED"
         case restoreJobCompleted = "RESTORE_JOB_COMPLETED"
         case restoreJobFailed = "RESTORE_JOB_FAILED"
@@ -133,10 +136,13 @@ extension Backup {
     }
 
     public enum RecoveryPointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
         case completed = "COMPLETED"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case expired = "EXPIRED"
         case partial = "PARTIAL"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -271,7 +277,7 @@ extension Backup {
         public let backupJobId: String?
         /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. If you specify an invalid option, you get an InvalidParameterValueException exception.
         public let backupOptions: [String: String]?
-        /// The size, in bytes, of a backup.
+        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
         public let backupSizeInBytes: Int64?
         /// Represents the type of backup for a backup job.
         public let backupType: String?
@@ -550,7 +556,7 @@ extension Backup {
         public let ruleId: String?
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
-        /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
+        /// A cron expression in UTC specifying when Backup initiates a backup job.  When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *). For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public let scheduleExpression: String?
         /// The timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -606,7 +612,7 @@ extension Backup {
         public let recoveryPointTags: [String: String]?
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
-        /// A CRON expression in UTC specifying when Backup initiates a backup job.
+        /// A CRON expression in UTC specifying when Backup initiates a backup job. When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *).
         public let scheduleExpression: String?
         /// The timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -1979,7 +1985,7 @@ extension Backup {
         public let backupJobId: String?
         /// Represents the options specified as part of backup plan or on-demand backup job.
         public let backupOptions: [String: String]?
-        /// The size, in bytes, of a backup.
+        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
         public let backupSizeInBytes: Int64?
         /// Represents the actual backup type selected for a backup job. For example, if a successful Windows Volume Shadow Copy Service (VSS) backup was taken, BackupType returns "WindowsVSS". If BackupType is empty, then the backup type was a regular backup.
         public let backupType: String?
@@ -2131,7 +2137,7 @@ extension Backup {
         public let maxRetentionDays: Int64?
         /// The Backup Vault Lock setting that specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock will not enforce a minimum retention period. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
         public let minRetentionDays: Int64?
-        /// The number of recovery points that are stored in a backup vault.
+        /// The number of recovery points that are stored in a backup vault. Recovery point count value displayed in the console can be an approximation. Use  ListRecoveryPointsByBackupVault API to obtain the exact count.
         public let numberOfRecoveryPoints: Int64?
         /// The current state of the vault.->
         public let vaultState: VaultState?
@@ -2430,7 +2436,7 @@ extension Backup {
         public let resourceType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
         public let sourceBackupVaultArn: String?
-        /// A status code specifying the state of the recovery point.  PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see UpdateBackupPlan. You can also increase your backup plan window using the Console by choosing and editing your backup plan.  EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.  STOPPED status occurs on a continuous backup where a user has taken some  action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge,  or disabling the EventBridge rules that are put in place by Backup. For  recovery points of Amazon S3, Amazon RDS, and Amazon Aurora resources, this status  occurs when the retention period of a continuous backup rule is changed. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created.  The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
+        /// A status code specifying the state of the recovery point. For more information, see   Recovery point status in the Backup Developer  Guide.    CREATING status indicates that an Backup job has been  initiated for a resource. The backup process has started and is actively processing  a backup job for the associated recovery point.    AVAILABLE status indicates that the backup was successfully created  for the recovery point. The backup process has completed without any issues, and the  recovery point is now ready for use.    PARTIAL status indicates a composite recovery point has one or more  nested recovery points that were not in the backup.    EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.    STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. For recovery points of Amazon S3, Amazon RDS, and Amazon Aurora resources, this status occurs when the retention period of a continuous backup rule is changed. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
         public let status: RecoveryPointStatus?
         /// A status message explaining the status of the recovery point.
         public let statusMessage: String?
@@ -5306,7 +5312,7 @@ extension Backup {
     }
 
     public struct PutBackupVaultNotificationsInput: AWSEncodableShape {
-        /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     The list below includes both supported events and deprecated events that are no longer in use (for reference). Deprecated events do not return statuses or notifications.  Refer to the list above for the supported events.
+        /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED | BACKUP_JOB_FAILED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     RECOVERY_POINT_INDEX_COMPLETED | RECOVERY_POINT_INDEX_DELETED |  RECOVERY_POINT_INDEXING_FAILED     The list below includes both supported events and deprecated events that are no longer in use (for reference). Deprecated events do not return statuses or notifications.  Refer to the list above for the supported events.
         public let backupVaultEvents: [BackupVaultEvent]
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let backupVaultName: String
@@ -5939,7 +5945,7 @@ extension Backup {
         public let recoveryPointSelection: RestoreTestingRecoveryPointSelection
         /// The RestoreTestingPlanName is a unique string that is the name  of the restore testing plan. This cannot be changed after creation,  and it must consist of only alphanumeric characters and underscores.
         public let restoreTestingPlanName: String
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore  testing plan is executed. When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *).
         public let scheduleExpression: String
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -5979,7 +5985,7 @@ extension Backup {
         public let restoreTestingPlanArn: String
         /// The restore testing plan name.
         public let restoreTestingPlanName: String
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore  testing plan is executed. When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *).
         public let scheduleExpression: String
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -6025,7 +6031,7 @@ extension Backup {
         public let restoreTestingPlanArn: String
         /// The restore testing plan name.
         public let restoreTestingPlanName: String
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         public let scheduleExpression: String
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -6059,7 +6065,7 @@ extension Backup {
     public struct RestoreTestingPlanForUpdate: AWSEncodableShape {
         /// Required: Algorithm; RecoveryPointTypes;  IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if  not specified); ExcludeVaults (defaults to empty  list if not listed).
         public let recoveryPointSelection: RestoreTestingRecoveryPointSelection?
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         public let scheduleExpression: String?
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -6125,7 +6131,7 @@ extension Backup {
         public let restoreMetadataOverrides: [String: String]?
         /// The unique name of the restore testing selection  that belongs to the related restore testing plan.
         public let restoreTestingSelectionName: String
-        /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
+        /// This is amount of hours (0 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
         public let validationWindowHours: Int?
 
         @inlinable
@@ -6544,7 +6550,7 @@ extension Backup {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource. ARNs that do not include backup are incompatible with tagging.  TagResource and UntagResource with invalid ARNs will  result in an error. Acceptable ARN content can include  arn:aws:backup:us-east. Invalid ARN content may look like  arn:aws:ec2:us-east.
+        /// The ARN that uniquely identifies the resource.
         public let resourceArn: String
         /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
         public let tags: [String: String]

@@ -972,25 +972,29 @@ extension S3Tables {
 
     public struct GetTableRequest: AWSEncodableShape {
         /// The name of the table.
-        public let name: String
+        public let name: String?
         /// The name of the namespace the table is associated with.
-        public let namespace: String
+        public let namespace: String?
+        /// The Amazon Resource Name (ARN) of the table.
+        public let tableArn: String?
         /// The Amazon Resource Name (ARN) of the table bucket associated with the table.
-        public let tableBucketARN: String
+        public let tableBucketARN: String?
 
         @inlinable
-        public init(name: String, namespace: String, tableBucketARN: String) {
+        public init(name: String? = nil, namespace: String? = nil, tableArn: String? = nil, tableBucketARN: String? = nil) {
             self.name = name
             self.namespace = namespace
+            self.tableArn = tableArn
             self.tableBucketARN = tableBucketARN
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.name, key: "name")
-            request.encodePath(self.namespace, key: "namespace")
-            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.tableArn, key: "tableArn")
+            request.encodeQuery(self.tableBucketARN, key: "tableBucketARN")
         }
 
         public func validate(name: String) throws {
@@ -1000,6 +1004,9 @@ extension S3Tables {
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
             try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
         }
 

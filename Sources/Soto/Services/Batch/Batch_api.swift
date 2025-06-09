@@ -82,6 +82,7 @@ public struct Batch: AWSService {
         [.fips]: .init(endpoints: [
             "af-south-1": "fips.batch.af-south-1.amazonaws.com",
             "ap-east-1": "fips.batch.ap-east-1.amazonaws.com",
+            "ap-east-2": "fips.batch.ap-east-2.amazonaws.com",
             "ap-northeast-1": "fips.batch.ap-northeast-1.amazonaws.com",
             "ap-northeast-2": "fips.batch.ap-northeast-2.amazonaws.com",
             "ap-northeast-3": "fips.batch.ap-northeast-3.amazonaws.com",

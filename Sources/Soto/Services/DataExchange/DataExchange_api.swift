@@ -239,16 +239,19 @@ public struct DataExchange: AWSService {
     /// Parameters:
     ///   - action: What occurs after a certain event.
     ///   - event: What occurs to start an action.
+    ///   - tags: Key-value pairs that you can associate with the event action.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEventAction(
         action: Action,
         event: Event,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEventActionResponse {
         let input = CreateEventActionRequest(
             action: action, 
-            event: event
+            event: event, 
+            tags: tags
         )
         return try await self.createEventAction(input, logger: logger)
     }

@@ -252,6 +252,13 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum LustreReadCacheSizingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noCache = "NO_CACHE"
+        case proportionalToThroughputCapacity = "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
+        case userProvisioned = "USER_PROVISIONED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetadataConfigurationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatic = "AUTOMATIC"
         case userProvisioned = "USER_PROVISIONED"
@@ -1461,7 +1468,7 @@ extension FSx {
         public let securityGroupIds: [String]?
         /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with an HTTP status code 400 Bad Request.
         public let storageCapacity: Int?
-        /// Sets the storage type for the Windows or OpenZFS file system that you're creating from a backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows and OpenZFS deployment types.   Set to HDD to use hard disk drive storage.  HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 FSx for Windows File Server file system deployment types.   The default value is SSD.   HDD and SSD storage types have different minimum storage capacity requirements.  A restored file system's storage capacity is tied to the file system that was backed up.  You can create a file system that uses HDD storage from a backup of a file system that  used SSD storage if the original SSD file system had a storage capacity of at least 2000 GiB.
+        /// Sets the storage type for the Windows, OpenZFS, or Lustre file system that you're creating from a backup. Valid values are SSD, HDD, and INTELLIGENT_TIERING.   Set to SSD to use solid state drive storage. SSD is supported on all Windows and OpenZFS deployment types.   Set to HDD to use hard disk drive storage.  HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 FSx for Windows File Server file system deployment types.   Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type and for Lustre file systems with the Persistent_2 deployment type.   The default value is SSD.   HDD and SSD storage types have different minimum storage capacity requirements.  A restored file system's storage capacity is tied to the file system that was backed up.  You can create a file system that uses HDD storage from a backup of a file system that  used SSD storage if the original SSD file system had a storage capacity of at least 2000 GiB.
         public let storageType: StorageType?
         /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows MULTI_AZ_1  file system deployment types, provide exactly two subnet IDs, one for the preferred file server  and one for the standby file server. You specify one of these subnets as the preferred subnet  using the WindowsConfiguration > PreferredSubnetID property. Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types, Lustre file systems, and OpenZFS file systems provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
         public let subnetIds: [String]?
@@ -1563,7 +1570,9 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// Sets the data compression configuration for the file system. DataCompressionType can have the following values:    NONE - (Default) Data compression is turned off when the file system is created.    LZ4 - Data compression is turned on with the LZ4 algorithm.   For more information, see Lustre data compression  in the Amazon FSx for Lustre User Guide.
         public let dataCompressionType: DataCompressionType?
-        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment  types when you need temporary storage and shorter-term processing of data.  The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst  throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused  workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all  Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads  that require the highest levels of IOPS/throughput. PERSISTENT_2 supports  SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). You can optionally specify a metadata configuration mode for PERSISTENT_2 which supports increasing metadata performance. PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see  File  system deployment options for FSx for Lustre in the Amazon FSx for Lustre User Guide.  If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails.  Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see Encrypting data in transit in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
+        /// Specifies the optional provisioned SSD read cache on FSx for Lustre file systems that use the Intelligent-Tiering storage class. Required when StorageType is set to INTELLIGENT_TIERING.
+        public let dataReadCacheConfiguration: LustreReadCacheConfiguration?
+        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment  types when you need temporary storage and shorter-term processing of data.  The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst  throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused  workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all  Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads  that require the highest levels of IOPS/throughput. PERSISTENT_2 supports  the SSD and Intelligent-Tiering storage classes. You can optionally specify a metadata configuration mode for PERSISTENT_2 which supports increasing metadata performance. PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see  Deployment and storage class options for FSx for Lustre file systems in the Amazon FSx for Lustre User Guide.  If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails.  Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see Encrypting data in transit in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
         public let deploymentType: LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public let driveCacheType: DriveCacheType?
@@ -1579,20 +1588,23 @@ extension FSx {
         public let logConfiguration: LustreLogCreateConfiguration?
         /// The Lustre metadata performance configuration for the creation of an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         public let metadataConfiguration: CreateFileSystemLustreMetadataConfiguration?
-        /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision.  Valid values:   For PERSISTENT_1 SSD storage: 50, 100, 200 MB/s/TiB.   For PERSISTENT_1 HDD storage: 12, 40 MB/s/TiB.   For PERSISTENT_2 SSD storage: 125, 250, 500, 1000 MB/s/TiB.
+        /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types using an SSD or HDD storage class, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision.  Valid values:   For PERSISTENT_1 SSD storage: 50, 100, 200 MB/s/TiB.   For PERSISTENT_1 HDD storage: 12, 40 MB/s/TiB.   For PERSISTENT_2 SSD storage: 125, 250, 500, 1000 MB/s/TiB.
         public let perUnitStorageThroughput: Int?
         /// The Lustre root squash configuration used when creating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public let rootSquashConfiguration: LustreRootSquashConfiguration?
+        /// Specifies the throughput of an FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps). Valid values are 4000 MBps or multiples of 4000 MBps. You pay for the amount of throughput that you provision.
+        public let throughputCapacity: Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, efaEnabled: Bool? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: CreateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataReadCacheConfiguration: LustreReadCacheConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, efaEnabled: Bool? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: CreateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
             self.efaEnabled = efaEnabled
@@ -1603,6 +1615,7 @@ extension FSx {
             self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -1612,6 +1625,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try self.dataReadCacheConfiguration?.validate(name: "\(name).dataReadCacheConfiguration")
             try self.validate(self.exportPath, name: "exportPath", parent: name, max: 4357)
             try self.validate(self.exportPath, name: "exportPath", parent: name, min: 3)
             try self.validate(self.exportPath, name: "exportPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
@@ -1625,6 +1639,8 @@ extension FSx {
             try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, max: 1000)
             try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, min: 12)
             try self.rootSquashConfiguration?.validate(name: "\(name).rootSquashConfiguration")
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2000000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 4000)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -1636,6 +1652,7 @@ extension FSx {
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case dataCompressionType = "DataCompressionType"
+            case dataReadCacheConfiguration = "DataReadCacheConfiguration"
             case deploymentType = "DeploymentType"
             case driveCacheType = "DriveCacheType"
             case efaEnabled = "EfaEnabled"
@@ -1646,14 +1663,15 @@ extension FSx {
             case metadataConfiguration = "MetadataConfiguration"
             case perUnitStorageThroughput = "PerUnitStorageThroughput"
             case rootSquashConfiguration = "RootSquashConfiguration"
+            case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
 
     public struct CreateFileSystemLustreMetadataConfiguration: AWSEncodableShape {
-        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for the file system. This parameter sets the maximum rate of metadata disk IOPS supported by the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.  Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for the file system. This parameter sets the maximum rate of metadata disk IOPS supported by the file system.   For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.   For Intelligent-Tiering file systems, valid values are 6000 and 12000.     Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
         public let iops: Int?
-        /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.   In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.   In USER_PROVISIONED mode, you specify the number of Metadata IOPS to provision for your file system.
+        /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.   In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.   In USER_PROVISIONED mode, you specify the number of Metadata IOPS to provision for your file system.
         public let mode: MetadataConfigurationMode?
 
         @inlinable
@@ -1771,7 +1789,7 @@ extension FSx {
         /// Specifies the file system deployment type. Valid values are the following:    MULTI_AZ_1- Creates file systems with high availability and durability by replicating your data and supporting failover across multiple Availability Zones in the same Amazon Web Services Region.    SINGLE_AZ_HA_2- Creates file systems with high availability and throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache by deploying a primary and standby file system within the same Availability Zone.    SINGLE_AZ_HA_1- Creates file systems with high availability and throughput capacities of 64 - 4,096 MB/s by deploying a primary and standby file system within the same Availability Zone.    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache that automatically recover within a single Availability Zone.    SINGLE_AZ_1- Creates file systems with throughput capacities of 64 - 4,096 MBs that automatically recover within a single Availability Zone.   For a list of which Amazon Web Services Regions each deployment type is available in, see Deployment type availability. For more information on the differences in performance between deployment types, see File system performance in the Amazon FSx for OpenZFS User Guide.
         public let deploymentType: OpenZFSDeploymentType?
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public let endpointIpAddressRange: String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
@@ -1781,7 +1799,7 @@ extension FSx {
         public let rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx  creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx  selects your VPC's default route table.
         public let routeTableIds: [String]?
-        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:   For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MBps.   You pay for additional throughput capacity that you provision.
+        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType that you choose, as follows:   For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MBps.   You pay for additional throughput capacity that you provision.
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
@@ -1863,7 +1881,7 @@ extension FSx {
         public let securityGroupIds: [String]?
         /// Sets the storage capacity of the file system that you're creating, in gibibytes (GiB).  FSx for Lustre file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType and the Lustre DeploymentType, as follows:   For SCRATCH_2, PERSISTENT_2, and PERSISTENT_1 deployment types  using SSD storage type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For PERSISTENT_1 HDD file systems, valid values are increments of 6000 GiB for  12 MB/s/TiB file systems and increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment type, valid values are  1200 GiB, 2400 GiB, and increments of 3600 GiB.    FSx for ONTAP file systems - The amount of storage capacity  that you can configure depends on the value of the HAPairs property. The minimum value is calculated as 1,024 * HAPairs and the maximum is calculated as 524,288 * HAPairs.   FSx for OpenZFS file systems - The amount of storage capacity that  you can configure is from 64 GiB up to 524,288 GiB (512 TiB).  FSx for Windows File Server file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType as follows:   For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).   For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
         public let storageCapacity: Int?
-        /// Sets the storage class for the file system that you're creating. Valid values are SSD, HDD, and INTELLIGENT_TIERING.   Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk drive storage.  HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.   Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type.   Default value is SSD. For more information, see  Storage type options in the FSx for Windows File Server User Guide, Multiple storage options in the FSx for Lustre User Guide, and Working with Intelligent-Tiering in the Amazon FSx for OpenZFS User Guide.
+        /// Sets the storage class for the file system that you're creating. Valid values are SSD, HDD, and INTELLIGENT_TIERING.   Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk drive storage, which is supported on  SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.   Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type and for Lustre file systems with the Persistent_2 deployment type.   Default value is SSD. For more information, see  Storage type options in the FSx for Windows File Server User Guide, FSx for Lustre storage classes in the FSx for Lustre User Guide, and Working with Intelligent-Tiering in the Amazon FSx for OpenZFS User Guide.
         public let storageType: StorageType?
         /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration > PreferredSubnetID or OntapConfiguration > PreferredSubnetID properties. For more information about Multi-AZ file system configuration, see  Availability and durability: Single-AZ and Multi-AZ file systems in the Amazon FSx for Windows User Guide and  Availability and durability in the Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre  deployment types, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
         public let subnetIds: [String]?
@@ -2161,7 +2179,7 @@ extension FSx {
     }
 
     public struct CreateOpenZFSVolumeConfiguration: AWSEncodableShape {
-        /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
+        /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If this value is set to true, and you do not specify any tags, all tags for the original volume are copied over to snapshots.  If this value is set to true, and you do specify one or more tags, only the specified tags for the original volume are copied over to snapshots. If you specify one or more tags when creating a new snapshot, no tags are copied over from the original volume, regardless of this value.
         public let copyTagsToSnapshots: Bool?
         /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.    NONE - Doesn't compress the data on the volume. NONE is the default.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. ZSTD compression provides a higher level of  data compression and higher read throughput performance than LZ4 compression.    LZ4 - Compresses the data in the volume using the LZ4 compression algorithm. LZ4 compression provides a lower level of compression  and higher write throughput performance than ZSTD compression.   For more information about volume compression types and the performance of your Amazon FSx for OpenZFS file system, see  Tips for maximizing performance File system and volume settings in the Amazon FSx for OpenZFS User Guide.
         public let dataCompressionType: OpenZFSDataCompressionType?
@@ -4293,7 +4311,7 @@ extension FSx {
         public let resourceARN: String?
         /// The storage capacity of the file system in gibibytes (GiB). Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value of StorageCapacity is outside of the minimum or maximum values.
         public let storageCapacity: Int?
-        /// The type of storage the file system is using.  If set to SSD, the file system uses solid state drive storage.  If set to HDD, the file system uses hard disk drive storage.
+        /// The type of storage the file system is using.   If set to SSD, the file system uses solid state drive storage.   If set to HDD, the file system uses hard disk drive storage.   If set to INTELLIGENT_TIERING, the file system uses fully elastic, intelligently-tiered storage.
         public let storageType: StorageType?
         /// Specifies the IDs of the subnets that the file system is accessible from. For the Amazon FSx Windows and ONTAP MULTI_AZ_1 file system deployment type, there are two subnet IDs, one for the preferred file server and one for the standby file server. The preferred file server subnet identified in the PreferredSubnetID property. All other file systems have only one subnet ID. For FSx for Lustre file systems, and Single-AZ Windows file systems, this is the ID of  the subnet that contains the file system's endpoint. For MULTI_AZ_1 Windows and ONTAP file systems, the file system endpoint is available in the PreferredSubnetID.
         public let subnetIds: [String]?
@@ -4404,9 +4422,9 @@ extension FSx {
     }
 
     public struct FileSystemLustreMetadataConfiguration: AWSDecodableShape {
-        /// The number of Metadata IOPS provisioned for the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        /// The number of Metadata IOPS provisioned for the file system.   For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.   For Intelligent-Tiering file systems, valid values are 6000 and 12000.
         public let iops: Int?
-        /// The metadata configuration mode for provisioning Metadata IOPS for the file system.   In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.   In USER_PROVISIONED mode, you can choose to specify the number of Metadata IOPS to provision for your file system.
+        /// The metadata configuration mode for provisioning Metadata IOPS for the file system.   In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.   In USER_PROVISIONED mode, you can choose to specify the number of Metadata IOPS to provision for your file system.
         public let mode: MetadataConfigurationMode?
 
         @inlinable
@@ -4562,8 +4580,10 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// The data compression configuration for the file system. DataCompressionType can have the following values:    NONE - Data compression is turned off for the file system.    LZ4 - Data compression is turned on with the LZ4 algorithm.   For more information, see Lustre data compression.
         public let dataCompressionType: DataCompressionType?
+        /// Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
+        public let dataReadCacheConfiguration: LustreReadCacheConfiguration?
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
-        /// The deployment type of the FSx for Lustre file system.  Scratch deployment type is designed for temporary storage and shorter-term processing of data.  SCRATCH_1 and SCRATCH_2 deployment types are best suited  for when you need temporary storage and shorter-term processing of data. The  SCRATCH_2 deployment type provides in-transit encryption of data and higher burst  throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see  FSx for Lustre deployment options. The default is SCRATCH_1.
+        /// The deployment type of the FSx for Lustre file system.  Scratch deployment type is designed for temporary storage and shorter-term processing of data.  SCRATCH_1 and SCRATCH_2 deployment types are best suited  for when you need temporary storage and shorter-term processing of data. The  SCRATCH_2 deployment type provides in-transit encryption of data and higher burst  throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see Deployment and storage class options for FSx for Lustre file systems. The default is SCRATCH_1.
         public let deploymentType: LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public let driveCacheType: DriveCacheType?
@@ -4579,15 +4599,18 @@ extension FSx {
         public let perUnitStorageThroughput: Int?
         /// The Lustre root squash configuration for an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public let rootSquashConfiguration: LustreRootSquashConfiguration?
+        /// The throughput of an Amazon FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps).
+        public let throughputCapacity: Int?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Here, d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, efaEnabled: Bool? = nil, logConfiguration: LustreLogConfiguration? = nil, metadataConfiguration: FileSystemLustreMetadataConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataReadCacheConfiguration: LustreReadCacheConfiguration? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, efaEnabled: Bool? = nil, logConfiguration: LustreLogConfiguration? = nil, metadataConfiguration: FileSystemLustreMetadataConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
@@ -4597,6 +4620,7 @@ extension FSx {
             self.mountName = mountName
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -4605,6 +4629,7 @@ extension FSx {
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case dataCompressionType = "DataCompressionType"
+            case dataReadCacheConfiguration = "DataReadCacheConfiguration"
             case dataRepositoryConfiguration = "DataRepositoryConfiguration"
             case deploymentType = "DeploymentType"
             case driveCacheType = "DriveCacheType"
@@ -4614,6 +4639,7 @@ extension FSx {
             case mountName = "MountName"
             case perUnitStorageThroughput = "PerUnitStorageThroughput"
             case rootSquashConfiguration = "RootSquashConfiguration"
+            case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
@@ -4657,6 +4683,29 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case destination = "Destination"
             case level = "Level"
+        }
+    }
+
+    public struct LustreReadCacheConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB).  The SSD read cache size is distributed across provisioned file servers in your file system. Intelligent-Tiering file systems support a minimum of 32 GiB and maximum of 131072 GiB for SSD read cache size for every 4,000 MB/s of throughput capacity provisioned.
+        public let sizeGiB: Int?
+        ///  Specifies how the provisioned SSD read cache is sized, as follows:    Set to NO_CACHE if you do not want to use an SSD read cache with your Intelligent-Tiering file system.   Set to USER_PROVISIONED to specify the exact size of your SSD read cache.   Set to PROPORTIONAL_TO_THROUGHPUT_CAPACITY to have your SSD read cache automatically sized based on your throughput capacity.
+        public let sizingMode: LustreReadCacheSizingMode?
+
+        @inlinable
+        public init(sizeGiB: Int? = nil, sizingMode: LustreReadCacheSizingMode? = nil) {
+            self.sizeGiB = sizeGiB
+            self.sizingMode = sizingMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sizeGiB, name: "sizeGiB", parent: name, max: 2147483647)
+            try self.validate(self.sizeGiB, name: "sizeGiB", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sizeGiB = "SizeGiB"
+            case sizingMode = "SizingMode"
         }
     }
 
@@ -6102,6 +6151,8 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// Sets the data compression configuration for the file system. DataCompressionType can have the following values:    NONE - Data compression is turned off for the file system.    LZ4 - Data compression is turned on with the LZ4 algorithm.   If you don't use DataCompressionType, the file system retains its current data compression configuration. For more information, see Lustre data compression.
         public let dataCompressionType: DataCompressionType?
+        /// Specifies the optional provisioned SSD read cache on Amazon FSx for Lustre file systems that use the Intelligent-Tiering storage class.
+        public let dataReadCacheConfiguration: LustreReadCacheConfiguration?
         /// The Lustre logging configuration used when updating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public let logConfiguration: LustreLogCreateConfiguration?
         /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. When this configuration is enabled, the file system supports increasing metadata performance.
@@ -6110,19 +6161,23 @@ extension FSx {
         public let perUnitStorageThroughput: Int?
         /// The Lustre root squash configuration used when updating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public let rootSquashConfiguration: LustreRootSquashConfiguration?
+        /// The throughput of an Amazon FSx for Lustre file system using an Intelligent-Tiering storage class, measured in megabytes per second (MBps). You can only increase your file system's throughput. Valid values are 4000 MBps or multiples of 4000 MBps.
+        public let throughputCapacity: Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: UpdateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataReadCacheConfiguration: LustreReadCacheConfiguration? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: UpdateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -6132,11 +6187,14 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try self.dataReadCacheConfiguration?.validate(name: "\(name).dataReadCacheConfiguration")
             try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
             try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, max: 1000)
             try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, min: 12)
             try self.rootSquashConfiguration?.validate(name: "\(name).rootSquashConfiguration")
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2000000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 4000)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -6147,18 +6205,20 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case dataCompressionType = "DataCompressionType"
+            case dataReadCacheConfiguration = "DataReadCacheConfiguration"
             case logConfiguration = "LogConfiguration"
             case metadataConfiguration = "MetadataConfiguration"
             case perUnitStorageThroughput = "PerUnitStorageThroughput"
             case rootSquashConfiguration = "RootSquashConfiguration"
+            case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
 
     public struct UpdateFileSystemLustreMetadataConfiguration: AWSEncodableShape {
-        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for your file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000. The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for your file system.   For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.   For Intelligent-Tiering file systems, valid values are 6000 and 12000.   The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
         public let iops: Int?
-        /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.   To increase the Metadata IOPS or to switch from AUTOMATIC mode, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.   To switch from USER_PROVISIONED mode, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops.  If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
+        /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.   To increase the Metadata IOPS or to switch an SSD file system from AUTOMATIC, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.   To switch from USER_PROVISIONED mode on an SSD file system, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops.    If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.   AUTOMATIC mode is not supported on Intelligent-Tiering file systems. For Intelligent-Tiering file systems, use USER_PROVISIONED mode.
         public let mode: MetadataConfigurationMode?
 
         @inlinable
@@ -7146,7 +7206,7 @@ public struct FSxErrorType: AWSErrorType {
     public static var resourceDoesNotSupportTagging: Self { .init(.resourceDoesNotSupportTagging) }
     /// The resource specified by the Amazon Resource Name (ARN) can't be found.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
-    /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
     /// No Amazon FSx snapshots were found based on the supplied parameters.
     public static var snapshotNotFound: Self { .init(.snapshotNotFound) }
