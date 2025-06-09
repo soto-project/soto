@@ -121,6 +121,7 @@ public struct GameLiftStreams: AWSService {
         [.fips]: .init(endpoints: [
             "af-south-1": "gameliftstreams-fips.af-south-1.api.aws",
             "ap-east-1": "gameliftstreams-fips.ap-east-1.api.aws",
+            "ap-east-2": "gameliftstreams-fips.ap-east-2.api.aws",
             "ap-northeast-1": "gameliftstreams-fips.ap-northeast-1.api.aws",
             "ap-northeast-2": "gameliftstreams-fips.ap-northeast-2.api.aws",
             "ap-northeast-3": "gameliftstreams-fips.ap-northeast-3.api.aws",

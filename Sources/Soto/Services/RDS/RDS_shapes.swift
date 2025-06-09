@@ -799,9 +799,9 @@ extension RDS {
     }
 
     public struct ConnectionPoolConfiguration: AWSEncodableShape {
-        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120  Constraints:   Must be between 0 and 3600.
+        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120  Constraints:   Must be between 0 and 300.
         public let connectionBorrowTimeout: Int?
-        /// Add an initialization query, or modify the current one. You can specify one or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. Make sure that the query you add is valid. To include multiple variables in a single SET statement, use comma separators. For example: SET variable1=value1, variable2=value2  For multiple statements, use semicolons as the separator. Default: no initialization query
+        /// Add an initialization query, or modify the current one. You can specify one or more SQL statements for the proxy to run when opening each new database connection.  The setting is typically used with SET statements to make sure that each connection has identical settings.  Make sure the query added here is valid. This is an optional field, so you can choose to leave it empty. For including multiple variables in a single SET statement, use a comma separator. For example: SET variable1=value1, variable2=value2  Default: no initialization query
         public let initQuery: String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. If you specify MaxIdleConnectionsPercent, then you must also include a value for this parameter. Default: 10 for RDS for Microsoft SQL Server, and 100 for all other engines Constraints:   Must be between 1 and 100.
         public let maxConnectionsPercent: Int?
@@ -832,7 +832,7 @@ extension RDS {
     public struct ConnectionPoolConfigurationInfo: AWSDecodableShape {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public let connectionBorrowTimeout: Int?
-        /// One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.
+        /// One or more SQL statements for the proxy to run when opening each new database connection.  The setting is typically used with SET statements to make sure that each connection has identical settings.  The query added here must be valid. For including multiple variables in a single SET statement, use a comma separator.  This is an optional field. For example: SET variable1=value1, variable2=value2
         public let initQuery: String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
         public let maxConnectionsPercent: Int?
@@ -2384,7 +2384,7 @@ extension RDS {
     public struct CreateDBShardGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:   0 - Creates a DB shard group without a standby DB shard group. This is the default value.   1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).   2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+        /// Specifies whether to create standby standby DB data access shard for the DB shard group.  Valid values are the following:   0 - Creates a DB shard group without a standby DB data access shard. This is the default value.   1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ).   2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
         public let computeRedundancy: Int?
         /// The name of the primary DB cluster for the DB shard group.
         public let dbClusterIdentifier: String?
@@ -2910,6 +2910,8 @@ extension RDS {
         public let engineMode: String?
         /// The version of the database engine.
         public let engineVersion: String?
+        /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database cluster.
+        public let globalClusterIdentifier: String?
         /// Indicates whether write forwarding is enabled for a secondary cluster in an Aurora global database. Because write forwarding takes time to enable, check the value of GlobalWriteForwardingStatus to confirm that the request has completed before using the write forwarding feature for this cluster.
         public let globalWriteForwardingRequested: Bool?
         /// The status of write forwarding for a secondary cluster in an Aurora global database.
@@ -2991,7 +2993,7 @@ extension RDS {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, limitlessDatabase: LimitlessDatabase? = nil, localWriteForwardingStatus: LocalWriteForwardingStatus? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, statusInfos: [DBClusterStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, limitlessDatabase: LimitlessDatabase? = nil, localWriteForwardingStatus: LocalWriteForwardingStatus? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, statusInfos: [DBClusterStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -3035,6 +3037,7 @@ extension RDS {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineMode = engineMode
             self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
             self.globalWriteForwardingRequested = globalWriteForwardingRequested
             self.globalWriteForwardingStatus = globalWriteForwardingStatus
             self.hostedZoneId = hostedZoneId
@@ -3120,6 +3123,7 @@ extension RDS {
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case engineMode = "EngineMode"
             case engineVersion = "EngineVersion"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
             case globalWriteForwardingRequested = "GlobalWriteForwardingRequested"
             case globalWriteForwardingStatus = "GlobalWriteForwardingStatus"
             case hostedZoneId = "HostedZoneId"
@@ -5555,7 +5559,7 @@ extension RDS {
         public let dbSubnetGroupName: String?
         /// Provides the status of the DB subnet group.
         public let subnetGroupStatus: String?
-        /// Contains a list of Subnet elements.
+        /// Contains a list of Subnet elements. The list of subnets shown  here might not reflect the current state of your VPC. For the most up-to-date information,  we recommend checking your VPC configuration directly.
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
         /// The network type of the DB subnet group. Valid values:    IPV4     DUAL    A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon RDS User Guide.

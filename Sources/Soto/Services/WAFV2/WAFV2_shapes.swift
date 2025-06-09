@@ -795,6 +795,34 @@ extension WAFV2 {
         }
     }
 
+    public struct AsnMatchStatement: AWSEncodableShape & AWSDecodableShape {
+        /// Contains one or more Autonomous System Numbers (ASNs).   ASNs are unique identifiers assigned to large internet networks managed by organizations such as  internet service providers, enterprises, universities, or government agencies.
+        public let asnList: [Int64]
+        /// The configuration for inspecting IP addresses to match against an ASN in an HTTP header that you specify,  instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header,  but you can specify any header name.
+        public let forwardedIPConfig: ForwardedIPConfig?
+
+        @inlinable
+        public init(asnList: [Int64], forwardedIPConfig: ForwardedIPConfig? = nil) {
+            self.asnList = asnList
+            self.forwardedIPConfig = forwardedIPConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.asnList.forEach {
+                try validate($0, name: "asnList[]", parent: name, max: 4294967295)
+                try validate($0, name: "asnList[]", parent: name, min: 0)
+            }
+            try self.validate(self.asnList, name: "asnList", parent: name, max: 100)
+            try self.validate(self.asnList, name: "asnList", parent: name, min: 1)
+            try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asnList = "AsnList"
+            case forwardedIPConfig = "ForwardedIPConfig"
+        }
+    }
+
     public struct AssociateWebACLRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
         public let resourceArn: String
@@ -3152,7 +3180,7 @@ extension WAFV2 {
     }
 
     public struct HeaderOrder: AWSEncodableShape & AWSDecodableShape {
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let oversizeHandling: OversizeHandling
 
         @inlinable
@@ -3170,7 +3198,7 @@ extension WAFV2 {
         public let matchPattern: HeaderMatchPattern
         /// The parts of the headers to match with the rule inspection criteria. If you specify ALL, WAF inspects both keys and values.   All does not require a match to be found in the keys and a match to be found in the values. It requires a match to be found in the keys  or the values or both. To require a match in the keys and in the values, use a logical AND statement to combine two match rules, one that inspects the keys and another that inspects the values.
         public let matchScope: MapMatchScope
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let oversizeHandling: OversizeHandling
 
         @inlinable
@@ -4800,6 +4828,8 @@ extension WAFV2 {
     }
 
     public struct RateBasedStatementCustomKey: AWSEncodableShape & AWSDecodableShape {
+        /// Use an Autonomous System Number (ASN) derived from the request's originating or forwarded IP address as an aggregate key.  Each distinct ASN contributes to the aggregation instance.
+        public let asn: RateLimitAsn?
         /// Use the value of a cookie in the request as an aggregate key. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
         public let cookie: RateLimitCookie?
         /// Use the first IP address in an HTTP header as an aggregate key. Each distinct forwarded IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType.  With this option, you must specify the header to use in the rate-based rule's ForwardedIPConfig property.
@@ -4824,7 +4854,8 @@ extension WAFV2 {
         public let uriPath: RateLimitUriPath?
 
         @inlinable
-        public init(cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, ja3Fingerprint: RateLimitJA3Fingerprint? = nil, ja4Fingerprint: RateLimitJA4Fingerprint? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
+        public init(asn: RateLimitAsn? = nil, cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, ja3Fingerprint: RateLimitJA3Fingerprint? = nil, ja4Fingerprint: RateLimitJA4Fingerprint? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
+            self.asn = asn
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
@@ -4848,6 +4879,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asn = "ASN"
             case cookie = "Cookie"
             case forwardedIP = "ForwardedIP"
             case header = "Header"
@@ -4878,6 +4910,10 @@ extension WAFV2 {
             case addresses = "Addresses"
             case ipAddressVersion = "IPAddressVersion"
         }
+    }
+
+    public struct RateLimitAsn: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct RateLimitCookie: AWSEncodableShape & AWSDecodableShape {
@@ -5930,6 +5966,8 @@ extension WAFV2 {
     public final class Statement: AWSEncodableShape & AWSDecodableShape {
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one Statement within the AndStatement.
         public let andStatement: AndStatement?
+        /// A rule statement that inspects web traffic based on the Autonomous System Number (ASN) associated with the request's IP address. For additional details, see ASN match rule statement in the WAF Developer Guide.
+        public let asnMatchStatement: AsnMatchStatement?
         /// A rule statement that defines a string match search for WAF to apply to web requests. The byte match statement provides the bytes to search for, the location in requests that you want WAF to search, and other settings. The bytes to search for are typically a string that corresponds with ASCII characters. In the WAF console and the developer guide, this is called a string match statement.
         public let byteMatchStatement: ByteMatchStatement?
         /// A rule statement that labels web requests by country and region and that matches against web requests based on country code. A geo match rule labels every request that it inspects regardless of whether it finds a match.   To manage requests only by country, you can use this statement by itself and specify the countries that you want to match against in the CountryCodes array.    Otherwise, configure your geo match rule with Count action so that it only labels requests. Then, add one or more label match rules to run after the geo match rule and configure them to match against the geographic labels and handle the requests as needed.    WAF labels requests using the alpha-2 country and region codes from the International Organization for Standardization (ISO) 3166 standard. WAF determines the codes using either the IP address in the web request origin or, if you specify it, the address in the geo match ForwardedIPConfig.  If you use the web request origin, the label formats are awswaf:clientip:geo:region:- and awswaf:clientip:geo:country:. If you use a forwarded IP address, the label formats are awswaf:forwardedip:geo:region:- and awswaf:forwardedip:geo:country:. For additional details, see Geographic match rule statement in the WAF Developer Guide.
@@ -5961,8 +5999,9 @@ extension WAFV2 {
         public let xssMatchStatement: XssMatchStatement?
 
         @inlinable
-        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, ipSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
+        public init(andStatement: AndStatement? = nil, asnMatchStatement: AsnMatchStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, ipSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
             self.andStatement = andStatement
+            self.asnMatchStatement = asnMatchStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
             self.ipSetReferenceStatement = ipSetReferenceStatement
@@ -5981,6 +6020,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.andStatement?.validate(name: "\(name).andStatement")
+            try self.asnMatchStatement?.validate(name: "\(name).asnMatchStatement")
             try self.byteMatchStatement?.validate(name: "\(name).byteMatchStatement")
             try self.geoMatchStatement?.validate(name: "\(name).geoMatchStatement")
             try self.ipSetReferenceStatement?.validate(name: "\(name).ipSetReferenceStatement")
@@ -5999,6 +6039,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case andStatement = "AndStatement"
+            case asnMatchStatement = "AsnMatchStatement"
             case byteMatchStatement = "ByteMatchStatement"
             case geoMatchStatement = "GeoMatchStatement"
             case ipSetReferenceStatement = "IPSetReferenceStatement"

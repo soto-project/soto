@@ -37,6 +37,8 @@ extension PCS {
         case creating = "CREATING"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
+        case suspended = "SUSPENDED"
+        case suspending = "SUSPENDING"
         case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -49,6 +51,8 @@ extension PCS {
         case deleteFailed = "DELETE_FAILED"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case suspended = "SUSPENDED"
+        case suspending = "SUSPENDING"
         case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -72,6 +76,8 @@ extension PCS {
         case creating = "CREATING"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
+        case suspended = "SUSPENDED"
+        case suspending = "SUSPENDING"
         case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -163,7 +169,7 @@ extension PCS {
         public let size: Size
         /// Additional options related to the Slurm scheduler.
         public let slurmConfiguration: ClusterSlurmConfiguration?
-        /// The provisioning status of the cluster.  The provisioning status doesn't indicate the overall health of the cluster.
+        /// The provisioning status of the cluster.  The provisioning status doesn't indicate the overall health of the cluster.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: ClusterStatus
 
         @inlinable
@@ -257,7 +263,7 @@ extension PCS {
         public let modifiedAt: Date
         /// The name that identifies the cluster.
         public let name: String
-        /// The provisioning status of the cluster.  The provisioning status doesn't indicate the overall health of the cluster.
+        /// The provisioning status of the cluster.  The provisioning status doesn't indicate the overall health of the cluster.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: ClusterStatus
 
         @inlinable
@@ -307,7 +313,7 @@ extension PCS {
         public let scalingConfiguration: ScalingConfiguration
         public let slurmConfiguration: ComputeNodeGroupSlurmConfiguration?
         public let spotOptions: SpotOptions?
-        /// The provisioning status of the compute node group.  The provisioning status doesn't indicate the overall health of the compute node group.
+        /// The provisioning status of the compute node group.  The provisioning status doesn't indicate the overall health of the compute node group.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: ComputeNodeGroupStatus
         /// The list of subnet IDs where instances are provisioned by the compute node group. The subnets must be in the same VPC as the cluster.
         public let subnetIds: [String]
@@ -409,7 +415,7 @@ extension PCS {
         public let modifiedAt: Date
         /// The name that identifies the compute node group.
         public let name: String
-        /// The provisioning status of the compute node group.  The provisioning status doesn't indicate the overall health of the compute node group.
+        /// The provisioning status of the compute node group.  The provisioning status doesn't indicate the overall health of the compute node group.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: ComputeNodeGroupStatus
 
         @inlinable
@@ -1181,7 +1187,7 @@ extension PCS {
         public let modifiedAt: Date
         /// The name that identifies the queue.
         public let name: String
-        /// The provisioning status of the queue.  The provisioning status doesn't indicate the overall health of the queue.
+        /// The provisioning status of the queue.  The provisioning status doesn't indicate the overall health of the queue.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: QueueStatus
 
         @inlinable
@@ -1223,7 +1229,7 @@ extension PCS {
         public let modifiedAt: Date
         /// The name that identifies the queue.
         public let name: String
-        /// The provisioning status of the queue.   The provisioning status doesn't indicate the overall health of the queue.
+        /// The provisioning status of the queue.   The provisioning status doesn't indicate the overall health of the queue.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: QueueStatus
 
         @inlinable

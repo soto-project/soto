@@ -174,6 +174,7 @@ public struct ECR: AWSService {
             "us-west-2": "ecr-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
+            "ap-east-2": "ecr-fips.ap-east-2.amazonaws.com",
             "us-east-1": "ecr-fips.us-east-1.amazonaws.com",
             "us-east-2": "ecr-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ecr-fips.us-gov-east-1.amazonaws.com",

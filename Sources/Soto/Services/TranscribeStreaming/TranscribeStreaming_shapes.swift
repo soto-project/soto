@@ -150,8 +150,13 @@ extension TranscribeStreaming {
     }
 
     public enum MedicalScribeNoteTemplate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case behavioralSoap = "BEHAVIORAL_SOAP"
+        case birp = "BIRP"
+        case dap = "DAP"
         case girpp = "GIRPP"
         case historyAndPhysical = "HISTORY_AND_PHYSICAL"
+        case physicalSoap = "PHYSICAL_SOAP"
+        case sirp = "SIRP"
         public var description: String { return self.rawValue }
     }
 
@@ -715,7 +720,7 @@ extension TranscribeStreaming {
     }
 
     public struct ClinicalNoteGenerationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.   HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Sections include Chief Complaint,  History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.   GIRPP: Provides summaries based on the patients progress toward goals. Sections include Goal, Intervention, Response, Progress, and Plan.
+        /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.   HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.    GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Intervention, Response, Progress, and Plan.   BIRP: Focuses on the patient's behavioral patterns and responses. Examples of sections include Behavior, Intervention, Response, and Plan.   SIRP: Emphasizes the situational context of therapy. Examples of sections include Situation, Intervention, Response, and Plan.   DAP: Provides a simplified format for clinical documentation. Examples of sections include Data, Assessment, and Plan.   BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.   PHYSICAL_SOAP: Physical health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
         public let noteTemplate: MedicalScribeNoteTemplate?
         /// The name of the Amazon S3 bucket where you want the output of Amazon Web Services HealthScribe post-stream analytics stored. Don't include the S3:// prefix of the specified bucket.  HealthScribe outputs transcript and clinical note files under the prefix: S3://$output-bucket-name/healthscribe-streaming/session-id/post-stream-analytics/clinical-notes  The role ResourceAccessRoleArn specified in the MedicalScribeConfigurationEvent must have permission to use the specified location. You can change Amazon S3 permissions using the  Amazon Web Services Management Console . See also Permissions Required for IAM User Roles  .
         public let outputBucketName: String
@@ -783,9 +788,9 @@ extension TranscribeStreaming {
         public let confidence: Double?
         /// The word or words identified as PII.
         public let content: String?
-        /// The end time, in milliseconds, of the utterance that was identified as PII.
+        /// The end time of the utterance that was identified as PII in seconds, with millisecond precision (e.g., 1.056)
         public let endTime: Double?
-        /// The start time, in milliseconds, of the utterance that was identified as PII.
+        /// The start time of the utterance that was identified as PII in seconds, with millisecond precision (e.g., 1.056)
         public let startTime: Double?
         /// The type of PII identified. For example, NAME or  CREDIT_DEBIT_NUMBER.
         public let type: String?
@@ -880,13 +885,13 @@ extension TranscribeStreaming {
         public let confidence: Double?
         /// The word or punctuation that was transcribed.
         public let content: String?
-        /// The end time, in milliseconds, of the transcribed item.
+        /// The end time of the transcribed item in seconds, with millisecond precision (e.g., 1.056)
         public let endTime: Double?
         /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public let speaker: String?
         /// If partial result stabilization is enabled, Stable indicates whether the specified  item is stable (true) or if it may change when the segment is complete  (false).
         public let stable: Bool?
-        /// The start time, in milliseconds, of the transcribed item.
+        /// The start time of the transcribed item in seconds, with millisecond precision (e.g., 1.056)
         public let startTime: Double?
         /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public let type: ItemType?
@@ -977,9 +982,9 @@ extension TranscribeStreaming {
         public let confidence: Double?
         /// The word or words identified as PHI.
         public let content: String?
-        /// The end time, in milliseconds, of the utterance that was identified as PHI.
+        /// The end time, in seconds, of the utterance that was identified as PHI.
         public let endTime: Double?
-        /// The start time, in milliseconds, of the utterance that was identified as PHI.
+        /// The start time, in seconds, of the utterance that was identified as PHI.
         public let startTime: Double?
 
         @inlinable
@@ -1005,11 +1010,11 @@ extension TranscribeStreaming {
         public let confidence: Double?
         /// The word or punctuation that was transcribed.
         public let content: String?
-        /// The end time, in milliseconds, of the transcribed item.
+        /// The end time, in seconds, of the transcribed item.
         public let endTime: Double?
         /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public let speaker: String?
-        /// The start time, in milliseconds, of the transcribed item.
+        /// The start time, in seconds, of the transcribed item.
         public let startTime: Double?
         /// The type of item identified. Options are: PRONUNCIATION (spoken  words) and PUNCTUATION.
         public let type: ItemType?
@@ -1039,13 +1044,13 @@ extension TranscribeStreaming {
         public let alternatives: [MedicalAlternative]?
         /// Indicates the channel identified for the Result.
         public let channelId: String?
-        /// The end time, in milliseconds, of the Result.
+        /// The end time, in seconds, of the Result.
         public let endTime: Double?
         /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public let isPartial: Bool?
         /// Provides a unique identifier for the Result.
         public let resultId: String?
-        /// The start time, in milliseconds, of the Result.
+        /// The start time, in seconds, of the Result.
         public let startTime: Double?
 
         @inlinable
@@ -1469,7 +1474,7 @@ extension TranscribeStreaming {
         public let alternatives: [Alternative]?
         /// Indicates which audio channel is associated with the Result.
         public let channelId: String?
-        /// The end time, in milliseconds, of the Result.
+        /// The end time of the Result in seconds, with millisecond precision (e.g., 1.056).
         public let endTime: Double?
         /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public let isPartial: Bool?
@@ -1479,7 +1484,7 @@ extension TranscribeStreaming {
         public let languageIdentification: [LanguageWithScore]?
         /// Provides a unique identifier for the Result.
         public let resultId: String?
-        /// The start time, in milliseconds, of the Result.
+        /// The start time of the Result in seconds, with millisecond precision (e.g., 1.056).
         public let startTime: Double?
 
         @inlinable

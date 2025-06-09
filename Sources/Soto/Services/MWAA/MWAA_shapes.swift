@@ -109,6 +109,12 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
+    public enum WorkerReplacementStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forced = "FORCED"
+        case graceful = "GRACEFUL"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct CreateCliTokenRequest: AWSEncodableShape {
@@ -725,13 +731,16 @@ extension MWAA {
         public let source: String?
         /// The status of the last update on the environment.
         public let status: UpdateStatus?
+        /// The worker replacement strategy used in the last update of the environment.
+        public let workerReplacementStrategy: WorkerReplacementStrategy?
 
         @inlinable
-        public init(createdAt: Date? = nil, error: UpdateError? = nil, source: String? = nil, status: UpdateStatus? = nil) {
+        public init(createdAt: Date? = nil, error: UpdateError? = nil, source: String? = nil, status: UpdateStatus? = nil, workerReplacementStrategy: WorkerReplacementStrategy? = nil) {
             self.createdAt = createdAt
             self.error = error
             self.source = source
             self.status = status
+            self.workerReplacementStrategy = workerReplacementStrategy
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -739,6 +748,7 @@ extension MWAA {
             case error = "Error"
             case source = "Source"
             case status = "Status"
+            case workerReplacementStrategy = "WorkerReplacementStrategy"
         }
     }
 
@@ -1216,9 +1226,11 @@ extension MWAA {
         public let webserverAccessMode: WebserverAccessMode?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
+        /// The worker replacement strategy to use when updating the environment. You can select one of the following strategies:    Forced - Stops and replaces Apache Airflow workers without waiting for tasks to  complete before an update.    Graceful - Allows Apache Airflow workers to complete running tasks for up to 12 hours during an update before  they're stopped and replaced.
+        public let workerReplacementStrategy: WorkerReplacementStrategy?
 
         @inlinable
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil, workerReplacementStrategy: WorkerReplacementStrategy? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
@@ -1241,6 +1253,7 @@ extension MWAA {
             self.startupScriptS3Path = startupScriptS3Path
             self.webserverAccessMode = webserverAccessMode
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+            self.workerReplacementStrategy = workerReplacementStrategy
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1268,6 +1281,7 @@ extension MWAA {
             try container.encodeIfPresent(self.startupScriptS3Path, forKey: .startupScriptS3Path)
             try container.encodeIfPresent(self.webserverAccessMode, forKey: .webserverAccessMode)
             try container.encodeIfPresent(self.weeklyMaintenanceWindowStart, forKey: .weeklyMaintenanceWindowStart)
+            try container.encodeIfPresent(self.workerReplacementStrategy, forKey: .workerReplacementStrategy)
         }
 
         public func validate(name: String) throws {
@@ -1344,6 +1358,7 @@ extension MWAA {
             case startupScriptS3Path = "StartupScriptS3Path"
             case webserverAccessMode = "WebserverAccessMode"
             case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
+            case workerReplacementStrategy = "WorkerReplacementStrategy"
         }
     }
 

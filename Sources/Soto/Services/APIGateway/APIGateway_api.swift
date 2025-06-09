@@ -429,6 +429,7 @@ public struct APIGateway: AWSService {
     ///   - policy: A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
     ///   - regionalCertificateArn: The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
     ///   - regionalCertificateName: The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
+    ///   - routingMode: The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     ///   - securityPolicy: The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
     ///   - tags: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
     ///   - logger: Logger use during operation
@@ -446,6 +447,7 @@ public struct APIGateway: AWSService {
         policy: String? = nil,
         regionalCertificateArn: String? = nil,
         regionalCertificateName: String? = nil,
+        routingMode: RoutingMode? = nil,
         securityPolicy: SecurityPolicy? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -463,6 +465,7 @@ public struct APIGateway: AWSService {
             policy: policy, 
             regionalCertificateArn: regionalCertificateArn, 
             regionalCertificateName: regionalCertificateName, 
+            routingMode: routingMode, 
             securityPolicy: securityPolicy, 
             tags: tags
         )

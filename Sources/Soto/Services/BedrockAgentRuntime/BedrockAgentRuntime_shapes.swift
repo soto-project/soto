@@ -577,7 +577,7 @@ extension BedrockAgentRuntime {
     }
 
     public enum FlowExecutionEvent: AWSDecodableShape, Sendable {
-        /// Contains information about a condition evaluation result during the async execution. This event is generated when a condition node in the flow evaluates its conditions.
+        /// Contains information about a condition evaluation result during the flow execution. This event is generated when a condition node in the flow evaluates its conditions.
         case conditionResultEvent(ConditionResultEvent)
         /// Contains information about a failure that occurred at the flow level during execution.
         case flowFailureEvent(FlowFailureEvent)
@@ -3036,13 +3036,13 @@ extension BedrockAgentRuntime {
     }
 
     public struct FlowExecutionSummary: AWSDecodableShape {
-        /// The timestamp when the async execution was created.
+        /// The timestamp when the flow execution was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
-        /// The timestamp when the async execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+        /// The timestamp when the flow execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endedAt: Date?
-        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
         public let executionArn: String
         /// The unique identifier of the flow alias used for the execution.
         public let flowAliasIdentifier: String
@@ -3050,7 +3050,7 @@ extension BedrockAgentRuntime {
         public let flowIdentifier: String
         /// The version of the flow used for the execution.
         public let flowVersion: String
-        /// The current status of the async execution. Async executions time out after 24 hours.
+        /// The current status of the flow execution. Flow executions time out after 24 hours.
         public let status: FlowExecutionStatus
 
         @inlinable
@@ -3679,9 +3679,9 @@ extension BedrockAgentRuntime {
     }
 
     public struct GetExecutionFlowSnapshotRequest: AWSEncodableShape {
-        /// The unique identifier of the async execution.
+        /// The unique identifier of the flow execution.
         public let executionIdentifier: String
-        /// The unique identifier of the flow alias used for the async execution.
+        /// The unique identifier of the flow alias used for the flow execution.
         public let flowAliasIdentifier: String
         /// The unique identifier of the flow.
         public let flowIdentifier: String
@@ -3716,15 +3716,15 @@ extension BedrockAgentRuntime {
     public struct GetExecutionFlowSnapshotResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key that's used to encrypt the flow snapshot.
         public let customerEncryptionKeyArn: String?
-        /// The flow definition used for the async execution, including the nodes, connections, and configuration at the time when the execution started. The definition returns as a string that follows the structure of a FlowDefinition object.
+        /// The flow definition used for the flow execution, including the nodes, connections, and configuration at the time when the execution started. The definition returns as a string that follows the structure of a FlowDefinition object.
         public let definition: String
-        /// The Amazon Resource Name (ARN) of the IAM service role that's used by the async execution.
+        /// The Amazon Resource Name (ARN) of the IAM service role that's used by the flow execution.
         public let executionRoleArn: String
-        /// The unique identifier of the flow alias used for the async execution.
+        /// The unique identifier of the flow alias used for the flow execution.
         public let flowAliasIdentifier: String
         /// The unique identifier of the flow.
         public let flowIdentifier: String
-        /// The version of the flow used for the async execution.
+        /// The version of the flow used for the flow execution.
         public let flowVersion: String
 
         @inlinable
@@ -3748,7 +3748,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct GetFlowExecutionRequest: AWSEncodableShape {
-        /// The unique identifier of the async execution to retrieve.
+        /// The unique identifier of the flow execution to retrieve.
         public let executionIdentifier: String
         /// The unique identifier of the flow alias used for the execution.
         public let flowAliasIdentifier: String
@@ -3783,12 +3783,12 @@ extension BedrockAgentRuntime {
     }
 
     public struct GetFlowExecutionResponse: AWSDecodableShape {
-        /// The timestamp when the async execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+        /// The timestamp when the flow execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endedAt: Date?
-        /// A list of errors that occurred during the async execution. Each error includes an error code, message, and the node where the error occurred, if applicable.
+        /// A list of errors that occurred during the flow execution. Each error includes an error code, message, and the node where the error occurred, if applicable.
         public let errors: [FlowExecutionError]?
-        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
         public let executionArn: String
         /// The unique identifier of the flow alias used for the execution.
         public let flowAliasIdentifier: String
@@ -3796,10 +3796,10 @@ extension BedrockAgentRuntime {
         public let flowIdentifier: String
         /// The version of the flow used for the execution.
         public let flowVersion: String
-        /// The timestamp when the async execution started.
+        /// The timestamp when the flow execution started.
         @CustomCoding<ISO8601DateCoder>
         public var startedAt: Date
-        /// The current status of the async execution. Async executions time out after 24 hours.
+        /// The current status of the flow execution. Flow executions time out after 24 hours.
         public let status: FlowExecutionStatus
 
         @inlinable
@@ -4682,6 +4682,8 @@ extension BedrockAgentRuntime {
         public let inputText: String?
         /// The unique identifier of the agent memory.
         public let memoryId: String?
+        /// Specifies parameters that control how the service populates the agent prompt for an InvokeAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+        public let promptCreationConfigurations: PromptCreationConfigurations?
         /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
         public let sessionId: String
         /// Contains parameters that specify various attributes of the session. For more information, see Control session context.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
@@ -4692,7 +4694,7 @@ extension BedrockAgentRuntime {
         public let streamingConfigurations: StreamingConfigurations?
 
         @inlinable
-        public init(agentAliasId: String, agentId: String, bedrockModelConfigurations: BedrockModelConfigurations? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, memoryId: String? = nil, sessionId: String, sessionState: SessionState? = nil, sourceArn: String? = nil, streamingConfigurations: StreamingConfigurations? = nil) {
+        public init(agentAliasId: String, agentId: String, bedrockModelConfigurations: BedrockModelConfigurations? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, memoryId: String? = nil, promptCreationConfigurations: PromptCreationConfigurations? = nil, sessionId: String, sessionState: SessionState? = nil, sourceArn: String? = nil, streamingConfigurations: StreamingConfigurations? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
             self.bedrockModelConfigurations = bedrockModelConfigurations
@@ -4700,6 +4702,7 @@ extension BedrockAgentRuntime {
             self.endSession = endSession
             self.inputText = inputText
             self.memoryId = memoryId
+            self.promptCreationConfigurations = promptCreationConfigurations
             self.sessionId = sessionId
             self.sessionState = sessionState
             self.sourceArn = sourceArn
@@ -4716,6 +4719,7 @@ extension BedrockAgentRuntime {
             try container.encodeIfPresent(self.endSession, forKey: .endSession)
             try container.encodeIfPresent(self.inputText, forKey: .inputText)
             try container.encodeIfPresent(self.memoryId, forKey: .memoryId)
+            try container.encodeIfPresent(self.promptCreationConfigurations, forKey: .promptCreationConfigurations)
             request.encodePath(self.sessionId, key: "sessionId")
             try container.encodeIfPresent(self.sessionState, forKey: .sessionState)
             request.encodeHeader(self.sourceArn, key: "x-amz-source-arn")
@@ -4745,6 +4749,7 @@ extension BedrockAgentRuntime {
             case endSession = "endSession"
             case inputText = "inputText"
             case memoryId = "memoryId"
+            case promptCreationConfigurations = "promptCreationConfigurations"
             case sessionState = "sessionState"
             case streamingConfigurations = "streamingConfigurations"
         }
@@ -4899,6 +4904,8 @@ extension BedrockAgentRuntime {
         public let knowledgeBases: [KnowledgeBase]?
         /// Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
         public let orchestrationType: OrchestrationType?
+        /// Specifies parameters that control how the service populates the agent prompt for an InvokeInlineAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+        public let promptCreationConfigurations: PromptCreationConfigurations?
         ///  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
         ///  The unique identifier of the session. Use the same value across requests to continue the same conversation.
@@ -4907,7 +4914,7 @@ extension BedrockAgentRuntime {
         public let streamingConfigurations: StreamingConfigurations?
 
         @inlinable
-        public init(actionGroups: [AgentActionGroup]? = nil, agentCollaboration: AgentCollaboration? = nil, agentName: String? = nil, bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil, collaboratorConfigurations: [CollaboratorConfiguration]? = nil, collaborators: [Collaborator]? = nil, customerEncryptionKeyArn: String? = nil, customOrchestration: CustomOrchestration? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, orchestrationType: OrchestrationType? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String, streamingConfigurations: StreamingConfigurations? = nil) {
+        public init(actionGroups: [AgentActionGroup]? = nil, agentCollaboration: AgentCollaboration? = nil, agentName: String? = nil, bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil, collaboratorConfigurations: [CollaboratorConfiguration]? = nil, collaborators: [Collaborator]? = nil, customerEncryptionKeyArn: String? = nil, customOrchestration: CustomOrchestration? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, orchestrationType: OrchestrationType? = nil, promptCreationConfigurations: PromptCreationConfigurations? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String, streamingConfigurations: StreamingConfigurations? = nil) {
             self.actionGroups = actionGroups
             self.agentCollaboration = agentCollaboration
             self.agentName = agentName
@@ -4926,6 +4933,7 @@ extension BedrockAgentRuntime {
             self.instruction = instruction
             self.knowledgeBases = knowledgeBases
             self.orchestrationType = orchestrationType
+            self.promptCreationConfigurations = promptCreationConfigurations
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.sessionId = sessionId
             self.streamingConfigurations = streamingConfigurations
@@ -4952,6 +4960,7 @@ extension BedrockAgentRuntime {
             try container.encode(self.instruction, forKey: .instruction)
             try container.encodeIfPresent(self.knowledgeBases, forKey: .knowledgeBases)
             try container.encodeIfPresent(self.orchestrationType, forKey: .orchestrationType)
+            try container.encodeIfPresent(self.promptCreationConfigurations, forKey: .promptCreationConfigurations)
             try container.encodeIfPresent(self.promptOverrideConfiguration, forKey: .promptOverrideConfiguration)
             request.encodePath(self.sessionId, key: "sessionId")
             try container.encodeIfPresent(self.streamingConfigurations, forKey: .streamingConfigurations)
@@ -5008,6 +5017,7 @@ extension BedrockAgentRuntime {
             case instruction = "instruction"
             case knowledgeBases = "knowledgeBases"
             case orchestrationType = "orchestrationType"
+            case promptCreationConfigurations = "promptCreationConfigurations"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
             case streamingConfigurations = "streamingConfigurations"
         }
@@ -5268,7 +5278,7 @@ extension BedrockAgentRuntime {
     public struct ListFlowExecutionEventsRequest: AWSEncodableShape {
         /// The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events.
         public let eventType: FlowExecutionEventType
-        /// The unique identifier of the async execution.
+        /// The unique identifier of the flow execution.
         public let executionIdentifier: String
         /// The unique identifier of the flow alias used for the execution.
         public let flowAliasIdentifier: String
@@ -5318,7 +5328,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ListFlowExecutionEventsResponse: AWSDecodableShape {
-        /// A list of events that occurred during the async execution. Events can include node inputs and outputs, flow inputs and outputs, condition results, and failure events.
+        /// A list of events that occurred during the flow execution. Events can include node inputs and outputs, flow inputs and outputs, condition results, and failure events.
         public let flowExecutionEvents: [FlowExecutionEvent]
         /// A token to retrieve the next set of results. This value is returned if more results are available.
         public let nextToken: String?
@@ -5340,7 +5350,7 @@ extension BedrockAgentRuntime {
         public let flowAliasIdentifier: String?
         /// The unique identifier of the flow to list executions for.
         public let flowIdentifier: String
-        /// The maximum number of async executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+        /// The maximum number of flow executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
         /// A token to retrieve the next set of results. This value is returned in the response if more results are available.
         public let nextToken: String?
@@ -5378,7 +5388,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ListFlowExecutionsResponse: AWSDecodableShape {
-        /// A list of async execution summaries. Each summary includes the execution ARN, flow identifier, flow alias identifier, flow version, status, and timestamps.
+        /// A list of flow execution summaries. Each summary includes the execution ARN, flow identifier, flow alias identifier, flow version, status, and timestamps.
         public let flowExecutionSummaries: [FlowExecutionSummary]
         /// A token to retrieve the next set of results. This value is returned if more results are available.
         public let nextToken: String?
@@ -6302,6 +6312,24 @@ extension BedrockAgentRuntime {
             case promptCreationMode = "promptCreationMode"
             case promptState = "promptState"
             case promptType = "promptType"
+        }
+    }
+
+    public struct PromptCreationConfigurations: AWSEncodableShape {
+        /// If true, the service removes any content between &lt;thinking&gt; tags from previous conversations in an agent session. The service will only remove content from already processed turns. This helps you remove content which might not be useful for current and subsequent invocations. This can reduce the input token count and potentially save costs. The default value is false.
+        public let excludePreviousThinkingSteps: Bool?
+        /// The number of previous conversations from the ongoing agent session to include in the conversation history of the agent prompt, during the current invocation. This gives you more granular control over the context that the model is made aware of, and helps the model remove older context which is no longer useful during the ongoing agent session.
+        public let previousConversationTurnsToInclude: Int?
+
+        @inlinable
+        public init(excludePreviousThinkingSteps: Bool? = nil, previousConversationTurnsToInclude: Int? = nil) {
+            self.excludePreviousThinkingSteps = excludePreviousThinkingSteps
+            self.previousConversationTurnsToInclude = previousConversationTurnsToInclude
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludePreviousThinkingSteps = "excludePreviousThinkingSteps"
+            case previousConversationTurnsToInclude = "previousConversationTurnsToInclude"
         }
     }
 
@@ -7501,15 +7529,15 @@ extension BedrockAgentRuntime {
     }
 
     public struct StartFlowExecutionRequest: AWSEncodableShape {
-        /// The unique identifier of the flow alias to use for the async execution.
+        /// The unique identifier of the flow alias to use for the flow execution.
         public let flowAliasIdentifier: String
-        /// The unique name for the async execution. If you don't provide one, a system-generated name is used.
+        /// The unique name for the flow execution. If you don't provide one, a system-generated name is used.
         public let flowExecutionName: String?
         /// The unique identifier of the flow to execute.
         public let flowIdentifier: String
-        /// The input data required for the async execution. This must match the input schema defined in the flow.
+        /// The input data required for the flow execution. This must match the input schema defined in the flow.
         public let inputs: [FlowInput]
-        /// The performance settings for the foundation model used in the async execution.
+        /// The performance settings for the foundation model used in the flow execution.
         public let modelPerformanceConfiguration: ModelPerformanceConfiguration?
 
         @inlinable
@@ -7553,7 +7581,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct StartFlowExecutionResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
         public let executionArn: String?
 
         @inlinable
@@ -7567,7 +7595,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct StopFlowExecutionRequest: AWSEncodableShape {
-        /// The unique identifier of the async execution to stop.
+        /// The unique identifier of the flow execution to stop.
         public let executionIdentifier: String
         /// The unique identifier of the flow alias used for the execution.
         public let flowAliasIdentifier: String
@@ -7602,9 +7630,9 @@ extension BedrockAgentRuntime {
     }
 
     public struct StopFlowExecutionResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution that was stopped.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution that was stopped.
         public let executionArn: String?
-        /// The updated status of the async execution after the stop request. This will typically be ABORTED if the execution was successfully stopped.
+        /// The updated status of the flow execution after the stop request. This will typically be ABORTED if the execution was successfully stopped.
         public let status: FlowExecutionStatus
 
         @inlinable

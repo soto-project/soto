@@ -107,6 +107,13 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum RoutingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiMappingOnly = "API_MAPPING_ONLY"
+        case routingRuleOnly = "ROUTING_RULE_ONLY"
+        case routingRuleThenApiMapping = "ROUTING_RULE_THEN_API_MAPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tls10 = "TLS_1_0"
         case tls12 = "TLS_1_2"
@@ -753,14 +760,17 @@ extension ApiGatewayV2 {
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
+        /// The routing mode.
+        public let routingMode: RoutingMode?
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
         @inlinable
-        public init(domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, tags: [String: String]? = nil) {
+        public init(domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, routingMode: RoutingMode? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.routingMode = routingMode
             self.tags = tags
         }
 
@@ -768,6 +778,7 @@ extension ApiGatewayV2 {
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case routingMode = "routingMode"
             case tags = "tags"
         }
     }
@@ -777,27 +788,34 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
         public let domainName: String?
+        public let domainNameArn: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
         public let mutualTlsAuthentication: MutualTlsAuthentication?
+        /// The routing mode.
+        public let routingMode: RoutingMode?
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
         @inlinable
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, routingMode: RoutingMode? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.routingMode = routingMode
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
+            case domainNameArn = "domainNameArn"
             case domainNameConfigurations = "domainNameConfigurations"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case routingMode = "routingMode"
             case tags = "tags"
         }
     }
@@ -1361,6 +1379,79 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct CreateRoutingRuleRequest: AWSEncodableShape {
+        /// Represents a routing rule action. The only supported action is invokeApi.
+        public let actions: [RoutingRuleAction]?
+        /// Represents a condition. Conditions can contain up to two matchHeaders conditions and one matchBasePaths conditions. API Gateway evaluates header conditions and base path conditions together. You can only use AND between header and base path conditions.
+        public let conditions: [RoutingRuleCondition]?
+        /// The domain name.
+        public let domainName: String
+        /// The domain name ID.
+        public let domainNameId: String?
+        /// Represents the priority of the routing rule.
+        public let priority: Int?
+
+        @inlinable
+        public init(actions: [RoutingRuleAction]? = nil, conditions: [RoutingRuleCondition]? = nil, domainName: String, domainNameId: String? = nil, priority: Int? = nil) {
+            self.actions = actions
+            self.conditions = conditions
+            self.domainName = domainName
+            self.domainNameId = domainNameId
+            self.priority = priority
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.conditions, forKey: .conditions)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
+            try container.encodeIfPresent(self.priority, forKey: .priority)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.priority, name: "priority", parent: name, max: 1000000)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case conditions = "conditions"
+            case priority = "priority"
+        }
+    }
+
+    public struct CreateRoutingRuleResponse: AWSDecodableShape {
+        /// Represents a routing rule action. The only supported action is invokeApi.
+        public let actions: [RoutingRuleAction]?
+        /// Represents a condition. Conditions can contain up to two matchHeaders conditions and one matchBasePaths conditions. API Gateway evaluates header conditions and base path conditions together. You can only use AND between header and base path conditions.
+        public let conditions: [RoutingRuleCondition]?
+        /// Represents the priority of the routing rule.
+        public let priority: Int?
+        /// The ARN of the domain name.
+        public let routingRuleArn: String?
+        /// The routing rule ID.
+        public let routingRuleId: String?
+
+        @inlinable
+        public init(actions: [RoutingRuleAction]? = nil, conditions: [RoutingRuleCondition]? = nil, priority: Int? = nil, routingRuleArn: String? = nil, routingRuleId: String? = nil) {
+            self.actions = actions
+            self.conditions = conditions
+            self.priority = priority
+            self.routingRuleArn = routingRuleArn
+            self.routingRuleId = routingRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case conditions = "conditions"
+            case priority = "priority"
+            case routingRuleArn = "routingRuleArn"
+            case routingRuleId = "routingRuleId"
+        }
+    }
+
     public struct CreateStageRequest: AWSEncodableShape {
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
@@ -1883,6 +1974,32 @@ extension ApiGatewayV2 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteRoutingRuleRequest: AWSEncodableShape {
+        /// The domain name.
+        public let domainName: String
+        /// The domain name ID.
+        public let domainNameId: String?
+        /// The routing rule ID.
+        public let routingRuleId: String
+
+        @inlinable
+        public init(domainName: String, domainNameId: String? = nil, routingRuleId: String) {
+            self.domainName = domainName
+            self.domainNameId = domainNameId
+            self.routingRuleId = routingRuleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
+            request.encodePath(self.routingRuleId, key: "RoutingRuleId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteStageRequest: AWSEncodableShape {
         /// The API identifier.
         public let apiId: String
@@ -1967,27 +2084,34 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
         public let domainName: String?
+        public let domainNameArn: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
         public let mutualTlsAuthentication: MutualTlsAuthentication?
+        /// The routing mode.
+        public let routingMode: RoutingMode?
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
         @inlinable
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, routingMode: RoutingMode? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.routingMode = routingMode
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
+            case domainNameArn = "domainNameArn"
             case domainNameConfigurations = "domainNameConfigurations"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case routingMode = "routingMode"
             case tags = "tags"
         }
     }
@@ -2575,27 +2699,34 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
         public let domainName: String?
+        public let domainNameArn: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
         public let mutualTlsAuthentication: MutualTlsAuthentication?
+        /// The routing mode.
+        public let routingMode: RoutingMode?
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
         @inlinable
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, routingMode: RoutingMode? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.routingMode = routingMode
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
+            case domainNameArn = "domainNameArn"
             case domainNameConfigurations = "domainNameConfigurations"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case routingMode = "routingMode"
             case tags = "tags"
         }
     }
@@ -3268,6 +3399,62 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct GetRoutingRuleRequest: AWSEncodableShape {
+        /// The domain name.
+        public let domainName: String
+        /// The domain name ID.
+        public let domainNameId: String?
+        /// The routing rule ID.
+        public let routingRuleId: String
+
+        @inlinable
+        public init(domainName: String, domainNameId: String? = nil, routingRuleId: String) {
+            self.domainName = domainName
+            self.domainNameId = domainNameId
+            self.routingRuleId = routingRuleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
+            request.encodePath(self.routingRuleId, key: "RoutingRuleId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRoutingRuleResponse: AWSDecodableShape {
+        /// The resulting action based on matching a routing rules condition. Only InvokeApi is supported.
+        public let actions: [RoutingRuleAction]?
+        /// The conditions of the routing rule.
+        public let conditions: [RoutingRuleCondition]?
+        /// The order in which API Gateway evaluates a rule. Priority is evaluated from the lowest value to the highest value.
+        public let priority: Int?
+        /// The routing rule ARN.
+        public let routingRuleArn: String?
+        /// The routing rule ID.
+        public let routingRuleId: String?
+
+        @inlinable
+        public init(actions: [RoutingRuleAction]? = nil, conditions: [RoutingRuleCondition]? = nil, priority: Int? = nil, routingRuleArn: String? = nil, routingRuleId: String? = nil) {
+            self.actions = actions
+            self.conditions = conditions
+            self.priority = priority
+            self.routingRuleArn = routingRuleArn
+            self.routingRuleId = routingRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case conditions = "conditions"
+            case priority = "priority"
+            case routingRuleArn = "routingRuleArn"
+            case routingRuleId = "routingRuleId"
+        }
+    }
+
     public struct GetStageRequest: AWSEncodableShape {
         /// The API identifier.
         public let apiId: String
@@ -3787,6 +3974,58 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct ListRoutingRulesRequest: AWSEncodableShape {
+        /// The domain name.
+        public let domainName: String
+        /// The domain name ID.
+        public let domainNameId: String?
+        /// The maximum number of elements to be returned for this resource.
+        public let maxResults: Int?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, domainNameId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.domainNameId = domainNameId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRoutingRulesResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// The routing rules.
+        public let routingRules: [RoutingRule]?
+
+        @inlinable
+        public init(nextToken: String? = nil, routingRules: [RoutingRule]? = nil) {
+            self.nextToken = nextToken
+            self.routingRules = routingRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case routingRules = "routingRules"
+        }
+    }
+
     public struct Model: AWSDecodableShape {
         /// The content-type for the model, for example, "application/json".
         public let contentType: String?
@@ -3886,6 +4125,83 @@ extension ApiGatewayV2 {
 
         private enum CodingKeys: String, CodingKey {
             case required = "required"
+        }
+    }
+
+    public struct PutRoutingRuleRequest: AWSEncodableShape {
+        /// The routing rule action.
+        public let actions: [RoutingRuleAction]?
+        /// The routing rule condition.
+        public let conditions: [RoutingRuleCondition]?
+        /// The domain name.
+        public let domainName: String
+        /// The domain name ID.
+        public let domainNameId: String?
+        /// The routing rule priority.
+        public let priority: Int?
+        /// The routing rule ID.
+        public let routingRuleId: String
+
+        @inlinable
+        public init(actions: [RoutingRuleAction]? = nil, conditions: [RoutingRuleCondition]? = nil, domainName: String, domainNameId: String? = nil, priority: Int? = nil, routingRuleId: String) {
+            self.actions = actions
+            self.conditions = conditions
+            self.domainName = domainName
+            self.domainNameId = domainNameId
+            self.priority = priority
+            self.routingRuleId = routingRuleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.conditions, forKey: .conditions)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
+            try container.encodeIfPresent(self.priority, forKey: .priority)
+            request.encodePath(self.routingRuleId, key: "RoutingRuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.priority, name: "priority", parent: name, max: 1000000)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case conditions = "conditions"
+            case priority = "priority"
+        }
+    }
+
+    public struct PutRoutingRuleResponse: AWSDecodableShape {
+        /// The routing rule action.
+        public let actions: [RoutingRuleAction]?
+        /// The conditions of the routing rule.
+        public let conditions: [RoutingRuleCondition]?
+        /// The routing rule priority.
+        public let priority: Int?
+        /// The routing rule ARN.
+        public let routingRuleArn: String?
+        /// The routing rule ID.
+        public let routingRuleId: String?
+
+        @inlinable
+        public init(actions: [RoutingRuleAction]? = nil, conditions: [RoutingRuleCondition]? = nil, priority: Int? = nil, routingRuleArn: String? = nil, routingRuleId: String? = nil) {
+            self.actions = actions
+            self.conditions = conditions
+            self.priority = priority
+            self.routingRuleArn = routingRuleArn
+            self.routingRuleId = routingRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case conditions = "conditions"
+            case priority = "priority"
+            case routingRuleArn = "routingRuleArn"
+            case routingRuleId = "routingRuleId"
         }
     }
 
@@ -4141,6 +4457,131 @@ extension ApiGatewayV2 {
             case loggingLevel = "loggingLevel"
             case throttlingBurstLimit = "throttlingBurstLimit"
             case throttlingRateLimit = "throttlingRateLimit"
+        }
+    }
+
+    public struct RoutingRule: AWSDecodableShape {
+        /// The routing rule action.
+        public let actions: [RoutingRuleAction]?
+        /// The routing rule condition.
+        public let conditions: [RoutingRuleCondition]?
+        /// The routing rule priority.
+        public let priority: Int?
+        /// The routing rule ARN.
+        public let routingRuleArn: String?
+        /// The routing rule ID.
+        public let routingRuleId: String?
+
+        @inlinable
+        public init(actions: [RoutingRuleAction]? = nil, conditions: [RoutingRuleCondition]? = nil, priority: Int? = nil, routingRuleArn: String? = nil, routingRuleId: String? = nil) {
+            self.actions = actions
+            self.conditions = conditions
+            self.priority = priority
+            self.routingRuleArn = routingRuleArn
+            self.routingRuleId = routingRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case conditions = "conditions"
+            case priority = "priority"
+            case routingRuleArn = "routingRuleArn"
+            case routingRuleId = "routingRuleId"
+        }
+    }
+
+    public struct RoutingRuleAction: AWSEncodableShape & AWSDecodableShape {
+        public let invokeApi: RoutingRuleActionInvokeApi?
+
+        @inlinable
+        public init(invokeApi: RoutingRuleActionInvokeApi? = nil) {
+            self.invokeApi = invokeApi
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invokeApi = "invokeApi"
+        }
+    }
+
+    public struct RoutingRuleActionInvokeApi: AWSEncodableShape & AWSDecodableShape {
+        public let apiId: String?
+        public let stage: String?
+        /// The strip base path setting.
+        public let stripBasePath: Bool?
+
+        @inlinable
+        public init(apiId: String? = nil, stage: String? = nil, stripBasePath: Bool? = nil) {
+            self.apiId = apiId
+            self.stage = stage
+            self.stripBasePath = stripBasePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case stage = "stage"
+            case stripBasePath = "stripBasePath"
+        }
+    }
+
+    public struct RoutingRuleCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The base path to be matched.
+        public let matchBasePaths: RoutingRuleMatchBasePaths?
+        /// The headers to be matched.
+        public let matchHeaders: RoutingRuleMatchHeaders?
+
+        @inlinable
+        public init(matchBasePaths: RoutingRuleMatchBasePaths? = nil, matchHeaders: RoutingRuleMatchHeaders? = nil) {
+            self.matchBasePaths = matchBasePaths
+            self.matchHeaders = matchHeaders
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchBasePaths = "matchBasePaths"
+            case matchHeaders = "matchHeaders"
+        }
+    }
+
+    public struct RoutingRuleMatchBasePaths: AWSEncodableShape & AWSDecodableShape {
+        /// The string of the case sensitive base path to be matched.
+        public let anyOf: [String]?
+
+        @inlinable
+        public init(anyOf: [String]? = nil) {
+            self.anyOf = anyOf
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anyOf = "anyOf"
+        }
+    }
+
+    public struct RoutingRuleMatchHeaderValue: AWSEncodableShape & AWSDecodableShape {
+        public let header: String?
+        public let valueGlob: String?
+
+        @inlinable
+        public init(header: String? = nil, valueGlob: String? = nil) {
+            self.header = header
+            self.valueGlob = valueGlob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case header = "header"
+            case valueGlob = "valueGlob"
+        }
+    }
+
+    public struct RoutingRuleMatchHeaders: AWSEncodableShape & AWSDecodableShape {
+        /// The header name and header value glob to be matched. The matchHeaders condition is matched if any of the header name and header value globs are matched.
+        public let anyOf: [RoutingRuleMatchHeaderValue]?
+
+        @inlinable
+        public init(anyOf: [RoutingRuleMatchHeaderValue]? = nil) {
+            self.anyOf = anyOf
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anyOf = "anyOf"
         }
     }
 
@@ -4736,12 +5177,15 @@ extension ApiGatewayV2 {
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
+        /// The routing mode.
+        public let routingMode: RoutingMode?
 
         @inlinable
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil) {
+        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, routingMode: RoutingMode? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.routingMode = routingMode
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4750,11 +5194,13 @@ extension ApiGatewayV2 {
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.domainNameConfigurations, forKey: .domainNameConfigurations)
             try container.encodeIfPresent(self.mutualTlsAuthentication, forKey: .mutualTlsAuthentication)
+            try container.encodeIfPresent(self.routingMode, forKey: .routingMode)
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainNameConfigurations = "domainNameConfigurations"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case routingMode = "routingMode"
         }
     }
 
@@ -4763,27 +5209,34 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
         public let domainName: String?
+        public let domainNameArn: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
         public let mutualTlsAuthentication: MutualTlsAuthentication?
+        /// The routing mode.
+        public let routingMode: RoutingMode?
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
         @inlinable
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, routingMode: RoutingMode? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.routingMode = routingMode
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
+            case domainNameArn = "domainNameArn"
             case domainNameConfigurations = "domainNameConfigurations"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case routingMode = "routingMode"
             case tags = "tags"
         }
     }

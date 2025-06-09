@@ -174,6 +174,7 @@ let package = Package(
         .library(name: "SotoEntityResolution", targets: ["SotoEntityResolution"]),
         .library(name: "SotoEventBridge", targets: ["SotoEventBridge"]),
         .library(name: "SotoEvidently", targets: ["SotoEvidently"]),
+        .library(name: "SotoEvs", targets: ["SotoEvs"]),
         .library(name: "SotoFIS", targets: ["SotoFIS"]),
         .library(name: "SotoFMS", targets: ["SotoFMS"]),
         .library(name: "SotoFSx", targets: ["SotoFSx"]),
@@ -433,7 +434,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.7.1")
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.6.0")
     ],
     targets: [
         .target(
@@ -1310,6 +1311,12 @@ let package = Package(
             name: "SotoEvidently",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Evidently",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoEvs",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/Evs",
             swiftSettings: swiftSettings
         ),
         .target(

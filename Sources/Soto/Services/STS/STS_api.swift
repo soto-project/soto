@@ -81,6 +81,7 @@ public struct STS: AWSService {
     static var serviceEndpoints: [String: String] {[
         "af-south-1": "sts.af-south-1.amazonaws.com",
         "ap-east-1": "sts.ap-east-1.amazonaws.com",
+        "ap-east-2": "sts.ap-east-2.amazonaws.com",
         "ap-northeast-1": "sts.ap-northeast-1.amazonaws.com",
         "ap-northeast-2": "sts.ap-northeast-2.amazonaws.com",
         "ap-northeast-3": "sts.ap-northeast-3.amazonaws.com",
