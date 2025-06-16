@@ -95,6 +95,22 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum MachineLearningProductSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case productTitle = "ProductTitle"
+        case visibility = "Visibility"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MachineLearningProductVisibilityString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "Public"
+        case draft = "Draft"
+        case limited = "Limited"
+        case restricted = "Restricted"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OfferSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case availabilityEndDate = "AvailabilityEndDate"
         case buyerAccounts = "BuyerAccounts"
@@ -182,6 +198,7 @@ extension MarketplaceCatalog {
         case containerProductFilters(ContainerProductFilters)
         /// A filter for data products.
         case dataProductFilters(DataProductFilters)
+        case machineLearningProductFilters(MachineLearningProductFilters)
         /// A filter for offers.
         case offerFilters(OfferFilters)
         /// A filter for Resale Authorizations.
@@ -198,6 +215,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .containerProductFilters)
             case .dataProductFilters(let value):
                 try container.encode(value, forKey: .dataProductFilters)
+            case .machineLearningProductFilters(let value):
+                try container.encode(value, forKey: .machineLearningProductFilters)
             case .offerFilters(let value):
                 try container.encode(value, forKey: .offerFilters)
             case .resaleAuthorizationFilters(let value):
@@ -215,6 +234,8 @@ extension MarketplaceCatalog {
                 try value.validate(name: "\(name).containerProductFilters")
             case .dataProductFilters(let value):
                 try value.validate(name: "\(name).dataProductFilters")
+            case .machineLearningProductFilters(let value):
+                try value.validate(name: "\(name).machineLearningProductFilters")
             case .offerFilters(let value):
                 try value.validate(name: "\(name).offerFilters")
             case .resaleAuthorizationFilters(let value):
@@ -228,6 +249,7 @@ extension MarketplaceCatalog {
             case amiProductFilters = "AmiProductFilters"
             case containerProductFilters = "ContainerProductFilters"
             case dataProductFilters = "DataProductFilters"
+            case machineLearningProductFilters = "MachineLearningProductFilters"
             case offerFilters = "OfferFilters"
             case resaleAuthorizationFilters = "ResaleAuthorizationFilters"
             case saaSProductFilters = "SaaSProductFilters"
@@ -241,6 +263,7 @@ extension MarketplaceCatalog {
         case containerProductSort(ContainerProductSort)
         /// A sort for data products.
         case dataProductSort(DataProductSort)
+        case machineLearningProductSort(MachineLearningProductSort)
         /// A sort for offers.
         case offerSort(OfferSort)
         /// A sort for Resale Authorizations.
@@ -257,6 +280,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .containerProductSort)
             case .dataProductSort(let value):
                 try container.encode(value, forKey: .dataProductSort)
+            case .machineLearningProductSort(let value):
+                try container.encode(value, forKey: .machineLearningProductSort)
             case .offerSort(let value):
                 try container.encode(value, forKey: .offerSort)
             case .resaleAuthorizationSort(let value):
@@ -270,6 +295,7 @@ extension MarketplaceCatalog {
             case amiProductSort = "AmiProductSort"
             case containerProductSort = "ContainerProductSort"
             case dataProductSort = "DataProductSort"
+            case machineLearningProductSort = "MachineLearningProductSort"
             case offerSort = "OfferSort"
             case resaleAuthorizationSort = "ResaleAuthorizationSort"
             case saaSProductSort = "SaaSProductSort"
@@ -580,7 +606,7 @@ extension MarketplaceCatalog {
         public let changeType: String
         /// This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see Working with single-AMI products. Also, for more information about change types available for container-based products, see Working with container products.
         public let details: String?
-        /// Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument, but not both.
+        /// Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument, but not both. To download the "DetailsDocument" shapes, see the Python  and Java shapes on GitHub.
         public let detailsDocument: AWSDocument?
         /// The entity to be changed.
         public let entity: Entity
@@ -674,7 +700,7 @@ extension MarketplaceCatalog {
         public let changeType: String?
         /// This object contains details specific to the change type of the requested change.
         public let details: String?
-        /// The JSON value of the details specific to the change type of the requested change.
+        /// The JSON value of the details specific to the change type of the requested change. To download the "DetailsDocument" shapes, see the Python  and Java shapes on GitHub.
         public let detailsDocument: AWSDocument?
         /// The entity to be changed.
         public let entity: Entity?
@@ -1220,7 +1246,7 @@ extension MarketplaceCatalog {
     public struct DescribeEntityResponse: AWSDecodableShape {
         /// This stringified JSON object includes the details of the entity.
         public let details: String?
-        /// The JSON value of the details specific to the entity.
+        /// The JSON value of the details specific to the entity. To download "DetailsDocument" shapes, see the Python  and Java shapes on GitHub.
         public let detailsDocument: AWSDocument?
         /// The ARN associated to the unique identifier for the entity referenced in this request.
         public let entityArn: String?
@@ -1350,6 +1376,7 @@ extension MarketplaceCatalog {
         public let entityType: String?
         /// The last time the entity was published, using ISO 8601 format (2018-02-27T13:45:22Z).
         public let lastModifiedDate: String?
+        public let machineLearningProductSummary: MachineLearningProductSummary?
         /// The name for the entity. This value is not unique. It is defined by the seller.
         public let name: String?
         /// An object that contains summary information about the offer.
@@ -1362,7 +1389,7 @@ extension MarketplaceCatalog {
         public let visibility: String?
 
         @inlinable
-        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, name: String? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
+        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, machineLearningProductSummary: MachineLearningProductSummary? = nil, name: String? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
             self.amiProductSummary = amiProductSummary
             self.containerProductSummary = containerProductSummary
             self.dataProductSummary = dataProductSummary
@@ -1370,6 +1397,7 @@ extension MarketplaceCatalog {
             self.entityId = entityId
             self.entityType = entityType
             self.lastModifiedDate = lastModifiedDate
+            self.machineLearningProductSummary = machineLearningProductSummary
             self.name = name
             self.offerSummary = offerSummary
             self.resaleAuthorizationSummary = resaleAuthorizationSummary
@@ -1385,6 +1413,7 @@ extension MarketplaceCatalog {
             case entityId = "EntityId"
             case entityType = "EntityType"
             case lastModifiedDate = "LastModifiedDate"
+            case machineLearningProductSummary = "MachineLearningProductSummary"
             case name = "Name"
             case offerSummary = "OfferSummary"
             case resaleAuthorizationSummary = "ResaleAuthorizationSummary"
@@ -1665,6 +1694,194 @@ extension MarketplaceCatalog {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case tags = "Tags"
+        }
+    }
+
+    public struct MachineLearningProductEntityIdFilter: AWSEncodableShape {
+        /// A list of entity IDs to filter by. The operation returns machine learning products with entity IDs that match the values in this list.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct MachineLearningProductFilters: AWSEncodableShape {
+        /// Filter machine learning products by their entity IDs.
+        public let entityId: MachineLearningProductEntityIdFilter?
+        /// Filter machine learning products by their last modified date.
+        public let lastModifiedDate: MachineLearningProductLastModifiedDateFilter?
+        /// Filter machine learning products by their product titles.
+        public let productTitle: MachineLearningProductTitleFilter?
+        /// Filter machine learning products by their visibility status.
+        public let visibility: MachineLearningProductVisibilityFilter?
+
+        @inlinable
+        public init(entityId: MachineLearningProductEntityIdFilter? = nil, lastModifiedDate: MachineLearningProductLastModifiedDateFilter? = nil, productTitle: MachineLearningProductTitleFilter? = nil, visibility: MachineLearningProductVisibilityFilter? = nil) {
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.productTitle?.validate(name: "\(name).productTitle")
+            try self.visibility?.validate(name: "\(name).visibility")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct MachineLearningProductLastModifiedDateFilter: AWSEncodableShape {
+        /// A date range to filter by. The operation returns machine learning products with last modified dates that fall within this range.
+        public let dateRange: MachineLearningProductLastModifiedDateFilterDateRange?
+
+        @inlinable
+        public init(dateRange: MachineLearningProductLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct MachineLearningProductLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// The start date (inclusive) of the date range. The operation returns machine learning products with last modified dates on or after this date.
+        public let afterValue: String?
+        /// The end date (inclusive) of the date range. The operation returns machine learning products with last modified dates on or before this date.
+        public let beforeValue: String?
+
+        @inlinable
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct MachineLearningProductSort: AWSEncodableShape {
+        /// The field to sort by. Valid values: EntityId, LastModifiedDate, ProductTitle, and Visibility.
+        public let sortBy: MachineLearningProductSortBy?
+        /// The sort order. Valid values are ASC (ascending) and DESC (descending).
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(sortBy: MachineLearningProductSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct MachineLearningProductSummary: AWSDecodableShape {
+        /// The title of the machine learning product.
+        public let productTitle: String?
+        /// The visibility status of the machine learning product. Valid values are Limited, Public, Restricted, and Draft.
+        public let visibility: MachineLearningProductVisibilityString?
+
+        @inlinable
+        public init(productTitle: String? = nil, visibility: MachineLearningProductVisibilityString? = nil) {
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productTitle = "ProductTitle"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct MachineLearningProductTitleFilter: AWSEncodableShape {
+        /// A list of product titles to filter by. The operation returns machine learning products with titles that exactly match the values in this list.
+        public let valueList: [String]?
+        /// A wildcard value to filter product titles. The operation returns machine learning products with titles that match this wildcard pattern.
+        public let wildCardValue: String?
+
+        @inlinable
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct MachineLearningProductVisibilityFilter: AWSEncodableShape {
+        /// A list of visibility values to filter by. The operation returns machine learning products with visibility status that match the values in this list.
+        public let valueList: [MachineLearningProductVisibilityString]?
+
+        @inlinable
+        public init(valueList: [MachineLearningProductVisibilityString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
         }
     }
 

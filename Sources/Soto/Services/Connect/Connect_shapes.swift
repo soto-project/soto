@@ -12561,12 +12561,12 @@ extension Connect {
             try self.ccAddresses?.forEach {
                 try $0.validate(name: "\(name).ccAddresses[]")
             }
-            try self.validate(self.ccAddresses, name: "ccAddresses", parent: name, max: 10)
+            try self.validate(self.ccAddresses, name: "ccAddresses", parent: name, max: 50)
             try self.validate(self.ccAddresses, name: "ccAddresses", parent: name, min: 1)
             try self.toAddresses?.forEach {
                 try $0.validate(name: "\(name).toAddresses[]")
             }
-            try self.validate(self.toAddresses, name: "toAddresses", parent: name, max: 10)
+            try self.validate(self.toAddresses, name: "toAddresses", parent: name, max: 50)
             try self.validate(self.toAddresses, name: "toAddresses", parent: name, min: 1)
         }
 
@@ -16318,7 +16318,7 @@ extension Connect {
             try self.ccEmailAddresses?.forEach {
                 try $0.validate(name: "\(name).ccEmailAddresses[]")
             }
-            try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, max: 10)
+            try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, max: 50)
             try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, min: 1)
         }
 

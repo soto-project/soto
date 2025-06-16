@@ -309,6 +309,7 @@ public struct ApiGatewayV2: AWSService {
     ///   - domainName: The domain name.
     ///   - domainNameConfigurations: The domain name configurations.
     ///   - mutualTlsAuthentication: The mutual TLS authentication configuration for a custom domain name.
+    ///   - routingMode: The routing mode.
     ///   - tags: The collection of tags associated with a domain name.
     ///   - logger: Logger use during operation
     @inlinable
@@ -316,6 +317,7 @@ public struct ApiGatewayV2: AWSService {
         domainName: String? = nil,
         domainNameConfigurations: [DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil,
+        routingMode: RoutingMode? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDomainNameResponse {
@@ -323,6 +325,7 @@ public struct ApiGatewayV2: AWSService {
             domainName: domainName, 
             domainNameConfigurations: domainNameConfigurations, 
             mutualTlsAuthentication: mutualTlsAuthentication, 
+            routingMode: routingMode, 
             tags: tags
         )
         return try await self.createDomainName(input, logger: logger)
@@ -600,6 +603,47 @@ public struct ApiGatewayV2: AWSService {
             routeResponseKey: routeResponseKey
         )
         return try await self.createRouteResponse(input, logger: logger)
+    }
+
+    /// Creates a RoutingRule.
+    @Sendable
+    @inlinable
+    public func createRoutingRule(_ input: CreateRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRoutingRuleResponse {
+        try await self.client.execute(
+            operation: "CreateRoutingRule", 
+            path: "/v2/domainnames/{DomainName}/routingrules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a RoutingRule.
+    ///
+    /// Parameters:
+    ///   - actions: Represents a routing rule action. The only supported action is invokeApi.
+    ///   - conditions: Represents a condition. Conditions can contain up to two matchHeaders conditions and one matchBasePaths conditions. API Gateway evaluates header conditions and base path conditions together. You can only use AND between header and base path conditions.
+    ///   - domainName: The domain name.
+    ///   - domainNameId: The domain name ID.
+    ///   - priority: Represents the priority of the routing rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRoutingRule(
+        actions: [RoutingRuleAction]? = nil,
+        conditions: [RoutingRuleCondition]? = nil,
+        domainName: String,
+        domainNameId: String? = nil,
+        priority: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRoutingRuleResponse {
+        let input = CreateRoutingRuleRequest(
+            actions: actions, 
+            conditions: conditions, 
+            domainName: domainName, 
+            domainNameId: domainNameId, 
+            priority: priority
+        )
+        return try await self.createRoutingRule(input, logger: logger)
     }
 
     /// Creates a Stage for an API.
@@ -1148,6 +1192,41 @@ public struct ApiGatewayV2: AWSService {
             stageName: stageName
         )
         return try await self.deleteRouteSettings(input, logger: logger)
+    }
+
+    /// Deletes a routing rule.
+    @Sendable
+    @inlinable
+    public func deleteRoutingRule(_ input: DeleteRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteRoutingRule", 
+            path: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a routing rule.
+    ///
+    /// Parameters:
+    ///   - domainName: The domain name.
+    ///   - domainNameId: The domain name ID.
+    ///   - routingRuleId: The routing rule ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRoutingRule(
+        domainName: String,
+        domainNameId: String? = nil,
+        routingRuleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteRoutingRuleRequest(
+            domainName: domainName, 
+            domainNameId: domainNameId, 
+            routingRuleId: routingRuleId
+        )
+        return try await self.deleteRoutingRule(input, logger: logger)
     }
 
     /// Deletes a Stage.
@@ -1955,6 +2034,41 @@ public struct ApiGatewayV2: AWSService {
         return try await self.getRoutes(input, logger: logger)
     }
 
+    /// Gets a routing rule.
+    @Sendable
+    @inlinable
+    public func getRoutingRule(_ input: GetRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRoutingRuleResponse {
+        try await self.client.execute(
+            operation: "GetRoutingRule", 
+            path: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a routing rule.
+    ///
+    /// Parameters:
+    ///   - domainName: The domain name.
+    ///   - domainNameId: The domain name ID.
+    ///   - routingRuleId: The routing rule ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRoutingRule(
+        domainName: String,
+        domainNameId: String? = nil,
+        routingRuleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRoutingRuleResponse {
+        let input = GetRoutingRuleRequest(
+            domainName: domainName, 
+            domainNameId: domainNameId, 
+            routingRuleId: routingRuleId
+        )
+        return try await self.getRoutingRule(input, logger: logger)
+    }
+
     /// Gets a Stage.
     @Sendable
     @inlinable
@@ -2145,6 +2259,88 @@ public struct ApiGatewayV2: AWSService {
             failOnWarnings: failOnWarnings
         )
         return try await self.importApi(input, logger: logger)
+    }
+
+    /// Lists routing rules.
+    @Sendable
+    @inlinable
+    public func listRoutingRules(_ input: ListRoutingRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingRulesResponse {
+        try await self.client.execute(
+            operation: "ListRoutingRules", 
+            path: "/v2/domainnames/{DomainName}/routingrules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists routing rules.
+    ///
+    /// Parameters:
+    ///   - domainName: The domain name.
+    ///   - domainNameId: The domain name ID.
+    ///   - maxResults: The maximum number of elements to be returned for this resource.
+    ///   - nextToken: The next page of elements from this collection. Not valid for the last element of the collection.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRoutingRules(
+        domainName: String,
+        domainNameId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRoutingRulesResponse {
+        let input = ListRoutingRulesRequest(
+            domainName: domainName, 
+            domainNameId: domainNameId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRoutingRules(input, logger: logger)
+    }
+
+    /// Updates a routing rule.
+    @Sendable
+    @inlinable
+    public func putRoutingRule(_ input: PutRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRoutingRuleResponse {
+        try await self.client.execute(
+            operation: "PutRoutingRule", 
+            path: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a routing rule.
+    ///
+    /// Parameters:
+    ///   - actions: The routing rule action.
+    ///   - conditions: The routing rule condition.
+    ///   - domainName: The domain name.
+    ///   - domainNameId: The domain name ID.
+    ///   - priority: The routing rule priority.
+    ///   - routingRuleId: The routing rule ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putRoutingRule(
+        actions: [RoutingRuleAction]? = nil,
+        conditions: [RoutingRuleCondition]? = nil,
+        domainName: String,
+        domainNameId: String? = nil,
+        priority: Int? = nil,
+        routingRuleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutRoutingRuleResponse {
+        let input = PutRoutingRuleRequest(
+            actions: actions, 
+            conditions: conditions, 
+            domainName: domainName, 
+            domainNameId: domainNameId, 
+            priority: priority, 
+            routingRuleId: routingRuleId
+        )
+        return try await self.putRoutingRule(input, logger: logger)
     }
 
     /// Puts an Api resource.
@@ -2503,18 +2699,21 @@ public struct ApiGatewayV2: AWSService {
     ///   - domainName: The domain name.
     ///   - domainNameConfigurations: The domain name configurations.
     ///   - mutualTlsAuthentication: The mutual TLS authentication configuration for a custom domain name.
+    ///   - routingMode: The routing mode.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomainName(
         domainName: String,
         domainNameConfigurations: [DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil,
+        routingMode: RoutingMode? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainNameResponse {
         let input = UpdateDomainNameRequest(
             domainName: domainName, 
             domainNameConfigurations: domainNameConfigurations, 
-            mutualTlsAuthentication: mutualTlsAuthentication
+            mutualTlsAuthentication: mutualTlsAuthentication, 
+            routingMode: routingMode
         )
         return try await self.updateDomainName(input, logger: logger)
     }
@@ -2903,5 +3102,62 @@ extension ApiGatewayV2 {
     public init(from: ApiGatewayV2, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension ApiGatewayV2 {
+    /// Return PaginatorSequence for operation ``listRoutingRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRoutingRulesPaginator(
+        _ input: ListRoutingRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRoutingRulesRequest, ListRoutingRulesResponse> {
+        return .init(
+            input: input,
+            command: self.listRoutingRules,
+            inputKey: \ListRoutingRulesRequest.nextToken,
+            outputKey: \ListRoutingRulesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRoutingRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The domain name.
+    ///   - domainNameId: The domain name ID.
+    ///   - maxResults: The maximum number of elements to be returned for this resource.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRoutingRulesPaginator(
+        domainName: String,
+        domainNameId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRoutingRulesRequest, ListRoutingRulesResponse> {
+        let input = ListRoutingRulesRequest(
+            domainName: domainName, 
+            domainNameId: domainNameId, 
+            maxResults: maxResults
+        )
+        return self.listRoutingRulesPaginator(input, logger: logger)
+    }
+}
+
+extension ApiGatewayV2.ListRoutingRulesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ApiGatewayV2.ListRoutingRulesRequest {
+        return .init(
+            domainName: self.domainName,
+            domainNameId: self.domainNameId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

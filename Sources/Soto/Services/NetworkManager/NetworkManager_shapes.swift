@@ -1265,42 +1265,54 @@ extension NetworkManager {
         public let cidr: String?
         /// The ID of the destination.
         public let destinationIdentifier: String?
+        /// Indicates whether public DNS support is supported. The default is true.
+        public let dnsSupport: Bool?
         /// The Regions where edges are located in a core network.
         public let edgeLocations: [String]?
         /// The inside IP addresses used for core network change values.
         public let insideCidrBlocks: [String]?
         /// The network function group name if the change event is associated with a network function group.
         public let networkFunctionGroupName: String?
+        /// Indicates whether security group referencing is enabled for the core network.
+        public let securityGroupReferencingSupport: Bool?
         /// The names of the segments in a core network.
         public let segmentName: String?
         /// Describes the service insertion action.
         public let serviceInsertionActions: [ServiceInsertionAction]?
         /// The shared segments for a core network change value.
         public let sharedSegments: [String]?
+        /// Indicates whether Equal Cost Multipath (ECMP) is enabled for the core network.
+        public let vpnEcmpSupport: Bool?
 
         @inlinable
-        public init(asn: Int64? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, networkFunctionGroupName: String? = nil, segmentName: String? = nil, serviceInsertionActions: [ServiceInsertionAction]? = nil, sharedSegments: [String]? = nil) {
+        public init(asn: Int64? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, dnsSupport: Bool? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, networkFunctionGroupName: String? = nil, securityGroupReferencingSupport: Bool? = nil, segmentName: String? = nil, serviceInsertionActions: [ServiceInsertionAction]? = nil, sharedSegments: [String]? = nil, vpnEcmpSupport: Bool? = nil) {
             self.asn = asn
             self.cidr = cidr
             self.destinationIdentifier = destinationIdentifier
+            self.dnsSupport = dnsSupport
             self.edgeLocations = edgeLocations
             self.insideCidrBlocks = insideCidrBlocks
             self.networkFunctionGroupName = networkFunctionGroupName
+            self.securityGroupReferencingSupport = securityGroupReferencingSupport
             self.segmentName = segmentName
             self.serviceInsertionActions = serviceInsertionActions
             self.sharedSegments = sharedSegments
+            self.vpnEcmpSupport = vpnEcmpSupport
         }
 
         private enum CodingKeys: String, CodingKey {
             case asn = "Asn"
             case cidr = "Cidr"
             case destinationIdentifier = "DestinationIdentifier"
+            case dnsSupport = "DnsSupport"
             case edgeLocations = "EdgeLocations"
             case insideCidrBlocks = "InsideCidrBlocks"
             case networkFunctionGroupName = "NetworkFunctionGroupName"
+            case securityGroupReferencingSupport = "SecurityGroupReferencingSupport"
             case segmentName = "SegmentName"
             case serviceInsertionActions = "ServiceInsertionActions"
             case sharedSegments = "SharedSegments"
+            case vpnEcmpSupport = "VpnEcmpSupport"
         }
     }
 
@@ -7357,18 +7369,26 @@ extension NetworkManager {
     public struct VpcOptions: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether appliance mode is supported.  If enabled, traffic flow between a source and destination use the same Availability Zone for the VPC attachment for the lifetime of that flow. The default value is false.
         public let applianceModeSupport: Bool?
+        /// Indicates whether DNS is supported.
+        public let dnsSupport: Bool?
         /// Indicates whether IPv6 is supported.
         public let ipv6Support: Bool?
+        /// Indicates whether security group referencing is enabled for this VPC attachment. The default is true. However, at the core network policy-level the default is set to false.
+        public let securityGroupReferencingSupport: Bool?
 
         @inlinable
-        public init(applianceModeSupport: Bool? = nil, ipv6Support: Bool? = nil) {
+        public init(applianceModeSupport: Bool? = nil, dnsSupport: Bool? = nil, ipv6Support: Bool? = nil, securityGroupReferencingSupport: Bool? = nil) {
             self.applianceModeSupport = applianceModeSupport
+            self.dnsSupport = dnsSupport
             self.ipv6Support = ipv6Support
+            self.securityGroupReferencingSupport = securityGroupReferencingSupport
         }
 
         private enum CodingKeys: String, CodingKey {
             case applianceModeSupport = "ApplianceModeSupport"
+            case dnsSupport = "DnsSupport"
             case ipv6Support = "Ipv6Support"
+            case securityGroupReferencingSupport = "SecurityGroupReferencingSupport"
         }
     }
 

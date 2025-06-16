@@ -121,6 +121,12 @@ extension ConnectCampaignsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstanceLimitsHandling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optIn = "OPT_IN"
+        case optOut = "OPT_OUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceOnboardingJobFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventBridgeAccessDenied = "EVENT_BRIDGE_ACCESS_DENIED"
         case eventBridgeManagedRuleLimitExceeded = "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED"
@@ -572,10 +578,12 @@ extension ConnectCampaignsV2 {
 
     public struct CommunicationLimitsConfig: AWSEncodableShape & AWSDecodableShape {
         public let allChannelSubtypes: CommunicationLimits?
+        public let instanceLimitsHandling: InstanceLimitsHandling?
 
         @inlinable
-        public init(allChannelSubtypes: CommunicationLimits? = nil) {
+        public init(allChannelSubtypes: CommunicationLimits? = nil, instanceLimitsHandling: InstanceLimitsHandling? = nil) {
             self.allChannelSubtypes = allChannelSubtypes
+            self.instanceLimitsHandling = instanceLimitsHandling
         }
 
         public func validate(name: String) throws {
@@ -584,6 +592,7 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case allChannelSubtypes = "allChannelSubtypes"
+            case instanceLimitsHandling = "instanceLimitsHandling"
         }
     }
 
@@ -1279,6 +1288,41 @@ extension ConnectCampaignsV2 {
         }
     }
 
+    public struct GetInstanceCommunicationLimitsRequest: AWSEncodableShape {
+        public let connectInstanceId: String
+
+        @inlinable
+        public init(connectInstanceId: String) {
+            self.connectInstanceId = connectInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectInstanceId, key: "connectInstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInstanceCommunicationLimitsResponse: AWSDecodableShape {
+        public let communicationLimitsConfig: InstanceCommunicationLimitsConfig?
+
+        @inlinable
+        public init(communicationLimitsConfig: InstanceCommunicationLimitsConfig? = nil) {
+            self.communicationLimitsConfig = communicationLimitsConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case communicationLimitsConfig = "communicationLimitsConfig"
+        }
+    }
+
     public struct GetInstanceOnboardingJobStatusRequest: AWSEncodableShape {
         public let connectInstanceId: String
 
@@ -1311,6 +1355,23 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case connectInstanceOnboardingJobStatus = "connectInstanceOnboardingJobStatus"
+        }
+    }
+
+    public struct InstanceCommunicationLimitsConfig: AWSEncodableShape & AWSDecodableShape {
+        public let allChannelSubtypes: CommunicationLimits?
+
+        @inlinable
+        public init(allChannelSubtypes: CommunicationLimits? = nil) {
+            self.allChannelSubtypes = allChannelSubtypes
+        }
+
+        public func validate(name: String) throws {
+            try self.allChannelSubtypes?.validate(name: "\(name).allChannelSubtypes")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allChannelSubtypes = "allChannelSubtypes"
         }
     }
 
@@ -1724,6 +1785,34 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case integrationConfig = "integrationConfig"
+        }
+    }
+
+    public struct PutInstanceCommunicationLimitsRequest: AWSEncodableShape {
+        public let communicationLimitsConfig: InstanceCommunicationLimitsConfig
+        public let connectInstanceId: String
+
+        @inlinable
+        public init(communicationLimitsConfig: InstanceCommunicationLimitsConfig, connectInstanceId: String) {
+            self.communicationLimitsConfig = communicationLimitsConfig
+            self.connectInstanceId = connectInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.communicationLimitsConfig, forKey: .communicationLimitsConfig)
+            request.encodePath(self.connectInstanceId, key: "connectInstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.communicationLimitsConfig.validate(name: "\(name).communicationLimitsConfig")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case communicationLimitsConfig = "communicationLimitsConfig"
         }
     }
 

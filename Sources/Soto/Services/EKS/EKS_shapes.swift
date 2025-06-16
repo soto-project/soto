@@ -95,6 +95,7 @@ extension EKS {
     }
 
     public enum Category: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case misconfiguration = "MISCONFIGURATION"
         case upgradeReadiness = "UPGRADE_READINESS"
         public var description: String { return self.rawValue }
     }
@@ -513,7 +514,7 @@ extension EKS {
         public let modifiedAt: Date?
         /// The owner of the add-on.
         public let owner: String?
-        /// An array of Pod Identity Assocations owned by the Addon. Each EKS Pod Identity association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
+        /// An array of EKS Pod Identity associations owned by the add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide.
         public let podIdentityAssociations: [String]?
         /// The publisher of the add-on.
         public let publisher: String?
@@ -669,9 +670,9 @@ extension EKS {
     }
 
     public struct AddonPodIdentityConfiguration: AWSDecodableShape {
-        /// A suggested IAM Policy for the addon.
+        /// A suggested IAM Policy for the add-on.
         public let recommendedManagedPolicies: [String]?
-        /// The Kubernetes Service Account name used by the addon.
+        /// The Kubernetes Service Account name used by the add-on.
         public let serviceAccount: String?
 
         @inlinable
@@ -693,11 +694,11 @@ extension EKS {
         public let architecture: [String]?
         /// An object representing the compatibilities of a version.
         public let compatibilities: [Compatibility]?
-        /// Indicates the compute type of the addon version.
+        /// Indicates the compute type of the add-on version.
         public let computeTypes: [String]?
         /// Whether the add-on requires configuration.
         public let requiresConfiguration: Bool?
-        /// Indicates if the Addon requires IAM Permissions to operate, such as networking permissions.
+        /// Indicates if the add-on requires IAM Permissions to operate, such as networking permissions.
         public let requiresIamPermissions: Bool?
 
         @inlinable
@@ -1451,7 +1452,7 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
         public let configurationValues: String?
-        /// An array of Pod Identity Assocations to be created. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
+        /// An array of EKS Pod Identity associations to be created. Each association maps a Kubernetes service account to an IAM role. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide.
         public let podIdentityAssociations: [AddonPodIdentityAssociations]?
         /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see  UpdateAddon .   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
         public let resolveConflicts: ResolveConflicts?
@@ -1530,7 +1531,7 @@ extension EKS {
     public struct CreateClusterRequest: AWSEncodableShape {
         /// The access configuration for the cluster.
         public let accessConfig: CreateAccessConfigRequest?
-        /// If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking addons include vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
+        /// If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking add-ons include vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
         public let bootstrapSelfManagedAddons: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
@@ -1927,25 +1928,31 @@ extension EKS {
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
-        /// The name of the cluster to create the association in.
+        /// The name of the cluster to create the EKS Pod Identity association in.
         public let clusterName: String
-        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see List of session tags added by EKS Pod Identity in the Amazon EKS User Guide. Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
+        public let disableSessionTags: Bool?
+        /// The name of the Kubernetes namespace inside the cluster to create the EKS Pod Identity association in. The service account and the Pods that use the service account must be in this namespace.
         public let namespace: String
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the pods that use this service account.
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
         public let roleArn: String
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
         public let serviceAccount: String
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. The following basic restrictions apply to tags:   Maximum number of tags per resource – 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length – 128 Unicode characters in UTF-8   Maximum value length – 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For example, your application running in “Account A” might need to access resources, such as Amazon S3 buckets in “Account B” or within “Account A” itself. You can create a association to access Amazon Web Services resources in “Account B” by creating two IAM roles: a role in “Account A” and a role in “Account B” (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
+        public let targetRoleArn: String?
 
         @inlinable
-        public init(clientRequestToken: String? = CreatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, namespace: String, roleArn: String, serviceAccount: String, tags: [String: String]? = nil) {
+        public init(clientRequestToken: String? = CreatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, disableSessionTags: Bool? = nil, namespace: String, roleArn: String, serviceAccount: String, tags: [String: String]? = nil, targetRoleArn: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
+            self.disableSessionTags = disableSessionTags
             self.namespace = namespace
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
             self.tags = tags
+            self.targetRoleArn = targetRoleArn
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1953,10 +1960,12 @@ extension EKS {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.disableSessionTags, forKey: .disableSessionTags)
             try container.encode(self.namespace, forKey: .namespace)
             try container.encode(self.roleArn, forKey: .roleArn)
             try container.encode(self.serviceAccount, forKey: .serviceAccount)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.targetRoleArn, forKey: .targetRoleArn)
         }
 
         public func validate(name: String) throws {
@@ -1971,10 +1980,12 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
+            case disableSessionTags = "disableSessionTags"
             case namespace = "namespace"
             case roleArn = "roleArn"
             case serviceAccount = "serviceAccount"
             case tags = "tags"
+            case targetRoleArn = "targetRoleArn"
         }
     }
 
@@ -2361,7 +2372,7 @@ extension EKS {
         public let addonVersion: String?
         /// A JSON schema that's used to validate the configuration values you provide when an add-on is created or updated.
         public let configurationSchema: String?
-        /// The Kubernetes service account name used by the addon, and any suggested IAM policies. Use this information to create an IAM Role for the Addon.
+        /// The Kubernetes service account name used by the add-on, and any suggested IAM policies. Use this information to create an IAM Role for the add-on.
         public let podIdentityConfiguration: [AddonPodIdentityConfiguration]?
 
         @inlinable
@@ -3374,7 +3385,7 @@ extension EKS {
     }
 
     public struct InsightsFilter: AWSEncodableShape {
-        /// The categories to use to filter insights.
+        /// The categories to use to filter insights. The following lists the available categories:    UPGRADE_READINESS: Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights.    MISCONFIGURATION: Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration insights.
         public let categories: [Category]?
         /// The Kubernetes versions to use to filter the insights.
         public let kubernetesVersions: [String]?
@@ -4679,31 +4690,40 @@ extension EKS {
         public let clusterName: String?
         /// The timestamp that the association was created at.
         public let createdAt: Date?
-        /// The most recent timestamp that the association was modified at
+        /// The state of the automatic sessions tags. The value of true disables these tags. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see List of session tags added by EKS Pod Identity in the Amazon EKS User Guide.
+        public let disableSessionTags: Bool?
+        /// The unique identifier for this EKS Pod Identity association for a target IAM role. You put this value in the trust policy of the target role, in a Condition to match the sts.ExternalId. This ensures that the target role can only be assumed by this association. This prevents the confused deputy problem. For more information about the confused deputy problem, see The confused deputy problem in the IAM User Guide. If you want to use the same target role with multiple associations or other roles, use independent statements in the trust policy to allow sts:AssumeRole access from each role.
+        public let externalId: String?
+        /// The most recent timestamp that the association was modified at.
         public let modifiedAt: Date?
-        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the Pods that use the service account must be in this namespace.
         public let namespace: String?
-        /// If defined, the Pod Identity Association is owned by an Amazon EKS Addon.
+        /// If defined, the EKS Pod Identity association is owned by an Amazon EKS add-on.
         public let ownerArn: String?
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the pods that use this service account.
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
         public let roleArn: String?
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
         public let serviceAccount: String?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. The following basic restrictions apply to tags:   Maximum number of tags per resource – 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length – 128 Unicode characters in UTF-8   Maximum value length – 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod.
+        public let targetRoleArn: String?
 
         @inlinable
-        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, modifiedAt: Date? = nil, namespace: String? = nil, ownerArn: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, disableSessionTags: Bool? = nil, externalId: String? = nil, modifiedAt: Date? = nil, namespace: String? = nil, ownerArn: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil, targetRoleArn: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.clusterName = clusterName
             self.createdAt = createdAt
+            self.disableSessionTags = disableSessionTags
+            self.externalId = externalId
             self.modifiedAt = modifiedAt
             self.namespace = namespace
             self.ownerArn = ownerArn
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
             self.tags = tags
+            self.targetRoleArn = targetRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4711,12 +4731,15 @@ extension EKS {
             case associationId = "associationId"
             case clusterName = "clusterName"
             case createdAt = "createdAt"
+            case disableSessionTags = "disableSessionTags"
+            case externalId = "externalId"
             case modifiedAt = "modifiedAt"
             case namespace = "namespace"
             case ownerArn = "ownerArn"
             case roleArn = "roleArn"
             case serviceAccount = "serviceAccount"
             case tags = "tags"
+            case targetRoleArn = "targetRoleArn"
         }
     }
 
@@ -4727,9 +4750,9 @@ extension EKS {
         public let associationId: String?
         /// The name of the cluster that the association is in.
         public let clusterName: String?
-        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the Pods that use the service account must be in this namespace.
         public let namespace: String?
-        /// If defined, the Pod Identity Association is owned by an Amazon EKS Addon.
+        /// If defined, the association is owned by an Amazon EKS add-on.
         public let ownerArn: String?
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
         public let serviceAccount: String?
@@ -4840,9 +4863,9 @@ extension EKS {
     }
 
     public struct RemoteNetworkConfigRequest: AWSEncodableShape {
-        /// The list of network CIDRs that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator.  Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.   Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.   Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.   Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.   Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
+        /// The list of network CIDRs that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator.  Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /32, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.   Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.   Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.   Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.   Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
         public let remoteNodeNetworks: [RemoteNodeNetwork]?
-        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
+        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /32, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
         public let remotePodNetworks: [RemotePodNetwork]?
 
         @inlinable
@@ -4881,7 +4904,7 @@ extension EKS {
     }
 
     public struct RemoteNodeNetwork: AWSEncodableShape & AWSDecodableShape {
-        /// A network CIDR that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator.  Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.   Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.   Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.   Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.   Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
+        /// A network CIDR that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator.  Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /32, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.   Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.   Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.   Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.   Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
         public let cidrs: [String]?
 
         @inlinable
@@ -4895,7 +4918,7 @@ extension EKS {
     }
 
     public struct RemotePodNetwork: AWSEncodableShape & AWSDecodableShape {
-        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
+        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example, 10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /32, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
         public let cidrs: [String]?
 
         @inlinable
@@ -5309,7 +5332,7 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
         public let configurationValues: String?
-        /// An array of Pod Identity Assocations to be updated. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. If this value is left blank, no change. If an empty array is provided, existing Pod Identity Assocations owned by the Addon are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
+        /// An array of EKS Pod Identity associations to be updated. Each association maps a Kubernetes service account to an IAM role. If this value is left blank, no change. If an empty array is provided, existing associations owned by the add-on are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide.
         public let podIdentityAssociations: [AddonPodIdentityAssociations]?
         /// How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose:    None – Amazon EKS doesn't change the value. The update might fail.    Overwrite – Amazon EKS overwrites the changed value back to the Amazon EKS default value.    Preserve – Amazon EKS preserves the value. If you choose this option, we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster.
         public let resolveConflicts: ResolveConflicts?
@@ -5737,15 +5760,21 @@ extension EKS {
         public let clientRequestToken: String?
         /// The name of the cluster that you want to update the association in.
         public let clusterName: String
-        /// The new IAM role to change the
+        /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see List of session tags added by EKS Pod Identity in the Amazon EKS User Guide. Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
+        public let disableSessionTags: Bool?
+        /// The new IAM role to change in the association.
         public let roleArn: String?
+        /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For example, your application running in “Account A” might need to access resources, such as buckets in “Account B” or within “Account A” itself. You can create a association to access Amazon Web Services resources in “Account B” by creating two IAM roles: a role in “Account A” and a role in “Account B” (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
+        public let targetRoleArn: String?
 
         @inlinable
-        public init(associationId: String, clientRequestToken: String? = UpdatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, roleArn: String? = nil) {
+        public init(associationId: String, clientRequestToken: String? = UpdatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, disableSessionTags: Bool? = nil, roleArn: String? = nil, targetRoleArn: String? = nil) {
             self.associationId = associationId
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
+            self.disableSessionTags = disableSessionTags
             self.roleArn = roleArn
+            self.targetRoleArn = targetRoleArn
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5754,17 +5783,21 @@ extension EKS {
             request.encodePath(self.associationId, key: "associationId")
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.disableSessionTags, forKey: .disableSessionTags)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.targetRoleArn, forKey: .targetRoleArn)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
+            case disableSessionTags = "disableSessionTags"
             case roleArn = "roleArn"
+            case targetRoleArn = "targetRoleArn"
         }
     }
 
     public struct UpdatePodIdentityAssociationResponse: AWSDecodableShape {
-        /// The full description of the EKS Pod Identity association that was updated.
+        /// The full description of the association that was updated.
         public let association: PodIdentityAssociation?
 
         @inlinable
@@ -5833,11 +5866,11 @@ extension EKS {
     }
 
     public struct VpcConfigRequest: AWSEncodableShape {
-        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
+        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
-        /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
+        /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide .
         public let endpointPublicAccess: Bool?
-        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access, make sure that you specify the necessary CIDR blocks for every node and Fargate Pod in the cluster. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0 and additionally ::/0 for dual-stack `IPv6` clusters. If you've disabled private endpoint access, make sure that you specify the necessary CIDR blocks for every node and Fargate Pod in the cluster. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide . Note that the public endpoints are dual-stack for only IPv6 clusters that are made after October 2024. You can't add IPv6 CIDR blocks to IPv4 clusters or IPv6 clusters that were made before October 2024.
         public let publicAccessCidrs: [String]?
         /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes. For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
         public let securityGroupIds: [String]?
@@ -5865,11 +5898,11 @@ extension EKS {
     public struct VpcConfigResponse: AWSDecodableShape {
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public let clusterSecurityGroupId: String?
-        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
+        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
         /// Whether the public API server endpoint is enabled.
         public let endpointPublicAccess: Bool?
-        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint.
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0 and additionally ::/0 for dual-stack `IPv6` clusters. If you've disabled private endpoint access, make sure that you specify the necessary CIDR blocks for every node and Fargate Pod in the cluster. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide . Note that the public endpoints are dual-stack for only IPv6 clusters that are made after October 2024. You can't add IPv6 CIDR blocks to IPv4 clusters or IPv6 clusters that were made before October 2024.
         public let publicAccessCidrs: [String]?
         /// The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane.
         public let securityGroupIds: [String]?

@@ -307,8 +307,7 @@ extension MediaConnect {
         public let networkName: String?
         ///  The network output port.
         public let port: Int?
-        ///  The network output protocol.
-        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+        ///  The network output protocol.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
         ///  The network output TTL.
         public let ttl: Int?
@@ -424,9 +423,9 @@ extension MediaConnect {
     }
 
     public struct AddBridgeSourceRequest: AWSEncodableShape {
-        /// The source of the flow.
+        ///  The source of the flow.
         public let flowSource: AddBridgeFlowSourceRequest?
-        /// The source of the network.
+        ///  The source of the network.
         public let networkSource: AddBridgeNetworkSourceRequest?
 
         @inlinable
@@ -836,9 +835,9 @@ extension MediaConnect {
     }
 
     public struct BlackFrames: AWSEncodableShape & AWSDecodableShape {
-        ///  	 Indicates whether the BlackFrames metric is enabled or disabled..
+        ///  Indicates whether the BlackFrames metric is enabled or disabled..
         public let state: State?
-        /// 	 Specifies the number of consecutive seconds of black frames that triggers an event or alert.
+        ///  Specifies the number of consecutive seconds of black frames that triggers an event or alert.
         public let thresholdSeconds: Int?
 
         @inlinable
@@ -856,7 +855,7 @@ extension MediaConnect {
     public struct Bridge: AWSDecodableShape {
         ///  The Amazon Resource Number (ARN) of the bridge.
         public let bridgeArn: String?
-        /// Messages with details about the bridge.
+        ///  Messages with details about the bridge.
         public let bridgeMessages: [MessageDetail]?
         /// The state of the bridge.
         public let bridgeState: BridgeState?
@@ -870,7 +869,7 @@ extension MediaConnect {
         public let outputs: [BridgeOutput]?
         ///  The placement Amazon Resource Number (ARN) of the bridge.
         public let placementArn: String?
-        /// The settings for source failover.
+        ///  The settings for source failover.
         public let sourceFailoverConfig: FailoverConfig?
         ///  The sources on this bridge.
         public let sources: [BridgeSource]?
@@ -1020,9 +1019,9 @@ extension MediaConnect {
     }
 
     public struct BridgeOutput: AWSDecodableShape {
-        /// The output of the associated flow.
+        ///  The output of the associated flow.
         public let flowOutput: BridgeFlowOutput?
-        /// The network output for the bridge.
+        ///  The network output for the bridge.
         public let networkOutput: BridgeNetworkOutput?
 
         @inlinable
@@ -1040,7 +1039,7 @@ extension MediaConnect {
     public struct BridgeSource: AWSDecodableShape {
         ///  The source of the associated flow.
         public let flowSource: BridgeFlowSource?
-        /// The network source for the bridge.
+        ///  The network source for the bridge.
         public let networkSource: BridgeNetworkSource?
 
         @inlinable
@@ -1128,7 +1127,7 @@ extension MediaConnect {
         public let source: SetSourceRequest?
         ///  The settings for source failover.
         public let sourceFailoverConfig: FailoverConfig?
-        /// The settings for source monitoring.
+        ///  The settings for source monitoring.
         public let sourceMonitoringConfig: MonitoringConfig?
         /// The sources that are assigned to the flow.
         public let sources: [SetSourceRequest]?
@@ -1206,7 +1205,7 @@ extension MediaConnect {
     }
 
     public struct CreateGatewayResponse: AWSDecodableShape {
-        /// The gateway that you created.
+        ///  The gateway that you created.
         public let gateway: Gateway?
 
         @inlinable
@@ -1452,7 +1451,7 @@ extension MediaConnect {
         public let messages: [MessageDetail]?
         ///  The timestamp of the most recent change in metadata for this flow’s source.
         public let timestamp: Date?
-        /// Information about the flow's transport media.
+        ///  Information about the flow's transport media.
         public let transportMediaInfo: TransportMediaInfo?
 
         @inlinable
@@ -1868,9 +1867,9 @@ extension MediaConnect {
         public let outputs: [Output]?
         ///  The source for the flow.
         public let source: Source?
-        /// The settings for the source failover.
+        ///  The settings for the source failover.
         public let sourceFailoverConfig: FailoverConfig?
-        /// The settings for source monitoring.
+        ///  The settings for source monitoring.
         public let sourceMonitoringConfig: MonitoringConfig?
         /// The settings for the sources that are assigned to the flow.
         public let sources: [Source]?
@@ -1922,7 +1921,7 @@ extension MediaConnect {
     }
 
     public struct Fmtp: AWSDecodableShape {
-        ///   The format of the audio channel.
+        ///  The format of the audio channel.
         public let channelOrder: String?
         /// The format used for the representation of color.
         public let colorimetry: Colorimetry?
@@ -2096,11 +2095,11 @@ extension MediaConnect {
         public let gatewayInstanceArn: String?
         /// The instance ID generated by the SSM install. This will begin with "mi-".
         public let instanceId: String?
-        /// Messages with information about the gateway.
+        ///  Messages with information about the gateway.
         public let instanceMessages: [MessageDetail]?
         /// The status of the instance.
         public let instanceState: InstanceState?
-        /// 	 The running bridge count.
+        ///  The running bridge count.
         public let runningBridgeCount: Int?
 
         @inlinable
@@ -2725,7 +2724,7 @@ extension MediaConnect {
         public let description: String?
         ///  The ARN of the flow.
         public let flowArn: String?
-        /// The maintenance settings for the flow.
+        ///  The maintenance settings for the flow.
         public let maintenance: Maintenance?
         ///  The name of the flow.
         public let name: String?
@@ -3193,6 +3192,8 @@ extension MediaConnect {
         public let outputArn: String?
         ///  An indication of whether the output is transmitting data or not.
         public let outputStatus: OutputStatus?
+        /// The IP address of the device that is currently receiving content from this output.    For outputs that use protocols where you specify the destination (such as SRT Caller or Zixi Push), this value matches the configured destination address.   For outputs that use listener protocols (such as SRT Listener), this value shows the address of the connected receiver.    Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI outputs, and CDI/ST2110 outputs.    The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
+        public let peerIpAddress: String?
         ///  The port to use when content is distributed to this output.
         public let port: Int?
         ///  Attributes related to the transport stream that are used in the output.
@@ -3201,7 +3202,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String? = nil, outputArn: String? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String? = nil, outputArn: String? = nil, outputStatus: OutputStatus? = nil, peerIpAddress: String? = nil, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgePorts = bridgePorts
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
@@ -3215,6 +3216,7 @@ extension MediaConnect {
             self.name = name
             self.outputArn = outputArn
             self.outputStatus = outputStatus
+            self.peerIpAddress = peerIpAddress
             self.port = port
             self.transport = transport
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -3234,6 +3236,7 @@ extension MediaConnect {
             case name = "name"
             case outputArn = "outputArn"
             case outputStatus = "outputStatus"
+            case peerIpAddress = "peerIpAddress"
             case port = "port"
             case transport = "transport"
             case vpcInterfaceAttachment = "vpcInterfaceAttachment"
@@ -3788,6 +3791,8 @@ extension MediaConnect {
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]?
         ///  The name of the source.
         public let name: String?
+        /// The IP address of the device that is currently sending content to this source.     For sources that use protocols where you specify the origin (such as SRT Caller), this value matches the configured origin address.    For sources that use listener protocols (such as SRT Listener or RTP), this value shows the address of the connected sender.    Peer IP addresses aren't available for entitlements and CDI/ST2110 sources.   The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
+        public let peerIpAddress: String?
         ///  The IP address that the flow communicates with to initiate connection with the sender.
         public let senderControlPort: Int?
         ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
@@ -3802,7 +3807,7 @@ extension MediaConnect {
         public let whitelistCidr: String?
 
         @inlinable
-        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: GatewayBridgeSource? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String? = nil, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: GatewayBridgeSource? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String? = nil, peerIpAddress: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String? = nil, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
@@ -3812,6 +3817,7 @@ extension MediaConnect {
             self.ingestPort = ingestPort
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.name = name
+            self.peerIpAddress = peerIpAddress
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.sourceArn = sourceArn
@@ -3830,6 +3836,7 @@ extension MediaConnect {
             case ingestPort = "ingestPort"
             case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
             case name = "name"
+            case peerIpAddress = "peerIpAddress"
             case senderControlPort = "senderControlPort"
             case senderIpAddress = "senderIpAddress"
             case sourceArn = "sourceArn"
@@ -4182,8 +4189,7 @@ extension MediaConnect {
         public let networkName: String?
         /// The network output port.
         public let port: Int?
-        /// The network output protocol.
-        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+        /// The network output protocol.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
         /// The network output TTL.
         public let ttl: Int?
@@ -4215,8 +4221,7 @@ extension MediaConnect {
         public let networkName: String?
         /// The network source port.
         public let port: Int?
-        /// The network source protocol.
-        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+        /// The network source protocol.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
 
         @inlinable
@@ -4240,9 +4245,9 @@ extension MediaConnect {
     public struct UpdateBridgeOutputRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
-        /// The network of the bridge output.
+        ///  The network of the bridge output.
         public let networkOutput: UpdateBridgeNetworkOutputRequest?
-        /// Tname of the output that you want to update.
+        ///  Tname of the output that you want to update.
         public let outputName: String
 
         @inlinable
@@ -4266,9 +4271,9 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeOutputResponse: AWSDecodableShape {
-        /// The ARN of the bridge that was updated.
+        ///  The ARN of the bridge that was updated.
         public let bridgeArn: String?
-        /// The bridge output that was updated.
+        ///  The bridge output that was updated.
         public let output: BridgeOutput?
 
         @inlinable
@@ -4290,7 +4295,7 @@ extension MediaConnect {
         public let egressGatewayBridge: UpdateEgressGatewayBridgeRequest?
         ///  A ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
         public let ingressGatewayBridge: UpdateIngressGatewayBridgeRequest?
-        /// The settings for source failover.
+        ///  The settings for source failover.
         public let sourceFailoverConfig: UpdateFailoverConfig?
 
         @inlinable
@@ -4318,7 +4323,7 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeResponse: AWSDecodableShape {
-        /// The bridge that was updated.
+        ///  The bridge that was updated.
         public let bridge: Bridge?
 
         @inlinable
@@ -4336,9 +4341,9 @@ extension MediaConnect {
         public let bridgeArn: String
         ///  The name of the flow that you want to update.
         public let flowSource: UpdateBridgeFlowSourceRequest?
-        /// The network for the bridge source.
+        ///  The network for the bridge source.
         public let networkSource: UpdateBridgeNetworkSourceRequest?
-        /// The name of the source that you want to update.
+        ///  The name of the source that you want to update.
         public let sourceName: String
 
         @inlinable
@@ -4367,7 +4372,7 @@ extension MediaConnect {
     public struct UpdateBridgeSourceResponse: AWSDecodableShape {
         ///  The ARN of the updated bridge source.
         public let bridgeArn: String?
-        /// The updated bridge source.
+        ///  The updated bridge source.
         public let source: BridgeSource?
 
         @inlinable
@@ -4385,7 +4390,7 @@ extension MediaConnect {
     public struct UpdateBridgeStateRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the bridge that you want to update the state of.
         public let bridgeArn: String
-        /// The desired state for the bridge.
+        ///  The desired state for the bridge.
         public let desiredState: DesiredState?
 
         @inlinable
@@ -4409,7 +4414,7 @@ extension MediaConnect {
     public struct UpdateBridgeStateResponse: AWSDecodableShape {
         /// The ARN of the updated bridge.
         public let bridgeArn: String?
-        /// The new state of the bridge.
+        ///  The new state of the bridge.
         public let desiredState: DesiredState?
 
         @inlinable
@@ -4777,7 +4782,7 @@ extension MediaConnect {
         public let ndiConfig: NdiConfig?
         ///  The settings for source failover.
         public let sourceFailoverConfig: UpdateFailoverConfig?
-        /// The settings for source monitoring.
+        ///  The settings for source monitoring.
         public let sourceMonitoringConfig: MonitoringConfig?
 
         @inlinable
@@ -4808,7 +4813,7 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowResponse: AWSDecodableShape {
-        /// The updated flow.
+        ///  The updated flow.
         public let flow: Flow?
 
         @inlinable
@@ -4828,7 +4833,7 @@ extension MediaConnect {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the entitlement that allows you to subscribe to the flow. The entitlement is set by the content originator, and the ARN is generated as part of the originator's flow.
         public let entitlementArn: String?
-        /// The ARN of the flow that you want to update.
+        ///  The ARN of the flow that you want to update.
         public let flowArn: String
         /// The source configuration for cloud flows receiving a stream from a bridge.
         public let gatewayBridgeSource: UpdateGatewayBridgeSourceRequest?
@@ -4844,8 +4849,7 @@ extension MediaConnect {
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        /// The protocol that the source uses to deliver the content to MediaConnect.
-        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+        /// The protocol that the source uses to deliver the content to MediaConnect.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?

@@ -473,6 +473,35 @@ public struct ConnectCampaignsV2: AWSService {
         return try await self.getConnectInstanceConfig(input, logger: logger)
     }
 
+    /// Get the instance communication limits.
+    @Sendable
+    @inlinable
+    public func getInstanceCommunicationLimits(_ input: GetInstanceCommunicationLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceCommunicationLimitsResponse {
+        try await self.client.execute(
+            operation: "GetInstanceCommunicationLimits", 
+            path: "/v2/connect-instance/{connectInstanceId}/communication-limits", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the instance communication limits.
+    ///
+    /// Parameters:
+    ///   - connectInstanceId: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInstanceCommunicationLimits(
+        connectInstanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInstanceCommunicationLimitsResponse {
+        let input = GetInstanceCommunicationLimitsRequest(
+            connectInstanceId: connectInstanceId
+        )
+        return try await self.getInstanceCommunicationLimits(input, logger: logger)
+    }
+
     /// Get the specific instance onboarding job status.
     @Sendable
     @inlinable
@@ -660,6 +689,38 @@ public struct ConnectCampaignsV2: AWSService {
             integrationConfig: integrationConfig
         )
         return try await self.putConnectInstanceIntegration(input, logger: logger)
+    }
+
+    /// Put the instance communication limits. This API is idempotent.
+    @Sendable
+    @inlinable
+    public func putInstanceCommunicationLimits(_ input: PutInstanceCommunicationLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutInstanceCommunicationLimits", 
+            path: "/v2/connect-instance/{connectInstanceId}/communication-limits", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Put the instance communication limits. This API is idempotent.
+    ///
+    /// Parameters:
+    ///   - communicationLimitsConfig: 
+    ///   - connectInstanceId: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putInstanceCommunicationLimits(
+        communicationLimitsConfig: InstanceCommunicationLimitsConfig,
+        connectInstanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutInstanceCommunicationLimitsRequest(
+            communicationLimitsConfig: communicationLimitsConfig, 
+            connectInstanceId: connectInstanceId
+        )
+        return try await self.putInstanceCommunicationLimits(input, logger: logger)
     }
 
     /// Creates outbound requests for the specified campaign Amazon Connect account. This API is idempotent.

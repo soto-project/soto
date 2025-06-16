@@ -188,6 +188,13 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum RoutingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basePathMappingOnly = "BASE_PATH_MAPPING_ONLY"
+        case routingRuleOnly = "ROUTING_RULE_ONLY"
+        case routingRuleThenBasePathMapping = "ROUTING_RULE_THEN_BASE_PATH_MAPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tls10 = "TLS_1_0"
         case tls12 = "TLS_1_2"
@@ -873,13 +880,15 @@ extension APIGateway {
         public let regionalCertificateArn: String?
         /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
         public let regionalCertificateName: String?
+        /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
+        public let routingMode: RoutingMode?
         /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, routingMode: RoutingMode? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -892,6 +901,7 @@ extension APIGateway {
             self.policy = policy
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
+            self.routingMode = routingMode
             self.securityPolicy = securityPolicy
             self.tags = tags
         }
@@ -909,6 +919,7 @@ extension APIGateway {
             case policy = "policy"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
+            case routingMode = "routingMode"
             case securityPolicy = "securityPolicy"
             case tags = "tags"
         }
@@ -1934,7 +1945,7 @@ extension APIGateway {
         public let distributionHostedZoneId: String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public let domainName: String?
-        /// The ARN of the domain name. Supported only for private custom domain names.
+        /// The ARN of the domain name.
         public let domainNameArn: String?
         /// The identifier for the domain name resource. Supported only for private custom domain names.
         public let domainNameId: String?
@@ -1960,13 +1971,15 @@ extension APIGateway {
         public let regionalDomainName: String?
         /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
         public let regionalHostedZoneId: String?
+        /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
+        public let routingMode: RoutingMode?
         /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameId: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, managementPolicy: String? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameId: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, managementPolicy: String? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, routingMode: RoutingMode? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
@@ -1986,6 +1999,7 @@ extension APIGateway {
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
             self.regionalHostedZoneId = regionalHostedZoneId
+            self.routingMode = routingMode
             self.securityPolicy = securityPolicy
             self.tags = tags
         }
@@ -2010,6 +2024,7 @@ extension APIGateway {
             case regionalCertificateName = "regionalCertificateName"
             case regionalDomainName = "regionalDomainName"
             case regionalHostedZoneId = "regionalHostedZoneId"
+            case routingMode = "routingMode"
             case securityPolicy = "securityPolicy"
             case tags = "tags"
         }
@@ -3521,7 +3536,7 @@ extension APIGateway {
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public let requestTemplates: [String: String]?
-        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
         public let timeoutInMillis: Int?
         /// Specifies the TLS configuration for an integration.
         public let tlsConfig: TlsConfig?
@@ -3948,7 +3963,7 @@ extension APIGateway {
         public let resourceId: String
         /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.  You can increase the default value to longer than 29 seconds for Regional or private APIs only.
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfig?
         /// Specifies a put integration input's type.

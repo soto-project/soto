@@ -46,6 +46,43 @@ extension ControlCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum MappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case commonControl = "COMMON_CONTROL"
+        case framework = "FRAMEWORK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Mapping: AWSDecodableShape, Sendable {
+        /// The common control mapping details when the mapping type relates to a common control.
+        case commonControl(CommonControlMappingDetails)
+        /// The framework mapping details when the mapping type relates to a compliance framework.
+        case framework(FrameworkMappingDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .commonControl:
+                let value = try container.decode(CommonControlMappingDetails.self, forKey: .commonControl)
+                self = .commonControl(value)
+            case .framework:
+                let value = try container.decode(FrameworkMappingDetails.self, forKey: .framework)
+                self = .framework(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonControl = "CommonControl"
+            case framework = "Framework"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AssociatedDomainSummary: AWSDecodableShape {
@@ -85,7 +122,7 @@ extension ControlCatalog {
     }
 
     public struct CommonControlFilter: AWSEncodableShape {
-        /// The objective that's used as filter criteria. You can use this parameter to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
+        /// The objective that's used as filter criteria. You can use this parameter to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t supported.
         public let objectives: [ObjectiveResourceFilter]?
 
         @inlinable
@@ -101,6 +138,20 @@ extension ControlCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case objectives = "Objectives"
+        }
+    }
+
+    public struct CommonControlMappingDetails: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the common control in the mapping.
+        public let commonControlArn: String
+
+        @inlinable
+        public init(commonControlArn: String) {
+            self.commonControlArn = commonControlArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonControlArn = "CommonControlArn"
         }
     }
 
@@ -142,8 +193,89 @@ extension ControlCatalog {
         }
     }
 
+    public struct ControlFilter: AWSEncodableShape {
+        /// A filter that narrows the results to controls with specific implementation types or identifiers. This field allows you to find controls that are implemented by specific Amazon Web Services services or with specific service identifiers.
+        public let implementations: ImplementationFilter?
+
+        @inlinable
+        public init(implementations: ImplementationFilter? = nil) {
+            self.implementations = implementations
+        }
+
+        public func validate(name: String) throws {
+            try self.implementations?.validate(name: "\(name).implementations")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case implementations = "Implementations"
+        }
+    }
+
+    public struct ControlMapping: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the control in the mapping.
+        public let controlArn: String
+        /// The details of the mapping relationship, containing either framework or common control information.
+        public let mapping: Mapping
+        /// The type of mapping relationship between the control and other entities. Indicates whether the mapping is to a framework or common control.
+        public let mappingType: MappingType
+
+        @inlinable
+        public init(controlArn: String, mapping: Mapping, mappingType: MappingType) {
+            self.controlArn = controlArn
+            self.mapping = mapping
+            self.mappingType = mappingType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlArn = "ControlArn"
+            case mapping = "Mapping"
+            case mappingType = "MappingType"
+        }
+    }
+
+    public struct ControlMappingFilter: AWSEncodableShape {
+        /// A list of common control ARNs to filter the mappings. When specified, only mappings associated with these common controls are returned.
+        public let commonControlArns: [String]?
+        /// A list of control ARNs to filter the mappings. When specified, only mappings associated with these controls are returned.
+        public let controlArns: [String]?
+        /// A list of mapping types to filter the mappings. When specified, only mappings of these types are returned.
+        public let mappingTypes: [MappingType]?
+
+        @inlinable
+        public init(commonControlArns: [String]? = nil, controlArns: [String]? = nil, mappingTypes: [MappingType]? = nil) {
+            self.commonControlArns = commonControlArns
+            self.controlArns = controlArns
+            self.mappingTypes = mappingTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.commonControlArns?.forEach {
+                try validate($0, name: "commonControlArns[]", parent: name, max: 2048)
+                try validate($0, name: "commonControlArns[]", parent: name, min: 41)
+                try validate($0, name: "commonControlArns[]", parent: name, pattern: "^arn:(aws(?:[-a-z]*)?):controlcatalog:::common-control/[0-9a-z]+$")
+            }
+            try self.validate(self.commonControlArns, name: "commonControlArns", parent: name, max: 1)
+            try self.validate(self.commonControlArns, name: "commonControlArns", parent: name, min: 1)
+            try self.controlArns?.forEach {
+                try validate($0, name: "controlArns[]", parent: name, max: 2048)
+                try validate($0, name: "controlArns[]", parent: name, min: 34)
+                try validate($0, name: "controlArns[]", parent: name, pattern: "^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$")
+            }
+            try self.validate(self.controlArns, name: "controlArns", parent: name, max: 1)
+            try self.validate(self.controlArns, name: "controlArns", parent: name, min: 1)
+            try self.validate(self.mappingTypes, name: "mappingTypes", parent: name, max: 1)
+            try self.validate(self.mappingTypes, name: "mappingTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonControlArns = "CommonControlArns"
+            case controlArns = "ControlArns"
+            case mappingTypes = "MappingTypes"
+        }
+    }
+
     public struct ControlParameter: AWSDecodableShape {
-        /// The parameter name. This name is the parameter key when you call  EnableControl or  UpdateEnabledControl .
+        /// The parameter name. This name is the parameter key when you call  EnableControl  or  UpdateEnabledControl .
         public let name: String
 
         @inlinable
@@ -157,6 +289,8 @@ extension ControlCatalog {
     }
 
     public struct ControlSummary: AWSDecodableShape {
+        /// A list of alternative identifiers for the control. These are human-readable designators, such as SH.S3.1. Several aliases can refer to the same control across different Amazon Web Services services or compliance frameworks.
+        public let aliases: [String]?
         /// The Amazon Resource Name (ARN) of the control.
         public let arn: String
         /// An enumerated type, with the following possible values:
@@ -165,6 +299,8 @@ extension ControlCatalog {
         public let createTime: Date?
         /// A description of the control, as it may appear in the console. Describes the functionality of the control.
         public let description: String
+        /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+        public let governedResources: [String]?
         /// An object of type ImplementationSummary that describes how the control is implemented.
         public let implementation: ImplementationSummary?
         /// The display name of the control.
@@ -173,21 +309,25 @@ extension ControlCatalog {
         public let severity: ControlSeverity?
 
         @inlinable
-        public init(arn: String, behavior: ControlBehavior? = nil, createTime: Date? = nil, description: String, implementation: ImplementationSummary? = nil, name: String, severity: ControlSeverity? = nil) {
+        public init(aliases: [String]? = nil, arn: String, behavior: ControlBehavior? = nil, createTime: Date? = nil, description: String, governedResources: [String]? = nil, implementation: ImplementationSummary? = nil, name: String, severity: ControlSeverity? = nil) {
+            self.aliases = aliases
             self.arn = arn
             self.behavior = behavior
             self.createTime = createTime
             self.description = description
+            self.governedResources = governedResources
             self.implementation = implementation
             self.name = name
             self.severity = severity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
             case arn = "Arn"
             case behavior = "Behavior"
             case createTime = "CreateTime"
             case description = "Description"
+            case governedResources = "GovernedResources"
             case implementation = "Implementation"
             case name = "Name"
             case severity = "Severity"
@@ -244,6 +384,24 @@ extension ControlCatalog {
         }
     }
 
+    public struct FrameworkMappingDetails: AWSDecodableShape {
+        /// The specific item or requirement within the framework that the control maps to.
+        public let item: String
+        /// The name of the compliance framework that the control maps to.
+        public let name: String
+
+        @inlinable
+        public init(item: String, name: String) {
+            self.item = item
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case name = "Name"
+        }
+    }
+
     public struct GetControlRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the control. It has one of the following formats:  Global format   arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}   Or Regional format   arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}  Here is a more general pattern that covers Amazon Web Services Control Tower and Control Catalog ARNs:  ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$
         public let controlArn: String
@@ -265,6 +423,8 @@ extension ControlCatalog {
     }
 
     public struct GetControlResponse: AWSDecodableShape {
+        /// A list of alternative identifiers for the control. These are human-readable designators, such as SH.S3.1. Several aliases can refer to the same control across different Amazon Web Services services or compliance frameworks.
+        public let aliases: [String]?
         /// The Amazon Resource Name (ARN) of the control.
         public let arn: String
         /// A term that identifies the control's functional behavior. One of Preventive, Detective, Proactive
@@ -273,6 +433,8 @@ extension ControlCatalog {
         public let createTime: Date?
         /// A description of what the control does.
         public let description: String
+        /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+        public let governedResources: [String]?
         /// Returns information about the control, as an ImplementationDetails object that shows the underlying implementation type for a control.
         public let implementation: ImplementationDetails?
         /// The display name of the control.
@@ -284,11 +446,13 @@ extension ControlCatalog {
         public let severity: ControlSeverity?
 
         @inlinable
-        public init(arn: String, behavior: ControlBehavior, createTime: Date? = nil, description: String, implementation: ImplementationDetails? = nil, name: String, parameters: [ControlParameter]? = nil, regionConfiguration: RegionConfiguration, severity: ControlSeverity? = nil) {
+        public init(aliases: [String]? = nil, arn: String, behavior: ControlBehavior, createTime: Date? = nil, description: String, governedResources: [String]? = nil, implementation: ImplementationDetails? = nil, name: String, parameters: [ControlParameter]? = nil, regionConfiguration: RegionConfiguration, severity: ControlSeverity? = nil) {
+            self.aliases = aliases
             self.arn = arn
             self.behavior = behavior
             self.createTime = createTime
             self.description = description
+            self.governedResources = governedResources
             self.implementation = implementation
             self.name = name
             self.parameters = parameters
@@ -297,10 +461,12 @@ extension ControlCatalog {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
             case arn = "Arn"
             case behavior = "Behavior"
             case createTime = "CreateTime"
             case description = "Description"
+            case governedResources = "GovernedResources"
             case implementation = "Implementation"
             case name = "Name"
             case parameters = "Parameters"
@@ -327,6 +493,41 @@ extension ControlCatalog {
         }
     }
 
+    public struct ImplementationFilter: AWSEncodableShape {
+        /// A list of service-specific identifiers that can serve as filters. For example, you can filter for controls with specific Amazon Web Services Config Rule IDs or Security Hub Control IDs.
+        public let identifiers: [String]?
+        /// A list of implementation types that can serve as filters. For example, you can filter for controls implemented as Amazon Web Services Config Rules by specifying AWS::Config::ConfigRule as a type.
+        public let types: [String]?
+
+        @inlinable
+        public init(identifiers: [String]? = nil, types: [String]? = nil) {
+            self.identifiers = identifiers
+            self.types = types
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers?.forEach {
+                try validate($0, name: "identifiers[]", parent: name, max: 256)
+                try validate($0, name: "identifiers[]", parent: name, min: 1)
+                try validate($0, name: "identifiers[]", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 1)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+            try self.types?.forEach {
+                try validate($0, name: "types[]", parent: name, max: 2048)
+                try validate($0, name: "types[]", parent: name, min: 7)
+                try validate($0, name: "types[]", parent: name, pattern: "^[A-Za-z0-9]+(::[A-Za-z0-9_]+){2,3}$")
+            }
+            try self.validate(self.types, name: "types", parent: name, max: 1)
+            try self.validate(self.types, name: "types", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "Identifiers"
+            case types = "Types"
+        }
+    }
+
     public struct ImplementationSummary: AWSDecodableShape {
         /// The identifier originally assigned by the Amazon Web Services service that implements the control. For example, CODEPIPELINE_DEPLOYMENT_COUNT_CHECK.
         public let identifier: String?
@@ -346,7 +547,7 @@ extension ControlCatalog {
     }
 
     public struct ListCommonControlsRequest: AWSEncodableShape {
-        /// An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
+        /// An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t supported.
         public let commonControlFilter: CommonControlFilter?
         /// The maximum number of results on a page or for an API request call.
         public let maxResults: Int?
@@ -398,32 +599,92 @@ extension ControlCatalog {
         }
     }
 
-    public struct ListControlsRequest: AWSEncodableShape {
+    public struct ListControlMappingsRequest: AWSEncodableShape {
+        /// An optional filter that narrows the results to specific control mappings based on control ARNs, common control ARNs, or mapping types.
+        public let filter: ControlMappingFilter?
         /// The maximum number of results on a page or for an API request call.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filter: ControlMappingFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+        }
+    }
+
+    public struct ListControlMappingsResponse: AWSDecodableShape {
+        /// The list of control mappings that the ListControlMappings API returns.
+        public let controlMappings: [ControlMapping]
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(controlMappings: [ControlMapping], nextToken: String? = nil) {
+            self.controlMappings = controlMappings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlMappings = "ControlMappings"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListControlsRequest: AWSEncodableShape {
+        /// An optional filter that narrows the results to controls with specific implementation types or identifiers. If you don't provide a filter, the operation returns all available controls.
+        public let filter: ControlFilter?
+        /// The maximum number of results on a page or for an API request call.
+        public let maxResults: Int?
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filter: ControlFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+        }
     }
 
     public struct ListControlsResponse: AWSDecodableShape {
@@ -495,7 +756,7 @@ extension ControlCatalog {
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
-        /// An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time.  Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
+        /// An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t supported.
         public let objectiveFilter: ObjectiveFilter?
 
         @inlinable
@@ -544,7 +805,7 @@ extension ControlCatalog {
     }
 
     public struct ObjectiveFilter: AWSEncodableShape {
-        /// The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
+        /// The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t supported.
         public let domains: [DomainResourceFilter]?
 
         @inlinable
@@ -620,7 +881,7 @@ extension ControlCatalog {
     public struct RegionConfiguration: AWSDecodableShape {
         /// Regions in which the control is available to be deployed.
         public let deployableRegions: [String]?
-        /// The coverage of the control, if deployed. Scope is an enumerated type, with value Regional, or Global. A control with Global scope is effective in all Amazon Web Services Regions, regardless of the Region from which it is enabled, or to which it is deployed. A control implemented by an SCP is usually Global in scope. A control with Regional scope has operations that are restricted specifically to the Region from which it is enabled and to which it is deployed. Controls implemented by Config rules and CloudFormation hooks usually are Regional in scope.  Security Hub controls usually are Regional in scope.
+        /// The coverage of the control, if deployed. Scope is an enumerated type, with value Regional, or Global. A control with Global scope is effective in all Amazon Web Services Regions, regardless of the Region from which it is enabled, or to which it is deployed. A control implemented by an SCP is usually Global in scope. A control with Regional scope has operations that are restricted specifically to the Region from which it is enabled and to which it is deployed. Controls implemented by Config rules and CloudFormation hooks usually are Regional in scope. Security Hub controls usually are Regional in scope.
         public let scope: ControlScope
 
         @inlinable

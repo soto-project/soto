@@ -80,6 +80,13 @@ extension EntityResolution {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProcessingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case consistent = "CONSISTENT"
+        case eventual = "EVENTUAL"
+        case eventualNoLookup = "EVENTUAL_NO_LOOKUP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecordMatchingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case manySourceToOneTarget = "MANY_SOURCE_TO_ONE_TARGET"
         case oneSourceToOneTarget = "ONE_SOURCE_TO_ONE_TARGET"
@@ -141,7 +148,7 @@ extension EntityResolution {
         public let arn: String
         /// A set of condition keys that you can use in key policies.
         public let condition: String?
-        /// Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).  If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation.
+        /// Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).   If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation.
         public let effect: StatementEffect
         /// The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN.
         public let principal: [String]
@@ -946,6 +953,84 @@ extension EntityResolution {
         }
     }
 
+    public struct FailedRecord: AWSDecodableShape {
+        ///  The error message for the record that didn't generate a Match ID.
+        public let errorMessage: String
+        ///  The input source ARN of the record that didn't generate a Match ID.
+        public let inputSourceARN: String
+        ///  The unique ID of the record that didn't generate a Match ID.
+        public let uniqueId: String
+
+        @inlinable
+        public init(errorMessage: String, inputSourceARN: String, uniqueId: String) {
+            self.errorMessage = errorMessage
+            self.inputSourceARN = inputSourceARN
+            self.uniqueId = uniqueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case inputSourceARN = "inputSourceARN"
+            case uniqueId = "uniqueId"
+        }
+    }
+
+    public struct GenerateMatchIdInput: AWSEncodableShape {
+        /// The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT.  CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time.  EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3.   EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.
+        public let processingType: ProcessingType?
+        ///  The records to match.
+        public let records: [Record]
+        ///  The name of the rule-based matching workflow.
+        public let workflowName: String
+
+        @inlinable
+        public init(processingType: ProcessingType? = nil, records: [Record], workflowName: String) {
+            self.processingType = processingType
+            self.records = records
+            self.workflowName = workflowName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.processingType, forKey: .processingType)
+            try container.encode(self.records, forKey: .records)
+            request.encodePath(self.workflowName, key: "workflowName")
+        }
+
+        public func validate(name: String) throws {
+            try self.records.forEach {
+                try $0.validate(name: "\(name).records[]")
+            }
+            try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
+            try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
+            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processingType = "processingType"
+            case records = "records"
+        }
+    }
+
+    public struct GenerateMatchIdOutput: AWSDecodableShape {
+        ///  The records that didn't receive a generated Match ID.
+        public let failedRecords: [FailedRecord]
+        ///  The match groups from the generated match ID.
+        public let matchGroups: [MatchGroup]
+
+        @inlinable
+        public init(failedRecords: [FailedRecord], matchGroups: [MatchGroup]) {
+            self.failedRecords = failedRecords
+            self.matchGroups = matchGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRecords = "failedRecords"
+            case matchGroups = "matchGroups"
+        }
+    }
+
     public struct GetIdMappingJobInput: AWSEncodableShape {
         /// The ID of the job.
         public let jobId: String
@@ -1243,7 +1328,7 @@ extension EntityResolution {
         public let endTime: Date?
         /// An object containing an error message, if there was an error.
         public let errorDetails: ErrorDetails?
-        /// The ID of the job.
+        /// The unique identifier of the matching job.
         public let jobId: String
         /// Metrics associated with the execution, specifically total records processed, unique IDs generated, and records the execution skipped.
         public let metrics: JobMetrics?
@@ -1522,7 +1607,7 @@ extension EntityResolution {
         public let description: String?
         /// Specifies whether the schema mapping has been applied to a workflow.
         public let hasWorkflows: Bool
-        /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information Venice uses for matching.
+        /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information Entity Resolution uses for matching.
         public let mappedInputFields: [SchemaInputAttribute]
         /// The ARN (Amazon Resource Name) that Entity Resolution generated for the SchemaMapping.
         public let schemaArn: String
@@ -2381,6 +2466,46 @@ extension EntityResolution {
         }
     }
 
+    public struct MatchGroup: AWSDecodableShape {
+        ///  The match ID.
+        public let matchId: String
+        ///  The match rule of the match group.
+        public let matchRule: String
+        ///  The matched records.
+        public let records: [MatchedRecord]
+
+        @inlinable
+        public init(matchId: String, matchRule: String, records: [MatchedRecord]) {
+            self.matchId = matchId
+            self.matchRule = matchRule
+            self.records = records
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchId = "matchId"
+            case matchRule = "matchRule"
+            case records = "records"
+        }
+    }
+
+    public struct MatchedRecord: AWSDecodableShape {
+        ///  The input source ARN of the matched record.
+        public let inputSourceARN: String
+        ///  The record ID of the matched record.
+        public let recordId: String
+
+        @inlinable
+        public init(inputSourceARN: String, recordId: String) {
+            self.inputSourceARN = inputSourceARN
+            self.recordId = recordId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputSourceARN = "inputSourceARN"
+            case recordId = "recordId"
+        }
+    }
+
     public struct MatchingWorkflowSummary: AWSDecodableShape {
         /// The timestamp of when the workflow was created.
         public let createdAt: Date
@@ -2755,6 +2880,34 @@ extension EntityResolution {
         }
     }
 
+    public struct Record: AWSEncodableShape {
+        ///  The input source ARN of the record.
+        public let inputSourceARN: String
+        ///  The record's attribute map.
+        public let recordAttributeMap: [String: String]
+        ///  The unique ID of the record.
+        public let uniqueId: String
+
+        @inlinable
+        public init(inputSourceARN: String, recordAttributeMap: [String: String], uniqueId: String) {
+            self.inputSourceARN = inputSourceARN
+            self.recordAttributeMap = recordAttributeMap
+            self.uniqueId = uniqueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uniqueId, name: "uniqueId", parent: name, max: 38)
+            try self.validate(self.uniqueId, name: "uniqueId", parent: name, min: 1)
+            try self.validate(self.uniqueId, name: "uniqueId", parent: name, pattern: "^[a-zA-Z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputSourceARN = "inputSourceARN"
+            case recordAttributeMap = "recordAttributeMap"
+            case uniqueId = "uniqueId"
+        }
+    }
+
     public struct ResolutionTechniques: AWSEncodableShape & AWSDecodableShape {
         /// The properties of the provider service.
         public let providerProperties: ProviderProperties?
@@ -2842,7 +2995,7 @@ extension EntityResolution {
         public let groupName: String?
         ///  Indicates if the column values are hashed in the schema input.  If the value is set to TRUE, the column values are hashed.  If the value is set to FALSE, the column values are cleartext.
         public let hashed: Bool?
-        /// A key that allows grouping of multiple input attributes into a unified matching group.  For example, consider a scenario where the source table contains various addresses, such as business_address and shipping_address.  By assigning a matchKey called address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no matchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
+        /// A key that allows grouping of multiple input attributes into a unified matching group.  For example, consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning a matchKey called address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no matchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
         public let matchKey: String?
         /// The subtype of the attribute, selected from a list of values.
         public let subType: String?
@@ -3354,7 +3507,7 @@ extension EntityResolution {
         public let inputSourceConfig: [InputSource]
         /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
         public let outputSourceConfig: [OutputSource]
-        /// An object which defines the resolutionType and the ruleBasedProperties
+        /// An object which defines the resolutionType and the ruleBasedProperties.
         public let resolutionTechniques: ResolutionTechniques
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
         public let roleArn: String
