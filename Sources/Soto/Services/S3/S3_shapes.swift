@@ -1745,7 +1745,7 @@ extension S3 {
     public struct CreateBucketConfiguration: AWSEncodableShape {
         /// Specifies the information about the bucket that will be created.  This functionality is only supported by directory buckets.
         public let bucket: BucketInfo?
-        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  To use the Local Zone location type, your account must be  enabled for Dedicated Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the  error code AccessDenied. To learn more, see Enable accounts for Dedicated Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
+        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  To use the Local Zone location type, your account must be  enabled for Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the  error code AccessDenied. To learn more, see Enable accounts for Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
         public let location: LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see Regions and Endpoints.  This functionality is not supported for directory buckets.
         public let locationConstraint: BucketLocationConstraint?
@@ -4045,11 +4045,11 @@ extension S3 {
         public let expectedBucketOwner: String?
         /// The object key.
         public let key: String
-        /// Sets the maximum number of parts to return.
+        /// Sets the maximum number of parts to return. For more information, see Uploading and copying objects using multipart upload in Amazon S3  in the Amazon Simple Storage Service user guide.
         public let maxParts: Int?
         /// Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned.
         public let objectAttributes: [ObjectAttributes]
-        /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
+        /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed. For more information, see Uploading and copying objects using multipart upload in Amazon S3  in the Amazon Simple Storage Service user guide.
         public let partNumberMarker: String?
         public let requestPayer: RequestPayer?
         /// Specifies the algorithm to use when encrypting the object (for example, AES256).  This functionality is not supported for directory buckets.
@@ -5424,7 +5424,7 @@ extension S3 {
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public let expiration: LifecycleExpiration?
-        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element.   Tag filters are not supported for directory buckets.
+        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element.   Tag filters are not supported for directory buckets.
         public let filter: LifecycleRuleFilter
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
@@ -7696,6 +7696,8 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "OwnershipControls"
         /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
         public let bucket: String
+        ///  Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        public let checksumAlgorithm: ChecksumAlgorithm?
         /// The MD5 hash of the OwnershipControls request body.  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -7704,8 +7706,9 @@ extension S3 {
         public let ownershipControls: OwnershipControls
 
         @inlinable
-        public init(bucket: String, contentMD5: String? = nil, expectedBucketOwner: String? = nil, ownershipControls: OwnershipControls) {
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, ownershipControls: OwnershipControls) {
             self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
             self.contentMD5 = contentMD5
             self.expectedBucketOwner = expectedBucketOwner
             self.ownershipControls = ownershipControls
@@ -7715,6 +7718,7 @@ extension S3 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.singleValueContainer()
             request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
             request.encodeHeader(self.contentMD5, key: "Content-MD5")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             try container.encode(self.ownershipControls)

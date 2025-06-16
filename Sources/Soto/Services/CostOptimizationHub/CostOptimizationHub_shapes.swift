@@ -76,7 +76,15 @@ extension CostOptimizationHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allUpfront = "AllUpfront"
+        case noUpfront = "NoUpfront"
+        case partialUpfront = "PartialUpfront"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auroraDbClusterStorage = "AuroraDbClusterStorage"
         case computeSavingsPlans = "ComputeSavingsPlans"
         case dynamoDbReservedCapacity = "DynamoDbReservedCapacity"
         case ebsVolume = "EbsVolume"
@@ -114,6 +122,12 @@ extension CostOptimizationHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum Term: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oneYear = "OneYear"
+        case threeYears = "ThreeYears"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fieldValidationFailed = "FieldValidationFailed"
         case other = "Other"
@@ -121,6 +135,8 @@ extension CostOptimizationHub {
     }
 
     public enum ResourceDetails: AWSDecodableShape, Sendable {
+        /// The Aurora DB cluster storage recommendation details.
+        case auroraDbClusterStorage(AuroraDbClusterStorage)
         /// The Compute Savings Plans recommendation details.
         case computeSavingsPlans(ComputeSavingsPlans)
         /// The DynamoDB reserved capacity recommendation details.
@@ -166,6 +182,9 @@ extension CostOptimizationHub {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .auroraDbClusterStorage:
+                let value = try container.decode(AuroraDbClusterStorage.self, forKey: .auroraDbClusterStorage)
+                self = .auroraDbClusterStorage(value)
             case .computeSavingsPlans:
                 let value = try container.decode(ComputeSavingsPlans.self, forKey: .computeSavingsPlans)
                 self = .computeSavingsPlans(value)
@@ -221,6 +240,7 @@ extension CostOptimizationHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auroraDbClusterStorage = "auroraDbClusterStorage"
             case computeSavingsPlans = "computeSavingsPlans"
             case dynamoDbReservedCapacity = "dynamoDbReservedCapacity"
             case ebsVolume = "ebsVolume"
@@ -266,6 +286,37 @@ extension CostOptimizationHub {
             case createdTimestamp = "createdTimestamp"
             case lastUpdatedTimestamp = "lastUpdatedTimestamp"
             case status = "status"
+        }
+    }
+
+    public struct AuroraDbClusterStorage: AWSDecodableShape {
+        /// The Aurora DB cluster storage configuration used for recommendations.
+        public let configuration: AuroraDbClusterStorageConfiguration?
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(configuration: AuroraDbClusterStorageConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case costCalculation = "costCalculation"
+        }
+    }
+
+    public struct AuroraDbClusterStorageConfiguration: AWSDecodableShape {
+        /// The storage type to associate with the Aurora DB cluster.
+        public let storageType: String?
+
+        @inlinable
+        public init(storageType: String? = nil) {
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageType = "storageType"
         }
     }
 
@@ -913,17 +964,21 @@ extension CostOptimizationHub {
     public struct GetPreferencesResponse: AWSDecodableShape {
         /// Retrieves the status of the "member account discount visibility" preference.
         public let memberAccountDiscountVisibility: MemberAccountDiscountVisibility?
+        /// Retrieves the current preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+        public let preferredCommitment: PreferredCommitment?
         /// Retrieves the status of the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
         @inlinable
-        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
+        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, preferredCommitment: PreferredCommitment? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+            self.preferredCommitment = preferredCommitment
             self.savingsEstimationMode = savingsEstimationMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberAccountDiscountVisibility = "memberAccountDiscountVisibility"
+            case preferredCommitment = "preferredCommitment"
             case savingsEstimationMode = "savingsEstimationMode"
         }
     }
@@ -1453,6 +1508,24 @@ extension CostOptimizationHub {
         private enum CodingKeys: String, CodingKey {
             case dimension = "dimension"
             case order = "order"
+        }
+    }
+
+    public struct PreferredCommitment: AWSEncodableShape & AWSDecodableShape {
+        /// The preferred upfront payment structure for commitments. If the value is null, it will default to AllUpfront (highest savings) where applicable.
+        public let paymentOption: PaymentOption?
+        /// The preferred length of the commitment period. If the value is null, it will default to ThreeYears (highest savings) where applicable.
+        public let term: Term?
+
+        @inlinable
+        public init(paymentOption: PaymentOption? = nil, term: Term? = nil) {
+            self.paymentOption = paymentOption
+            self.term = term
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paymentOption = "paymentOption"
+            case term = "term"
         }
     }
 
@@ -2092,17 +2165,21 @@ extension CostOptimizationHub {
     public struct UpdatePreferencesRequest: AWSEncodableShape {
         /// Sets the "member account discount visibility" preference.
         public let memberAccountDiscountVisibility: MemberAccountDiscountVisibility?
+        /// Sets the preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+        public let preferredCommitment: PreferredCommitment?
         /// Sets the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
         @inlinable
-        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
+        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, preferredCommitment: PreferredCommitment? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+            self.preferredCommitment = preferredCommitment
             self.savingsEstimationMode = savingsEstimationMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberAccountDiscountVisibility = "memberAccountDiscountVisibility"
+            case preferredCommitment = "preferredCommitment"
             case savingsEstimationMode = "savingsEstimationMode"
         }
     }
@@ -2110,17 +2187,21 @@ extension CostOptimizationHub {
     public struct UpdatePreferencesResponse: AWSDecodableShape {
         /// Shows the status of the "member account discount visibility" preference.
         public let memberAccountDiscountVisibility: MemberAccountDiscountVisibility?
+        /// Shows the updated preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+        public let preferredCommitment: PreferredCommitment?
         /// Shows the status of the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
         @inlinable
-        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
+        public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, preferredCommitment: PreferredCommitment? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+            self.preferredCommitment = preferredCommitment
             self.savingsEstimationMode = savingsEstimationMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberAccountDiscountVisibility = "memberAccountDiscountVisibility"
+            case preferredCommitment = "preferredCommitment"
             case savingsEstimationMode = "savingsEstimationMode"
         }
     }

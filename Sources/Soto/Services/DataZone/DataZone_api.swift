@@ -115,6 +115,7 @@ public struct DataZone: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ap-east-2": "datazone-fips.ap-east-2.api.aws",
             "ap-northeast-1": "datazone-fips.ap-northeast-1.api.aws",
             "ap-northeast-2": "datazone-fips.ap-northeast-2.api.aws",
             "ap-northeast-3": "datazone-fips.ap-northeast-3.api.aws",

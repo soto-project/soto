@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CostOptimizationHub service.
 ///
-/// You can use the Cost Optimization Hub API to programmatically identify, filter, aggregate, and quantify savings for your cost optimization recommendations across multiple Amazon Web Services Regions and Amazon Web Services accounts in your organization. The Cost Optimization Hub API provides the following endpoint:   https://cost-optimization-hub.us-east-1.amazonaws.com
+/// You can use the Cost Optimization Hub API to programmatically identify, filter, aggregate, and quantify savings for your cost optimization recommendations across multiple Amazon Web Services Regions and Amazon Web Services accounts in your organization. The Cost Optimization Hub API provides the following endpoint:    https://cost-optimization-hub.us-east-1.amazonaws.com
 public struct CostOptimizationHub: AWSService {
     // MARK: Member variables
 
@@ -310,16 +310,19 @@ public struct CostOptimizationHub: AWSService {
     ///
     /// Parameters:
     ///   - memberAccountDiscountVisibility: Sets the "member account discount visibility" preference.
+    ///   - preferredCommitment: Sets the preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
     ///   - savingsEstimationMode: Sets the "savings estimation mode" preference.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePreferences(
         memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil,
+        preferredCommitment: PreferredCommitment? = nil,
         savingsEstimationMode: SavingsEstimationMode? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePreferencesResponse {
         let input = UpdatePreferencesRequest(
             memberAccountDiscountVisibility: memberAccountDiscountVisibility, 
+            preferredCommitment: preferredCommitment, 
             savingsEstimationMode: savingsEstimationMode
         )
         return try await self.updatePreferences(input, logger: logger)

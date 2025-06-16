@@ -3286,6 +3286,15 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SnapshotReturnCodes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case errorCodeClientError = "client-error"
+        case errorCodeInternalError = "internal-error"
+        case errorMissingPermissions = "missing-permissions"
+        case success = "success"
+        case warnSkipped = "skipped"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SnapshotState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "completed"
         case error = "error"
@@ -3401,6 +3410,8 @@ extension EC2 {
 
     public enum SubnetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
+        case failed = "failed"
+        case failedInsufficientCapacity = "failed-insufficient-capacity"
         case pending = "pending"
         case unavailable = "unavailable"
         public var description: String { return self.rawValue }
@@ -3934,6 +3945,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum VpnTunnelProvisioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case failed = "failed"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WeekDay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case friday = "friday"
         case monday = "monday"
@@ -4459,6 +4477,52 @@ extension EC2 {
         }
     }
 
+    public struct ActiveVpnTunnelStatus: AWSDecodableShape {
+        /// The version of the Internet Key Exchange (IKE) protocol being used.
+        public let ikeVersion: String?
+        /// The Diffie-Hellman group number being used in Phase 1 IKE negotiations.
+        public let phase1DHGroup: Int?
+        /// The encryption algorithm negotiated in Phase 1 IKE negotiations.
+        public let phase1EncryptionAlgorithm: String?
+        /// The integrity algorithm negotiated in Phase 1 IKE negotiations.
+        public let phase1IntegrityAlgorithm: String?
+        /// The Diffie-Hellman group number being used in Phase 2 IKE negotiations.
+        public let phase2DHGroup: Int?
+        /// The encryption algorithm negotiated in Phase 2 IKE negotiations.
+        public let phase2EncryptionAlgorithm: String?
+        /// The integrity algorithm negotiated in Phase 2 IKE negotiations.
+        public let phase2IntegrityAlgorithm: String?
+        /// The current provisioning status of the VPN tunnel.
+        public let provisioningStatus: VpnTunnelProvisioningStatus?
+        /// The reason for the current provisioning status.
+        public let provisioningStatusReason: String?
+
+        @inlinable
+        public init(ikeVersion: String? = nil, phase1DHGroup: Int? = nil, phase1EncryptionAlgorithm: String? = nil, phase1IntegrityAlgorithm: String? = nil, phase2DHGroup: Int? = nil, phase2EncryptionAlgorithm: String? = nil, phase2IntegrityAlgorithm: String? = nil, provisioningStatus: VpnTunnelProvisioningStatus? = nil, provisioningStatusReason: String? = nil) {
+            self.ikeVersion = ikeVersion
+            self.phase1DHGroup = phase1DHGroup
+            self.phase1EncryptionAlgorithm = phase1EncryptionAlgorithm
+            self.phase1IntegrityAlgorithm = phase1IntegrityAlgorithm
+            self.phase2DHGroup = phase2DHGroup
+            self.phase2EncryptionAlgorithm = phase2EncryptionAlgorithm
+            self.phase2IntegrityAlgorithm = phase2IntegrityAlgorithm
+            self.provisioningStatus = provisioningStatus
+            self.provisioningStatusReason = provisioningStatusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ikeVersion = "ikeVersion"
+            case phase1DHGroup = "phase1DHGroup"
+            case phase1EncryptionAlgorithm = "phase1EncryptionAlgorithm"
+            case phase1IntegrityAlgorithm = "phase1IntegrityAlgorithm"
+            case phase2DHGroup = "phase2DHGroup"
+            case phase2EncryptionAlgorithm = "phase2EncryptionAlgorithm"
+            case phase2IntegrityAlgorithm = "phase2IntegrityAlgorithm"
+            case provisioningStatus = "provisioningStatus"
+            case provisioningStatusReason = "provisioningStatusReason"
+        }
+    }
+
     public struct AddIpamOperatingRegion: AWSEncodableShape {
         /// The name of the operating Region.
         public let regionName: String?
@@ -4613,12 +4677,14 @@ extension EC2 {
         public let publicIpv4Pool: String?
         /// The service that manages the elastic IP address.  The only option supported today is alb.
         public let serviceManaged: ServiceManaged?
+        /// The ID of the subnet where the IP address is allocated.
+        public let subnetId: String?
         /// Any tags assigned to the Elastic IP address.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
         @inlinable
-        public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil, serviceManaged: ServiceManaged? = nil, tags: [Tag]? = nil) {
+        public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil, serviceManaged: ServiceManaged? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
             self.carrierIp = carrierIp
@@ -4633,6 +4699,7 @@ extension EC2 {
             self.publicIp = publicIp
             self.publicIpv4Pool = publicIpv4Pool
             self.serviceManaged = serviceManaged
+            self.subnetId = subnetId
             self.tags = tags
         }
 
@@ -4651,6 +4718,7 @@ extension EC2 {
             case publicIp = "publicIp"
             case publicIpv4Pool = "publicIpv4Pool"
             case serviceManaged = "serviceManaged"
+            case subnetId = "subnetId"
             case tags = "tagSet"
         }
     }
@@ -9822,7 +9890,7 @@ extension EC2 {
     public struct CopyImageRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests in the Amazon EC2 API Reference.
         public let clientToken: String?
         /// Indicates whether to include your user-defined AMI tags when copying the AMI. The following tags will not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts   Default: Your user-defined AMI tags are not copied.
         public let copyImageTags: Bool?
@@ -9840,7 +9908,7 @@ extension EC2 {
         public let kmsKeyId: String?
         /// The name of the new AMI in the destination Region.
         public let name: String?
-        /// Specify a completion duration, in 15 minute increments, to initiate a time-based AMI copy. The specified completion duration applies to each of the snapshots associated with the AMI. Each snapshot associated with the AMI will be completed within the specified completion duration, with copy throughput automatically adjusted for each snapshot based on its size to meet the timing target. If you do not specify a value, the AMI copy operation is completed on a best-effort  basis. For more information, see  Time-based copies.
+        /// Specify a completion duration, in 15 minute increments, to initiate a time-based AMI copy. The specified completion duration applies to each of the snapshots associated with the AMI. Each snapshot associated with the AMI will be completed within the specified completion duration, with copy throughput automatically adjusted for each snapshot based on its size to meet the timing target. If you do not specify a value, the AMI copy operation is completed on a best-effort  basis. For more information, see Time-based copies for Amazon EBS snapshots and EBS-backed AMIs.
         public let snapshotCopyCompletionDurationMinutes: Int64?
         /// The ID of the AMI to copy.
         public let sourceImageId: String?
@@ -15787,6 +15855,8 @@ extension EC2 {
         public let dryRun: Bool?
         /// The options for the VPN connection.
         public let options: VpnConnectionOptionsSpecification?
+        /// Specifies the storage mode for the pre-shared key (PSK). Valid values are Standard" (stored in the Site-to-Site VPN service) or SecretsManager (stored in Amazon Web Services Secrets Manager).
+        public let preSharedKeyStorage: String?
         /// The tags to apply to the VPN connection.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
@@ -15798,10 +15868,11 @@ extension EC2 {
         public let vpnGatewayId: String?
 
         @inlinable
-        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, options: VpnConnectionOptionsSpecification? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: String? = nil, vpnGatewayId: String? = nil) {
+        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, options: VpnConnectionOptionsSpecification? = nil, preSharedKeyStorage: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: String? = nil, vpnGatewayId: String? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
             self.options = options
+            self.preSharedKeyStorage = preSharedKeyStorage
             self.tagSpecifications = tagSpecifications
             self.transitGatewayId = transitGatewayId
             self.type = type
@@ -15812,6 +15883,7 @@ extension EC2 {
             case customerGatewayId = "CustomerGatewayId"
             case dryRun = "dryRun"
             case options = "options"
+            case preSharedKeyStorage = "PreSharedKeyStorage"
             case tagSpecifications = "TagSpecification"
             case transitGatewayId = "TransitGatewayId"
             case type = "Type"
@@ -17764,6 +17836,24 @@ extension EC2 {
         }
     }
 
+    public struct DeleteSnapshotReturnCode: AWSDecodableShape {
+        /// The result code from the snapshot deletion attempt. Possible values:    success - The snapshot was successfully deleted.    skipped - The snapshot was not deleted because it's associated with other AMIs.    missing-permissions - The snapshot was not deleted because the role lacks DeleteSnapshot permissions. For more information, see How Amazon EBS works with IAM.    internal-error - The snapshot was not deleted due to a server error.    client-error - The snapshot was not deleted due to a client configuration error.   For details about an error, check the DeleteSnapshot event in the CloudTrail event history. For more information, see View event history in the Amazon Web Services CloudTrail User Guide.
+        public let returnCode: SnapshotReturnCodes?
+        /// The ID of the snapshot.
+        public let snapshotId: String?
+
+        @inlinable
+        public init(returnCode: SnapshotReturnCodes? = nil, snapshotId: String? = nil) {
+            self.returnCode = returnCode
+            self.snapshotId = snapshotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnCode = "returnCode"
+            case snapshotId = "snapshotId"
+        }
+    }
+
     public struct DeleteSpotDatafeedSubscriptionRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -18902,6 +18992,8 @@ extension EC2 {
     }
 
     public struct DeregisterImageRequest: AWSEncodableShape {
+        /// Specifies whether to delete the snapshots associated with the AMI during deregistration.  If a snapshot is associated with multiple AMIs, it is not deleted, regardless of this setting.  Default: The snapshots are not deleted.
+        public let deleteAssociatedSnapshots: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18910,19 +19002,38 @@ extension EC2 {
         public let imageId: String?
 
         @inlinable
-        public init(dryRun: Bool? = nil, imageId: String? = nil) {
+        public init(deleteAssociatedSnapshots: Bool? = nil, dryRun: Bool? = nil, imageId: String? = nil) {
+            self.deleteAssociatedSnapshots = deleteAssociatedSnapshots
             self.dryRun = dryRun
             self.imageId = imageId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteAssociatedSnapshots = "DeleteAssociatedSnapshots"
             case dryRun = "dryRun"
             case imageId = "ImageId"
         }
     }
 
     public struct DeregisterImageResult: AWSDecodableShape {
-        public init() {}
+        public struct _DeleteSnapshotResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The deletion result for each snapshot associated with the AMI, including the snapshot ID and its success or error code.
+        @OptionalCustomCoding<EC2ArrayCoder<_DeleteSnapshotResultsEncoding, DeleteSnapshotReturnCode>>
+        public var deleteSnapshotResults: [DeleteSnapshotReturnCode]?
+        /// Returns true if the request succeeds; otherwise, it returns an error.
+        public let `return`: Bool?
+
+        @inlinable
+        public init(deleteSnapshotResults: [DeleteSnapshotReturnCode]? = nil, return: Bool? = nil) {
+            self.deleteSnapshotResults = deleteSnapshotResults
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteSnapshotResults = "deleteSnapshotResultSet"
+            case `return` = "return"
+        }
     }
 
     public struct DeregisterInstanceEventNotificationAttributesRequest: AWSEncodableShape {
@@ -24537,7 +24648,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+        /// One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | evs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
@@ -34082,6 +34193,42 @@ extension EC2 {
         }
     }
 
+    public struct GetActiveVpnTunnelStatusRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request.
+        public let dryRun: Bool?
+        /// The ID of the VPN connection for which to retrieve the active tunnel status.
+        public let vpnConnectionId: String?
+        /// The external IP address of the VPN tunnel for which to retrieve the active status.
+        public let vpnTunnelOutsideIpAddress: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
+            self.dryRun = dryRun
+            self.vpnConnectionId = vpnConnectionId
+            self.vpnTunnelOutsideIpAddress = vpnTunnelOutsideIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case vpnConnectionId = "VpnConnectionId"
+            case vpnTunnelOutsideIpAddress = "VpnTunnelOutsideIpAddress"
+        }
+    }
+
+    public struct GetActiveVpnTunnelStatusResult: AWSDecodableShape {
+        /// Information about the current security configuration of the VPN tunnel.
+        public let activeVpnTunnelStatus: ActiveVpnTunnelStatus?
+
+        @inlinable
+        public init(activeVpnTunnelStatus: ActiveVpnTunnelStatus? = nil) {
+            self.activeVpnTunnelStatus = activeVpnTunnelStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeVpnTunnelStatus = "activeVpnTunnelStatus"
+        }
+    }
+
     public struct GetAllowedImagesSettingsRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,
         /// 			and provides an error response. If you have the required permissions, the error response is
@@ -36803,15 +36950,18 @@ extension EC2 {
         public let dryRun: Bool?
         /// The IKE version to be used in the sample configuration file for your customer gateway device. You can specify one of the following versions: ikev1 or ikev2.
         public let internetKeyExchangeVersion: String?
+        /// The type of sample configuration to generate. Valid values are "compatibility" (includes IKEv1) or "recommended" (throws UnsupportedOperationException for IKEv1).
+        public let sampleType: String?
         /// Device identifier provided by the GetVpnConnectionDeviceTypes API.
         public let vpnConnectionDeviceTypeId: String?
         /// The VpnConnectionId specifies the Site-to-Site VPN connection used for the sample configuration.
         public let vpnConnectionId: String?
 
         @inlinable
-        public init(dryRun: Bool? = nil, internetKeyExchangeVersion: String? = nil, vpnConnectionDeviceTypeId: String? = nil, vpnConnectionId: String? = nil) {
+        public init(dryRun: Bool? = nil, internetKeyExchangeVersion: String? = nil, sampleType: String? = nil, vpnConnectionDeviceTypeId: String? = nil, vpnConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.internetKeyExchangeVersion = internetKeyExchangeVersion
+            self.sampleType = sampleType
             self.vpnConnectionDeviceTypeId = vpnConnectionDeviceTypeId
             self.vpnConnectionId = vpnConnectionId
         }
@@ -36819,6 +36969,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
             case internetKeyExchangeVersion = "InternetKeyExchangeVersion"
+            case sampleType = "SampleType"
             case vpnConnectionDeviceTypeId = "VpnConnectionDeviceTypeId"
             case vpnConnectionId = "VpnConnectionId"
         }
@@ -37493,7 +37644,7 @@ extension EC2 {
         /// Any block device mapping entries.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
-        /// The boot mode of the image. For more information, see Boot modes in the Amazon EC2 User Guide.
+        /// The boot mode of the image. For more information, see Instance launch behavior with Amazon EC2 boot modes in the Amazon EC2 User Guide.
         public let bootMode: BootModeValues?
         /// The date and time the image was created.
         public let creationDate: String?
@@ -37542,9 +37693,9 @@ extension EC2 {
         public let rootDeviceName: String?
         /// The type of root device used by the AMI. The AMI can use an Amazon EBS volume or an instance store volume.
         public let rootDeviceType: DeviceType?
-        /// The ID of the source AMI from which the AMI was created. The ID only appears if the AMI was created using CreateImage, CopyImage, or CreateRestoreImageTask. The ID does not appear if the AMI was created using any other API. For some older AMIs, the ID might not be available. For more information, see Identify the source AMI used to create a new AMI in the Amazon EC2 User Guide.
+        /// The ID of the source AMI from which the AMI was created. The ID only appears if the AMI was created using CreateImage, CopyImage, or CreateRestoreImageTask. The ID does not appear if the AMI was created using any other API. For some older AMIs, the ID might not be available. For more information, see Identify the source AMI used to create a new Amazon EC2 AMI in the Amazon EC2 User Guide.
         public let sourceImageId: String?
-        /// The Region of the source AMI.  The Region only appears if the AMI was created using CreateImage, CopyImage, or CreateRestoreImageTask. The Region does not appear if the AMI was created using any other API. For some older AMIs, the Region might not be available. For more information, see Identify the source AMI used to create a new AMI in the Amazon EC2 User Guide.
+        /// The Region of the source AMI.  The Region only appears if the AMI was created using CreateImage, CopyImage, or CreateRestoreImageTask. The Region does not appear if the AMI was created using any other API. For some older AMIs, the Region might not be available. For more information, see Identify the source AMI used to create a new Amazon EC2 AMI in the Amazon EC2 User Guide.
         public let sourceImageRegion: String?
         /// The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This field only appears if the AMI was created using CreateImage.
         public let sourceInstanceId: String?
@@ -37678,7 +37829,7 @@ extension EC2 {
         public let sriovNetSupport: AttributeValue?
         /// If the image is configured for NitroTPM support, the value is v2.0.
         public let tpmSupport: AttributeValue?
-        /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot in the Amazon EC2 User Guide.
+        /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot for Amazon EC2 instances in the Amazon EC2 User Guide.
         public let uefiData: AttributeValue?
 
         @inlinable
@@ -39683,7 +39834,7 @@ extension EC2 {
         /// The security groups.
         @OptionalCustomCoding<EC2ArrayCoder<_GroupsEncoding, GroupIdentifier>>
         public var groups: [GroupIdentifier]?
-        /// The type of network interface. Valid values: interface | efa | efa-only | trunk
+        /// The type of network interface. Valid values: interface | efa | efa-only | evs | trunk
         public let interfaceType: String?
         /// The IPv4 delegated prefixes that are assigned to the network interface.
         @OptionalCustomCoding<EC2ArrayCoder<_Ipv4PrefixesEncoding, InstanceIpv4Prefix>>
@@ -46378,8 +46529,12 @@ extension EC2 {
     }
 
     public struct ModifyNetworkInterfaceAttributeRequest: AWSEncodableShape {
+        public struct _AssociatedSubnetIdsEncoding: ArrayCoderProperties { public static let member = "AssociatedSubnetId" }
         public struct _GroupsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
 
+        /// A list of subnet IDs to associate with the network interface.
+        @OptionalCustomCoding<EC2ArrayCoder<_AssociatedSubnetIdsEncoding, String>>
+        public var associatedSubnetIds: [String]?
         /// Indicates whether to assign a public IPv4 address to a network interface. This option can be enabled for any network interface but will only apply to the primary network interface (eth0).
         public let associatePublicIpAddress: Bool?
         /// Information about the interface attachment. If modifying the delete on termination attribute, you must specify the ID of the interface attachment.
@@ -46403,7 +46558,8 @@ extension EC2 {
         public let sourceDestCheck: AttributeBooleanValue?
 
         @inlinable
-        public init(associatePublicIpAddress: Bool? = nil, attachment: NetworkInterfaceAttachmentChanges? = nil, connectionTrackingSpecification: ConnectionTrackingSpecificationRequest? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, enablePrimaryIpv6: Bool? = nil, enaSrdSpecification: EnaSrdSpecification? = nil, groups: [String]? = nil, networkInterfaceId: String? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
+        public init(associatedSubnetIds: [String]? = nil, associatePublicIpAddress: Bool? = nil, attachment: NetworkInterfaceAttachmentChanges? = nil, connectionTrackingSpecification: ConnectionTrackingSpecificationRequest? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, enablePrimaryIpv6: Bool? = nil, enaSrdSpecification: EnaSrdSpecification? = nil, groups: [String]? = nil, networkInterfaceId: String? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
+            self.associatedSubnetIds = associatedSubnetIds
             self.associatePublicIpAddress = associatePublicIpAddress
             self.attachment = attachment
             self.connectionTrackingSpecification = connectionTrackingSpecification
@@ -46417,6 +46573,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatedSubnetIds = "AssociatedSubnetId"
             case associatePublicIpAddress = "AssociatePublicIpAddress"
             case attachment = "attachment"
             case connectionTrackingSpecification = "ConnectionTrackingSpecification"
@@ -48547,6 +48704,8 @@ extension EC2 {
     public struct ModifyVpnTunnelOptionsRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// Specifies the storage mode for the pre-shared key (PSK). Valid values are Standard (stored in Site-to-Site VPN service) or SecretsManager (stored in Amazon Web Services Secrets Manager).
+        public let preSharedKeyStorage: String?
         /// Choose whether or not to trigger immediate tunnel replacement. This is only applicable when turning on or off EnableTunnelLifecycleControl. Valid values: True | False
         public let skipTunnelReplacement: Bool?
         /// The tunnel options to modify.
@@ -48557,8 +48716,9 @@ extension EC2 {
         public let vpnTunnelOutsideIpAddress: String?
 
         @inlinable
-        public init(dryRun: Bool? = nil, skipTunnelReplacement: Bool? = nil, tunnelOptions: ModifyVpnTunnelOptionsSpecification? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
+        public init(dryRun: Bool? = nil, preSharedKeyStorage: String? = nil, skipTunnelReplacement: Bool? = nil, tunnelOptions: ModifyVpnTunnelOptionsSpecification? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.dryRun = dryRun
+            self.preSharedKeyStorage = preSharedKeyStorage
             self.skipTunnelReplacement = skipTunnelReplacement
             self.tunnelOptions = tunnelOptions
             self.vpnConnectionId = vpnConnectionId
@@ -48567,6 +48727,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case preSharedKeyStorage = "PreSharedKeyStorage"
             case skipTunnelReplacement = "SkipTunnelReplacement"
             case tunnelOptions = "TunnelOptions"
             case vpnConnectionId = "VpnConnectionId"
@@ -49582,6 +49743,7 @@ extension EC2 {
     }
 
     public struct NetworkInterface: AWSDecodableShape {
+        public struct _AssociatedSubnetsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _Ipv4PrefixesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -49589,6 +49751,9 @@ extension EC2 {
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The subnets associated with this network interface.
+        @OptionalCustomCoding<EC2ArrayCoder<_AssociatedSubnetsEncoding, String>>
+        public var associatedSubnets: [String]?
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
         public let association: NetworkInterfaceAssociation?
         /// The network interface attachment.
@@ -49657,7 +49822,8 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(association: NetworkInterfaceAssociation? = nil, attachment: NetworkInterfaceAttachment? = nil, availabilityZone: String? = nil, connectionTrackingConfiguration: ConnectionTrackingConfiguration? = nil, denyAllIgwTraffic: Bool? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: NetworkInterfaceType? = nil, ipv4Prefixes: [Ipv4PrefixSpecification]? = nil, ipv6Address: String? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, ipv6Native: Bool? = nil, ipv6Prefixes: [Ipv6PrefixSpecification]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, publicDnsName: String? = nil, publicIpDnsNameOptions: PublicIpDnsNameOptions? = nil, requesterId: String? = nil, requesterManaged: Bool? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, tagSet: [Tag]? = nil, vpcId: String? = nil) {
+        public init(associatedSubnets: [String]? = nil, association: NetworkInterfaceAssociation? = nil, attachment: NetworkInterfaceAttachment? = nil, availabilityZone: String? = nil, connectionTrackingConfiguration: ConnectionTrackingConfiguration? = nil, denyAllIgwTraffic: Bool? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: NetworkInterfaceType? = nil, ipv4Prefixes: [Ipv4PrefixSpecification]? = nil, ipv6Address: String? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, ipv6Native: Bool? = nil, ipv6Prefixes: [Ipv6PrefixSpecification]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, publicDnsName: String? = nil, publicIpDnsNameOptions: PublicIpDnsNameOptions? = nil, requesterId: String? = nil, requesterManaged: Bool? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, tagSet: [Tag]? = nil, vpcId: String? = nil) {
+            self.associatedSubnets = associatedSubnets
             self.association = association
             self.attachment = attachment
             self.availabilityZone = availabilityZone
@@ -49691,6 +49857,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatedSubnets = "associatedSubnetSet"
             case association = "association"
             case attachment = "attachment"
             case availabilityZone = "availabilityZone"
@@ -52166,13 +52333,13 @@ extension EC2 {
 
         /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
         public let architecture: ArchitectureValues?
-        /// The billing product codes. Your account must be authorized to specify billing product codes. If your account is not authorized to specify billing product codes, you can publish AMIs that include billable software and list them on the Amazon Web Services Marketplace. You must first register as a seller on the Amazon Web Services Marketplace. For more information, see Getting started as a seller and AMI-based products in the Amazon Web Services Marketplace Seller Guide.
+        /// The billing product codes. Your account must be authorized to specify billing product codes. If your account is not authorized to specify billing product codes, you can publish AMIs that include billable software and list them on the Amazon Web Services Marketplace. You must first register as a seller on the Amazon Web Services Marketplace. For more information, see Getting started as an Amazon Web Services Marketplace seller and AMI-based products in Amazon Web Services Marketplace in the Amazon Web Services Marketplace Seller Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_BillingProductsEncoding, String>>
         public var billingProducts: [String]?
-        /// The block device mapping entries. If you specify an Amazon EBS volume using the ID of an Amazon EBS snapshot, you can't specify the encryption state of the volume. If you create an AMI on an Outpost, then all backing snapshots must be on the same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used to launch instances on the same Outpost only. For more information, Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide.
+        /// The block device mapping entries. If you specify an Amazon EBS volume using the ID of an Amazon EBS snapshot, you can't specify the encryption state of the volume. If you create an AMI on an Outpost, then all backing snapshots must be on the same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used to launch instances on the same Outpost only. For more information, Create AMIs from local snapshots in the Amazon EBS User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
-        /// The boot mode of the AMI. A value of uefi-preferred indicates that the AMI supports both UEFI and Legacy BIOS.  The operating system contained in the AMI must be configured to support the specified boot mode.  For more information, see Boot modes in the Amazon EC2 User Guide.
+        /// The boot mode of the AMI. A value of uefi-preferred indicates that the AMI supports both UEFI and Legacy BIOS.  The operating system contained in the AMI must be configured to support the specified boot mode.  For more information, see Instance launch behavior with Amazon EC2 boot modes in the Amazon EC2 User Guide.
         public let bootMode: BootModeValues?
         /// A description for your AMI.
         public let description: String?
@@ -52182,7 +52349,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// Set to true to enable enhanced networking with ENA for the AMI and any instances that you launch from the AMI. This option is supported only for HVM AMIs. Specifying this option with a PV AMI can make instances launched from the AMI unreachable.
         public let enaSupport: Bool?
-        /// The full path to your AMI manifest in Amazon S3 storage. The specified bucket must have the aws-exec-read canned access control list (ACL) to ensure that it can be accessed by Amazon EC2. For more information, see Canned ACLs in the Amazon S3 Service Developer Guide.
+        /// The full path to your AMI manifest in Amazon S3 storage. The specified bucket must have the aws-exec-read canned access control list (ACL) to ensure that it can be accessed by Amazon EC2. For more information, see Canned ACL in the Amazon S3 Service Developer Guide.
         public let imageLocation: String?
         /// Set to v2.0 to indicate that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI in the Amazon EC2 User Guide.  If you set the value to v2.0, make sure that your AMI software can support IMDSv2.
         public let imdsSupport: ImdsSupportValues?
@@ -52201,7 +52368,7 @@ extension EC2 {
         public var tagSpecifications: [TagSpecification]?
         /// Set to v2.0 to enable Trusted Platform Module (TPM) support. For more information, see NitroTPM in the Amazon EC2 User Guide.
         public let tpmSupport: TpmSupportValues?
-        /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot in the Amazon EC2 User Guide.
+        /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot for Amazon EC2 instances in the Amazon EC2 User Guide.
         public let uefiData: String?
         /// The type of virtualization (hvm | paravirtual). Default: paravirtual
         public let virtualizationType: String?
@@ -58781,7 +58948,7 @@ extension EC2 {
         public let ownerId: String?
         /// The type of hostnames to assign to instances in the subnet at launch. An instance hostname is based on the IPv4 address or ID of the instance.
         public let privateDnsNameOptionsOnLaunch: PrivateDnsNameOptionsOnLaunch?
-        /// The current state of the subnet.
+        /// The current state of the subnet.    failed: The underlying infrastructure to support the subnet failed to provision as expected.    failed-insufficient-capacity: The underlying infrastructure to support the subnet failed to provision due to a shortage of EC2 instance capacity.
         public let state: SubnetState?
         /// The Amazon Resource Name (ARN) of the subnet.
         public let subnetArn: String?
@@ -58790,11 +58957,13 @@ extension EC2 {
         /// Any tags assigned to the subnet.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// Indicates if this is a subnet used with Amazon Elastic VMware Service (EVS). Possible values are Elastic VMware Service or no value. For more information about Amazon EVS, see  Amazon Elastic VMware Service API Reference .
+        public let type: String?
         /// The ID of the VPC the subnet is in.
         public let vpcId: String?
 
         @inlinable
-        public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, blockPublicAccessStates: BlockPublicAccessStates? = nil, cidrBlock: String? = nil, customerOwnedIpv4Pool: String? = nil, defaultForAz: Bool? = nil, enableDns64: Bool? = nil, enableLniAtDeviceIndex: Int? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, ipv6Native: Bool? = nil, mapCustomerOwnedIpOnLaunch: Bool? = nil, mapPublicIpOnLaunch: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsNameOptionsOnLaunch: PrivateDnsNameOptionsOnLaunch? = nil, state: SubnetState? = nil, subnetArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, blockPublicAccessStates: BlockPublicAccessStates? = nil, cidrBlock: String? = nil, customerOwnedIpv4Pool: String? = nil, defaultForAz: Bool? = nil, enableDns64: Bool? = nil, enableLniAtDeviceIndex: Int? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, ipv6Native: Bool? = nil, mapCustomerOwnedIpOnLaunch: Bool? = nil, mapPublicIpOnLaunch: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsNameOptionsOnLaunch: PrivateDnsNameOptionsOnLaunch? = nil, state: SubnetState? = nil, subnetArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, type: String? = nil, vpcId: String? = nil) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -58816,6 +58985,7 @@ extension EC2 {
             self.subnetArn = subnetArn
             self.subnetId = subnetId
             self.tags = tags
+            self.type = type
             self.vpcId = vpcId
         }
 
@@ -58841,6 +59011,7 @@ extension EC2 {
             case subnetArn = "subnetArn"
             case subnetId = "subnetId"
             case tags = "tagSet"
+            case type = "type"
             case vpcId = "vpcId"
         }
     }
@@ -63842,6 +64013,8 @@ extension EC2 {
         public let gatewayAssociationState: GatewayAssociationState?
         /// The VPN connection options.
         public let options: VpnConnectionOptions?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret storing the pre-shared key(s) for the VPN connection.
+        public let preSharedKeyArn: String?
         /// The static routes associated with the VPN connection.
         @OptionalCustomCoding<EC2ArrayCoder<_RoutesEncoding, VpnStaticRoute>>
         public var routes: [VpnStaticRoute]?
@@ -63863,7 +64036,7 @@ extension EC2 {
         public let vpnGatewayId: String?
 
         @inlinable
-        public init(category: String? = nil, coreNetworkArn: String? = nil, coreNetworkAttachmentArn: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, gatewayAssociationState: GatewayAssociationState? = nil, options: VpnConnectionOptions? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
+        public init(category: String? = nil, coreNetworkArn: String? = nil, coreNetworkAttachmentArn: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, gatewayAssociationState: GatewayAssociationState? = nil, options: VpnConnectionOptions? = nil, preSharedKeyArn: String? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
             self.category = category
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkAttachmentArn = coreNetworkAttachmentArn
@@ -63871,6 +64044,7 @@ extension EC2 {
             self.customerGatewayId = customerGatewayId
             self.gatewayAssociationState = gatewayAssociationState
             self.options = options
+            self.preSharedKeyArn = preSharedKeyArn
             self.routes = routes
             self.state = state
             self.tags = tags
@@ -63889,6 +64063,7 @@ extension EC2 {
             case customerGatewayId = "customerGatewayId"
             case gatewayAssociationState = "gatewayAssociationState"
             case options = "options"
+            case preSharedKeyArn = "preSharedKeyArn"
             case routes = "routes"
             case state = "state"
             case tags = "tagSet"

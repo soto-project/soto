@@ -220,6 +220,7 @@ public struct CustomerProfiles: AWSService {
     ///   - filter: Defines how to filter incoming objects to include part of the Calculated Attribute.
     ///   - statistic: The aggregation operation to perform for the calculated attribute.
     ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - useHistoricalData: Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCalculatedAttributeDefinition(
@@ -232,6 +233,7 @@ public struct CustomerProfiles: AWSService {
         filter: Filter? = nil,
         statistic: Statistic,
         tags: [String: String]? = nil,
+        useHistoricalData: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCalculatedAttributeDefinitionResponse {
         let input = CreateCalculatedAttributeDefinitionRequest(
@@ -243,7 +245,8 @@ public struct CustomerProfiles: AWSService {
             domainName: domainName, 
             filter: filter, 
             statistic: statistic, 
-            tags: tags
+            tags: tags, 
+            useHistoricalData: useHistoricalData
         )
         return try await self.createCalculatedAttributeDefinition(input, logger: logger)
     }
@@ -293,6 +296,56 @@ public struct CustomerProfiles: AWSService {
             tags: tags
         )
         return try await self.createDomain(input, logger: logger)
+    }
+
+    /// Creates the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    @Sendable
+    @inlinable
+    public func createDomainLayout(_ input: CreateDomainLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainLayoutResponse {
+        try await self.client.execute(
+            operation: "CreateDomainLayout", 
+            path: "/domains/{DomainName}/layouts/{LayoutDefinitionName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    ///
+    /// Parameters:
+    ///   - description: The description of the layout
+    ///   - displayName: The display name of the layout
+    ///   - domainName: The unique name of the domain.
+    ///   - isDefault: If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+    ///   - layout: A customizable layout that can be used to view data under a Customer Profiles domain.
+    ///   - layoutDefinitionName: The unique name of the layout.
+    ///   - layoutType: The type of layout that can be used to view data under a Customer Profiles domain.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDomainLayout(
+        description: String,
+        displayName: String,
+        domainName: String,
+        isDefault: Bool? = nil,
+        layout: String,
+        layoutDefinitionName: String,
+        layoutType: LayoutType,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDomainLayoutResponse {
+        let input = CreateDomainLayoutRequest(
+            description: description, 
+            displayName: displayName, 
+            domainName: domainName, 
+            isDefault: isDefault, 
+            layout: layout, 
+            layoutDefinitionName: layoutDefinitionName, 
+            layoutType: layoutType, 
+            tags: tags
+        )
+        return try await self.createDomainLayout(input, logger: logger)
     }
 
     /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
@@ -443,7 +496,7 @@ public struct CustomerProfiles: AWSService {
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     ///
     /// Parameters:
-    ///   - accountNumber: An account number that you have given to the customer.
+    ///   - accountNumber: An account number that you have assigned to the customer.
     ///   - additionalInformation: Any additional information relevant to the customer’s profile.
     ///   - address: A generic address associated with the customer that is not mailing, shipping, or billing.
     ///   - attributes: A key value pair of attributes of a customer profile.
@@ -704,6 +757,38 @@ public struct CustomerProfiles: AWSService {
             domainName: domainName
         )
         return try await self.deleteDomain(input, logger: logger)
+    }
+
+    /// Deletes the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    @Sendable
+    @inlinable
+    public func deleteDomainLayout(_ input: DeleteDomainLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainLayoutResponse {
+        try await self.client.execute(
+            operation: "DeleteDomainLayout", 
+            path: "/domains/{DomainName}/layouts/{LayoutDefinitionName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - layoutDefinitionName: The unique name of the layout.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDomainLayout(
+        domainName: String,
+        layoutDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDomainLayoutResponse {
+        let input = DeleteDomainLayoutRequest(
+            domainName: domainName, 
+            layoutDefinitionName: layoutDefinitionName
+        )
+        return try await self.deleteDomainLayout(input, logger: logger)
     }
 
     /// Disables and deletes the specified event stream.
@@ -1170,6 +1255,38 @@ public struct CustomerProfiles: AWSService {
             domainName: domainName
         )
         return try await self.getDomain(input, logger: logger)
+    }
+
+    /// Gets the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    @Sendable
+    @inlinable
+    public func getDomainLayout(_ input: GetDomainLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainLayoutResponse {
+        try await self.client.execute(
+            operation: "GetDomainLayout", 
+            path: "/domains/{DomainName}/layouts/{LayoutDefinitionName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - layoutDefinitionName: The unique name of the layout.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDomainLayout(
+        domainName: String,
+        layoutDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDomainLayoutResponse {
+        let input = GetDomainLayoutRequest(
+            domainName: domainName, 
+            layoutDefinitionName: layoutDefinitionName
+        )
+        return try await self.getDomainLayout(input, logger: logger)
     }
 
     /// Returns information about the specified event stream in a specific domain.
@@ -1763,6 +1880,41 @@ public struct CustomerProfiles: AWSService {
             profileId: profileId
         )
         return try await self.listCalculatedAttributesForProfile(input, logger: logger)
+    }
+
+    /// Lists the existing layouts that can be used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    @Sendable
+    @inlinable
+    public func listDomainLayouts(_ input: ListDomainLayoutsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainLayoutsResponse {
+        try await self.client.execute(
+            operation: "ListDomainLayouts", 
+            path: "/domains/{DomainName}/layouts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the existing layouts that can be used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of objects returned per page.
+    ///   - nextToken: Identifies the next page of results to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDomainLayouts(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDomainLayoutsResponse {
+        let input = ListDomainLayoutsRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDomainLayouts(input, logger: logger)
     }
 
     /// Returns a list of all the domains for an AWS account that have been created.
@@ -2651,6 +2803,53 @@ public struct CustomerProfiles: AWSService {
         return try await self.updateDomain(input, logger: logger)
     }
 
+    /// Updates the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    @Sendable
+    @inlinable
+    public func updateDomainLayout(_ input: UpdateDomainLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainLayoutResponse {
+        try await self.client.execute(
+            operation: "UpdateDomainLayout", 
+            path: "/domains/{DomainName}/layouts/{LayoutDefinitionName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
+    ///
+    /// Parameters:
+    ///   - description: The description of the layout
+    ///   - displayName: The display name of the layout
+    ///   - domainName: The unique name of the domain.
+    ///   - isDefault: If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+    ///   - layout: A customizable layout that can be used to view data under a Customer Profiles domain.
+    ///   - layoutDefinitionName: The unique name of the layout.
+    ///   - layoutType: The type of layout that can be used to view data under a Customer Profiles domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDomainLayout(
+        description: String? = nil,
+        displayName: String? = nil,
+        domainName: String,
+        isDefault: Bool? = nil,
+        layout: String? = nil,
+        layoutDefinitionName: String,
+        layoutType: LayoutType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDomainLayoutResponse {
+        let input = UpdateDomainLayoutRequest(
+            description: description, 
+            displayName: displayName, 
+            domainName: domainName, 
+            isDefault: isDefault, 
+            layout: layout, 
+            layoutDefinitionName: layoutDefinitionName, 
+            layoutType: layoutType
+        )
+        return try await self.updateDomainLayout(input, logger: logger)
+    }
+
     /// Update the properties of an Event Trigger.
     @Sendable
     @inlinable
@@ -2714,7 +2913,7 @@ public struct CustomerProfiles: AWSService {
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     ///
     /// Parameters:
-    ///   - accountNumber: An account number that you have given to the customer.
+    ///   - accountNumber: An account number that you have assigned to the customer.
     ///   - additionalInformation: Any additional information relevant to the customer’s profile.
     ///   - address: A generic address associated with the customer that is not mailing, shipping, or billing.
     ///   - attributes: A key value pair of attributes of a customer profile.
@@ -2857,6 +3056,43 @@ extension CustomerProfiles {
             searchValue: searchValue
         )
         return self.getSimilarProfilesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDomainLayouts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainLayoutsPaginator(
+        _ input: ListDomainLayoutsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainLayoutsRequest, ListDomainLayoutsResponse> {
+        return .init(
+            input: input,
+            command: self.listDomainLayouts,
+            inputKey: \ListDomainLayoutsRequest.nextToken,
+            outputKey: \ListDomainLayoutsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDomainLayouts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of objects returned per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainLayoutsPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDomainLayoutsRequest, ListDomainLayoutsResponse> {
+        let input = ListDomainLayoutsRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listDomainLayoutsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listEventStreams(_:logger:)``.
@@ -3058,6 +3294,17 @@ extension CustomerProfiles.GetSimilarProfilesRequest: AWSPaginateToken {
             nextToken: token,
             searchKey: self.searchKey,
             searchValue: self.searchValue
+        )
+    }
+}
+
+extension CustomerProfiles.ListDomainLayoutsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListDomainLayoutsRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

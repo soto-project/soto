@@ -2453,6 +2453,7 @@ public struct BedrockAgent: AWSService {
     ///   - agentAliasId: The unique identifier of the alias.
     ///   - agentAliasName: Specifies a new name for the alias.
     ///   - agentId: The unique identifier of the agent.
+    ///   - aliasInvocationState: The invocation state for the agent alias. To pause the agent alias, set the value to REJECT_INVOCATIONS. To start the agent alias running again, set the value to ACCEPT_INVOCATIONS. Use the GetAgentAlias, or ListAgentAliases, operation to get the invocation state of an agent alias.
     ///   - description: Specifies a new description for the alias.
     ///   - routingConfiguration: Contains details about the routing configuration of the alias.
     ///   - logger: Logger use during operation
@@ -2461,6 +2462,7 @@ public struct BedrockAgent: AWSService {
         agentAliasId: String,
         agentAliasName: String,
         agentId: String,
+        aliasInvocationState: AliasInvocationState? = nil,
         description: String? = nil,
         routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2469,6 +2471,7 @@ public struct BedrockAgent: AWSService {
             agentAliasId: agentAliasId, 
             agentAliasName: agentAliasName, 
             agentId: agentId, 
+            aliasInvocationState: aliasInvocationState, 
             description: description, 
             routingConfiguration: routingConfiguration
         )

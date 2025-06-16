@@ -194,6 +194,11 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum LayoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case profileExplorer = "PROFILE_EXPLORER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogicalOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case and = "AND"
         case or = "OR"
@@ -275,6 +280,14 @@ extension CustomerProfiles {
 
     public enum RangeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReadinessStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case preparing = "PREPARING"
         public var description: String { return self.rawValue }
     }
 
@@ -377,9 +390,18 @@ extension CustomerProfiles {
 
     public enum StandardIdentifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `case` = "CASE"
+        case airBooking = "AIR_BOOKING"
+        case airPreference = "AIR_PREFERENCE"
+        case airSegment = "AIR_SEGMENT"
         case asset = "ASSET"
         case communicationRecord = "COMMUNICATION_RECORD"
+        case hotelPreference = "HOTEL_PREFERENCE"
+        case hotelReservation = "HOTEL_RESERVATION"
+        case hotelStayRevenue = "HOTEL_STAY_REVENUE"
         case lookupOnly = "LOOKUP_ONLY"
+        case loyalty = "LOYALTY"
+        case loyaltyPromotion = "LOYALTY_PROMOTION"
+        case loyaltyTransaction = "LOYALTY_TRANSACTION"
         case newOnly = "NEW_ONLY"
         case order = "ORDER"
         case profile = "PROFILE"
@@ -863,7 +885,7 @@ extension CustomerProfiles {
             try self.attributes.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
-            try self.validate(self.attributes, name: "attributes", parent: name, max: 2)
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 50)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
             try self.validate(self.expression, name: "expression", parent: name, max: 255)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
@@ -1087,7 +1109,6 @@ extension CustomerProfiles {
             try self.validate(self.calculatedAttributeName, name: "calculatedAttributeName", parent: name, max: 255)
             try self.validate(self.calculatedAttributeName, name: "calculatedAttributeName", parent: name, min: 1)
             try self.validate(self.calculatedAttributeName, name: "calculatedAttributeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
-            try self.conditionOverrides?.validate(name: "\(name).conditionOverrides")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -1217,7 +1238,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.conditionOverrides?.validate(name: "\(name).conditionOverrides")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
@@ -1240,16 +1260,19 @@ extension CustomerProfiles {
         public let displayName: String?
         /// Indicates whether the calculated attribute's value is based on partial data. If the data is partial, it is set to true.
         public let isDataPartial: String?
+        /// The timestamp of the newest object included in the calculated attribute calculation.
+        public let lastObjectTimestamp: Date?
         /// The profile id belonging to this calculated attribute value.
         public let profileId: String?
         /// The value of the calculated attribute.
         public let value: String?
 
         @inlinable
-        public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, profileId: String? = nil, value: String? = nil) {
+        public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, lastObjectTimestamp: Date? = nil, profileId: String? = nil, value: String? = nil) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
+            self.lastObjectTimestamp = lastObjectTimestamp
             self.profileId = profileId
             self.value = value
         }
@@ -1258,6 +1281,7 @@ extension CustomerProfiles {
             case calculatedAttributeName = "CalculatedAttributeName"
             case displayName = "DisplayName"
             case isDataPartial = "IsDataPartial"
+            case lastObjectTimestamp = "LastObjectTimestamp"
             case profileId = "ProfileId"
             case value = "Value"
         }
@@ -1270,10 +1294,6 @@ extension CustomerProfiles {
         @inlinable
         public init(range: RangeOverride? = nil) {
             self.range = range
-        }
-
-        public func validate(name: String) throws {
-            try self.range?.validate(name: "\(name).range")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1297,7 +1317,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.objectCount, name: "objectCount", parent: name, max: 100)
             try self.validate(self.objectCount, name: "objectCount", parent: name, min: 1)
             try self.range?.validate(name: "\(name).range")
             try self.threshold?.validate(name: "\(name).threshold")
@@ -1405,9 +1424,11 @@ extension CustomerProfiles {
         public let statistic: Statistic
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+        public let useHistoricalData: Bool?
 
         @inlinable
-        public init(attributeDetails: AttributeDetails, calculatedAttributeName: String, conditions: Conditions? = nil, description: String? = nil, displayName: String? = nil, domainName: String, filter: Filter? = nil, statistic: Statistic, tags: [String: String]? = nil) {
+        public init(attributeDetails: AttributeDetails, calculatedAttributeName: String, conditions: Conditions? = nil, description: String? = nil, displayName: String? = nil, domainName: String, filter: Filter? = nil, statistic: Statistic, tags: [String: String]? = nil, useHistoricalData: Bool? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
@@ -1417,6 +1438,7 @@ extension CustomerProfiles {
             self.filter = filter
             self.statistic = statistic
             self.tags = tags
+            self.useHistoricalData = useHistoricalData
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1431,6 +1453,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.filter, forKey: .filter)
             try container.encode(self.statistic, forKey: .statistic)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.useHistoricalData, forKey: .useHistoricalData)
         }
 
         public func validate(name: String) throws {
@@ -1466,6 +1489,7 @@ extension CustomerProfiles {
             case filter = "Filter"
             case statistic = "Statistic"
             case tags = "Tags"
+            case useHistoricalData = "UseHistoricalData"
         }
     }
 
@@ -1486,13 +1510,19 @@ extension CustomerProfiles {
         public let filter: Filter?
         /// The timestamp of when the calculated attribute definition was most recently edited.
         public let lastUpdatedAt: Date?
+        /// Information indicating if the Calculated Attribute is ready for use by confirming all historical data has been processed and reflected.
+        public let readiness: Readiness?
         /// The aggregation operation to perform for the calculated attribute.
         public let statistic: Statistic?
+        /// Status of the Calculated Attribute creation (whether all historical data has been indexed.)
+        public let status: ReadinessStatus?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+        public let useHistoricalData: Bool?
 
         @inlinable
-        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, filter: Filter? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
+        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, filter: Filter? = nil, lastUpdatedAt: Date? = nil, readiness: Readiness? = nil, statistic: Statistic? = nil, status: ReadinessStatus? = nil, tags: [String: String]? = nil, useHistoricalData: Bool? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
@@ -1501,8 +1531,11 @@ extension CustomerProfiles {
             self.displayName = displayName
             self.filter = filter
             self.lastUpdatedAt = lastUpdatedAt
+            self.readiness = readiness
             self.statistic = statistic
+            self.status = status
             self.tags = tags
+            self.useHistoricalData = useHistoricalData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1514,8 +1547,138 @@ extension CustomerProfiles {
             case displayName = "DisplayName"
             case filter = "Filter"
             case lastUpdatedAt = "LastUpdatedAt"
+            case readiness = "Readiness"
             case statistic = "Statistic"
+            case status = "Status"
             case tags = "Tags"
+            case useHistoricalData = "UseHistoricalData"
+        }
+    }
+
+    public struct CreateDomainLayoutRequest: AWSEncodableShape {
+        /// The description of the layout
+        public let description: String
+        /// The display name of the layout
+        public let displayName: String
+        /// The unique name of the domain.
+        public let domainName: String
+        /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+        public let isDefault: Bool?
+        /// A customizable layout that can be used to view data under a Customer Profiles domain.
+        public let layout: String
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String
+        /// The type of layout that can be used to view data under a Customer Profiles domain.
+        public let layoutType: LayoutType
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String, displayName: String, domainName: String, isDefault: Bool? = nil, layout: String, layoutDefinitionName: String, layoutType: LayoutType, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.domainName = domainName
+            self.isDefault = isDefault
+            self.layout = layout
+            self.layoutDefinitionName = layoutDefinitionName
+            self.layoutType = layoutType
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.description, forKey: .description)
+            try container.encode(self.displayName, forKey: .displayName)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.isDefault, forKey: .isDefault)
+            try container.encode(self.layout, forKey: .layout)
+            request.encodePath(self.layoutDefinitionName, key: "LayoutDefinitionName")
+            try container.encode(self.layoutType, forKey: .layoutType)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-\\s]*$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.layout, name: "layout", parent: name, max: 2000000)
+            try self.validate(self.layout, name: "layout", parent: name, min: 1)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, max: 64)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, min: 1)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case isDefault = "IsDefault"
+            case layout = "Layout"
+            case layoutType = "LayoutType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDomainLayoutResponse: AWSDecodableShape {
+        /// The timestamp of when the layout was created.
+        public let createdAt: Date
+        /// The description of the layout
+        public let description: String
+        /// The display name of the layout
+        public let displayName: String
+        /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+        public let isDefault: Bool?
+        /// The timestamp of when the layout was most recently updated.
+        public let lastUpdatedAt: Date?
+        /// A customizable layout that can be used to view data under Customer Profiles domain.
+        public let layout: String
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String
+        /// The type of layout that can be used to view data under customer profiles domain.
+        public let layoutType: LayoutType
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The version used to create layout.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, description: String, displayName: String, isDefault: Bool? = nil, lastUpdatedAt: Date? = nil, layout: String, layoutDefinitionName: String, layoutType: LayoutType, tags: [String: String]? = nil, version: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.isDefault = isDefault
+            self.lastUpdatedAt = lastUpdatedAt
+            self.layout = layout
+            self.layoutDefinitionName = layoutDefinitionName
+            self.layoutType = layoutType
+            self.tags = tags
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case isDefault = "IsDefault"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case layout = "Layout"
+            case layoutDefinitionName = "LayoutDefinitionName"
+            case layoutType = "LayoutType"
+            case tags = "Tags"
+            case version = "Version"
         }
     }
 
@@ -1927,7 +2090,7 @@ extension CustomerProfiles {
     }
 
     public struct CreateProfileRequest: AWSEncodableShape {
-        /// An account number that you have given to the customer.
+        /// An account number that you have assigned to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
@@ -2408,6 +2571,51 @@ extension CustomerProfiles {
 
     public struct DeleteCalculatedAttributeDefinitionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteDomainLayoutRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, layoutDefinitionName: String) {
+            self.domainName = domainName
+            self.layoutDefinitionName = layoutDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.layoutDefinitionName, key: "LayoutDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, max: 64)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, min: 1)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDomainLayoutResponse: AWSDecodableShape {
+        /// A message that indicates the delete request is done.
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
@@ -3625,13 +3833,19 @@ extension CustomerProfiles {
         public let filter: Filter?
         /// The timestamp of when the calculated attribute definition was most recently edited.
         public let lastUpdatedAt: Date?
+        /// Information indicating if the Calculated Attribute is ready for use by confirming all historical data has been processed and reflected.
+        public let readiness: Readiness?
         /// The aggregation operation to perform for the calculated attribute.
         public let statistic: Statistic?
+        /// Status of the Calculated Attribute creation (whether all historical data has been indexed).
+        public let status: ReadinessStatus?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+        public let useHistoricalData: Bool?
 
         @inlinable
-        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, filter: Filter? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
+        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, filter: Filter? = nil, lastUpdatedAt: Date? = nil, readiness: Readiness? = nil, statistic: Statistic? = nil, status: ReadinessStatus? = nil, tags: [String: String]? = nil, useHistoricalData: Bool? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
@@ -3640,8 +3854,11 @@ extension CustomerProfiles {
             self.displayName = displayName
             self.filter = filter
             self.lastUpdatedAt = lastUpdatedAt
+            self.readiness = readiness
             self.statistic = statistic
+            self.status = status
             self.tags = tags
+            self.useHistoricalData = useHistoricalData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3653,8 +3870,11 @@ extension CustomerProfiles {
             case displayName = "DisplayName"
             case filter = "Filter"
             case lastUpdatedAt = "LastUpdatedAt"
+            case readiness = "Readiness"
             case statistic = "Statistic"
+            case status = "Status"
             case tags = "Tags"
+            case useHistoricalData = "UseHistoricalData"
         }
     }
 
@@ -3701,14 +3921,17 @@ extension CustomerProfiles {
         public let displayName: String?
         /// Indicates whether the calculated attribute’s value is based on partial data. If data is partial, it is set to true.
         public let isDataPartial: String?
+        /// The timestamp of the newest object included in the calculated attribute calculation.
+        public let lastObjectTimestamp: Date?
         /// The value of the calculated attribute.
         public let value: String?
 
         @inlinable
-        public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, value: String? = nil) {
+        public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, lastObjectTimestamp: Date? = nil, value: String? = nil) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
+            self.lastObjectTimestamp = lastObjectTimestamp
             self.value = value
         }
 
@@ -3716,7 +3939,89 @@ extension CustomerProfiles {
             case calculatedAttributeName = "CalculatedAttributeName"
             case displayName = "DisplayName"
             case isDataPartial = "IsDataPartial"
+            case lastObjectTimestamp = "LastObjectTimestamp"
             case value = "Value"
+        }
+    }
+
+    public struct GetDomainLayoutRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, layoutDefinitionName: String) {
+            self.domainName = domainName
+            self.layoutDefinitionName = layoutDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.layoutDefinitionName, key: "LayoutDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, max: 64)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, min: 1)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDomainLayoutResponse: AWSDecodableShape {
+        /// The timestamp of when the layout was created.
+        public let createdAt: Date
+        /// The description of the layout
+        public let description: String
+        /// The display name of the layout
+        public let displayName: String
+        /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+        public let isDefault: Bool?
+        /// The timestamp of when the layout was most recently updated.
+        public let lastUpdatedAt: Date
+        /// A customizable layout that can be used to view data under a Customer Profiles domain.
+        public let layout: String
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String
+        /// The type of layout that can be used to view data under a Customer Profiles domain.
+        public let layoutType: LayoutType
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The version used to create layout.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, description: String, displayName: String, isDefault: Bool? = nil, lastUpdatedAt: Date, layout: String, layoutDefinitionName: String, layoutType: LayoutType, tags: [String: String]? = nil, version: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.isDefault = isDefault
+            self.lastUpdatedAt = lastUpdatedAt
+            self.layout = layout
+            self.layoutDefinitionName = layoutDefinitionName
+            self.layoutType = layoutType
+            self.tags = tags
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case isDefault = "IsDefault"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case layout = "Layout"
+            case layoutDefinitionName = "LayoutDefinitionName"
+            case layoutType = "LayoutType"
+            case tags = "Tags"
+            case version = "Version"
         }
     }
 
@@ -5008,6 +5313,48 @@ extension CustomerProfiles {
         }
     }
 
+    public struct LayoutItem: AWSDecodableShape {
+        /// The timestamp of when the layout was created.
+        public let createdAt: Date
+        /// The description of the layout
+        public let description: String
+        /// The display name of the layout
+        public let displayName: String
+        /// If set to true for a layout, this layout will be used by default to view data. If set to false, then layout will not be used by default but it can be used to view data by explicit selection on UI.
+        public let isDefault: Bool?
+        /// The timestamp of when the layout was most recently updated.
+        public let lastUpdatedAt: Date
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String
+        /// The type of layout that can be used to view data under customer profiles domain.
+        public let layoutType: LayoutType
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date, description: String, displayName: String, isDefault: Bool? = nil, lastUpdatedAt: Date, layoutDefinitionName: String, layoutType: LayoutType, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.isDefault = isDefault
+            self.lastUpdatedAt = lastUpdatedAt
+            self.layoutDefinitionName = layoutDefinitionName
+            self.layoutType = layoutType
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case isDefault = "IsDefault"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case layoutDefinitionName = "LayoutDefinitionName"
+            case layoutType = "LayoutType"
+            case tags = "Tags"
+        }
+    }
+
     public struct ListAccountIntegrationsRequest: AWSEncodableShape {
         /// Boolean to indicate if hidden integration should be returned. Defaults to False.
         public let includeHidden: Bool?
@@ -5078,17 +5425,23 @@ extension CustomerProfiles {
         public let displayName: String?
         /// The timestamp of when the calculated attribute definition was most recently edited.
         public let lastUpdatedAt: Date?
+        /// Status of the Calculated Attribute creation (whether all historical data has been indexed.)
+        public let status: ReadinessStatus?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+        public let useHistoricalData: Bool?
 
         @inlinable
-        public init(calculatedAttributeName: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, tags: [String: String]? = nil) {
+        public init(calculatedAttributeName: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, status: ReadinessStatus? = nil, tags: [String: String]? = nil, useHistoricalData: Bool? = nil) {
             self.calculatedAttributeName = calculatedAttributeName
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
             self.lastUpdatedAt = lastUpdatedAt
+            self.status = status
             self.tags = tags
+            self.useHistoricalData = useHistoricalData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5097,7 +5450,9 @@ extension CustomerProfiles {
             case description = "Description"
             case displayName = "DisplayName"
             case lastUpdatedAt = "LastUpdatedAt"
+            case status = "Status"
             case tags = "Tags"
+            case useHistoricalData = "UseHistoricalData"
         }
     }
 
@@ -5162,14 +5517,17 @@ extension CustomerProfiles {
         public let displayName: String?
         /// Indicates whether the calculated attribute’s value is based on partial data. If data is partial, it is set to true.
         public let isDataPartial: String?
+        /// The timestamp of the newest object included in the calculated attribute calculation.
+        public let lastObjectTimestamp: Date?
         /// The value of the calculated attribute.
         public let value: String?
 
         @inlinable
-        public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, value: String? = nil) {
+        public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, lastObjectTimestamp: Date? = nil, value: String? = nil) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
+            self.lastObjectTimestamp = lastObjectTimestamp
             self.value = value
         }
 
@@ -5177,6 +5535,7 @@ extension CustomerProfiles {
             case calculatedAttributeName = "CalculatedAttributeName"
             case displayName = "DisplayName"
             case isDataPartial = "IsDataPartial"
+            case lastObjectTimestamp = "LastObjectTimestamp"
             case value = "Value"
         }
     }
@@ -5263,6 +5622,60 @@ extension CustomerProfiles {
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
             case tags = "Tags"
+        }
+    }
+
+    public struct ListDomainLayoutsRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of objects returned per page.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDomainLayoutsResponse: AWSDecodableShape {
+        /// Contains summary information about an EventStream.
+        public let items: [LayoutItem]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [LayoutItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -6522,7 +6935,7 @@ extension CustomerProfiles {
     }
 
     public struct Profile: AWSDecodableShape {
-        /// An account number that you have given to the customer.
+        /// An account number that you have assigned to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
@@ -7269,25 +7682,41 @@ extension CustomerProfiles {
     }
 
     public struct Range: AWSEncodableShape & AWSDecodableShape {
+        /// The format the timestamp field in your JSON object is specified. This value should be one of EPOCHMILLI (for Unix epoch timestamps with second/millisecond level precision) or ISO_8601 (following ISO_8601 format with second/millisecond level precision, with an optional offset of Z or in the format HH:MM or HHMM.). E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "2001-07-04T12:08:56.235-0700"}}, then TimestampFormat should be "ISO_8601".
+        public let timestampFormat: String?
+        /// An expression specifying the field in your JSON object from which the date should be parsed. The expression should follow the structure of \"{ObjectTypeName.}\". E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "1737587945945"}}, then TimestampSource should be "{MyType.generatedAt.timestamp}".
+        public let timestampSource: String?
         /// The unit of time.
-        public let unit: Unit
+        public let unit: Unit?
         /// The amount of time of the specified unit.
-        public let value: Int
+        public let value: Int?
+        /// A structure letting customers specify a relative time window over which over which data is included in the Calculated Attribute. Use positive numbers to indicate that the endpoint is in the past, and negative numbers to indicate it is in the future. ValueRange overrides Value.
+        public let valueRange: ValueRange?
 
         @inlinable
-        public init(unit: Unit, value: Int) {
+        public init(timestampFormat: String? = nil, timestampSource: String? = nil, unit: Unit? = nil, value: Int? = nil, valueRange: ValueRange? = nil) {
+            self.timestampFormat = timestampFormat
+            self.timestampSource = timestampSource
             self.unit = unit
             self.value = value
+            self.valueRange = valueRange
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, max: 366)
-            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, max: 255)
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, min: 1)
+            try self.validate(self.timestampSource, name: "timestampSource", parent: name, max: 255)
+            try self.validate(self.timestampSource, name: "timestampSource", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 2147483647)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case timestampFormat = "TimestampFormat"
+            case timestampSource = "TimestampSource"
             case unit = "Unit"
             case value = "Value"
+            case valueRange = "ValueRange"
         }
     }
 
@@ -7306,17 +7735,28 @@ extension CustomerProfiles {
             self.unit = unit
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.end, name: "end", parent: name, max: 366)
-            try self.validate(self.end, name: "end", parent: name, min: 0)
-            try self.validate(self.start, name: "start", parent: name, max: 366)
-            try self.validate(self.start, name: "start", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case end = "End"
             case start = "Start"
             case unit = "Unit"
+        }
+    }
+
+    public struct Readiness: AWSDecodableShape {
+        /// Any customer messaging.
+        public let message: String?
+        /// Approximately how far the Calculated Attribute creation is from completion.
+        public let progressPercentage: Int?
+
+        @inlinable
+        public init(message: String? = nil, progressPercentage: Int? = nil) {
+            self.message = message
+            self.progressPercentage = progressPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case progressPercentage = "ProgressPercentage"
         }
     }
 
@@ -8151,13 +8591,19 @@ extension CustomerProfiles {
         public let displayName: String?
         /// The timestamp of when the calculated attribute definition was most recently edited.
         public let lastUpdatedAt: Date?
+        /// Information indicating if the Calculated Attribute is ready for use by confirming all historical data has been processed and reflected.
+        public let readiness: Readiness?
         /// The aggregation operation to perform for the calculated attribute.
         public let statistic: Statistic?
+        /// Status of the Calculated Attribute creation (whether all historical data has been indexed.)
+        public let status: ReadinessStatus?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+        public let useHistoricalData: Bool?
 
         @inlinable
-        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
+        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, readiness: Readiness? = nil, statistic: Statistic? = nil, status: ReadinessStatus? = nil, tags: [String: String]? = nil, useHistoricalData: Bool? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
@@ -8165,8 +8611,11 @@ extension CustomerProfiles {
             self.description = description
             self.displayName = displayName
             self.lastUpdatedAt = lastUpdatedAt
+            self.readiness = readiness
             self.statistic = statistic
+            self.status = status
             self.tags = tags
+            self.useHistoricalData = useHistoricalData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8177,8 +8626,125 @@ extension CustomerProfiles {
             case description = "Description"
             case displayName = "DisplayName"
             case lastUpdatedAt = "LastUpdatedAt"
+            case readiness = "Readiness"
             case statistic = "Statistic"
+            case status = "Status"
             case tags = "Tags"
+            case useHistoricalData = "UseHistoricalData"
+        }
+    }
+
+    public struct UpdateDomainLayoutRequest: AWSEncodableShape {
+        /// The description of the layout
+        public let description: String?
+        /// The display name of the layout
+        public let displayName: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+        public let isDefault: Bool?
+        /// A customizable layout that can be used to view data under a Customer Profiles domain.
+        public let layout: String?
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String
+        /// The type of layout that can be used to view data under a Customer Profiles domain.
+        public let layoutType: LayoutType?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, domainName: String, isDefault: Bool? = nil, layout: String? = nil, layoutDefinitionName: String, layoutType: LayoutType? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.domainName = domainName
+            self.isDefault = isDefault
+            self.layout = layout
+            self.layoutDefinitionName = layoutDefinitionName
+            self.layoutType = layoutType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.isDefault, forKey: .isDefault)
+            try container.encodeIfPresent(self.layout, forKey: .layout)
+            request.encodePath(self.layoutDefinitionName, key: "LayoutDefinitionName")
+            try container.encodeIfPresent(self.layoutType, forKey: .layoutType)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-\\s]*$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.layout, name: "layout", parent: name, max: 2000000)
+            try self.validate(self.layout, name: "layout", parent: name, min: 1)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, max: 64)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, min: 1)
+            try self.validate(self.layoutDefinitionName, name: "layoutDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case isDefault = "IsDefault"
+            case layout = "Layout"
+            case layoutType = "LayoutType"
+        }
+    }
+
+    public struct UpdateDomainLayoutResponse: AWSDecodableShape {
+        /// The timestamp of when the layout was created.
+        public let createdAt: Date?
+        /// The description of the layout
+        public let description: String?
+        /// The display name of the layout
+        public let displayName: String?
+        /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+        public let isDefault: Bool?
+        /// The timestamp of when the layout was most recently updated.
+        public let lastUpdatedAt: Date?
+        /// A customizable layout that can be used to view data under a Customer Profiles domain.
+        public let layout: String?
+        /// The unique name of the layout.
+        public let layoutDefinitionName: String?
+        /// The type of layout that can be used to view data under a Customer Profiles domain.
+        public let layoutType: LayoutType?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The version used to create layout.
+        public let version: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, isDefault: Bool? = nil, lastUpdatedAt: Date? = nil, layout: String? = nil, layoutDefinitionName: String? = nil, layoutType: LayoutType? = nil, tags: [String: String]? = nil, version: String? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.isDefault = isDefault
+            self.lastUpdatedAt = lastUpdatedAt
+            self.layout = layout
+            self.layoutDefinitionName = layoutDefinitionName
+            self.layoutType = layoutType
+            self.tags = tags
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case isDefault = "IsDefault"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case layout = "Layout"
+            case layoutDefinitionName = "LayoutDefinitionName"
+            case layoutType = "LayoutType"
+            case tags = "Tags"
+            case version = "Version"
         }
     }
 
@@ -8425,7 +8991,7 @@ extension CustomerProfiles {
     }
 
     public struct UpdateProfileRequest: AWSEncodableShape {
-        /// An account number that you have given to the customer.
+        /// An account number that you have assigned to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
@@ -8606,6 +9172,24 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case profileId = "ProfileId"
+        }
+    }
+
+    public struct ValueRange: AWSEncodableShape & AWSDecodableShape {
+        /// The end time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the future.
+        public let end: Int
+        /// The start time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the future.
+        public let start: Int
+
+        @inlinable
+        public init(end: Int, start: Int) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
         }
     }
 

@@ -149,6 +149,12 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueryResultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataManifest = "DATA_MANIFEST"
+        case dataRows = "DATA_ROWS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3AclOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
         public var description: String { return self.rawValue }
@@ -1906,12 +1912,15 @@ extension Athena {
         public let nextToken: String?
         /// The unique ID of the query execution.
         public let queryExecutionId: String
+        ///  When you set this to DATA_ROWS or empty, GetQueryResults returns the query results in rows. If set to DATA_MANIFEST, it returns the manifest file in rows. Only the query types CREATE TABLE AS SELECT, UNLOAD, and INSERT can generate a manifest file. If you use DATA_MANIFEST for other query types, the query will fail.
+        public let queryResultType: QueryResultType?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, queryExecutionId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, queryExecutionId: String, queryResultType: QueryResultType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queryExecutionId = queryExecutionId
+            self.queryResultType = queryResultType
         }
 
         public func validate(name: String) throws {
@@ -1928,6 +1937,7 @@ extension Athena {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case queryExecutionId = "QueryExecutionId"
+            case queryResultType = "QueryResultType"
         }
     }
 
@@ -3068,6 +3078,74 @@ extension Athena {
         }
     }
 
+    public struct ManagedQueryResultsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// If set to true, allows you to store query results in Athena owned storage. If set to false, workgroup member stores query results in location specified under ResultConfiguration$OutputLocation. The default is false. A workgroup cannot have the ResultConfiguration$OutputLocation parameter when you set this field to true.
+        public let enabled: Bool
+        /// If you encrypt query and calculation results in Athena owned storage, this field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and key information.
+        public let encryptionConfiguration: ManagedQueryResultsEncryptionConfiguration?
+
+        @inlinable
+        public init(enabled: Bool, encryptionConfiguration: ManagedQueryResultsEncryptionConfiguration? = nil) {
+            self.enabled = enabled
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case encryptionConfiguration = "EncryptionConfiguration"
+        }
+    }
+
+    public struct ManagedQueryResultsConfigurationUpdates: AWSEncodableShape {
+        /// If set to true, specifies that Athena manages query results in Athena owned storage.
+        public let enabled: Bool?
+        /// If you encrypt query and calculation results in Athena owned storage, this field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and key information.
+        public let encryptionConfiguration: ManagedQueryResultsEncryptionConfiguration?
+        /// If set to true, it removes workgroup from Athena owned storage. The existing query results are cleaned up after 24hrs. You must provide query results in location specified under ResultConfiguration$OutputLocation.
+        public let removeEncryptionConfiguration: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil, encryptionConfiguration: ManagedQueryResultsEncryptionConfiguration? = nil, removeEncryptionConfiguration: Bool? = nil) {
+            self.enabled = enabled
+            self.encryptionConfiguration = encryptionConfiguration
+            self.removeEncryptionConfiguration = removeEncryptionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case removeEncryptionConfiguration = "RemoveEncryptionConfiguration"
+        }
+    }
+
+    public struct ManagedQueryResultsEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of an KMS key for encrypting managed query results.
+        public let kmsKey: String
+
+        @inlinable
+        public init(kmsKey: String) {
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKey = "KmsKey"
+        }
+    }
+
     public struct NamedQuery: AWSDecodableShape {
         /// The database to which the query belongs.
         public let database: String
@@ -3238,6 +3316,8 @@ extension Athena {
         public let engineVersion: EngineVersion?
         /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur. The list of parameters is not returned in the response.
         public let executionParameters: [String]?
+        ///  The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
+        public let managedQueryResultsConfiguration: ManagedQueryResultsConfiguration?
         /// The SQL query statements which the query execution ran.
         public let query: String?
         /// The database in which the query execution occurred.
@@ -3250,7 +3330,7 @@ extension Athena {
         public let resultConfiguration: ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public let resultReuseConfiguration: ResultReuseConfiguration?
-        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, EXPLAIN, DESCRIBE, or SHOW TABLES.
+        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE TABLE.
         public let statementType: StatementType?
         /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
         public let statistics: QueryExecutionStatistics?
@@ -3262,9 +3342,10 @@ extension Athena {
         public let workGroup: String?
 
         @inlinable
-        public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, substatementType: String? = nil, workGroup: String? = nil) {
+        public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, managedQueryResultsConfiguration: ManagedQueryResultsConfiguration? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, substatementType: String? = nil, workGroup: String? = nil) {
             self.engineVersion = engineVersion
             self.executionParameters = executionParameters
+            self.managedQueryResultsConfiguration = managedQueryResultsConfiguration
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
@@ -3281,6 +3362,7 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case engineVersion = "EngineVersion"
             case executionParameters = "ExecutionParameters"
+            case managedQueryResultsConfiguration = "ManagedQueryResultsConfiguration"
             case query = "Query"
             case queryExecutionContext = "QueryExecutionContext"
             case queryExecutionId = "QueryExecutionId"
@@ -4696,6 +4778,8 @@ extension Athena {
         public let executionRole: String?
         /// Specifies whether the workgroup is IAM Identity Center supported.
         public let identityCenterConfiguration: IdentityCenterConfiguration?
+        ///  The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
+        public let managedQueryResultsConfiguration: ManagedQueryResultsConfiguration?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -4706,7 +4790,7 @@ extension Athena {
         public let resultConfiguration: ResultConfiguration?
 
         @inlinable
-        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, managedQueryResultsConfiguration: ManagedQueryResultsConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
@@ -4715,6 +4799,7 @@ extension Athena {
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.identityCenterConfiguration = identityCenterConfiguration
+            self.managedQueryResultsConfiguration = managedQueryResultsConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
@@ -4731,6 +4816,7 @@ extension Athena {
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
+            try self.managedQueryResultsConfiguration?.validate(name: "\(name).managedQueryResultsConfiguration")
             try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
         }
 
@@ -4743,6 +4829,7 @@ extension Athena {
             case engineVersion = "EngineVersion"
             case executionRole = "ExecutionRole"
             case identityCenterConfiguration = "IdentityCenterConfiguration"
+            case managedQueryResultsConfiguration = "ManagedQueryResultsConfiguration"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
             case requesterPaysEnabled = "RequesterPaysEnabled"
@@ -4764,6 +4851,8 @@ extension Athena {
         public let engineVersion: EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public let executionRole: String?
+        /// Updates configuration information for managed query results in the workgroup.
+        public let managedQueryResultsConfigurationUpdates: ManagedQueryResultsConfigurationUpdates?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -4778,7 +4867,7 @@ extension Athena {
         public let resultConfigurationUpdates: ResultConfigurationUpdates?
 
         @inlinable
-        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, managedQueryResultsConfigurationUpdates: ManagedQueryResultsConfigurationUpdates? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
@@ -4786,6 +4875,7 @@ extension Athena {
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
+            self.managedQueryResultsConfigurationUpdates = managedQueryResultsConfigurationUpdates
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
@@ -4803,6 +4893,7 @@ extension Athena {
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.managedQueryResultsConfigurationUpdates?.validate(name: "\(name).managedQueryResultsConfigurationUpdates")
             try self.resultConfigurationUpdates?.validate(name: "\(name).resultConfigurationUpdates")
         }
 
@@ -4814,6 +4905,7 @@ extension Athena {
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
             case engineVersion = "EngineVersion"
             case executionRole = "ExecutionRole"
+            case managedQueryResultsConfigurationUpdates = "ManagedQueryResultsConfigurationUpdates"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
             case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"

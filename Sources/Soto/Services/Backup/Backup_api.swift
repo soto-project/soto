@@ -2611,7 +2611,7 @@ public struct Backup: AWSService {
         return try await self.listRestoreTestingSelections(input, logger: logger)
     }
 
-    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault.
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn. For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup. Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb. When this operation is called and when you include values of resourceArn that have an ARN other than arn:aws:backup, it may return one of the exceptions listed below. To prevent this exception, include only values representing resource types that are fully managed by Backup. These have an ARN that begins arn:aws:backup and they are noted in the Feature availability by resource table.
     @Sendable
     @inlinable
     public func listTags(_ input: ListTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsOutput {
@@ -2624,7 +2624,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault.
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn. For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup. Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb. When this operation is called and when you include values of resourceArn that have an ARN other than arn:aws:backup, it may return one of the exceptions listed below. To prevent this exception, include only values representing resource types that are fully managed by Backup. These have an ARN that begins arn:aws:backup and they are noted in the Feature availability by resource table.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to be returned.
@@ -2732,7 +2732,7 @@ public struct Backup: AWSService {
     /// Turns on notifications on a backup vault for the specified topic and events.
     ///
     /// Parameters:
-    ///   - backupVaultEvents: An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     The list below includes both supported events and deprecated events that are no longer in use (for reference). Deprecated events do not return statuses or notifications.  Refer to the list above for the supported events.
+    ///   - backupVaultEvents: An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED | BACKUP_JOB_FAILED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     RECOVERY_POINT_INDEX_COMPLETED | RECOVERY_POINT_INDEX_DELETED |  RECOVERY_POINT_INDEXING_FAILED     The list below includes both supported events and deprecated events that are no longer in use (for reference). Deprecated events do not return statuses or notifications.  Refer to the list above for the supported events.
     ///   - backupVaultName: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
     ///   - snsTopicArn: The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
     ///   - logger: Logger use during operation
@@ -2962,7 +2962,7 @@ public struct Backup: AWSService {
         return try await self.startRestoreJob(input, logger: logger)
     }
 
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services:   Amazon Aurora   Amazon DocumentDB (with MongoDB compatibility)   Amazon FSx for Lustre   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server   Amazon Neptune   SAP HANA databases on Amazon EC2 instances   Amazon RDS
     @Sendable
     @inlinable
     public func stopBackupJob(_ input: StopBackupJobInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2975,7 +2975,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services:   Amazon Aurora   Amazon DocumentDB (with MongoDB compatibility)   Amazon FSx for Lustre   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server   Amazon Neptune   SAP HANA databases on Amazon EC2 instances   Amazon RDS
     ///
     /// Parameters:
     ///   - backupJobId: Uniquely identifies a request to Backup to back up a resource.
@@ -2991,7 +2991,7 @@ public struct Backup: AWSService {
         return try await self.stopBackupJob(input, logger: logger)
     }
 
-    /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN). This API is supported for recovery points for resource types  including Aurora, Amazon DocumentDB. Amazon EBS,  Amazon FSx, Neptune, and Amazon RDS.
+    /// Assigns a set of key-value pairs to a resource.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3004,10 +3004,10 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN). This API is supported for recovery points for resource types  including Aurora, Amazon DocumentDB. Amazon EBS,  Amazon FSx, Neptune, and Amazon RDS.
+    /// Assigns a set of key-value pairs to a resource.
     ///
     /// Parameters:
-    ///   - resourceArn: An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource. ARNs that do not include backup are incompatible with tagging.  TagResource and UntagResource with invalid ARNs will  result in an error. Acceptable ARN content can include  arn:aws:backup:us-east. Invalid ARN content may look like  arn:aws:ec2:us-east.
+    ///   - resourceArn: The ARN that uniquely identifies the resource.
     ///   - tags: Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
     ///   - logger: Logger use during operation
     @inlinable

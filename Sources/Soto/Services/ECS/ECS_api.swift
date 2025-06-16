@@ -3005,9 +3005,7 @@ public struct ECS: AWSService {
     /// 					has one running service task and zones B and C each have two, container
     /// 					instances in either zone B or C are considered optimal for termination.   Stop the task on a container instance in an optimal Availability Zone (based
     /// 					on the previous steps), favoring container instances with the largest number of
-    /// 					running tasks for this service.    You must have a service-linked role when you update any of the following service
-    /// 				properties:    loadBalancers,    serviceRegistries    For more information about the role see the CreateService request
-    /// 				parameter  role .
+    /// 					running tasks for this service.
     @Sendable
     @inlinable
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceResponse {
@@ -3086,13 +3084,11 @@ public struct ECS: AWSService {
     /// 					has one running service task and zones B and C each have two, container
     /// 					instances in either zone B or C are considered optimal for termination.   Stop the task on a container instance in an optimal Availability Zone (based
     /// 					on the previous steps), favoring container instances with the largest number of
-    /// 					running tasks for this service.    You must have a service-linked role when you update any of the following service
-    /// 				properties:    loadBalancers,    serviceRegistries    For more information about the role see the CreateService request
-    /// 				parameter  role .
+    /// 					running tasks for this service.
     ///
     /// Parameters:
     ///   - availabilityZoneRebalancing: Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-    ///   - capacityProviderStrategy: The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the
+    ///   - capacityProviderStrategy: The details of a capacity provider strategy. You can set a capacity provider when you
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on.
     ///   - deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment
     ///   - desiredCount: The number of instantiations of the task to place and keep running in your
@@ -3100,7 +3096,7 @@ public struct ECS: AWSService {
     ///   - enableExecuteCommand: If true, this enables execute command functionality on all task
     ///   - forceNewDeployment: Determines whether to force a new deployment of the service. By default, deployments
     ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
-    ///   - loadBalancers: A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
+    ///   - loadBalancers:  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
     ///   - networkConfiguration: An object representing the network configuration for the service.
     ///   - placementConstraints: An array of task placement constraint objects to update the service to use. If no
     ///   - placementStrategy: The task placement strategy objects to update the service to use. If no value is
@@ -3108,7 +3104,7 @@ public struct ECS: AWSService {
     ///   - propagateTags: Determines whether to propagate the tags from the task definition or the service to
     ///   - service: The name of the service to update.
     ///   - serviceConnectConfiguration: The configuration for this service to discover and connect to
-    ///   - serviceRegistries: The details for the service discovery registries to assign to this service. For more
+    ///   - serviceRegistries:  You must have a service-linked role when you update this property. For more information about the role see the CreateService request
     ///   - taskDefinition: The family and revision (family:revision) or
     ///   - volumeConfigurations: The details of the volume that was configuredAtLaunch. You can configure
     ///   - vpcLatticeConfigurations: An object representing the VPC Lattice configuration for the service being
