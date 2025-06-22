@@ -17,14 +17,12 @@ set -eux
 
 TEMP_DIR=""
 
-usage()
-{
+usage() {
     echo "Usage: update_models.sh -gc [ -v MODELS_VERSION_NUMBER ]"
     exit 2
 }
 
-get_aws_sdk_go_v2()
-{
+get_aws_sdk_go_v2() {
     DESTIONATION_FOLDER=$1
     BRANCH_NAME=$2
     # clone aws-sdk-go-v2 into folder
@@ -45,8 +43,7 @@ get_aws_sdk_go_v2()
     echo $BRANCH_NAME
 }
 
-copy_model_files()
-{
+copy_model_files() {
     SOURCE_FOLDER=$1
     ENDPOINT_FILE=$2
     DESTINATION_FOLDER=$3
@@ -57,8 +54,7 @@ copy_model_files()
     return 0
 }
 
-build_files()
-{
+build_files() {
     echo "Run the code generator"
     rm -rf Sources/Soto/Services/*
     SotoCodeGenerator \
@@ -67,15 +63,13 @@ build_files()
         --endpoints models/endpoints/endpoints.json
 }
 
-compile_files()
-{
+compile_files() {
     echo "Compile service files"
     # build services after having generated the files
     swift build
 }
 
-check_for_local_changes()
-{
+check_for_local_changes() {
     LOCAL_CHANGES=$(git status --porcelain)
     if [ -n "$LOCAL_CHANGES" ]; then
         echo "You have local changes."
@@ -86,8 +80,7 @@ check_for_local_changes()
     fi
 }
 
-commit_changes()
-{
+commit_changes() {
     MODELS_VERSION=$1
     COMMIT_MSG="Sync models with aws-sdk-go-v2 $MODELS_VERSION"
     git add models
@@ -95,8 +88,7 @@ commit_changes()
     git commit -m "$COMMIT_MSG"
 }
 
-cleanup()
-{
+cleanup() {
     if [ -n "$TEMP_DIR" ]; then
         rm -rf $TEMP_DIR
     fi

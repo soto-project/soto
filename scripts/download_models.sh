@@ -17,14 +17,12 @@ TEMP_DIR=$(mktemp -d)
 
 set -eux
 
-usage()
-{
+usage() {
     echo "Usage: download_models.sh [-c]"
     exit 2
 }
 
-get_api_models_aws()
-{
+get_api_models_aws() {
     DESTINATION_FOLDER=$1
     HASH=$2
 
@@ -44,17 +42,12 @@ get_api_models_aws()
     fi
 }
 
-copy_model_files()
-{
-    SOURCE_FOLDER=$1
-    DESTINATION_FOLDER=$2
-    rm -rf "$DESTINATION_FOLDER"/*
-    cp -R "$SOURCE_FOLDER"/* "$DESTINATION_FOLDER"/
-    return 0
+get_endpoints_json() {
+    DESTINATION_FOLDER=$1
+    curl https://aws-toolkit-endpoints.s3.amazonaws.com/endpoints.json > "$DESTINATION_FOLDER"/endpoints.json
 }
 
-cleanup()
-{
+cleanup() {
     if [ -n "$TEMP_DIR" ]; then
         rm -rf $TEMP_DIR
     fi
@@ -77,6 +70,11 @@ echo "Get api-models-aws"
 API_MODEL_AWS_FOLDER=$TEMP_DIR/api-models-aws/
 get_api_models_aws "$API_MODEL_AWS_FOLDER" "${AWS_MODELS_VERSION:-}"
 
-mkdir -p .build/aws-models
-copy_model_files $API_MODEL_AWS_FOLDER/models .build/aws-models
+rm -rf .build/aws
+
+mkdir -p .build/aws/models
+cp -r $API_MODEL_AWS_FOLDER/models/* .build/aws/models
+
+mkdir -p .build/aws/endpoints
+get_endpoints_json .build/aws/endpoints
 
