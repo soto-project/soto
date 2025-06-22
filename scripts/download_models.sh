@@ -18,7 +18,7 @@ TEMP_DIR=$(mktemp -d)
 set -eux
 
 usage() {
-    echo "Usage: download_models.sh [-c]"
+    echo "Usage: download_models.sh [-u]"
     exit 2
 }
 
@@ -57,10 +57,18 @@ trap cleanup EXIT $?
 
 echo "Using temp folder $TEMP_DIR"
 
-while getopts 'c' option
+# if .aws-model-hash file exists use the hash in there as the commit hash for 
+# the models to use
+if [ -f .aws-model-hash ]; then
+    AWS_MODELS_VERSION=$(cat .aws-model-hash)
+else
+    AWS_MODELS_VERSION=""
+fi
+
+while getopts 'u' option
 do
     case $option in
-        c) AWS_MODELS_VERSION=$(cat .aws-model-hash) ;;
+        u) AWS_MODELS_VERSION="" ;;
         *) usage ;;
     esac
 done
