@@ -19,7 +19,7 @@ TEMP_DIR=""
 
 usage()
 {
-    echo "Usage: update_models.sh -bupc [ -v MODELS_VERSION_NUMBER ]"
+    echo "Usage: update_models.sh -gc [ -v MODELS_VERSION_NUMBER ]"
     exit 2
 }
 
