@@ -15,52 +15,20 @@
 
 set -eux
 
-TEMP_DIR=""
+TEMP_DIR=$(mktemp -d)
 
 usage() {
     echo "Usage: update_models.sh -gc [ -v MODELS_VERSION_NUMBER ]"
     exit 2
 }
 
-get_aws_sdk_go_v2() {
-    DESTIONATION_FOLDER=$1
-    BRANCH_NAME=$2
-    # clone aws-sdk-go-v2 into folder
-    git clone --depth 1 https://github.com/aws/aws-sdk-go-v2.git "$DESTIONATION_FOLDER"
-    CURRENT_FOLDER=$(pwd)
-    cd "$DESTIONATION_FOLDER"
-    if [ -z "$BRANCH_NAME"]; then
-        RELEASE_REVISION=$(git rev-list --tags --max-count=1)
-        if [ -n "$RELEASE_REVISION" ]; then
-            BRANCH_NAME=$(git describe --tags "$RELEASE_REVISION")
-        else
-            BRANCH_NAME=$(git rev-parse HEAD)
-        fi
-    fi
-    git checkout "$BRANCH_NAME"
-    cd "$CURRENT_FOLDER"
-
-    echo $BRANCH_NAME
-}
-
-copy_model_files() {
-    SOURCE_FOLDER=$1
-    ENDPOINT_FILE=$2
-    DESTINATION_FOLDER=$3
-    rm -rf "$DESTINATION_FOLDER"/*
-    cp -R "$SOURCE_FOLDER"/* "$DESTINATION_FOLDER"/
-    mkdir "$DESTINATION_FOLDER"/endpoints/
-    cp "$ENDPOINT_FILE" "$DESTINATION_FOLDER"/endpoints/
-    return 0
-}
-
 build_files() {
     echo "Run the code generator"
     rm -rf Sources/Soto/Services/*
     SotoCodeGenerator \
-        --input-folder models \
+        --input-folder .build/aws/models \
         --output-folder Sources/Soto/Services \
-        --endpoints models/endpoints/endpoints.json
+        --endpoints .build/aws/endpoints/endpoints.json
 }
 
 compile_files() {
@@ -81,9 +49,9 @@ check_for_local_changes() {
 }
 
 commit_changes() {
-    MODELS_VERSION=$1
-    COMMIT_MSG="Sync models with aws-sdk-go-v2 $MODELS_VERSION"
-    git add models
+    HASH=$(cat .aws-model-hash)
+    COMMIT_MSG="Update models from api-models-aws. Commit ID $HASH"
+    git add .aws-model-hash
     git add Sources/Soto
     git commit -m "$COMMIT_MSG"
 }
@@ -94,14 +62,12 @@ cleanup() {
     fi
 }
 
-AWS_MODELS_VERSION=""
 COMPILE_FILES=""
 COMMIT_FILES=""
 
-while getopts 'gcv:' option
+while getopts 'gc' option
 do
     case $option in
-        v) AWS_MODELS_VERSION=$OPTARG ;;
         c) COMPILE_FILES=1 ;;
         g) COMMIT_FILES=1 ;;
         *) usage ;;
@@ -113,23 +79,13 @@ trap cleanup EXIT $?
 
 check_for_local_changes
 
-TEMP_DIR=$(mktemp -d)
 echo "Using temp folder $TEMP_DIR"
 
 echo "Install code generator"
 mint install https://github.com/soto-project/soto-codegenerator
 
 echo "Get aws-sdk-go models"
-AWS_SDK_GO=$TEMP_DIR/aws-sdk-go-v2/
-AWS_MODELS_VERSION=$(get_aws_sdk_go_v2 "$AWS_SDK_GO" "$AWS_MODELS_VERSION")
-
-# required by update_models.yml to extract the version number of the models
-echo "AWS_MODELS_VERSION=$AWS_MODELS_VERSION"
-echo "Copy models to soto"
-AWS_SDK_GO_MODELS=$AWS_SDK_GO/codegen/sdk-codegen/aws-models
-AWS_SDK_GO_ENDPOINT=$AWS_SDK_GO/codegen/smithy-aws-go-codegen/src/main/resources/software/amazon/smithy/aws/go/codegen/endpoints.json
-TARGET_MODELS=models
-copy_model_files "$AWS_SDK_GO_MODELS" "$AWS_SDK_GO_ENDPOINT" "$TARGET_MODELS"
+source download_models.sh -u
 
 echo "Building Service files"
 build_files
@@ -140,5 +96,5 @@ if [ -n "$COMPILE_FILES" ]; then
     compile_files
 fi
 if [ -n "$COMMIT_FILES" ]; then
-    commit_changes "$AWS_MODELS_VERSION"
+    commit_changes
 fi
