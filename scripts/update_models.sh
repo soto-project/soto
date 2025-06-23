@@ -15,6 +15,7 @@
 
 set -eux
 
+HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TEMP_DIR=$(mktemp -d)
 
 usage() {
@@ -85,12 +86,12 @@ echo "Install code generator"
 mint install https://github.com/soto-project/soto-codegenerator
 
 echo "Get api models from api-models-aws.git"
-source download_models.sh -u
+source "${HERE}"/download_models.sh -u
 
 echo "Building Service files"
 build_files
 echo "Building Package.swift"
-./scripts/generate-package.swift
+source "${HERE}"/generate-package.swift
 
 if [ -n "$COMPILE_FILES" ]; then
     compile_files
