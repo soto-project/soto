@@ -44,7 +44,7 @@ get_api_models_aws() {
 
 get_endpoints_json() {
     DESTINATION_FOLDER=$1
-    curl https://aws-toolkit-endpoints.s3.amazonaws.com/endpoints.json > "$DESTINATION_FOLDER"/endpoints.json
+    curl https://raw.githubusercontent.com/aws/aws-sdk-go-v2/refs/heads/main/codegen/smithy-aws-go-codegen/src/main/resources/software/amazon/smithy/aws/go/codegen/endpoints.json > "$DESTINATION_FOLDER"/endpoints.json
 }
 
 cleanup() {
