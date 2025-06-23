@@ -28,16 +28,16 @@ jobs:
     - name: Update Models
       id: update-models
       run: |
-        ./scripts/update_models.sh | grep AWS_MODELS_VERSION >> $GITHUB_ENV
+        ./scripts/update_models.sh
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ steps.generate-token.outputs.token }}
-        commit-message: 'Update models from aws-sdk-go-v2 ${{ env.AWS_MODELS_VERSION }}'
+        commit-message: 'Update models from api-models-aws.git}'
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         branch: aws-update-models
-        title: 'Update models from aws-sdk-go-v2 ${{ env.AWS_MODELS_VERSION }}'
+        title: 'Update models from api-models-aws.git'
         body: 'Automated update of AWS service files from Smithy model files in aws-sdk-go-v2 repository'
         base: main

@@ -84,7 +84,7 @@ echo "Using temp folder $TEMP_DIR"
 echo "Install code generator"
 mint install https://github.com/soto-project/soto-codegenerator
 
-echo "Get aws-sdk-go models"
+echo "Get api models from api-models-aws.git"
 source download_models.sh -u
 
 echo "Building Service files"
