@@ -91,7 +91,7 @@ source "${HERE}"/download_models.sh -u
 echo "Building Service files"
 build_files
 echo "Building Package.swift"
-source "${HERE}"/generate-package.swift
+"${HERE}"/generate-package.swift
 
 if [ -n "$COMPILE_FILES" ]; then
     compile_files
