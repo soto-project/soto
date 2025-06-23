@@ -55,6 +55,10 @@ extension PaymentCryptography {
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
+        case hmacSha224 = "HMAC_SHA224"
+        case hmacSha256 = "HMAC_SHA256"
+        case hmacSha384 = "HMAC_SHA384"
+        case hmacSha512 = "HMAC_SHA512"
         case rsa2048 = "RSA_2048"
         case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
@@ -66,6 +70,7 @@ extension PaymentCryptography {
     public enum KeyCheckValueAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ansiX924 = "ANSI_X9_24"
         case cmac = "CMAC"
+        case hmac = "HMAC"
         public var description: String { return self.rawValue }
     }
 
@@ -151,6 +156,10 @@ extension PaymentCryptography {
         case aes128 = "AES_128"
         case aes192 = "AES_192"
         case aes256 = "AES_256"
+        case hmacSha224 = "HMAC_SHA224"
+        case hmacSha256 = "HMAC_SHA256"
+        case hmacSha384 = "HMAC_SHA384"
+        case hmacSha512 = "HMAC_SHA512"
         case tdes2Key = "TDES_2KEY"
         case tdes3Key = "TDES_3KEY"
         public var description: String { return self.rawValue }
@@ -175,7 +184,7 @@ extension PaymentCryptography {
     }
 
     public enum ExportKeyMaterial: AWSEncodableShape, Sendable {
-        /// Parameter information for key material export using the asymmetric ECDH key exchange method.
+        /// Key derivation parameter information for key material export using asymmetric ECDH key exchange method.
         case diffieHellmanTr31KeyBlock(ExportDiffieHellmanTr31KeyBlock)
         /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method
         case keyCryptogram(ExportKeyCryptogram)
@@ -220,7 +229,7 @@ extension PaymentCryptography {
     }
 
     public enum ImportKeyMaterial: AWSEncodableShape, Sendable {
-        /// Parameter information for key material import using the asymmetric ECDH key exchange method.
+        /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
         case diffieHellmanTr31KeyBlock(ImportDiffieHellmanTr31KeyBlock)
         /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
         case keyCryptogram(ImportKeyCryptogram)
@@ -340,7 +349,7 @@ extension PaymentCryptography {
     }
 
     public struct CreateKeyInput: AWSEncodableShape {
-        /// The cryptographic usage of an ECDH derived key as deﬁned in section A.5.2 of the TR-31 spec.
+        /// The intended cryptographic usage of keys derived from the ECC key pair to be created. After creating an ECC key pair, you cannot change the intended cryptographic usage of keys derived from it using ECDH.
         public let deriveKeyUsage: DeriveKeyUsage?
         /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
         public let enabled: Bool?
@@ -479,20 +488,20 @@ extension PaymentCryptography {
     }
 
     public struct ExportDiffieHellmanTr31KeyBlock: AWSEncodableShape {
-        /// The keyARN of the certificate that signed the client's PublicKeyCertificate.
+        /// The keyARN of the CA that signed the PublicKeyCertificate for the client's receiving ECC key pair.
         public let certificateAuthorityPublicKeyIdentifier: String
-        /// Derivation data used to derive an ECDH key.
+        /// The shared information used when deriving a key using ECDH.
         public let derivationData: DiffieHellmanDerivationData
-        /// The key algorithm of the derived ECDH key.
+        /// The key algorithm of the shared derived ECDH key.
         public let deriveKeyAlgorithm: SymmetricKeyAlgorithm
         public let keyBlockHeaders: KeyBlockHeaders?
-        /// The key derivation function to use for deriving a key using ECDH.
+        /// The key derivation function to use when deriving a key using ECDH.
         public let keyDerivationFunction: KeyDerivationFunction
-        /// The hash type to use for deriving a key using ECDH.
+        /// The hash type to use when deriving a key using ECDH.
         public let keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm
-        /// The keyARN of the asymmetric ECC key.
+        /// The keyARN of the asymmetric ECC key created within Amazon Web Services Payment Cryptography.
         public let privateKeyIdentifier: String
-        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        /// The public key certificate of the client's receiving ECC key pair, in PEM format (base64 encoded), to use for ECDH key derivation.
         public let publicKeyCertificate: String
 
         @inlinable
@@ -656,7 +665,7 @@ extension PaymentCryptography {
     public struct ExportTr34KeyBlock: AWSEncodableShape {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during TR-34 key export.
         public let certificateAuthorityPublicKeyIdentifier: String
-        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call GetParametersForExport to receive an export token. It expires after 7 days. You can use the same export token to export multiple keys from the same service account.
+        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call GetParametersForExport to receive an export token. It expires after 30 days. You can use the same export token to export multiple keys from the same service account.
         public let exportToken: String
         /// The format of key block that Amazon Web Services Payment Cryptography will use during key export.
         public let keyBlockFormat: Tr34KeyBlockFormat
@@ -788,13 +797,13 @@ extension PaymentCryptography {
     }
 
     public struct GetParametersForExportOutput: AWSDecodableShape {
-        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 7 days. You can use the same export token to export multiple keys from the same service account.
+        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 30 days. You can use the same export token to export multiple keys from the same service account.
         public let exportToken: String
         /// The validity period of the export token.
         public let parametersValidUntilTimestamp: Date
         /// The algorithm of the signing key certificate for use in TR-34 key block generation. RSA_2048 is the only signing key algorithm allowed.
         public let signingKeyAlgorithm: KeyAlgorithm
-        /// The signing key certificate in PEM format (base64 encoded) of the public key for signature within the TR-34 key block. The certificate expires after 7 days.
+        /// The signing key certificate in PEM format (base64 encoded) of the public key for signature within the TR-34 key block. The certificate expires after 30 days.
         public let signingKeyCertificate: String
         /// The root certificate authority (CA) that signed the signing key certificate in PEM format (base64 encoded).
         public let signingKeyCertificateChain: String
@@ -836,13 +845,13 @@ extension PaymentCryptography {
     }
 
     public struct GetParametersForImportOutput: AWSDecodableShape {
-        /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 30 days. You can use the same import token to import multiple keys to the same service account.
         public let importToken: String
         /// The validity period of the import token.
         public let parametersValidUntilTimestamp: Date
         /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock or RSA WrappedKeyCryptogram.
         public let wrappingKeyAlgorithm: KeyAlgorithm
-        /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
+        /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 30 days.
         public let wrappingKeyCertificate: String
         /// The Amazon Web Services Payment Cryptography root certificate authority (CA) that signed the wrapping key certificate in PEM format (base64 encoded).
         public let wrappingKeyCertificateChain: String
@@ -904,19 +913,19 @@ extension PaymentCryptography {
     }
 
     public struct ImportDiffieHellmanTr31KeyBlock: AWSEncodableShape {
-        /// The keyARN of the certificate that signed the client's PublicKeyCertificate.
+        /// The keyARN of the CA that signed the PublicKeyCertificate for the client's receiving ECC key pair.
         public let certificateAuthorityPublicKeyIdentifier: String
-        /// Derivation data used to derive an ECDH key.
+        /// The shared information used when deriving a key using ECDH.
         public let derivationData: DiffieHellmanDerivationData
-        /// The key algorithm of the derived ECDH key.
+        /// The key algorithm of the shared derived ECDH key.
         public let deriveKeyAlgorithm: SymmetricKeyAlgorithm
-        /// The key derivation function to use for deriving a key using ECDH.
+        /// The key derivation function to use when deriving a key using ECDH.
         public let keyDerivationFunction: KeyDerivationFunction
-        /// The hash type to use for deriving a key using ECDH.
+        /// The hash type to use when deriving a key using ECDH.
         public let keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm
-        /// The keyARN of the asymmetric ECC key.
+        /// The keyARN of the asymmetric ECC key created within Amazon Web Services Payment Cryptography.
         public let privateKeyIdentifier: String
-        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        /// The public key certificate of the client's receiving ECC key pair, in PEM format (base64 encoded), to use for ECDH key derivation.
         public let publicKeyCertificate: String
         /// The ECDH wrapped key block to import.
         public let wrappedKeyBlock: String
@@ -964,7 +973,7 @@ extension PaymentCryptography {
     public struct ImportKeyCryptogram: AWSEncodableShape {
         /// Specifies whether the key is exportable from the service.
         public let exportable: Bool
-        /// The import token that initiates key import using the asymmetric RSA wrap and unwrap key exchange method into AWS Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// The import token that initiates key import using the asymmetric RSA wrap and unwrap key exchange method into AWS Payment Cryptography. It expires after 30 days. You can use the same import token to import multiple keys to the same service account.
         public let importToken: String
         public let keyAttributes: KeyAttributes
         /// The RSA wrapped key cryptogram under import.
@@ -1075,7 +1084,7 @@ extension PaymentCryptography {
     public struct ImportTr34KeyBlock: AWSEncodableShape {
         /// The KeyARN of the certificate chain that signs the signing key certificate during TR-34 key import.
         public let certificateAuthorityPublicKeyIdentifier: String
-        /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 30 days. You can use the same import token to import multiple keys to the same service account.
         public let importToken: String
         /// The key block format to use during key import. The only value allowed is X9_TR34_2012.
         public let keyBlockFormat: Tr34KeyBlockFormat
@@ -1813,7 +1822,7 @@ extension PaymentCryptography {
     }
 
     public struct DiffieHellmanDerivationData: AWSEncodableShape {
-        /// A byte string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes, and re-using shared information for multiple ECDH key derivations is not recommended.
+        /// A string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes. It is not recommended to reuse shared information for multiple ECDH key derivations, as it could result in derived key material being the same across different derivations.
         public let sharedInformation: String?
 
         @inlinable

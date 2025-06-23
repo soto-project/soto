@@ -128,6 +128,12 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaxEventSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case large = "Large"
+        case standard = "Standard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
@@ -154,6 +160,12 @@ extension CloudTrail {
     public enum RefreshScheduleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case requestContext = "RequestContext"
+        case tagContext = "TagContext"
         public var description: String { return self.rawValue }
     }
 
@@ -374,6 +386,33 @@ extension CloudTrail {
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case name = "Name"
+        }
+    }
+
+    public struct ContextKeySelector: AWSEncodableShape & AWSDecodableShape {
+        /// A list of keys defined by Type to be included in CloudTrail enriched events.
+        public let equals: [String]
+        /// Specifies the type of the event record field in ContextKeySelector. Valid values include RequestContext, TagContext.
+        public let type: `Type`
+
+        @inlinable
+        public init(equals: [String], type: `Type`) {
+            self.equals = equals
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.equals.forEach {
+                try validate($0, name: "equals[]", parent: name, max: 128)
+                try validate($0, name: "equals[]", parent: name, min: 1)
+            }
+            try self.validate(self.equals, name: "equals", parent: name, max: 50)
+            try self.validate(self.equals, name: "equals", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equals = "Equals"
+            case type = "Type"
         }
     }
 
@@ -1127,7 +1166,7 @@ extension CloudTrail {
         public func validate(name: String) throws {
             try self.validate(self.location, name: "location", parent: name, max: 1024)
             try self.validate(self.location, name: "location", parent: name, min: 3)
-            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-zA-Z0-9._/\\-:*]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1532,6 +1571,42 @@ extension CloudTrail {
             case type = "Type"
             case updatedTimestamp = "UpdatedTimestamp"
             case widgets = "Widgets"
+        }
+    }
+
+    public struct GetEventConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
+        public let eventDataStore: String?
+
+        @inlinable
+        public init(eventDataStore: String? = nil) {
+            self.eventDataStore = eventDataStore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+        }
+    }
+
+    public struct GetEventConfigurationResponse: AWSDecodableShape {
+        /// The list of context key selectors that are configured for the event data store.
+        public let contextKeySelectors: [ContextKeySelector]?
+        /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings are returned.
+        public let eventDataStoreArn: String?
+        /// The maximum allowed size for events stored in the specified event data store.
+        public let maxEventSize: MaxEventSize?
+
+        @inlinable
+        public init(contextKeySelectors: [ContextKeySelector]? = nil, eventDataStoreArn: String? = nil, maxEventSize: MaxEventSize? = nil) {
+            self.contextKeySelectors = contextKeySelectors
+            self.eventDataStoreArn = eventDataStoreArn
+            self.maxEventSize = maxEventSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextKeySelectors = "ContextKeySelectors"
+            case eventDataStoreArn = "EventDataStoreArn"
+            case maxEventSize = "MaxEventSize"
         }
     }
 
@@ -2820,6 +2895,57 @@ extension CloudTrail {
             case validityEndTime = "ValidityEndTime"
             case validityStartTime = "ValidityStartTime"
             case value = "Value"
+        }
+    }
+
+    public struct PutEventConfigurationRequest: AWSEncodableShape {
+        /// A list of context key selectors that will be included to provide enriched event data.
+        public let contextKeySelectors: [ContextKeySelector]
+        /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to update event configuration settings.
+        public let eventDataStore: String?
+        /// The maximum allowed size for events to be stored in the specified event data store. If you are using context key selectors, MaxEventSize must be set to Large.
+        public let maxEventSize: MaxEventSize
+
+        @inlinable
+        public init(contextKeySelectors: [ContextKeySelector], eventDataStore: String? = nil, maxEventSize: MaxEventSize) {
+            self.contextKeySelectors = contextKeySelectors
+            self.eventDataStore = eventDataStore
+            self.maxEventSize = maxEventSize
+        }
+
+        public func validate(name: String) throws {
+            try self.contextKeySelectors.forEach {
+                try $0.validate(name: "\(name).contextKeySelectors[]")
+            }
+            try self.validate(self.contextKeySelectors, name: "contextKeySelectors", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextKeySelectors = "ContextKeySelectors"
+            case eventDataStore = "EventDataStore"
+            case maxEventSize = "MaxEventSize"
+        }
+    }
+
+    public struct PutEventConfigurationResponse: AWSDecodableShape {
+        /// The list of context key selectors that are configured for the event data store.
+        public let contextKeySelectors: [ContextKeySelector]?
+        /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings were updated.
+        public let eventDataStoreArn: String?
+        /// The maximum allowed size for events stored in the specified event data store.
+        public let maxEventSize: MaxEventSize?
+
+        @inlinable
+        public init(contextKeySelectors: [ContextKeySelector]? = nil, eventDataStoreArn: String? = nil, maxEventSize: MaxEventSize? = nil) {
+            self.contextKeySelectors = contextKeySelectors
+            self.eventDataStoreArn = eventDataStoreArn
+            self.maxEventSize = maxEventSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextKeySelectors = "ContextKeySelectors"
+            case eventDataStoreArn = "EventDataStoreArn"
+            case maxEventSize = "MaxEventSize"
         }
     }
 
@@ -4387,6 +4513,7 @@ public struct CloudTrailErrorType: AWSErrorType {
         case insightNotEnabledException = "InsightNotEnabledException"
         case insufficientDependencyServiceAccessPermissionException = "InsufficientDependencyServiceAccessPermissionException"
         case insufficientEncryptionPolicyException = "InsufficientEncryptionPolicyException"
+        case insufficientIAMAccessPermissionException = "InsufficientIAMAccessPermissionException"
         case insufficientS3BucketPolicyException = "InsufficientS3BucketPolicyException"
         case insufficientSnsTopicPolicyException = "InsufficientSnsTopicPolicyException"
         case invalidCloudWatchLogsLogGroupArnException = "InvalidCloudWatchLogsLogGroupArnException"
@@ -4524,6 +4651,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var insufficientDependencyServiceAccessPermissionException: Self { .init(.insufficientDependencyServiceAccessPermissionException) }
     /// For the CreateTrail PutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown  when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     public static var insufficientEncryptionPolicyException: Self { .init(.insufficientEncryptionPolicyException) }
+    /// The task can't be completed because you are signed in with an account that lacks permissions to view or create a service-linked role. Sign in with an account that has the required permissions and then try again.
+    public static var insufficientIAMAccessPermissionException: Self { .init(.insufficientIAMAccessPermissionException) }
     /// This exception is thrown when the policy on the S3 bucket is not sufficient.
     public static var insufficientS3BucketPolicyException: Self { .init(.insufficientS3BucketPolicyException) }
     /// This exception is thrown when the policy on the Amazon SNS topic is not sufficient.

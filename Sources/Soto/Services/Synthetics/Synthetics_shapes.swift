@@ -38,6 +38,13 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
+    public enum CanaryRunTestResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case passed = "PASSED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CanaryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -274,13 +281,13 @@ extension Synthetics {
         /// The entry point to use for the source code when running the canary. For canaries that use the  syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4,  the handler must be specified as  fileName.handler. For  syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as   fileName.functionName , or you can specify a folder where canary scripts reside as
         ///  folder/fileName.functionName .
         public let handler: String
-        /// If your canary script is located in S3, specify the bucket name here. Do not include s3:// as the  start of the bucket name.
+        /// If your canary script is located in Amazon S3, specify the bucket name here. Do not include s3:// as the  start of the bucket name.
         public let s3Bucket: String?
-        /// The S3 key of your script. For more information, see Working with Amazon S3 Objects.
+        /// The Amazon S3 key of your script. For more information, see Working with Amazon S3 Objects.
         public let s3Key: String?
-        /// The S3 version ID of your script.
+        /// The Amazon S3 version ID of your script.
         public let s3Version: String?
-        /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that  contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an S3 location instead of inputting it  directly with this parameter.
+        /// If you input your canary script directly into the canary instead of referring to an Amazon S3 location, the value of this parameter is the base64-encoded contents of the .zip file that  contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an Amazon S3 location instead of inputting it  directly with this parameter.
         public let zipFile: AWSBase64Data?
 
         @inlinable
@@ -295,7 +302,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, min: 1)
-            try self.validate(self.handler, name: "handler", parent: name, pattern: "^([0-9a-zA-Z_-]+\\/)*[0-9A-Za-z_\\\\-]+\\.[A-Za-z_][A-Za-z0-9_]*$")
+            try self.validate(self.handler, name: "handler", parent: name, pattern: "^([0-9a-zA-Z_-]+(\\/|\\.))*[0-9A-Za-z_\\\\-]+(\\.|::)[A-Za-z_][A-Za-z0-9_]*$")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 1024)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 1)
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
@@ -412,15 +419,18 @@ extension Synthetics {
         public let activeTracing: Bool?
         /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For  more information about reserved keys, see  Runtime environment variables.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
         public let environmentVariables: [String: String]?
+        /// Specifies the amount of ephemeral storage (in MB) to allocate for the canary run during execution. This temporary storage is used for storing canary run artifacts (which are uploaded to an Amazon S3 bucket at the end of the run), and any canary browser operations. This temporary storage is cleared after the run is completed. Default storage value is 1024 MB.
+        public let ephemeralStorage: Int?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
         /// How long the canary is allowed to run before it must stop. You can't set this time to be longer than the frequency of the runs of this canary. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
         public let timeoutInSeconds: Int?
 
         @inlinable
-        public init(activeTracing: Bool? = nil, environmentVariables: [String: String]? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
+        public init(activeTracing: Bool? = nil, environmentVariables: [String: String]? = nil, ephemeralStorage: Int? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
             self.activeTracing = activeTracing
             self.environmentVariables = environmentVariables
+            self.ephemeralStorage = ephemeralStorage
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -429,6 +439,8 @@ extension Synthetics {
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^[a-zA-Z]([a-zA-Z0-9_])+$")
             }
+            try self.validate(self.ephemeralStorage, name: "ephemeralStorage", parent: name, max: 5120)
+            try self.validate(self.ephemeralStorage, name: "ephemeralStorage", parent: name, min: 1024)
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, max: 3008)
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, min: 960)
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, max: 840)
@@ -438,6 +450,7 @@ extension Synthetics {
         private enum CodingKeys: String, CodingKey {
             case activeTracing = "ActiveTracing"
             case environmentVariables = "EnvironmentVariables"
+            case ephemeralStorage = "EphemeralStorage"
             case memoryInMB = "MemoryInMB"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
@@ -446,20 +459,24 @@ extension Synthetics {
     public struct CanaryRunConfigOutput: AWSDecodableShape {
         /// Displays whether this canary run used active X-Ray tracing.
         public let activeTracing: Bool?
+        /// Specifies the amount of ephemeral storage (in MB) to allocate for the canary run during execution. This temporary storage is used for storing canary run artifacts (which are uploaded to an Amazon S3 bucket at the end of the run), and any canary browser operations. This temporary storage is cleared after the run is completed. Default storage value is 1024 MB.
+        public let ephemeralStorage: Int?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
         /// How long the canary is allowed to run before it must stop.
         public let timeoutInSeconds: Int?
 
         @inlinable
-        public init(activeTracing: Bool? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
+        public init(activeTracing: Bool? = nil, ephemeralStorage: Int? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
             self.activeTracing = activeTracing
+            self.ephemeralStorage = ephemeralStorage
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeTracing = "ActiveTracing"
+            case ephemeralStorage = "EphemeralStorage"
             case memoryInMB = "MemoryInMB"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
@@ -470,20 +487,24 @@ extension Synthetics {
         public let state: CanaryRunState?
         /// If run of the canary failed, this field contains the reason for the error.
         public let stateReason: String?
-        /// If this value is CANARY_FAILURE, an exception occurred in the  canary code. If this value is EXECUTION_FAILURE, an exception occurred in  CloudWatch Synthetics.
+        /// If this value is CANARY_FAILURE, either the canary script failed or Synthetics ran into a fatal error when running the canary. For example,  a canary timeout misconfiguration setting can cause the canary to timeout before Synthetics can evaluate its status.  If this value is EXECUTION_FAILURE, a non-critical failure occurred such as failing to save generated debug artifacts (for example, screenshots or har files). If both types of failures occurred, the CANARY_FAILURE takes precedence. To understand the exact error, use the StateReason API.
         public let stateReasonCode: CanaryRunStateReasonCode?
+        /// Specifies the status of canary script for this run. When Synthetics tries to determine the status but fails, the result is marked as UNKNOWN. For the overall status of canary run, see State.
+        public let testResult: CanaryRunTestResult?
 
         @inlinable
-        public init(state: CanaryRunState? = nil, stateReason: String? = nil, stateReasonCode: CanaryRunStateReasonCode? = nil) {
+        public init(state: CanaryRunState? = nil, stateReason: String? = nil, stateReasonCode: CanaryRunStateReasonCode? = nil, testResult: CanaryRunTestResult? = nil) {
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
+            self.testResult = testResult
         }
 
         private enum CodingKeys: String, CodingKey {
             case state = "State"
             case stateReason = "StateReason"
             case stateReasonCode = "StateReasonCode"
+            case testResult = "TestResult"
         }
     }
 
@@ -612,9 +633,9 @@ extension Synthetics {
     public struct CreateCanaryRequest: AWSEncodableShape {
         /// A structure that contains the configuration for canary artifacts, including  the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
         public let artifactConfig: ArtifactConfigInput?
-        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  S3 bucket can't include a period (.).
+        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
         public let artifactS3Location: String
-        /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.
+        /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
         public let code: CanaryCodeInput
         /// The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
         public let executionRoleArn: String
@@ -1516,21 +1537,23 @@ extension Synthetics {
 
     public struct StartCanaryDryRunRequest: AWSEncodableShape {
         public let artifactConfig: ArtifactConfigInput?
-        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
+        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this
+        ///  canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
         public let artifactS3Location: String?
         public let code: CanaryCodeInput?
         /// The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
         public let executionRoleArn: String?
-        /// The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+        /// The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let failureRetentionPeriodInDays: Int?
         /// The name of the canary that you want to dry run. To find canary names, use DescribeCanaries.
         public let name: String
-        /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is AUTOMATIC, it means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means
+        ///  that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
         public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
-        /// The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+        /// The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let successRetentionPeriodInDays: Int?
         public let visualReference: VisualReferenceInput?
         public let vpcConfig: VpcConfigInput?
@@ -1760,9 +1783,9 @@ extension Synthetics {
     public struct UpdateCanaryRequest: AWSEncodableShape {
         /// A structure that contains the configuration for canary artifacts,  including the encryption-at-rest settings for artifacts that  the canary uploads to Amazon S3.
         public let artifactConfig: ArtifactConfigInput?
-        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
+        /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
         public let artifactS3Location: String?
-        /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.
+        /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
         public let code: CanaryCodeInput?
         /// Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
         public let dryRunId: String?

@@ -121,6 +121,7 @@ public struct QBusiness: AWSService {
         [.fips]: .init(endpoints: [
             "af-south-1": "qbusiness-fips.af-south-1.api.aws",
             "ap-east-1": "qbusiness-fips.ap-east-1.api.aws",
+            "ap-east-2": "qbusiness-fips.ap-east-2.api.aws",
             "ap-northeast-1": "qbusiness-fips.ap-northeast-1.api.aws",
             "ap-northeast-2": "qbusiness-fips.ap-northeast-2.api.aws",
             "ap-northeast-3": "qbusiness-fips.ap-northeast-3.api.aws",

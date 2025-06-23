@@ -366,9 +366,9 @@ public struct AccessAnalyzer: AWSService {
     ///   - analyzerName: The name of the analyzer to create.
     ///   - archiveRules: Specifies the archive rules to add for the analyzer. Archive rules automatically archive findings that meet the criteria you define for the rule.
     ///   - clientToken: A client token.
-    ///   - configuration: Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration.
+    ///   - configuration: Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration. If the analyzer is an internal access analyzer, the specified internal access analysis rules are used for the configuration.
     ///   - tags: An array of key-value pairs to apply to the analyzer. You can use the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. For the tag key, you can specify a value that is 1 to 128 characters in length and cannot be prefixed with aws:. For the tag value, you can specify a value that is 0 to 256 characters in length.
-    ///   - type: The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
+    ///   - type: The type of analyzer to create. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAnalyzer(

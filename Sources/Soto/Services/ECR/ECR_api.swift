@@ -174,6 +174,7 @@ public struct ECR: AWSService {
             "us-west-2": "ecr-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
+            "ap-east-2": "ecr-fips.ap-east-2.amazonaws.com",
             "us-east-1": "ecr-fips.us-east-1.amazonaws.com",
             "us-east-2": "ecr-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ecr-fips.us-gov-east-1.amazonaws.com",
@@ -381,7 +382,7 @@ public struct ECR: AWSService {
     ///   - ecrRepositoryPrefix: The repository name prefix to use when caching images from the source registry.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/.
     ///   - registryId: The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
     ///   - upstreamRegistry: The name of the upstream registry.
-    ///   - upstreamRegistryUrl: The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
+    ///   - upstreamRegistryUrl: The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – .dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
     ///   - upstreamRepositoryPrefix: The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT.
     ///   - logger: Logger use during operation
     @inlinable
@@ -766,7 +767,7 @@ public struct ECR: AWSService {
         return try await self.describeImageScanFindings(input, logger: logger)
     }
 
-    /// Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
+    /// Returns metadata about the images in a repository.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.   The new version of Amazon ECR Basic Scanning doesn't use the ImageDetail$imageScanFindingsSummary and ImageDetail$imageScanStatus attributes from the API response to return scan results. Use the DescribeImageScanFindings API instead. For more information about Amazon Web Services native basic scanning, see  Scan images for software vulnerabilities in Amazon ECR.
     @Sendable
     @inlinable
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImagesResponse {
@@ -779,7 +780,7 @@ public struct ECR: AWSService {
             logger: logger
         )
     }
-    /// Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
+    /// Returns metadata about the images in a repository.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.   The new version of Amazon ECR Basic Scanning doesn't use the ImageDetail$imageScanFindingsSummary and ImageDetail$imageScanStatus attributes from the API response to return scan results. Use the DescribeImageScanFindings API instead. For more information about Amazon Web Services native basic scanning, see  Scan images for software vulnerabilities in Amazon ECR.
     ///
     /// Parameters:
     ///   - filter: The filter key and value with which to filter your DescribeImages results.
@@ -1087,7 +1088,7 @@ public struct ECR: AWSService {
     /// Parameters:
     ///   - filter: An optional parameter that filters results based on image tag status and all tags, if tagged.
     ///   - imageIds: The list of imageIDs to be included.
-    ///   - maxResults: The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 1000. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to  100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
+    ///   - maxResults: The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 100. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to 100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
     ///   - nextToken: The nextToken value returned from a previous paginated  GetLifecyclePolicyPreviewRequest request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the  previous results that returned the nextToken value. This value is  null when there are no more results to return. This option cannot be used when you specify images with imageIds.
     ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name of the repository.
@@ -2152,7 +2153,7 @@ extension ECR {
     /// - Parameters:
     ///   - filter: An optional parameter that filters results based on image tag status and all tags, if tagged.
     ///   - imageIds: The list of imageIDs to be included.
-    ///   - maxResults: The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 1000. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to  100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
+    ///   - maxResults: The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 100. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to 100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
     ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name of the repository.
     ///   - logger: Logger used for logging
@@ -2387,7 +2388,7 @@ extension ECR {
     /// - Parameters:
     ///   - filter: An optional parameter that filters results based on image tag status and all tags, if tagged.
     ///   - imageIds: The list of imageIDs to be included.
-    ///   - maxResults: The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 1000. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to  100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
+    ///   - maxResults: The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 100. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to 100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
     ///   - nextToken: The nextToken value returned from a previous paginated  GetLifecyclePolicyPreviewRequest request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the  previous results that returned the nextToken value. This value is  null when there are no more results to return. This option cannot be used when you specify images with imageIds.
     ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name of the repository.

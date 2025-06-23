@@ -8971,20 +8971,25 @@ extension Deadline {
         public let instanceCapabilities: ServiceManagedEc2InstanceCapabilities
         /// The Amazon EC2 market type.
         public let instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions
+        /// The storage profile ID.
+        public let storageProfileId: String?
 
         @inlinable
-        public init(instanceCapabilities: ServiceManagedEc2InstanceCapabilities, instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions) {
+        public init(instanceCapabilities: ServiceManagedEc2InstanceCapabilities, instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions, storageProfileId: String? = nil) {
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
+            self.storageProfileId = storageProfileId
         }
 
         public func validate(name: String) throws {
             try self.instanceCapabilities.validate(name: "\(name).instanceCapabilities")
+            try self.validate(self.storageProfileId, name: "storageProfileId", parent: name, pattern: "^sp-[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceCapabilities = "instanceCapabilities"
             case instanceMarketOptions = "instanceMarketOptions"
+            case storageProfileId = "storageProfileId"
         }
     }
 

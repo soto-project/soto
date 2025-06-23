@@ -553,6 +553,56 @@ public struct CostExplorer: AWSService {
         return try await self.getCostAndUsage(input, logger: logger)
     }
 
+    /// Retrieves cost and usage comparisons for your account between two periods within the last 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months.
+    @Sendable
+    @inlinable
+    public func getCostAndUsageComparisons(_ input: GetCostAndUsageComparisonsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCostAndUsageComparisonsResponse {
+        try await self.client.execute(
+            operation: "GetCostAndUsageComparisons", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves cost and usage comparisons for your account between two periods within the last 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months.
+    ///
+    /// Parameters:
+    ///   - baselineTimePeriod: The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    ///   - comparisonTimePeriod: The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - filter: 
+    ///   - groupBy: You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY.
+    ///   - maxResults: The maximum number of results that are returned for the request.
+    ///   - metricForComparison: The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+    ///   - nextPageToken: The token to retrieve the next set of paginated results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCostAndUsageComparisons(
+        baselineTimePeriod: DateInterval,
+        billingViewArn: String? = nil,
+        comparisonTimePeriod: DateInterval,
+        filter: Expression? = nil,
+        groupBy: [GroupDefinition]? = nil,
+        maxResults: Int? = nil,
+        metricForComparison: String,
+        nextPageToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCostAndUsageComparisonsResponse {
+        let input = GetCostAndUsageComparisonsRequest(
+            baselineTimePeriod: baselineTimePeriod, 
+            billingViewArn: billingViewArn, 
+            comparisonTimePeriod: comparisonTimePeriod, 
+            filter: filter, 
+            groupBy: groupBy, 
+            maxResults: maxResults, 
+            metricForComparison: metricForComparison, 
+            nextPageToken: nextPageToken
+        )
+        return try await self.getCostAndUsageComparisons(input, logger: logger)
+    }
+
     /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. Hourly granularity is only available for EC2-Instances (Elastic Compute Cloud) resource-level data. All other resource-level data is available at daily granularity.  This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information about how to access the Settings page, see Controlling Access for Cost Explorer in the Billing and Cost Management User Guide.
     @Sendable
     @inlinable
@@ -648,6 +698,56 @@ public struct CostExplorer: AWSService {
             timePeriod: timePeriod
         )
         return try await self.getCostCategories(input, logger: logger)
+    }
+
+    /// Retrieves key factors driving cost changes between two time periods within the last 13 months, such as usage changes, discount changes, and commitment-based savings. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months.
+    @Sendable
+    @inlinable
+    public func getCostComparisonDrivers(_ input: GetCostComparisonDriversRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCostComparisonDriversResponse {
+        try await self.client.execute(
+            operation: "GetCostComparisonDrivers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves key factors driving cost changes between two time periods within the last 13 months, such as usage changes, discount changes, and commitment-based savings. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months.
+    ///
+    /// Parameters:
+    ///   - baselineTimePeriod: The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    ///   - comparisonTimePeriod: The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - filter: 
+    ///   - groupBy: You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY. Note that SERVICE and USAGE_TYPE dimensions are automatically included in the cost comparison drivers analysis.
+    ///   - maxResults: The maximum number of results that are returned for the request.
+    ///   - metricForComparison: The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+    ///   - nextPageToken: The token to retrieve the next set of paginated results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCostComparisonDrivers(
+        baselineTimePeriod: DateInterval,
+        billingViewArn: String? = nil,
+        comparisonTimePeriod: DateInterval,
+        filter: Expression? = nil,
+        groupBy: [GroupDefinition]? = nil,
+        maxResults: Int? = nil,
+        metricForComparison: String,
+        nextPageToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCostComparisonDriversResponse {
+        let input = GetCostComparisonDriversRequest(
+            baselineTimePeriod: baselineTimePeriod, 
+            billingViewArn: billingViewArn, 
+            comparisonTimePeriod: comparisonTimePeriod, 
+            filter: filter, 
+            groupBy: groupBy, 
+            maxResults: maxResults, 
+            metricForComparison: metricForComparison, 
+            nextPageToken: nextPageToken
+        )
+        return try await self.getCostComparisonDrivers(input, logger: logger)
     }
 
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will spend over the forecast time period that you select, based on your past costs.
@@ -1925,6 +2025,110 @@ extension CostExplorer {
         return self.getAnomalySubscriptionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getCostAndUsageComparisons(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCostAndUsageComparisonsPaginator(
+        _ input: GetCostAndUsageComparisonsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCostAndUsageComparisonsRequest, GetCostAndUsageComparisonsResponse> {
+        return .init(
+            input: input,
+            command: self.getCostAndUsageComparisons,
+            inputKey: \GetCostAndUsageComparisonsRequest.nextPageToken,
+            outputKey: \GetCostAndUsageComparisonsResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getCostAndUsageComparisons(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - baselineTimePeriod: The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    ///   - comparisonTimePeriod: The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - filter: 
+    ///   - groupBy: You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY.
+    ///   - maxResults: The maximum number of results that are returned for the request.
+    ///   - metricForComparison: The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCostAndUsageComparisonsPaginator(
+        baselineTimePeriod: DateInterval,
+        billingViewArn: String? = nil,
+        comparisonTimePeriod: DateInterval,
+        filter: Expression? = nil,
+        groupBy: [GroupDefinition]? = nil,
+        maxResults: Int? = nil,
+        metricForComparison: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetCostAndUsageComparisonsRequest, GetCostAndUsageComparisonsResponse> {
+        let input = GetCostAndUsageComparisonsRequest(
+            baselineTimePeriod: baselineTimePeriod, 
+            billingViewArn: billingViewArn, 
+            comparisonTimePeriod: comparisonTimePeriod, 
+            filter: filter, 
+            groupBy: groupBy, 
+            maxResults: maxResults, 
+            metricForComparison: metricForComparison
+        )
+        return self.getCostAndUsageComparisonsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getCostComparisonDrivers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCostComparisonDriversPaginator(
+        _ input: GetCostComparisonDriversRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCostComparisonDriversRequest, GetCostComparisonDriversResponse> {
+        return .init(
+            input: input,
+            command: self.getCostComparisonDrivers,
+            inputKey: \GetCostComparisonDriversRequest.nextPageToken,
+            outputKey: \GetCostComparisonDriversResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getCostComparisonDrivers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - baselineTimePeriod: The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    ///   - comparisonTimePeriod: The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    ///   - filter: 
+    ///   - groupBy: You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY. Note that SERVICE and USAGE_TYPE dimensions are automatically included in the cost comparison drivers analysis.
+    ///   - maxResults: The maximum number of results that are returned for the request.
+    ///   - metricForComparison: The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCostComparisonDriversPaginator(
+        baselineTimePeriod: DateInterval,
+        billingViewArn: String? = nil,
+        comparisonTimePeriod: DateInterval,
+        filter: Expression? = nil,
+        groupBy: [GroupDefinition]? = nil,
+        maxResults: Int? = nil,
+        metricForComparison: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetCostComparisonDriversRequest, GetCostComparisonDriversResponse> {
+        let input = GetCostComparisonDriversRequest(
+            baselineTimePeriod: baselineTimePeriod, 
+            billingViewArn: billingViewArn, 
+            comparisonTimePeriod: comparisonTimePeriod, 
+            filter: filter, 
+            groupBy: groupBy, 
+            maxResults: maxResults, 
+            metricForComparison: metricForComparison
+        )
+        return self.getCostComparisonDriversPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getSavingsPlansCoverage(_:logger:)``.
     ///
     /// - Parameters:
@@ -2171,6 +2375,38 @@ extension CostExplorer.GetAnomalySubscriptionsRequest: AWSPaginateToken {
             monitorArn: self.monitorArn,
             nextPageToken: token,
             subscriptionArnList: self.subscriptionArnList
+        )
+    }
+}
+
+extension CostExplorer.GetCostAndUsageComparisonsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetCostAndUsageComparisonsRequest {
+        return .init(
+            baselineTimePeriod: self.baselineTimePeriod,
+            billingViewArn: self.billingViewArn,
+            comparisonTimePeriod: self.comparisonTimePeriod,
+            filter: self.filter,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricForComparison: self.metricForComparison,
+            nextPageToken: token
+        )
+    }
+}
+
+extension CostExplorer.GetCostComparisonDriversRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetCostComparisonDriversRequest {
+        return .init(
+            baselineTimePeriod: self.baselineTimePeriod,
+            billingViewArn: self.billingViewArn,
+            comparisonTimePeriod: self.comparisonTimePeriod,
+            filter: self.filter,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricForComparison: self.metricForComparison,
+            nextPageToken: token
         )
     }
 }

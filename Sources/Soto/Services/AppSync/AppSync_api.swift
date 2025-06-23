@@ -279,9 +279,7 @@ public struct AppSync: AWSService {
     /// Parameters:
     ///   - apiCachingBehavior: Caching behavior.    FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.    OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
     ///   - apiId: The GraphQL API ID.
-    ///   - atRestEncryptionEnabled: At-rest encryption flag for cache. You cannot update this setting after creation.
     ///   - healthMetricsConfig: Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:   NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configuration.   EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration.   Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
-    ///   - transitEncryptionEnabled: Transit encryption flag when connecting to cache. You cannot update this setting after creation.
     ///   - ttl: TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
     ///   - type: The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
     ///   - logger: Logger use during operation
@@ -289,9 +287,7 @@ public struct AppSync: AWSService {
     public func createApiCache(
         apiCachingBehavior: ApiCachingBehavior,
         apiId: String,
-        atRestEncryptionEnabled: Bool? = nil,
         healthMetricsConfig: CacheHealthMetricsConfig? = nil,
-        transitEncryptionEnabled: Bool? = nil,
         ttl: Int64 = 0,
         type: ApiCacheType,
         logger: Logger = AWSClient.loggingDisabled        
@@ -299,9 +295,7 @@ public struct AppSync: AWSService {
         let input = CreateApiCacheRequest(
             apiCachingBehavior: apiCachingBehavior, 
             apiId: apiId, 
-            atRestEncryptionEnabled: atRestEncryptionEnabled, 
             healthMetricsConfig: healthMetricsConfig, 
-            transitEncryptionEnabled: transitEncryptionEnabled, 
             ttl: ttl, 
             type: type
         )

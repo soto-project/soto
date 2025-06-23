@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS NetworkFirewall service.
 ///
-/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 7.0.3. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    In Network Firewall, create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.    In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.
+/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 7.0.3. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, define the firewall behavior as follows:    Create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    Create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.      In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.   After your firewall is established, you can add firewall endpoints for new Availability Zones by following the prior steps for the Amazon VPC setup and  firewall subnet definitions. You can also add endpoints to Availability Zones that you're using in the firewall, either for the same VPC  or for another VPC, by following the prior steps for the Amazon VPC setup, and defining the new VPC subnets as VPC endpoint associations.
 public struct NetworkFirewall: AWSService {
     // MARK: Member variables
 
@@ -91,6 +91,73 @@ public struct NetworkFirewall: AWSService {
     ]}
 
     // MARK: API Calls
+
+    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the necessary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to verify the firewall status. To reject an attachment instead of accepting it, use RejectNetworkFirewallTransitGatewayAttachment.  It can take several minutes for the attachment acceptance to complete and the firewall to become available.
+    @Sendable
+    @inlinable
+    public func acceptNetworkFirewallTransitGatewayAttachment(_ input: AcceptNetworkFirewallTransitGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptNetworkFirewallTransitGatewayAttachmentResponse {
+        try await self.client.execute(
+            operation: "AcceptNetworkFirewallTransitGatewayAttachment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the necessary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to verify the firewall status. To reject an attachment instead of accepting it, use RejectNetworkFirewallTransitGatewayAttachment.  It can take several minutes for the attachment acceptance to complete and the firewall to become available.
+    ///
+    /// Parameters:
+    ///   - transitGatewayAttachmentId: Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptNetworkFirewallTransitGatewayAttachment(
+        transitGatewayAttachmentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AcceptNetworkFirewallTransitGatewayAttachmentResponse {
+        let input = AcceptNetworkFirewallTransitGatewayAttachmentRequest(
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.acceptNetworkFirewallTransitGatewayAttachment(input, logger: logger)
+    }
+
+    /// Associates the specified Availability Zones with a transit gateway-attached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall. After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints.
+    @Sendable
+    @inlinable
+    public func associateAvailabilityZones(_ input: AssociateAvailabilityZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAvailabilityZonesResponse {
+        try await self.client.execute(
+            operation: "AssociateAvailabilityZones", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the specified Availability Zones with a transit gateway-attached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall. After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints.
+    ///
+    /// Parameters:
+    ///   - availabilityZoneMappings: Required. The Availability Zones where you want to create firewall endpoints. You must specify at least one Availability Zone.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - updateToken: An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateAvailabilityZones(
+        availabilityZoneMappings: [AvailabilityZoneMapping],
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        updateToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateAvailabilityZonesResponse {
+        let input = AssociateAvailabilityZonesRequest(
+            availabilityZoneMappings: availabilityZoneMappings, 
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            updateToken: updateToken
+        )
+        return try await self.associateAvailabilityZones(input, logger: logger)
+    }
 
     /// Associates a FirewallPolicy to a Firewall.  A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other settings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls.
     @Sendable
@@ -184,6 +251,8 @@ public struct NetworkFirewall: AWSService {
     /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
     ///
     /// Parameters:
+    ///   - availabilityZoneChangeProtection: Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtection. Default value: FALSE
+    ///   - availabilityZoneMappings: Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone independence. You can modify Availability Zones later using AssociateAvailabilityZones or DisassociateAvailabilityZones, but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
     ///   - deleteProtection: A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     ///   - description: A description of the firewall.
     ///   - enabledAnalysisTypes: An optional setting indicating the specific traffic analysis types to enable on the firewall.
@@ -194,10 +263,13 @@ public struct NetworkFirewall: AWSService {
     ///   - subnetChangeProtection: A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     ///   - subnetMappings: The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
     ///   - tags: The key:value pairs to associate with the resource.
+    ///   - transitGatewayId: Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager.  After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall.  For information about creating firewalls, see CreateFirewall. For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide.
     ///   - vpcId: The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
     ///   - logger: Logger use during operation
     @inlinable
     public func createFirewall(
+        availabilityZoneChangeProtection: Bool? = nil,
+        availabilityZoneMappings: [AvailabilityZoneMapping]? = nil,
         deleteProtection: Bool? = nil,
         description: String? = nil,
         enabledAnalysisTypes: [EnabledAnalysisType]? = nil,
@@ -208,10 +280,13 @@ public struct NetworkFirewall: AWSService {
         subnetChangeProtection: Bool? = nil,
         subnetMappings: [SubnetMapping]? = nil,
         tags: [Tag]? = nil,
+        transitGatewayId: String? = nil,
         vpcId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateFirewallResponse {
         let input = CreateFirewallRequest(
+            availabilityZoneChangeProtection: availabilityZoneChangeProtection, 
+            availabilityZoneMappings: availabilityZoneMappings, 
             deleteProtection: deleteProtection, 
             description: description, 
             enabledAnalysisTypes: enabledAnalysisTypes, 
@@ -222,6 +297,7 @@ public struct NetworkFirewall: AWSService {
             subnetChangeProtection: subnetChangeProtection, 
             subnetMappings: subnetMappings, 
             tags: tags, 
+            transitGatewayId: transitGatewayId, 
             vpcId: vpcId
         )
         return try await self.createFirewall(input, logger: logger)
@@ -296,6 +372,7 @@ public struct NetworkFirewall: AWSService {
     ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it.
     ///   - rules: A string containing stateful rule group rules specifications in Suricata flat format, with one rule
     ///   - sourceMetadata: A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
+    ///   - summaryConfiguration: An object that contains a RuleOptions array of strings.  You use RuleOptions to determine which of the following RuleSummary values are returned in response to DescribeRuleGroupSummary.    Metadata - returns    Msg     SID
     ///   - tags: The key:value pairs to associate with the resource.
     ///   - type: Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
     ///   - logger: Logger use during operation
@@ -310,6 +387,7 @@ public struct NetworkFirewall: AWSService {
         ruleGroupName: String,
         rules: String? = nil,
         sourceMetadata: SourceMetadata? = nil,
+        summaryConfiguration: SummaryConfiguration? = nil,
         tags: [Tag]? = nil,
         type: RuleGroupType,
         logger: Logger = AWSClient.loggingDisabled        
@@ -324,6 +402,7 @@ public struct NetworkFirewall: AWSService {
             ruleGroupName: ruleGroupName, 
             rules: rules, 
             sourceMetadata: sourceMetadata, 
+            summaryConfiguration: summaryConfiguration, 
             tags: tags, 
             type: type
         )
@@ -351,7 +430,7 @@ public struct NetworkFirewall: AWSService {
     ///   - description: A description of the TLS inspection configuration.
     ///   - encryptionConfiguration: 
     ///   - tags: The key:value pairs to associate with the resource.
-    ///   - tlsInspectionConfiguration: The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
+    ///   - tlsInspectionConfiguration: The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see  Inspecting SSL/TLS traffic with TLS
     ///   - tlsInspectionConfigurationName: The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
     ///   - logger: Logger use during operation
     @inlinable
@@ -371,6 +450,47 @@ public struct NetworkFirewall: AWSService {
             tlsInspectionConfigurationName: tlsInspectionConfigurationName
         )
         return try await self.createTLSInspectionConfiguration(input, logger: logger)
+    }
+
+    /// Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the Firewall itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
+    @Sendable
+    @inlinable
+    public func createVpcEndpointAssociation(_ input: CreateVpcEndpointAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcEndpointAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateVpcEndpointAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the Firewall itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
+    ///
+    /// Parameters:
+    ///   - description: A description of the VPC endpoint association.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - subnetMapping: 
+    ///   - tags: The key:value pairs to associate with the resource.
+    ///   - vpcId: The unique identifier of the VPC where you want to create a firewall endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createVpcEndpointAssociation(
+        description: String? = nil,
+        firewallArn: String,
+        subnetMapping: SubnetMapping,
+        tags: [Tag]? = nil,
+        vpcId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateVpcEndpointAssociationResponse {
+        let input = CreateVpcEndpointAssociationRequest(
+            description: description, 
+            firewallArn: firewallArn, 
+            subnetMapping: subnetMapping, 
+            tags: tags, 
+            vpcId: vpcId
+        )
+        return try await self.createVpcEndpointAssociation(input, logger: logger)
     }
 
     /// Deletes the specified Firewall and its FirewallStatus. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.
@@ -435,6 +555,35 @@ public struct NetworkFirewall: AWSService {
             firewallPolicyName: firewallPolicyName
         )
         return try await self.deleteFirewallPolicy(input, logger: logger)
+    }
+
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.  After you delete a transit gateway attachment, raffic will no longer flow through the firewall endpoints.  After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
+    @Sendable
+    @inlinable
+    public func deleteNetworkFirewallTransitGatewayAttachment(_ input: DeleteNetworkFirewallTransitGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkFirewallTransitGatewayAttachmentResponse {
+        try await self.client.execute(
+            operation: "DeleteNetworkFirewallTransitGatewayAttachment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.  After you delete a transit gateway attachment, raffic will no longer flow through the firewall endpoints.  After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
+    ///
+    /// Parameters:
+    ///   - transitGatewayAttachmentId: Required. The unique identifier of the transit gateway attachment to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteNetworkFirewallTransitGatewayAttachment(
+        transitGatewayAttachmentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteNetworkFirewallTransitGatewayAttachmentResponse {
+        let input = DeleteNetworkFirewallTransitGatewayAttachmentRequest(
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.deleteNetworkFirewallTransitGatewayAttachment(input, logger: logger)
     }
 
     /// Deletes a resource policy that you created in a PutResourcePolicy request.
@@ -533,6 +682,35 @@ public struct NetworkFirewall: AWSService {
         return try await self.deleteTLSInspectionConfiguration(input, logger: logger)
     }
 
+    /// Deletes the specified VpcEndpointAssociation. You can check whether an endpoint association is in use by reviewing the route tables for the Availability Zones where you have the endpoint subnet mapping.  You can retrieve the subnet mapping by calling DescribeVpcEndpointAssociation. You define and update the route tables through Amazon VPC. As needed, update the route tables for the Availability Zone to remove the firewall endpoint for the association. When the route tables no longer use the firewall endpoint, you can remove the endpoint association safely.
+    @Sendable
+    @inlinable
+    public func deleteVpcEndpointAssociation(_ input: DeleteVpcEndpointAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcEndpointAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteVpcEndpointAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified VpcEndpointAssociation. You can check whether an endpoint association is in use by reviewing the route tables for the Availability Zones where you have the endpoint subnet mapping.  You can retrieve the subnet mapping by calling DescribeVpcEndpointAssociation. You define and update the route tables through Amazon VPC. As needed, update the route tables for the Availability Zone to remove the firewall endpoint for the association. When the route tables no longer use the firewall endpoint, you can remove the endpoint association safely.
+    ///
+    /// Parameters:
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteVpcEndpointAssociation(
+        vpcEndpointAssociationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteVpcEndpointAssociationResponse {
+        let input = DeleteVpcEndpointAssociationRequest(
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn
+        )
+        return try await self.deleteVpcEndpointAssociation(input, logger: logger)
+    }
+
     /// Returns the data objects for the specified firewall.
     @Sendable
     @inlinable
@@ -563,6 +741,35 @@ public struct NetworkFirewall: AWSService {
             firewallName: firewallName
         )
         return try await self.describeFirewall(input, logger: logger)
+    }
+
+    /// Returns the high-level information about a firewall, including the Availability Zones where the Firewall is  currently in use.
+    @Sendable
+    @inlinable
+    public func describeFirewallMetadata(_ input: DescribeFirewallMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFirewallMetadataResponse {
+        try await self.client.execute(
+            operation: "DescribeFirewallMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the high-level information about a firewall, including the Availability Zones where the Firewall is  currently in use.
+    ///
+    /// Parameters:
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeFirewallMetadata(
+        firewallArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeFirewallMetadataResponse {
+        let input = DescribeFirewallMetadataRequest(
+            firewallArn: firewallArn
+        )
+        return try await self.describeFirewallMetadata(input, logger: logger)
     }
 
     /// Returns the data objects for the specified firewall policy.
@@ -616,18 +823,24 @@ public struct NetworkFirewall: AWSService {
     ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - vpcEndpointId: A unique identifier for the primary endpoint associated with a firewall.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFlowOperation(
         availabilityZone: String? = nil,
         firewallArn: String,
         flowOperationId: String,
+        vpcEndpointAssociationArn: String? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeFlowOperationResponse {
         let input = DescribeFlowOperationRequest(
             availabilityZone: availabilityZone, 
             firewallArn: firewallArn, 
-            flowOperationId: flowOperationId
+            flowOperationId: flowOperationId, 
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
+            vpcEndpointId: vpcEndpointId
         )
         return try await self.describeFlowOperation(input, logger: logger)
     }
@@ -766,6 +979,41 @@ public struct NetworkFirewall: AWSService {
         return try await self.describeRuleGroupMetadata(input, logger: logger)
     }
 
+    /// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the SummaryConfiguration parameter in UpdateRuleGroup.
+    @Sendable
+    @inlinable
+    public func describeRuleGroupSummary(_ input: DescribeRuleGroupSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRuleGroupSummaryResponse {
+        try await self.client.execute(
+            operation: "DescribeRuleGroupSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the SummaryConfiguration parameter in UpdateRuleGroup.
+    ///
+    /// Parameters:
+    ///   - ruleGroupArn: Required. The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
+    ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - type: The type of rule group you want a summary for. This is a required field. Valid value: STATEFUL  Note that STATELESS exists but is not currently supported. If you provide STATELESS, an exception is returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeRuleGroupSummary(
+        ruleGroupArn: String? = nil,
+        ruleGroupName: String? = nil,
+        type: RuleGroupType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeRuleGroupSummaryResponse {
+        let input = DescribeRuleGroupSummaryRequest(
+            ruleGroupArn: ruleGroupArn, 
+            ruleGroupName: ruleGroupName, 
+            type: type
+        )
+        return try await self.describeRuleGroupSummary(input, logger: logger)
+    }
+
     /// Returns the data objects for the specified TLS inspection configuration.
     @Sendable
     @inlinable
@@ -796,6 +1044,73 @@ public struct NetworkFirewall: AWSService {
             tlsInspectionConfigurationName: tlsInspectionConfigurationName
         )
         return try await self.describeTLSInspectionConfiguration(input, logger: logger)
+    }
+
+    /// Returns the data object for the specified VPC endpoint association.
+    @Sendable
+    @inlinable
+    public func describeVpcEndpointAssociation(_ input: DescribeVpcEndpointAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcEndpointAssociationResponse {
+        try await self.client.execute(
+            operation: "DescribeVpcEndpointAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the data object for the specified VPC endpoint association.
+    ///
+    /// Parameters:
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeVpcEndpointAssociation(
+        vpcEndpointAssociationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeVpcEndpointAssociationResponse {
+        let input = DescribeVpcEndpointAssociationRequest(
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn
+        )
+        return try await self.describeVpcEndpointAssociation(input, logger: logger)
+    }
+
+    /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your transit gateway route tables to redirect traffic appropriately.  If AvailabilityZoneChangeProtection is enabled, you must first disable it using UpdateAvailabilityZoneChangeProtection.  To verify the status of your Availability Zone changes, use DescribeFirewall.
+    @Sendable
+    @inlinable
+    public func disassociateAvailabilityZones(_ input: DisassociateAvailabilityZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateAvailabilityZonesResponse {
+        try await self.client.execute(
+            operation: "DisassociateAvailabilityZones", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your transit gateway route tables to redirect traffic appropriately.  If AvailabilityZoneChangeProtection is enabled, you must first disable it using UpdateAvailabilityZoneChangeProtection.  To verify the status of your Availability Zone changes, use DescribeFirewall.
+    ///
+    /// Parameters:
+    ///   - availabilityZoneMappings: Required. The Availability Zones to remove from the firewall's configuration.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - updateToken: An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateAvailabilityZones(
+        availabilityZoneMappings: [AvailabilityZoneMapping],
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        updateToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateAvailabilityZonesResponse {
+        let input = DisassociateAvailabilityZonesRequest(
+            availabilityZoneMappings: availabilityZoneMappings, 
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            updateToken: updateToken
+        )
+        return try await self.disassociateAvailabilityZones(input, logger: logger)
     }
 
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
@@ -1005,6 +1320,8 @@ public struct NetworkFirewall: AWSService {
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - vpcEndpointId: A unique identifier for the primary endpoint associated with a firewall.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFlowOperationResults(
@@ -1013,6 +1330,8 @@ public struct NetworkFirewall: AWSService {
         flowOperationId: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        vpcEndpointAssociationArn: String? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListFlowOperationResultsResponse {
         let input = ListFlowOperationResultsRequest(
@@ -1020,7 +1339,9 @@ public struct NetworkFirewall: AWSService {
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
+            vpcEndpointId: vpcEndpointId
         )
         return try await self.listFlowOperationResults(input, logger: logger)
     }
@@ -1048,6 +1369,8 @@ public struct NetworkFirewall: AWSService {
     ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - vpcEndpointId: A unique identifier for the primary endpoint associated with a firewall.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFlowOperations(
@@ -1056,6 +1379,8 @@ public struct NetworkFirewall: AWSService {
         flowOperationType: FlowOperationType? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        vpcEndpointAssociationArn: String? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListFlowOperationsResponse {
         let input = ListFlowOperationsRequest(
@@ -1063,7 +1388,9 @@ public struct NetworkFirewall: AWSService {
             firewallArn: firewallArn, 
             flowOperationType: flowOperationType, 
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
+            vpcEndpointId: vpcEndpointId
         )
         return try await self.listFlowOperations(input, logger: logger)
     }
@@ -1176,7 +1503,42 @@ public struct NetworkFirewall: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Creates or updates an IAM policy for your rule group or firewall policy. Use this to share rule groups and firewall policies between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall.  Use this operation to create or update a resource policy for your rule group or firewall policy. In the policy, you specify the accounts that you want to share the resource with and the operations that you want the accounts to be able to perform.  When you add an account in the resource policy, you then run the following Resource Access Manager (RAM) operations to access and accept the shared rule group or firewall policy.     GetResourceShareInvitations - Returns the Amazon Resource Names (ARNs) of the resource share invitations.      AcceptResourceShareInvitation - Accepts the share invitation for a specified resource share.    For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
+    /// Retrieves the metadata for the VPC endpoint associations that you have defined. If you specify a fireawll, this returns only the endpoint associations for that firewall.  Depending on your setting for max results and the number of associations, a single call might not return the full list.
+    @Sendable
+    @inlinable
+    public func listVpcEndpointAssociations(_ input: ListVpcEndpointAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListVpcEndpointAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the metadata for the VPC endpoint associations that you have defined. If you specify a fireawll, this returns only the endpoint associations for that firewall.  Depending on your setting for max results and the number of associations, a single call might not return the full list.
+    ///
+    /// Parameters:
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. If you don't specify this, Network Firewall retrieves all VPC endpoint associations that you have defined.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVpcEndpointAssociations(
+        firewallArn: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVpcEndpointAssociationsResponse {
+        let input = ListVpcEndpointAssociationsRequest(
+            firewallArn: firewallArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listVpcEndpointAssociations(input, logger: logger)
+    }
+
+    /// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall.  For information about using sharing with Network Firewall resources, see  Sharing Network Firewall resources in the Network Firewall Developer Guide. Use this operation to create or update a resource policy for your Network Firewall rule group, firewall policy, or firewall. In the resource policy, you specify the accounts that you want to share the Network Firewall resource with and the operations that you want the accounts to be able to perform.  When you add an account in the resource policy, you then run the following Resource Access Manager (RAM) operations to access and accept the shared resource.     GetResourceShareInvitations - Returns the Amazon Resource Names (ARNs) of the resource share invitations.      AcceptResourceShareInvitation - Accepts the share invitation for a specified resource share.    For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
     @Sendable
     @inlinable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
@@ -1189,11 +1551,11 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates an IAM policy for your rule group or firewall policy. Use this to share rule groups and firewall policies between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall.  Use this operation to create or update a resource policy for your rule group or firewall policy. In the policy, you specify the accounts that you want to share the resource with and the operations that you want the accounts to be able to perform.  When you add an account in the resource policy, you then run the following Resource Access Manager (RAM) operations to access and accept the shared rule group or firewall policy.     GetResourceShareInvitations - Returns the Amazon Resource Names (ARNs) of the resource share invitations.      AcceptResourceShareInvitation - Accepts the share invitation for a specified resource share.    For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
+    /// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall.  For information about using sharing with Network Firewall resources, see  Sharing Network Firewall resources in the Network Firewall Developer Guide. Use this operation to create or update a resource policy for your Network Firewall rule group, firewall policy, or firewall. In the resource policy, you specify the accounts that you want to share the Network Firewall resource with and the operations that you want the accounts to be able to perform.  When you add an account in the resource policy, you then run the following Resource Access Manager (RAM) operations to access and accept the shared resource.     GetResourceShareInvitations - Returns the Amazon Resource Names (ARNs) of the resource share invitations.      AcceptResourceShareInvitation - Accepts the share invitation for a specified resource share.    For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
     ///
     /// Parameters:
-    ///   - policy: The IAM policy statement that lists the accounts that you want to share your rule group or firewall policy with and the operations that you want the accounts to be able to perform.  For a rule group resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the following operations in the Actions section of the statement:   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the Resource section of the statement, you specify the ARNs for the rule groups and firewall policies that you want to share with the account that you specified in Arn.
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the account that you want to share rule groups and firewall policies with.
+    ///   - policy: The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform.  For a rule group resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the following operations in the Actions section of the statement:   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   For a firewall resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateVpcEndpointAssociation   network-firewall:DescribeFirewallMetadata   network-firewall:ListFirewalls   In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the account that you specified in Arn.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourcePolicy(
@@ -1206,6 +1568,35 @@ public struct NetworkFirewall: AWSService {
             resourceArn: resourceArn
         )
         return try await self.putResourcePolicy(input, logger: logger)
+    }
+
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the firewall owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTransitGatewayAttachment.  Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
+    @Sendable
+    @inlinable
+    public func rejectNetworkFirewallTransitGatewayAttachment(_ input: RejectNetworkFirewallTransitGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectNetworkFirewallTransitGatewayAttachmentResponse {
+        try await self.client.execute(
+            operation: "RejectNetworkFirewallTransitGatewayAttachment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the firewall owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTransitGatewayAttachment.  Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
+    ///
+    /// Parameters:
+    ///   - transitGatewayAttachmentId: Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rejectNetworkFirewallTransitGatewayAttachment(
+        transitGatewayAttachmentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RejectNetworkFirewallTransitGatewayAttachmentResponse {
+        let input = RejectNetworkFirewallTransitGatewayAttachmentRequest(
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.rejectNetworkFirewallTransitGatewayAttachment(input, logger: logger)
     }
 
     /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see AnalysisReport.
@@ -1265,6 +1656,8 @@ public struct NetworkFirewall: AWSService {
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
     ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - vpcEndpointId: A unique identifier for the primary endpoint associated with a firewall.
     ///   - logger: Logger use during operation
     @inlinable
     public func startFlowCapture(
@@ -1272,13 +1665,17 @@ public struct NetworkFirewall: AWSService {
         firewallArn: String,
         flowFilters: [FlowFilter],
         minimumFlowAgeInSeconds: Int? = nil,
+        vpcEndpointAssociationArn: String? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartFlowCaptureResponse {
         let input = StartFlowCaptureRequest(
             availabilityZone: availabilityZone, 
             firewallArn: firewallArn, 
             flowFilters: flowFilters, 
-            minimumFlowAgeInSeconds: minimumFlowAgeInSeconds
+            minimumFlowAgeInSeconds: minimumFlowAgeInSeconds, 
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
+            vpcEndpointId: vpcEndpointId
         )
         return try await self.startFlowCapture(input, logger: logger)
     }
@@ -1303,6 +1700,8 @@ public struct NetworkFirewall: AWSService {
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
     ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - vpcEndpointId: A unique identifier for the primary endpoint associated with a firewall.
     ///   - logger: Logger use during operation
     @inlinable
     public func startFlowFlush(
@@ -1310,13 +1709,17 @@ public struct NetworkFirewall: AWSService {
         firewallArn: String,
         flowFilters: [FlowFilter],
         minimumFlowAgeInSeconds: Int? = nil,
+        vpcEndpointAssociationArn: String? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartFlowFlushResponse {
         let input = StartFlowFlushRequest(
             availabilityZone: availabilityZone, 
             firewallArn: firewallArn, 
             flowFilters: flowFilters, 
-            minimumFlowAgeInSeconds: minimumFlowAgeInSeconds
+            minimumFlowAgeInSeconds: minimumFlowAgeInSeconds, 
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
+            vpcEndpointId: vpcEndpointId
         )
         return try await self.startFlowFlush(input, logger: logger)
     }
@@ -1383,6 +1786,44 @@ public struct NetworkFirewall: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents accidental changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environments. When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration.
+    @Sendable
+    @inlinable
+    public func updateAvailabilityZoneChangeProtection(_ input: UpdateAvailabilityZoneChangeProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAvailabilityZoneChangeProtectionResponse {
+        try await self.client.execute(
+            operation: "UpdateAvailabilityZoneChangeProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents accidental changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environments. When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration.
+    ///
+    /// Parameters:
+    ///   - availabilityZoneChangeProtection: A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - updateToken: An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAvailabilityZoneChangeProtection(
+        availabilityZoneChangeProtection: Bool = false,
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        updateToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAvailabilityZoneChangeProtectionResponse {
+        let input = UpdateAvailabilityZoneChangeProtectionRequest(
+            availabilityZoneChangeProtection: availabilityZoneChangeProtection, 
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            updateToken: updateToken
+        )
+        return try await self.updateAvailabilityZoneChangeProtection(input, logger: logger)
     }
 
     /// Enables specific types of firewall analysis on a specific firewall you define.
@@ -1638,18 +2079,21 @@ public struct NetworkFirewall: AWSService {
     /// Sets the logging configuration for the specified firewall.  To change the logging configuration, retrieve the LoggingConfiguration by calling DescribeLoggingConfiguration, then change it and provide the modified object to this update call. You must change the logging configuration one LogDestinationConfig at a time inside the retrieved LoggingConfiguration object.  You can perform only one of the following actions in any call to UpdateLoggingConfiguration:    Create a new log destination object by adding a single LogDestinationConfig array element to LogDestinationConfigs.   Delete a log destination object by removing a single LogDestinationConfig array element from LogDestinationConfigs.   Change the LogDestination setting in a single LogDestinationConfig array element.   You can't change the LogDestinationType or LogType in a LogDestinationConfig. To change these settings, delete the existing LogDestinationConfig object and create a new one, using two separate calls to this update operation.
     ///
     /// Parameters:
+    ///   - enableMonitoringDashboard: A boolean that lets you enable or disable the detailed firewall monitoring dashboard on the firewall.  The monitoring dashboard provides comprehensive visibility into your firewall's flow logs and alert logs.  After you enable detailed monitoring, you can access these dashboards directly from the Monitoring page of the Network Firewall console.  Specify TRUE to enable the the detailed monitoring dashboard on the firewall.  Specify FALSE to disable the the detailed monitoring dashboard on the firewall.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     ///   - loggingConfiguration: Defines how Network Firewall performs logging for a firewall. If you omit this setting, Network Firewall disables logging for the firewall.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLoggingConfiguration(
+        enableMonitoringDashboard: Bool? = nil,
         firewallArn: String? = nil,
         firewallName: String? = nil,
         loggingConfiguration: LoggingConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLoggingConfigurationResponse {
         let input = UpdateLoggingConfigurationRequest(
+            enableMonitoringDashboard: enableMonitoringDashboard, 
             firewallArn: firewallArn, 
             firewallName: firewallName, 
             loggingConfiguration: loggingConfiguration
@@ -1682,6 +2126,7 @@ public struct NetworkFirewall: AWSService {
     ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     ///   - rules: A string containing stateful rule group rules specifications in Suricata flat format, with one rule
     ///   - sourceMetadata: A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
+    ///   - summaryConfiguration: Updates the selected summary configuration for a rule group. Changes affect subsequent responses from DescribeRuleGroupSummary.
     ///   - type: Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
     ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     ///   - logger: Logger use during operation
@@ -1696,6 +2141,7 @@ public struct NetworkFirewall: AWSService {
         ruleGroupName: String? = nil,
         rules: String? = nil,
         sourceMetadata: SourceMetadata? = nil,
+        summaryConfiguration: SummaryConfiguration? = nil,
         type: RuleGroupType? = nil,
         updateToken: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1710,6 +2156,7 @@ public struct NetworkFirewall: AWSService {
             ruleGroupName: ruleGroupName, 
             rules: rules, 
             sourceMetadata: sourceMetadata, 
+            summaryConfiguration: summaryConfiguration, 
             type: type, 
             updateToken: updateToken
         )
@@ -1770,7 +2217,7 @@ public struct NetworkFirewall: AWSService {
     /// Parameters:
     ///   - description: A description of the TLS inspection configuration.
     ///   - encryptionConfiguration: A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
-    ///   - tlsInspectionConfiguration: The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
+    ///   - tlsInspectionConfiguration: The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see  Inspecting SSL/TLS traffic with TLS
     ///   - tlsInspectionConfigurationArn: The Amazon Resource Name (ARN) of the TLS inspection configuration.
     ///   - tlsInspectionConfigurationName: The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
     ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
@@ -1989,6 +2436,8 @@ extension NetworkFirewall {
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - vpcEndpointId: A unique identifier for the primary endpoint associated with a firewall.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFlowOperationResultsPaginator(
@@ -1996,13 +2445,17 @@ extension NetworkFirewall {
         firewallArn: String,
         flowOperationId: String,
         maxResults: Int? = nil,
+        vpcEndpointAssociationArn: String? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListFlowOperationResultsRequest, ListFlowOperationResultsResponse> {
         let input = ListFlowOperationResultsRequest(
             availabilityZone: availabilityZone, 
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
-            maxResults: maxResults
+            maxResults: maxResults, 
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
+            vpcEndpointId: vpcEndpointId
         )
         return self.listFlowOperationResultsPaginator(input, logger: logger)
     }
@@ -2032,6 +2485,8 @@ extension NetworkFirewall {
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
+    ///   - vpcEndpointId: A unique identifier for the primary endpoint associated with a firewall.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFlowOperationsPaginator(
@@ -2039,13 +2494,17 @@ extension NetworkFirewall {
         firewallArn: String,
         flowOperationType: FlowOperationType? = nil,
         maxResults: Int? = nil,
+        vpcEndpointAssociationArn: String? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListFlowOperationsRequest, ListFlowOperationsResponse> {
         let input = ListFlowOperationsRequest(
             availabilityZone: availabilityZone, 
             firewallArn: firewallArn, 
             flowOperationType: flowOperationType, 
-            maxResults: maxResults
+            maxResults: maxResults, 
+            vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
+            vpcEndpointId: vpcEndpointId
         )
         return self.listFlowOperationsPaginator(input, logger: logger)
     }
@@ -2163,6 +2622,43 @@ extension NetworkFirewall {
         )
         return self.listTagsForResourcePaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listVpcEndpointAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVpcEndpointAssociationsPaginator(
+        _ input: ListVpcEndpointAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVpcEndpointAssociationsRequest, ListVpcEndpointAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listVpcEndpointAssociations,
+            inputKey: \ListVpcEndpointAssociationsRequest.nextToken,
+            outputKey: \ListVpcEndpointAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listVpcEndpointAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. If you don't specify this, Network Firewall retrieves all VPC endpoint associations that you have defined.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVpcEndpointAssociationsPaginator(
+        firewallArn: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListVpcEndpointAssociationsRequest, ListVpcEndpointAssociationsResponse> {
+        let input = ListVpcEndpointAssociationsRequest(
+            firewallArn: firewallArn, 
+            maxResults: maxResults
+        )
+        return self.listVpcEndpointAssociationsPaginator(input, logger: logger)
+    }
 }
 
 extension NetworkFirewall.GetAnalysisReportResultsRequest: AWSPaginateToken {
@@ -2219,7 +2715,9 @@ extension NetworkFirewall.ListFlowOperationResultsRequest: AWSPaginateToken {
             firewallArn: self.firewallArn,
             flowOperationId: self.flowOperationId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            vpcEndpointAssociationArn: self.vpcEndpointAssociationArn,
+            vpcEndpointId: self.vpcEndpointId
         )
     }
 }
@@ -2232,7 +2730,9 @@ extension NetworkFirewall.ListFlowOperationsRequest: AWSPaginateToken {
             firewallArn: self.firewallArn,
             flowOperationType: self.flowOperationType,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            vpcEndpointAssociationArn: self.vpcEndpointAssociationArn,
+            vpcEndpointId: self.vpcEndpointId
         )
     }
 }
@@ -2267,6 +2767,17 @@ extension NetworkFirewall.ListTagsForResourceRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension NetworkFirewall.ListVpcEndpointAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListVpcEndpointAssociationsRequest {
+        return .init(
+            firewallArn: self.firewallArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -78,6 +78,41 @@ public struct Backup: AWSService {
 
     // MARK: API Calls
 
+    /// Associates an MPA approval team with a backup vault.
+    @Sendable
+    @inlinable
+    public func associateBackupVaultMpaApprovalTeam(_ input: AssociateBackupVaultMpaApprovalTeamInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "AssociateBackupVaultMpaApprovalTeam", 
+            path: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an MPA approval team with a backup vault.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of the backup vault to associate with the MPA approval team.
+    ///   - mpaApprovalTeamArn: The Amazon Resource Name (ARN) of the MPA approval team to associate with the backup vault.
+    ///   - requesterComment: A comment provided by the requester explaining the association request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateBackupVaultMpaApprovalTeam(
+        backupVaultName: String,
+        mpaApprovalTeamArn: String,
+        requesterComment: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = AssociateBackupVaultMpaApprovalTeamInput(
+            backupVaultName: backupVaultName, 
+            mpaApprovalTeamArn: mpaApprovalTeamArn, 
+            requesterComment: requesterComment
+        )
+        return try await self.associateBackupVaultMpaApprovalTeam(input, logger: logger)
+    }
+
     /// Removes the specified legal hold on a recovery point. This action can only be performed by a user with sufficient permissions.
     @Sendable
     @inlinable
@@ -137,7 +172,7 @@ public struct Backup: AWSService {
     public func createBackupPlan(
         backupPlan: BackupPlanInput,
         backupPlanTags: [String: String]? = nil,
-        creatorRequestId: String? = nil,
+        creatorRequestId: String? = CreateBackupPlanInput.idempotencyToken(),
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBackupPlanOutput {
         let input = CreateBackupPlanInput(
@@ -172,7 +207,7 @@ public struct Backup: AWSService {
     public func createBackupSelection(
         backupPlanId: String,
         backupSelection: BackupSelection,
-        creatorRequestId: String? = nil,
+        creatorRequestId: String? = CreateBackupSelectionInput.idempotencyToken(),
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBackupSelectionOutput {
         let input = CreateBackupSelectionInput(
@@ -208,7 +243,7 @@ public struct Backup: AWSService {
     public func createBackupVault(
         backupVaultName: String,
         backupVaultTags: [String: String]? = nil,
-        creatorRequestId: String? = nil,
+        creatorRequestId: String? = CreateBackupVaultInput.idempotencyToken(),
         encryptionKeyArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBackupVaultOutput {
@@ -287,7 +322,7 @@ public struct Backup: AWSService {
     @inlinable
     public func createLegalHold(
         description: String,
-        idempotencyToken: String? = nil,
+        idempotencyToken: String? = CreateLegalHoldInput.idempotencyToken(),
         recoveryPointSelection: RecoveryPointSelection? = nil,
         tags: [String: String]? = nil,
         title: String,
@@ -329,7 +364,7 @@ public struct Backup: AWSService {
     public func createLogicallyAirGappedBackupVault(
         backupVaultName: String,
         backupVaultTags: [String: String]? = nil,
-        creatorRequestId: String? = nil,
+        creatorRequestId: String? = CreateLogicallyAirGappedBackupVaultInput.idempotencyToken(),
         maxRetentionDays: Int64,
         minRetentionDays: Int64,
         logger: Logger = AWSClient.loggingDisabled        
@@ -386,6 +421,47 @@ public struct Backup: AWSService {
             reportSetting: reportSetting
         )
         return try await self.createReportPlan(input, logger: logger)
+    }
+
+    /// Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
+    @Sendable
+    @inlinable
+    public func createRestoreAccessBackupVault(_ input: CreateRestoreAccessBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRestoreAccessBackupVaultOutput {
+        try await self.client.execute(
+            operation: "CreateRestoreAccessBackupVault", 
+            path: "/restore-access-backup-vaults", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of the backup vault to associate with an MPA approval team.
+    ///   - backupVaultTags: Optional tags to assign to the restore access backup vault.
+    ///   - creatorRequestId: A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+    ///   - requesterComment: A comment explaining the reason for requesting restore access to the backup vault.
+    ///   - sourceBackupVaultArn: The ARN of the source backup vault containing the recovery points to which temporary access is requested.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRestoreAccessBackupVault(
+        backupVaultName: String? = nil,
+        backupVaultTags: [String: String]? = nil,
+        creatorRequestId: String? = CreateRestoreAccessBackupVaultInput.idempotencyToken(),
+        requesterComment: String? = nil,
+        sourceBackupVaultArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRestoreAccessBackupVaultOutput {
+        let input = CreateRestoreAccessBackupVaultInput(
+            backupVaultName: backupVaultName, 
+            backupVaultTags: backupVaultTags, 
+            creatorRequestId: creatorRequestId, 
+            requesterComment: requesterComment, 
+            sourceBackupVaultArn: sourceBackupVaultArn
+        )
+        return try await self.createRestoreAccessBackupVault(input, logger: logger)
     }
 
     /// Creates a restore testing plan. The first of two steps to create a restore testing  plan. After this request is successful, finish the procedure using  CreateRestoreTestingSelection.
@@ -1106,6 +1182,38 @@ public struct Backup: AWSService {
             restoreJobId: restoreJobId
         )
         return try await self.describeRestoreJob(input, logger: logger)
+    }
+
+    /// Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
+    @Sendable
+    @inlinable
+    public func disassociateBackupVaultMpaApprovalTeam(_ input: DisassociateBackupVaultMpaApprovalTeamInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DisassociateBackupVaultMpaApprovalTeam", 
+            path: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam?delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of the backup vault from which to disassociate the MPA approval team.
+    ///   - requesterComment: An optional comment explaining the reason for disassociating the MPA approval team from the backup vault.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateBackupVaultMpaApprovalTeam(
+        backupVaultName: String,
+        requesterComment: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DisassociateBackupVaultMpaApprovalTeamInput(
+            backupVaultName: backupVaultName, 
+            requesterComment: requesterComment
+        )
+        return try await self.disassociateBackupVaultMpaApprovalTeam(input, logger: logger)
     }
 
     /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
@@ -2400,6 +2508,41 @@ public struct Backup: AWSService {
         return try await self.listReportPlans(input, logger: logger)
     }
 
+    /// Returns a list of restore access backup vaults associated with a specified backup vault.
+    @Sendable
+    @inlinable
+    public func listRestoreAccessBackupVaults(_ input: ListRestoreAccessBackupVaultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreAccessBackupVaultsOutput {
+        try await self.client.execute(
+            operation: "ListRestoreAccessBackupVaults", 
+            path: "/logically-air-gapped-backup-vaults/{BackupVaultName}/restore-access-backup-vaults", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of restore access backup vaults associated with a specified backup vault.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of the backup vault for which to list associated restore access backup vaults.
+    ///   - maxResults: The maximum number of items to return in the response.
+    ///   - nextToken: The pagination token from a previous request to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRestoreAccessBackupVaults(
+        backupVaultName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRestoreAccessBackupVaultsOutput {
+        let input = ListRestoreAccessBackupVaultsInput(
+            backupVaultName: backupVaultName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRestoreAccessBackupVaults(input, logger: logger)
+    }
+
     /// This request obtains a summary of restore jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType,   AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     @Sendable
     @inlinable
@@ -2611,7 +2754,7 @@ public struct Backup: AWSService {
         return try await self.listRestoreTestingSelections(input, logger: logger)
     }
 
-    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault.
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn. For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup. Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb. When this operation is called and when you include values of resourceArn that have an ARN other than arn:aws:backup, it may return one of the exceptions listed below. To prevent this exception, include only values representing resource types that are fully managed by Backup. These have an ARN that begins arn:aws:backup and they are noted in the Feature availability by resource table.
     @Sendable
     @inlinable
     public func listTags(_ input: ListTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsOutput {
@@ -2624,7 +2767,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault.
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn. For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup. Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb. When this operation is called and when you include values of resourceArn that have an ARN other than arn:aws:backup, it may return one of the exceptions listed below. To prevent this exception, include only values representing resource types that are fully managed by Backup. These have an ARN that begins arn:aws:backup and they are noted in the Feature availability by resource table.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to be returned.
@@ -2732,7 +2875,7 @@ public struct Backup: AWSService {
     /// Turns on notifications on a backup vault for the specified topic and events.
     ///
     /// Parameters:
-    ///   - backupVaultEvents: An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     The list below includes both supported events and deprecated events that are no longer in use (for reference). Deprecated events do not return statuses or notifications.  Refer to the list above for the supported events.
+    ///   - backupVaultEvents: An array of events that indicate the status of jobs to back up resources to the backup vault. For the list of supported events, common use cases, and code samples, see Notification options with Backup.
     ///   - backupVaultName: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
     ///   - snsTopicArn: The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
     ///   - logger: Logger use during operation
@@ -2786,6 +2929,41 @@ public struct Backup: AWSService {
         return try await self.putRestoreValidationResult(input, logger: logger)
     }
 
+    /// Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
+    @Sendable
+    @inlinable
+    public func revokeRestoreAccessBackupVault(_ input: RevokeRestoreAccessBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "RevokeRestoreAccessBackupVault", 
+            path: "/logically-air-gapped-backup-vaults/{BackupVaultName}/restore-access-backup-vaults/{RestoreAccessBackupVaultArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of the source backup vault associated with the restore access backup vault to be revoked.
+    ///   - requesterComment: A comment explaining the reason for revoking access to the restore access backup vault.
+    ///   - restoreAccessBackupVaultArn: The ARN of the restore access backup vault to revoke.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func revokeRestoreAccessBackupVault(
+        backupVaultName: String,
+        requesterComment: String? = nil,
+        restoreAccessBackupVaultArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = RevokeRestoreAccessBackupVaultInput(
+            backupVaultName: backupVaultName, 
+            requesterComment: requesterComment, 
+            restoreAccessBackupVaultArn: restoreAccessBackupVaultArn
+        )
+        return try await self.revokeRestoreAccessBackupVault(input, logger: logger)
+    }
+
     /// Starts an on-demand backup job for the specified resource.
     @Sendable
     @inlinable
@@ -2819,7 +2997,7 @@ public struct Backup: AWSService {
         backupVaultName: String,
         completeWindowMinutes: Int64? = nil,
         iamRoleArn: String,
-        idempotencyToken: String? = nil,
+        idempotencyToken: String? = StartBackupJobInput.idempotencyToken(),
         index: Index? = nil,
         lifecycle: Lifecycle? = nil,
         recoveryPointTags: [String: String]? = nil,
@@ -2869,7 +3047,7 @@ public struct Backup: AWSService {
     public func startCopyJob(
         destinationBackupVaultArn: String,
         iamRoleArn: String,
-        idempotencyToken: String? = nil,
+        idempotencyToken: String? = StartCopyJobInput.idempotencyToken(),
         lifecycle: Lifecycle? = nil,
         recoveryPointArn: String,
         sourceBackupVaultName: String,
@@ -2945,7 +3123,7 @@ public struct Backup: AWSService {
     public func startRestoreJob(
         copySourceTagsToRestoredResource: Bool? = nil,
         iamRoleArn: String? = nil,
-        idempotencyToken: String? = nil,
+        idempotencyToken: String? = StartRestoreJobInput.idempotencyToken(),
         metadata: [String: String],
         recoveryPointArn: String,
         resourceType: String? = nil,
@@ -2962,7 +3140,7 @@ public struct Backup: AWSService {
         return try await self.startRestoreJob(input, logger: logger)
     }
 
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services:   Amazon Aurora   Amazon DocumentDB (with MongoDB compatibility)   Amazon FSx for Lustre   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server   Amazon Neptune   SAP HANA databases on Amazon EC2 instances   Amazon RDS
     @Sendable
     @inlinable
     public func stopBackupJob(_ input: StopBackupJobInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2975,7 +3153,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services:   Amazon Aurora   Amazon DocumentDB (with MongoDB compatibility)   Amazon FSx for Lustre   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server   Amazon Neptune   SAP HANA databases on Amazon EC2 instances   Amazon RDS
     ///
     /// Parameters:
     ///   - backupJobId: Uniquely identifies a request to Backup to back up a resource.
@@ -2991,7 +3169,7 @@ public struct Backup: AWSService {
         return try await self.stopBackupJob(input, logger: logger)
     }
 
-    /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN). This API is supported for recovery points for resource types  including Aurora, Amazon DocumentDB. Amazon EBS,  Amazon FSx, Neptune, and Amazon RDS.
+    /// Assigns a set of key-value pairs to a resource.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3004,10 +3182,10 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN). This API is supported for recovery points for resource types  including Aurora, Amazon DocumentDB. Amazon EBS,  Amazon FSx, Neptune, and Amazon RDS.
+    /// Assigns a set of key-value pairs to a resource.
     ///
     /// Parameters:
-    ///   - resourceArn: An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource. ARNs that do not include backup are incompatible with tagging.  TagResource and UntagResource with invalid ARNs will  result in an error. Acceptable ARN content can include  arn:aws:backup:us-east. Invalid ARN content may look like  arn:aws:ec2:us-east.
+    ///   - resourceArn: The ARN that uniquely identifies the resource.
     ///   - tags: Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
     ///   - logger: Logger use during operation
     @inlinable
@@ -4204,6 +4382,43 @@ extension Backup {
         return self.listReportPlansPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRestoreAccessBackupVaults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRestoreAccessBackupVaultsPaginator(
+        _ input: ListRestoreAccessBackupVaultsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRestoreAccessBackupVaultsInput, ListRestoreAccessBackupVaultsOutput> {
+        return .init(
+            input: input,
+            command: self.listRestoreAccessBackupVaults,
+            inputKey: \ListRestoreAccessBackupVaultsInput.nextToken,
+            outputKey: \ListRestoreAccessBackupVaultsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRestoreAccessBackupVaults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - backupVaultName: The name of the backup vault for which to list associated restore access backup vaults.
+    ///   - maxResults: The maximum number of items to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRestoreAccessBackupVaultsPaginator(
+        backupVaultName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRestoreAccessBackupVaultsInput, ListRestoreAccessBackupVaultsOutput> {
+        let input = ListRestoreAccessBackupVaultsInput(
+            backupVaultName: backupVaultName, 
+            maxResults: maxResults
+        )
+        return self.listRestoreAccessBackupVaultsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRestoreJobSummaries(_:logger:)``.
     ///
     /// - Parameters:
@@ -4706,6 +4921,17 @@ extension Backup.ListReportPlansInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Backup.ListReportPlansInput {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Backup.ListRestoreAccessBackupVaultsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListRestoreAccessBackupVaultsInput {
+        return .init(
+            backupVaultName: self.backupVaultName,
             maxResults: self.maxResults,
             nextToken: token
         )

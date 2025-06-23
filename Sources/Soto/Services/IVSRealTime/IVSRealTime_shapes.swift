@@ -69,6 +69,8 @@ extension IVSRealTime {
         case publishError = "PUBLISH_ERROR"
         case publishStarted = "PUBLISH_STARTED"
         case publishStopped = "PUBLISH_STOPPED"
+        case replicationStarted = "REPLICATION_STARTED"
+        case replicationStopped = "REPLICATION_STOPPED"
         case subscribeError = "SUBSCRIBE_ERROR"
         case subscribeStarted = "SUBSCRIBE_STARTED"
         case subscribeStopped = "SUBSCRIBE_STOPPED"
@@ -149,6 +151,19 @@ extension IVSRealTime {
 
     public enum RecordingConfigurationFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hls = "HLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case replica = "REPLICA"
+        case source = "SOURCE"
         public var description: String { return self.rawValue }
     }
 
@@ -233,16 +248,20 @@ extension IVSRealTime {
         /// If a stage publisher disconnects and then reconnects within the specified interval,
         /// 	  the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
         public let recordingReconnectWindowSeconds: Int?
+        /// Optional field to disable replica participant recording. If this is set to false when a
+        /// 	  participant is a replica, replica participants are not recorded. Default: true.
+        public let recordParticipantReplicas: Bool?
         /// ARN of the StorageConfiguration resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a Stage is created or updated. To disable individual participant recording, set this to ""; other fields in this object will get reset to their defaults when sending "".
         public let storageConfigurationArn: String
         /// A complex type that allows you to enable/disable the recording of thumbnails for individual participant recording and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ParticipantThumbnailConfiguration?
 
         @inlinable
-        public init(hlsConfiguration: ParticipantRecordingHlsConfiguration? = nil, mediaTypes: [ParticipantRecordingMediaType]? = nil, recordingReconnectWindowSeconds: Int? = nil, storageConfigurationArn: String, thumbnailConfiguration: ParticipantThumbnailConfiguration? = nil) {
+        public init(hlsConfiguration: ParticipantRecordingHlsConfiguration? = nil, mediaTypes: [ParticipantRecordingMediaType]? = nil, recordingReconnectWindowSeconds: Int? = nil, recordParticipantReplicas: Bool? = nil, storageConfigurationArn: String, thumbnailConfiguration: ParticipantThumbnailConfiguration? = nil) {
             self.hlsConfiguration = hlsConfiguration
             self.mediaTypes = mediaTypes
             self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
+            self.recordParticipantReplicas = recordParticipantReplicas
             self.storageConfigurationArn = storageConfigurationArn
             self.thumbnailConfiguration = thumbnailConfiguration
         }
@@ -261,6 +280,7 @@ extension IVSRealTime {
             case hlsConfiguration = "hlsConfiguration"
             case mediaTypes = "mediaTypes"
             case recordingReconnectWindowSeconds = "recordingReconnectWindowSeconds"
+            case recordParticipantReplicas = "recordParticipantReplicas"
             case storageConfigurationArn = "storageConfigurationArn"
             case thumbnailConfiguration = "thumbnailConfiguration"
         }
@@ -338,9 +358,7 @@ extension IVSRealTime {
     }
 
     public struct CompositionRecordingHlsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the target duration for recorded segments generated when using composite recording.
-        /// 	  Segments may have durations shorter than the specified value when needed to ensure each segment
-        /// 	  begins with a keyframe. Default: 2.
+        /// Defines the target duration for recorded segments generated when using composite recording. Default: 2.
         public let targetSegmentDurationSeconds: Int?
 
         @inlinable
@@ -992,6 +1010,8 @@ extension IVSRealTime {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.reason, name: "reason", parent: name, max: 128)
             try self.validate(self.stageArn, name: "stageArn", parent: name, max: 128)
             try self.validate(self.stageArn, name: "stageArn", parent: name, min: 1)
@@ -1058,6 +1078,12 @@ extension IVSRealTime {
     }
 
     public struct Event: AWSDecodableShape {
+        /// ID of the session within the destination stage. Applicable only if the event name is
+        /// 	  REPLICATION_STARTED or REPLICATION_STOPPED.
+        public let destinationSessionId: String?
+        /// ARN of the stage where the participant is replicated. Applicable only if the event name is
+        /// 	  REPLICATION_STARTED or REPLICATION_STOPPED.
+        public let destinationStageArn: String?
         /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.    B_FRAME_PRESENT — The participant's stream includes B-frames. For details, see  IVS RTMP Publishing.    BITRATE_EXCEEDED — The participant exceeded the maximum supported bitrate. For details, see  Service Quotas.    INSUFFICIENT_CAPABILITIES — The participant tried to take an action that the participant’s token is not allowed to do. For details on participant capabilities, see the capabilities field in CreateParticipantToken.    INTERNAL_SERVER_EXCEPTION — The participant failed to publish to the stage due to an internal server error.    INVALID_AUDIO_CODEC — The participant is using an invalid audio codec. For details, see  Stream Ingest.    INVALID_INPUT — The participant is using an invalid input stream.    INVALID_PROTOCOL — The participant's IngestConfiguration resource is configured for RTMPS but they tried streaming with RTMP. For details, see IVS RTMP Publishing.    INVALID_STREAM_KEY — The participant is using an invalid stream key. For details, see  IVS RTMP Publishing.    INVALID_VIDEO_CODEC — The participant is using an invalid video codec. For details, see  Stream Ingest.    PUBLISHER_NOT_FOUND — The participant tried to subscribe to a publisher that doesn’t exist.    QUOTA_EXCEEDED — The number of participants who want to publish/subscribe to a stage exceeds the quota. For details, see  Service Quotas.    RESOLUTION_EXCEEDED — The participant exceeded the maximum supported resolution. For details, see  Service Quotas.    REUSE_OF_STREAM_KEY — The participant tried to use a stream key that is associated with another active stage session.    STREAM_DURATION_EXCEEDED — The participant exceeded the maximum allowed stream duration. For details, see  Service Quotas.
         public let errorCode: EventErrorCode?
         /// ISO 8601 timestamp (returned as a string) for when the event occurred.
@@ -1069,22 +1095,31 @@ extension IVSRealTime {
         public let participantId: String?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public let remoteParticipantId: String?
+        /// If true, this indicates the participantId is a replicated participant.
+        /// 	  If this is a subscribe event, then this flag refers to remoteParticipantId.
+        public let replica: Bool?
 
         @inlinable
-        public init(errorCode: EventErrorCode? = nil, eventTime: Date? = nil, name: EventName? = nil, participantId: String? = nil, remoteParticipantId: String? = nil) {
+        public init(destinationSessionId: String? = nil, destinationStageArn: String? = nil, errorCode: EventErrorCode? = nil, eventTime: Date? = nil, name: EventName? = nil, participantId: String? = nil, remoteParticipantId: String? = nil, replica: Bool? = nil) {
+            self.destinationSessionId = destinationSessionId
+            self.destinationStageArn = destinationStageArn
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
             self.participantId = participantId
             self.remoteParticipantId = remoteParticipantId
+            self.replica = replica
         }
 
         private enum CodingKeys: String, CodingKey {
+            case destinationSessionId = "destinationSessionId"
+            case destinationStageArn = "destinationStageArn"
             case errorCode = "errorCode"
             case eventTime = "eventTime"
             case name = "name"
             case participantId = "participantId"
             case remoteParticipantId = "remoteParticipantId"
+            case replica = "replica"
         }
     }
 
@@ -1836,6 +1871,64 @@ extension IVSRealTime {
         }
     }
 
+    public struct ListParticipantReplicasRequest: AWSEncodableShape {
+        /// Maximum number of results to return. Default: 50.
+        public let maxResults: Int?
+        /// The first participant to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+        /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+        /// 		CreateParticipantToken
+        /// 		or the jti (JWT ID) used to create a self signed token.
+        public let participantId: String
+        /// ARN of the stage where the participant is publishing.
+        public let sourceStageArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, participantId: String, sourceStageArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.participantId = participantId
+            self.sourceStageArn = sourceStageArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+            try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, max: 128)
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, min: 1)
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case participantId = "participantId"
+            case sourceStageArn = "sourceStageArn"
+        }
+    }
+
+    public struct ListParticipantReplicasResponse: AWSDecodableShape {
+        /// If there are more participants than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+        /// List of all participant replicas.
+        public let replicas: [ParticipantReplica]
+
+        @inlinable
+        public init(nextToken: String? = nil, replicas: [ParticipantReplica]) {
+            self.nextToken = nextToken
+            self.replicas = replicas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case replicas = "replicas"
+        }
+    }
+
     public struct ListParticipantsRequest: AWSEncodableShape {
         /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
         public let filterByPublished: Bool?
@@ -2154,19 +2247,31 @@ extension IVSRealTime {
         public let published: Bool?
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public let recordingS3BucketName: String?
-        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher
+        /// 		 disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as
+        /// 		 the previous session. See
+        ///
+        /// 		 Merge Fragmented Individual Participant Recordings.
         public let recordingS3Prefix: String?
         /// The participant’s recording state.
         public let recordingState: ParticipantRecordingState?
+        /// The participant's replication state.
+        public let replicationState: ReplicationState?
+        /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
+        public let replicationType: ReplicationType?
         /// The participant’s SDK version.
         public let sdkVersion: String?
+        /// ID of the session within the source stage, if replicationType is REPLICA.
+        public let sourceSessionId: String?
+        /// Source stage ARN from which this participant is replicated, if replicationType is REPLICA.
+        public let sourceStageArn: String?
         /// Whether the participant is connected to or disconnected from the stage.
         public let state: ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, protocol: ParticipantProtocol? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, sdkVersion: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, protocol: ParticipantProtocol? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, replicationState: ReplicationState? = nil, replicationType: ReplicationType? = nil, sdkVersion: String? = nil, sourceSessionId: String? = nil, sourceStageArn: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.browserName = browserName
             self.browserVersion = browserVersion
@@ -2180,7 +2285,11 @@ extension IVSRealTime {
             self.recordingS3BucketName = recordingS3BucketName
             self.recordingS3Prefix = recordingS3Prefix
             self.recordingState = recordingState
+            self.replicationState = replicationState
+            self.replicationType = replicationType
             self.sdkVersion = sdkVersion
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
             self.state = state
             self.userId = userId
         }
@@ -2199,7 +2308,11 @@ extension IVSRealTime {
             case recordingS3BucketName = "recordingS3BucketName"
             case recordingS3Prefix = "recordingS3Prefix"
             case recordingState = "recordingState"
+            case replicationState = "replicationState"
+            case replicationType = "replicationType"
             case sdkVersion = "sdkVersion"
+            case sourceSessionId = "sourceSessionId"
+            case sourceStageArn = "sourceStageArn"
             case state = "state"
             case userId = "userId"
         }
@@ -2226,6 +2339,43 @@ extension IVSRealTime {
         }
     }
 
+    public struct ParticipantReplica: AWSDecodableShape {
+        /// ID of the session within the destination stage.
+        public let destinationSessionId: String
+        /// ARN of the stage where the participant is replicated.
+        public let destinationStageArn: String
+        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by
+        /// 		CreateParticipantToken
+        /// 		or the jti (JWT ID) used to
+        /// 				  create a self signed token.
+        public let participantId: String
+        /// Replica’s current replication state.
+        public let replicationState: ReplicationState
+        /// ID of the session within the source stage.
+        public let sourceSessionId: String
+        /// ARN of the stage from which this participant is replicated.
+        public let sourceStageArn: String
+
+        @inlinable
+        public init(destinationSessionId: String, destinationStageArn: String, participantId: String, replicationState: ReplicationState, sourceSessionId: String, sourceStageArn: String) {
+            self.destinationSessionId = destinationSessionId
+            self.destinationStageArn = destinationStageArn
+            self.participantId = participantId
+            self.replicationState = replicationState
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationSessionId = "destinationSessionId"
+            case destinationStageArn = "destinationStageArn"
+            case participantId = "participantId"
+            case replicationState = "replicationState"
+            case sourceSessionId = "sourceSessionId"
+            case sourceStageArn = "sourceStageArn"
+        }
+    }
+
     public struct ParticipantSummary: AWSDecodableShape {
         /// ISO 8601 timestamp (returned as a string) when the participant first joined the stage session.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2236,17 +2386,29 @@ extension IVSRealTime {
         public let published: Bool?
         /// The participant’s recording state.
         public let recordingState: ParticipantRecordingState?
+        /// The participant's replication state.
+        public let replicationState: ReplicationState?
+        /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
+        public let replicationType: ReplicationType?
+        /// ID of the session within the source stage, if replicationType is REPLICA.
+        public let sourceSessionId: String?
+        /// ARN of the stage from which this participant is replicated.
+        public let sourceStageArn: String?
         /// Whether the participant is connected to or disconnected from the stage.
         public let state: ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
         @inlinable
-        public init(firstJoinTime: Date? = nil, participantId: String? = nil, published: Bool? = nil, recordingState: ParticipantRecordingState? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(firstJoinTime: Date? = nil, participantId: String? = nil, published: Bool? = nil, recordingState: ParticipantRecordingState? = nil, replicationState: ReplicationState? = nil, replicationType: ReplicationType? = nil, sourceSessionId: String? = nil, sourceStageArn: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.firstJoinTime = firstJoinTime
             self.participantId = participantId
             self.published = published
             self.recordingState = recordingState
+            self.replicationState = replicationState
+            self.replicationType = replicationType
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
             self.state = state
             self.userId = userId
         }
@@ -2256,6 +2418,10 @@ extension IVSRealTime {
             case participantId = "participantId"
             case published = "published"
             case recordingState = "recordingState"
+            case replicationState = "replicationState"
+            case replicationType = "replicationType"
+            case sourceSessionId = "sourceSessionId"
+            case sourceStageArn = "sourceStageArn"
             case state = "state"
             case userId = "userId"
         }
@@ -2905,6 +3071,91 @@ extension IVSRealTime {
         }
     }
 
+    public struct StartParticipantReplicationRequest: AWSEncodableShape {
+        /// Application-provided attributes to set on the replicated participant in the destination stage.
+        /// 	  Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total.
+        /// 	  This field is exposed to all stage participants and should not be used for personally identifying,
+        /// 	  confidential, or sensitive information.  These attributes are merged with any attributes set for this participant when creating the token.
+        /// 	  If there is overlap in keys, the values in these attributes are replaced.
+        public let attributes: [String: String]?
+        /// ARN of the stage to which the participant will be replicated.
+        public let destinationStageArn: String
+        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by
+        /// 		CreateParticipantToken
+        /// 		or the jti (JWT ID) used to create a self signed token.
+        ///
+        public let participantId: String
+        /// If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE.
+        /// 	  Default: 0.
+        public let reconnectWindowSeconds: Int?
+        /// ARN of the stage where the participant is publishing.
+        public let sourceStageArn: String
+
+        @inlinable
+        public init(attributes: [String: String]? = nil, destinationStageArn: String, participantId: String, reconnectWindowSeconds: Int? = nil, sourceStageArn: String) {
+            self.attributes = attributes
+            self.destinationStageArn = destinationStageArn
+            self.participantId = participantId
+            self.reconnectWindowSeconds = reconnectWindowSeconds
+            self.sourceStageArn = sourceStageArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, max: 128)
+            try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, min: 1)
+            try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+            try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.reconnectWindowSeconds, name: "reconnectWindowSeconds", parent: name, max: 60)
+            try self.validate(self.reconnectWindowSeconds, name: "reconnectWindowSeconds", parent: name, min: 0)
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, max: 128)
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, min: 1)
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case destinationStageArn = "destinationStageArn"
+            case participantId = "participantId"
+            case reconnectWindowSeconds = "reconnectWindowSeconds"
+            case sourceStageArn = "sourceStageArn"
+        }
+    }
+
+    public struct StartParticipantReplicationResponse: AWSDecodableShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
+        public let strictTransportSecurity: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
+
+        @inlinable
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, strictTransportSecurity: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct StopCompositionRequest: AWSEncodableShape {
         /// ARN of the Composition.
         public let arn: String
@@ -2927,6 +3178,76 @@ extension IVSRealTime {
 
     public struct StopCompositionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct StopParticipantReplicationRequest: AWSEncodableShape {
+        /// ARN of the stage where the participant has been replicated.
+        public let destinationStageArn: String
+        /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+        /// 		CreateParticipantToken
+        /// 		or the jti (JWT ID) used to
+        /// 				  create a self signed token.
+        public let participantId: String
+        /// ARN of the stage where the participant is publishing.
+        public let sourceStageArn: String
+
+        @inlinable
+        public init(destinationStageArn: String, participantId: String, sourceStageArn: String) {
+            self.destinationStageArn = destinationStageArn
+            self.participantId = participantId
+            self.sourceStageArn = sourceStageArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, max: 128)
+            try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, min: 1)
+            try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+            try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, max: 128)
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, min: 1)
+            try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationStageArn = "destinationStageArn"
+            case participantId = "participantId"
+            case sourceStageArn = "sourceStageArn"
+        }
+    }
+
+    public struct StopParticipantReplicationResponse: AWSDecodableShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
+        public let strictTransportSecurity: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
+
+        @inlinable
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, strictTransportSecurity: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StorageConfiguration: AWSDecodableShape {

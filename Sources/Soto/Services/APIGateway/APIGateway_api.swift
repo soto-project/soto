@@ -429,6 +429,7 @@ public struct APIGateway: AWSService {
     ///   - policy: A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
     ///   - regionalCertificateArn: The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
     ///   - regionalCertificateName: The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
+    ///   - routingMode: The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     ///   - securityPolicy: The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
     ///   - tags: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
     ///   - logger: Logger use during operation
@@ -446,6 +447,7 @@ public struct APIGateway: AWSService {
         policy: String? = nil,
         regionalCertificateArn: String? = nil,
         regionalCertificateName: String? = nil,
+        routingMode: RoutingMode? = nil,
         securityPolicy: SecurityPolicy? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -463,6 +465,7 @@ public struct APIGateway: AWSService {
             policy: policy, 
             regionalCertificateArn: regionalCertificateArn, 
             regionalCertificateName: regionalCertificateName, 
+            routingMode: routingMode, 
             securityPolicy: securityPolicy, 
             tags: tags
         )
@@ -3449,7 +3452,7 @@ public struct APIGateway: AWSService {
     ///   - requestTemplates: Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     ///   - resourceId: Specifies a put integration request's resource ID.
     ///   - restApiId: The string identifier of the associated RestApi.
-    ///   - timeoutInMillis: Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    ///   - timeoutInMillis: Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.  You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     ///   - tlsConfig: 
     ///   - type: Specifies a put integration input's type.
     ///   - uri: Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services service for fast host-name lookup. action can be used for an Amazon Web Services service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an Amazon Web Services service path-based API. The ensuing service_api refers to the path to an Amazon Web Services service resource, including the region of the integrated Amazon Web Services service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}.

@@ -127,6 +127,7 @@ extension NetworkFirewall {
     }
 
     public enum ResourceManagedType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activeThreatDefense = "ACTIVE_THREAT_DEFENSE"
         case awsManagedDomainLists = "AWS_MANAGED_DOMAIN_LISTS"
         case awsManagedThreatSignatures = "AWS_MANAGED_THREAT_SIGNATURES"
         public var description: String { return self.rawValue }
@@ -179,12 +180,14 @@ extension NetworkFirewall {
         case dns = "DNS"
         case ftp = "FTP"
         case http = "HTTP"
+        case http2 = "HTTP2"
         case icmp = "ICMP"
         case ikev2 = "IKEV2"
         case imap = "IMAP"
         case krb5 = "KRB5"
         case msn = "MSN"
         case ntp = "NTP"
+        case quic = "QUIC"
         case smb = "SMB"
         case smtp = "SMTP"
         case ssh = "SSH"
@@ -199,6 +202,13 @@ extension NetworkFirewall {
         case `continue` = "CONTINUE"
         case drop = "DROP"
         case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SummaryRuleOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case metadata = "METADATA"
+        case msg = "MSG"
+        case sid = "SID"
         public var description: String { return self.rawValue }
     }
 
@@ -220,7 +230,71 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitGatewayAttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case failed = "FAILED"
+        case pendingAcceptance = "PENDING_ACCEPTANCE"
+        case ready = "READY"
+        case rejected = "REJECTED"
+        case rejecting = "REJECTING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AZSyncState: AWSDecodableShape {
+        public let attachment: Attachment?
+
+        @inlinable
+        public init(attachment: Attachment? = nil) {
+            self.attachment = attachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+        }
+    }
+
+    public struct AcceptNetworkFirewallTransitGatewayAttachmentRequest: AWSEncodableShape {
+        /// Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall.
+        public let transitGatewayAttachmentId: String
+
+        @inlinable
+        public init(transitGatewayAttachmentId: String) {
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, max: 128)
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, min: 1)
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, pattern: "^tgw-attach-[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct AcceptNetworkFirewallTransitGatewayAttachmentResponse: AWSDecodableShape {
+        /// The unique identifier of the transit gateway attachment that was accepted.
+        public let transitGatewayAttachmentId: String
+        /// The current status of the transit gateway attachment. Valid values are:    CREATING - The attachment is being created    DELETING - The attachment is being deleted    DELETED - The attachment has been deleted    FAILED - The attachment creation has failed and cannot be recovered    ERROR - The attachment is in an error state that might be recoverable    READY - The attachment is active and processing traffic    PENDING_ACCEPTANCE - The attachment is waiting to be accepted    REJECTING - The attachment is in the process of being rejected    REJECTED - The attachment has been rejected
+        public let transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus
+
+        @inlinable
+        public init(transitGatewayAttachmentId: String, transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus) {
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayAttachmentStatus = "TransitGatewayAttachmentStatus"
+        }
+    }
 
     public struct ActionDefinition: AWSEncodableShape & AWSDecodableShape {
         /// Stateless inspection criteria that publishes the specified metrics to Amazon CloudWatch for the matching packet. This setting defines a CloudWatch dimension value to be published. You can pair this custom action with any of the standard stateless rule actions. For example, you could pair this in a rule action with the standard action that forwards the packet for stateful inspection. Then, when a packet matches the rule, Network Firewall publishes metrics for the packet and forwards it.
@@ -339,6 +413,73 @@ extension NetworkFirewall {
             case lastAccessed = "LastAccessed"
             case `protocol` = "Protocol"
             case uniqueSources = "UniqueSources"
+        }
+    }
+
+    public struct AssociateAvailabilityZonesRequest: AWSEncodableShape {
+        /// Required. The Availability Zones where you want to create firewall endpoints. You must specify at least one Availability Zone.
+        public let availabilityZoneMappings: [AvailabilityZoneMapping]
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(availabilityZoneMappings: [AvailabilityZoneMapping], firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.availabilityZoneMappings = availabilityZoneMappings
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityZoneMappings.forEach {
+                try $0.validate(name: "\(name).availabilityZoneMappings[]")
+            }
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneMappings = "AvailabilityZoneMappings"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct AssociateAvailabilityZonesResponse: AWSDecodableShape {
+        /// The Availability Zones where Network Firewall created firewall endpoints. Each mapping specifies an Availability Zone where the firewall processes traffic.
+        public let availabilityZoneMappings: [AvailabilityZoneMapping]?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.availabilityZoneMappings = availabilityZoneMappings
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneMappings = "AvailabilityZoneMappings"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
         }
     }
 
@@ -476,9 +617,9 @@ extension NetworkFirewall {
     public struct Attachment: AWSDecodableShape {
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public let endpointId: String?
-        /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING or DELETING.
+        /// The current status of the firewall endpoint instantiation in the subnet.  When this value is READY, the endpoint is available to handle network traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
         public let status: AttachmentStatus?
-        /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the error or failure and how to resolve it. A FAILED status indicates a non-recoverable state, and a ERROR status indicates an issue that you can fix. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the causes for failiure or errors and solutions available for this field, see Troubleshooting firewall endpoint failures in the Network Firewall Developer Guide.
+        /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the error or failure and how to resolve it.  A FAILED status indicates a non-recoverable state, and a ERROR status indicates an issue that you can fix.  Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the causes for failiure or errors and solutions available for this field, see Troubleshooting firewall endpoint failures in the Network Firewall Developer Guide.
         public let statusMessage: String?
         /// The unique identifier of the subnet that you've specified to be used for a firewall endpoint.
         public let subnetId: String?
@@ -496,6 +637,40 @@ extension NetworkFirewall {
             case status = "Status"
             case statusMessage = "StatusMessage"
             case subnetId = "SubnetId"
+        }
+    }
+
+    public struct AvailabilityZoneMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a. The Availability Zone must be in the same Region as the transit gateway.
+        public let availabilityZone: String
+
+        @inlinable
+        public init(availabilityZone: String) {
+            self.availabilityZone = availabilityZone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 128)
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, min: 1)
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+        }
+    }
+
+    public struct AvailabilityZoneMetadata: AWSDecodableShape {
+        /// The IP address type of the Firewall subnet in the Availability Zone. You can't change the IP address type after you create the subnet.
+        public let ipAddressType: IPAddressType?
+
+        @inlinable
+        public init(ipAddressType: IPAddressType? = nil) {
+            self.ipAddressType = ipAddressType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "IPAddressType"
         }
     }
 
@@ -621,6 +796,10 @@ extension NetworkFirewall {
     }
 
     public struct CreateFirewallRequest: AWSEncodableShape {
+        /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtection. Default value: FALSE
+        public let availabilityZoneChangeProtection: Bool?
+        /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone independence. You can modify Availability Zones later using AssociateAvailabilityZones or DisassociateAvailabilityZones, but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
+        public let availabilityZoneMappings: [AvailabilityZoneMapping]?
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool?
         /// A description of the firewall.
@@ -641,11 +820,15 @@ extension NetworkFirewall {
         public let subnetMappings: [SubnetMapping]?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
+        /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager.  After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall.  For information about creating firewalls, see CreateFirewall. For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide.
+        public let transitGatewayId: String?
         /// The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
         public let vpcId: String?
 
         @inlinable
-        public init(deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping]? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, vpcId: String? = nil) {
+            self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+            self.availabilityZoneMappings = availabilityZoneMappings
             self.deleteProtection = deleteProtection
             self.description = description
             self.enabledAnalysisTypes = enabledAnalysisTypes
@@ -656,10 +839,14 @@ extension NetworkFirewall {
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
+            self.transitGatewayId = transitGatewayId
             self.vpcId = vpcId
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZoneMappings?.forEach {
+                try $0.validate(name: "\(name).availabilityZoneMappings[]")
+            }
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
@@ -674,12 +861,17 @@ extension NetworkFirewall {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.transitGatewayId, name: "transitGatewayId", parent: name, max: 128)
+            try self.validate(self.transitGatewayId, name: "transitGatewayId", parent: name, min: 1)
+            try self.validate(self.transitGatewayId, name: "transitGatewayId", parent: name, pattern: "^tgw-[0-9a-z]+$")
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 128)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[0-9a-f]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneChangeProtection = "AvailabilityZoneChangeProtection"
+            case availabilityZoneMappings = "AvailabilityZoneMappings"
             case deleteProtection = "DeleteProtection"
             case description = "Description"
             case enabledAnalysisTypes = "EnabledAnalysisTypes"
@@ -690,6 +882,7 @@ extension NetworkFirewall {
             case subnetChangeProtection = "SubnetChangeProtection"
             case subnetMappings = "SubnetMappings"
             case tags = "Tags"
+            case transitGatewayId = "TransitGatewayId"
             case vpcId = "VpcId"
         }
     }
@@ -697,7 +890,7 @@ extension NetworkFirewall {
     public struct CreateFirewallResponse: AWSDecodableShape {
         /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
         public let firewall: Firewall?
-        /// Detailed information about the current status of a Firewall. You can retrieve this for a firewall by calling DescribeFirewall and providing the firewall name and ARN.
+        /// Detailed information about the current status of a Firewall. You can retrieve this for a firewall by calling DescribeFirewall and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
         public let firewallStatus: FirewallStatus?
 
         @inlinable
@@ -733,6 +926,8 @@ extension NetworkFirewall {
         public let rules: String?
         /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
         public let sourceMetadata: SourceMetadata?
+        /// An object that contains a RuleOptions array of strings.  You use RuleOptions to determine which of the following RuleSummary values are returned in response to DescribeRuleGroupSummary.    Metadata - returns    Msg     SID
+        public let summaryConfiguration: SummaryConfiguration?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
@@ -740,7 +935,7 @@ extension NetworkFirewall {
         public let type: RuleGroupType
 
         @inlinable
-        public init(analyzeRuleGroup: Bool? = nil, capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
+        public init(analyzeRuleGroup: Bool? = nil, capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, summaryConfiguration: SummaryConfiguration? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.capacity = capacity
             self.description = description
@@ -750,6 +945,7 @@ extension NetworkFirewall {
             self.ruleGroupName = ruleGroupName
             self.rules = rules
             self.sourceMetadata = sourceMetadata
+            self.summaryConfiguration = summaryConfiguration
             self.tags = tags
             self.type = type
         }
@@ -781,6 +977,7 @@ extension NetworkFirewall {
             case ruleGroupName = "RuleGroupName"
             case rules = "Rules"
             case sourceMetadata = "SourceMetadata"
+            case summaryConfiguration = "SummaryConfiguration"
             case tags = "Tags"
             case type = "Type"
         }
@@ -810,7 +1007,7 @@ extension NetworkFirewall {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see  Inspecting SSL/TLS traffic with TLS
         /// inspection configurations in the Network Firewall Developer Guide.
         public let tlsInspectionConfiguration: TLSInspectionConfiguration
         /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
@@ -864,6 +1061,70 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
             case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct CreateVpcEndpointAssociationRequest: AWSEncodableShape {
+        /// A description of the VPC endpoint association.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String
+        public let subnetMapping: SubnetMapping
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// The unique identifier of the VPC where you want to create a firewall endpoint.
+        public let vpcId: String
+
+        @inlinable
+        public init(description: String? = nil, firewallArn: String, subnetMapping: SubnetMapping, tags: [Tag]? = nil, vpcId: String) {
+            self.description = description
+            self.firewallArn = firewallArn
+            self.subnetMapping = subnetMapping
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 128)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[0-9a-f]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case firewallArn = "FirewallArn"
+            case subnetMapping = "SubnetMapping"
+            case tags = "Tags"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct CreateVpcEndpointAssociationResponse: AWSDecodableShape {
+        /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+        public let vpcEndpointAssociation: VpcEndpointAssociation?
+        /// Detailed information about the current status of a VpcEndpointAssociation. You can retrieve this
+        /// by calling DescribeVpcEndpointAssociation and providing the VPC endpoint association ARN.
+        public let vpcEndpointAssociationStatus: VpcEndpointAssociationStatus?
+
+        @inlinable
+        public init(vpcEndpointAssociation: VpcEndpointAssociation? = nil, vpcEndpointAssociationStatus: VpcEndpointAssociationStatus? = nil) {
+            self.vpcEndpointAssociation = vpcEndpointAssociation
+            self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointAssociation = "VpcEndpointAssociation"
+            case vpcEndpointAssociationStatus = "VpcEndpointAssociationStatus"
         }
     }
 
@@ -973,6 +1234,44 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case firewall = "Firewall"
             case firewallStatus = "FirewallStatus"
+        }
+    }
+
+    public struct DeleteNetworkFirewallTransitGatewayAttachmentRequest: AWSEncodableShape {
+        /// Required. The unique identifier of the transit gateway attachment to delete.
+        public let transitGatewayAttachmentId: String
+
+        @inlinable
+        public init(transitGatewayAttachmentId: String) {
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, max: 128)
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, min: 1)
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, pattern: "^tgw-attach-[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct DeleteNetworkFirewallTransitGatewayAttachmentResponse: AWSDecodableShape {
+        /// The ID of the transit gateway attachment that was deleted.
+        public let transitGatewayAttachmentId: String
+        /// The current status of the transit gateway attachment deletion process. Valid values are:    CREATING - The attachment is being created    DELETING - The attachment is being deleted    DELETED - The attachment has been deleted    FAILED - The attachment creation has failed and cannot be recovered    ERROR - The attachment is in an error state that might be recoverable    READY - The attachment is active and processing traffic    PENDING_ACCEPTANCE - The attachment is waiting to be accepted    REJECTING - The attachment is in the process of being rejected    REJECTED - The attachment has been rejected
+        public let transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus
+
+        @inlinable
+        public init(transitGatewayAttachmentId: String, transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus) {
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayAttachmentStatus = "TransitGatewayAttachmentStatus"
         }
     }
 
@@ -1087,6 +1386,99 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DeleteVpcEndpointAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String
+
+        @inlinable
+        public init(vpcEndpointAssociationArn: String) {
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, max: 256)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, min: 1)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+        }
+    }
+
+    public struct DeleteVpcEndpointAssociationResponse: AWSDecodableShape {
+        /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+        public let vpcEndpointAssociation: VpcEndpointAssociation?
+        /// Detailed information about the current status of a VpcEndpointAssociation. You can retrieve this
+        /// by calling DescribeVpcEndpointAssociation and providing the VPC endpoint association ARN.
+        public let vpcEndpointAssociationStatus: VpcEndpointAssociationStatus?
+
+        @inlinable
+        public init(vpcEndpointAssociation: VpcEndpointAssociation? = nil, vpcEndpointAssociationStatus: VpcEndpointAssociationStatus? = nil) {
+            self.vpcEndpointAssociation = vpcEndpointAssociation
+            self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointAssociation = "VpcEndpointAssociation"
+            case vpcEndpointAssociationStatus = "VpcEndpointAssociationStatus"
+        }
+    }
+
+    public struct DescribeFirewallMetadataRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+
+        @inlinable
+        public init(firewallArn: String? = nil) {
+            self.firewallArn = firewallArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallArn = "FirewallArn"
+        }
+    }
+
+    public struct DescribeFirewallMetadataResponse: AWSDecodableShape {
+        /// A description of the firewall.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// The Amazon Resource Name (ARN) of the firewall policy.
+        public let firewallPolicyArn: String?
+        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the Attachment Status values for all of the configured subnets are READY.
+        public let status: FirewallStatusValue?
+        /// The Availability Zones that the firewall currently supports. This includes all Availability Zones for which  the firewall has a subnet defined.
+        public let supportedAvailabilityZones: [String: AvailabilityZoneMetadata]?
+        /// The unique identifier of the transit gateway attachment associated with this firewall. This field is only present for transit gateway-attached firewalls.
+        public let transitGatewayAttachmentId: String?
+
+        @inlinable
+        public init(description: String? = nil, firewallArn: String? = nil, firewallPolicyArn: String? = nil, status: FirewallStatusValue? = nil, supportedAvailabilityZones: [String: AvailabilityZoneMetadata]? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.description = description
+            self.firewallArn = firewallArn
+            self.firewallPolicyArn = firewallPolicyArn
+            self.status = status
+            self.supportedAvailabilityZones = supportedAvailabilityZones
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case firewallArn = "FirewallArn"
+            case firewallPolicyArn = "FirewallPolicyArn"
+            case status = "Status"
+            case supportedAvailabilityZones = "SupportedAvailabilityZones"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
     public struct DescribeFirewallPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
@@ -1166,7 +1558,7 @@ extension NetworkFirewall {
     public struct DescribeFirewallResponse: AWSDecodableShape {
         /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
         public let firewall: Firewall?
-        /// Detailed information about the current status of a Firewall. You can retrieve this for a firewall by calling DescribeFirewall and providing the firewall name and ARN.
+        /// Detailed information about the current status of a Firewall. You can retrieve this for a firewall by calling DescribeFirewall and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
         public let firewallStatus: FirewallStatus?
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
@@ -1192,12 +1584,18 @@ extension NetworkFirewall {
         public let firewallArn: String
         /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
         public let flowOperationId: String
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String?
+        /// A unique identifier for the primary endpoint associated with a firewall.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String) {
+        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointId = vpcEndpointId
         }
 
         public func validate(name: String) throws {
@@ -1207,12 +1605,20 @@ extension NetworkFirewall {
             try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, max: 36)
             try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, min: 36)
             try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, max: 256)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, min: 1)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case firewallArn = "FirewallArn"
             case flowOperationId = "FlowOperationId"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -1234,9 +1640,13 @@ extension NetworkFirewall {
         public let flowRequestTimestamp: Date?
         /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
         public let statusMessage: String?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String?
+        /// A unique identifier for the primary endpoint associated with a firewall.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperation: FlowOperation? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil, statusMessage: String? = nil) {
+        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperation: FlowOperation? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.firewallArn = firewallArn
             self.flowOperation = flowOperation
@@ -1245,6 +1655,8 @@ extension NetworkFirewall {
             self.flowOperationType = flowOperationType
             self.flowRequestTimestamp = flowRequestTimestamp
             self.statusMessage = statusMessage
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointId = vpcEndpointId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1256,6 +1668,8 @@ extension NetworkFirewall {
             case flowOperationType = "FlowOperationType"
             case flowRequestTimestamp = "FlowRequestTimestamp"
             case statusMessage = "StatusMessage"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -1287,17 +1701,21 @@ extension NetworkFirewall {
     }
 
     public struct DescribeLoggingConfigurationResponse: AWSDecodableShape {
+        /// A boolean that reflects whether or not the firewall monitoring dashboard is enabled on a firewall.  Returns TRUE when the firewall monitoring dashboard is enabled on the firewall.  Returns FALSE when the firewall monitoring dashboard is not enabled on the firewall.
+        public let enableMonitoringDashboard: Bool?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         public let loggingConfiguration: LoggingConfiguration?
 
         @inlinable
-        public init(firewallArn: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
+        public init(enableMonitoringDashboard: Bool? = nil, firewallArn: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
+            self.enableMonitoringDashboard = enableMonitoringDashboard
             self.firewallArn = firewallArn
             self.loggingConfiguration = loggingConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMonitoringDashboard = "EnableMonitoringDashboard"
             case firewallArn = "FirewallArn"
             case loggingConfiguration = "LoggingConfiguration"
         }
@@ -1374,7 +1792,7 @@ extension NetworkFirewall {
         public let capacity: Int?
         /// Returns the metadata objects for the specified rule group.
         public let description: String?
-        /// The last time that the rule group was changed.
+        /// A timestamp indicating when the rule group was last modified.
         public let lastModifiedTime: Date?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String
@@ -1465,6 +1883,59 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DescribeRuleGroupSummaryRequest: AWSEncodableShape {
+        /// Required. The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
+        public let ruleGroupArn: String?
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let ruleGroupName: String?
+        /// The type of rule group you want a summary for. This is a required field. Valid value: STATEFUL  Note that STATELESS exists but is not currently supported. If you provide STATELESS, an exception is returned.
+        public let type: RuleGroupType?
+
+        @inlinable
+        public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
+            self.ruleGroupArn = ruleGroupArn
+            self.ruleGroupName = ruleGroupName
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, max: 256)
+            try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, min: 1)
+            try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
+            try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
+            try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleGroupArn = "RuleGroupArn"
+            case ruleGroupName = "RuleGroupName"
+            case type = "Type"
+        }
+    }
+
+    public struct DescribeRuleGroupSummaryResponse: AWSDecodableShape {
+        /// A description of the rule group.
+        public let description: String?
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
+        public let ruleGroupName: String
+        /// A complex type that contains rule information based on the rule group's configured summary settings. The content varies depending on the fields that you specified to extract in your SummaryConfiguration. When you haven't configured any summary settings, this returns an empty array. The response might include:   Rule identifiers   Rule descriptions   Any metadata fields that you specified in your SummaryConfiguration
+        public let summary: Summary?
+
+        @inlinable
+        public init(description: String? = nil, ruleGroupName: String, summary: Summary? = nil) {
+            self.description = description
+            self.ruleGroupName = ruleGroupName
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case ruleGroupName = "RuleGroupName"
+            case summary = "Summary"
+        }
+    }
+
     public struct DescribeTLSInspectionConfigurationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the TLS inspection configuration. You must specify the ARN or the name, and you can specify both.
         public let tlsInspectionConfigurationArn: String?
@@ -1493,7 +1964,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeTLSInspectionConfigurationResponse: AWSDecodableShape {
-        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see  Inspecting SSL/TLS traffic with TLS
         /// inspection configurations in the Network Firewall Developer Guide.
         public let tlsInspectionConfiguration: TLSInspectionConfiguration?
         /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
@@ -1515,6 +1986,45 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DescribeVpcEndpointAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String
+
+        @inlinable
+        public init(vpcEndpointAssociationArn: String) {
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, max: 256)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, min: 1)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+        }
+    }
+
+    public struct DescribeVpcEndpointAssociationResponse: AWSDecodableShape {
+        /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+        public let vpcEndpointAssociation: VpcEndpointAssociation?
+        /// Detailed information about the current status of a VpcEndpointAssociation. You can retrieve this
+        /// by calling DescribeVpcEndpointAssociation and providing the VPC endpoint association ARN.
+        public let vpcEndpointAssociationStatus: VpcEndpointAssociationStatus?
+
+        @inlinable
+        public init(vpcEndpointAssociation: VpcEndpointAssociation? = nil, vpcEndpointAssociationStatus: VpcEndpointAssociationStatus? = nil) {
+            self.vpcEndpointAssociation = vpcEndpointAssociation
+            self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointAssociation = "VpcEndpointAssociation"
+            case vpcEndpointAssociationStatus = "VpcEndpointAssociationStatus"
+        }
+    }
+
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
         /// The value to use in the custom metric dimension.
         public let value: String
@@ -1532,6 +2042,73 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case value = "Value"
+        }
+    }
+
+    public struct DisassociateAvailabilityZonesRequest: AWSEncodableShape {
+        /// Required. The Availability Zones to remove from the firewall's configuration.
+        public let availabilityZoneMappings: [AvailabilityZoneMapping]
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(availabilityZoneMappings: [AvailabilityZoneMapping], firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.availabilityZoneMappings = availabilityZoneMappings
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityZoneMappings.forEach {
+                try $0.validate(name: "\(name).availabilityZoneMappings[]")
+            }
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneMappings = "AvailabilityZoneMappings"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct DisassociateAvailabilityZonesResponse: AWSDecodableShape {
+        /// The remaining Availability Zones where the firewall has endpoints after the disassociation.
+        public let availabilityZoneMappings: [AvailabilityZoneMapping]?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.availabilityZoneMappings = availabilityZoneMappings
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneMappings = "AvailabilityZoneMappings"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
         }
     }
 
@@ -1629,6 +2206,10 @@ extension NetworkFirewall {
     }
 
     public struct Firewall: AWSDecodableShape {
+        /// A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you must first disable this protection before adding or removing Availability Zones.
+        public let availabilityZoneChangeProtection: Bool?
+        /// The Availability Zones where the firewall endpoints are created for a transit gateway-attached firewall. Each mapping specifies an Availability Zone where the firewall processes traffic.
+        public let availabilityZoneMappings: [AvailabilityZoneMapping]?
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool?
         /// A description of the firewall.
@@ -1647,16 +2228,24 @@ extension NetworkFirewall {
         public let firewallPolicyArn: String
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let firewallPolicyChangeProtection: Bool?
+        /// The number of VpcEndpointAssociation resources that use this firewall.
+        public let numberOfAssociations: Int?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let subnetChangeProtection: Bool?
-        /// The public subnets that Network Firewall is using for the firewall. Each subnet must belong to a different Availability Zone.
+        /// The primary public subnets that Network Firewall is using for the firewall. Network Firewall creates a firewall endpoint in each subnet. Create a subnet mapping for each Availability Zone where you want to use the firewall. These subnets are all defined for a single, primary VPC, and each must belong to a different Availability Zone. Each of these subnets establishes the availability of the firewall in its Availability Zone.  In addition to these subnets, you can define other endpoints for the firewall in VpcEndpointAssociation resources. You can define these additional endpoints for any VPC, and for any of the Availability Zones where the firewall resource already has a subnet mapping. VPC endpoint associations give you the ability to protect multiple VPCs using a single firewall, and to define multiple firewall endpoints for a VPC in a single Availability Zone.
         public let subnetMappings: [SubnetMapping]
         public let tags: [Tag]?
+        /// The unique identifier of the transit gateway associated with this firewall. This field is only present for transit gateway-attached firewalls.
+        public let transitGatewayId: String?
+        /// The Amazon Web Services account ID that owns the transit gateway. This may be different from the firewall owner's account ID when using a shared transit gateway.
+        public let transitGatewayOwnerAccountId: String?
         /// The unique identifier of the VPC where the firewall is in use.
         public let vpcId: String
 
         @inlinable
-        public init(deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
+        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, numberOfAssociations: Int? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayOwnerAccountId: String? = nil, vpcId: String) {
+            self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+            self.availabilityZoneMappings = availabilityZoneMappings
             self.deleteProtection = deleteProtection
             self.description = description
             self.enabledAnalysisTypes = enabledAnalysisTypes
@@ -1666,13 +2255,18 @@ extension NetworkFirewall {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.numberOfAssociations = numberOfAssociations
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayOwnerAccountId = transitGatewayOwnerAccountId
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneChangeProtection = "AvailabilityZoneChangeProtection"
+            case availabilityZoneMappings = "AvailabilityZoneMappings"
             case deleteProtection = "DeleteProtection"
             case description = "Description"
             case enabledAnalysisTypes = "EnabledAnalysisTypes"
@@ -1682,9 +2276,12 @@ extension NetworkFirewall {
             case firewallName = "FirewallName"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyChangeProtection = "FirewallPolicyChangeProtection"
+            case numberOfAssociations = "NumberOfAssociations"
             case subnetChangeProtection = "SubnetChangeProtection"
             case subnetMappings = "SubnetMappings"
             case tags = "Tags"
+            case transitGatewayId = "TransitGatewayId"
+            case transitGatewayOwnerAccountId = "TransitGatewayOwnerAccountId"
             case vpcId = "VpcId"
         }
     }
@@ -1694,16 +2291,20 @@ extension NetworkFirewall {
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
         public let firewallName: String?
+        /// The unique identifier of the transit gateway attachment associated with this firewall. This field is only present for transit gateway-attached firewalls.
+        public let transitGatewayAttachmentId: String?
 
         @inlinable
-        public init(firewallArn: String? = nil, firewallName: String? = nil) {
+        public init(firewallArn: String? = nil, firewallName: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
 
         private enum CodingKeys: String, CodingKey {
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
         }
     }
 
@@ -1842,21 +2443,24 @@ extension NetworkFirewall {
     }
 
     public struct FirewallStatus: AWSDecodableShape {
-        /// Describes the capacity usage of the resources contained in a firewall's reference sets. Network Firewall calclulates the capacity usage by taking an aggregated count of all of the resources used by all of the reference sets in a firewall.
+        /// Describes the capacity usage of the resources contained in a firewall's reference sets. Network Firewall calculates the capacity usage by taking an aggregated count of all of the resources used by all of the reference sets in a firewall.
         public let capacityUsageSummary: CapacityUsageSummary?
-        /// The configuration sync state for the firewall. This summarizes the sync states reported in the Config settings for all of the Availability Zones where you have configured the firewall.  When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all zones where the firewall is in use. This summary indicates whether the configuration changes have been applied everywhere.  This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness.
+        /// The configuration sync state for the firewall. This summarizes the Config  settings in the SyncStates for this firewall status object.  When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all Availability Zones that have subnets defined for the firewall. This summary indicates whether the configuration changes have been applied everywhere.  This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness. It's based on this setting and the readiness of the firewall endpoints to take traffic.
         public let configurationSyncStateSummary: ConfigurationSyncState
-        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you've configured it. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the Attachment Status values for all of the configured subnets are READY.
+        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the Attachment Status values for all of the configured subnets are READY.
         public let status: FirewallStatusValue
-        /// The subnets that you've configured for use by the Network Firewall firewall. This contains one array element per Availability Zone where you've configured a subnet. These objects provide details of the information that is summarized in the ConfigurationSyncStateSummary and Status, broken down by zone and configuration object.
+        /// Status for the subnets that you've configured in the firewall. This contains one array element per Availability Zone where you've configured a subnet in the firewall.  These objects provide detailed information for the settings  ConfigurationSyncStateSummary and Status.
         public let syncStates: [String: SyncState]?
+        /// The synchronization state of the transit gateway attachment. This indicates whether the firewall's transit gateway configuration is properly synchronized and operational. Use this to verify that your transit gateway configuration changes have been applied.
+        public let transitGatewayAttachmentSyncState: TransitGatewayAttachmentSyncState?
 
         @inlinable
-        public init(capacityUsageSummary: CapacityUsageSummary? = nil, configurationSyncStateSummary: ConfigurationSyncState, status: FirewallStatusValue, syncStates: [String: SyncState]? = nil) {
+        public init(capacityUsageSummary: CapacityUsageSummary? = nil, configurationSyncStateSummary: ConfigurationSyncState, status: FirewallStatusValue, syncStates: [String: SyncState]? = nil, transitGatewayAttachmentSyncState: TransitGatewayAttachmentSyncState? = nil) {
             self.capacityUsageSummary = capacityUsageSummary
             self.configurationSyncStateSummary = configurationSyncStateSummary
             self.status = status
             self.syncStates = syncStates
+            self.transitGatewayAttachmentSyncState = transitGatewayAttachmentSyncState
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1864,6 +2468,7 @@ extension NetworkFirewall {
             case configurationSyncStateSummary = "ConfigurationSyncStateSummary"
             case status = "Status"
             case syncStates = "SyncStates"
+            case transitGatewayAttachmentSyncState = "TransitGatewayAttachmentSyncState"
         }
     }
 
@@ -2379,14 +2984,20 @@ extension NetworkFirewall {
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String?
+        /// A unique identifier for the primary endpoint associated with a firewall.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointId = vpcEndpointId
         }
 
         public func validate(name: String) throws {
@@ -2401,6 +3012,12 @@ extension NetworkFirewall {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, max: 256)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, min: 1)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2409,6 +3026,8 @@ extension NetworkFirewall {
             case flowOperationId = "FlowOperationId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -2431,9 +3050,11 @@ extension NetworkFirewall {
         public let nextToken: String?
         /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure.  Options include Flow operation error and Flow timeout.
         public let statusMessage: String?
+        public let vpcEndpointAssociationArn: String?
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowRequestTimestamp: Date? = nil, flows: [Flow]? = nil, nextToken: String? = nil, statusMessage: String? = nil) {
+        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowRequestTimestamp: Date? = nil, flows: [Flow]? = nil, nextToken: String? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
@@ -2442,6 +3063,8 @@ extension NetworkFirewall {
             self.flows = flows
             self.nextToken = nextToken
             self.statusMessage = statusMessage
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointId = vpcEndpointId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2453,6 +3076,8 @@ extension NetworkFirewall {
             case flows = "Flows"
             case nextToken = "NextToken"
             case statusMessage = "StatusMessage"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -2467,14 +3092,20 @@ extension NetworkFirewall {
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String?
+        /// A unique identifier for the primary endpoint associated with a firewall.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationType: FlowOperationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationType: FlowOperationType? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.firewallArn = firewallArn
             self.flowOperationType = flowOperationType
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointId = vpcEndpointId
         }
 
         public func validate(name: String) throws {
@@ -2486,6 +3117,12 @@ extension NetworkFirewall {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, max: 256)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, min: 1)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2494,6 +3131,8 @@ extension NetworkFirewall {
             case flowOperationType = "FlowOperationType"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -2664,6 +3303,57 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct ListVpcEndpointAssociationsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall. If you don't specify this, Network Firewall retrieves all VPC endpoint associations that you have defined.
+        public let firewallArn: String?
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(firewallArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.firewallArn = firewallArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallArn = "FirewallArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListVpcEndpointAssociationsResponse: AWSDecodableShape {
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// The VPC endpoint assocation metadata objects for the firewall that you specified. If you didn't specify a firewall, this is all VPC endpoint associations that you have defined.  Depending on your setting for max results and the number of firewalls you have, a single call might not be the full list.
+        public let vpcEndpointAssociations: [VpcEndpointAssociationMetadata]?
+
+        @inlinable
+        public init(nextToken: String? = nil, vpcEndpointAssociations: [VpcEndpointAssociationMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.vpcEndpointAssociations = vpcEndpointAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vpcEndpointAssociations = "VpcEndpointAssociations"
         }
     }
 
@@ -2882,9 +3572,9 @@ extension NetworkFirewall {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// The IAM policy statement that lists the accounts that you want to share your rule group or firewall policy with and the operations that you want the accounts to be able to perform.  For a rule group resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the following operations in the Actions section of the statement:   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the Resource section of the statement, you specify the ARNs for the rule groups and firewall policies that you want to share with the account that you specified in Arn.
+        /// The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform.  For a rule group resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the following operations in the Actions section of the statement:   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   For a firewall resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateVpcEndpointAssociation   network-firewall:DescribeFirewallMetadata   network-firewall:ListFirewalls   In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the account that you specified in Arn.
         public let policy: String
-        /// The Amazon Resource Name (ARN) of the account that you want to share rule groups and firewall policies with.
+        /// The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with.
         public let resourceArn: String
 
         @inlinable
@@ -2932,6 +3622,44 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case ipSetReferences = "IPSetReferences"
+        }
+    }
+
+    public struct RejectNetworkFirewallTransitGatewayAttachmentRequest: AWSEncodableShape {
+        /// Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall.
+        public let transitGatewayAttachmentId: String
+
+        @inlinable
+        public init(transitGatewayAttachmentId: String) {
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, max: 128)
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, min: 1)
+            try self.validate(self.transitGatewayAttachmentId, name: "transitGatewayAttachmentId", parent: name, pattern: "^tgw-attach-[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct RejectNetworkFirewallTransitGatewayAttachmentResponse: AWSDecodableShape {
+        /// The unique identifier of the transit gateway attachment that was rejected.
+        public let transitGatewayAttachmentId: String
+        /// The current status of the transit gateway attachment. Valid values are:    CREATING - The attachment is being created    DELETING - The attachment is being deleted    DELETED - The attachment has been deleted    FAILED - The attachment creation has failed and cannot be recovered    ERROR - The attachment is in an error state that might be recoverable    READY - The attachment is active and processing traffic    PENDING_ACCEPTANCE - The attachment is waiting to be accepted    REJECTING - The attachment is in the process of being rejected    REJECTED - The attachment has been rejected   For information about troubleshooting endpoint failures, see Troubleshooting firewall endpoint failures in the Network Firewall Developer Guide.
+        public let transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus
+
+        @inlinable
+        public init(transitGatewayAttachmentId: String, transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus) {
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayAttachmentStatus = "TransitGatewayAttachmentStatus"
         }
     }
 
@@ -3030,13 +3758,15 @@ extension NetworkFirewall {
         public let ruleGroupName: String
         /// Detailed information about the current status of a rule group.
         public let ruleGroupStatus: ResourceStatus?
-        /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service SNS topic that's
         /// used to record changes to the managed rule group. You can subscribe to the SNS topic to receive
         /// notifications when the managed rule group is modified, such as for new versions and for version
         /// expiration. For more information, see the Amazon Simple Notification Service Developer Guide..
         public let snsTopic: String?
         /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to track the version updates made to the originating rule group.
         public let sourceMetadata: SourceMetadata?
+        /// A complex type containing the currently selected rule option fields that will be displayed for rule summarization returned by DescribeRuleGroupSummary.   The RuleOptions specified in SummaryConfiguration    Rule metadata organization preferences
+        public let summaryConfiguration: SummaryConfiguration?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
@@ -3044,7 +3774,7 @@ extension NetworkFirewall {
         public let type: RuleGroupType?
 
         @inlinable
-        public init(analysisResults: [AnalysisResult]? = nil, capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, snsTopic: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
+        public init(analysisResults: [AnalysisResult]? = nil, capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, snsTopic: String? = nil, sourceMetadata: SourceMetadata? = nil, summaryConfiguration: SummaryConfiguration? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
             self.analysisResults = analysisResults
             self.capacity = capacity
             self.consumedCapacity = consumedCapacity
@@ -3058,6 +3788,7 @@ extension NetworkFirewall {
             self.ruleGroupStatus = ruleGroupStatus
             self.snsTopic = snsTopic
             self.sourceMetadata = sourceMetadata
+            self.summaryConfiguration = summaryConfiguration
             self.tags = tags
             self.type = type
         }
@@ -3076,6 +3807,7 @@ extension NetworkFirewall {
             case ruleGroupStatus = "RuleGroupStatus"
             case snsTopic = "SnsTopic"
             case sourceMetadata = "SourceMetadata"
+            case summaryConfiguration = "SummaryConfiguration"
             case tags = "Tags"
             case type = "Type"
         }
@@ -3107,6 +3839,28 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case keyword = "Keyword"
             case settings = "Settings"
+        }
+    }
+
+    public struct RuleSummary: AWSDecodableShape {
+        /// The contents of the rule's metadata.
+        public let metadata: String?
+        /// The contents taken from the rule's msg field.
+        public let msg: String?
+        /// The unique identifier (Signature ID) of the Suricata rule.
+        public let sid: String?
+
+        @inlinable
+        public init(metadata: String? = nil, msg: String? = nil, sid: String? = nil) {
+            self.metadata = metadata
+            self.msg = msg
+            self.sid = sid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case msg = "Msg"
+            case sid = "SID"
         }
     }
 
@@ -3220,7 +3974,7 @@ extension NetworkFirewall {
     }
 
     public struct ServerCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the imported certificate authority (CA) certificate within Certificate Manager (ACM) to use for outbound SSL/TLS inspection. The following limitations apply:   You can use CA certificates that you imported into ACM, but you can't generate CA certificates with ACM.   You can't use certificates issued by Private Certificate Authority.   For more information about configuring certificates for outbound inspection, see Using SSL/TLS certificates with certificates with TLS inspection configurations in the Network Firewall Developer Guide.  For information about working with certificates in ACM, see Importing certificates in the Certificate Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the imported certificate authority (CA) certificate within Certificate Manager (ACM) to use for outbound SSL/TLS inspection. The following limitations apply:   You can use CA certificates that you imported into ACM, but you can't generate CA certificates with ACM.   You can't use certificates issued by Private Certificate Authority.   For more information about configuring certificates for outbound inspection, see Using SSL/TLS certificates with TLS inspection configurations in the Network Firewall Developer Guide.  For information about working with certificates in ACM, see Importing certificates in the Certificate Manager User Guide.
         public let certificateAuthorityArn: String?
         /// When enabled, Network Firewall checks if the server certificate presented by the server in the SSL/TLS connection has a revoked or unkown status. If the certificate has an unknown or revoked status, you must specify the actions that Network Firewall takes on outbound traffic. To check the certificate revocation status, you must also specify a CertificateAuthorityArn in ServerCertificateConfiguration.
         public let checkCertificateRevocationStatus: CheckCertificateRevocationStatusActions?
@@ -3390,13 +4144,19 @@ extension NetworkFirewall {
         /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
         /// You provide this for start commands.  We recommend setting this value to at least 1 minute (60 seconds) to reduce chance of capturing flows that are not yet established.
         public let minimumFlowAgeInSeconds: Int?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String?
+        /// A unique identifier for the primary endpoint associated with a firewall.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil) {
+        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.firewallArn = firewallArn
             self.flowFilters = flowFilters
             self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointId = vpcEndpointId
         }
 
         public func validate(name: String) throws {
@@ -3406,6 +4166,12 @@ extension NetworkFirewall {
             try self.flowFilters.forEach {
                 try $0.validate(name: "\(name).flowFilters[]")
             }
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, max: 256)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, min: 1)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3413,6 +4179,8 @@ extension NetworkFirewall {
             case firewallArn = "FirewallArn"
             case flowFilters = "FlowFilters"
             case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -3449,13 +4217,19 @@ extension NetworkFirewall {
         /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
         /// You provide this for start commands.
         public let minimumFlowAgeInSeconds: Int?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String?
+        /// A unique identifier for the primary endpoint associated with a firewall.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil) {
+        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.firewallArn = firewallArn
             self.flowFilters = flowFilters
             self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointId = vpcEndpointId
         }
 
         public func validate(name: String) throws {
@@ -3465,6 +4239,12 @@ extension NetworkFirewall {
             try self.flowFilters.forEach {
                 try $0.validate(name: "\(name).flowFilters[]")
             }
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, max: 256)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, min: 1)
+            try self.validate(self.vpcEndpointAssociationArn, name: "vpcEndpointAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 256)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 5)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-zA-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3472,6 +4252,8 @@ extension NetworkFirewall {
             case firewallArn = "FirewallArn"
             case flowFilters = "FlowFilters"
             case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -3501,7 +4283,7 @@ extension NetworkFirewall {
     public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
         /// Configures the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
         public let flowTimeouts: FlowTimeouts?
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the default and recommended option. With STRICT_ORDER, provide your rules in the order that you want them to be evaluated. You can then choose one or more default actions for packets that don't match any rules. Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules. The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings. For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the recommended option, but DEFAULT_ACTION_ORDER is the default option.  With STRICT_ORDER, provide your rules in the order that you want them to be evaluated.  You can then choose one or more default actions for packets that don't match any rules.  Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules.  The default action for this rule order is  PASS, followed by DROP, REJECT, and ALERT actions.  Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings.  For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.    DROP - Network Firewall fails closed and drops all subsequent traffic going to the firewall. This is the default behavior.    CONTINUE - Network Firewall continues to apply rules to the subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on this context. For example, if you have a stateful rule to drop http traffic, Network Firewall won't match the traffic for this rule because the service won't have the context from session initialization defining the application layer protocol as HTTP. However, this behavior is rule dependent—a TCP-layer rule using a flow:stateless rule would still match, as would the aws:drop_strict default action.    REJECT - Network Firewall fails closed and drops all subsequent traffic going to the firewall. Network Firewall also sends a TCP reject packet back to your client so that the client can immediately establish a new session. Network Firewall will have context about the new session and will apply rules to the subsequent traffic.
         public let streamExceptionPolicy: StreamExceptionPolicy?
@@ -3564,6 +4346,8 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRuleGroupReference: AWSEncodableShape & AWSDecodableShape {
+        /// Network Firewall plans to augment the active threat defense managed rule group with an additional deep threat inspection capability. When this capability is released, Amazon Web Services will analyze service logs of network traffic processed by these rule groups to identify threat indicators across customers.  Amazon Web Services will use these threat indicators to improve the active threat defense managed rule groups and protect the security of Amazon Web Services customers and services.  Customers can opt-out of deep threat inspection at any time through the Network Firewall console or API. When customers opt out, Network Firewall  will not use the network traffic processed by those customers' active threat defense rule groups for rule group improvement.
+        public let deepThreatInspection: Bool?
         /// The action that allows the policy owner to override the behavior of the rule group within a policy.
         public let override: StatefulRuleGroupOverride?
         /// An integer setting that indicates the order in which to run the stateful rule groups in a single FirewallPolicy. This setting only applies to firewall policies that specify the STRICT_ORDER rule order in the stateful engine options settings. Network Firewall evalutes each stateful rule group against a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy. You can change the priority settings of your rule groups at any time. To make it easier to insert rule groups later, number them so there's a wide range in between, for example use 100, 200, and so on.
@@ -3572,7 +4356,8 @@ extension NetworkFirewall {
         public let resourceArn: String
 
         @inlinable
-        public init(override: StatefulRuleGroupOverride? = nil, priority: Int? = nil, resourceArn: String) {
+        public init(deepThreatInspection: Bool? = nil, override: StatefulRuleGroupOverride? = nil, priority: Int? = nil, resourceArn: String) {
+            self.deepThreatInspection = deepThreatInspection
             self.override = override
             self.priority = priority
             self.resourceArn = resourceArn
@@ -3587,6 +4372,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deepThreatInspection = "DeepThreatInspection"
             case override = "Override"
             case priority = "Priority"
             case resourceArn = "ResourceArn"
@@ -3702,10 +4488,38 @@ extension NetworkFirewall {
         }
     }
 
+    public struct Summary: AWSDecodableShape {
+        /// An array of RuleSummary objects containing individual rule details that had been configured by the rulegroup's SummaryConfiguration.
+        public let ruleSummaries: [RuleSummary]?
+
+        @inlinable
+        public init(ruleSummaries: [RuleSummary]? = nil) {
+            self.ruleSummaries = ruleSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleSummaries = "RuleSummaries"
+        }
+    }
+
+    public struct SummaryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the selected rule options returned by DescribeRuleGroupSummary.
+        public let ruleOptions: [SummaryRuleOption]?
+
+        @inlinable
+        public init(ruleOptions: [SummaryRuleOption]? = nil) {
+            self.ruleOptions = ruleOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleOptions = "RuleOptions"
+        }
+    }
+
     public struct SyncState: AWSDecodableShape {
-        /// The attachment status of the firewall's association with a single VPC subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic. This is part of the FirewallStatus.
+        /// The configuration and status for a single firewall subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic.
         public let attachment: Attachment?
-        /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic. This is part of the FirewallStatus.
+        /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
         public let config: [String: PerObjectStatus]?
 
         @inlinable
@@ -3913,6 +4727,28 @@ extension NetworkFirewall {
         }
     }
 
+    public struct TransitGatewayAttachmentSyncState: AWSDecodableShape {
+        /// The unique identifier of the transit gateway attachment.
+        public let attachmentId: String?
+        /// A message providing additional information about the current status, particularly useful when the transit gateway attachment is in a non-READY state. Valid values are:    CREATING - The attachment is being created    DELETING - The attachment is being deleted    DELETED - The attachment has been deleted    FAILED - The attachment creation has failed and cannot be recovered    ERROR - The attachment is in an error state that might be recoverable    READY - The attachment is active and processing traffic    PENDING_ACCEPTANCE - The attachment is waiting to be accepted    REJECTING - The attachment is in the process of being rejected    REJECTED - The attachment has been rejected   For information about troubleshooting endpoint failures, see Troubleshooting firewall endpoint failures in the Network Firewall Developer Guide.
+        public let statusMessage: String?
+        /// The current status of the transit gateway attachment. Valid values are:    CREATING - The attachment is being created    DELETING - The attachment is being deleted    DELETED - The attachment has been deleted    FAILED - The attachment creation has failed and cannot be recovered    ERROR - The attachment is in an error state that might be recoverable    READY - The attachment is active and processing traffic    PENDING_ACCEPTANCE - The attachment is waiting to be accepted    REJECTING - The attachment is in the process of being rejected    REJECTED - The attachment has been rejected
+        public let transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus?
+
+        @inlinable
+        public init(attachmentId: String? = nil, statusMessage: String? = nil, transitGatewayAttachmentStatus: TransitGatewayAttachmentStatus? = nil) {
+            self.attachmentId = attachmentId
+            self.statusMessage = statusMessage
+            self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case statusMessage = "StatusMessage"
+            case transitGatewayAttachmentStatus = "TransitGatewayAttachmentStatus"
+        }
+    }
+
     public struct UniqueSources: AWSDecodableShape {
         /// The number of unique source IP addresses that connected to a domain.
         public let count: Int?
@@ -3959,6 +4795,70 @@ extension NetworkFirewall {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAvailabilityZoneChangeProtectionRequest: AWSEncodableShape {
+        /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
+        public let availabilityZoneChangeProtection: Bool
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(availabilityZoneChangeProtection: Bool = false, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneChangeProtection = "AvailabilityZoneChangeProtection"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateAvailabilityZoneChangeProtectionResponse: AWSDecodableShape {
+        /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
+        public let availabilityZoneChangeProtection: Bool?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(availabilityZoneChangeProtection: Bool? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneChangeProtection = "AvailabilityZoneChangeProtection"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
     }
 
     public struct UpdateFirewallAnalysisSettingsRequest: AWSEncodableShape {
@@ -4355,6 +5255,8 @@ extension NetworkFirewall {
     }
 
     public struct UpdateLoggingConfigurationRequest: AWSEncodableShape {
+        /// A boolean that lets you enable or disable the detailed firewall monitoring dashboard on the firewall.  The monitoring dashboard provides comprehensive visibility into your firewall's flow logs and alert logs.  After you enable detailed monitoring, you can access these dashboards directly from the Monitoring page of the Network Firewall console.  Specify TRUE to enable the the detailed monitoring dashboard on the firewall.  Specify FALSE to disable the the detailed monitoring dashboard on the firewall.
+        public let enableMonitoringDashboard: Bool?
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -4363,7 +5265,8 @@ extension NetworkFirewall {
         public let loggingConfiguration: LoggingConfiguration?
 
         @inlinable
-        public init(firewallArn: String? = nil, firewallName: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
+        public init(enableMonitoringDashboard: Bool? = nil, firewallArn: String? = nil, firewallName: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
+            self.enableMonitoringDashboard = enableMonitoringDashboard
             self.firewallArn = firewallArn
             self.firewallName = firewallName
             self.loggingConfiguration = loggingConfiguration
@@ -4380,6 +5283,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMonitoringDashboard = "EnableMonitoringDashboard"
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
             case loggingConfiguration = "LoggingConfiguration"
@@ -4387,6 +5291,8 @@ extension NetworkFirewall {
     }
 
     public struct UpdateLoggingConfigurationResponse: AWSDecodableShape {
+        /// A boolean that reflects whether or not the firewall monitoring dashboard is enabled on a firewall.  Returns TRUE when the firewall monitoring dashboard is enabled on the firewall.  Returns FALSE when the firewall monitoring dashboard is not enabled on the firewall.
+        public let enableMonitoringDashboard: Bool?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -4394,13 +5300,15 @@ extension NetworkFirewall {
         public let loggingConfiguration: LoggingConfiguration?
 
         @inlinable
-        public init(firewallArn: String? = nil, firewallName: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
+        public init(enableMonitoringDashboard: Bool? = nil, firewallArn: String? = nil, firewallName: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
+            self.enableMonitoringDashboard = enableMonitoringDashboard
             self.firewallArn = firewallArn
             self.firewallName = firewallName
             self.loggingConfiguration = loggingConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMonitoringDashboard = "EnableMonitoringDashboard"
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
             case loggingConfiguration = "LoggingConfiguration"
@@ -4428,6 +5336,8 @@ extension NetworkFirewall {
         public let rules: String?
         /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
         public let sourceMetadata: SourceMetadata?
+        /// Updates the selected summary configuration for a rule group. Changes affect subsequent responses from DescribeRuleGroupSummary.
+        public let summaryConfiguration: SummaryConfiguration?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
         /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
@@ -4435,7 +5345,7 @@ extension NetworkFirewall {
         public let updateToken: String
 
         @inlinable
-        public init(analyzeRuleGroup: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, type: RuleGroupType? = nil, updateToken: String) {
+        public init(analyzeRuleGroup: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, summaryConfiguration: SummaryConfiguration? = nil, type: RuleGroupType? = nil, updateToken: String) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.description = description
             self.dryRun = dryRun
@@ -4445,6 +5355,7 @@ extension NetworkFirewall {
             self.ruleGroupName = ruleGroupName
             self.rules = rules
             self.sourceMetadata = sourceMetadata
+            self.summaryConfiguration = summaryConfiguration
             self.type = type
             self.updateToken = updateToken
         }
@@ -4477,6 +5388,7 @@ extension NetworkFirewall {
             case ruleGroupName = "RuleGroupName"
             case rules = "Rules"
             case sourceMetadata = "SourceMetadata"
+            case summaryConfiguration = "SummaryConfiguration"
             case type = "Type"
             case updateToken = "UpdateToken"
         }
@@ -4569,7 +5481,7 @@ extension NetworkFirewall {
         public let description: String?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see  Inspecting SSL/TLS traffic with TLS
         /// inspection configurations in the Network Firewall Developer Guide.
         public let tlsInspectionConfiguration: TLSInspectionConfiguration
         /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
@@ -4630,6 +5542,75 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
             case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct VpcEndpointAssociation: AWSDecodableShape {
+        /// A description of the VPC endpoint association.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String
+        public let subnetMapping: SubnetMapping
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String
+        /// The unique identifier of the VPC endpoint association.
+        public let vpcEndpointAssociationId: String?
+        /// The unique identifier of the VPC for the endpoint association.
+        public let vpcId: String
+
+        @inlinable
+        public init(description: String? = nil, firewallArn: String, subnetMapping: SubnetMapping, tags: [Tag]? = nil, vpcEndpointAssociationArn: String, vpcEndpointAssociationId: String? = nil, vpcId: String) {
+            self.description = description
+            self.firewallArn = firewallArn
+            self.subnetMapping = subnetMapping
+            self.tags = tags
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointAssociationId = vpcEndpointAssociationId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case firewallArn = "FirewallArn"
+            case subnetMapping = "SubnetMapping"
+            case tags = "Tags"
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+            case vpcEndpointAssociationId = "VpcEndpointAssociationId"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct VpcEndpointAssociationMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public let vpcEndpointAssociationArn: String?
+
+        @inlinable
+        public init(vpcEndpointAssociationArn: String? = nil) {
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
+        }
+    }
+
+    public struct VpcEndpointAssociationStatus: AWSDecodableShape {
+        /// The list of the Availability Zone sync states for all subnets that are defined by the firewall.
+        public let associationSyncState: [String: AZSyncState]?
+        /// The readiness of the configured firewall endpoint to handle network traffic.
+        public let status: FirewallStatusValue
+
+        @inlinable
+        public init(associationSyncState: [String: AZSyncState]? = nil, status: FirewallStatusValue) {
+            self.associationSyncState = associationSyncState
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationSyncState = "AssociationSyncState"
+            case status = "Status"
         }
     }
 }

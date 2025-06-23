@@ -77,6 +77,15 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awswaf = "AWSWAF"
+        case cloudTrail = "CloudTrail"
+        case eksAudit = "EKSAudit"
+        case route53Resolver = "Route53Resolver"
+        case vpcFlow = "VPCFlow"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -120,6 +129,11 @@ extension CloudWatchLogs {
         case delivery = "DELIVERY"
         case infrequentAccess = "INFREQUENT_ACCESS"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OCSFVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case v11 = "V1.1"
         public var description: String { return self.rawValue }
     }
 
@@ -4723,6 +4737,33 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct ParseToOCSF: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the service or process that produces the log events that will be converted with this processor.
+        public let eventSource: EventSource
+        /// Specify which version of the OCSF schema to use for the transformed log events.
+        public let ocsfVersion: OCSFVersion
+        /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
+        public let source: String?
+
+        @inlinable
+        public init(eventSource: EventSource, ocsfVersion: OCSFVersion, source: String? = nil) {
+            self.eventSource = eventSource
+            self.ocsfVersion = ocsfVersion
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSource = "eventSource"
+            case ocsfVersion = "ocsfVersion"
+            case source = "source"
+        }
+    }
+
     public struct ParseVPC: AWSEncodableShape & AWSDecodableShape {
         /// Omit this parameter and the whole log message will be processed by this processor. No other value than @message is allowed for source.
         public let source: String?
@@ -4834,6 +4875,8 @@ extension CloudWatchLogs {
         public let parsePostgres: ParsePostgres?
         /// Use this parameter to include the  parseRoute53 processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public let parseRoute53: ParseRoute53?
+        /// Use this processor to convert logs into Open Cybersecurity Schema Framework (OCSF) format
+        public let parseToOCSF: ParseToOCSF?
         /// Use this parameter to include the  parseVPC processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public let parseVPC: ParseVPC?
         /// Use this parameter to include the  parseWAF processor in your transformer. If you use this processor, it must be the first processor in your transformer.
@@ -4852,7 +4895,7 @@ extension CloudWatchLogs {
         public let upperCaseString: UpperCaseString?
 
         @inlinable
-        public init(addKeys: AddKeys? = nil, copyValue: CopyValue? = nil, csv: CSV? = nil, dateTimeConverter: DateTimeConverter? = nil, deleteKeys: DeleteKeys? = nil, grok: Grok? = nil, listToMap: ListToMap? = nil, lowerCaseString: LowerCaseString? = nil, moveKeys: MoveKeys? = nil, parseCloudfront: ParseCloudfront? = nil, parseJSON: ParseJSON? = nil, parseKeyValue: ParseKeyValue? = nil, parsePostgres: ParsePostgres? = nil, parseRoute53: ParseRoute53? = nil, parseVPC: ParseVPC? = nil, parseWAF: ParseWAF? = nil, renameKeys: RenameKeys? = nil, splitString: SplitString? = nil, substituteString: SubstituteString? = nil, trimString: TrimString? = nil, typeConverter: TypeConverter? = nil, upperCaseString: UpperCaseString? = nil) {
+        public init(addKeys: AddKeys? = nil, copyValue: CopyValue? = nil, csv: CSV? = nil, dateTimeConverter: DateTimeConverter? = nil, deleteKeys: DeleteKeys? = nil, grok: Grok? = nil, listToMap: ListToMap? = nil, lowerCaseString: LowerCaseString? = nil, moveKeys: MoveKeys? = nil, parseCloudfront: ParseCloudfront? = nil, parseJSON: ParseJSON? = nil, parseKeyValue: ParseKeyValue? = nil, parsePostgres: ParsePostgres? = nil, parseRoute53: ParseRoute53? = nil, parseToOCSF: ParseToOCSF? = nil, parseVPC: ParseVPC? = nil, parseWAF: ParseWAF? = nil, renameKeys: RenameKeys? = nil, splitString: SplitString? = nil, substituteString: SubstituteString? = nil, trimString: TrimString? = nil, typeConverter: TypeConverter? = nil, upperCaseString: UpperCaseString? = nil) {
             self.addKeys = addKeys
             self.copyValue = copyValue
             self.csv = csv
@@ -4867,6 +4910,7 @@ extension CloudWatchLogs {
             self.parseKeyValue = parseKeyValue
             self.parsePostgres = parsePostgres
             self.parseRoute53 = parseRoute53
+            self.parseToOCSF = parseToOCSF
             self.parseVPC = parseVPC
             self.parseWAF = parseWAF
             self.renameKeys = renameKeys
@@ -4892,6 +4936,7 @@ extension CloudWatchLogs {
             try self.parseKeyValue?.validate(name: "\(name).parseKeyValue")
             try self.parsePostgres?.validate(name: "\(name).parsePostgres")
             try self.parseRoute53?.validate(name: "\(name).parseRoute53")
+            try self.parseToOCSF?.validate(name: "\(name).parseToOCSF")
             try self.parseVPC?.validate(name: "\(name).parseVPC")
             try self.parseWAF?.validate(name: "\(name).parseWAF")
             try self.renameKeys?.validate(name: "\(name).renameKeys")
@@ -4917,6 +4962,7 @@ extension CloudWatchLogs {
             case parseKeyValue = "parseKeyValue"
             case parsePostgres = "parsePostgres"
             case parseRoute53 = "parseRoute53"
+            case parseToOCSF = "parseToOCSF"
             case parseVPC = "parseVPC"
             case parseWAF = "parseWAF"
             case renameKeys = "renameKeys"
@@ -5114,7 +5160,7 @@ extension CloudWatchLogs {
     }
 
     public struct PutDeliverySourceRequest: AWSEncodableShape {
-        /// Defines the type of log that the source is sending.   For Amazon Bedrock, the valid value is  APPLICATION_LOGS.   For CloudFront, the valid value is  ACCESS_LOGS.   For Amazon CodeWhisperer, the valid value is  EVENT_LOGS.   For Elemental MediaPackage, the valid values are  EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are  AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For IAM Identity Center, the valid value is  ERROR_LOGS.   For Amazon Q, the valid value is  EVENT_LOGS.   For Amazon SES mail manager, the valid value is  APPLICATION_LOG.   For Amazon WorkMail, the valid values are  ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS,  and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.
+        /// Defines the type of log that the source is sending.   For Amazon Bedrock, the valid value is  APPLICATION_LOGS.   For CloudFront, the valid value is  ACCESS_LOGS.   For Amazon CodeWhisperer, the valid value is  EVENT_LOGS.   For Elemental MediaPackage, the valid values are  EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are  AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Entity Resolution, the valid value is  WORKFLOW_LOGS.   For IAM Identity Center, the valid value is  ERROR_LOGS.   For Amazon Q, the valid value is  EVENT_LOGS.   For Amazon SES mail manager, the valid values are  APPLICATION_LOG and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are  ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS,  and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.
         public let logType: String
         /// A name for this delivery source. This name must be unique for all delivery sources in your account.
         public let name: String

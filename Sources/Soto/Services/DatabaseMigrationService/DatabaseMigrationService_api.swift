@@ -164,7 +164,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.applyPendingMaintenanceAction(input, logger: logger)
     }
 
-    /// Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of StartRecommendations. The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of StartRecommendations. The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchStartRecommendations(_ input: BatchStartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStartRecommendationsResponse {
@@ -177,7 +179,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of StartRecommendations. The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of StartRecommendations. The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - data: Provides information about source databases to analyze. After this analysis, Fleet Advisor recommends target engines for each source database.
@@ -299,6 +303,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     ///   - settings: The settings in JSON format for a data provider.
     ///   - tags: One or more tags to be assigned to the data provider.
+    ///   - virtual: Indicates whether the data provider is virtual.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataProvider(
@@ -307,6 +312,7 @@ public struct DatabaseMigrationService: AWSService {
         engine: String,
         settings: DataProviderSettings,
         tags: [Tag]? = nil,
+        virtual: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDataProviderResponse {
         let input = CreateDataProviderMessage(
@@ -314,7 +320,8 @@ public struct DatabaseMigrationService: AWSService {
             description: description, 
             engine: engine, 
             settings: settings, 
-            tags: tags
+            tags: tags, 
+            virtual: virtual
         )
         return try await self.createDataProvider(input, logger: logger)
     }
@@ -497,7 +504,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.createEventSubscription(input, logger: logger)
     }
 
-    /// Creates a Fleet Advisor collector using the specified parameters.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Creates a Fleet Advisor collector using the specified parameters.
     @Sendable
     @inlinable
     public func createFleetAdvisorCollector(_ input: CreateFleetAdvisorCollectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFleetAdvisorCollectorResponse {
@@ -510,7 +519,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates a Fleet Advisor collector using the specified parameters.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Creates a Fleet Advisor collector using the specified parameters.
     ///
     /// Parameters:
     ///   - collectorName: The name of your Fleet Advisor collector (for example, sample-collector).
@@ -787,7 +798,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the existing replication subnet group. To do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the DMS console, then choose your subnet group. Next, choose Delete from Actions.
     ///
     /// Parameters:
-    ///   - replicationSubnetGroupDescription: The description for the subnet group.
+    ///   - replicationSubnetGroupDescription: The description for the subnet group.  Constraints: This parameter Must not contain non-printable control characters.
     ///   - replicationSubnetGroupIdentifier: The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
     ///   - subnetIds: Two or more subnet IDs to be assigned to the subnet group.
     ///   - tags: One or more tags to be assigned to the subnet group.
@@ -1051,7 +1062,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.deleteEventSubscription(input, logger: logger)
     }
 
-    /// Deletes the specified Fleet Advisor collector.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Deletes the specified Fleet Advisor collector.
     @Sendable
     @inlinable
     public func deleteFleetAdvisorCollector(_ input: DeleteCollectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1064,7 +1077,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified Fleet Advisor collector.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Deletes the specified Fleet Advisor collector.
     ///
     /// Parameters:
     ///   - collectorReferencedId: The reference ID of the Fleet Advisor collector to delete.
@@ -1080,7 +1095,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.deleteFleetAdvisorCollector(input, logger: logger)
     }
 
-    /// Deletes the specified Fleet Advisor collector databases.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Deletes the specified Fleet Advisor collector databases.
     @Sendable
     @inlinable
     public func deleteFleetAdvisorDatabases(_ input: DeleteFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetAdvisorDatabasesResponse {
@@ -1093,7 +1110,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified Fleet Advisor collector databases.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Deletes the specified Fleet Advisor collector databases.
     ///
     /// Parameters:
     ///   - databaseIds: The IDs of the Fleet Advisor collector databases to delete.
@@ -1861,7 +1880,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeExtensionPackAssociations(input, logger: logger)
     }
 
-    /// Returns a list of the Fleet Advisor collectors in your account.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a list of the Fleet Advisor collectors in your account.
     @Sendable
     @inlinable
     public func describeFleetAdvisorCollectors(_ input: DescribeFleetAdvisorCollectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorCollectorsResponse {
@@ -1874,7 +1895,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the Fleet Advisor collectors in your account.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a list of the Fleet Advisor collectors in your account.
     ///
     /// Parameters:
     ///   - filters:  If you specify any of the following filters, the output includes information for only those collectors that meet the filter criteria:    collector-referenced-id – The ID of the collector agent, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.    collector-name – The name of the collector agent.   An example is: describe-fleet-advisor-collectors --filter Name="collector-referenced-id",Values="d4610ac5-e323-4ad9-bc50-eaf7249dfe9d"
@@ -1896,7 +1919,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeFleetAdvisorCollectors(input, logger: logger)
     }
 
-    /// Returns a list of Fleet Advisor databases in your account.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a list of Fleet Advisor databases in your account.
     @Sendable
     @inlinable
     public func describeFleetAdvisorDatabases(_ input: DescribeFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorDatabasesResponse {
@@ -1909,7 +1934,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of Fleet Advisor databases in your account.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a list of Fleet Advisor databases in your account.
     ///
     /// Parameters:
     ///   - filters:  If you specify any of the following filters, the output includes information for only those databases that meet the filter criteria:     database-id – The ID of the database.    database-name – The name of the database.    database-engine – The name of the database engine.    server-ip-address – The IP address of the database server.    database-ip-address – The IP address of the database.    collector-name – The name of the associated Fleet Advisor collector.   An example is: describe-fleet-advisor-databases --filter Name="database-id",Values="45"
@@ -1931,7 +1958,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeFleetAdvisorDatabases(input, logger: logger)
     }
 
-    /// Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
     @Sendable
     @inlinable
     public func describeFleetAdvisorLsaAnalysis(_ input: DescribeFleetAdvisorLsaAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorLsaAnalysisResponse {
@@ -1944,7 +1973,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
     ///
     /// Parameters:
     ///   - maxRecords: Sets the maximum number of records returned in the response.
@@ -1963,7 +1994,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeFleetAdvisorLsaAnalysis(input, logger: logger)
     }
 
-    /// Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
     @Sendable
     @inlinable
     public func describeFleetAdvisorSchemaObjectSummary(_ input: DescribeFleetAdvisorSchemaObjectSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorSchemaObjectSummaryResponse {
@@ -1976,11 +2009,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
     ///
     /// Parameters:
     ///   - filters:  If you specify any of the following filters, the output includes information for only those schema objects that meet the filter criteria:    schema-id – The ID of the schema, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.   Example: describe-fleet-advisor-schema-object-summary --filter Name="schema-id",Values="50"
-    ///   - maxRecords: Sets the maximum number of records returned in the response.
+    ///   - maxRecords: 
     ///   - nextToken: If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1998,7 +2033,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeFleetAdvisorSchemaObjectSummary(input, logger: logger)
     }
 
-    /// Returns a list of schemas detected by Fleet Advisor Collectors in your account.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a list of schemas detected by Fleet Advisor Collectors in your account.
     @Sendable
     @inlinable
     public func describeFleetAdvisorSchemas(_ input: DescribeFleetAdvisorSchemasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorSchemasResponse {
@@ -2011,7 +2048,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of schemas detected by Fleet Advisor Collectors in your account.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a list of schemas detected by Fleet Advisor Collectors in your account.
     ///
     /// Parameters:
     ///   - filters:  If you specify any of the following filters, the output includes information for only those schemas that meet the filter criteria:    complexity – The schema's complexity, for example Simple.    database-id – The ID of the schema's database.    database-ip-address – The IP address of the schema's database.    database-name – The name of the schema's database.    database-engine – The name of the schema database's engine.    original-schema-name – The name of the schema's database's main schema.    schema-id – The ID of the schema, for example 15.    schema-name – The name of the schema.    server-ip-address – The IP address of the schema database's server.   An example is: describe-fleet-advisor-schemas --filter Name="schema-id",Values="50"
@@ -2363,7 +2402,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describePendingMaintenanceActions(input, logger: logger)
     }
 
-    /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
     @Sendable
     @inlinable
     public func describeRecommendationLimitations(_ input: DescribeRecommendationLimitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecommendationLimitationsResponse {
@@ -2376,7 +2417,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
     ///
     /// Parameters:
     ///   - filters: Filters applied to the limitations described in the form of key-value pairs. Valid filter names: database-id | engine-name
@@ -2398,7 +2441,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeRecommendationLimitations(input, logger: logger)
     }
 
-    /// Returns a paginated list of target engine recommendations for your source databases.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a paginated list of target engine recommendations for your source databases.
     @Sendable
     @inlinable
     public func describeRecommendations(_ input: DescribeRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecommendationsResponse {
@@ -2411,7 +2456,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of target engine recommendations for your source databases.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Returns a paginated list of target engine recommendations for your source databases.
     ///
     /// Parameters:
     ///   - filters: Filters applied to the target engine recommendations described in the form of key-value pairs. Valid filter names: database-id | engine-name
@@ -3106,6 +3153,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     ///   - exactSettings: If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:    It replaces any data provider settings that already exist with new values,  for settings with the same names.   It creates new data provider settings that you specify in the call,  for settings with different names.
     ///   - settings: The settings in JSON format for a data provider.
+    ///   - virtual: Indicates whether the data provider is virtual.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyDataProvider(
@@ -3115,6 +3163,7 @@ public struct DatabaseMigrationService: AWSService {
         engine: String? = nil,
         exactSettings: Bool? = nil,
         settings: DataProviderSettings? = nil,
+        virtual: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyDataProviderResponse {
         let input = ModifyDataProviderMessage(
@@ -3123,7 +3172,8 @@ public struct DatabaseMigrationService: AWSService {
             description: description, 
             engine: engine, 
             exactSettings: exactSettings, 
-            settings: settings
+            settings: settings, 
+            virtual: virtual
         )
         return try await self.modifyDataProvider(input, logger: logger)
     }
@@ -3807,7 +3857,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.removeTagsFromResource(input, logger: logger)
     }
 
-    /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
     @Sendable
     @inlinable
     public func runFleetAdvisorLsaAnalysis(logger: Logger = AWSClient.loggingDisabled) async throws -> RunFleetAdvisorLsaAnalysisResponse {
@@ -4056,7 +4108,9 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startMetadataModelImport(input, logger: logger)
     }
 
-    /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
     @Sendable
     @inlinable
     public func startRecommendations(_ input: StartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -4069,7 +4123,9 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
+    ///
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+    ///   Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
     ///
     /// Parameters:
     ///   - databaseId: The identifier of the source database to analyze and provide recommendations for.
@@ -4152,7 +4208,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - cdcStartTime: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     ///   - cdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
     ///   - replicationTaskArn: The Amazon Resource Name (ARN) of the replication task to be started.
-    ///   - startReplicationTaskType: The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. This option will start the migration. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
+    ///   - startReplicationTaskType: The type of replication task to start.  start-replication is the only valid action that can be used for the first time a task with the migration type of full-loadfull-load, full-load-and-cdc or cdc is run. Any other action used for the first time on a given task, such as resume-processing and reload-target will result in data errors. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. For a full-load task, the resume-processing option will reload any tables that were partially loaded or not yet loaded during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position. For a cdc only task, to start from a specific position, you must use start-replication and also specify the start position. Check the source endpoint DMS documentation for any limitations. For example, not all sources support starting from a time.   resume-processing is only available for previously executed tasks.
     ///   - logger: Logger use during operation
     @inlinable
     public func startReplicationTask(
@@ -5036,7 +5092,7 @@ extension DatabaseMigrationService {
     ///
     /// - Parameters:
     ///   - filters:  If you specify any of the following filters, the output includes information for only those schema objects that meet the filter criteria:    schema-id – The ID of the schema, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.   Example: describe-fleet-advisor-schema-object-summary --filter Name="schema-id",Values="50"
-    ///   - maxRecords: Sets the maximum number of records returned in the response.
+    ///   - maxRecords: 
     ///   - logger: Logger used for logging
     @inlinable
     public func describeFleetAdvisorSchemaObjectSummaryPaginator(

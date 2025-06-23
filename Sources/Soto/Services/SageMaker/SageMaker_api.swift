@@ -2905,6 +2905,7 @@ public struct SageMaker: AWSService {
     ///   - projectName: The name of the project.
     ///   - serviceCatalogProvisioningDetails: The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see What is Amazon Web Services Service Catalog.
     ///   - tags: An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
+    ///   - templateProviders:  An array of template provider configurations for creating infrastructure resources for the project.
     ///   - logger: Logger use during operation
     @inlinable
     public func createProject(
@@ -2912,13 +2913,15 @@ public struct SageMaker: AWSService {
         projectName: String? = nil,
         serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil,
         tags: [Tag]? = nil,
+        templateProviders: [CreateTemplateProvider]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProjectOutput {
         let input = CreateProjectInput(
             projectDescription: projectDescription, 
             projectName: projectName, 
             serviceCatalogProvisioningDetails: serviceCatalogProvisioningDetails, 
-            tags: tags
+            tags: tags, 
+            templateProviders: templateProviders
         )
         return try await self.createProject(input, logger: logger)
     }
@@ -13993,6 +13996,7 @@ public struct SageMaker: AWSService {
     ///   - projectName: The name of the project.
     ///   - serviceCatalogProvisioningUpdateDetails: The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see What is Amazon Web Services Service Catalog.
     ///   - tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources. In addition, the project must have tag update constraints set in order to include this parameter in the request. For more information, see Amazon Web Services Service Catalog Tag Update Constraints.
+    ///   - templateProvidersToUpdate:  The template providers to update in the project.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateProject(
@@ -14000,13 +14004,15 @@ public struct SageMaker: AWSService {
         projectName: String? = nil,
         serviceCatalogProvisioningUpdateDetails: ServiceCatalogProvisioningUpdateDetails? = nil,
         tags: [Tag]? = nil,
+        templateProvidersToUpdate: [UpdateTemplateProvider]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateProjectOutput {
         let input = UpdateProjectInput(
             projectDescription: projectDescription, 
             projectName: projectName, 
             serviceCatalogProvisioningUpdateDetails: serviceCatalogProvisioningUpdateDetails, 
-            tags: tags
+            tags: tags, 
+            templateProvidersToUpdate: templateProvidersToUpdate
         )
         return try await self.updateProject(input, logger: logger)
     }

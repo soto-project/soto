@@ -753,6 +753,35 @@ public struct CloudTrail: AWSService {
         return try await self.getDashboard(input, logger: logger)
     }
 
+    /// Retrieves the current event configuration settings for the specified event data store, including details  about maximum event size and context key selectors configured for the event data store.
+    @Sendable
+    @inlinable
+    public func getEventConfiguration(_ input: GetEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetEventConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current event configuration settings for the specified event data store, including details  about maximum event size and context key selectors configured for the event data store.
+    ///
+    /// Parameters:
+    ///   - eventDataStore: The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEventConfiguration(
+        eventDataStore: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEventConfigurationResponse {
+        let input = GetEventConfigurationRequest(
+            eventDataStore: eventDataStore
+        )
+        return try await self.getEventConfiguration(input, logger: logger)
+    }
+
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
     @Sendable
     @inlinable
@@ -1410,6 +1439,41 @@ public struct CloudTrail: AWSService {
             startTime: startTime
         )
         return try await self.lookupEvents(input, logger: logger)
+    }
+
+    /// Updates the event configuration settings for the specified event data store. You can update the maximum event size and context key selectors.
+    @Sendable
+    @inlinable
+    public func putEventConfiguration(_ input: PutEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEventConfigurationResponse {
+        try await self.client.execute(
+            operation: "PutEventConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the event configuration settings for the specified event data store. You can update the maximum event size and context key selectors.
+    ///
+    /// Parameters:
+    ///   - contextKeySelectors: A list of context key selectors that will be included to provide enriched event data.
+    ///   - eventDataStore: The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to update event configuration settings.
+    ///   - maxEventSize: The maximum allowed size for events to be stored in the specified event data store. If you are using context key selectors, MaxEventSize must be set to Large.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putEventConfiguration(
+        contextKeySelectors: [ContextKeySelector],
+        eventDataStore: String? = nil,
+        maxEventSize: MaxEventSize,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutEventConfigurationResponse {
+        let input = PutEventConfigurationRequest(
+            contextKeySelectors: contextKeySelectors, 
+            eventDataStore: eventDataStore, 
+            maxEventSize: maxEventSize
+        )
+        return try await self.putEventConfiguration(input, logger: logger)
     }
 
     /// Configures event selectors (also referred to as basic event selectors) or advanced event selectors for your trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. You can use AdvancedEventSelectors to  log management events, data events for all resource types, and network activity events. You can use EventSelectors to log management events and data events for the following resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    You can't use EventSelectors to log network activity events. If you want your trail to log Insights events, be sure the event selector or advanced event selector enables  logging of the Insights event types you want configured for your trail. For more information about logging Insights events, see Working with CloudTrail Insights in the CloudTrail User Guide. By default, trails created without specific event selectors are configured to log all read and write management events, and no data events or network activity events. When an event occurs in your account, CloudTrail evaluates the event selectors or advanced event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event. Example   You create an event selector for a trail and specify that you want to log write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your account.   CloudTrail evaluates whether the events match your event selectors.   The RunInstances is a write-only event and it matches your event selector. The trail logs the event.   The GetConsoleOutput is a read-only event that doesn't match your event selector. The trail doesn't log the event.    The PutEventSelectors operation must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException exception is thrown. You can configure up to five event selectors for each trail. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. For more information, see Logging management events, Logging data events, Logging network activity events, and Quotas in CloudTrail in the CloudTrail User Guide.

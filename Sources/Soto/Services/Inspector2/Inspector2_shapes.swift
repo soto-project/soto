@@ -52,6 +52,7 @@ extension Inspector2 {
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainer = "AWS_ECR_CONTAINER"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
+        case codeRepository = "CODE_REPOSITORY"
         case findingType = "FINDING_TYPE"
         case imageLayer = "IMAGE_LAYER"
         case lambdaLayer = "LAMBDA_LAYER"
@@ -72,6 +73,16 @@ extension Inspector2 {
     public enum Architecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationResultStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDenied = "ACCESS_DENIED"
+        case internalError = "INTERNAL_ERROR"
+        case invalidInput = "INVALID_INPUT"
+        case quotaExceeded = "QUOTA_EXCEEDED"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case scanConfigurationNotFound = "SCAN_CONFIGURATION_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -217,11 +228,44 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CodeRepositoryProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case github = "GITHUB"
+        case gitlabSelfManaged = "GITLAB_SELF_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeRepositorySortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeScanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case skipped = "SKIPPED"
+        case successful = "SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CodeSnippetErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case codeSnippetNotFound = "CODE_SNIPPET_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
         case invalidInput = "INVALID_INPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContinuousIntegrationScanEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pullRequest = "PULL_REQUEST"
+        case push = "PUSH"
         public var description: String { return self.rawValue }
     }
 
@@ -235,6 +279,7 @@ extension Inspector2 {
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
+        case codeRepository = "CODE_REPOSITORY"
         public var description: String { return self.rawValue }
     }
 
@@ -430,6 +475,7 @@ extension Inspector2 {
     }
 
     public enum FreeTrialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codeRepository = "CODE_REPOSITORY"
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
@@ -450,6 +496,21 @@ extension Inspector2 {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case disabling = "DISABLING"
+        case inProgress = "IN_PROGRESS"
+        case inactive = "INACTIVE"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case github = "GITHUB"
+        case gitlabSelfManaged = "GITLAB_SELF_MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -535,6 +596,18 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum PeriodicScanFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case monthly = "MONTHLY"
+        case never = "NEVER"
+        case weekly = "WEEKLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectSelectionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelationshipStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountSuspended = "ACCOUNT_SUSPENDED"
         case cannotCreateDetectorInOrgMaster = "CANNOT_CREATE_DETECTOR_IN_ORG_MASTER"
@@ -581,6 +654,7 @@ extension Inspector2 {
     }
 
     public enum ResourceScanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codeRepository = "CODE_REPOSITORY"
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
@@ -599,6 +673,14 @@ extension Inspector2 {
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
+        case codeRepository = "CODE_REPOSITORY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleSetCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iac = "IAC"
+        case sast = "SAST"
+        case sca = "SCA"
         public var description: String { return self.rawValue }
     }
 
@@ -647,6 +729,7 @@ extension Inspector2 {
 
     public enum ScanStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
+        case accessDeniedToEncryptionKey = "ACCESS_DENIED_TO_ENCRYPTION_KEY"
         case agentlessInstanceCollectionTimeLimitExceeded = "AGENTLESS_INSTANCE_COLLECTION_TIME_LIMIT_EXCEEDED"
         case agentlessInstanceStorageLimitExceeded = "AGENTLESS_INSTANCE_STORAGE_LIMIT_EXCEEDED"
         case deepInspectionCollectionTimeLimitExceeded = "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED"
@@ -656,9 +739,11 @@ extension Inspector2 {
         case ec2InstanceStopped = "EC2_INSTANCE_STOPPED"
         case excludedByTag = "EXCLUDED_BY_TAG"
         case imageSizeExceeded = "IMAGE_SIZE_EXCEEDED"
+        case integrationConnectionLost = "INTEGRATION_CONNECTION_LOST"
         case internalError = "INTERNAL_ERROR"
         case noInventory = "NO_INVENTORY"
         case noResourcesFound = "NO_RESOURCES_FOUND"
+        case noScanConfigurationAssociated = "NO_SCAN_CONFIGURATION_ASSOCIATED"
         case pendingDisable = "PENDING_DISABLE"
         case pendingInitialScan = "PENDING_INITIAL_SCAN"
         case pendingRevivalScan = "PENDING_REVIVAL_SCAN"
@@ -666,10 +751,12 @@ extension Inspector2 {
         case scanEligibilityExpired = "SCAN_ELIGIBILITY_EXPIRED"
         case scanFrequencyManual = "SCAN_FREQUENCY_MANUAL"
         case scanFrequencyScanOnPush = "SCAN_FREQUENCY_SCAN_ON_PUSH"
+        case scanInProgress = "SCAN_IN_PROGRESS"
         case staleInventory = "STALE_INVENTORY"
         case successful = "SUCCESSFUL"
         case unmanagedEc2Instance = "UNMANAGED_EC2_INSTANCE"
         case unsupportedConfigFile = "UNSUPPORTED_CONFIG_FILE"
+        case unsupportedLanguage = "UNSUPPORTED_LANGUAGE"
         case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
         case unsupportedOs = "UNSUPPORTED_OS"
         case unsupportedRuntime = "UNSUPPORTED_RUNTIME"
@@ -765,6 +852,9 @@ extension Inspector2 {
     }
 
     public enum UsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codeRepositoryIac = "CODE_REPOSITORY_IAC"
+        case codeRepositorySast = "CODE_REPOSITORY_SAST"
+        case codeRepositorySca = "CODE_REPOSITORY_SCA"
         case ec2InstanceHours = "EC2_INSTANCE_HOURS"
         case ecrInitialScan = "ECR_INITIAL_SCAN"
         case ecrRescan = "ECR_RESCAN"
@@ -792,6 +882,8 @@ extension Inspector2 {
         case amiAggregation(AmiAggregation)
         /// An object that contains details about an aggregation request based on Amazon ECR container images.
         case awsEcrContainerAggregation(AwsEcrContainerAggregation)
+        /// An object that contains details about an aggregation request based on code repositories.
+        case codeRepositoryAggregation(CodeRepositoryAggregation)
         /// An object that contains details about an aggregation request based on Amazon EC2 instances.
         case ec2InstanceAggregation(Ec2InstanceAggregation)
         /// An object that contains details about an aggregation request based on finding types.
@@ -818,6 +910,8 @@ extension Inspector2 {
                 try container.encode(value, forKey: .amiAggregation)
             case .awsEcrContainerAggregation(let value):
                 try container.encode(value, forKey: .awsEcrContainerAggregation)
+            case .codeRepositoryAggregation(let value):
+                try container.encode(value, forKey: .codeRepositoryAggregation)
             case .ec2InstanceAggregation(let value):
                 try container.encode(value, forKey: .ec2InstanceAggregation)
             case .findingTypeAggregation(let value):
@@ -843,6 +937,8 @@ extension Inspector2 {
                 try value.validate(name: "\(name).amiAggregation")
             case .awsEcrContainerAggregation(let value):
                 try value.validate(name: "\(name).awsEcrContainerAggregation")
+            case .codeRepositoryAggregation(let value):
+                try value.validate(name: "\(name).codeRepositoryAggregation")
             case .ec2InstanceAggregation(let value):
                 try value.validate(name: "\(name).ec2InstanceAggregation")
             case .imageLayerAggregation(let value):
@@ -866,6 +962,7 @@ extension Inspector2 {
             case accountAggregation = "accountAggregation"
             case amiAggregation = "amiAggregation"
             case awsEcrContainerAggregation = "awsEcrContainerAggregation"
+            case codeRepositoryAggregation = "codeRepositoryAggregation"
             case ec2InstanceAggregation = "ec2InstanceAggregation"
             case findingTypeAggregation = "findingTypeAggregation"
             case imageLayerAggregation = "imageLayerAggregation"
@@ -884,6 +981,8 @@ extension Inspector2 {
         case amiAggregation(AmiAggregationResponse)
         /// An object that contains details about an aggregation response based on Amazon ECR container images.
         case awsEcrContainerAggregation(AwsEcrContainerAggregationResponse)
+        /// An object that contains details about an aggregation response based on code repositories.
+        case codeRepositoryAggregation(CodeRepositoryAggregationResponse)
         /// An object that contains details about an aggregation response based on Amazon EC2 instances.
         case ec2InstanceAggregation(Ec2InstanceAggregationResponse)
         /// An object that contains details about an aggregation response based on finding types.
@@ -920,6 +1019,9 @@ extension Inspector2 {
             case .awsEcrContainerAggregation:
                 let value = try container.decode(AwsEcrContainerAggregationResponse.self, forKey: .awsEcrContainerAggregation)
                 self = .awsEcrContainerAggregation(value)
+            case .codeRepositoryAggregation:
+                let value = try container.decode(CodeRepositoryAggregationResponse.self, forKey: .codeRepositoryAggregation)
+                self = .codeRepositoryAggregation(value)
             case .ec2InstanceAggregation:
                 let value = try container.decode(Ec2InstanceAggregationResponse.self, forKey: .ec2InstanceAggregation)
                 self = .ec2InstanceAggregation(value)
@@ -951,6 +1053,7 @@ extension Inspector2 {
             case accountAggregation = "accountAggregation"
             case amiAggregation = "amiAggregation"
             case awsEcrContainerAggregation = "awsEcrContainerAggregation"
+            case codeRepositoryAggregation = "codeRepositoryAggregation"
             case ec2InstanceAggregation = "ec2InstanceAggregation"
             case findingTypeAggregation = "findingTypeAggregation"
             case imageLayerAggregation = "imageLayerAggregation"
@@ -1060,6 +1163,37 @@ extension Inspector2 {
             case monthly = "monthly"
             case oneTime = "oneTime"
             case weekly = "weekly"
+        }
+    }
+
+    public enum UpdateIntegrationDetails: AWSEncodableShape, Sendable {
+        /// Details specific to updating an integration with GitHub.
+        case github(UpdateGitHubIntegrationDetail)
+        /// Details specific to updating an integration with a self-managed GitLab instance.
+        case gitlabSelfManaged(UpdateGitLabSelfManagedIntegrationDetail)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .github(let value):
+                try container.encode(value, forKey: .github)
+            case .gitlabSelfManaged(let value):
+                try container.encode(value, forKey: .gitlabSelfManaged)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .github(let value):
+                try value.validate(name: "\(name).github")
+            case .gitlabSelfManaged(let value):
+                try value.validate(name: "\(name).gitlabSelfManaged")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case github = "github"
+            case gitlabSelfManaged = "gitlabSelfManaged"
         }
     }
 
@@ -1217,6 +1351,28 @@ extension Inspector2 {
         }
     }
 
+    public struct AssociateConfigurationRequest: AWSEncodableShape {
+        public let resource: CodeSecurityResource
+        /// The Amazon Resource Name (ARN) of the scan configuration.
+        public let scanConfigurationArn: String
+
+        @inlinable
+        public init(resource: CodeSecurityResource, scanConfigurationArn: String) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.resource.validate(name: "\(name).resource")
+            try self.validate(self.scanConfigurationArn, name: "scanConfigurationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case scanConfigurationArn = "scanConfigurationArn"
+        }
+    }
+
     public struct AssociateMemberRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID of the member account to be associated.
         public let accountId: String
@@ -1278,6 +1434,8 @@ extension Inspector2 {
     }
 
     public struct AutoEnable: AWSEncodableShape & AWSDecodableShape {
+        /// Represents whether code repository scans are automatically enabled for new members of your Amazon Inspector organization.
+        public let codeRepository: Bool?
         /// Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization.
         public let ec2: Bool
         /// Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization.
@@ -1288,7 +1446,8 @@ extension Inspector2 {
         public let lambdaCode: Bool?
 
         @inlinable
-        public init(ec2: Bool, ecr: Bool, lambda: Bool? = nil, lambdaCode: Bool? = nil) {
+        public init(codeRepository: Bool? = nil, ec2: Bool, ecr: Bool, lambda: Bool? = nil, lambdaCode: Bool? = nil) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -1296,6 +1455,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codeRepository = "codeRepository"
             case ec2 = "ec2"
             case ecr = "ecr"
             case lambda = "lambda"
@@ -1582,7 +1742,7 @@ extension Inspector2 {
     }
 
     public struct AwsLambdaFunctionDetails: AWSDecodableShape {
-        /// The instruction set architecture that the Amazon Web Services Lambda function supports. Architecture is a string array with one of the  valid values. The default architecture value is x86_64.
+        /// The instruction set architecture that the Amazon Web Services Lambda function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public let architectures: [Architecture]?
         /// The SHA256 hash of the Amazon Web Services Lambda function's deployment package.
         public let codeSha256: String
@@ -1628,6 +1788,86 @@ extension Inspector2 {
             case runtime = "runtime"
             case version = "version"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct BatchAssociateCodeSecurityScanConfigurationRequest: AWSEncodableShape {
+        /// A list of code repositories to associate with the specified scan configuration.
+        public let associateConfigurationRequests: [AssociateConfigurationRequest]
+
+        @inlinable
+        public init(associateConfigurationRequests: [AssociateConfigurationRequest]) {
+            self.associateConfigurationRequests = associateConfigurationRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.associateConfigurationRequests.forEach {
+                try $0.validate(name: "\(name).associateConfigurationRequests[]")
+            }
+            try self.validate(self.associateConfigurationRequests, name: "associateConfigurationRequests", parent: name, max: 25)
+            try self.validate(self.associateConfigurationRequests, name: "associateConfigurationRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associateConfigurationRequests = "associateConfigurationRequests"
+        }
+    }
+
+    public struct BatchAssociateCodeSecurityScanConfigurationResponse: AWSDecodableShape {
+        /// Details of any code repositories that failed to be associated with the scan configuration.
+        public let failedAssociations: [FailedAssociationResult]?
+        /// Details of code repositories that were successfully associated with the scan configuration.
+        public let successfulAssociations: [SuccessfulAssociationResult]?
+
+        @inlinable
+        public init(failedAssociations: [FailedAssociationResult]? = nil, successfulAssociations: [SuccessfulAssociationResult]? = nil) {
+            self.failedAssociations = failedAssociations
+            self.successfulAssociations = successfulAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedAssociations = "failedAssociations"
+            case successfulAssociations = "successfulAssociations"
+        }
+    }
+
+    public struct BatchDisassociateCodeSecurityScanConfigurationRequest: AWSEncodableShape {
+        /// A list of code repositories to disassociate from the specified scan configuration.
+        public let disassociateConfigurationRequests: [DisassociateConfigurationRequest]
+
+        @inlinable
+        public init(disassociateConfigurationRequests: [DisassociateConfigurationRequest]) {
+            self.disassociateConfigurationRequests = disassociateConfigurationRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.disassociateConfigurationRequests.forEach {
+                try $0.validate(name: "\(name).disassociateConfigurationRequests[]")
+            }
+            try self.validate(self.disassociateConfigurationRequests, name: "disassociateConfigurationRequests", parent: name, max: 25)
+            try self.validate(self.disassociateConfigurationRequests, name: "disassociateConfigurationRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disassociateConfigurationRequests = "disassociateConfigurationRequests"
+        }
+    }
+
+    public struct BatchDisassociateCodeSecurityScanConfigurationResponse: AWSDecodableShape {
+        /// Details of any code repositories that failed to be disassociated from the scan configuration.
+        public let failedAssociations: [FailedAssociationResult]?
+        /// Details of code repositories that were successfully disassociated from the scan configuration.
+        public let successfulAssociations: [SuccessfulAssociationResult]?
+
+        @inlinable
+        public init(failedAssociations: [FailedAssociationResult]? = nil, successfulAssociations: [SuccessfulAssociationResult]? = nil) {
+            self.failedAssociations = failedAssociations
+            self.successfulAssociations = successfulAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedAssociations = "failedAssociations"
+            case successfulAssociations = "successfulAssociations"
         }
     }
 
@@ -2063,7 +2303,7 @@ extension Inspector2 {
         public let scanName: String?
         /// The account or organization that schedules the CIS scan.
         public let scheduledBy: String?
-        ///  The security level for the CIS scan.  Security level refers to the Benchmark levels that CIS assigns to a profile.
+        ///  The security level for the CIS scan. Security level refers to the Benchmark levels that CIS assigns to a profile.
         public let securityLevel: CisSecurityLevel?
         /// The CIS scan's status.
         public let status: CisScanStatus?
@@ -2203,7 +2443,7 @@ extension Inspector2 {
         public let findingArnFilters: [CisStringFilter]?
         /// The criteria's finding status filters.
         public let findingStatusFilters: [CisFindingStatusFilter]?
-        ///  The criteria's security level filters. .  Security level refers to the Benchmark levels that CIS assigns to a profile.
+        ///  The criteria's security level filters. . Security level refers to the Benchmark levels that CIS assigns to a profile.
         public let securityLevelFilters: [CisSecurityLevelFilter]?
         /// The criteria's title filters.
         public let titleFilters: [CisStringFilter]?
@@ -2659,6 +2899,302 @@ extension Inspector2 {
         }
     }
 
+    public struct CodeRepositoryAggregation: AWSEncodableShape {
+        /// The project names to include in the aggregation results.
+        public let projectNames: [StringFilter]?
+        /// The repository provider types to include in the aggregation results.
+        public let providerTypes: [StringFilter]?
+        /// The resource IDs to include in the aggregation results.
+        public let resourceIds: [StringFilter]?
+        /// The value to sort results by in the code repository aggregation.
+        public let sortBy: CodeRepositorySortBy?
+        /// The order to sort results by (ascending or descending) in the code repository aggregation.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(projectNames: [StringFilter]? = nil, providerTypes: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: CodeRepositorySortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.projectNames = projectNames
+            self.providerTypes = providerTypes
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.projectNames?.forEach {
+                try $0.validate(name: "\(name).projectNames[]")
+            }
+            try self.validate(self.projectNames, name: "projectNames", parent: name, max: 10)
+            try self.validate(self.projectNames, name: "projectNames", parent: name, min: 1)
+            try self.providerTypes?.forEach {
+                try $0.validate(name: "\(name).providerTypes[]")
+            }
+            try self.validate(self.providerTypes, name: "providerTypes", parent: name, max: 10)
+            try self.validate(self.providerTypes, name: "providerTypes", parent: name, min: 1)
+            try self.resourceIds?.forEach {
+                try $0.validate(name: "\(name).resourceIds[]")
+            }
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 10)
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectNames = "projectNames"
+            case providerTypes = "providerTypes"
+            case resourceIds = "resourceIds"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct CodeRepositoryAggregationResponse: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with the code repository.
+        public let accountId: String?
+        /// The number of active findings that have an exploit available for the code repository.
+        public let exploitAvailableActiveFindingsCount: Int64?
+        /// The number of active findings that have a fix available for the code repository.
+        public let fixAvailableActiveFindingsCount: Int64?
+        /// The names of the projects associated with the code repository.
+        public let projectNames: String
+        /// The type of repository provider for the code repository.
+        public let providerType: String?
+        /// The resource ID of the code repository.
+        public let resourceId: String?
+        public let severityCounts: SeverityCounts?
+
+        @inlinable
+        public init(accountId: String? = nil, exploitAvailableActiveFindingsCount: Int64? = nil, fixAvailableActiveFindingsCount: Int64? = nil, projectNames: String, providerType: String? = nil, resourceId: String? = nil, severityCounts: SeverityCounts? = nil) {
+            self.accountId = accountId
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.projectNames = projectNames
+            self.providerType = providerType
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case exploitAvailableActiveFindingsCount = "exploitAvailableActiveFindingsCount"
+            case fixAvailableActiveFindingsCount = "fixAvailableActiveFindingsCount"
+            case projectNames = "projectNames"
+            case providerType = "providerType"
+            case resourceId = "resourceId"
+            case severityCounts = "severityCounts"
+        }
+    }
+
+    public struct CodeRepositoryDetails: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the code security integration associated with the repository.
+        public let integrationArn: String?
+        /// The name of the project in the code repository.
+        public let projectName: String?
+        /// The type of repository provider (such as GitHub, GitLab, etc.).
+        public let providerType: CodeRepositoryProviderType?
+
+        @inlinable
+        public init(integrationArn: String? = nil, projectName: String? = nil, providerType: CodeRepositoryProviderType? = nil) {
+            self.integrationArn = integrationArn
+            self.projectName = projectName
+            self.providerType = providerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "integrationArn"
+            case projectName = "projectName"
+            case providerType = "providerType"
+        }
+    }
+
+    public struct CodeRepositoryMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the code security integration associated with the repository.
+        public let integrationArn: String?
+        /// The ID of the last commit that was scanned in the repository.
+        public let lastScannedCommitId: String?
+        /// Information about on-demand scans performed on the repository.
+        public let onDemandScan: CodeRepositoryOnDemandScan?
+        /// The name of the project in the code repository.
+        public let projectName: String
+        /// The type of repository provider (such as GitHub, GitLab, etc.).
+        public let providerType: String
+        /// The visibility setting of the repository (public or private).
+        public let providerTypeVisibility: String
+        /// The scan configuration settings applied to the code repository.
+        public let scanConfiguration: ProjectCodeSecurityScanConfiguration?
+
+        @inlinable
+        public init(integrationArn: String? = nil, lastScannedCommitId: String? = nil, onDemandScan: CodeRepositoryOnDemandScan? = nil, projectName: String, providerType: String, providerTypeVisibility: String, scanConfiguration: ProjectCodeSecurityScanConfiguration? = nil) {
+            self.integrationArn = integrationArn
+            self.lastScannedCommitId = lastScannedCommitId
+            self.onDemandScan = onDemandScan
+            self.projectName = projectName
+            self.providerType = providerType
+            self.providerTypeVisibility = providerTypeVisibility
+            self.scanConfiguration = scanConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "integrationArn"
+            case lastScannedCommitId = "lastScannedCommitId"
+            case onDemandScan = "onDemandScan"
+            case projectName = "projectName"
+            case providerType = "providerType"
+            case providerTypeVisibility = "providerTypeVisibility"
+            case scanConfiguration = "scanConfiguration"
+        }
+    }
+
+    public struct CodeRepositoryOnDemandScan: AWSDecodableShape {
+        /// The timestamp when the last on-demand scan was performed.
+        public let lastScanAt: Date?
+        /// The ID of the last commit that was scanned during an on-demand scan.
+        public let lastScannedCommitId: String?
+        public let scanStatus: ScanStatus?
+
+        @inlinable
+        public init(lastScanAt: Date? = nil, lastScannedCommitId: String? = nil, scanStatus: ScanStatus? = nil) {
+            self.lastScanAt = lastScanAt
+            self.lastScannedCommitId = lastScannedCommitId
+            self.scanStatus = scanStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastScanAt = "lastScanAt"
+            case lastScannedCommitId = "lastScannedCommitId"
+            case scanStatus = "scanStatus"
+        }
+    }
+
+    public struct CodeSecurityIntegrationSummary: AWSDecodableShape {
+        /// The timestamp when the code security integration was created.
+        public let createdOn: Date
+        /// The Amazon Resource Name (ARN) of the code security integration.
+        public let integrationArn: String
+        /// The timestamp when the code security integration was last updated.
+        public let lastUpdateOn: Date
+        /// The name of the code security integration.
+        public let name: String
+        /// The current status of the code security integration.
+        public let status: IntegrationStatus
+        /// The reason for the current status of the code security integration.
+        public let statusReason: String
+        /// The tags associated with the code security integration.
+        public let tags: [String: String]?
+        /// The type of repository provider for the integration.
+        public let type: IntegrationType
+
+        @inlinable
+        public init(createdOn: Date, integrationArn: String, lastUpdateOn: Date, name: String, status: IntegrationStatus, statusReason: String, tags: [String: String]? = nil, type: IntegrationType) {
+            self.createdOn = createdOn
+            self.integrationArn = integrationArn
+            self.lastUpdateOn = lastUpdateOn
+            self.name = name
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdOn = "createdOn"
+            case integrationArn = "integrationArn"
+            case lastUpdateOn = "lastUpdateOn"
+            case name = "name"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct CodeSecurityScanConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for continuous integration scans that run automatically when code changes are made.
+        public let continuousIntegrationScanConfiguration: ContinuousIntegrationScanConfiguration?
+        /// Configuration settings for periodic scans that run on a scheduled basis.
+        public let periodicScanConfiguration: PeriodicScanConfiguration?
+        /// The categories of security rules to be applied during the scan.
+        public let ruleSetCategories: [RuleSetCategory]
+
+        @inlinable
+        public init(continuousIntegrationScanConfiguration: ContinuousIntegrationScanConfiguration? = nil, periodicScanConfiguration: PeriodicScanConfiguration? = nil, ruleSetCategories: [RuleSetCategory]) {
+            self.continuousIntegrationScanConfiguration = continuousIntegrationScanConfiguration
+            self.periodicScanConfiguration = periodicScanConfiguration
+            self.ruleSetCategories = ruleSetCategories
+        }
+
+        public func validate(name: String) throws {
+            try self.continuousIntegrationScanConfiguration?.validate(name: "\(name).continuousIntegrationScanConfiguration")
+            try self.periodicScanConfiguration?.validate(name: "\(name).periodicScanConfiguration")
+            try self.validate(self.ruleSetCategories, name: "ruleSetCategories", parent: name, max: 3)
+            try self.validate(self.ruleSetCategories, name: "ruleSetCategories", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousIntegrationScanConfiguration = "continuousIntegrationScanConfiguration"
+            case periodicScanConfiguration = "periodicScanConfiguration"
+            case ruleSetCategories = "ruleSetCategories"
+        }
+    }
+
+    public struct CodeSecurityScanConfigurationAssociationSummary: AWSDecodableShape {
+        public let resource: CodeSecurityResource?
+
+        @inlinable
+        public init(resource: CodeSecurityResource? = nil) {
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+        }
+    }
+
+    public struct CodeSecurityScanConfigurationSummary: AWSDecodableShape {
+        /// The repository events that trigger continuous integration scans.
+        public let continuousIntegrationScanSupportedEvents: [ContinuousIntegrationScanEvent]?
+        /// The schedule expression for periodic scans, in cron format.
+        public let frequencyExpression: String?
+        /// The name of the scan configuration.
+        public let name: String
+        /// The Amazon Web Services account ID that owns the scan configuration.
+        public let ownerAccountId: String
+        /// The frequency at which periodic scans are performed.
+        public let periodicScanFrequency: PeriodicScanFrequency?
+        /// The categories of security rules applied during the scan.
+        public let ruleSetCategories: [RuleSetCategory]
+        /// The Amazon Resource Name (ARN) of the scan configuration.
+        public let scanConfigurationArn: String
+        /// The scope settings that define which repositories will be scanned. If the ScopeSetting parameter is ALL the scan configuration applies to all existing and future projects imported into Amazon Inspector.
+        public let scopeSettings: ScopeSettings?
+        /// The tags associated with the scan configuration.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(continuousIntegrationScanSupportedEvents: [ContinuousIntegrationScanEvent]? = nil, frequencyExpression: String? = nil, name: String, ownerAccountId: String, periodicScanFrequency: PeriodicScanFrequency? = nil, ruleSetCategories: [RuleSetCategory], scanConfigurationArn: String, scopeSettings: ScopeSettings? = nil, tags: [String: String]? = nil) {
+            self.continuousIntegrationScanSupportedEvents = continuousIntegrationScanSupportedEvents
+            self.frequencyExpression = frequencyExpression
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.periodicScanFrequency = periodicScanFrequency
+            self.ruleSetCategories = ruleSetCategories
+            self.scanConfigurationArn = scanConfigurationArn
+            self.scopeSettings = scopeSettings
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousIntegrationScanSupportedEvents = "continuousIntegrationScanSupportedEvents"
+            case frequencyExpression = "frequencyExpression"
+            case name = "name"
+            case ownerAccountId = "ownerAccountId"
+            case periodicScanFrequency = "periodicScanFrequency"
+            case ruleSetCategories = "ruleSetCategories"
+            case scanConfigurationArn = "scanConfigurationArn"
+            case scopeSettings = "scopeSettings"
+            case tags = "tags"
+        }
+    }
+
     public struct CodeSnippetError: AWSDecodableShape {
         /// The error code for the error that prevented a code snippet from being retrieved.
         public let errorCode: CodeSnippetErrorCode
@@ -2802,6 +3338,25 @@ extension Inspector2 {
         }
     }
 
+    public struct ContinuousIntegrationScanConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The repository events that trigger continuous integration scans, such as pull requests or commits.
+        public let supportedEvents: [ContinuousIntegrationScanEvent]
+
+        @inlinable
+        public init(supportedEvents: [ContinuousIntegrationScanEvent]) {
+            self.supportedEvents = supportedEvents
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.supportedEvents, name: "supportedEvents", parent: name, max: 2)
+            try self.validate(self.supportedEvents, name: "supportedEvents", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportedEvents = "supportedEvents"
+        }
+    }
+
     public struct Counts: AWSDecodableShape {
         /// The number of resources.
         public let count: Int64?
@@ -2841,6 +3396,12 @@ extension Inspector2 {
     public struct CoverageFilterCriteria: AWSEncodableShape {
         /// An array of Amazon Web Services account IDs to return coverage statistics for.
         public let accountId: [CoverageStringFilter]?
+        /// Filter criteria for code repositories based on project name.
+        public let codeRepositoryProjectName: [CoverageStringFilter]?
+        /// Filter criteria for code repositories based on provider type (such as GitHub, GitLab, etc.).
+        public let codeRepositoryProviderType: [CoverageStringFilter]?
+        /// Filter criteria for code repositories based on visibility setting (public or private).
+        public let codeRepositoryProviderTypeVisibility: [CoverageStringFilter]?
         /// The Amazon EC2 instance tags to filter on.
         public let ec2InstanceTags: [CoverageMapFilter]?
         /// The number of Amazon ECR images in use.
@@ -2861,9 +3422,11 @@ extension Inspector2 {
         public let lambdaFunctionTags: [CoverageMapFilter]?
         /// Filters Amazon Web Services resources based on whether Amazon Inspector has checked them for vulnerabilities within the specified time range.
         public let lastScannedAt: [CoverageDateFilter]?
+        /// Filter criteria for code repositories based on the ID of the last scanned commit.
+        public let lastScannedCommitId: [CoverageStringFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public let resourceId: [CoverageStringFilter]?
-        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE,  AWS_ECR_REPOSITORY or AWS_ACCOUNT.
+        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public let resourceType: [CoverageStringFilter]?
         /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_AGENTLESS.
         public let scanMode: [CoverageStringFilter]?
@@ -2875,8 +3438,11 @@ extension Inspector2 {
         public let scanType: [CoverageStringFilter]?
 
         @inlinable
-        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageInUseCount: [CoverageNumberFilter]? = nil, ecrImageLastInUseAt: [CoverageDateFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
+        public init(accountId: [CoverageStringFilter]? = nil, codeRepositoryProjectName: [CoverageStringFilter]? = nil, codeRepositoryProviderType: [CoverageStringFilter]? = nil, codeRepositoryProviderTypeVisibility: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageInUseCount: [CoverageNumberFilter]? = nil, ecrImageLastInUseAt: [CoverageDateFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, lastScannedCommitId: [CoverageStringFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
             self.accountId = accountId
+            self.codeRepositoryProjectName = codeRepositoryProjectName
+            self.codeRepositoryProviderType = codeRepositoryProviderType
+            self.codeRepositoryProviderTypeVisibility = codeRepositoryProviderTypeVisibility
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageInUseCount = ecrImageInUseCount
             self.ecrImageLastInUseAt = ecrImageLastInUseAt
@@ -2887,6 +3453,7 @@ extension Inspector2 {
             self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lambdaFunctionTags = lambdaFunctionTags
             self.lastScannedAt = lastScannedAt
+            self.lastScannedCommitId = lastScannedCommitId
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.scanMode = scanMode
@@ -2901,6 +3468,21 @@ extension Inspector2 {
             }
             try self.validate(self.accountId, name: "accountId", parent: name, max: 10)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 1)
+            try self.codeRepositoryProjectName?.forEach {
+                try $0.validate(name: "\(name).codeRepositoryProjectName[]")
+            }
+            try self.validate(self.codeRepositoryProjectName, name: "codeRepositoryProjectName", parent: name, max: 10)
+            try self.validate(self.codeRepositoryProjectName, name: "codeRepositoryProjectName", parent: name, min: 1)
+            try self.codeRepositoryProviderType?.forEach {
+                try $0.validate(name: "\(name).codeRepositoryProviderType[]")
+            }
+            try self.validate(self.codeRepositoryProviderType, name: "codeRepositoryProviderType", parent: name, max: 10)
+            try self.validate(self.codeRepositoryProviderType, name: "codeRepositoryProviderType", parent: name, min: 1)
+            try self.codeRepositoryProviderTypeVisibility?.forEach {
+                try $0.validate(name: "\(name).codeRepositoryProviderTypeVisibility[]")
+            }
+            try self.validate(self.codeRepositoryProviderTypeVisibility, name: "codeRepositoryProviderTypeVisibility", parent: name, max: 10)
+            try self.validate(self.codeRepositoryProviderTypeVisibility, name: "codeRepositoryProviderTypeVisibility", parent: name, min: 1)
             try self.ec2InstanceTags?.forEach {
                 try $0.validate(name: "\(name).ec2InstanceTags[]")
             }
@@ -2939,6 +3521,11 @@ extension Inspector2 {
             try self.validate(self.lambdaFunctionTags, name: "lambdaFunctionTags", parent: name, min: 1)
             try self.validate(self.lastScannedAt, name: "lastScannedAt", parent: name, max: 10)
             try self.validate(self.lastScannedAt, name: "lastScannedAt", parent: name, min: 1)
+            try self.lastScannedCommitId?.forEach {
+                try $0.validate(name: "\(name).lastScannedCommitId[]")
+            }
+            try self.validate(self.lastScannedCommitId, name: "lastScannedCommitId", parent: name, max: 10)
+            try self.validate(self.lastScannedCommitId, name: "lastScannedCommitId", parent: name, min: 1)
             try self.resourceId?.forEach {
                 try $0.validate(name: "\(name).resourceId[]")
             }
@@ -2973,6 +3560,9 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case codeRepositoryProjectName = "codeRepositoryProjectName"
+            case codeRepositoryProviderType = "codeRepositoryProviderType"
+            case codeRepositoryProviderTypeVisibility = "codeRepositoryProviderTypeVisibility"
             case ec2InstanceTags = "ec2InstanceTags"
             case ecrImageInUseCount = "ecrImageInUseCount"
             case ecrImageLastInUseAt = "ecrImageLastInUseAt"
@@ -2983,6 +3573,7 @@ extension Inspector2 {
             case lambdaFunctionRuntime = "lambdaFunctionRuntime"
             case lambdaFunctionTags = "lambdaFunctionTags"
             case lastScannedAt = "lastScannedAt"
+            case lastScannedCommitId = "lastScannedCommitId"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
             case scanMode = "scanMode"
@@ -3107,7 +3698,7 @@ extension Inspector2 {
         public let scanName: String
         /// The schedule for the CIS scan configuration.
         public let schedule: Schedule
-        ///  The security level for the CIS scan configuration.  Security level refers to the Benchmark levels that CIS assigns to a profile.
+        ///  The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile.
         public let securityLevel: CisSecurityLevel
         /// The tags for the CIS scan configuration.
         public let tags: [String: String]?
@@ -3190,6 +3781,122 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
             case targetResourceTags = "targetResourceTags"
+        }
+    }
+
+    public struct CreateCodeSecurityIntegrationRequest: AWSEncodableShape {
+        /// The integration details specific to the repository provider type.
+        public let details: CreateIntegrationDetail?
+        /// The name of the code security integration.
+        public let name: String
+        /// The tags to apply to the code security integration.
+        public let tags: [String: String]?
+        /// The type of repository provider for the integration.
+        public let type: IntegrationType
+
+        @inlinable
+        public init(details: CreateIntegrationDetail? = nil, name: String, tags: [String: String]? = nil, type: IntegrationType) {
+            self.details = details
+            self.name = name
+            self.tags = tags
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.details?.validate(name: "\(name).details")
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_$:.]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case name = "name"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct CreateCodeSecurityIntegrationResponse: AWSDecodableShape {
+        /// The URL used to authorize the integration with the repository provider.
+        public let authorizationUrl: String?
+        /// The Amazon Resource Name (ARN) of the created code security integration.
+        public let integrationArn: String
+        /// The current status of the code security integration.
+        public let status: IntegrationStatus
+
+        @inlinable
+        public init(authorizationUrl: String? = nil, integrationArn: String, status: IntegrationStatus) {
+            self.authorizationUrl = authorizationUrl
+            self.integrationArn = integrationArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationUrl = "authorizationUrl"
+            case integrationArn = "integrationArn"
+            case status = "status"
+        }
+    }
+
+    public struct CreateCodeSecurityScanConfigurationRequest: AWSEncodableShape {
+        /// The configuration settings for the code security scan.
+        public let configuration: CodeSecurityScanConfiguration
+        /// The security level for the scan configuration.
+        public let level: ConfigurationLevel
+        /// The name of the scan configuration.
+        public let name: String
+        /// The scope settings that define which repositories will be scanned. Include this parameter to create a default scan configuration. Otherwise Amazon Inspector creates a general scan configuration.  A default scan configuration automatically applies to all existing and future projects imported into Amazon Inspector. Use the BatchAssociateCodeSecurityScanConfiguration operation to associate a general scan configuration with projects.
+        public let scopeSettings: ScopeSettings?
+        /// The tags to apply to the scan configuration.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(configuration: CodeSecurityScanConfiguration, level: ConfigurationLevel, name: String, scopeSettings: ScopeSettings? = nil, tags: [String: String]? = nil) {
+            self.configuration = configuration
+            self.level = level
+            self.name = name
+            self.scopeSettings = scopeSettings
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.name, name: "name", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_$:.]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case level = "level"
+            case name = "name"
+            case scopeSettings = "scopeSettings"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCodeSecurityScanConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created scan configuration.
+        public let scanConfigurationArn: String
+
+        @inlinable
+        public init(scanConfigurationArn: String) {
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanConfigurationArn = "scanConfigurationArn"
         }
     }
 
@@ -3293,6 +4000,28 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case reportId = "reportId"
+        }
+    }
+
+    public struct CreateGitLabSelfManagedIntegrationDetail: AWSEncodableShape {
+        /// The personal access token used to authenticate with the self-managed GitLab instance.
+        public let accessToken: String
+        /// The URL of the self-managed GitLab instance.
+        public let instanceUrl: String
+
+        @inlinable
+        public init(accessToken: String, instanceUrl: String) {
+            self.accessToken = accessToken
+            self.instanceUrl = instanceUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "^https://[-a-zA-Z0-9()@:%_+.~#?&//=]{1,1024}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "accessToken"
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -3554,6 +4283,70 @@ extension Inspector2 {
         }
     }
 
+    public struct DeleteCodeSecurityIntegrationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the code security integration to delete.
+        public let integrationArn: String
+
+        @inlinable
+        public init(integrationArn: String) {
+            self.integrationArn = integrationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:codesecurity-integration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "integrationArn"
+        }
+    }
+
+    public struct DeleteCodeSecurityIntegrationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deleted code security integration.
+        public let integrationArn: String?
+
+        @inlinable
+        public init(integrationArn: String? = nil) {
+            self.integrationArn = integrationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "integrationArn"
+        }
+    }
+
+    public struct DeleteCodeSecurityScanConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the scan configuration to delete.
+        public let scanConfigurationArn: String
+
+        @inlinable
+        public init(scanConfigurationArn: String) {
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scanConfigurationArn, name: "scanConfigurationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanConfigurationArn = "scanConfigurationArn"
+        }
+    }
+
+    public struct DeleteCodeSecurityScanConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deleted scan configuration.
+        public let scanConfigurationArn: String?
+
+        @inlinable
+        public init(scanConfigurationArn: String? = nil) {
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanConfigurationArn = "scanConfigurationArn"
+        }
+    }
+
     public struct DeleteFilterRequest: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of the filter to be deleted.
         public let arn: String
@@ -3708,6 +4501,28 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accounts = "accounts"
             case failedAccounts = "failedAccounts"
+        }
+    }
+
+    public struct DisassociateConfigurationRequest: AWSEncodableShape {
+        public let resource: CodeSecurityResource
+        /// The Amazon Resource Name (ARN) of the scan configuration to disassociate from a code repository.
+        public let scanConfigurationArn: String
+
+        @inlinable
+        public init(resource: CodeSecurityResource, scanConfigurationArn: String) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.resource.validate(name: "\(name).resource")
+            try self.validate(self.scanConfigurationArn, name: "scanConfigurationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case scanConfigurationArn = "scanConfigurationArn"
         }
     }
 
@@ -4223,6 +5038,31 @@ extension Inspector2 {
         }
     }
 
+    public struct FailedAssociationResult: AWSDecodableShape {
+        public let resource: CodeSecurityResource?
+        /// The Amazon Resource Name (ARN) of the scan configuration that failed to be associated or disassociated.
+        public let scanConfigurationArn: String?
+        /// The status code indicating why the association or disassociation failed.
+        public let statusCode: AssociationResultStatusCode?
+        /// A message explaining why the association or disassociation failed.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(resource: CodeSecurityResource? = nil, scanConfigurationArn: String? = nil, statusCode: AssociationResultStatusCode? = nil, statusMessage: String? = nil) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case scanConfigurationArn = "scanConfigurationArn"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+        }
+    }
+
     public struct FailedMemberAccountEc2DeepInspectionStatusState: AWSDecodableShape {
         /// The unique identifier for the Amazon Web Services account of the organization member that failed to activate Amazon Inspector deep inspection.
         public let accountId: String
@@ -4298,6 +5138,10 @@ extension Inspector2 {
     public struct FilterCriteria: AWSEncodableShape & AWSDecodableShape {
         /// Details of the Amazon Web Services account IDs used to filter findings.
         public let awsAccountId: [StringFilter]?
+        /// Filter criteria for findings based on the project name in a code repository.
+        public let codeRepositoryProjectName: [StringFilter]?
+        /// Filter criteria for findings based on the repository provider type (such as GitHub, GitLab, etc.).
+        public let codeRepositoryProviderType: [StringFilter]?
         /// The name of the detector used to identify a code vulnerability in a Lambda function used to filter findings.
         public let codeVulnerabilityDetectorName: [StringFilter]?
         /// The detector type tag associated with the vulnerability used to filter findings. Detector tags group related vulnerabilities by common themes or tactics. For a list of available tags by programming language, see Java tags, or Python tags.
@@ -4342,7 +5186,7 @@ extension Inspector2 {
         public let findingType: [StringFilter]?
         /// Details on the date and time a finding was first seen used to filter findings.
         public let firstObservedAt: [DateFilter]?
-        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL.  A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
+        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL. A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
         public let fixAvailable: [StringFilter]?
         /// The Amazon Inspector score to filter on.
         public let inspectorScore: [NumberFilter]?
@@ -4386,8 +5230,10 @@ extension Inspector2 {
         public let vulnerablePackages: [PackageFilter]?
 
         @inlinable
-        public init(awsAccountId: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImageInUseCount: [NumberFilter]? = nil, ecrImageLastInUseAt: [DateFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, codeRepositoryProjectName: [StringFilter]? = nil, codeRepositoryProviderType: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImageInUseCount: [NumberFilter]? = nil, ecrImageLastInUseAt: [DateFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
             self.awsAccountId = awsAccountId
+            self.codeRepositoryProjectName = codeRepositoryProjectName
+            self.codeRepositoryProviderType = codeRepositoryProviderType
             self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
             self.codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTags
             self.codeVulnerabilityFilePath = codeVulnerabilityFilePath
@@ -4439,6 +5285,16 @@ extension Inspector2 {
             }
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 10)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 1)
+            try self.codeRepositoryProjectName?.forEach {
+                try $0.validate(name: "\(name).codeRepositoryProjectName[]")
+            }
+            try self.validate(self.codeRepositoryProjectName, name: "codeRepositoryProjectName", parent: name, max: 10)
+            try self.validate(self.codeRepositoryProjectName, name: "codeRepositoryProjectName", parent: name, min: 1)
+            try self.codeRepositoryProviderType?.forEach {
+                try $0.validate(name: "\(name).codeRepositoryProviderType[]")
+            }
+            try self.validate(self.codeRepositoryProviderType, name: "codeRepositoryProviderType", parent: name, max: 10)
+            try self.validate(self.codeRepositoryProviderType, name: "codeRepositoryProviderType", parent: name, min: 1)
             try self.codeVulnerabilityDetectorName?.forEach {
                 try $0.validate(name: "\(name).codeVulnerabilityDetectorName[]")
             }
@@ -4631,6 +5487,8 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
+            case codeRepositoryProjectName = "codeRepositoryProjectName"
+            case codeRepositoryProviderType = "codeRepositoryProviderType"
             case codeVulnerabilityDetectorName = "codeVulnerabilityDetectorName"
             case codeVulnerabilityDetectorTags = "codeVulnerabilityDetectorTags"
             case codeVulnerabilityFilePath = "codeVulnerabilityFilePath"
@@ -4694,13 +5552,13 @@ extension Inspector2 {
         public let findingArn: String
         /// The date and time that the finding was first observed.
         public let firstObservedAt: Date
-        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL.  A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
+        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL. A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
         public let fixAvailable: FixAvailable?
         /// The Amazon Inspector score given to the finding.
         public let inspectorScore: Double?
         /// An object that contains details of the Amazon Inspector score.
         public let inspectorScoreDetails: InspectorScoreDetails?
-        ///  The date and time the finding was last observed.  This timestamp for this field remains unchanged until a finding is updated.
+        ///  The date and time the finding was last observed. This timestamp for this field remains unchanged until a finding is updated.
         public let lastObservedAt: Date
         /// An object that contains the details of a network reachability finding.
         public let networkReachabilityDetails: NetworkReachabilityDetails?
@@ -4962,7 +5820,7 @@ extension Inspector2 {
     }
 
     public struct GetCisScanReportRequest: AWSEncodableShape {
-        ///  The format of the report.  Valid values are PDF and CSV.  If no value is specified, the report format defaults to PDF.
+        ///  The format of the report. Valid values are PDF and CSV. If no value is specified, the report format defaults to PDF.
         public let reportFormat: CisReportFormat?
         /// The scan ARN.
         public let scanArn: String
@@ -5052,7 +5910,7 @@ extension Inspector2 {
             try self.validate(self.scanArn, name: "scanArn", parent: name, pattern: "^arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, max: 341)
             try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, min: 10)
-            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, pattern: "(^arn:.*:ecr:.*:\\d{12}:repository\\/(?:[a-z0-9]+(?:[._-][a-z0-9]+)*\\/)*[a-z0-9]+(?:[._-][a-z0-9]+)*(\\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$))")
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, pattern: "(^arn:.*:ecr:.*:\\d{12}:repository\\/(?:[a-z0-9]+(?:[._-][a-z0-9]+)*\\/)*[a-z0-9]+(?:[._-][a-z0-9]+)*(\\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$)|(^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:codesecurity-integration\\/[a-f0-9-]{36}\\/project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5127,6 +5985,204 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetCodeSecurityIntegrationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the code security integration to retrieve.
+        public let integrationArn: String
+        /// The tags associated with the code security integration.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(integrationArn: String, tags: [String: String]? = nil) {
+            self.integrationArn = integrationArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:codesecurity-integration/[a-f0-9-]{36}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "integrationArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetCodeSecurityIntegrationResponse: AWSDecodableShape {
+        /// The URL used to authorize the integration with the repository provider. This is only returned if reauthorization is required to fix a connection issue. Otherwise, it is null.
+        public let authorizationUrl: String?
+        /// The timestamp when the code security integration was created.
+        public let createdOn: Date
+        /// The Amazon Resource Name (ARN) of the code security integration.
+        public let integrationArn: String
+        /// The timestamp when the code security integration was last updated.
+        public let lastUpdateOn: Date
+        /// The name of the code security integration.
+        public let name: String
+        /// The current status of the code security integration.
+        public let status: IntegrationStatus
+        /// The reason for the current status of the code security integration.
+        public let statusReason: String
+        /// The tags associated with the code security integration.
+        public let tags: [String: String]?
+        /// The type of repository provider for the integration.
+        public let type: IntegrationType
+
+        @inlinable
+        public init(authorizationUrl: String? = nil, createdOn: Date, integrationArn: String, lastUpdateOn: Date, name: String, status: IntegrationStatus, statusReason: String, tags: [String: String]? = nil, type: IntegrationType) {
+            self.authorizationUrl = authorizationUrl
+            self.createdOn = createdOn
+            self.integrationArn = integrationArn
+            self.lastUpdateOn = lastUpdateOn
+            self.name = name
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationUrl = "authorizationUrl"
+            case createdOn = "createdOn"
+            case integrationArn = "integrationArn"
+            case lastUpdateOn = "lastUpdateOn"
+            case name = "name"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct GetCodeSecurityScanConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the scan configuration to retrieve.
+        public let scanConfigurationArn: String
+
+        @inlinable
+        public init(scanConfigurationArn: String) {
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scanConfigurationArn, name: "scanConfigurationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanConfigurationArn = "scanConfigurationArn"
+        }
+    }
+
+    public struct GetCodeSecurityScanConfigurationResponse: AWSDecodableShape {
+        /// The configuration settings for the code security scan.
+        public let configuration: CodeSecurityScanConfiguration?
+        /// The timestamp when the scan configuration was created.
+        public let createdAt: Date?
+        /// The timestamp when the scan configuration was last updated.
+        public let lastUpdatedAt: Date?
+        /// The security level for the scan configuration.
+        public let level: ConfigurationLevel?
+        /// The name of the scan configuration.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the scan configuration.
+        public let scanConfigurationArn: String?
+        /// The scope settings that define which repositories will be scanned. If the ScopeSetting parameter is ALL the scan configuration applies to all existing and future projects imported into Amazon Inspector.
+        public let scopeSettings: ScopeSettings?
+        /// The tags associated with the scan configuration.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(configuration: CodeSecurityScanConfiguration? = nil, createdAt: Date? = nil, lastUpdatedAt: Date? = nil, level: ConfigurationLevel? = nil, name: String? = nil, scanConfigurationArn: String? = nil, scopeSettings: ScopeSettings? = nil, tags: [String: String]? = nil) {
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.level = level
+            self.name = name
+            self.scanConfigurationArn = scanConfigurationArn
+            self.scopeSettings = scopeSettings
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case level = "level"
+            case name = "name"
+            case scanConfigurationArn = "scanConfigurationArn"
+            case scopeSettings = "scopeSettings"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetCodeSecurityScanRequest: AWSEncodableShape {
+        /// The resource identifier for the code repository that was scanned.
+        public let resource: CodeSecurityResource
+        /// The unique identifier of the scan to retrieve.
+        public let scanId: String
+
+        @inlinable
+        public init(resource: CodeSecurityResource, scanId: String) {
+            self.resource = resource
+            self.scanId = scanId
+        }
+
+        public func validate(name: String) throws {
+            try self.resource.validate(name: "\(name).resource")
+            try self.validate(self.scanId, name: "scanId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case scanId = "scanId"
+        }
+    }
+
+    public struct GetCodeSecurityScanResponse: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with the scan.
+        public let accountId: String?
+        /// The timestamp when the scan was created.
+        public let createdAt: Date?
+        /// The identifier of the last commit that was scanned. This is only returned if the scan was successful or skipped.
+        public let lastCommitId: String?
+        /// The resource identifier for the code repository that was scanned.
+        public let resource: CodeSecurityResource?
+        /// The unique identifier of the scan.
+        public let scanId: String?
+        /// The current status of the scan.
+        public let status: CodeScanStatus?
+        /// The reason for the current status of the scan.
+        public let statusReason: String?
+        /// The timestamp when the scan was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(accountId: String? = nil, createdAt: Date? = nil, lastCommitId: String? = nil, resource: CodeSecurityResource? = nil, scanId: String? = nil, status: CodeScanStatus? = nil, statusReason: String? = nil, updatedAt: Date? = nil) {
+            self.accountId = accountId
+            self.createdAt = createdAt
+            self.lastCommitId = lastCommitId
+            self.resource = resource
+            self.scanId = scanId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case createdAt = "createdAt"
+            case lastCommitId = "lastCommitId"
+            case resource = "resource"
+            case scanId = "scanId"
+            case status = "status"
+            case statusReason = "statusReason"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -6104,6 +7160,141 @@ extension Inspector2 {
         }
     }
 
+    public struct ListCodeSecurityIntegrationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCodeSecurityIntegrationsResponse: AWSDecodableShape {
+        /// A list of code security integration summaries.
+        public let integrations: [CodeSecurityIntegrationSummary]?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(integrations: [CodeSecurityIntegrationSummary]? = nil, nextToken: String? = nil) {
+            self.integrations = integrations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrations = "integrations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCodeSecurityScanConfigurationAssociationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the scan configuration to list associations for.
+        public let scanConfigurationArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, scanConfigurationArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.scanConfigurationArn, forKey: .scanConfigurationArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
+            try self.validate(self.scanConfigurationArn, name: "scanConfigurationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanConfigurationArn = "scanConfigurationArn"
+        }
+    }
+
+    public struct ListCodeSecurityScanConfigurationAssociationsResponse: AWSDecodableShape {
+        /// A list of associations between code repositories and scan configurations.
+        public let associations: [CodeSecurityScanConfigurationAssociationSummary]?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(associations: [CodeSecurityScanConfigurationAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.associations = associations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "associations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCodeSecurityScanConfigurationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCodeSecurityScanConfigurationsResponse: AWSDecodableShape {
+        /// A list of code security scan configuration summaries.
+        public let configurations: [CodeSecurityScanConfigurationSummary]?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(configurations: [CodeSecurityScanConfigurationSummary]? = nil, nextToken: String? = nil) {
+            self.configurations = configurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "configurations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListCoverageRequest: AWSEncodableShape {
         /// An object that contains details on the filters to apply to the coverage data for your environment.
         public let filterCriteria: CoverageFilterCriteria?
@@ -6602,7 +7793,7 @@ extension Inspector2 {
     public struct MemberAccountEc2DeepInspectionStatus: AWSEncodableShape {
         /// The unique identifier for the Amazon Web Services account of the organization member.
         public let accountId: String
-        /// Whether Amazon Inspector deep inspection is active in the account.  If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active.
+        /// Whether Amazon Inspector deep inspection is active in the account. If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active.
         public let activateDeepInspection: Bool
 
         @inlinable
@@ -6879,6 +8070,29 @@ extension Inspector2 {
         }
     }
 
+    public struct PeriodicScanConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequencyExpression, the schedule must match the specified frequency.
+        public let frequency: PeriodicScanFrequency?
+        /// The schedule expression for periodic scans, in cron format.
+        public let frequencyExpression: String?
+
+        @inlinable
+        public init(frequency: PeriodicScanFrequency? = nil, frequencyExpression: String? = nil) {
+            self.frequency = frequency
+            self.frequencyExpression = frequencyExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.frequencyExpression, name: "frequencyExpression", parent: name, max: 256)
+            try self.validate(self.frequencyExpression, name: "frequencyExpression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frequency = "frequency"
+            case frequencyExpression = "frequencyExpression"
+        }
+    }
+
     public struct Permission: AWSDecodableShape {
         /// The operations that can be performed with the given permissions.
         public let operation: Operation
@@ -6937,6 +8151,60 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case beginInclusive = "beginInclusive"
             case endInclusive = "endInclusive"
+        }
+    }
+
+    public struct ProjectCodeSecurityScanConfiguration: AWSDecodableShape {
+        /// The continuous integration scan configurations applied to the project.
+        public let continuousIntegrationScanConfigurations: [ProjectContinuousIntegrationScanConfiguration]?
+        /// The periodic scan configurations applied to the project.
+        public let periodicScanConfigurations: [ProjectPeriodicScanConfiguration]?
+
+        @inlinable
+        public init(continuousIntegrationScanConfigurations: [ProjectContinuousIntegrationScanConfiguration]? = nil, periodicScanConfigurations: [ProjectPeriodicScanConfiguration]? = nil) {
+            self.continuousIntegrationScanConfigurations = continuousIntegrationScanConfigurations
+            self.periodicScanConfigurations = periodicScanConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousIntegrationScanConfigurations = "continuousIntegrationScanConfigurations"
+            case periodicScanConfigurations = "periodicScanConfigurations"
+        }
+    }
+
+    public struct ProjectContinuousIntegrationScanConfiguration: AWSDecodableShape {
+        /// The categories of security rules applied during continuous integration scans for the project.
+        public let ruleSetCategories: [RuleSetCategory]?
+        /// The repository event that triggers continuous integration scans for the project.
+        public let supportedEvent: ContinuousIntegrationScanEvent?
+
+        @inlinable
+        public init(ruleSetCategories: [RuleSetCategory]? = nil, supportedEvent: ContinuousIntegrationScanEvent? = nil) {
+            self.ruleSetCategories = ruleSetCategories
+            self.supportedEvent = supportedEvent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetCategories = "ruleSetCategories"
+            case supportedEvent = "supportedEvent"
+        }
+    }
+
+    public struct ProjectPeriodicScanConfiguration: AWSDecodableShape {
+        /// The schedule expression for periodic scans, in cron format, applied to the project.
+        public let frequencyExpression: String?
+        /// The categories of security rules applied during periodic scans for the project.
+        public let ruleSetCategories: [RuleSetCategory]?
+
+        @inlinable
+        public init(frequencyExpression: String? = nil, ruleSetCategories: [RuleSetCategory]? = nil) {
+            self.frequencyExpression = frequencyExpression
+            self.ruleSetCategories = ruleSetCategories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frequencyExpression = "frequencyExpression"
+            case ruleSetCategories = "ruleSetCategories"
         }
     }
 
@@ -7091,18 +8359,22 @@ extension Inspector2 {
         public let awsEcrContainerImage: AwsEcrContainerImageDetails?
         /// A summary of the information about an Amazon Web Services Lambda function affected by a finding.
         public let awsLambdaFunction: AwsLambdaFunctionDetails?
+        /// Contains details about a code repository resource associated with a finding.
+        public let codeRepository: CodeRepositoryDetails?
 
         @inlinable
-        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil) {
+        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, codeRepository: CodeRepositoryDetails? = nil) {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
             self.awsLambdaFunction = awsLambdaFunction
+            self.codeRepository = codeRepository
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsEc2Instance = "awsEc2Instance"
             case awsEcrContainerImage = "awsEcrContainerImage"
             case awsLambdaFunction = "awsLambdaFunction"
+            case codeRepository = "codeRepository"
         }
     }
 
@@ -7219,6 +8491,8 @@ extension Inspector2 {
     }
 
     public struct ResourceScanMetadata: AWSDecodableShape {
+        /// Contains metadata about scan coverage for a code repository resource.
+        public let codeRepository: CodeRepositoryMetadata?
         /// An object that contains metadata details for an Amazon EC2 instance.
         public let ec2: Ec2Metadata?
         /// An object that contains details about the container metadata for an Amazon ECR image.
@@ -7229,7 +8503,8 @@ extension Inspector2 {
         public let lambdaFunction: LambdaFunctionMetadata?
 
         @inlinable
-        public init(ec2: Ec2Metadata? = nil, ecrImage: EcrContainerImageMetadata? = nil, ecrRepository: EcrRepositoryMetadata? = nil, lambdaFunction: LambdaFunctionMetadata? = nil) {
+        public init(codeRepository: CodeRepositoryMetadata? = nil, ec2: Ec2Metadata? = nil, ecrImage: EcrContainerImageMetadata? = nil, ecrRepository: EcrRepositoryMetadata? = nil, lambdaFunction: LambdaFunctionMetadata? = nil) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecrImage = ecrImage
             self.ecrRepository = ecrRepository
@@ -7237,6 +8512,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codeRepository = "codeRepository"
             case ec2 = "ec2"
             case ecrImage = "ecrImage"
             case ecrRepository = "ecrRepository"
@@ -7245,6 +8521,7 @@ extension Inspector2 {
     }
 
     public struct ResourceState: AWSDecodableShape {
+        public let codeRepository: State?
         /// An object detailing the state of Amazon Inspector scanning for Amazon EC2 resources.
         public let ec2: State
         /// An object detailing the state of Amazon Inspector scanning for Amazon ECR resources.
@@ -7255,7 +8532,8 @@ extension Inspector2 {
         public let lambdaCode: State?
 
         @inlinable
-        public init(ec2: State, ecr: State, lambda: State? = nil, lambdaCode: State? = nil) {
+        public init(codeRepository: State? = nil, ec2: State, ecr: State, lambda: State? = nil, lambdaCode: State? = nil) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -7263,6 +8541,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codeRepository = "codeRepository"
             case ec2 = "ec2"
             case ecr = "ecr"
             case lambda = "lambda"
@@ -7271,6 +8550,8 @@ extension Inspector2 {
     }
 
     public struct ResourceStatus: AWSDecodableShape {
+        /// The status of Amazon Inspector scanning for code repositories.
+        public let codeRepository: Status?
         /// The status of Amazon Inspector scanning for Amazon EC2 resources.
         public let ec2: Status
         /// The status of Amazon Inspector scanning for Amazon ECR resources.
@@ -7281,7 +8562,8 @@ extension Inspector2 {
         public let lambdaCode: Status?
 
         @inlinable
-        public init(ec2: Status, ecr: Status, lambda: Status? = nil, lambdaCode: Status? = nil) {
+        public init(codeRepository: Status? = nil, ec2: Status, ecr: Status, lambda: Status? = nil, lambdaCode: Status? = nil) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -7289,6 +8571,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codeRepository = "codeRepository"
             case ec2 = "ec2"
             case ecr = "ecr"
             case lambda = "lambda"
@@ -7320,7 +8603,7 @@ extension Inspector2 {
     }
 
     public struct ScanStatus: AWSDecodableShape {
-        /// The scan status. Possible return values and descriptions are:   PENDING_INITIAL_SCAN - This resource has been identified for scanning, results will be available soon.  ACCESS_DENIED - Resource access policy restricting Amazon Inspector access. Please update the IAM policy.  INTERNAL_ERROR - Amazon Inspector has encountered an internal error for this resource. Amazon Inspector service will automatically resolve the issue and resume the scanning. No action required from the user.  UNMANAGED_EC2_INSTANCE - The EC2 instance is not managed by SSM, please use the following SSM automation to remediate the issue: https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html. Once the instance becomes managed by SSM, Inspector will automatically begin scanning this instance.   UNSUPPORTED_OS - Amazon Inspector does not support this OS, architecture, or image manifest type at this time. To see a complete list of supported operating systems see: https://docs.aws.amazon.com/inspector/latest/user/supported.html.  SCAN_ELIGIBILITY_EXPIRED - The configured scan duration has lapsed for this image.  RESOURCE_TERMINATED - This resource has been terminated. The findings and coverage associated with this resource are in the process of being cleaned up.  SUCCESSFUL - The scan was successful.  NO_RESOURCES_FOUND - Reserved for future use.  IMAGE_SIZE_EXCEEDED - Reserved for future use.  SCAN_FREQUENCY_MANUAL - This image will not be covered by Amazon Inspector due to the repository scan frequency configuration.  SCAN_FREQUENCY_SCAN_ON_PUSH - This image will be scanned one time and will not new findings because of the scan frequency configuration.  EC2_INSTANCE_STOPPED - This EC2 instance is in a stopped state, therefore, Amazon Inspector will pause scanning. The existing findings will continue to exist until the instance is terminated. Once the instance is re-started, Inspector will automatically start scanning the instance again. Please note that you will not be charged for this instance while it’s in a stopped state.  PENDING_DISABLE - This resource is pending cleanup during disablement. The customer will not be billed while a resource is in the pending disable status.  NO INVENTORY - Amazon Inspector couldn’t find software application inventory to scan for vulnerabilities. This might be caused due to required Amazon Inspector associations being deleted or failing to run on your resource. Please verify the status of InspectorInventoryCollection-do-not-delete  association in the SSM console for the resource. Additionally, you can verify the instance’s inventory in the SSM Fleet Manager console.  STALE_INVENTORY - Amazon Inspector wasn’t able to collect an updated software application inventory in the last 7 days. Please confirm the required Amazon Inspector associations still exist and you can still see an updated inventory in the SSM console.  EXCLUDED_BY_TAG - This resource was not scanned because it has been excluded by a tag.  UNSUPPORTED_RUNTIME - The function was not scanned because it has an unsupported runtime. To see a complete list of supported runtimes see: https://docs.aws.amazon.com/inspector/latest/user/supported.html.  UNSUPPORTED_MEDIA_TYPE - The ECR image has an unsupported media type.  UNSUPPORTED_CONFIG_FILE - Reserved for future use.  DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED - The instance has exceeded the 5000 package limit for Amazon Inspector Deep inspection. To resume Deep inspection for this instance you can try to adjust the custom paths associated with the account.  DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED - The SSM agent couldn't send inventory to Amazon Inspector because the SSM quota for Inventory data collected per instance per day has already been reached for this instance.  DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED - Amazon Inspector failed to extract the package inventory because the package collection time exceeding the maximum threshold of 15 minutes.  DEEP_INSPECTION_NO_INVENTORY  The Amazon Inspector plugin hasn't yet been able to collect an inventory of packages for this instance. This is usually the result of a pending scan, however, if this status persists after 6 hours, use SSM to ensure that the required Amazon Inspector associations exist and are running for the instance.
+        /// The scan status. Possible return values and descriptions are:   ACCESS_DENIED - Resource access policy restricting Amazon Inspector access. Please update the IAM policy.  ACCESS_DENIED_TO_ENCRYPTION_KEY - The KMS key policy doesn't allow Amazon Inspector access. Update the key policy.  DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED - Amazon Inspector failed to extract the package inventory because the package collection time exceeding the maximum threshold of 15 minutes.  DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED - The SSM agent couldn't send inventory to Amazon Inspector because the SSM quota for Inventory data collected per instance per day has already been reached for this instance.  DEEP_INSPECTION_NO_INVENTORY - The Amazon Inspector plugin hasn't yet been able to collect an inventory of packages for this instance. This is usually the result of a pending scan, however, if this status persists after 6 hours, use SSM to ensure that the required Amazon Inspector associations exist and are running for the instance.  DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED - The instance has exceeded the 5000 package limit for Amazon Inspector Deep inspection. To resume Deep inspection for this instance you can try to adjust the custom paths associated with the account.  EC2_INSTANCE_STOPPED - This EC2 instance is in a stopped state, therefore, Amazon Inspector will pause scanning. The existing findings will continue to exist until the instance is terminated. Once the instance is re-started, Inspector will automatically start scanning the instance again. Please note that you will not be charged for this instance while it's in a stopped state.  EXCLUDED_BY_TAG - This resource was not scanned because it has been excluded by a tag.  IMAGE_SIZE_EXCEEDED - Reserved for future use.  INTEGRATION_CONNNECTION_LOST - Amazon Inspector couldn't communicate with the source code management platform.  INTERNAL_ERROR - Amazon Inspector has encountered an internal error for this resource. Amazon Inspector service will automatically resolve the issue and resume the scanning. No action required from the user.  NO INVENTORY - Amazon Inspector couldn't find software application inventory to scan for vulnerabilities. This might be caused due to required Amazon Inspector associations being deleted or failing to run on your resource. Please verify the status of InspectorInventoryCollection-do-not-delete association in the SSM console for the resource. Additionally, you can verify the instance's inventory in the SSM Fleet Manager console.  NO_RESOURCES_FOUND - Reserved for future use.  NO_SCAN_CONFIGURATION_ASSOCIATED - The code repository resource doesn't have an associated scan configuration.  PENDING_DISABLE - This resource is pending cleanup during disablement. The customer will not be billed while a resource is in the pending disable status.  PENDING_INITIAL_SCAN - This resource has been identified for scanning, results will be available soon.  RESOURCE_TERMINATED - This resource has been terminated. The findings and coverage associated with this resource are in the process of being cleaned up.  SCAN_ELIGIBILITY_EXPIRED - The configured scan duration has lapsed for this image.  SCAN_FREQUENCY_MANUAL - This image will not be covered by Amazon Inspector due to the repository scan frequency configuration.  SCAN_FREQUENCY_SCAN_ON_PUSH - This image will be scanned one time and will not new findings because of the scan frequency configuration.  SCAN_IN_PROGRESS - The resource is currently being scanned.  STALE_INVENTORY - Amazon Inspector wasn't able to collect an updated software application inventory in the last 7 days. Please confirm the required Amazon Inspector associations still exist and you can still see an updated inventory in the SSM console.  SUCCESSFUL - The scan was successful.  UNMANAGED_EC2_INSTANCE - The EC2 instance is not managed by SSM, please use the following SSM automation to remediate the issue: https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html. Once the instance becomes managed by SSM, Inspector will automatically begin scanning this instance.   UNSUPPORTED_CONFIG_FILE - Reserved for future use.  UNSUPPORTED_LANGUAGE - The scan was unsuccessful because the repository contains files in an unsupported programming language.  UNSUPPORTED_MEDIA_TYPE - The ECR image has an unsupported media type.  UNSUPPORTED_OS - Amazon Inspector does not support this OS, architecture, or image manifest type at this time. To see a complete list of supported operating systems see: https://docs.aws.amazon.com/inspector/latest/user/supported.html.  UNSUPPORTED_RUNTIME - The function was not scanned because it has an unsupported runtime. To see a complete list of supported runtimes see: https://docs.aws.amazon.com/inspector/latest/user/supported.html.
         public let reason: ScanStatusReason
         /// The status code of the scan.
         public let statusCode: ScanStatusCode
@@ -7334,6 +8617,20 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case reason = "reason"
             case statusCode = "statusCode"
+        }
+    }
+
+    public struct ScopeSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The scope of projects to be selected for scanning within the integrated repositories. Setting the value to ALL applies the scope settings to all existing and future projects imported into Amazon Inspector.
+        public let projectSelectionScope: ProjectSelectionScope?
+
+        @inlinable
+        public init(projectSelectionScope: ProjectSelectionScope? = nil) {
+            self.projectSelectionScope = projectSelectionScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectSelectionScope = "projectSelectionScope"
         }
     }
 
@@ -7569,6 +8866,49 @@ extension Inspector2 {
         public init() {}
     }
 
+    public struct StartCodeSecurityScanRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The resource identifier for the code repository to scan.
+        public let resource: CodeSecurityResource
+
+        @inlinable
+        public init(clientToken: String? = StartCodeSecurityScanRequest.idempotencyToken(), resource: CodeSecurityResource) {
+            self.clientToken = clientToken
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\S]+$")
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resource = "resource"
+        }
+    }
+
+    public struct StartCodeSecurityScanResponse: AWSDecodableShape {
+        /// The unique identifier of the initiated scan.
+        public let scanId: String?
+        /// The current status of the initiated scan.
+        public let status: CodeScanStatus?
+
+        @inlinable
+        public init(scanId: String? = nil, status: CodeScanStatus? = nil) {
+            self.scanId = scanId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanId = "scanId"
+            case status = "status"
+        }
+    }
+
     public struct State: AWSDecodableShape {
         /// The error code explaining why the account failed to enable Amazon Inspector.
         public let errorCode: ErrorCode
@@ -7790,6 +9130,23 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case comparison = "comparison"
             case value = "value"
+        }
+    }
+
+    public struct SuccessfulAssociationResult: AWSDecodableShape {
+        public let resource: CodeSecurityResource?
+        /// The Amazon Resource Name (ARN) of the scan configuration that was successfully associated or disassociated.
+        public let scanConfigurationArn: String?
+
+        @inlinable
+        public init(resource: CodeSecurityResource? = nil, scanConfigurationArn: String? = nil) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "resource"
+            case scanConfigurationArn = "scanConfigurationArn"
         }
     }
 
@@ -8040,7 +9397,7 @@ extension Inspector2 {
         public let scanName: String?
         /// The schedule for the CIS scan configuration.
         public let schedule: Schedule?
-        ///  The security level for the CIS scan configuration.  Security level refers to the Benchmark levels that CIS assigns to a profile.
+        ///  The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile.
         public let securityLevel: CisSecurityLevel?
         /// The targets for the CIS scan configuration.
         public let targets: UpdateCisTargets?
@@ -8117,6 +9474,84 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
             case targetResourceTags = "targetResourceTags"
+        }
+    }
+
+    public struct UpdateCodeSecurityIntegrationRequest: AWSEncodableShape {
+        /// The updated integration details specific to the repository provider type.
+        public let details: UpdateIntegrationDetails
+        /// The Amazon Resource Name (ARN) of the code security integration to update.
+        public let integrationArn: String
+
+        @inlinable
+        public init(details: UpdateIntegrationDetails, integrationArn: String) {
+            self.details = details
+            self.integrationArn = integrationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.details.validate(name: "\(name).details")
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:codesecurity-integration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case integrationArn = "integrationArn"
+        }
+    }
+
+    public struct UpdateCodeSecurityIntegrationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated code security integration.
+        public let integrationArn: String
+        /// The current status of the updated code security integration.
+        public let status: IntegrationStatus
+
+        @inlinable
+        public init(integrationArn: String, status: IntegrationStatus) {
+            self.integrationArn = integrationArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "integrationArn"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateCodeSecurityScanConfigurationRequest: AWSEncodableShape {
+        /// The updated configuration settings for the code security scan.
+        public let configuration: CodeSecurityScanConfiguration
+        /// The Amazon Resource Name (ARN) of the scan configuration to update.
+        public let scanConfigurationArn: String
+
+        @inlinable
+        public init(configuration: CodeSecurityScanConfiguration, scanConfigurationArn: String) {
+            self.configuration = configuration
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.scanConfigurationArn, name: "scanConfigurationArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case scanConfigurationArn = "scanConfigurationArn"
+        }
+    }
+
+    public struct UpdateCodeSecurityScanConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated scan configuration.
+        public let scanConfigurationArn: String?
+
+        @inlinable
+        public init(scanConfigurationArn: String? = nil) {
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanConfigurationArn = "scanConfigurationArn"
         }
     }
 
@@ -8285,6 +9720,50 @@ extension Inspector2 {
         }
     }
 
+    public struct UpdateGitHubIntegrationDetail: AWSEncodableShape {
+        /// The authorization code received from GitHub to update the integration.
+        public let code: String
+        /// The installation ID of the GitHub App associated with the integration.
+        public let installationId: String
+
+        @inlinable
+        public init(code: String, installationId: String) {
+            self.code = code
+            self.installationId = installationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 1024)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
+            try self.validate(self.installationId, name: "installationId", parent: name, max: 1024)
+            try self.validate(self.installationId, name: "installationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case installationId = "installationId"
+        }
+    }
+
+    public struct UpdateGitLabSelfManagedIntegrationDetail: AWSEncodableShape {
+        /// The authorization code received from the self-managed GitLab instance to update the integration.
+        public let authCode: String
+
+        @inlinable
+        public init(authCode: String) {
+            self.authCode = authCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authCode, name: "authCode", parent: name, max: 1024)
+            try self.validate(self.authCode, name: "authCode", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authCode = "authCode"
+        }
+    }
+
     public struct UpdateOrgEc2DeepInspectionConfigurationRequest: AWSEncodableShape {
         /// The Amazon Inspector deep inspection custom paths you are adding for your organization.
         public let orgPackagePaths: [String]
@@ -8448,7 +9927,7 @@ extension Inspector2 {
         public let referenceUrls: [String]?
         /// A list of related vulnerabilities.
         public let relatedVulnerabilities: [String]?
-        /// The source of the vulnerability information.  Possible results are RHEL, AMAZON_CVE, DEBIAN or NVD.
+        /// The source of the vulnerability information. Possible results are RHEL, AMAZON_CVE, DEBIAN or NVD.
         public let source: VulnerabilitySource?
         /// A link to the official source material for this vulnerability.
         public let sourceUrl: String?
@@ -8578,6 +10057,42 @@ extension Inspector2 {
             case startTime = "startTime"
         }
     }
+
+    public struct CodeSecurityResource: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the project in the code repository.
+        public let projectId: String?
+
+        @inlinable
+        public init(projectId: String? = nil) {
+            self.projectId = projectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+        }
+    }
+
+    public struct CreateIntegrationDetail: AWSEncodableShape {
+        /// Details specific to creating an integration with a self-managed GitLab instance.
+        public let gitlabSelfManaged: CreateGitLabSelfManagedIntegrationDetail?
+
+        @inlinable
+        public init(gitlabSelfManaged: CreateGitLabSelfManagedIntegrationDetail? = nil) {
+            self.gitlabSelfManaged = gitlabSelfManaged
+        }
+
+        public func validate(name: String) throws {
+            try self.gitlabSelfManaged?.validate(name: "\(name).gitlabSelfManaged")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gitlabSelfManaged = "gitlabSelfManaged"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -8613,11 +10128,11 @@ public struct Inspector2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action.
+    /// You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// One or more tags submitted as part of the request is not valid.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// A conflict occurred.
+    /// A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request has failed due to an internal failure of the Amazon Inspector service.
     public static var internalServerException: Self { .init(.internalServerException) }

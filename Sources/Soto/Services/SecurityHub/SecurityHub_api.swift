@@ -456,7 +456,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchUpdateAutomationRules(input, logger: logger)
     }
 
-    /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings don't affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
+    ///  Used by Security Hub customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts.  Administrator accounts can update findings for their account and their member accounts.  A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:     Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow     If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding.  Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request.    You can configure IAM policies to restrict access to fields and field values.  For example, you might not want member accounts to be able to suppress findings or change the finding severity.  For more information see Configuring access to BatchUpdateFindings in the Security Hub User Guide.
     @Sendable
     @inlinable
     public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFindingsResponse {
@@ -469,7 +469,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings don't affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
+    ///  Used by Security Hub customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts.  Administrator accounts can update findings for their account and their member accounts.  A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:     Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow     If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding.  Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request.    You can configure IAM policies to restrict access to fields and field values.  For example, you might not want member accounts to be able to suppress findings or change the finding severity.  For more information see Configuring access to BatchUpdateFindings in the Security Hub User Guide.
     ///
     /// Parameters:
     ///   - confidence: The updated value for the finding confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
@@ -512,6 +512,47 @@ public struct SecurityHub: AWSService {
         return try await self.batchUpdateFindings(input, logger: logger)
     }
 
+    /// Used by customers to update information about their investigation into a finding.  Requested by delegated administrator accounts or member accounts.  Delegated administrator accounts can update findings for their account and their member accounts.  Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement.  You must have permission to perform the securityhub:BatchUpdateFindings action.  Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func batchUpdateFindingsV2(_ input: BatchUpdateFindingsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFindingsV2Response {
+        try await self.client.execute(
+            operation: "BatchUpdateFindingsV2", 
+            path: "/findingsv2/batchupdatev2", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Used by customers to update information about their investigation into a finding.  Requested by delegated administrator accounts or member accounts.  Delegated administrator accounts can update findings for their account and their member accounts.  Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement.  You must have permission to perform the securityhub:BatchUpdateFindings action.  Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - comment: The updated value for a user provided comment about the finding.  Minimum character length 1.  Maximum character length 512.
+    ///   - findingIdentifiers: Provides information to identify a specific V2 finding.
+    ///   - metadataUids: The list of finding metadata.uid to indicate findings to update.  Finding metadata.uid is a globally unique identifier associated with the finding.  Customers cannot use MetadataUids together with FindingIdentifiers.
+    ///   - severityId: The updated value for the normalized severity identifier.  The severity ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99].  When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
+    ///   - statusId: The updated value for the normalized status identifier.  The status ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99].  When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateFindingsV2(
+        comment: String? = nil,
+        findingIdentifiers: [OcsfFindingIdentifier]? = nil,
+        metadataUids: [String]? = nil,
+        severityId: Int? = nil,
+        statusId: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchUpdateFindingsV2Response {
+        let input = BatchUpdateFindingsV2Request(
+            comment: comment, 
+            findingIdentifiers: findingIdentifiers, 
+            metadataUids: metadataUids, 
+            severityId: severityId, 
+            statusId: statusId
+        )
+        return try await self.batchUpdateFindingsV2(input, logger: logger)
+    }
+
     ///  For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
     @Sendable
     @inlinable
@@ -539,6 +580,38 @@ public struct SecurityHub: AWSService {
             standardsControlAssociationUpdates: standardsControlAssociationUpdates
         )
         return try await self.batchUpdateStandardsControlAssociations(input, logger: logger)
+    }
+
+    /// Grants permission to complete the authorization based on input parameters. This API is in preview release and subject to change.
+    @Sendable
+    @inlinable
+    public func connectorRegistrationsV2(_ input: ConnectorRegistrationsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ConnectorRegistrationsV2Response {
+        try await self.client.execute(
+            operation: "ConnectorRegistrationsV2", 
+            path: "/connectorsv2/registrations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to complete the authorization based on input parameters. This API is in preview release and subject to change.
+    ///
+    /// Parameters:
+    ///   - authCode: The authCode retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+    ///   - authState: The authState retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func connectorRegistrationsV2(
+        authCode: String? = nil,
+        authState: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ConnectorRegistrationsV2Response {
+        let input = ConnectorRegistrationsV2Request(
+            authCode: authCode, 
+            authState: authState
+        )
+        return try await self.connectorRegistrationsV2(input, logger: logger)
     }
 
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
@@ -574,6 +647,44 @@ public struct SecurityHub: AWSService {
             name: name
         )
         return try await self.createActionTarget(input, logger: logger)
+    }
+
+    /// Enables aggregation across Amazon Web Services Regions. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func createAggregatorV2(_ input: CreateAggregatorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAggregatorV2Response {
+        try await self.client.execute(
+            operation: "CreateAggregatorV2", 
+            path: "/aggregatorv2/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables aggregation across Amazon Web Services Regions. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique identifier used to ensure idempotency.
+    ///   - linkedRegions: The list of Regions that are linked to the aggregation Region.
+    ///   - regionLinkingMode: Determines how Regions are linked to an Aggregator V2.
+    ///   - tags: A list of key-value pairs to be applied to the AggregatorV2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAggregatorV2(
+        clientToken: String? = CreateAggregatorV2Request.idempotencyToken(),
+        linkedRegions: [String]? = nil,
+        regionLinkingMode: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAggregatorV2Response {
+        let input = CreateAggregatorV2Request(
+            clientToken: clientToken, 
+            linkedRegions: linkedRegions, 
+            regionLinkingMode: regionLinkingMode, 
+            tags: tags
+        )
+        return try await self.createAggregatorV2(input, logger: logger)
     }
 
     ///  Creates an automation rule based on input parameters.
@@ -626,6 +737,56 @@ public struct SecurityHub: AWSService {
         return try await self.createAutomationRule(input, logger: logger)
     }
 
+    /// Creates a V2 automation rule. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func createAutomationRuleV2(_ input: CreateAutomationRuleV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutomationRuleV2Response {
+        try await self.client.execute(
+            operation: "CreateAutomationRuleV2", 
+            path: "/automationrulesv2/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a V2 automation rule. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - actions: A list of actions to be performed when the rule criteria is met.
+    ///   - clientToken: A unique identifier used to ensure idempotency.
+    ///   - criteria: The filtering type and configuration of the automation rule.
+    ///   - description: A description of the V2 automation rule.
+    ///   - ruleName: The name of the V2 automation rule.
+    ///   - ruleOrder: The value for the rule priority.
+    ///   - ruleStatus: The status of the V2 automation rule.
+    ///   - tags: A list of key-value pairs associated with the V2 automation rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAutomationRuleV2(
+        actions: [AutomationRulesActionV2]? = nil,
+        clientToken: String? = CreateAutomationRuleV2Request.idempotencyToken(),
+        criteria: Criteria? = nil,
+        description: String? = nil,
+        ruleName: String? = nil,
+        ruleOrder: Float? = nil,
+        ruleStatus: RuleStatusV2? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAutomationRuleV2Response {
+        let input = CreateAutomationRuleV2Request(
+            actions: actions, 
+            clientToken: clientToken, 
+            criteria: criteria, 
+            description: description, 
+            ruleName: ruleName, 
+            ruleOrder: ruleOrder, 
+            ruleStatus: ruleStatus, 
+            tags: tags
+        )
+        return try await self.createAutomationRuleV2(input, logger: logger)
+    }
+
     ///  Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator  can invoke this operation from the home Region.
     @Sendable
     @inlinable
@@ -662,6 +823,50 @@ public struct SecurityHub: AWSService {
             tags: tags
         )
         return try await self.createConfigurationPolicy(input, logger: logger)
+    }
+
+    /// Grants permission to create a connectorV2 based on input parameters. This API is in preview release and subject to change.
+    @Sendable
+    @inlinable
+    public func createConnectorV2(_ input: CreateConnectorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectorV2Response {
+        try await self.client.execute(
+            operation: "CreateConnectorV2", 
+            path: "/connectorsv2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to create a connectorV2 based on input parameters. This API is in preview release and subject to change.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique identifier used to ensure idempotency.
+    ///   - description: The description of the connectorV2.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of KMS key used to encrypt secrets for the connectorV2.
+    ///   - name: The unique name of the connectorV2.
+    ///   - provider: The third-party provider’s service configuration.
+    ///   - tags: The tags to add to the connectorV2 when you create.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConnectorV2(
+        clientToken: String? = CreateConnectorV2Request.idempotencyToken(),
+        description: String? = nil,
+        kmsKeyArn: String? = nil,
+        name: String? = nil,
+        provider: ProviderConfiguration? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConnectorV2Response {
+        let input = CreateConnectorV2Request(
+            clientToken: clientToken, 
+            description: description, 
+            kmsKeyArn: kmsKeyArn, 
+            name: name, 
+            provider: provider, 
+            tags: tags
+        )
+        return try await self.createConnectorV2(input, logger: logger)
     }
 
     ///  The aggregation Region is now called the home Region.  Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the Security Hub User Guide.
@@ -760,6 +965,41 @@ public struct SecurityHub: AWSService {
         return try await self.createMembers(input, logger: logger)
     }
 
+    /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. This API is in preview release and subject to change.
+    @Sendable
+    @inlinable
+    public func createTicketV2(_ input: CreateTicketV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTicketV2Response {
+        try await self.client.execute(
+            operation: "CreateTicketV2", 
+            path: "/ticketsv2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. This API is in preview release and subject to change.
+    ///
+    /// Parameters:
+    ///   - clientToken: The client idempotency token.
+    ///   - connectorId: The UUID of the connectorV2 to identify connectorV2 resource.
+    ///   - findingMetadataUid: The the unique ID for the finding.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTicketV2(
+        clientToken: String? = CreateTicketV2Request.idempotencyToken(),
+        connectorId: String? = nil,
+        findingMetadataUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTicketV2Response {
+        let input = CreateTicketV2Request(
+            clientToken: clientToken, 
+            connectorId: connectorId, 
+            findingMetadataUid: findingMetadataUid
+        )
+        return try await self.createTicketV2(input, logger: logger)
+    }
+
     ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     @Sendable
     @inlinable
@@ -818,6 +1058,64 @@ public struct SecurityHub: AWSService {
         return try await self.deleteActionTarget(input, logger: logger)
     }
 
+    /// Deletes the Aggregator V2. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func deleteAggregatorV2(_ input: DeleteAggregatorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAggregatorV2Response {
+        try await self.client.execute(
+            operation: "DeleteAggregatorV2", 
+            path: "/aggregatorv2/delete/{AggregatorV2Arn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the Aggregator V2. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - aggregatorV2Arn: The ARN of the Aggregator V2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAggregatorV2(
+        aggregatorV2Arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAggregatorV2Response {
+        let input = DeleteAggregatorV2Request(
+            aggregatorV2Arn: aggregatorV2Arn
+        )
+        return try await self.deleteAggregatorV2(input, logger: logger)
+    }
+
+    /// Deletes a V2 automation rule. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func deleteAutomationRuleV2(_ input: DeleteAutomationRuleV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAutomationRuleV2Response {
+        try await self.client.execute(
+            operation: "DeleteAutomationRuleV2", 
+            path: "/automationrulesv2/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a V2 automation rule. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - identifier: The ARN of the V2 automation rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAutomationRuleV2(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAutomationRuleV2Response {
+        let input = DeleteAutomationRuleV2Request(
+            identifier: identifier
+        )
+        return try await self.deleteAutomationRuleV2(input, logger: logger)
+    }
+
     ///  Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation  from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts,  organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
     @Sendable
     @inlinable
@@ -845,6 +1143,35 @@ public struct SecurityHub: AWSService {
             identifier: identifier
         )
         return try await self.deleteConfigurationPolicy(input, logger: logger)
+    }
+
+    /// Grants permission to delete a connectorV2. This API is in preview release and subject to change.
+    @Sendable
+    @inlinable
+    public func deleteConnectorV2(_ input: DeleteConnectorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectorV2Response {
+        try await self.client.execute(
+            operation: "DeleteConnectorV2", 
+            path: "/connectorsv2/{ConnectorId+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to delete a connectorV2. This API is in preview release and subject to change.
+    ///
+    /// Parameters:
+    ///   - connectorId: The UUID of the connectorV2 to identify connectorV2 resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnectorV2(
+        connectorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConnectorV2Response {
+        let input = DeleteConnectorV2Request(
+            connectorId: connectorId
+        )
+        return try await self.deleteConnectorV2(input, logger: logger)
     }
 
     ///  The aggregation Region is now called the home Region.  Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops
@@ -1090,6 +1417,64 @@ public struct SecurityHub: AWSService {
         return try await self.describeProducts(input, logger: logger)
     }
 
+    /// Gets information about the product integration. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func describeProductsV2(_ input: DescribeProductsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProductsV2Response {
+        try await self.client.execute(
+            operation: "DescribeProductsV2", 
+            path: "/productsV2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the product integration. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeProductsV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeProductsV2Response {
+        let input = DescribeProductsV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeProductsV2(input, logger: logger)
+    }
+
+    /// Returns details about the service resource in your account. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func describeSecurityHubV2(_ input: DescribeSecurityHubV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityHubV2Response {
+        try await self.client.execute(
+            operation: "DescribeSecurityHubV2", 
+            path: "/hubv2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details about the service resource in your account. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSecurityHubV2(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSecurityHubV2Response {
+        let input = DescribeSecurityHubV2Request(
+        )
+        return try await self.describeSecurityHubV2(input, logger: logger)
+    }
+
     /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
     @Sendable
     @inlinable
@@ -1203,14 +1588,17 @@ public struct SecurityHub: AWSService {
     ///
     /// Parameters:
     ///   - adminAccountId: The Amazon Web Services account identifier of the Security Hub administrator account.
+    ///   - feature: The feature for which the delegated admin account is disabled.  Defaults to Security Hub if not specified.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableOrganizationAdminAccount(
         adminAccountId: String? = nil,
+        feature: SecurityHubFeature? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DisableOrganizationAdminAccountResponse {
         let input = DisableOrganizationAdminAccountRequest(
-            adminAccountId: adminAccountId
+            adminAccountId: adminAccountId, 
+            feature: feature
         )
         return try await self.disableOrganizationAdminAccount(input, logger: logger)
     }
@@ -1239,6 +1627,32 @@ public struct SecurityHub: AWSService {
         let input = DisableSecurityHubRequest(
         )
         return try await self.disableSecurityHub(input, logger: logger)
+    }
+
+    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func disableSecurityHubV2(_ input: DisableSecurityHubV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubV2Response {
+        try await self.client.execute(
+            operation: "DisableSecurityHubV2", 
+            path: "/hubv2", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableSecurityHubV2(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableSecurityHubV2Response {
+        let input = DisableSecurityHubV2Request(
+        )
+        return try await self.disableSecurityHubV2(input, logger: logger)
     }
 
     /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
@@ -1370,14 +1784,17 @@ public struct SecurityHub: AWSService {
     ///
     /// Parameters:
     ///   - adminAccountId: The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
+    ///   - feature: The feature for which the delegated admin account is enabled.  Defaults to Security Hub if not specified.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableOrganizationAdminAccount(
         adminAccountId: String? = nil,
+        feature: SecurityHubFeature? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> EnableOrganizationAdminAccountResponse {
         let input = EnableOrganizationAdminAccountRequest(
-            adminAccountId: adminAccountId
+            adminAccountId: adminAccountId, 
+            feature: feature
         )
         return try await self.enableOrganizationAdminAccount(input, logger: logger)
     }
@@ -1417,6 +1834,35 @@ public struct SecurityHub: AWSService {
         return try await self.enableSecurityHub(input, logger: logger)
     }
 
+    /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func enableSecurityHubV2(_ input: EnableSecurityHubV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableSecurityHubV2Response {
+        try await self.client.execute(
+            operation: "EnableSecurityHubV2", 
+            path: "/hubv2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - tags: The tags to add to the hub V2 resource when you enable Security Hub.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableSecurityHubV2(
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableSecurityHubV2Response {
+        let input = EnableSecurityHubV2Request(
+            tags: tags
+        )
+        return try await self.enableSecurityHubV2(input, logger: logger)
+    }
+
     /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @Sendable
     @inlinable
@@ -1441,6 +1887,64 @@ public struct SecurityHub: AWSService {
         let input = GetAdministratorAccountRequest(
         )
         return try await self.getAdministratorAccount(input, logger: logger)
+    }
+
+    /// Returns the configuration of the specified Aggregator V2. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func getAggregatorV2(_ input: GetAggregatorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregatorV2Response {
+        try await self.client.execute(
+            operation: "GetAggregatorV2", 
+            path: "/aggregatorv2/get/{AggregatorV2Arn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the configuration of the specified Aggregator V2. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - aggregatorV2Arn: The ARN of the Aggregator V2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAggregatorV2(
+        aggregatorV2Arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAggregatorV2Response {
+        let input = GetAggregatorV2Request(
+            aggregatorV2Arn: aggregatorV2Arn
+        )
+        return try await self.getAggregatorV2(input, logger: logger)
+    }
+
+    /// Returns an automation rule for the V2 service. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func getAutomationRuleV2(_ input: GetAutomationRuleV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomationRuleV2Response {
+        try await self.client.execute(
+            operation: "GetAutomationRuleV2", 
+            path: "/automationrulesv2/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns an automation rule for the V2 service. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - identifier: The ARN of the V2 automation rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomationRuleV2(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomationRuleV2Response {
+        let input = GetAutomationRuleV2Request(
+            identifier: identifier
+        )
+        return try await self.getAutomationRuleV2(input, logger: logger)
     }
 
     ///  Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke  this operation from the home Region.
@@ -1499,6 +2003,35 @@ public struct SecurityHub: AWSService {
             target: target
         )
         return try await self.getConfigurationPolicyAssociation(input, logger: logger)
+    }
+
+    /// Grants permission to retrieve details for a connectorV2 based on connector id. This API is in preview release and subject to change.
+    @Sendable
+    @inlinable
+    public func getConnectorV2(_ input: GetConnectorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectorV2Response {
+        try await self.client.execute(
+            operation: "GetConnectorV2", 
+            path: "/connectorsv2/{ConnectorId+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to retrieve details for a connectorV2 based on connector id. This API is in preview release and subject to change.
+    ///
+    /// Parameters:
+    ///   - connectorId: The UUID of the connectorV2 to identify connectorV2 resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnectorV2(
+        connectorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectorV2Response {
+        let input = GetConnectorV2Request(
+            connectorId: connectorId
+        )
+        return try await self.getConnectorV2(input, logger: logger)
     }
 
     /// Returns a list of the standards that are currently enabled.
@@ -1567,7 +2100,7 @@ public struct SecurityHub: AWSService {
         return try await self.getFindingAggregator(input, logger: logger)
     }
 
-    ///  Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF).
+    ///  Returns the history of a Security Hub finding for the past 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and  UpdatedAt fields.  This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even  when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve  the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate  that the results are incomplete. However, you should continue to specify a NextToken value until you receive a  response that doesn't include this value.
     @Sendable
     @inlinable
     public func getFindingHistory(_ input: GetFindingHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingHistoryResponse {
@@ -1580,7 +2113,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF).
+    ///  Returns the history of a Security Hub finding for the past 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and  UpdatedAt fields.  This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even  when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve  the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate  that the results are incomplete. However, you should continue to specify a NextToken value until you receive a  response that doesn't include this value.
     ///
     /// Parameters:
     ///   - endTime:  An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is  limited to 90 days. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
@@ -1606,6 +2139,41 @@ public struct SecurityHub: AWSService {
             startTime: startTime
         )
         return try await self.getFindingHistory(input, logger: logger)
+    }
+
+    /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement.  You must have permission to perform the s action. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func getFindingStatisticsV2(_ input: GetFindingStatisticsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingStatisticsV2Response {
+        try await self.client.execute(
+            operation: "GetFindingStatisticsV2", 
+            path: "/findingsv2/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement.  You must have permission to perform the s action. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - groupByRules: Specifies how security findings should be aggregated and organized in the statistical analysis.  It can accept up to 5 groupBy fields in a single call.
+    ///   - maxStatisticResults: The maximum number of results to be returned.
+    ///   - sortOrder: Orders the aggregation count in descending or ascending order.  Descending order is the default.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFindingStatisticsV2(
+        groupByRules: [GroupByRule]? = nil,
+        maxStatisticResults: Int? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFindingStatisticsV2Response {
+        let input = GetFindingStatisticsV2Request(
+            groupByRules: groupByRules, 
+            maxStatisticResults: maxStatisticResults, 
+            sortOrder: sortOrder
+        )
+        return try await self.getFindingStatisticsV2(input, logger: logger)
     }
 
     /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
@@ -1644,6 +2212,44 @@ public struct SecurityHub: AWSService {
             sortCriteria: sortCriteria
         )
         return try await self.getFindings(input, logger: logger)
+    }
+
+    /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement.  You must have permission to perform the securityhub:GetFindings action. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func getFindingsV2(_ input: GetFindingsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsV2Response {
+        try await self.client.execute(
+            operation: "GetFindingsV2", 
+            path: "/findingsv2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement.  You must have permission to perform the securityhub:GetFindings action. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - filters: The finding attributes used to define a condition to filter the returned OCSF findings.  You can filter up to 10 composite filters.  For each filter type inside of a composite filter, you can provide up to 20 filters.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken:  The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    ///   - sortCriteria: The finding attributes used to sort the list of returned findings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFindingsV2(
+        filters: OcsfFindingFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFindingsV2Response {
+        let input = GetFindingsV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortCriteria: sortCriteria
+        )
+        return try await self.getFindingsV2(input, logger: logger)
     }
 
     /// Lists the results of the Security Hub insight specified by the insight ARN.
@@ -1793,6 +2399,79 @@ public struct SecurityHub: AWSService {
         return try await self.getMembers(input, logger: logger)
     }
 
+    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func getResourcesStatisticsV2(_ input: GetResourcesStatisticsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcesStatisticsV2Response {
+        try await self.client.execute(
+            operation: "GetResourcesStatisticsV2", 
+            path: "/resourcesv2/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - groupByRules: How resource statistics should be aggregated and organized in the response.
+    ///   - maxStatisticResults: The maximum number of results to be returned.
+    ///   - sortOrder: Sorts aggregated statistics.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcesStatisticsV2(
+        groupByRules: [ResourceGroupByRule]? = nil,
+        maxStatisticResults: Int? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcesStatisticsV2Response {
+        let input = GetResourcesStatisticsV2Request(
+            groupByRules: groupByRules, 
+            maxStatisticResults: maxStatisticResults, 
+            sortOrder: sortOrder
+        )
+        return try await self.getResourcesStatisticsV2(input, logger: logger)
+    }
+
+    /// Returns a list of resources. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func getResourcesV2(_ input: GetResourcesV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcesV2Response {
+        try await self.client.execute(
+            operation: "GetResourcesV2", 
+            path: "/resourcesv2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of resources. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - filters: Filters resources based on a set of criteria.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    ///   - sortCriteria: The finding attributes used to sort the list of returned findings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcesV2(
+        filters: ResourcesFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcesV2Response {
+        let input = GetResourcesV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortCriteria: sortCriteria
+        )
+        return try await self.getResourcesV2(input, logger: logger)
+    }
+
     ///  Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
     @Sendable
     @inlinable
@@ -1851,6 +2530,38 @@ public struct SecurityHub: AWSService {
         return try await self.inviteMembers(input, logger: logger)
     }
 
+    /// Retrieves a list of V2 aggregators. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func listAggregatorsV2(_ input: ListAggregatorsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAggregatorsV2Response {
+        try await self.client.execute(
+            operation: "ListAggregatorsV2", 
+            path: "/aggregatorv2/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of V2 aggregators. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAggregatorsV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAggregatorsV2Response {
+        let input = ListAggregatorsV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAggregatorsV2(input, logger: logger)
+    }
+
     ///  A list of automation rules and their metadata for the calling account.
     @Sendable
     @inlinable
@@ -1881,6 +2592,38 @@ public struct SecurityHub: AWSService {
             nextToken: nextToken
         )
         return try await self.listAutomationRules(input, logger: logger)
+    }
+
+    /// Returns a list of automation rules and metadata for the calling account. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func listAutomationRulesV2(_ input: ListAutomationRulesV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomationRulesV2Response {
+        try await self.client.execute(
+            operation: "ListAutomationRulesV2", 
+            path: "/automationrulesv2/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of automation rules and metadata for the calling account. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutomationRulesV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutomationRulesV2Response {
+        let input = ListAutomationRulesV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAutomationRulesV2(input, logger: logger)
     }
 
     ///  Lists the configuration policies that the Security Hub delegated administrator has created for your  organization. Only the delegated administrator can invoke this operation from the home Region.
@@ -1948,6 +2691,44 @@ public struct SecurityHub: AWSService {
             nextToken: nextToken
         )
         return try await self.listConfigurationPolicyAssociations(input, logger: logger)
+    }
+
+    /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account. This API is in preview release and subject to change.
+    @Sendable
+    @inlinable
+    public func listConnectorsV2(_ input: ListConnectorsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorsV2Response {
+        try await self.client.execute(
+            operation: "ListConnectorsV2", 
+            path: "/connectorsv2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account. This API is in preview release and subject to change.
+    ///
+    /// Parameters:
+    ///   - connectorStatus: The status for the connectorV2.
+    ///   - maxResults: The maximum number of results to be returned.
+    ///   - nextToken: The pagination token per the Amazon Web Services Pagination standard
+    ///   - providerName: The name of the third-party provider.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectorsV2(
+        connectorStatus: ConnectorStatus? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        providerName: ConnectorProviderName? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectorsV2Response {
+        let input = ListConnectorsV2Request(
+            connectorStatus: connectorStatus, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            providerName: providerName
+        )
+        return try await self.listConnectorsV2(input, logger: logger)
     }
 
     /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
@@ -2099,16 +2880,19 @@ public struct SecurityHub: AWSService {
     /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
     ///
     /// Parameters:
+    ///   - feature: The feature where the delegated administrator account is listed.  Defaults to Security Hub if not specified.
     ///   - maxResults: The maximum number of items to return in the response.
     ///   - nextToken: The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listOrganizationAdminAccounts(
+        feature: SecurityHubFeature? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListOrganizationAdminAccountsResponse {
         let input = ListOrganizationAdminAccountsRequest(
+            feature: feature, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -2377,6 +3161,88 @@ public struct SecurityHub: AWSService {
         return try await self.updateActionTarget(input, logger: logger)
     }
 
+    /// Udpates the configuration for the Aggregator V2. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func updateAggregatorV2(_ input: UpdateAggregatorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAggregatorV2Response {
+        try await self.client.execute(
+            operation: "UpdateAggregatorV2", 
+            path: "/aggregatorv2/update/{AggregatorV2Arn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Udpates the configuration for the Aggregator V2. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - aggregatorV2Arn: The ARN of the Aggregator V2.
+    ///   - linkedRegions: A list of Amazon Web Services Regions linked to the aggegation Region.
+    ///   - regionLinkingMode: Determines how Amazon Web Services Regions should be linked to the Aggregator V2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAggregatorV2(
+        aggregatorV2Arn: String,
+        linkedRegions: [String]? = nil,
+        regionLinkingMode: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAggregatorV2Response {
+        let input = UpdateAggregatorV2Request(
+            aggregatorV2Arn: aggregatorV2Arn, 
+            linkedRegions: linkedRegions, 
+            regionLinkingMode: regionLinkingMode
+        )
+        return try await self.updateAggregatorV2(input, logger: logger)
+    }
+
+    /// Updates a V2 automation rule. This API is in private preview and subject to change.
+    @Sendable
+    @inlinable
+    public func updateAutomationRuleV2(_ input: UpdateAutomationRuleV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutomationRuleV2Response {
+        try await self.client.execute(
+            operation: "UpdateAutomationRuleV2", 
+            path: "/automationrulesv2/{Identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a V2 automation rule. This API is in private preview and subject to change.
+    ///
+    /// Parameters:
+    ///   - actions: A list of actions to be performed when the rule criteria is met.
+    ///   - criteria: The filtering type and configuration of the automation rule.
+    ///   - description: A description of the automation rule.
+    ///   - identifier: The ARN of the automation rule.
+    ///   - ruleName: The name of the automation rule.
+    ///   - ruleOrder: Represents a value for the rule priority.
+    ///   - ruleStatus: The status of the automation rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAutomationRuleV2(
+        actions: [AutomationRulesActionV2]? = nil,
+        criteria: Criteria? = nil,
+        description: String? = nil,
+        identifier: String,
+        ruleName: String? = nil,
+        ruleOrder: Float? = nil,
+        ruleStatus: RuleStatusV2? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAutomationRuleV2Response {
+        let input = UpdateAutomationRuleV2Request(
+            actions: actions, 
+            criteria: criteria, 
+            description: description, 
+            identifier: identifier, 
+            ruleName: ruleName, 
+            ruleOrder: ruleOrder, 
+            ruleStatus: ruleStatus
+        )
+        return try await self.updateAutomationRuleV2(input, logger: logger)
+    }
+
     ///  Updates a configuration policy. Only the Security Hub delegated  administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
@@ -2416,6 +3282,44 @@ public struct SecurityHub: AWSService {
             updatedReason: updatedReason
         )
         return try await self.updateConfigurationPolicy(input, logger: logger)
+    }
+
+    /// Grants permission to update a connectorV2 based on its id and input parameters. This API is in preview release and subject to change.
+    @Sendable
+    @inlinable
+    public func updateConnectorV2(_ input: UpdateConnectorV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectorV2Response {
+        try await self.client.execute(
+            operation: "UpdateConnectorV2", 
+            path: "/connectorsv2/{ConnectorId+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to update a connectorV2 based on its id and input parameters. This API is in preview release and subject to change.
+    ///
+    /// Parameters:
+    ///   - clientSecret: The clientSecret of ServiceNow.
+    ///   - connectorId: The UUID of the connectorV2 to identify connectorV2 resource.
+    ///   - description: The description of the connectorV2.
+    ///   - provider: The third-party provider’s service configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnectorV2(
+        clientSecret: String? = nil,
+        connectorId: String,
+        description: String? = nil,
+        provider: ProviderUpdateConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectorV2Response {
+        let input = UpdateConnectorV2Request(
+            clientSecret: clientSecret, 
+            connectorId: connectorId, 
+            description: description, 
+            provider: provider
+        )
+        return try await self.updateConnectorV2(input, logger: logger)
     }
 
     ///  The aggregation Region is now called the home Region.  Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list  of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region. You can invoke this operation from the current home Region only.
@@ -2751,6 +3655,40 @@ extension SecurityHub {
         return self.describeProductsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeProductsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeProductsV2Paginator(
+        _ input: DescribeProductsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeProductsV2Request, DescribeProductsV2Response> {
+        return .init(
+            input: input,
+            command: self.describeProductsV2,
+            inputKey: \DescribeProductsV2Request.nextToken,
+            outputKey: \DescribeProductsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeProductsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeProductsV2Paginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeProductsV2Request, DescribeProductsV2Response> {
+        let input = DescribeProductsV2Request(
+            maxResults: maxResults
+        )
+        return self.describeProductsV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeStandards(_:logger:)``.
     ///
     /// - Parameters:
@@ -2942,6 +3880,46 @@ extension SecurityHub {
         return self.getFindingsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getFindingsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getFindingsV2Paginator(
+        _ input: GetFindingsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetFindingsV2Request, GetFindingsV2Response> {
+        return .init(
+            input: input,
+            command: self.getFindingsV2,
+            inputKey: \GetFindingsV2Request.nextToken,
+            outputKey: \GetFindingsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getFindingsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The finding attributes used to define a condition to filter the returned OCSF findings.  You can filter up to 10 composite filters.  For each filter type inside of a composite filter, you can provide up to 20 filters.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - sortCriteria: The finding attributes used to sort the list of returned findings.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getFindingsV2Paginator(
+        filters: OcsfFindingFilters? = nil,
+        maxResults: Int? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetFindingsV2Request, GetFindingsV2Response> {
+        let input = GetFindingsV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            sortCriteria: sortCriteria
+        )
+        return self.getFindingsV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getInsights(_:logger:)``.
     ///
     /// - Parameters:
@@ -2977,6 +3955,80 @@ extension SecurityHub {
             maxResults: maxResults
         )
         return self.getInsightsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getResourcesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getResourcesV2Paginator(
+        _ input: GetResourcesV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetResourcesV2Request, GetResourcesV2Response> {
+        return .init(
+            input: input,
+            command: self.getResourcesV2,
+            inputKey: \GetResourcesV2Request.nextToken,
+            outputKey: \GetResourcesV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getResourcesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters resources based on a set of criteria.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - sortCriteria: The finding attributes used to sort the list of returned findings.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getResourcesV2Paginator(
+        filters: ResourcesFilters? = nil,
+        maxResults: Int? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetResourcesV2Request, GetResourcesV2Response> {
+        let input = GetResourcesV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            sortCriteria: sortCriteria
+        )
+        return self.getResourcesV2Paginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAggregatorsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAggregatorsV2Paginator(
+        _ input: ListAggregatorsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAggregatorsV2Request, ListAggregatorsV2Response> {
+        return .init(
+            input: input,
+            command: self.listAggregatorsV2,
+            inputKey: \ListAggregatorsV2Request.nextToken,
+            outputKey: \ListAggregatorsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAggregatorsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAggregatorsV2Paginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAggregatorsV2Request, ListAggregatorsV2Response> {
+        let input = ListAggregatorsV2Request(
+            maxResults: maxResults
+        )
+        return self.listAggregatorsV2Paginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listConfigurationPolicies(_:logger:)``.
@@ -3210,14 +4262,17 @@ extension SecurityHub {
     /// Return PaginatorSequence for operation ``listOrganizationAdminAccounts(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - feature: The feature where the delegated administrator account is listed.  Defaults to Security Hub if not specified.
     ///   - maxResults: The maximum number of items to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
     public func listOrganizationAdminAccountsPaginator(
+        feature: SecurityHubFeature? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListOrganizationAdminAccountsRequest, ListOrganizationAdminAccountsResponse> {
         let input = ListOrganizationAdminAccountsRequest(
+            feature: feature, 
             maxResults: maxResults
         )
         return self.listOrganizationAdminAccountsPaginator(input, logger: logger)
@@ -3320,6 +4375,16 @@ extension SecurityHub.DescribeProductsRequest: AWSPaginateToken {
     }
 }
 
+extension SecurityHub.DescribeProductsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeProductsV2Request {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension SecurityHub.DescribeStandardsControlsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsControlsRequest {
@@ -3377,11 +4442,45 @@ extension SecurityHub.GetFindingsRequest: AWSPaginateToken {
     }
 }
 
+extension SecurityHub.GetFindingsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetFindingsV2Request {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
+        )
+    }
+}
+
 extension SecurityHub.GetInsightsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetInsightsRequest {
         return .init(
             insightArns: self.insightArns,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SecurityHub.GetResourcesV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetResourcesV2Request {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
+        )
+    }
+}
+
+extension SecurityHub.ListAggregatorsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListAggregatorsV2Request {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -3454,6 +4553,7 @@ extension SecurityHub.ListOrganizationAdminAccountsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityHub.ListOrganizationAdminAccountsRequest {
         return .init(
+            feature: self.feature,
             maxResults: self.maxResults,
             nextToken: token
         )

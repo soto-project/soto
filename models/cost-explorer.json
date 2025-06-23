@@ -73,10 +73,16 @@
                     "target": "com.amazonaws.costexplorer#GetCostAndUsage"
                 },
                 {
+                    "target": "com.amazonaws.costexplorer#GetCostAndUsageComparisons"
+                },
+                {
                     "target": "com.amazonaws.costexplorer#GetCostAndUsageWithResources"
                 },
                 {
                     "target": "com.amazonaws.costexplorer#GetCostCategories"
+                },
+                {
+                    "target": "com.amazonaws.costexplorer#GetCostComparisonDrivers"
                 },
                 {
                     "target": "com.amazonaws.costexplorer#GetCostForecast"
@@ -184,12 +190,6 @@
                 "smithy.rules#endpointRuleSet": {
                     "version": "1.0",
                     "parameters": {
-                        "Region": {
-                            "builtIn": "AWS::Region",
-                            "required": false,
-                            "documentation": "The AWS region used to dispatch the request.",
-                            "type": "String"
-                        },
                         "UseDualStack": {
                             "builtIn": "AWS::UseDualStack",
                             "required": true,
@@ -208,6 +208,12 @@
                             "builtIn": "SDK::Endpoint",
                             "required": false,
                             "documentation": "Override the endpoint used to send this request",
+                            "type": "String"
+                        },
+                        "Region": {
+                            "builtIn": "AWS::Region",
+                            "required": false,
+                            "documentation": "The AWS region used to dispatch the request.",
                             "type": "String"
                         }
                     },
@@ -240,377 +246,11 @@
                                     "type": "error"
                                 },
                                 {
-                                    "conditions": [
-                                        {
-                                            "fn": "booleanEquals",
-                                            "argv": [
-                                                {
-                                                    "ref": "UseDualStack"
-                                                },
-                                                true
-                                            ]
-                                        }
-                                    ],
-                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                    "type": "error"
-                                },
-                                {
                                     "conditions": [],
-                                    "endpoint": {
-                                        "url": {
-                                            "ref": "Endpoint"
-                                        },
-                                        "properties": {},
-                                        "headers": {}
-                                    },
-                                    "type": "endpoint"
-                                }
-                            ],
-                            "type": "tree"
-                        },
-                        {
-                            "conditions": [
-                                {
-                                    "fn": "isSet",
-                                    "argv": [
-                                        {
-                                            "ref": "Region"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "rules": [
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "aws.partition",
-                                            "argv": [
-                                                {
-                                                    "ref": "Region"
-                                                }
-                                            ],
-                                            "assign": "PartitionResult"
-                                        }
-                                    ],
                                     "rules": [
                                         {
                                             "conditions": [
                                                 {
-                                                    "fn": "stringEquals",
-                                                    "argv": [
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "name"
-                                                            ]
-                                                        },
-                                                        "aws"
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        false
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseDualStack"
-                                                        },
-                                                        false
-                                                    ]
-                                                }
-                                            ],
-                                            "endpoint": {
-                                                "url": "https://ce.us-east-1.amazonaws.com",
-                                                "properties": {
-                                                    "authSchemes": [
-                                                        {
-                                                            "name": "sigv4",
-                                                            "signingName": "ce",
-                                                            "signingRegion": "us-east-1"
-                                                        }
-                                                    ]
-                                                },
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "stringEquals",
-                                                    "argv": [
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "name"
-                                                            ]
-                                                        },
-                                                        "aws-cn"
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        false
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseDualStack"
-                                                        },
-                                                        false
-                                                    ]
-                                                }
-                                            ],
-                                            "endpoint": {
-                                                "url": "https://ce.cn-northwest-1.amazonaws.com.cn",
-                                                "properties": {
-                                                    "authSchemes": [
-                                                        {
-                                                            "name": "sigv4",
-                                                            "signingName": "ce",
-                                                            "signingRegion": "cn-northwest-1"
-                                                        }
-                                                    ]
-                                                },
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "stringEquals",
-                                                    "argv": [
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "name"
-                                                            ]
-                                                        },
-                                                        "aws-iso"
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        false
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseDualStack"
-                                                        },
-                                                        false
-                                                    ]
-                                                }
-                                            ],
-                                            "endpoint": {
-                                                "url": "https://ce.us-iso-east-1.c2s.ic.gov",
-                                                "properties": {
-                                                    "authSchemes": [
-                                                        {
-                                                            "name": "sigv4",
-                                                            "signingName": "ce",
-                                                            "signingRegion": "us-iso-east-1"
-                                                        }
-                                                    ]
-                                                },
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "stringEquals",
-                                                    "argv": [
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "name"
-                                                            ]
-                                                        },
-                                                        "aws-iso-b"
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        false
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseDualStack"
-                                                        },
-                                                        false
-                                                    ]
-                                                }
-                                            ],
-                                            "endpoint": {
-                                                "url": "https://ce.us-isob-east-1.sc2s.sgov.gov",
-                                                "properties": {
-                                                    "authSchemes": [
-                                                        {
-                                                            "name": "sigv4",
-                                                            "signingName": "ce",
-                                                            "signingRegion": "us-isob-east-1"
-                                                        }
-                                                    ]
-                                                },
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "stringEquals",
-                                                    "argv": [
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "name"
-                                                            ]
-                                                        },
-                                                        "aws-iso-e"
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        false
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseDualStack"
-                                                        },
-                                                        false
-                                                    ]
-                                                }
-                                            ],
-                                            "endpoint": {
-                                                "url": "https://ce.eu-isoe-west-1.cloud.adc-e.uk",
-                                                "properties": {
-                                                    "authSchemes": [
-                                                        {
-                                                            "name": "sigv4",
-                                                            "signingName": "ce",
-                                                            "signingRegion": "eu-isoe-west-1"
-                                                        }
-                                                    ]
-                                                },
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "stringEquals",
-                                                    "argv": [
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "name"
-                                                            ]
-                                                        },
-                                                        "aws-iso-f"
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        false
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseDualStack"
-                                                        },
-                                                        false
-                                                    ]
-                                                }
-                                            ],
-                                            "endpoint": {
-                                                "url": "https://ce.us-isof-south-1.csp.hci.ic.gov",
-                                                "properties": {
-                                                    "authSchemes": [
-                                                        {
-                                                            "name": "sigv4",
-                                                            "signingName": "ce",
-                                                            "signingRegion": "us-isof-south-1"
-                                                        }
-                                                    ]
-                                                },
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        true
-                                                    ]
-                                                },
-                                                {
                                                     "fn": "booleanEquals",
                                                     "argv": [
                                                         {
@@ -620,169 +260,15 @@
                                                     ]
                                                 }
                                             ],
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                true,
-                                                                {
-                                                                    "fn": "getAttr",
-                                                                    "argv": [
-                                                                        {
-                                                                            "ref": "PartitionResult"
-                                                                        },
-                                                                        "supportsFIPS"
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                true,
-                                                                {
-                                                                    "fn": "getAttr",
-                                                                    "argv": [
-                                                                        {
-                                                                            "ref": "PartitionResult"
-                                                                        },
-                                                                        "supportsDualStack"
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://ce-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ],
-                                                    "type": "tree"
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                                    "type": "error"
-                                                }
-                                            ],
-                                            "type": "tree"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseFIPS"
-                                                        },
-                                                        true
-                                                    ]
-                                                }
-                                            ],
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                {
-                                                                    "fn": "getAttr",
-                                                                    "argv": [
-                                                                        {
-                                                                            "ref": "PartitionResult"
-                                                                        },
-                                                                        "supportsFIPS"
-                                                                    ]
-                                                                },
-                                                                true
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://ce-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ],
-                                                    "type": "tree"
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "error": "FIPS is enabled but this partition does not support FIPS",
-                                                    "type": "error"
-                                                }
-                                            ],
-                                            "type": "tree"
-                                        },
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        {
-                                                            "ref": "UseDualStack"
-                                                        },
-                                                        true
-                                                    ]
-                                                }
-                                            ],
-                                            "rules": [
-                                                {
-                                                    "conditions": [
-                                                        {
-                                                            "fn": "booleanEquals",
-                                                            "argv": [
-                                                                true,
-                                                                {
-                                                                    "fn": "getAttr",
-                                                                    "argv": [
-                                                                        {
-                                                                            "ref": "PartitionResult"
-                                                                        },
-                                                                        "supportsDualStack"
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ],
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://ce.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ],
-                                                    "type": "tree"
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "error": "DualStack is enabled but this partition does not support DualStack",
-                                                    "type": "error"
-                                                }
-                                            ],
-                                            "type": "tree"
+                                            "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                            "type": "error"
                                         },
                                         {
                                             "conditions": [],
                                             "endpoint": {
-                                                "url": "https://ce.{Region}.{PartitionResult#dnsSuffix}",
+                                                "url": {
+                                                    "ref": "Endpoint"
+                                                },
                                                 "properties": {},
                                                 "headers": {}
                                             },
@@ -796,39 +282,630 @@
                         },
                         {
                             "conditions": [],
-                            "error": "Invalid Configuration: Missing Region",
-                            "type": "error"
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "isSet",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "aws.partition",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "Region"
+                                                        }
+                                                    ],
+                                                    "assign": "PartitionResult"
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "stringEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "name"
+                                                                    ]
+                                                                },
+                                                                "aws"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                false
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                true
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "endpoint": {
+                                                        "url": "https://ce.us-east-1.api.aws",
+                                                        "properties": {
+                                                            "authSchemes": [
+                                                                {
+                                                                    "name": "sigv4",
+                                                                    "signingRegion": "us-east-1"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "stringEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "name"
+                                                                    ]
+                                                                },
+                                                                "aws-cn"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                false
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                true
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "endpoint": {
+                                                        "url": "https://ce.cn-northwest-1.api.amazonwebservices.com.cn",
+                                                        "properties": {
+                                                            "authSchemes": [
+                                                                {
+                                                                    "name": "sigv4",
+                                                                    "signingRegion": "cn-northwest-1"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "stringEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "name"
+                                                                    ]
+                                                                },
+                                                                "aws-iso"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                false
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                false
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "endpoint": {
+                                                        "url": "https://ce.us-iso-east-1.c2s.ic.gov",
+                                                        "properties": {
+                                                            "authSchemes": [
+                                                                {
+                                                                    "name": "sigv4",
+                                                                    "signingRegion": "us-iso-east-1"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "stringEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "name"
+                                                                    ]
+                                                                },
+                                                                "aws-iso-b"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                false
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                false
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "endpoint": {
+                                                        "url": "https://ce.us-isob-east-1.sc2s.sgov.gov",
+                                                        "properties": {
+                                                            "authSchemes": [
+                                                                {
+                                                                    "name": "sigv4",
+                                                                    "signingRegion": "us-isob-east-1"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "stringEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "name"
+                                                                    ]
+                                                                },
+                                                                "aws-iso-e"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                false
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                false
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "endpoint": {
+                                                        "url": "https://ce.eu-isoe-west-1.cloud.adc-e.uk",
+                                                        "properties": {
+                                                            "authSchemes": [
+                                                                {
+                                                                    "name": "sigv4",
+                                                                    "signingRegion": "eu-isoe-west-1"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "stringEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "name"
+                                                                    ]
+                                                                },
+                                                                "aws-iso-f"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                false
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                false
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "endpoint": {
+                                                        "url": "https://ce.us-isof-south-1.csp.hci.ic.gov",
+                                                        "properties": {
+                                                            "authSchemes": [
+                                                                {
+                                                                    "name": "sigv4",
+                                                                    "signingRegion": "us-isof-south-1"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                true
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                true
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "booleanEquals",
+                                                                    "argv": [
+                                                                        true,
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "supportsFIPS"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "fn": "booleanEquals",
+                                                                    "argv": [
+                                                                        true,
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "supportsDualStack"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "rules": [
+                                                                {
+                                                                    "conditions": [],
+                                                                    "endpoint": {
+                                                                        "url": "https://ce-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}",
+                                                                        "properties": {
+                                                                            "authSchemes": [
+                                                                                {
+                                                                                    "name": "sigv4",
+                                                                                    "signingRegion": "{PartitionResult#implicitGlobalRegion}"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "headers": {}
+                                                                    },
+                                                                    "type": "endpoint"
+                                                                }
+                                                            ],
+                                                            "type": "tree"
+                                                        },
+                                                        {
+                                                            "conditions": [],
+                                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                            "type": "error"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                true
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                false
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "booleanEquals",
+                                                                    "argv": [
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "supportsFIPS"
+                                                                            ]
+                                                                        },
+                                                                        true
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "rules": [
+                                                                {
+                                                                    "conditions": [],
+                                                                    "endpoint": {
+                                                                        "url": "https://ce-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}",
+                                                                        "properties": {
+                                                                            "authSchemes": [
+                                                                                {
+                                                                                    "name": "sigv4",
+                                                                                    "signingRegion": "{PartitionResult#implicitGlobalRegion}"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "headers": {}
+                                                                    },
+                                                                    "type": "endpoint"
+                                                                }
+                                                            ],
+                                                            "type": "tree"
+                                                        },
+                                                        {
+                                                            "conditions": [],
+                                                            "error": "FIPS is enabled but this partition does not support FIPS",
+                                                            "type": "error"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseFIPS"
+                                                                },
+                                                                false
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                {
+                                                                    "ref": "UseDualStack"
+                                                                },
+                                                                true
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "booleanEquals",
+                                                                    "argv": [
+                                                                        true,
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "supportsDualStack"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "rules": [
+                                                                {
+                                                                    "conditions": [],
+                                                                    "endpoint": {
+                                                                        "url": "https://ce.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}",
+                                                                        "properties": {
+                                                                            "authSchemes": [
+                                                                                {
+                                                                                    "name": "sigv4",
+                                                                                    "signingRegion": "{PartitionResult#implicitGlobalRegion}"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "headers": {}
+                                                                    },
+                                                                    "type": "endpoint"
+                                                                }
+                                                            ],
+                                                            "type": "tree"
+                                                        },
+                                                        {
+                                                            "conditions": [],
+                                                            "error": "DualStack is enabled but this partition does not support DualStack",
+                                                            "type": "error"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "endpoint": {
+                                                        "url": "https://ce.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}",
+                                                        "properties": {
+                                                            "authSchemes": [
+                                                                {
+                                                                    "name": "sigv4",
+                                                                    "signingRegion": "{PartitionResult#implicitGlobalRegion}"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        }
+                                    ],
+                                    "type": "tree"
+                                },
+                                {
+                                    "conditions": [],
+                                    "error": "Invalid Configuration: Missing Region",
+                                    "type": "error"
+                                }
+                            ],
+                            "type": "tree"
                         }
                     ]
                 },
                 "smithy.rules#endpointTests": {
                     "testCases": [
                         {
-                            "documentation": "For region aws-global with FIPS disabled and DualStack disabled",
+                            "documentation": "For custom endpoint with region not set and fips disabled",
                             "expect": {
                                 "endpoint": {
-                                    "properties": {
-                                        "authSchemes": [
-                                            {
-                                                "name": "sigv4",
-                                                "signingName": "ce",
-                                                "signingRegion": "us-east-1"
-                                            }
-                                        ]
-                                    },
-                                    "url": "https://ce.us-east-1.amazonaws.com"
+                                    "url": "https://example.com"
                                 }
                             },
                             "params": {
-                                "Region": "aws-global",
+                                "Endpoint": "https://example.com",
+                                "UseFIPS": false
+                            }
+                        },
+                        {
+                            "documentation": "For custom endpoint with fips enabled",
+                            "expect": {
+                                "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
+                            },
+                            "params": {
+                                "Endpoint": "https://example.com",
+                                "UseFIPS": true
+                            }
+                        },
+                        {
+                            "documentation": "For custom endpoint with fips disabled and dualstack enabled",
+                            "expect": {
+                                "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                            },
+                            "params": {
+                                "Endpoint": "https://example.com",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": true
                             }
                         },
                         {
                             "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-east-1"
+                                            }
+                                        ]
+                                    },
                                     "url": "https://ce-fips.us-east-1.api.aws"
                                 }
                             },
@@ -842,6 +919,14 @@
                             "documentation": "For region us-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-east-1"
+                                            }
+                                        ]
+                                    },
                                     "url": "https://ce-fips.us-east-1.amazonaws.com"
                                 }
                             },
@@ -855,6 +940,14 @@
                             "documentation": "For region us-east-1 with FIPS disabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-east-1"
+                                            }
+                                        ]
+                                    },
                                     "url": "https://ce.us-east-1.api.aws"
                                 }
                             },
@@ -872,7 +965,6 @@
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
                                                 "signingRegion": "us-east-1"
                                             }
                                         ]
@@ -887,14 +979,76 @@
                             }
                         },
                         {
-                            "documentation": "For region aws-cn-global with FIPS disabled and DualStack disabled",
+                            "documentation": "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
                                     "properties": {
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
+                                                "signingRegion": "cn-northwest-1"
+                                            }
+                                        ]
+                                    },
+                                    "url": "https://ce-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-northwest-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "cn-northwest-1"
+                                            }
+                                        ]
+                                    },
+                                    "url": "https://ce-fips.cn-northwest-1.amazonaws.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-northwest-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "cn-northwest-1"
+                                            }
+                                        ]
+                                    },
+                                    "url": "https://ce.cn-northwest-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-northwest-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
                                                 "signingRegion": "cn-northwest-1"
                                             }
                                         ]
@@ -903,142 +1057,91 @@
                                 }
                             },
                             "params": {
-                                "Region": "aws-cn-global",
+                                "Region": "cn-northwest-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
                         {
-                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://ce-fips.cn-north-1.api.amazonwebservices.com.cn"
-                                }
-                            },
-                            "params": {
-                                "Region": "cn-north-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://ce-fips.cn-north-1.amazonaws.com.cn"
-                                }
-                            },
-                            "params": {
-                                "Region": "cn-north-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://ce.cn-north-1.api.amazonwebservices.com.cn"
-                                }
-                            },
-                            "params": {
-                                "Region": "cn-north-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
                                     "properties": {
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
-                                                "signingRegion": "cn-northwest-1"
+                                                "signingRegion": "us-gov-west-1"
                                             }
                                         ]
                                     },
-                                    "url": "https://ce.cn-northwest-1.amazonaws.com.cn"
+                                    "url": "https://ce-fips.us-gov-west-1.api.aws"
                                 }
                             },
                             "params": {
-                                "Region": "cn-north-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://ce-fips.us-gov-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-gov-east-1",
+                                "Region": "us-gov-west-1",
                                 "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
                         {
-                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://ce-fips.us-gov-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://ce.us-gov-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://ce.us-gov-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region aws-iso-global with FIPS disabled and DualStack disabled",
+                            "documentation": "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
                                     "properties": {
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
-                                                "signingRegion": "us-iso-east-1"
+                                                "signingRegion": "us-gov-west-1"
                                             }
                                         ]
                                     },
-                                    "url": "https://ce.us-iso-east-1.c2s.ic.gov"
+                                    "url": "https://ce-fips.us-gov-west-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "Region": "aws-iso-global",
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-gov-west-1"
+                                            }
+                                        ]
+                                    },
+                                    "url": "https://ce.us-gov-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-west-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-gov-west-1"
+                                            }
+                                        ]
+                                    },
+                                    "url": "https://ce.us-gov-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-west-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
                             }
@@ -1058,6 +1161,14 @@
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-iso-east-1"
+                                            }
+                                        ]
+                                    },
                                     "url": "https://ce-fips.us-iso-east-1.c2s.ic.gov"
                                 }
                             },
@@ -1086,7 +1197,6 @@
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
                                                 "signingRegion": "us-iso-east-1"
                                             }
                                         ]
@@ -1096,28 +1206,6 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region aws-iso-b-global with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "properties": {
-                                        "authSchemes": [
-                                            {
-                                                "name": "sigv4",
-                                                "signingName": "ce",
-                                                "signingRegion": "us-isob-east-1"
-                                            }
-                                        ]
-                                    },
-                                    "url": "https://ce.us-isob-east-1.sc2s.sgov.gov"
-                                }
-                            },
-                            "params": {
-                                "Region": "aws-iso-b-global",
                                 "UseFIPS": false,
                                 "UseDualStack": false
                             }
@@ -1137,6 +1225,14 @@
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-isob-east-1"
+                                            }
+                                        ]
+                                    },
                                     "url": "https://ce-fips.us-isob-east-1.sc2s.sgov.gov"
                                 }
                             },
@@ -1165,7 +1261,6 @@
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
                                                 "signingRegion": "us-isob-east-1"
                                             }
                                         ]
@@ -1180,6 +1275,49 @@
                             }
                         },
                         {
+                            "documentation": "For region eu-isoe-west-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "eu-isoe-west-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-isoe-west-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "eu-isoe-west-1"
+                                            }
+                                        ]
+                                    },
+                                    "url": "https://ce-fips.eu-isoe-west-1.cloud.adc-e.uk"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-isoe-west-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-isoe-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "eu-isoe-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region eu-isoe-west-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1187,7 +1325,6 @@
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
                                                 "signingRegion": "eu-isoe-west-1"
                                             }
                                         ]
@@ -1202,6 +1339,49 @@
                             }
                         },
                         {
+                            "documentation": "For region us-isof-south-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-isof-south-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isof-south-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "properties": {
+                                        "authSchemes": [
+                                            {
+                                                "name": "sigv4",
+                                                "signingRegion": "us-isof-south-1"
+                                            }
+                                        ]
+                                    },
+                                    "url": "https://ce-fips.us-isof-south-1.csp.hci.ic.gov"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-isof-south-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isof-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-isof-south-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region us-isof-south-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1209,7 +1389,6 @@
                                         "authSchemes": [
                                             {
                                                 "name": "sigv4",
-                                                "signingName": "ce",
                                                 "signingRegion": "us-isof-south-1"
                                             }
                                         ]
@@ -1221,57 +1400,6 @@
                                 "Region": "us-isof-south-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For custom endpoint with region set and fips disabled and dualstack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://example.com"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Endpoint": "https://example.com"
-                            }
-                        },
-                        {
-                            "documentation": "For custom endpoint with region not set and fips disabled and dualstack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://example.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Endpoint": "https://example.com"
-                            }
-                        },
-                        {
-                            "documentation": "For custom endpoint with fips enabled and dualstack disabled",
-                            "expect": {
-                                "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
-                            },
-                            "params": {
-                                "Region": "us-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false,
-                                "Endpoint": "https://example.com"
-                            }
-                        },
-                        {
-                            "documentation": "For custom endpoint with fips disabled and dualstack enabled",
-                            "expect": {
-                                "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
-                            },
-                            "params": {
-                                "Region": "us-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true,
-                                "Endpoint": "https://example.com"
                             }
                         },
                         {
@@ -1863,6 +1991,47 @@
                 "smithy.api#documentation": "<p>The configuration for the commitment purchase analysis.</p>"
             }
         },
+        "com.amazonaws.costexplorer#ComparisonMetricValue": {
+            "type": "structure",
+            "members": {
+                "BaselineTimePeriodAmount": {
+                    "target": "com.amazonaws.costexplorer#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The numeric value for the baseline time period measurement.</p>"
+                    }
+                },
+                "ComparisonTimePeriodAmount": {
+                    "target": "com.amazonaws.costexplorer#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The numeric value for the comparison time period measurement.</p>"
+                    }
+                },
+                "Difference": {
+                    "target": "com.amazonaws.costexplorer#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The calculated difference between <code>ComparisonTimePeriodAmount</code> and\n                <code>BaselineTimePeriodAmount</code>.</p>"
+                    }
+                },
+                "Unit": {
+                    "target": "com.amazonaws.costexplorer#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unit of measurement applicable to all numeric values in this comparison.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains cost or usage metric values for comparing two time periods. Each value\n            includes amounts for the baseline and comparison time periods, their difference, and the\n            unit of measurement.</p>"
+            }
+        },
+        "com.amazonaws.costexplorer#ComparisonMetrics": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.costexplorer#MetricName"
+            },
+            "value": {
+                "target": "com.amazonaws.costexplorer#ComparisonMetricValue"
+            }
+        },
         "com.amazonaws.costexplorer#Context": {
             "type": "enum",
             "members": {
@@ -2098,6 +2267,38 @@
                 "smithy.api#range": {
                     "min": 1,
                     "max": 1000
+                }
+            }
+        },
+        "com.amazonaws.costexplorer#CostAndUsageComparison": {
+            "type": "structure",
+            "members": {
+                "CostAndUsageSelector": {
+                    "target": "com.amazonaws.costexplorer#Expression"
+                },
+                "Metrics": {
+                    "target": "com.amazonaws.costexplorer#ComparisonMetrics",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A mapping of metric names to their comparison values.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents a comparison of cost and usage metrics between two time periods.</p>"
+            }
+        },
+        "com.amazonaws.costexplorer#CostAndUsageComparisons": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.costexplorer#CostAndUsageComparison"
+            }
+        },
+        "com.amazonaws.costexplorer#CostAndUsageComparisonsMaxResults": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 2000
                 }
             }
         },
@@ -2586,6 +2787,76 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.costexplorer#CostCategoryValue"
+            }
+        },
+        "com.amazonaws.costexplorer#CostComparisonDriver": {
+            "type": "structure",
+            "members": {
+                "CostSelector": {
+                    "target": "com.amazonaws.costexplorer#Expression"
+                },
+                "Metrics": {
+                    "target": "com.amazonaws.costexplorer#ComparisonMetrics",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A mapping of metric names to their comparison values.</p>"
+                    }
+                },
+                "CostDrivers": {
+                    "target": "com.amazonaws.costexplorer#CostDrivers",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of cost drivers, each representing a cost difference between the baseline and\n            comparison time periods. Each entry also includes a metric delta (for example, usage\n            change) that contributed to the cost variance, along with the identifier and type of\n            change.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents a collection of cost drivers and their associated metrics for cost\n            comparison analysis.</p>"
+            }
+        },
+        "com.amazonaws.costexplorer#CostComparisonDrivers": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.costexplorer#CostComparisonDriver"
+            }
+        },
+        "com.amazonaws.costexplorer#CostComparisonDriversMaxResults": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 10
+                }
+            }
+        },
+        "com.amazonaws.costexplorer#CostDriver": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.costexplorer#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The category or classification of the cost driver.</p>\n         <p>Values include: BUNDLED_DISCOUNT, CREDIT, OUT_OF_CYCLE_CHARGE, REFUND,\n            RECURRING_RESERVATION_FEE, RESERVATION_USAGE, RI_VOLUME_DISCOUNT, SAVINGS_PLAN_USAGE,\n            SAVINGS_PLAN_NEGATION, SAVINGS_PLAN_RECURRING_FEE, SUPPORT_FEE, TAX,\n            UPFRONT_RESERVATION_FEE, USAGE_CHANGE, COMMITMENT</p>"
+                    }
+                },
+                "Name": {
+                    "target": "com.amazonaws.costexplorer#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The specific identifier of the cost driver.</p>"
+                    }
+                },
+                "Metrics": {
+                    "target": "com.amazonaws.costexplorer#ComparisonMetrics",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A mapping of metric names to their comparison values, measuring the impact of this\n            cost driver.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents factors that contribute to cost variations between the baseline and\n            comparison time periods, including the type of driver, an identifier of the driver, and\n            associated metrics.</p>"
+            }
+        },
+        "com.amazonaws.costexplorer#CostDrivers": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.costexplorer#CostDriver"
             }
         },
         "com.amazonaws.costexplorer#Coverage": {
@@ -4635,6 +4906,120 @@
                 "smithy.api#documentation": "<p>Retrieves cost and usage metrics for your account. You can specify which cost and\n      usage-related metric that you want the request to return. For example, you can specify\n        <code>BlendedCosts</code> or <code>UsageQuantity</code>. You can also filter and group your\n      data by various dimensions, such as <code>SERVICE</code> or <code>AZ</code>, in a specific\n      time range. For a complete list of valid dimensions, see the <a href=\"https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html\">GetDimensionValues</a> operation. Management account in an organization in Organizations have access to all member accounts.</p>\n         <p>For information about filter limitations, see <a href=\"https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-limits.html\">Quotas and restrictions</a>\n      in the <i>Billing and Cost Management User Guide</i>.</p>"
             }
         },
+        "com.amazonaws.costexplorer#GetCostAndUsageComparisons": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.costexplorer#GetCostAndUsageComparisonsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.costexplorer#GetCostAndUsageComparisonsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.costexplorer#DataUnavailableException"
+                },
+                {
+                    "target": "com.amazonaws.costexplorer#InvalidNextTokenException"
+                },
+                {
+                    "target": "com.amazonaws.costexplorer#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.costexplorer#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Retrieves cost and usage comparisons for your account between two periods within the last\n      13 months. If you have enabled multi-year data at monthly granularity, you can go back up to\n      38 months.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextPageToken",
+                    "outputToken": "NextPageToken",
+                    "items": "CostAndUsageComparisons",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.costexplorer#GetCostAndUsageComparisonsRequest": {
+            "type": "structure",
+            "members": {
+                "BillingViewArn": {
+                    "target": "com.amazonaws.costexplorer#BillingViewArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN\n      is used to specify which particular billing view you want to interact with or retrieve\n      information from when making API calls related to Amazon Web Services Billing and Cost\n      Management features. The BillingViewArn can be retrieved by calling the ListBillingViews\n      API.</p>"
+                    }
+                },
+                "BaselineTimePeriod": {
+                    "target": "com.amazonaws.costexplorer#DateInterval",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reference time period for comparison. This time period serves as the baseline against\n      which other cost and usage data will be compared. The interval must start and end on the first\n      day of a month, with a duration of exactly one month.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ComparisonTimePeriod": {
+                    "target": "com.amazonaws.costexplorer#DateInterval",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The comparison time period for analysis. This time period's cost and usage data will be\n      compared against the baseline time period. The interval must start and end on the first day of\n      a month, with a duration of exactly one month.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "MetricForComparison": {
+                    "target": "com.amazonaws.costexplorer#MetricName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The cost and usage metric to compare. Valid values are <code>AmortizedCost</code>,\n        <code>BlendedCost</code>, <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,\n        <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and\n        <code>UsageQuantity</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Filter": {
+                    "target": "com.amazonaws.costexplorer#Expression"
+                },
+                "GroupBy": {
+                    "target": "com.amazonaws.costexplorer#GroupDefinitions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>You can group results using the attributes <code>DIMENSION</code>, <code>TAG</code>, and\n        <code>COST_CATEGORY</code>. </p>"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.costexplorer#CostAndUsageComparisonsMaxResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results that are returned for the request.</p>"
+                    }
+                },
+                "NextPageToken": {
+                    "target": "com.amazonaws.costexplorer#NextPageToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token to retrieve the next set of paginated results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.costexplorer#GetCostAndUsageComparisonsResponse": {
+            "type": "structure",
+            "members": {
+                "CostAndUsageComparisons": {
+                    "target": "com.amazonaws.costexplorer#CostAndUsageComparisons",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of comparison results showing cost and usage metrics between\n        <code>BaselineTimePeriod</code> and <code>ComparisonTimePeriod</code>.</p>"
+                    }
+                },
+                "TotalCostAndUsage": {
+                    "target": "com.amazonaws.costexplorer#ComparisonMetrics",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A summary of the total cost and usage, comparing amounts between\n        <code>BaselineTimePeriod</code> and <code>ComparisonTimePeriod</code> and their differences.\n      This total represents the aggregate total across all paginated results, if the response spans\n      multiple pages.</p>"
+                    }
+                },
+                "NextPageToken": {
+                    "target": "com.amazonaws.costexplorer#NextPageToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token to retrieve the next set of paginated results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.costexplorer#GetCostAndUsageRequest": {
             "type": "structure",
             "members": {
@@ -4952,6 +5337,114 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The total number of objects.</p>",
                         "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.costexplorer#GetCostComparisonDrivers": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.costexplorer#GetCostComparisonDriversRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.costexplorer#GetCostComparisonDriversResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.costexplorer#DataUnavailableException"
+                },
+                {
+                    "target": "com.amazonaws.costexplorer#InvalidNextTokenException"
+                },
+                {
+                    "target": "com.amazonaws.costexplorer#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.costexplorer#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Retrieves key factors driving cost changes between two time periods within the last 13\n      months, such as usage changes, discount changes, and commitment-based savings. If you have\n      enabled multi-year data at monthly granularity, you can go back up to 38 months.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextPageToken",
+                    "outputToken": "NextPageToken",
+                    "items": "CostComparisonDrivers",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.costexplorer#GetCostComparisonDriversRequest": {
+            "type": "structure",
+            "members": {
+                "BillingViewArn": {
+                    "target": "com.amazonaws.costexplorer#BillingViewArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN\n      is used to specify which particular billing view you want to interact with or retrieve\n      information from when making API calls related to Amazon Web Services Billing and Cost\n      Management features. The BillingViewArn can be retrieved by calling the ListBillingViews\n      API.</p>"
+                    }
+                },
+                "BaselineTimePeriod": {
+                    "target": "com.amazonaws.costexplorer#DateInterval",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reference time period for comparison. This time period serves as the baseline against\n      which other cost and usage data will be compared. The interval must start and end on the first\n      day of a month, with a duration of exactly one month.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ComparisonTimePeriod": {
+                    "target": "com.amazonaws.costexplorer#DateInterval",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The comparison time period for analysis. This time period's cost and usage data will be\n      compared against the baseline time period. The interval must start and end on the first day of\n      a month, with a duration of exactly one month.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "MetricForComparison": {
+                    "target": "com.amazonaws.costexplorer#MetricName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The cost and usage metric to compare. Valid values are <code>AmortizedCost</code>,\n        <code>BlendedCost</code>, <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,\n        <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and\n        <code>UsageQuantity</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Filter": {
+                    "target": "com.amazonaws.costexplorer#Expression"
+                },
+                "GroupBy": {
+                    "target": "com.amazonaws.costexplorer#GroupDefinitions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>You can group results using the attributes <code>DIMENSION</code>, <code>TAG</code>, and\n        <code>COST_CATEGORY</code>. Note that <code>SERVICE</code> and <code>USAGE_TYPE</code>\n      dimensions are automatically included in the cost comparison drivers analysis.</p>"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.costexplorer#CostComparisonDriversMaxResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results that are returned for the request.</p>"
+                    }
+                },
+                "NextPageToken": {
+                    "target": "com.amazonaws.costexplorer#NextPageToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token to retrieve the next set of paginated results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.costexplorer#GetCostComparisonDriversResponse": {
+            "type": "structure",
+            "members": {
+                "CostComparisonDrivers": {
+                    "target": "com.amazonaws.costexplorer#CostComparisonDrivers",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of comparison results showing factors that drive significant cost differences\n      between <code>BaselineTimePeriod</code> and <code>ComparisonTimePeriod</code>.</p>"
+                    }
+                },
+                "NextPageToken": {
+                    "target": "com.amazonaws.costexplorer#NextPageToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token to retrieve the next set of paginated results.</p>"
                     }
                 }
             },

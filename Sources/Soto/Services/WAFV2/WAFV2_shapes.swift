@@ -399,6 +399,12 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum LowReputationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activeUnderDdos = "ACTIVE_UNDER_DDOS"
+        case alwaysOn = "ALWAYS_ON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MapMatchScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case key = "KEY"
@@ -451,6 +457,7 @@ extension WAFV2 {
         case labelMatchStatement = "LABEL_MATCH_STATEMENT"
         case logDestination = "LOG_DESTINATION"
         case loggingFilter = "LOGGING_FILTER"
+        case lowReputationMode = "LOW_REPUTATION_MODE"
         case managedRuleGroupConfig = "MANAGED_RULE_GROUP_CONFIG"
         case managedRuleSet = "MANAGED_RULE_SET"
         case managedRuleSetStatement = "MANAGED_RULE_SET_STATEMENT"
@@ -547,6 +554,13 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SensitivityToAct: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SizeInspectionLimit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kb16 = "KB_16"
         case kb32 = "KB_32"
@@ -577,6 +591,12 @@ extension WAFV2 {
         case urlDecode = "URL_DECODE"
         case urlDecodeUni = "URL_DECODE_UNI"
         case utf8ToUnicode = "UTF8_TO_UNICODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsageOfAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -696,6 +716,28 @@ extension WAFV2 {
         }
     }
 
+    public struct AWSManagedRulesAntiDDoSRuleSet: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the request handling that's applied by the managed rule group rules ChallengeAllDuringEvent and ChallengeDDoSRequests during a distributed denial of service (DDoS) attack.
+        public let clientSideActionConfig: ClientSideActionConfig
+        /// The sensitivity that the rule group rule DDoSRequests uses when matching against the  DDoS suspicion labeling on a request. The managed rule group adds the labeling during DDoS events, before the DDoSRequests rule runs.   The higher the sensitivity, the more levels of labeling that the rule matches:    Low sensitivity is less sensitive, causing the rule to match only on the most likely participants in an attack, which are the requests with the high suspicion label awswaf:managed:aws:anti-ddos:high-suspicion-ddos-request.   Medium sensitivity causes the rule to match on the medium and high suspicion labels.   High sensitivity causes the rule to match on all of the suspicion labels: low, medium, and high.   Default: LOW
+        public let sensitivityToBlock: SensitivityToAct?
+
+        @inlinable
+        public init(clientSideActionConfig: ClientSideActionConfig, sensitivityToBlock: SensitivityToAct? = nil) {
+            self.clientSideActionConfig = clientSideActionConfig
+            self.sensitivityToBlock = sensitivityToBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.clientSideActionConfig.validate(name: "\(name).clientSideActionConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientSideActionConfig = "ClientSideActionConfig"
+            case sensitivityToBlock = "SensitivityToBlock"
+        }
+    }
+
     public struct AWSManagedRulesBotControlRuleSet: AWSEncodableShape & AWSDecodableShape {
         /// Applies only to the targeted inspection level.  Determines whether to use machine learning (ML) to analyze your web traffic for bot-related activity. Machine learning is required for the Bot Control rules TGT_ML_CoordinatedActivityLow and TGT_ML_CoordinatedActivityMedium, which
         /// inspect for anomalous behavior that might indicate distributed, coordinated bot activity. For more information about this choice, see the listing for these rules in the table at Bot Control rules listing in the WAF Developer Guide. Default: TRUE
@@ -792,6 +834,86 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case statements = "Statements"
+        }
+    }
+
+    public struct ApplicationAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the attribute name.
+        public let name: String?
+        /// Specifies the attribute value.
+        public let values: [String]?
+
+        @inlinable
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 64)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 10)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct ApplicationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the attribute name and a list of values for that attribute.
+        public let attributes: [ApplicationAttribute]?
+
+        @inlinable
+        public init(attributes: [ApplicationAttribute]? = nil) {
+            self.attributes = attributes
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 10)
+            try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct AsnMatchStatement: AWSEncodableShape & AWSDecodableShape {
+        /// Contains one or more Autonomous System Numbers (ASNs).   ASNs are unique identifiers assigned to large internet networks managed by organizations such as  internet service providers, enterprises, universities, or government agencies.
+        public let asnList: [Int64]
+        /// The configuration for inspecting IP addresses to match against an ASN in an HTTP header that you specify,  instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header,  but you can specify any header name.
+        public let forwardedIPConfig: ForwardedIPConfig?
+
+        @inlinable
+        public init(asnList: [Int64], forwardedIPConfig: ForwardedIPConfig? = nil) {
+            self.asnList = asnList
+            self.forwardedIPConfig = forwardedIPConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.asnList.forEach {
+                try validate($0, name: "asnList[]", parent: name, max: 4294967295)
+                try validate($0, name: "asnList[]", parent: name, min: 0)
+            }
+            try self.validate(self.asnList, name: "asnList", parent: name, max: 100)
+            try self.validate(self.asnList, name: "asnList", parent: name, min: 1)
+            try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asnList = "AsnList"
+            case forwardedIPConfig = "ForwardedIPConfig"
         }
     }
 
@@ -1060,6 +1182,52 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "Capacity"
+        }
+    }
+
+    public struct ClientSideAction: AWSEncodableShape & AWSDecodableShape {
+        /// The regular expression to match against the web request URI, used to identify requests  that can't handle a silent browser challenge. When the ClientSideAction setting UsageOfAction is enabled,  the managed rule group uses this setting to determine which requests to label with  awswaf:managed:aws:anti-ddos:challengeable-request. If UsageOfAction is disabled, this setting has no effect and the managed rule group doesn't add the label to any requests. The anti-DDoS managed rule group doesn't  evaluate the rules ChallengeDDoSRequests or ChallengeAllDuringEvent for web requests whose URIs match this regex. This  is true regardless of whether you override the rule action for either of the rules in your web ACL configuration.  Amazon Web Services recommends using a regular expression.  This setting is required if UsageOfAction is set to ENABLED. If required, you can provide  between 1 and 5 regex objects in the array of settings.  Amazon Web Services recommends starting with the following setting. Review and update it for your application's needs:  \/api\/|\.(acc|avi|css|gif|jpe?g|js|mp[34]|ogg|otf|pdf|png|tiff?|ttf|webm|webp|woff2?)$
+        public let exemptUriRegularExpressions: [Regex]?
+        /// The sensitivity that the rule group rule ChallengeDDoSRequests uses when matching against the  DDoS suspicion labeling on a request. The managed rule group adds the labeling during DDoS events, before the ChallengeDDoSRequests rule runs.   The higher the sensitivity, the more levels of labeling that the rule matches:    Low sensitivity is less sensitive, causing the rule to match only on the most likely participants in an attack, which are the requests with the high suspicion label awswaf:managed:aws:anti-ddos:high-suspicion-ddos-request.   Medium sensitivity causes the rule to match on the medium and high suspicion labels.   High sensitivity causes the rule to match on all of the suspicion labels: low, medium, and high.   Default: HIGH
+        public let sensitivity: SensitivityToAct?
+        /// Determines whether to use the AWSManagedRulesAntiDDoSRuleSet rules ChallengeAllDuringEvent and ChallengeDDoSRequests in the rule group evaluation and the related label awswaf:managed:aws:anti-ddos:challengeable-request.    If usage is enabled:    The managed rule group adds the label awswaf:managed:aws:anti-ddos:challengeable-request to any web request whose URL does NOT match the regular expressions provided in the  ClientSideAction setting ExemptUriRegularExpressions.    The two rules are evaluated against web requests for protected resources that are experiencing a DDoS attack. The two rules only apply their action to matching requests that have the label awswaf:managed:aws:anti-ddos:challengeable-request.      If usage is disabled:    The managed rule group doesn't add the label awswaf:managed:aws:anti-ddos:challengeable-request to any web requests.    The two rules are not evaluated.   None of the other ClientSideAction settings have any effect.      This setting only enables or disables the use of the two anti-DDOS rules ChallengeAllDuringEvent and ChallengeDDoSRequests in the anti-DDoS managed rule group.  This setting doesn't alter the action setting in the two rules. To override the actions  used by the rules ChallengeAllDuringEvent and ChallengeDDoSRequests,  enable this setting, and then override the rule actions in the usual way, in your managed rule group configuration.
+        public let usageOfAction: UsageOfAction
+
+        @inlinable
+        public init(exemptUriRegularExpressions: [Regex]? = nil, sensitivity: SensitivityToAct? = nil, usageOfAction: UsageOfAction) {
+            self.exemptUriRegularExpressions = exemptUriRegularExpressions
+            self.sensitivity = sensitivity
+            self.usageOfAction = usageOfAction
+        }
+
+        public func validate(name: String) throws {
+            try self.exemptUriRegularExpressions?.forEach {
+                try $0.validate(name: "\(name).exemptUriRegularExpressions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exemptUriRegularExpressions = "ExemptUriRegularExpressions"
+            case sensitivity = "Sensitivity"
+            case usageOfAction = "UsageOfAction"
+        }
+    }
+
+    public struct ClientSideActionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for the use of the AWSManagedRulesAntiDDoSRuleSet rules ChallengeAllDuringEvent and ChallengeDDoSRequests.   This setting isn't related to the configuration of the Challenge action itself. It only  configures the use of the two anti-DDoS rules named here.   You can enable or disable the use of these rules, and you can configure how to use them when they are enabled.
+        public let challenge: ClientSideAction
+
+        @inlinable
+        public init(challenge: ClientSideAction) {
+            self.challenge = challenge
+        }
+
+        public func validate(name: String) throws {
+            try self.challenge.validate(name: "\(name).challenge")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case challenge = "Challenge"
         }
     }
 
@@ -1419,6 +1587,8 @@ extension WAFV2 {
     }
 
     public struct CreateWebACLRequest: AWSEncodableShape {
+        /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
+        public let applicationConfig: ApplicationConfig?
         /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -1436,6 +1606,8 @@ extension WAFV2 {
         public let description: String?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
+        /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
+        public let onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig?
         /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
@@ -1448,7 +1620,8 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(applicationConfig: ApplicationConfig? = nil, associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+            self.applicationConfig = applicationConfig
             self.associationConfig = associationConfig
             self.captchaConfig = captchaConfig
             self.challengeConfig = challengeConfig
@@ -1457,6 +1630,7 @@ extension WAFV2 {
             self.defaultAction = defaultAction
             self.description = description
             self.name = name
+            self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.rules = rules
             self.scope = scope
             self.tags = tags
@@ -1465,6 +1639,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.applicationConfig?.validate(name: "\(name).applicationConfig")
             try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.challengeConfig?.validate(name: "\(name).challengeConfig")
             try self.customResponseBodies?.forEach {
@@ -1498,6 +1673,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationConfig = "ApplicationConfig"
             case associationConfig = "AssociationConfig"
             case captchaConfig = "CaptchaConfig"
             case challengeConfig = "ChallengeConfig"
@@ -1506,6 +1682,7 @@ extension WAFV2 {
             case defaultAction = "DefaultAction"
             case description = "Description"
             case name = "Name"
+            case onSourceDDoSProtectionConfig = "OnSourceDDoSProtectionConfig"
             case rules = "Rules"
             case scope = "Scope"
             case tags = "Tags"
@@ -3152,7 +3329,7 @@ extension WAFV2 {
     }
 
     public struct HeaderOrder: AWSEncodableShape & AWSDecodableShape {
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let oversizeHandling: OversizeHandling
 
         @inlinable
@@ -3170,7 +3347,7 @@ extension WAFV2 {
         public let matchPattern: HeaderMatchPattern
         /// The parts of the headers to match with the rule inspection criteria. If you specify ALL, WAF inspects both keys and values.   All does not require a match to be found in the keys and a match to be found in the values. It requires a match to be found in the keys  or the values or both. To require a match in the keys and in the values, use a logical AND statement to combine two match rules, one that inspects the keys and another that inspects the values.
         public let matchScope: MapMatchScope
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let oversizeHandling: OversizeHandling
 
         @inlinable
@@ -4215,6 +4392,8 @@ extension WAFV2 {
     public struct ManagedRuleGroupConfig: AWSEncodableShape & AWSDecodableShape {
         /// Additional configuration for using the account creation fraud prevention (ACFP) managed rule group, AWSManagedRulesACFPRuleSet.  Use this to provide account creation request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to account creation requests.  For information  about using the ACFP managed rule group, see WAF Fraud Control account creation fraud prevention (ACFP) rule group  and WAF Fraud Control account creation fraud prevention (ACFP) in the WAF Developer Guide.
         public let awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet?
+        /// Additional configuration for using the anti-DDoS managed rule group, AWSManagedRulesAntiDDoSRuleSet.  Use this to configure anti-DDoS behavior for the rule group.  For information  about using the anti-DDoS managed rule group, see WAF Anti-DDoS rule group  and Distributed Denial of Service (DDoS) prevention in the WAF Developer Guide.
+        public let awsManagedRulesAntiDDoSRuleSet: AWSManagedRulesAntiDDoSRuleSet?
         /// Additional configuration for using the account takeover prevention (ATP) managed rule group, AWSManagedRulesATPRuleSet.  Use this to provide login request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to login requests.  This configuration replaces the individual configuration fields in ManagedRuleGroupConfig and provides additional feature configuration.  For information  about using the ATP managed rule group, see WAF Fraud Control account takeover prevention (ATP) rule group  and WAF Fraud Control account takeover prevention (ATP) in the WAF Developer Guide.
         public let awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet?
         /// Additional configuration for using the Bot Control managed rule group. Use this to specify the  inspection level that you want to use. For information  about using the Bot Control managed rule group, see WAF Bot Control rule group  and WAF Bot Control in the WAF Developer Guide.
@@ -4229,8 +4408,9 @@ extension WAFV2 {
         public let usernameField: UsernameField?
 
         @inlinable
-        public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil) {
+        public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesAntiDDoSRuleSet: AWSManagedRulesAntiDDoSRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
+            self.awsManagedRulesAntiDDoSRuleSet = awsManagedRulesAntiDDoSRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
             self.loginPath = nil
@@ -4241,8 +4421,9 @@ extension WAFV2 {
 
         @available(*, deprecated, message: "Members loginPath, passwordField, payloadType, usernameField have been deprecated")
         @inlinable
-        public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil, loginPath: String? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType? = nil, usernameField: UsernameField? = nil) {
+        public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesAntiDDoSRuleSet: AWSManagedRulesAntiDDoSRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil, loginPath: String? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType? = nil, usernameField: UsernameField? = nil) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
+            self.awsManagedRulesAntiDDoSRuleSet = awsManagedRulesAntiDDoSRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
             self.loginPath = loginPath
@@ -4253,6 +4434,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.awsManagedRulesACFPRuleSet?.validate(name: "\(name).awsManagedRulesACFPRuleSet")
+            try self.awsManagedRulesAntiDDoSRuleSet?.validate(name: "\(name).awsManagedRulesAntiDDoSRuleSet")
             try self.awsManagedRulesATPRuleSet?.validate(name: "\(name).awsManagedRulesATPRuleSet")
             try self.validate(self.loginPath, name: "loginPath", parent: name, max: 256)
             try self.validate(self.loginPath, name: "loginPath", parent: name, min: 1)
@@ -4263,6 +4445,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case awsManagedRulesACFPRuleSet = "AWSManagedRulesACFPRuleSet"
+            case awsManagedRulesAntiDDoSRuleSet = "AWSManagedRulesAntiDDoSRuleSet"
             case awsManagedRulesATPRuleSet = "AWSManagedRulesATPRuleSet"
             case awsManagedRulesBotControlRuleSet = "AWSManagedRulesBotControlRuleSet"
             case loginPath = "LoginPath"
@@ -4275,11 +4458,11 @@ extension WAFV2 {
     public final class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
         /// Rules in the referenced rule group whose actions are set to Count.   Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public let excludedRules: [ExcludedRule]?
-        /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. The rule groups used for intelligent threat mitigation require additional configuration:    Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.    Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.    Use the AWSManagedRulesBotControlRuleSet configuration object to configure the  protection level that you want the Bot Control rule group to use.
+        /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. The rule groups used for intelligent threat mitigation require additional configuration:    Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.    Use the AWSManagedRulesAntiDDoSRuleSet configuration object to configure the anti-DDoS managed rule group. The configuration includes the sensitivity levels to use in the rules that typically block and challenge requests that might be participating in DDoS attacks and the specification to use to indicate whether a request can handle a silent browser challenge.    Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.    Use the AWSManagedRulesBotControlRuleSet configuration object to configure the  protection level that you want the Bot Control rule group to use.
         public let managedRuleGroupConfigs: [ManagedRuleGroupConfig]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change.   Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting.  You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change.   Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group.  You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public let ruleActionOverrides: [RuleActionOverride]?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable Statement in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         public let scopeDownStatement: Statement?
@@ -4535,6 +4718,20 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case statement = "Statement"
+        }
+    }
+
+    public struct OnSourceDDoSProtectionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The level of DDoS protection that applies to web ACLs associated with Application Load Balancers. ACTIVE_UNDER_DDOS protection is enabled by default whenever a web ACL is associated with an Application Load Balancer.  In the event that an Application Load Balancer experiences high-load conditions or suspected DDoS attacks, the ACTIVE_UNDER_DDOS protection automatically rate limits traffic from known low reputation sources without disrupting Application Load Balancer availability.  ALWAYS_ON protection provides constant, always-on monitoring of known low reputation sources for suspected DDoS attacks. While this provides a higher level of protection, there may be potential impacts on legitimate traffic.
+        public let albLowReputationMode: LowReputationMode
+
+        @inlinable
+        public init(albLowReputationMode: LowReputationMode) {
+            self.albLowReputationMode = albLowReputationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case albLowReputationMode = "ALBLowReputationMode"
         }
     }
 
@@ -4800,6 +4997,8 @@ extension WAFV2 {
     }
 
     public struct RateBasedStatementCustomKey: AWSEncodableShape & AWSDecodableShape {
+        /// Use an Autonomous System Number (ASN) derived from the request's originating or forwarded IP address as an aggregate key.  Each distinct ASN contributes to the aggregation instance.
+        public let asn: RateLimitAsn?
         /// Use the value of a cookie in the request as an aggregate key. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
         public let cookie: RateLimitCookie?
         /// Use the first IP address in an HTTP header as an aggregate key. Each distinct forwarded IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType.  With this option, you must specify the header to use in the rate-based rule's ForwardedIPConfig property.
@@ -4824,7 +5023,8 @@ extension WAFV2 {
         public let uriPath: RateLimitUriPath?
 
         @inlinable
-        public init(cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, ja3Fingerprint: RateLimitJA3Fingerprint? = nil, ja4Fingerprint: RateLimitJA4Fingerprint? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
+        public init(asn: RateLimitAsn? = nil, cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, ja3Fingerprint: RateLimitJA3Fingerprint? = nil, ja4Fingerprint: RateLimitJA4Fingerprint? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
+            self.asn = asn
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
@@ -4848,6 +5048,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asn = "ASN"
             case cookie = "Cookie"
             case forwardedIP = "ForwardedIP"
             case header = "Header"
@@ -4878,6 +5079,10 @@ extension WAFV2 {
             case addresses = "Addresses"
             case ipAddressVersion = "IPAddressVersion"
         }
+    }
+
+    public struct RateLimitAsn: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct RateLimitCookie: AWSEncodableShape & AWSDecodableShape {
@@ -5688,7 +5893,7 @@ extension WAFV2 {
         public let arn: String
         /// Rules in the referenced rule group whose actions are set to Count.   Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public let excludedRules: [ExcludedRule]?
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change.   Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting.  You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change.   Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group.  You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public let ruleActionOverrides: [RuleActionOverride]?
 
         @inlinable
@@ -5930,6 +6135,8 @@ extension WAFV2 {
     public final class Statement: AWSEncodableShape & AWSDecodableShape {
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one Statement within the AndStatement.
         public let andStatement: AndStatement?
+        /// A rule statement that inspects web traffic based on the Autonomous System Number (ASN) associated with the request's IP address. For additional details, see ASN match rule statement in the WAF Developer Guide.
+        public let asnMatchStatement: AsnMatchStatement?
         /// A rule statement that defines a string match search for WAF to apply to web requests. The byte match statement provides the bytes to search for, the location in requests that you want WAF to search, and other settings. The bytes to search for are typically a string that corresponds with ASCII characters. In the WAF console and the developer guide, this is called a string match statement.
         public let byteMatchStatement: ByteMatchStatement?
         /// A rule statement that labels web requests by country and region and that matches against web requests based on country code. A geo match rule labels every request that it inspects regardless of whether it finds a match.   To manage requests only by country, you can use this statement by itself and specify the countries that you want to match against in the CountryCodes array.    Otherwise, configure your geo match rule with Count action so that it only labels requests. Then, add one or more label match rules to run after the geo match rule and configure them to match against the geographic labels and handle the requests as needed.    WAF labels requests using the alpha-2 country and region codes from the International Organization for Standardization (ISO) 3166 standard. WAF determines the codes using either the IP address in the web request origin or, if you specify it, the address in the geo match ForwardedIPConfig.  If you use the web request origin, the label formats are awswaf:clientip:geo:region:- and awswaf:clientip:geo:country:. If you use a forwarded IP address, the label formats are awswaf:forwardedip:geo:region:- and awswaf:forwardedip:geo:country:. For additional details, see Geographic match rule statement in the WAF Developer Guide.
@@ -5961,8 +6168,9 @@ extension WAFV2 {
         public let xssMatchStatement: XssMatchStatement?
 
         @inlinable
-        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, ipSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
+        public init(andStatement: AndStatement? = nil, asnMatchStatement: AsnMatchStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, ipSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
             self.andStatement = andStatement
+            self.asnMatchStatement = asnMatchStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
             self.ipSetReferenceStatement = ipSetReferenceStatement
@@ -5981,6 +6189,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.andStatement?.validate(name: "\(name).andStatement")
+            try self.asnMatchStatement?.validate(name: "\(name).asnMatchStatement")
             try self.byteMatchStatement?.validate(name: "\(name).byteMatchStatement")
             try self.geoMatchStatement?.validate(name: "\(name).geoMatchStatement")
             try self.ipSetReferenceStatement?.validate(name: "\(name).ipSetReferenceStatement")
@@ -5999,6 +6208,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case andStatement = "AndStatement"
+            case asnMatchStatement = "AsnMatchStatement"
             case byteMatchStatement = "ByteMatchStatement"
             case geoMatchStatement = "GeoMatchStatement"
             case ipSetReferenceStatement = "IPSetReferenceStatement"
@@ -6474,6 +6684,8 @@ extension WAFV2 {
         public let lockToken: String
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
+        /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
+        public let onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig?
         /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
         public let rules: [Rule]?
         /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
@@ -6484,7 +6696,7 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
             self.associationConfig = associationConfig
             self.captchaConfig = captchaConfig
             self.challengeConfig = challengeConfig
@@ -6495,6 +6707,7 @@ extension WAFV2 {
             self.id = id
             self.lockToken = lockToken
             self.name = name
+            self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.rules = rules
             self.scope = scope
             self.tokenDomains = tokenDomains
@@ -6547,6 +6760,7 @@ extension WAFV2 {
             case id = "Id"
             case lockToken = "LockToken"
             case name = "Name"
+            case onSourceDDoSProtectionConfig = "OnSourceDDoSProtectionConfig"
             case rules = "Rules"
             case scope = "Scope"
             case tokenDomains = "TokenDomains"
@@ -6703,6 +6917,8 @@ extension WAFV2 {
     }
 
     public struct WebACL: AWSDecodableShape {
+        /// Returns a list of ApplicationAttributes.
+        public let applicationConfig: ApplicationConfig?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public let arn: String
         /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
@@ -6732,6 +6948,8 @@ extension WAFV2 {
         public let managedByFirewallManager: Bool?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
+        /// Configures the level of DDoS protection that applies to web ACLs associated with Application Load Balancers.
+        public let onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig?
         /// The last set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized before these.  In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
         public let postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]?
         /// The first set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized after these.  In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
@@ -6746,7 +6964,8 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(arn: String, associationConfig: AssociationConfig? = nil, capacity: Int64? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, name: String, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, retrofittedByFirewallManager: Bool? = nil, rules: [Rule]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(applicationConfig: ApplicationConfig? = nil, arn: String, associationConfig: AssociationConfig? = nil, capacity: Int64? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, retrofittedByFirewallManager: Bool? = nil, rules: [Rule]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+            self.applicationConfig = applicationConfig
             self.arn = arn
             self.associationConfig = associationConfig
             self.capacity = capacity
@@ -6760,6 +6979,7 @@ extension WAFV2 {
             self.labelNamespace = labelNamespace
             self.managedByFirewallManager = managedByFirewallManager
             self.name = name
+            self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups
             self.preProcessFirewallManagerRuleGroups = preProcessFirewallManagerRuleGroups
             self.retrofittedByFirewallManager = retrofittedByFirewallManager
@@ -6769,6 +6989,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationConfig = "ApplicationConfig"
             case arn = "ARN"
             case associationConfig = "AssociationConfig"
             case capacity = "Capacity"
@@ -6782,6 +7003,7 @@ extension WAFV2 {
             case labelNamespace = "LabelNamespace"
             case managedByFirewallManager = "ManagedByFirewallManager"
             case name = "Name"
+            case onSourceDDoSProtectionConfig = "OnSourceDDoSProtectionConfig"
             case postProcessFirewallManagerRuleGroups = "PostProcessFirewallManagerRuleGroups"
             case preProcessFirewallManagerRuleGroups = "PreProcessFirewallManagerRuleGroups"
             case retrofittedByFirewallManager = "RetrofittedByFirewallManager"

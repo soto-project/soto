@@ -25,6 +25,13 @@ import Foundation
 extension Amplify {
     // MARK: Enums
 
+    public enum BuildComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case large16Gb = "LARGE_16GB"
+        case standard8Gb = "STANDARD_8GB"
+        case xlarge72Gb = "XLARGE_72GB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CacheConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amplifyManaged = "AMPLIFY_MANAGED"
         case amplifyManagedNoCookies = "AMPLIFY_MANAGED_NO_COOKIES"
@@ -161,6 +168,8 @@ extension Amplify {
         public let environmentVariables: [String: String]?
         /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
         public let iamServiceRoleArn: String?
+        /// The configuration details that apply to the jobs for an Amplify app.
+        public let jobConfig: JobConfig?
         /// The name for the Amplify app.
         public let name: String
         /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js 14 or later, you must use the platform type WEB_COMPUTE.
@@ -181,7 +190,7 @@ extension Amplify {
         public let webhookCreateTime: Date?
 
         @inlinable
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date, wafConfiguration: WafConfiguration? = nil, webhookCreateTime: Date? = nil) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, jobConfig: JobConfig? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date, wafConfiguration: WafConfiguration? = nil, webhookCreateTime: Date? = nil) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -201,6 +210,7 @@ extension Amplify {
             self.enableBranchAutoDeletion = enableBranchAutoDeletion
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
+            self.jobConfig = jobConfig
             self.name = name
             self.platform = platform
             self.productionBranch = productionBranch
@@ -232,6 +242,7 @@ extension Amplify {
             case enableBranchAutoDeletion = "enableBranchAutoDeletion"
             case environmentVariables = "environmentVariables"
             case iamServiceRoleArn = "iamServiceRoleArn"
+            case jobConfig = "jobConfig"
             case name = "name"
             case platform = "platform"
             case productionBranch = "productionBranch"
@@ -514,7 +525,7 @@ extension Amplify {
     }
 
     public struct CacheConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. This is the default setting. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED, except that it excludes all cookies from the cache key.
+        /// The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED, except that it excludes all cookies from the cache key. This is the default setting.
         public let type: CacheConfigType
 
         @inlinable
@@ -605,6 +616,8 @@ extension Amplify {
         public let environmentVariables: [String: String]?
         /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
         public let iamServiceRoleArn: String?
+        /// Describes the configuration details that apply to the jobs for an Amplify app.
+        public let jobConfig: JobConfig?
         /// The name of the Amplify app.
         public let name: String
         /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
@@ -617,7 +630,7 @@ extension Amplify {
         public let tags: [String: String]?
 
         @inlinable
-        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
+        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, jobConfig: JobConfig? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
             self.accessToken = accessToken
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
@@ -634,6 +647,7 @@ extension Amplify {
             self.enableBranchAutoDeletion = enableBranchAutoDeletion
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
+            self.jobConfig = jobConfig
             self.name = name
             self.oauthToken = oauthToken
             self.platform = platform
@@ -707,6 +721,7 @@ extension Amplify {
             case enableBranchAutoDeletion = "enableBranchAutoDeletion"
             case environmentVariables = "environmentVariables"
             case iamServiceRoleArn = "iamServiceRoleArn"
+            case jobConfig = "jobConfig"
             case name = "name"
             case oauthToken = "oauthToken"
             case platform = "platform"
@@ -1892,6 +1907,20 @@ extension Amplify {
         }
     }
 
+    public struct JobConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the size of the build instance. Amplify supports three instance sizes: STANDARD_8GB, LARGE_16GB, and XLARGE_72GB. If you don't specify a value, Amplify uses the STANDARD_8GB default. The following list describes the CPU, memory, and storage capacity for each build instance type:  STANDARD_8GB    vCPUs: 4   Memory: 8 GiB   Disk space: 128 GB    LARGE_16GB    vCPUs: 8   Memory: 16 GiB   Disk space: 128 GB    XLARGE_72GB    vCPUs: 36   Memory: 72 GiB   Disk space: 256 GB
+        public let buildComputeType: BuildComputeType
+
+        @inlinable
+        public init(buildComputeType: BuildComputeType) {
+            self.buildComputeType = buildComputeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildComputeType = "buildComputeType"
+        }
+    }
+
     public struct JobSummary: AWSDecodableShape {
         ///  The commit ID from a third-party repository provider for the job.
         public let commitId: String
@@ -2839,6 +2868,8 @@ extension Amplify {
         public let environmentVariables: [String: String]?
         /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
         public let iamServiceRoleArn: String?
+        /// Describes the configuration details that apply to the jobs for an Amplify app.
+        public let jobConfig: JobConfig?
         /// The name for an Amplify app.
         public let name: String?
         /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
@@ -2849,7 +2880,7 @@ extension Amplify {
         public let repository: String?
 
         @inlinable
-        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
+        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, jobConfig: JobConfig? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
             self.accessToken = accessToken
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -2867,6 +2898,7 @@ extension Amplify {
             self.enableBranchAutoDeletion = enableBranchAutoDeletion
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
+            self.jobConfig = jobConfig
             self.name = name
             self.oauthToken = oauthToken
             self.platform = platform
@@ -2893,6 +2925,7 @@ extension Amplify {
             try container.encodeIfPresent(self.enableBranchAutoDeletion, forKey: .enableBranchAutoDeletion)
             try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
             try container.encodeIfPresent(self.iamServiceRoleArn, forKey: .iamServiceRoleArn)
+            try container.encodeIfPresent(self.jobConfig, forKey: .jobConfig)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.oauthToken, forKey: .oauthToken)
             try container.encodeIfPresent(self.platform, forKey: .platform)
@@ -2960,6 +2993,7 @@ extension Amplify {
             case enableBranchAutoDeletion = "enableBranchAutoDeletion"
             case environmentVariables = "environmentVariables"
             case iamServiceRoleArn = "iamServiceRoleArn"
+            case jobConfig = "jobConfig"
             case name = "name"
             case oauthToken = "oauthToken"
             case platform = "platform"

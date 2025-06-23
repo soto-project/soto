@@ -167,6 +167,7 @@ public struct InternetMonitor: AWSService {
             "us-west-2": "internetmonitor-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
+            "ap-east-2": "internetmonitor-fips.ap-east-2.api.aws",
             "ap-southeast-5": "internetmonitor-fips.ap-southeast-5.api.aws",
             "ap-southeast-7": "internetmonitor-fips.ap-southeast-7.api.aws",
             "ca-central-1": "internetmonitor-fips.ca-central-1.amazonaws.com",

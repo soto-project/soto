@@ -545,6 +545,7 @@ public struct MWAA: AWSService {
     ///   - startupScriptS3Path: The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see Using a startup script.
     ///   - webserverAccessMode: The Apache Airflow Web server access mode. For more information, see Apache Airflow access modes.
     ///   - weeklyMaintenanceWindowStart: The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
+    ///   - workerReplacementStrategy: The worker replacement strategy to use when updating the environment. You can select one of the following strategies:    Forced - Stops and replaces Apache Airflow workers without waiting for tasks to  complete before an update.    Graceful - Allows Apache Airflow workers to complete running tasks for up to 12 hours during an update before  they're stopped and replaced.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateEnvironment(
@@ -570,6 +571,7 @@ public struct MWAA: AWSService {
         startupScriptS3Path: String? = nil,
         webserverAccessMode: WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: String? = nil,
+        workerReplacementStrategy: WorkerReplacementStrategy? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateEnvironmentOutput {
         let input = UpdateEnvironmentInput(
@@ -594,7 +596,8 @@ public struct MWAA: AWSService {
             startupScriptS3ObjectVersion: startupScriptS3ObjectVersion, 
             startupScriptS3Path: startupScriptS3Path, 
             webserverAccessMode: webserverAccessMode, 
-            weeklyMaintenanceWindowStart: weeklyMaintenanceWindowStart
+            weeklyMaintenanceWindowStart: weeklyMaintenanceWindowStart, 
+            workerReplacementStrategy: workerReplacementStrategy
         )
         return try await self.updateEnvironment(input, logger: logger)
     }

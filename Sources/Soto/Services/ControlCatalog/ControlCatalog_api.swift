@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ControlCatalog service.
 ///
-/// Welcome to the Amazon Web Services Control Catalog API reference. This guide is for  developers who need detailed information about how to programmatically identify and filter  the common controls and related metadata that are available to Amazon Web Services customers. This API reference provides  descriptions, syntax, and usage examples for each of the actions and data types that are  supported by Amazon Web Services Control Catalog.  Use the following links to get started with the Amazon Web Services Control Catalog API:    Actions: An alphabetical list of all Control Catalog API operations.    Data types: An alphabetical list of all Control Catalog data types.    Common parameters: Parameters that all operations can use.    Common errors: Client and server errors that all operations can return.
+/// Welcome to the Control Catalog API reference. This guide is for developers who need detailed information about how to programmatically identify and filter the common controls and related metadata that are available to Amazon Web Services customers. This API reference provides descriptions, syntax, and usage examples for each of the actions and data types that are supported by Control Catalog.  Use the following links to get started with the Control Catalog API:    Actions: An alphabetical list of all Control Catalog API operations.    Data types: An alphabetical list of all Control Catalog data types.    Common parameters: Parameters that all operations can use.    Common errors: Client and server errors that all operations can return.
 public struct ControlCatalog: AWSService {
     // MARK: Member variables
 
@@ -123,7 +123,7 @@ public struct ControlCatalog: AWSService {
     /// Returns a paginated list of common controls from the Amazon Web Services Control Catalog. You can apply an optional filter to see common controls that have a specific objective. If you don’t provide a filter, the operation returns all common controls.
     ///
     /// Parameters:
-    ///   - commonControlFilter: An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
+    ///   - commonControlFilter: An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t supported.
     ///   - maxResults: The maximum number of results on a page or for an API request call.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
@@ -142,7 +142,42 @@ public struct ControlCatalog: AWSService {
         return try await self.listCommonControls(input, logger: logger)
     }
 
-    /// Returns a paginated list of all available controls in the Amazon Web Services Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type controlSummary. The ARN is returned in the global controlcatalog format, as shown in the examples.
+    /// Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
+    @Sendable
+    @inlinable
+    public func listControlMappings(_ input: ListControlMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListControlMappingsResponse {
+        try await self.client.execute(
+            operation: "ListControlMappings", 
+            path: "/list-control-mappings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
+    ///
+    /// Parameters:
+    ///   - filter: An optional filter that narrows the results to specific control mappings based on control ARNs, common control ARNs, or mapping types.
+    ///   - maxResults: The maximum number of results on a page or for an API request call.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listControlMappings(
+        filter: ControlMappingFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListControlMappingsResponse {
+        let input = ListControlMappingsRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listControlMappings(input, logger: logger)
+    }
+
+    /// Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type controlSummary. The ARN is returned in the global controlcatalog format, as shown in the examples.
     @Sendable
     @inlinable
     public func listControls(_ input: ListControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListControlsResponse {
@@ -155,26 +190,29 @@ public struct ControlCatalog: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of all available controls in the Amazon Web Services Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type controlSummary. The ARN is returned in the global controlcatalog format, as shown in the examples.
+    /// Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type controlSummary. The ARN is returned in the global controlcatalog format, as shown in the examples.
     ///
     /// Parameters:
+    ///   - filter: An optional filter that narrows the results to controls with specific implementation types or identifiers. If you don't provide a filter, the operation returns all available controls.
     ///   - maxResults: The maximum number of results on a page or for an API request call.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listControls(
+        filter: ControlFilter? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListControlsResponse {
         let input = ListControlsRequest(
+            filter: filter, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
         return try await self.listControls(input, logger: logger)
     }
 
-    /// Returns a paginated list of domains from the Amazon Web Services Control Catalog.
+    /// Returns a paginated list of domains from the Control Catalog.
     @Sendable
     @inlinable
     public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsResponse {
@@ -187,7 +225,7 @@ public struct ControlCatalog: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of domains from the Amazon Web Services Control Catalog.
+    /// Returns a paginated list of domains from the Control Catalog.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results on a page or for an API request call.
@@ -206,7 +244,7 @@ public struct ControlCatalog: AWSService {
         return try await self.listDomains(input, logger: logger)
     }
 
-    /// Returns a paginated list of objectives from the Amazon Web Services Control Catalog. You can apply an optional filter to see the objectives that belong to a specific domain. If you don’t provide a filter, the operation returns all objectives.
+    /// Returns a paginated list of objectives from the Control Catalog. You can apply an optional filter to see the objectives that belong to a specific domain. If you don’t provide a filter, the operation returns all objectives.
     @Sendable
     @inlinable
     public func listObjectives(_ input: ListObjectivesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectivesResponse {
@@ -219,12 +257,12 @@ public struct ControlCatalog: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of objectives from the Amazon Web Services Control Catalog. You can apply an optional filter to see the objectives that belong to a specific domain. If you don’t provide a filter, the operation returns all objectives.
+    /// Returns a paginated list of objectives from the Control Catalog. You can apply an optional filter to see the objectives that belong to a specific domain. If you don’t provide a filter, the operation returns all objectives.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results on a page or for an API request call.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
-    ///   - objectiveFilter: An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time.  Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
+    ///   - objectiveFilter: An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t supported.
     ///   - logger: Logger use during operation
     @inlinable
     public func listObjectives(
@@ -276,7 +314,7 @@ extension ControlCatalog {
     /// Return PaginatorSequence for operation ``listCommonControls(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - commonControlFilter: An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
+    ///   - commonControlFilter: An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t supported.
     ///   - maxResults: The maximum number of results on a page or for an API request call.
     ///   - logger: Logger used for logging
     @inlinable
@@ -290,6 +328,43 @@ extension ControlCatalog {
             maxResults: maxResults
         )
         return self.listCommonControlsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listControlMappings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listControlMappingsPaginator(
+        _ input: ListControlMappingsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListControlMappingsRequest, ListControlMappingsResponse> {
+        return .init(
+            input: input,
+            command: self.listControlMappings,
+            inputKey: \ListControlMappingsRequest.nextToken,
+            outputKey: \ListControlMappingsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listControlMappings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: An optional filter that narrows the results to specific control mappings based on control ARNs, common control ARNs, or mapping types.
+    ///   - maxResults: The maximum number of results on a page or for an API request call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listControlMappingsPaginator(
+        filter: ControlMappingFilter? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListControlMappingsRequest, ListControlMappingsResponse> {
+        let input = ListControlMappingsRequest(
+            filter: filter, 
+            maxResults: maxResults
+        )
+        return self.listControlMappingsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listControls(_:logger:)``.
@@ -313,14 +388,17 @@ extension ControlCatalog {
     /// Return PaginatorSequence for operation ``listControls(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - filter: An optional filter that narrows the results to controls with specific implementation types or identifiers. If you don't provide a filter, the operation returns all available controls.
     ///   - maxResults: The maximum number of results on a page or for an API request call.
     ///   - logger: Logger used for logging
     @inlinable
     public func listControlsPaginator(
+        filter: ControlFilter? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListControlsRequest, ListControlsResponse> {
         let input = ListControlsRequest(
+            filter: filter, 
             maxResults: maxResults
         )
         return self.listControlsPaginator(input, logger: logger)
@@ -382,7 +460,7 @@ extension ControlCatalog {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results on a page or for an API request call.
-    ///   - objectiveFilter: An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time.  Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
+    ///   - objectiveFilter: An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t supported.
     ///   - logger: Logger used for logging
     @inlinable
     public func listObjectivesPaginator(
@@ -409,10 +487,22 @@ extension ControlCatalog.ListCommonControlsRequest: AWSPaginateToken {
     }
 }
 
+extension ControlCatalog.ListControlMappingsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ControlCatalog.ListControlMappingsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension ControlCatalog.ListControlsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ControlCatalog.ListControlsRequest {
         return .init(
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
         )

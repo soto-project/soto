@@ -1745,7 +1745,7 @@ extension S3 {
     public struct CreateBucketConfiguration: AWSEncodableShape {
         /// Specifies the information about the bucket that will be created.  This functionality is only supported by directory buckets.
         public let bucket: BucketInfo?
-        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  To use the Local Zone location type, your account must be  enabled for Dedicated Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the  error code AccessDenied. To learn more, see Enable accounts for Dedicated Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
+        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  To use the Local Zone location type, your account must be  enabled for Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the  error code AccessDenied. To learn more, see Enable accounts for Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
         public let location: LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see Regions and Endpoints.  This functionality is not supported for directory buckets.
         public let locationConstraint: BucketLocationConstraint?
@@ -2289,12 +2289,15 @@ extension S3 {
     public struct DeleteBucketIntelligentTieringConfigurationRequest: AWSEncodableShape {
         /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
         public let bucket: String
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        public let expectedBucketOwner: String?
         /// The ID used to identify the S3 Intelligent-Tiering configuration.
         public let id: String
 
         @inlinable
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -2302,6 +2305,7 @@ extension S3 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             request.encodeQuery(self.id, key: "id")
         }
 
@@ -3247,12 +3251,15 @@ extension S3 {
     public struct GetBucketIntelligentTieringConfigurationRequest: AWSEncodableShape {
         /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
         public let bucket: String
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        public let expectedBucketOwner: String?
         /// The ID used to identify the S3 Intelligent-Tiering configuration.
         public let id: String
 
         @inlinable
-        public init(bucket: String, id: String) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
         }
 
@@ -3260,6 +3267,7 @@ extension S3 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             request.encodeQuery(self.id, key: "id")
         }
 
@@ -4013,7 +4021,7 @@ extension S3 {
         public let nextPartNumberMarker: String?
         /// The marker for the current part.
         public let partNumberMarker: String?
-        /// A container for elements related to a particular part. A response can contain zero or more Parts elements.     General purpose buckets - For GetObjectAttributes, if a additional checksum (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1, or x-amz-checksum-sha256) isn't applied to the object specified in the request, the response doesn't return Part.    Directory buckets - For GetObjectAttributes, no matter whether a additional checksum is applied to the object specified in the request, the response returns Part.
+        /// A container for elements related to a particular part. A response can contain zero or more Parts elements.     General purpose buckets - For GetObjectAttributes, if an additional checksum (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1, or x-amz-checksum-sha256) isn't applied to the object specified in the request, the response doesn't return the Part element.    Directory buckets - For GetObjectAttributes, regardless of whether an additional checksum is applied to the object specified in the request, the response returns the Part element.
         public let parts: [ObjectPart]?
         /// The total number of parts.
         public let totalPartsCount: Int?
@@ -4045,11 +4053,11 @@ extension S3 {
         public let expectedBucketOwner: String?
         /// The object key.
         public let key: String
-        /// Sets the maximum number of parts to return.
+        /// Sets the maximum number of parts to return. For more information, see Uploading and copying objects using multipart upload in Amazon S3  in the Amazon Simple Storage Service user guide.
         public let maxParts: Int?
         /// Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned.
         public let objectAttributes: [ObjectAttributes]
-        /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
+        /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed. For more information, see Uploading and copying objects using multipart upload in Amazon S3  in the Amazon Simple Storage Service user guide.
         public let partNumberMarker: String?
         public let requestPayer: RequestPayer?
         /// Specifies the algorithm to use when encrypting the object (for example, AES256).  This functionality is not supported for directory buckets.
@@ -4866,13 +4874,15 @@ extension S3 {
         public let ssekmsKeyId: String?
         /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see Storage Classes.   Directory buckets  - Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
         public let storageClass: StorageClass?
+        /// The number of tags, if any, on the object, when you have the relevant permission to read object tags. You can use GetObjectTagging to retrieve the tag set associated with an object.  This functionality is not supported for directory buckets.
+        public let tagCount: Int?
         /// Version ID of the object.  This functionality is not supported for directory buckets.
         public let versionId: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.  This functionality is not supported for directory buckets.
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveStatus = archiveStatus
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -4908,6 +4918,7 @@ extension S3 {
             self.sseCustomerKeyMD5 = sseCustomerKeyMD5
             self.ssekmsKeyId = ssekmsKeyId
             self.storageClass = storageClass
+            self.tagCount = tagCount
             self.versionId = versionId
             self.websiteRedirectLocation = websiteRedirectLocation
         }
@@ -4949,6 +4960,7 @@ extension S3 {
             self.sseCustomerKeyMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-customer-key-MD5")
             self.ssekmsKeyId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-server-side-encryption-aws-kms-key-id")
             self.storageClass = try response.decodeHeaderIfPresent(StorageClass.self, key: "x-amz-storage-class")
+            self.tagCount = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-tagging-count")
             self.versionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-version-id")
             self.websiteRedirectLocation = try response.decodeHeaderIfPresent(String.self, key: "x-amz-website-redirect-location")
         }
@@ -5424,7 +5436,7 @@ extension S3 {
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public let expiration: LifecycleExpiration?
-        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element.   Tag filters are not supported for directory buckets.
+        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element.   Tag filters are not supported for directory buckets.
         public let filter: LifecycleRuleFilter
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
@@ -5631,11 +5643,14 @@ extension S3 {
         public let bucket: String
         /// The ContinuationToken that represents a placeholder from where this request should begin.
         public let continuationToken: String?
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        public let expectedBucketOwner: String?
 
         @inlinable
-        public init(bucket: String, continuationToken: String? = nil) {
+        public init(bucket: String, continuationToken: String? = nil, expectedBucketOwner: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
+            self.expectedBucketOwner = expectedBucketOwner
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5643,6 +5658,7 @@ extension S3 {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.bucket, key: "Bucket")
             request.encodeQuery(self.continuationToken, key: "continuation-token")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6248,7 +6264,7 @@ extension S3 {
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
         public let contents: [Object]?
-        ///  If ContinuationToken was sent with the request, it is included in the response. You can use the returned ContinuationToken for pagination of the list response. You can use this ContinuationToken for pagination of the list results.
+        ///  If ContinuationToken was sent with the request, it is included in the response. You can use the returned ContinuationToken for pagination of the list response.
         public let continuationToken: String?
         /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.   Directory buckets - For directory buckets, / is the only supported delimiter.
         public let delimiter: String?
@@ -7475,14 +7491,17 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "IntelligentTieringConfiguration"
         /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
         public let bucket: String
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        public let expectedBucketOwner: String?
         /// The ID used to identify the S3 Intelligent-Tiering configuration.
         public let id: String
         /// Container for S3 Intelligent-Tiering configuration.
         public let intelligentTieringConfiguration: IntelligentTieringConfiguration
 
         @inlinable
-        public init(bucket: String, id: String, intelligentTieringConfiguration: IntelligentTieringConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, id: String, intelligentTieringConfiguration: IntelligentTieringConfiguration) {
             self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
             self.id = id
             self.intelligentTieringConfiguration = intelligentTieringConfiguration
         }
@@ -7491,6 +7510,7 @@ extension S3 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.singleValueContainer()
             request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             request.encodeQuery(self.id, key: "id")
             try container.encode(self.intelligentTieringConfiguration)
         }
@@ -7696,6 +7716,8 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "OwnershipControls"
         /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
         public let bucket: String
+        ///  Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        public let checksumAlgorithm: ChecksumAlgorithm?
         /// The MD5 hash of the OwnershipControls request body.  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -7704,8 +7726,9 @@ extension S3 {
         public let ownershipControls: OwnershipControls
 
         @inlinable
-        public init(bucket: String, contentMD5: String? = nil, expectedBucketOwner: String? = nil, ownershipControls: OwnershipControls) {
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, ownershipControls: OwnershipControls) {
             self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
             self.contentMD5 = contentMD5
             self.expectedBucketOwner = expectedBucketOwner
             self.ownershipControls = ownershipControls
@@ -7715,6 +7738,7 @@ extension S3 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.singleValueContainer()
             request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
             request.encodeHeader(self.contentMD5, key: "Content-MD5")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             try container.encode(self.ownershipControls)
@@ -8713,6 +8737,81 @@ extension S3 {
             case hostName = "HostName"
             case `protocol` = "Protocol"
         }
+    }
+
+    public struct RenameObjectOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct RenameObjectRequest: AWSEncodableShape {
+        /// The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket-base-name--zone-id--x-s3  (for example, amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.
+        public let bucket: String
+        ///  A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126. RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
+        public let clientToken: String?
+        /// Renames the object only if the ETag (entity tag) value provided during the operation matches the ETag of the object in S3. The If-Match header field makes the request method conditional on ETags. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string.
+        public let destinationIfMatch: String?
+        /// Renames the object if the destination exists and if it has been modified since the specified time.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var destinationIfModifiedSince: Date?
+        ///  Renames the object only if the destination does not already exist in the specified directory bucket. If the object does exist when you send a request with If-None-Match:*, the S3 API will return a 412 Precondition Failed error, preventing an overwrite. The If-None-Match header prevents overwrites of existing data by validating that there's not an object with the same key name already in your directory bucket. Expects the * character (asterisk).
+        public let destinationIfNoneMatch: String?
+        /// Renames the object if it hasn't been modified since the specified time.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var destinationIfUnmodifiedSince: Date?
+        /// Key name of the object to rename.
+        public let key: String
+        /// Specifies the source for the rename operation. The value must be URL encoded.
+        public let renameSource: String
+        /// Renames the object if the source exists and if its entity tag (ETag) matches the specified ETag.
+        public let sourceIfMatch: String?
+        /// Renames the object if the source exists and if it has been modified since the specified time.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var sourceIfModifiedSince: Date?
+        /// Renames the object if the source exists and if its entity tag (ETag) is different than the specified ETag. If an asterisk (*) character is provided, the operation will fail and return a 412 Precondition Failed error.
+        public let sourceIfNoneMatch: String?
+        /// Renames the object if the source exists and hasn't been modified since the specified time.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var sourceIfUnmodifiedSince: Date?
+
+        @inlinable
+        public init(bucket: String, clientToken: String? = RenameObjectRequest.idempotencyToken(), destinationIfMatch: String? = nil, destinationIfModifiedSince: Date? = nil, destinationIfNoneMatch: String? = nil, destinationIfUnmodifiedSince: Date? = nil, key: String, renameSource: String, sourceIfMatch: String? = nil, sourceIfModifiedSince: Date? = nil, sourceIfNoneMatch: String? = nil, sourceIfUnmodifiedSince: Date? = nil) {
+            self.bucket = bucket
+            self.clientToken = clientToken
+            self.destinationIfMatch = destinationIfMatch
+            self.destinationIfModifiedSince = destinationIfModifiedSince
+            self.destinationIfNoneMatch = destinationIfNoneMatch
+            self.destinationIfUnmodifiedSince = destinationIfUnmodifiedSince
+            self.key = key
+            self.renameSource = renameSource
+            self.sourceIfMatch = sourceIfMatch
+            self.sourceIfModifiedSince = sourceIfModifiedSince
+            self.sourceIfNoneMatch = sourceIfNoneMatch
+            self.sourceIfUnmodifiedSince = sourceIfUnmodifiedSince
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.clientToken, key: "x-amz-client-token")
+            request.encodeHeader(self.destinationIfMatch, key: "If-Match")
+            request.encodeHeader(self._destinationIfModifiedSince, key: "If-Modified-Since")
+            request.encodeHeader(self.destinationIfNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self._destinationIfUnmodifiedSince, key: "If-Unmodified-Since")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.renameSource, key: "x-amz-rename-source")
+            request.encodeHeader(self.sourceIfMatch, key: "x-amz-rename-source-if-match")
+            request.encodeHeader(self._sourceIfModifiedSince, key: "x-amz-rename-source-if-modified-since")
+            request.encodeHeader(self.sourceIfNoneMatch, key: "x-amz-rename-source-if-none-match")
+            request.encodeHeader(self._sourceIfUnmodifiedSince, key: "x-amz-rename-source-if-unmodified-since")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.renameSource, name: "renameSource", parent: name, pattern: "^\\/?.+\\/.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ReplicaModifications: AWSEncodableShape & AWSDecodableShape {
@@ -10196,6 +10295,7 @@ public struct S3ErrorType: AWSErrorType {
         case bucketAlreadyExists = "BucketAlreadyExists"
         case bucketAlreadyOwnedByYou = "BucketAlreadyOwnedByYou"
         case encryptionTypeMismatch = "EncryptionTypeMismatch"
+        case idempotencyParameterMismatch = "IdempotencyParameterMismatch"
         case invalidObjectState = "InvalidObjectState"
         case invalidRequest = "InvalidRequest"
         case invalidWriteOffset = "InvalidWriteOffset"
@@ -10232,6 +10332,8 @@ public struct S3ErrorType: AWSErrorType {
     public static var bucketAlreadyOwnedByYou: Self { .init(.bucketAlreadyOwnedByYou) }
     ///  The existing object was created with a different encryption type.  Subsequent write requests must include the appropriate encryption  parameters in the request or while creating the session.
     public static var encryptionTypeMismatch: Self { .init(.encryptionTypeMismatch) }
+    /// Parameters on this idempotent request are inconsistent with parameters used in previous request(s).  For a list of error codes and more information on Amazon S3 errors, see Error codes.  Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
+    public static var idempotencyParameterMismatch: Self { .init(.idempotencyParameterMismatch) }
     /// Object is archived and inaccessible until restored. If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must first restore a copy using RestoreObject. Otherwise, this operation returns an InvalidObjectState error. For information about restoring archived objects, see Restoring Archived Objects in the Amazon S3 User Guide.
     public static var invalidObjectState: Self { .init(.invalidObjectState) }
     /// You may receive this error in multiple cases. Depending on the reason for the error, you may receive one of the messages below:   Cannot specify both a write offset value and user-defined object metadata for existing objects.   Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.   Request body cannot be empty when 'write offset' is specified.

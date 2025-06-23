@@ -41,6 +41,7 @@ extension Bedrock {
         case continuedPreTraining = "CONTINUED_PRE_TRAINING"
         case distillation = "DISTILLATION"
         case fineTuning = "FINE_TUNING"
+        case imported = "IMPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -103,6 +104,12 @@ extension Bedrock {
         case promptAttack = "PROMPT_ATTACK"
         case sexual = "SEXUAL"
         case violence = "VIOLENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentFiltersTierName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case classic = "CLASSIC"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -200,6 +207,12 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailTopicsTierName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case classic = "CLASSIC"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailWordAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case block = "BLOCK"
         case none = "NONE"
@@ -281,6 +294,13 @@ extension Bedrock {
         case embedding = "EMBEDDING"
         case image = "IMAGE"
         case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case creating = "Creating"
+        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
@@ -411,7 +431,7 @@ extension Bedrock {
     public enum EvaluationInferenceConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Specifies the inference models.
         case models([EvaluationModelConfig])
-        /// Contains the configuration details of the inference for a knowledge base evaluation  job, including either the retrieval only configuration or the retrieval with response  generation configuration.
+        /// Contains the configuration details of the inference for a knowledge base evaluation job, including either the retrieval only configuration or the retrieval with response generation configuration.
         case ragConfigs([RAGConfig])
 
         public init(from decoder: Decoder) throws {
@@ -788,31 +808,31 @@ extension Bedrock {
     }
 
     public enum RetrievalFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// Knowledge base data sources are returned if their metadata attributes fulfill all the  filter conditions inside this list.
+        /// Knowledge base data sources are returned if their metadata attributes fulfill all the filter conditions inside this list.
         case andAll([RetrievalFilter])
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose  name matches the key and whose value matches the value in this object. The following example would return data sources with an animal attribute whose value is 'cat': "equals": { "key": "animal", "value": "cat" }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value matches the value in this object. The following example would return data sources with an animal attribute whose value is 'cat': "equals": { "key": "animal", "value": "cat" }
         case equals(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name  matches the key and whose value is greater than the value in this object. The following example would return data sources with an year attribute whose value is  greater than '1989': "greaterThan": { "key": "year", "value": 1989 }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is greater than the value in this object. The following example would return data sources with an year attribute whose value is greater than '1989': "greaterThan": { "key": "year", "value": 1989 }
         case greaterThan(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name  matches the key and whose value is greater than or equal to the value in this object. The following example would return data sources with an year attribute whose value is  greater than or equal to '1989': "greaterThanOrEquals": { "key": "year", "value": 1989 }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is greater than or equal to the value in this object. The following example would return data sources with an year attribute whose value is greater than or equal to '1989': "greaterThanOrEquals": { "key": "year", "value": 1989 }
         case greaterThanOrEquals(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose  name matches the key and whose value is in the list specified in the value in this object. The following example would return data sources with an animal attribute that is either 'cat' or 'dog': "in": { "key": "animal", "value": ["cat", "dog"] }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is in the list specified in the value in this object. The following example would return data sources with an animal attribute that is either 'cat' or 'dog': "in": { "key": "animal", "value": ["cat", "dog"] }
         case `in`(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the  key and whose value is less than the value in this object. The following example would return data sources with an year attribute whose value is less than to '1989': "lessThan": { "key": "year", "value": 1989 }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is less than the value in this object. The following example would return data sources with an year attribute whose value is less than to '1989': "lessThan": { "key": "year", "value": 1989 }
         case lessThan(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key  and whose value is less than or equal to the value in this object. The following example would return data sources with an year attribute whose value is less than or equal  to '1989': "lessThanOrEquals": { "key": "year", "value": 1989 }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is less than or equal to the value in this object. The following example would return data sources with an year attribute whose value is less than or equal to '1989': "lessThanOrEquals": { "key": "year", "value": 1989 }
         case lessThanOrEquals(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key  and whose value is a list that contains the value as one of its members. The following example would return data sources with an animals attribute that is a list containing a cat  member (for example, ["dog", "cat"]): "listContains": { "key": "animals", "value": "cat" }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is a list that contains the value as one of its members. The following example would return data sources with an animals attribute that is a list containing a cat member (for example, ["dog", "cat"]): "listContains": { "key": "animals", "value": "cat" }
         case listContains(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value  doesn't match the value in this object are returned. The following example would return data sources that don't contain an animal attribute whose value is 'cat':  "notEquals": { "key": "animal", "value": "cat" }
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned. The following example would return data sources that don't contain an animal attribute whose value is 'cat': "notEquals": { "key": "animal", "value": "cat" }
         case notEquals(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key  and whose value isn't in the list specified in the value in this object. The following example would return data sources whose animal attribute is neither 'cat' nor 'dog': "notIn": { "key": "animal", "value": ["cat", "dog"] }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value isn't in the list specified in the value in this object. The following example would return data sources whose animal attribute is neither 'cat' nor 'dog': "notIn": { "key": "animal", "value": ["cat", "dog"] }
         case notIn(FilterAttribute)
-        /// Knowledge base data sources are returned if their metadata attributes fulfill at least one of the filter  conditions inside this list.
+        /// Knowledge base data sources are returned if their metadata attributes fulfill at least one of the filter conditions inside this list.
         case orAll([RetrievalFilter])
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key  and whose value starts with the value in this object. This filter is currently only supported for  Amazon OpenSearch Serverless vector stores. The following example would return data sources with an animal attribute starts with 'ca' (for example, 'cat' or 'camel'). "startsWith": { "key": "animal", "value": "ca" }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value starts with the value in this object. This filter is currently only supported for Amazon OpenSearch Serverless vector stores. The following example would return data sources with an animal attribute starts with 'ca' (for example, 'cat' or 'camel'). "startsWith": { "key": "animal", "value": "ca" }
         case startsWith(FilterAttribute)
-        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key  and whose value is one of the following: A string that contains the value as a substring. The following example would return data sources with an  animal attribute that contains the substring at (for example, 'cat'):  "stringContains": { "key": "animal", "value": "at" }  A list with a member that contains the value as a substring. The following example would return data  sources with an animals attribute that is a list containing a member that contains the substring at  (for example, ["dog", "cat"]): "stringContains": { "key": "animals", "value": "at" }
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is one of the following: A string that contains the value as a substring. The following example would return data sources with an animal attribute that contains the substring at (for example, 'cat'): "stringContains": { "key": "animal", "value": "at" }  A list with a member that contains the value as a substring. The following example would return data sources with an animals attribute that is a list containing a member that contains the substring at (for example, ["dog", "cat"]): "stringContains": { "key": "animals", "value": "at" }
         case stringContains(FilterAttribute)
 
         public init(from decoder: Decoder) throws {
@@ -1175,6 +1195,73 @@ extension Bedrock {
         }
     }
 
+    public struct CreateCustomModelRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model.  If you provide a customer managed KMS key, your Amazon Bedrock service role must have permissions to use it. For more information see Encryption of imported models.
+        public let modelKmsKeyArn: String?
+        /// A unique name for the custom model.
+        public let modelName: String
+        /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts.
+        public let modelSourceConfig: ModelDataSource
+        /// A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see Tagging resources in the Amazon Bedrock User Guide.
+        public let modelTags: [Tag]?
+        /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide.
+        public let roleArn: String?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateCustomModelRequest.idempotencyToken(), modelKmsKeyArn: String? = nil, modelName: String, modelSourceConfig: ModelDataSource, modelTags: [Tag]? = nil, roleArn: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.modelKmsKeyArn = modelKmsKeyArn
+            self.modelName = modelName
+            self.modelSourceConfig = modelSourceConfig
+            self.modelTags = modelTags
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, min: 1)
+            try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
+            try self.modelSourceConfig.validate(name: "\(name).modelSourceConfig")
+            try self.modelTags?.forEach {
+                try $0.validate(name: "\(name).modelTags[]")
+            }
+            try self.validate(self.modelTags, name: "modelTags", parent: name, max: 200)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case modelKmsKeyArn = "modelKmsKeyArn"
+            case modelName = "modelName"
+            case modelSourceConfig = "modelSourceConfig"
+            case modelTags = "modelTags"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct CreateCustomModelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the new custom model.
+        public let modelArn: String
+
+        @inlinable
+        public init(modelArn: String) {
+            self.modelArn = modelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+        }
+    }
+
     public struct CreateEvaluationJobRequest: AWSEncodableShape {
         /// Specifies whether the evaluation job is for evaluating a model or evaluating a knowledge base (retrieval and response generation).
         public let applicationType: ApplicationType?
@@ -1184,17 +1271,17 @@ extension Bedrock {
         public let customerEncryptionKeyId: String?
         /// Contains the configuration details of either an automated or human-based evaluation job.
         public let evaluationConfig: EvaluationConfig
-        /// Contains the configuration details of the inference model for the evaluation job. For model evaluation jobs, automated jobs support a single model or  inference profile, and jobs that use human workers support  two models or inference profiles.
+        /// Contains the configuration details of the inference model for the evaluation job. For model evaluation jobs, automated jobs support a single model or inference profile, and jobs that use human workers support two models or inference profiles.
         public let inferenceConfig: EvaluationInferenceConfig
         /// A description of the evaluation job.
         public let jobDescription: String?
-        /// A name for the evaluation job. Names must unique with your Amazon Web Services account,  and your account's Amazon Web Services region.
+        /// A name for the evaluation job. Names must unique with your Amazon Web Services account, and your account's Amazon Web Services region.
         public let jobName: String
         /// Tags to attach to the model evaluation job.
         public let jobTags: [Tag]?
-        /// Contains the configuration details of the Amazon S3 bucket for storing the results  of the evaluation job.
+        /// Contains the configuration details of the Amazon S3 bucket for storing the results of the evaluation job.
         public let outputDataConfig: EvaluationOutputDataConfig
-        /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can  assume to perform tasks on your behalf. To learn more about the required permissions,  see Required  permissions for model evaluations.
+        /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. To learn more about the required permissions, see Required permissions for model evaluations.
         public let roleArn: String
 
         @inlinable
@@ -1268,7 +1355,7 @@ extension Bedrock {
         public let blockedInputMessaging: String
         /// The message to return when the guardrail blocks a model response.
         public let blockedOutputsMessaging: String
-        /// A unique, case-sensitive identifier to ensure that the API request  completes no more than once. If this token matches a previous request,  Amazon Bedrock ignores the request, but does not return an error.  For more information, see Ensuring  idempotency in the Amazon S3 User Guide.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide.
         public let clientRequestToken: String?
         /// The content filter policies to configure for the guardrail.
         public let contentPolicyConfig: GuardrailContentPolicyConfig?
@@ -1361,7 +1448,7 @@ extension Bedrock {
         public let guardrailArn: String
         /// The unique identifier of the guardrail that was created.
         public let guardrailId: String
-        /// The version of the guardrail that was created.  This value will always be DRAFT.
+        /// The version of the guardrail that was created. This value will always be DRAFT.
         public let version: String
 
         @inlinable
@@ -1381,7 +1468,7 @@ extension Bedrock {
     }
 
     public struct CreateGuardrailVersionRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier to ensure that the API request  completes no more than once. If this token matches a previous request,  Amazon Bedrock ignores the request, but does not return an error.  For more information, see Ensuring  idempotency in the Amazon S3 User Guide.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide.
         public let clientRequestToken: String?
         /// A description of the guardrail version.
         public let description: String?
@@ -1446,7 +1533,7 @@ extension Bedrock {
         public let inferenceProfileName: String
         /// The foundation model or system-defined inference profile that the inference profile will track metrics and costs for.
         public let modelSource: InferenceProfileModelSource
-        /// An array of objects, each of which contains a tag and its value. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+        /// An array of objects, each of which contains a tag and its value. For more information, see Tagging resources in the Amazon Bedrock User Guide.
         public let tags: [Tag]?
 
         @inlinable
@@ -1595,7 +1682,7 @@ extension Bedrock {
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
             try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, max: 1011)
             try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, min: 20)
-            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.targetModelName, name: "targetModelName", parent: name, max: 63)
             try self.validate(self.targetModelName, name: "targetModelName", parent: name, min: 1)
             try self.validate(self.targetModelName, name: "targetModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
@@ -1746,7 +1833,7 @@ extension Bedrock {
     }
 
     public struct CreateModelImportJobRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information,  see Ensuring idempotency.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientRequestToken: String?
         /// The imported model is encrypted at rest using this key.
         public let importedModelKmsKeyId: String?
@@ -2017,7 +2104,7 @@ extension Bedrock {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
             try self.validate(self.modelUnits, name: "modelUnits", parent: name, min: 1)
             try self.validate(self.provisionedModelName, name: "provisionedModelName", parent: name, max: 63)
             try self.validate(self.provisionedModelName, name: "provisionedModelName", parent: name, min: 1)
@@ -2053,7 +2140,7 @@ extension Bedrock {
     }
 
     public struct CustomMetricBedrockEvaluatorModel: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the evaluator model for custom metrics. For a list of supported evaluator models, see Evaluate model performance  using another LLM as a judge and Evaluate the performance of RAG sources using Amazon Bedrock evaluations.
+        /// The Amazon Resource Name (ARN) of the evaluator model for custom metrics. For a list of supported evaluator models, see Evaluate model performance using another LLM as a judge and Evaluate the performance of RAG sources using Amazon Bedrock evaluations.
         public let modelIdentifier: String
 
         @inlinable
@@ -2077,7 +2164,7 @@ extension Bedrock {
         public let instructions: String
         /// The name for a custom metric. Names must be unique in your Amazon Web Services region.
         public let name: String
-        /// Defines the rating scale to be used for a custom metric. We recommend that you always define a ratings scale when creating a custom metric. If you don't  define a scale, Amazon Bedrock won't be able to visually display the results of the evaluation in the console or calculate average values of numerical scores. For  more information on specifying a rating scale, see Specifying an output schema (rating scale).
+        /// Defines the rating scale to be used for a custom metric. We recommend that you always define a ratings scale when creating a custom metric. If you don't define a scale, Amazon Bedrock won't be able to visually display the results of the evaluation in the console or calculate average values of numerical scores. For more information on specifying a rating scale, see Specifying an output schema (rating scale).
         public let ratingScale: [RatingScaleItem]?
 
         @inlinable
@@ -2143,17 +2230,20 @@ extension Bedrock {
         public let modelArn: String
         /// The name of the custom model.
         public let modelName: String
+        /// The current status of the custom model. Possible values include:    Creating - The model is being created and validated.    Active - The model has been successfully created and is ready for use.    Failed - The model creation process failed.
+        public let modelStatus: ModelStatus?
         /// The unique identifier of the account that owns the model.
         public let ownerAccountId: String?
 
         @inlinable
-        public init(baseModelArn: String, baseModelName: String, creationTime: Date, customizationType: CustomizationType? = nil, modelArn: String, modelName: String, ownerAccountId: String? = nil) {
+        public init(baseModelArn: String, baseModelName: String, creationTime: Date, customizationType: CustomizationType? = nil, modelArn: String, modelName: String, modelStatus: ModelStatus? = nil, ownerAccountId: String? = nil) {
             self.baseModelArn = baseModelArn
             self.baseModelName = baseModelName
             self.creationTime = creationTime
             self.customizationType = customizationType
             self.modelArn = modelArn
             self.modelName = modelName
+            self.modelStatus = modelStatus
             self.ownerAccountId = ownerAccountId
         }
 
@@ -2164,6 +2254,7 @@ extension Bedrock {
             case customizationType = "customizationType"
             case modelArn = "modelArn"
             case modelName = "modelName"
+            case modelStatus = "modelStatus"
             case ownerAccountId = "ownerAccountId"
         }
     }
@@ -2228,7 +2319,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2239,7 +2330,7 @@ extension Bedrock {
     }
 
     public struct DeleteGuardrailRequest: AWSEncodableShape {
-        /// The unique identifier of the guardrail.  This can be an ID or the ARN.
+        /// The unique identifier of the guardrail. This can be an ID or the ARN.
         public let guardrailIdentifier: String
         /// The version of the guardrail.
         public let guardrailVersion: String?
@@ -2516,9 +2607,9 @@ extension Bedrock {
     public struct EvaluationDatasetMetricConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the prompt dataset.
         public let dataset: EvaluationDataset
-        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are   "Builtin.ContextRelevance", "Builtin.ContextCoverage". For knowledge base evaluation jobs that evaluate retrieval with response generation,  valid values are  "Builtin.Correctness", "Builtin.Completeness",  "Builtin.Helpfulness", "Builtin.LogicalCoherence",  "Builtin.Faithfulness", "Builtin.Harmfulness",  "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the  name parameter specified in HumanEvaluationCustomMetric.
+        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are "Builtin.ContextRelevance", "Builtin.ContextCoverage". For knowledge base evaluation jobs that evaluate retrieval with response generation, valid values are "Builtin.Correctness", "Builtin.Completeness", "Builtin.Helpfulness", "Builtin.LogicalCoherence", "Builtin.Faithfulness", "Builtin.Harmfulness", "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the name parameter specified in HumanEvaluationCustomMetric.
         public let metricNames: [String]
-        /// The the type of task you want to evaluate for your evaluation job. This applies only  to model evaluation jobs and is ignored for knowledge base evaluation jobs.
+        /// The the type of task you want to evaluate for your evaluation job. This applies only to model evaluation jobs and is ignored for knowledge base evaluation jobs.
         public let taskType: EvaluationTaskType
 
         @inlinable
@@ -2784,11 +2875,11 @@ extension Bedrock {
     }
 
     public struct ExternalSourcesGenerationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Additional model parameters and their corresponding values not included in the  text inference configuration for an external source. Takes in custom model parameters  specific to the language model being used.
+        /// Additional model parameters and their corresponding values not included in the text inference configuration for an external source. Takes in custom model parameters specific to the language model being used.
         public let additionalModelRequestFields: [String: AWSDocument]?
         /// Configuration details for the guardrail.
         public let guardrailConfiguration: GuardrailConfiguration?
-        /// Configuration details for inference when using RetrieveAndGenerate to generate  responses while using an external source.
+        /// Configuration details for inference when using RetrieveAndGenerate to generate responses while using an external source.
         public let kbInferenceConfig: KbInferenceConfig?
         /// Contains the template for the prompt for the external source wrapper object.
         public let promptTemplate: PromptTemplate?
@@ -2853,7 +2944,7 @@ extension Bedrock {
     }
 
     public struct FilterAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of metadata attribute/field, which must match the name in your  data source/document metadata.
+        /// The name of metadata attribute/field, which must match the name in your data source/document metadata.
         public let key: String
         /// The value of the metadata attribute/field.
         public let value: AWSDocument
@@ -2990,7 +3081,7 @@ extension Bedrock {
     }
 
     public struct GenerationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Additional model parameters and corresponding values not included in the  textInferenceConfig structure for a knowledge base. This allows  you to provide custom model parameters specific to the language model being  used.
+        /// Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows you to provide custom model parameters specific to the language model being used.
         public let additionalModelRequestFields: [String: AWSDocument]?
         /// Contains configuration details for the guardrail.
         public let guardrailConfiguration: GuardrailConfiguration?
@@ -3042,7 +3133,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3050,7 +3141,7 @@ extension Bedrock {
 
     public struct GetCustomModelResponse: AWSDecodableShape {
         /// Amazon Resource Name (ARN) of the base model.
-        public let baseModelArn: String
+        public let baseModelArn: String?
         /// Creation time of the model.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
@@ -3058,10 +3149,12 @@ extension Bedrock {
         public let customizationConfig: CustomizationConfig?
         /// The type of model customization.
         public let customizationType: CustomizationType?
+        /// A failure message for any issues that occurred when creating the custom model. This is included for only a failed CreateCustomModel operation.
+        public let failureMessage: String?
         /// Hyperparameter values associated with this model. For details on the format for different models, see Custom model hyperparameters.
         public let hyperParameters: [String: String]?
-        /// Job Amazon Resource Name (ARN) associated with this model.
-        public let jobArn: String
+        /// Job Amazon Resource Name (ARN) associated with this model. For models that you create with the CreateCustomModel API operation, this is NULL.
+        public let jobArn: String?
         /// Job name associated with this model.
         public let jobName: String?
         /// Amazon Resource Name (ARN) associated with this model.
@@ -3070,10 +3163,12 @@ extension Bedrock {
         public let modelKmsKeyArn: String?
         /// Model name associated with this model.
         public let modelName: String
+        /// The current status of the custom model. Possible values include:    Creating - The model is being created and validated.    Active - The model has been successfully created and is ready for use.    Failed - The model creation process failed. Check the failureMessage field for details.
+        public let modelStatus: ModelStatus?
         /// Output data configuration associated with this custom model.
-        public let outputDataConfig: OutputDataConfig
+        public let outputDataConfig: OutputDataConfig?
         /// Contains information about the training dataset.
-        public let trainingDataConfig: TrainingDataConfig
+        public let trainingDataConfig: TrainingDataConfig?
         /// Contains training metrics from the job creation.
         public let trainingMetrics: TrainingMetrics?
         /// Contains information about the validation dataset.
@@ -3082,17 +3177,19 @@ extension Bedrock {
         public let validationMetrics: [ValidatorMetric]?
 
         @inlinable
-        public init(baseModelArn: String, creationTime: Date, customizationConfig: CustomizationConfig? = nil, customizationType: CustomizationType? = nil, hyperParameters: [String: String]? = nil, jobArn: String, jobName: String? = nil, modelArn: String, modelKmsKeyArn: String? = nil, modelName: String, outputDataConfig: OutputDataConfig, trainingDataConfig: TrainingDataConfig, trainingMetrics: TrainingMetrics? = nil, validationDataConfig: ValidationDataConfig? = nil, validationMetrics: [ValidatorMetric]? = nil) {
+        public init(baseModelArn: String? = nil, creationTime: Date, customizationConfig: CustomizationConfig? = nil, customizationType: CustomizationType? = nil, failureMessage: String? = nil, hyperParameters: [String: String]? = nil, jobArn: String? = nil, jobName: String? = nil, modelArn: String, modelKmsKeyArn: String? = nil, modelName: String, modelStatus: ModelStatus? = nil, outputDataConfig: OutputDataConfig? = nil, trainingDataConfig: TrainingDataConfig? = nil, trainingMetrics: TrainingMetrics? = nil, validationDataConfig: ValidationDataConfig? = nil, validationMetrics: [ValidatorMetric]? = nil) {
             self.baseModelArn = baseModelArn
             self.creationTime = creationTime
             self.customizationConfig = customizationConfig
             self.customizationType = customizationType
+            self.failureMessage = failureMessage
             self.hyperParameters = hyperParameters
             self.jobArn = jobArn
             self.jobName = jobName
             self.modelArn = modelArn
             self.modelKmsKeyArn = modelKmsKeyArn
             self.modelName = modelName
+            self.modelStatus = modelStatus
             self.outputDataConfig = outputDataConfig
             self.trainingDataConfig = trainingDataConfig
             self.trainingMetrics = trainingMetrics
@@ -3105,12 +3202,14 @@ extension Bedrock {
             case creationTime = "creationTime"
             case customizationConfig = "customizationConfig"
             case customizationType = "customizationType"
+            case failureMessage = "failureMessage"
             case hyperParameters = "hyperParameters"
             case jobArn = "jobArn"
             case jobName = "jobName"
             case modelArn = "modelArn"
             case modelKmsKeyArn = "modelKmsKeyArn"
             case modelName = "modelName"
+            case modelStatus = "modelStatus"
             case outputDataConfig = "outputDataConfig"
             case trainingDataConfig = "trainingDataConfig"
             case trainingMetrics = "trainingMetrics"
@@ -3167,7 +3266,7 @@ extension Bedrock {
         /// The time the evaluation job was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastModifiedTime: Date?
-        /// Contains the configuration details of the Amazon S3 bucket for  storing the results of the evaluation job.
+        /// Contains the configuration details of the Amazon S3 bucket for storing the results of the evaluation job.
         public let outputDataConfig: EvaluationOutputDataConfig
         /// The Amazon Resource Name (ARN) of the IAM service role used in the evaluation job.
         public let roleArn: String
@@ -3228,7 +3327,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3249,7 +3348,7 @@ extension Bedrock {
     }
 
     public struct GetGuardrailRequest: AWSEncodableShape {
-        /// The unique identifier of the guardrail for which to get details.  This can be an ID or the ARN.
+        /// The unique identifier of the guardrail for which to get details. This can be an ID or the ARN.
         public let guardrailIdentifier: String
         /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version.
         public let guardrailVersion: String?
@@ -4236,27 +4335,62 @@ extension Bedrock {
         }
     }
 
+    public struct GuardrailContentFiltersTier: AWSDecodableShape {
+        /// The tier that your guardrail uses for content filters. Valid values include:    CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.    STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use cross-Region inference.
+        public let tierName: GuardrailContentFiltersTierName
+
+        @inlinable
+        public init(tierName: GuardrailContentFiltersTierName) {
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tierName = "tierName"
+        }
+    }
+
+    public struct GuardrailContentFiltersTierConfig: AWSEncodableShape {
+        /// The tier that your guardrail uses for content filters. Valid values include:    CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.    STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use cross-Region inference.
+        public let tierName: GuardrailContentFiltersTierName
+
+        @inlinable
+        public init(tierName: GuardrailContentFiltersTierName) {
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tierName = "tierName"
+        }
+    }
+
     public struct GuardrailContentPolicy: AWSDecodableShape {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         public let filters: [GuardrailContentFilter]?
+        /// The tier that your guardrail uses for content filters.
+        public let tier: GuardrailContentFiltersTier?
 
         @inlinable
-        public init(filters: [GuardrailContentFilter]? = nil) {
+        public init(filters: [GuardrailContentFilter]? = nil, tier: GuardrailContentFiltersTier? = nil) {
             self.filters = filters
+            self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
             case filters = "filters"
+            case tier = "tier"
         }
     }
 
     public struct GuardrailContentPolicyConfig: AWSEncodableShape {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         public let filtersConfig: [GuardrailContentFilterConfig]
+        /// The tier that your guardrail uses for content filters.
+        public let tierConfig: GuardrailContentFiltersTierConfig?
 
         @inlinable
-        public init(filtersConfig: [GuardrailContentFilterConfig]) {
+        public init(filtersConfig: [GuardrailContentFilterConfig], tierConfig: GuardrailContentFiltersTierConfig? = nil) {
             self.filtersConfig = filtersConfig
+            self.tierConfig = tierConfig
         }
 
         public func validate(name: String) throws {
@@ -4269,6 +4403,7 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case filtersConfig = "filtersConfig"
+            case tierConfig = "tierConfig"
         }
     }
 
@@ -4499,7 +4634,7 @@ extension Bedrock {
         public let outputAction: GuardrailSensitiveInformationAction?
         /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
         public let outputEnabled: Bool?
-        /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:    General     ADDRESS  A physical address, such as "100 Main Street, Anytown, USA"  or "Suite #12, Building 123". An address can include information  such as the street, building, location, city, state, country, county,  zip code, precinct, and neighborhood.     AGE  An individual's age, including the quantity and unit of time. For  example, in the phrase "I am 40 years old," Guardrails recognizes "40 years"  as an age.     NAME  An individual's name. This entity type does not include titles, such as  Dr., Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that  are part of organizations or addresses. For example, guardrails recognizes  the "John Doe Organization" as an organization, and it recognizes "Jane Doe  Street" as an address.     EMAIL  An email address, such as marymajor@email.com.    PHONE  A phone number. This entity type also includes fax and pager numbers.     USERNAME  A user name that identifies an account, such as a login name, screen name,  nick name, or handle.     PASSWORD  An alphanumeric string that is used as a password, such as  "*very20special#pass*".     DRIVER_ID  The number assigned to a driver's license, which is an official  document permitting an individual to operate one or more motorized  vehicles on a public road. A driver's license number consists of  alphanumeric characters.     LICENSE_PLATE  A license plate for a vehicle is issued by the state or country where  the vehicle is registered. The format for passenger vehicles is typically  five to eight digits, consisting of upper-case letters and numbers. The  format varies depending on the location of the issuing state or country.     VEHICLE_IDENTIFICATION_NUMBER  A Vehicle Identification Number (VIN) uniquely identifies a vehicle.  VIN content and format are defined in the ISO 3779 specification.  Each country has specific codes and formats for VINs.       Finance     CREDIT_DEBIT_CARD_CVV  A three-digit card verification code (CVV) that is present on VISA,  MasterCard, and Discover credit and debit cards. For American Express  credit or debit cards, the CVV is a four-digit numeric code.     CREDIT_DEBIT_CARD_EXPIRY  The expiration date for a credit or debit card. This number is usually  four digits long and is often formatted as month/year or  MM/YY. Guardrails recognizes expiration dates such as  01/21, 01/2021, and Jan 2021.     CREDIT_DEBIT_CARD_NUMBER  The number for a credit or debit card. These numbers can vary from 13 to 16  digits in length. However, Amazon Comprehend also recognizes credit or debit  card numbers when only the last four digits are present.     PIN  A four-digit personal identification number (PIN) with which you can  access your bank account.     INTERNATIONAL_BANK_ACCOUNT_NUMBER  An International Bank Account Number has specific formats in each country.  For more information, see www.iban.com/structure.    SWIFT_CODE  A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify  a particular bank or branch. Banks use these codes for money transfers such as  international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific  branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the  head or primary office.      IT     IP_ADDRESS  An IPv4 address, such as 198.51.100.0.     MAC_ADDRESS  A media access control (MAC) address is a unique identifier  assigned to a network interface controller (NIC).     URL  A web address, such as www.example.com.     AWS_ACCESS_KEY  A unique identifier that's associated with a secret access key;  you use the access key ID and secret access key to sign programmatic  Amazon Web Services requests cryptographically.     AWS_SECRET_KEY  A unique identifier that's associated with an access key. You use the  access key ID and secret access key to sign programmatic Amazon Web Services  requests cryptographically.       USA specific     US_BANK_ACCOUNT_NUMBER  A US bank account number, which is typically 10 to 12 digits long.                                    US_BANK_ROUTING_NUMBER  A US bank account routing number. These are typically nine digits long,                                      US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER  A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number  that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN  can be formatted with a space or a dash after the third and forth digits.     US_PASSPORT_NUMBER  A US passport number. Passport numbers range from six to nine alphanumeric  characters.     US_SOCIAL_SECURITY_NUMBER  A US Social Security Number (SSN) is a nine-digit number that is issued to  US citizens, permanent residents, and temporary working residents.                                        Canada specific     CA_HEALTH_NUMBER  A Canadian Health Service Number is a 10-digit unique identifier,  required for individuals to access healthcare benefits.     CA_SOCIAL_INSURANCE_NUMBER  A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier,  required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as  123-456-789. A SIN can be validated through a simple  check-digit process called the Luhn algorithm.      UK Specific     UK_NATIONAL_HEALTH_SERVICE_NUMBER  A UK National Health Service Number is a 10-17 digit number,  such as 485 777 3456. The current system formats the 10-digit  number with spaces after the third and sixth digits. The final digit is an  error-detecting checksum.    UK_NATIONAL_INSURANCE_NUMBER  A UK National Insurance Number (NINO) provides individuals with access to National  Insurance (social security) benefits. It is also used for some purposes in the UK  tax system. The number is nine digits long and starts with two letters, followed by six  numbers and one letter. A NINO can be formatted with a space or a dash after  the two letters and after the second, forth, and sixth digits.    UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER  A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.       Custom     Regex filter - You can use a regular expressions to define patterns for a guardrail to recognize and act upon such as serial number, booking ID etc..
+        /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:    General     ADDRESS  A physical address, such as "100 Main Street, Anytown, USA" or "Suite #12, Building 123". An address can include information such as the street, building, location, city, state, country, county, zip code, precinct, and neighborhood.     AGE  An individual's age, including the quantity and unit of time. For example, in the phrase "I am 40 years old," Guardrails recognizes "40 years" as an age.     NAME  An individual's name. This entity type does not include titles, such as Dr., Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that are part of organizations or addresses. For example, guardrails recognizes the "John Doe Organization" as an organization, and it recognizes "Jane Doe Street" as an address.     EMAIL  An email address, such as marymajor@email.com.    PHONE  A phone number. This entity type also includes fax and pager numbers.     USERNAME  A user name that identifies an account, such as a login name, screen name, nick name, or handle.     PASSWORD  An alphanumeric string that is used as a password, such as "*very20special#pass*".     DRIVER_ID  The number assigned to a driver's license, which is an official document permitting an individual to operate one or more motorized vehicles on a public road. A driver's license number consists of alphanumeric characters.     LICENSE_PLATE  A license plate for a vehicle is issued by the state or country where the vehicle is registered. The format for passenger vehicles is typically five to eight digits, consisting of upper-case letters and numbers. The format varies depending on the location of the issuing state or country.     VEHICLE_IDENTIFICATION_NUMBER  A Vehicle Identification Number (VIN) uniquely identifies a vehicle. VIN content and format are defined in the ISO 3779 specification. Each country has specific codes and formats for VINs.       Finance     CREDIT_DEBIT_CARD_CVV  A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.     CREDIT_DEBIT_CARD_EXPIRY  The expiration date for a credit or debit card. This number is usually four digits long and is often formatted as month/year or MM/YY. Guardrails recognizes expiration dates such as 01/21, 01/2021, and Jan 2021.     CREDIT_DEBIT_CARD_NUMBER  The number for a credit or debit card. These numbers can vary from 13 to 16 digits in length. However, Amazon Comprehend also recognizes credit or debit card numbers when only the last four digits are present.     PIN  A four-digit personal identification number (PIN) with which you can access your bank account.     INTERNATIONAL_BANK_ACCOUNT_NUMBER  An International Bank Account Number has specific formats in each country. For more information, see www.iban.com/structure.    SWIFT_CODE  A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify a particular bank or branch. Banks use these codes for money transfers such as international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the head or primary office.      IT     IP_ADDRESS  An IPv4 address, such as 198.51.100.0.     MAC_ADDRESS  A media access control (MAC) address is a unique identifier assigned to a network interface controller (NIC).     URL  A web address, such as www.example.com.     AWS_ACCESS_KEY  A unique identifier that's associated with a secret access key; you use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.     AWS_SECRET_KEY  A unique identifier that's associated with an access key. You use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.       USA specific     US_BANK_ACCOUNT_NUMBER  A US bank account number, which is typically 10 to 12 digits long.     US_BANK_ROUTING_NUMBER  A US bank account routing number. These are typically nine digits long,     US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER  A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN can be formatted with a space or a dash after the third and forth digits.     US_PASSPORT_NUMBER  A US passport number. Passport numbers range from six to nine alphanumeric characters.     US_SOCIAL_SECURITY_NUMBER  A US Social Security Number (SSN) is a nine-digit number that is issued to US citizens, permanent residents, and temporary working residents.       Canada specific     CA_HEALTH_NUMBER  A Canadian Health Service Number is a 10-digit unique identifier, required for individuals to access healthcare benefits.     CA_SOCIAL_INSURANCE_NUMBER  A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier, required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as 123-456-789. A SIN can be validated through a simple check-digit process called the Luhn algorithm.      UK Specific     UK_NATIONAL_HEALTH_SERVICE_NUMBER  A UK National Health Service Number is a 10-17 digit number, such as 485 777 3456. The current system formats the 10-digit number with spaces after the third and sixth digits. The final digit is an error-detecting checksum.    UK_NATIONAL_INSURANCE_NUMBER  A UK National Insurance Number (NINO) provides individuals with access to National Insurance (social security) benefits. It is also used for some purposes in the UK tax system. The number is nine digits long and starts with two letters, followed by six numbers and one letter. A NINO can be formatted with a space or a dash after the two letters and after the second, forth, and sixth digits.    UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER  A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.       Custom     Regex filter - You can use a regular expressions to define patterns for a guardrail to recognize and act upon such as serial number, booking ID etc..
         public let type: GuardrailPiiEntityType
 
         @inlinable
@@ -4794,25 +4929,32 @@ extension Bedrock {
     }
 
     public struct GuardrailTopicPolicy: AWSDecodableShape {
+        /// The tier that your guardrail uses for denied topic filters.
+        public let tier: GuardrailTopicsTier?
         /// A list of policies related to topics that the guardrail should deny.
         public let topics: [GuardrailTopic]
 
         @inlinable
-        public init(topics: [GuardrailTopic]) {
+        public init(tier: GuardrailTopicsTier? = nil, topics: [GuardrailTopic]) {
+            self.tier = tier
             self.topics = topics
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tier = "tier"
             case topics = "topics"
         }
     }
 
     public struct GuardrailTopicPolicyConfig: AWSEncodableShape {
+        /// The tier that your guardrail uses for denied topic filters.
+        public let tierConfig: GuardrailTopicsTierConfig?
         /// A list of policies related to topics that the guardrail should deny.
         public let topicsConfig: [GuardrailTopicConfig]
 
         @inlinable
-        public init(topicsConfig: [GuardrailTopicConfig]) {
+        public init(tierConfig: GuardrailTopicsTierConfig? = nil, topicsConfig: [GuardrailTopicConfig]) {
+            self.tierConfig = tierConfig
             self.topicsConfig = topicsConfig
         }
 
@@ -4825,7 +4967,36 @@ extension Bedrock {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tierConfig = "tierConfig"
             case topicsConfig = "topicsConfig"
+        }
+    }
+
+    public struct GuardrailTopicsTier: AWSDecodableShape {
+        /// The tier that your guardrail uses for denied topic filters. Valid values include:    CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.    STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use cross-Region inference.
+        public let tierName: GuardrailTopicsTierName
+
+        @inlinable
+        public init(tierName: GuardrailTopicsTierName) {
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tierName = "tierName"
+        }
+    }
+
+    public struct GuardrailTopicsTierConfig: AWSEncodableShape {
+        /// The tier that your guardrail uses for denied topic filters. Valid values include:    CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.    STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use cross-Region inference.
+        public let tierName: GuardrailTopicsTierName
+
+        @inlinable
+        public init(tierName: GuardrailTopicsTierName) {
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tierName = "tierName"
         }
     }
 
@@ -5147,7 +5318,7 @@ extension Bedrock {
     }
 
     public struct KbInferenceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Contains configuration details for text generation using a language model via the  RetrieveAndGenerate function.
+        /// Contains configuration details for text generation using a language model via the RetrieveAndGenerate function.
         public let textInferenceConfig: TextInferenceConfig?
 
         @inlinable
@@ -5187,7 +5358,7 @@ extension Bedrock {
         public let generationConfiguration: GenerationConfiguration?
         /// The unique identifier of the knowledge base.
         public let knowledgeBaseId: String
-        /// The Amazon Resource Name (ARN) of the foundation model or inference profile  used to generate responses.
+        /// The Amazon Resource Name (ARN) of the foundation model or inference profile used to generate responses.
         public let modelArn: String
         /// Contains configuration details for the model to process the prompt prior to retrieval and response generation.
         public let orchestrationConfiguration: OrchestrationConfiguration?
@@ -5227,7 +5398,7 @@ extension Bedrock {
         public let filter: RetrievalFilter?
         /// The number of text chunks to retrieve; the number of results to return.
         public let numberOfResults: Int?
-        /// By default, Amazon Bedrock decides a search strategy for you. If you're using an  Amazon OpenSearch Serverless vector store that contains a filterable text field, you  can specify whether to query the knowledge base with a HYBRID search  using both vector embeddings and raw text, or SEMANTIC search using  only vector embeddings. For other vector store configurations, only SEMANTIC  search is available.
+        /// By default, Amazon Bedrock decides a search strategy for you. If you're using an Amazon OpenSearch Serverless vector store that contains a filterable text field, you can specify whether to query the knowledge base with a HYBRID search using both vector embeddings and raw text, or SEMANTIC search using only vector embeddings. For other vector store configurations, only SEMANTIC search is available.
         public let overrideSearchType: SearchType?
 
         @inlinable
@@ -5263,6 +5434,8 @@ extension Bedrock {
         public let isOwned: Bool?
         /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxResults: Int?
+        /// The status of them model to filter results by. Possible values include:    Creating - Include only models that are currently being created and validated.    Active - Include only models that have been successfully created and are ready for use.    Failed - Include only models where the creation process failed.   If you don't specify a status, the API returns models in all states.
+        public let modelStatus: ModelStatus?
         /// Return custom models only if the job name contains these characters.
         public let nameContains: String?
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
@@ -5273,13 +5446,14 @@ extension Bedrock {
         public let sortOrder: SortOrder?
 
         @inlinable
-        public init(baseModelArnEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, foundationModelArnEquals: String? = nil, isOwned: Bool? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(baseModelArnEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, foundationModelArnEquals: String? = nil, isOwned: Bool? = nil, maxResults: Int? = nil, modelStatus: ModelStatus? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
             self.baseModelArnEquals = baseModelArnEquals
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.foundationModelArnEquals = foundationModelArnEquals
             self.isOwned = isOwned
             self.maxResults = maxResults
+            self.modelStatus = modelStatus
             self.nameContains = nameContains
             self.nextToken = nextToken
             self.sortBy = sortBy
@@ -5295,6 +5469,7 @@ extension Bedrock {
             request.encodeQuery(self.foundationModelArnEquals, key: "foundationModelArnEquals")
             request.encodeQuery(self.isOwned, key: "isOwned")
             request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.modelStatus, key: "modelStatus")
             request.encodeQuery(self.nameContains, key: "nameContains")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.sortBy, key: "sortBy")
@@ -5304,7 +5479,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, max: 1011)
             try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, min: 20)
-            try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.baseModelArnEquals, name: "baseModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.foundationModelArnEquals, name: "foundationModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -5467,7 +5642,7 @@ extension Bedrock {
     }
 
     public struct ListGuardrailsRequest: AWSEncodableShape {
-        /// The unique identifier of the guardrail.  This can be an ID or the ARN.
+        /// The unique identifier of the guardrail. This can be an ID or the ARN.
         public let guardrailIdentifier: String?
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -5761,7 +5936,7 @@ extension Bedrock {
             try self.validate(self.sourceAccountEquals, name: "sourceAccountEquals", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, max: 1011)
             try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, min: 20)
-            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, max: 63)
             try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, min: 1)
             try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
@@ -6125,7 +6300,7 @@ extension Bedrock {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, max: 1011)
             try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, min: 20)
-            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
@@ -6167,7 +6342,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/([a-z0-9-]{1,63}[.][a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?|imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6725,7 +6900,7 @@ extension Bedrock {
     }
 
     public struct PromptTemplate: AWSEncodableShape & AWSDecodableShape {
-        /// The template for the prompt that's sent to the model for response generation. You can include  prompt placeholders, which become replaced before the prompt is sent to the model to provide  instructions and context to the model. In addition, you can include XML tags to delineate  meaningful sections of the prompt template. For more information, see Knowledge base prompt template and  Use XML tags with Anthropic Claude models.
+        /// The template for the prompt that's sent to the model for response generation. You can include prompt placeholders, which become replaced before the prompt is sent to the model to provide instructions and context to the model. In addition, you can include XML tags to delineate meaningful sections of the prompt template. For more information, see Knowledge base prompt template and Use XML tags with Anthropic Claude models.
         public let textPromptTemplate: String?
 
         @inlinable
@@ -6933,7 +7108,7 @@ extension Bedrock {
     }
 
     public struct RetrieveAndGenerateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration for the external source wrapper object in the  retrieveAndGenerate function.
+        /// The configuration for the external source wrapper object in the retrieveAndGenerate function.
         public let externalSourcesConfiguration: ExternalSourcesRetrieveAndGenerateConfiguration?
         /// Contains configuration details for the knowledge base retrieval and response generation.
         public let knowledgeBaseConfiguration: KnowledgeBaseRetrieveAndGenerateConfiguration?
@@ -7247,7 +7422,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/([a-z0-9-]{1,63}[.][a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?|imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -7287,13 +7462,13 @@ extension Bedrock {
     }
 
     public struct TextInferenceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum number of tokens to generate in the output text. Do not use the minimum of 0  or the maximum of 65536. The limit values described here are arbitrary values, for actual  values consult the limits defined by your specific model.
+        /// The maximum number of tokens to generate in the output text. Do not use the minimum of 0 or the maximum of 65536. The limit values described here are arbitrary values, for actual values consult the limits defined by your specific model.
         public let maxTokens: Int?
-        /// A list of sequences of characters that, if generated, will cause the model to stop  generating further tokens. Do not use a minimum length of 1 or a maximum length of 1000.  The limit values described here are arbitrary values, for actual values consult the  limits defined by your specific model.
+        /// A list of sequences of characters that, if generated, will cause the model to stop generating further tokens. Do not use a minimum length of 1 or a maximum length of 1000. The limit values described here are arbitrary values, for actual values consult the limits defined by your specific model.
         public let stopSequences: [String]?
-        /// Controls the random-ness of text generated by the language model, influencing how  much the model sticks to the most predictable next words versus exploring more  surprising options. A lower temperature value (e.g. 0.2 or 0.3) makes model outputs  more deterministic or predictable, while a higher temperature (e.g. 0.8 or 0.9) makes  the outputs more creative or unpredictable.
+        /// Controls the random-ness of text generated by the language model, influencing how much the model sticks to the most predictable next words versus exploring more surprising options. A lower temperature value (e.g. 0.2 or 0.3) makes model outputs more deterministic or predictable, while a higher temperature (e.g. 0.8 or 0.9) makes the outputs more creative or unpredictable.
         public let temperature: Float?
-        /// A probability distribution threshold which controls what the model considers for  the set of possible next tokens. The model will only consider the top p% of the  probability distribution when generating the next token.
+        /// A probability distribution threshold which controls what the model considers for the set of possible next tokens. The model will only consider the top p% of the probability distribution when generating the next token.
         public let topP: Float?
 
         @inlinable
@@ -7417,7 +7592,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/([a-z0-9-]{1,63}[.][a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?|imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -7449,7 +7624,7 @@ extension Bedrock {
         public let crossRegionConfig: GuardrailCrossRegionConfig?
         /// A description of the guardrail.
         public let description: String?
-        /// The unique identifier of the guardrail.  This can be an ID or the ARN.
+        /// The unique identifier of the guardrail. This can be an ID or the ARN.
         public let guardrailIdentifier: String
         /// The ARN of the KMS key with which to encrypt the guardrail.
         public let kmsKeyId: String?
@@ -7637,7 +7812,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.desiredModelId, name: "desiredModelId", parent: name, max: 2048)
             try self.validate(self.desiredModelId, name: "desiredModelId", parent: name, min: 1)
-            try self.validate(self.desiredModelId, name: "desiredModelId", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.desiredModelId, name: "desiredModelId", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
             try self.validate(self.desiredProvisionedModelName, name: "desiredProvisionedModelName", parent: name, max: 63)
             try self.validate(self.desiredProvisionedModelName, name: "desiredProvisionedModelName", parent: name, min: 1)
             try self.validate(self.desiredProvisionedModelName, name: "desiredProvisionedModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
@@ -7903,7 +8078,7 @@ extension Bedrock {
     }
 
     public struct ModelDataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 data source of the imported model.
+        /// The Amazon S3 data source of the model to import.
         public let s3DataSource: S3DataSource?
 
         @inlinable
@@ -8005,7 +8180,7 @@ public struct BedrockErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The number of requests exceeds the limit. Resubmit your request later.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request contains more tags than can be associated with a resource (50 tags per resource).  The maximum number of tags includes both existing tags and those included in your current request.
+    /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }

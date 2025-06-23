@@ -99,6 +99,19 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum KafkaSchemaRegistryAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basicAuth = "BASIC_AUTH"
+        case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
+        case serverRootCaCertificate = "SERVER_ROOT_CA_CERTIFICATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KafkaSchemaValidationAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case key = "KEY"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LastUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -211,6 +224,12 @@ extension Lambda {
         case ruby32 = "ruby3.2"
         case ruby33 = "ruby3.3"
         case ruby34 = "ruby3.4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaRegistryEventRecordFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "JSON"
+        case source = "SOURCE"
         public var description: String { return self.rawValue }
     }
 
@@ -651,20 +670,25 @@ extension Lambda {
     public struct AmazonManagedKafkaEventSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
         public let consumerGroupId: String?
+        /// Specific configuration settings for a Kafka schema registry.
+        public let schemaRegistryConfig: KafkaSchemaRegistryConfig?
 
         @inlinable
-        public init(consumerGroupId: String? = nil) {
+        public init(consumerGroupId: String? = nil, schemaRegistryConfig: KafkaSchemaRegistryConfig? = nil) {
             self.consumerGroupId = consumerGroupId
+            self.schemaRegistryConfig = schemaRegistryConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, max: 200)
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, min: 1)
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, pattern: "^[a-zA-Z0-9-\\/*:_+=.@-]*$")
+            try self.schemaRegistryConfig?.validate(name: "\(name).schemaRegistryConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumerGroupId = "ConsumerGroupId"
+            case schemaRegistryConfig = "SchemaRegistryConfig"
         }
     }
 
@@ -1626,7 +1650,7 @@ extension Lambda {
     public struct DestinationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The destination configuration for failed invocations.
         public let onFailure: OnFailure?
-        /// The destination configuration for successful invocations.
+        /// The destination configuration for successful invocations. Not supported in CreateEventSourceMapping or UpdateEventSourceMapping.
         public let onSuccess: OnSuccess?
 
         @inlinable
@@ -1910,7 +1934,7 @@ extension Lambda {
         public let kmsKeyArn: String?
         /// The date that the event source mapping was last updated or that its state changed.
         public let lastModified: Date?
-        /// The result of the last Lambda invocation of your function.
+        /// The result of the event source mapping's last processing attempt.
         public let lastProcessingResult: String?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
@@ -3640,6 +3664,77 @@ extension Lambda {
         }
     }
 
+    public struct KafkaSchemaRegistryAccessConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The type of authentication Lambda uses to access your schema registry.
+        public let type: KafkaSchemaRegistryAuthType?
+        ///  The URI of the secret (Secrets Manager secret ARN) to authenticate with your schema registry.
+        public let uri: String?
+
+        @inlinable
+        public init(type: KafkaSchemaRegistryAuthType? = nil, uri: String? = nil) {
+            self.type = type
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case uri = "URI"
+        }
+    }
+
+    public struct KafkaSchemaRegistryConfig: AWSEncodableShape & AWSDecodableShape {
+        /// An array of access configuration objects that tell Lambda how to authenticate with your schema registry.
+        public let accessConfigs: [KafkaSchemaRegistryAccessConfig]?
+        /// The record format that Lambda delivers to your function after schema validation.   Choose JSON to have Lambda deliver the record to your function as a standard JSON object.   Choose SOURCE to have Lambda deliver the record to your function in its original source format. Lambda removes all schema metadata, such as the schema ID, before sending the record to your function.
+        public let eventRecordFormat: SchemaRegistryEventRecordFormat?
+        /// The URI for your schema registry. The correct URI format depends on the type of schema registry you're using.   For Glue schema registries, use the ARN of the registry.   For Confluent schema registries, use the URL of the registry.
+        public let schemaRegistryURI: String?
+        /// An array of schema validation configuration objects, which tell Lambda the message attributes you want to validate and filter using your schema registry.
+        public let schemaValidationConfigs: [KafkaSchemaValidationConfig]?
+
+        @inlinable
+        public init(accessConfigs: [KafkaSchemaRegistryAccessConfig]? = nil, eventRecordFormat: SchemaRegistryEventRecordFormat? = nil, schemaRegistryURI: String? = nil, schemaValidationConfigs: [KafkaSchemaValidationConfig]? = nil) {
+            self.accessConfigs = accessConfigs
+            self.eventRecordFormat = eventRecordFormat
+            self.schemaRegistryURI = schemaRegistryURI
+            self.schemaValidationConfigs = schemaValidationConfigs
+        }
+
+        public func validate(name: String) throws {
+            try self.accessConfigs?.forEach {
+                try $0.validate(name: "\(name).accessConfigs[]")
+            }
+            try self.validate(self.schemaRegistryURI, name: "schemaRegistryURI", parent: name, max: 10000)
+            try self.validate(self.schemaRegistryURI, name: "schemaRegistryURI", parent: name, min: 1)
+            try self.validate(self.schemaRegistryURI, name: "schemaRegistryURI", parent: name, pattern: "^[a-zA-Z0-9-\\/*:_+=.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfigs = "AccessConfigs"
+            case eventRecordFormat = "EventRecordFormat"
+            case schemaRegistryURI = "SchemaRegistryURI"
+            case schemaValidationConfigs = "SchemaValidationConfigs"
+        }
+    }
+
+    public struct KafkaSchemaValidationConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The attributes you want your schema registry to validate and filter for. If you selected JSON as the EventRecordFormat, Lambda also deserializes the selected message attributes.
+        public let attribute: KafkaSchemaValidationAttribute?
+
+        @inlinable
+        public init(attribute: KafkaSchemaValidationAttribute? = nil) {
+            self.attribute = attribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+        }
+    }
+
     public struct Layer: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the function layer.
         public let arn: String?
@@ -5323,22 +5418,27 @@ extension Lambda {
     }
 
     public struct SelfManagedKafkaEventSourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
+        ///  The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
         public let consumerGroupId: String?
+        /// Specific configuration settings for a Kafka schema registry.
+        public let schemaRegistryConfig: KafkaSchemaRegistryConfig?
 
         @inlinable
-        public init(consumerGroupId: String? = nil) {
+        public init(consumerGroupId: String? = nil, schemaRegistryConfig: KafkaSchemaRegistryConfig? = nil) {
             self.consumerGroupId = consumerGroupId
+            self.schemaRegistryConfig = schemaRegistryConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, max: 200)
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, min: 1)
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, pattern: "^[a-zA-Z0-9-\\/*:_+=.@-]*$")
+            try self.schemaRegistryConfig?.validate(name: "\(name).schemaRegistryConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumerGroupId = "ConsumerGroupId"
+            case schemaRegistryConfig = "SchemaRegistryConfig"
         }
     }
 
@@ -5742,6 +5842,7 @@ extension Lambda {
     }
 
     public struct UpdateEventSourceMappingRequest: AWSEncodableShape {
+        public let amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig?
         /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
@@ -5774,6 +5875,7 @@ extension Lambda {
         public let provisionedPollerConfig: ProvisionedPollerConfig?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
         public let scalingConfig: ScalingConfig?
+        public let selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig?
         /// An array of authentication protocols or VPC components required to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
         /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
@@ -5782,7 +5884,8 @@ extension Lambda {
         public let uuid: String
 
         @inlinable
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, scalingConfig: ScalingConfig? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+            self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -5799,6 +5902,7 @@ extension Lambda {
             self.parallelizationFactor = parallelizationFactor
             self.provisionedPollerConfig = provisionedPollerConfig
             self.scalingConfig = scalingConfig
+            self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = sourceAccessConfigurations
             self.tumblingWindowInSeconds = tumblingWindowInSeconds
             self.uuid = uuid
@@ -5807,6 +5911,7 @@ extension Lambda {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.amazonManagedKafkaEventSourceConfig, forKey: .amazonManagedKafkaEventSourceConfig)
             try container.encodeIfPresent(self.batchSize, forKey: .batchSize)
             try container.encodeIfPresent(self.bisectBatchOnFunctionError, forKey: .bisectBatchOnFunctionError)
             try container.encodeIfPresent(self.destinationConfig, forKey: .destinationConfig)
@@ -5823,12 +5928,14 @@ extension Lambda {
             try container.encodeIfPresent(self.parallelizationFactor, forKey: .parallelizationFactor)
             try container.encodeIfPresent(self.provisionedPollerConfig, forKey: .provisionedPollerConfig)
             try container.encodeIfPresent(self.scalingConfig, forKey: .scalingConfig)
+            try container.encodeIfPresent(self.selfManagedKafkaEventSourceConfig, forKey: .selfManagedKafkaEventSourceConfig)
             try container.encodeIfPresent(self.sourceAccessConfigurations, forKey: .sourceAccessConfigurations)
             try container.encodeIfPresent(self.tumblingWindowInSeconds, forKey: .tumblingWindowInSeconds)
             request.encodePath(self.uuid, key: "UUID")
         }
 
         public func validate(name: String) throws {
+            try self.amazonManagedKafkaEventSourceConfig?.validate(name: "\(name).amazonManagedKafkaEventSourceConfig")
             try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
@@ -5850,6 +5957,7 @@ extension Lambda {
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
             try self.provisionedPollerConfig?.validate(name: "\(name).provisionedPollerConfig")
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
+            try self.selfManagedKafkaEventSourceConfig?.validate(name: "\(name).selfManagedKafkaEventSourceConfig")
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
@@ -5859,6 +5967,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonManagedKafkaEventSourceConfig = "AmazonManagedKafkaEventSourceConfig"
             case batchSize = "BatchSize"
             case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
             case destinationConfig = "DestinationConfig"
@@ -5875,6 +5984,7 @@ extension Lambda {
             case parallelizationFactor = "ParallelizationFactor"
             case provisionedPollerConfig = "ProvisionedPollerConfig"
             case scalingConfig = "ScalingConfig"
+            case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
             case tumblingWindowInSeconds = "TumblingWindowInSeconds"
         }

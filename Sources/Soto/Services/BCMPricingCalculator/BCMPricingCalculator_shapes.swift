@@ -156,6 +156,7 @@ extension BCMPricingCalculator {
 
     public enum RateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterDiscounts = "AFTER_DISCOUNTS"
+        case afterDiscountsAndCommitments = "AFTER_DISCOUNTS_AND_COMMITMENTS"
         case beforeDiscounts = "BEFORE_DISCOUNTS"
         public var description: String { return self.rawValue }
     }
@@ -169,6 +170,7 @@ extension BCMPricingCalculator {
 
     public enum WorkloadEstimateRateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterDiscounts = "AFTER_DISCOUNTS"
+        case afterDiscountsAndCommitments = "AFTER_DISCOUNTS_AND_COMMITMENTS"
         case beforeDiscounts = "BEFORE_DISCOUNTS"
         public var description: String { return self.rawValue }
     }
@@ -264,7 +266,7 @@ extension BCMPricingCalculator {
     public struct AddReservedInstanceAction: AWSEncodableShape & AWSDecodableShape {
         ///  The number of instances to add for this Reserved Instance offering.
         public let instanceCount: Int?
-        ///  The ID of the Reserved Instance offering to add. For more information, see   DescribeReservedInstancesOfferings.
+        ///  The ID of the Reserved Instance offering to add. For more information, see  DescribeReservedInstancesOfferings.
         public let reservedInstancesOfferingId: String?
 
         @inlinable
@@ -287,9 +289,9 @@ extension BCMPricingCalculator {
     }
 
     public struct AddSavingsPlanAction: AWSEncodableShape & AWSDecodableShape {
-        ///  The hourly commitment, in the same currency of the savingsPlanOfferingId.  This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
+        ///  The hourly commitment, in the same currency of the savingsPlanOfferingId. This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
         public let commitment: Double?
-        ///  The ID of the Savings Plan offering to add. For more information, see   DescribeSavingsPlansOfferings.
+        ///  The ID of the Savings Plan offering to add. For more information, see  DescribeSavingsPlansOfferings.
         public let savingsPlanOfferingId: String?
 
         @inlinable
@@ -317,7 +319,7 @@ extension BCMPricingCalculator {
         public let commitmentAction: BillScenarioCommitmentModificationAction
         ///  An optional group identifier for the commitment modification.
         public let group: String?
-        ///  A unique identifier for this entry in the batch operation. This can be any valid string.  This key is useful to identify errors associated with any commitment entry as any error is  returned with this key.
+        ///  A unique identifier for this entry in the batch operation. This can be any valid string. This key is useful to identify errors associated with any commitment entry as any error is returned with this key.
         public let key: String
         ///  The Amazon Web Services account ID to which this commitment will be applied to.
         public let usageAccountId: String
@@ -378,7 +380,7 @@ extension BCMPricingCalculator {
         public let group: String?
         ///  The unique identifier assigned to the created commitment modification.
         public let id: String?
-        ///  The key of the successfully created entry. This can be any valid string. This key is useful to  identify errors associated with any commitment entry as any error is returned with this key.
+        ///  The key of the successfully created entry. This can be any valid string. This key is useful to identify errors associated with any commitment entry as any error is returned with this key.
         public let key: String?
         ///  The Amazon Web Services account ID associated with the created commitment modification.
         public let usageAccountId: String?
@@ -471,11 +473,11 @@ extension BCMPricingCalculator {
         public let group: String?
         ///  Historical usage data associated with this modification, if available.
         public let historicalUsage: HistoricalUsageEntity?
-        ///  A unique identifier for this entry in the batch operation. This can be any valid string. This key is useful to identify errors  associated with any usage entry as any error is returned with this key.
+        ///  A unique identifier for this entry in the batch operation. This can be any valid string. This key is useful to identify errors associated with any usage entry as any error is returned with this key.
         public let key: String
-        ///  The specific operation associated with this usage modification. Describes the specific Amazon Web Services operation that this usage line models.  For example, RunInstances indicates the operation of an Amazon EC2 instance.
+        ///  The specific operation associated with this usage modification. Describes the specific Amazon Web Services operation that this usage line models. For example, RunInstances indicates the operation of an Amazon EC2 instance.
         public let operation: String
-        ///  The Amazon Web Services service code for this usage modification. This identifies the specific Amazon Web Services service to the customer as  a unique short abbreviation. For example, AmazonEC2  and AWSKMS.
+        ///  The Amazon Web Services service code for this usage modification. This identifies the specific Amazon Web Services service to the customer as a unique short abbreviation. For example, AmazonEC2 and AWSKMS.
         public let serviceCode: String
         ///  The Amazon Web Services account ID to which this usage will be applied to.
         public let usageAccountId: String
@@ -1802,7 +1804,7 @@ extension BCMPricingCalculator {
         public let clientToken: String?
         ///  The name of the Bill estimate that will be created. Names must be unique for an account.
         public let name: String
-        ///  An optional list of tags to associate with the specified BillEstimate. You can use resource tags to control access to your  BillEstimate using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:    Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource.  The remaining are reserved for Amazon Web Services.    The maximum length of a key is 128 characters.   The maximum length of a value is 256 characters.   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-.   Keys and values are case sensitive.   Keys and values are trimmed for any leading or trailing whitespaces.   Don't use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services.
+        ///  An optional list of tags to associate with the specified BillEstimate. You can use resource tags to control access to your BillEstimate using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:    Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services.    The maximum length of a key is 128 characters.   The maximum length of a value is 256 characters.   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-.   Keys and values are case sensitive.   Keys and values are trimmed for any leading or trailing whitespaces.   Don't use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services.
         public let tags: [String: String]?
 
         @inlinable
@@ -1849,13 +1851,13 @@ extension BCMPricingCalculator {
     }
 
     public struct CreateBillEstimateResponse: AWSDecodableShape {
-        ///  The bill month start and end  timestamp that was used to create the Bill estimate. This is set to the last complete anniversary bill month start and end timestamp.
+        ///  The bill month start and end timestamp that was used to create the Bill estimate. This is set to the last complete anniversary bill month start and end timestamp.
         public let billInterval: BillInterval?
-        ///  Returns summary-level cost information once a Bill estimate is  successfully generated. This summary includes: 1) the total cost difference, showing the pre-tax cost change for the consolidated  billing family between the completed anniversary bill and the estimated bill, and 2) total cost differences per service, detailing  the pre-tax cost of each service, comparing the completed anniversary bill to the estimated bill on a per-service basis.
+        ///  Returns summary-level cost information once a Bill estimate is successfully generated. This summary includes: 1) the total cost difference, showing the pre-tax cost change for the consolidated billing family between the completed anniversary bill and the estimated bill, and 2) total cost differences per service, detailing the pre-tax cost of each service, comparing the completed anniversary bill to the estimated bill on a per-service basis.
         public let costSummary: BillEstimateCostSummary?
-        ///  The timestamp of when the Bill estimate create process  was started (not when it successfully completed or failed).
+        ///  The timestamp of when the Bill estimate create process was started (not when it successfully completed or failed).
         public let createdAt: Date?
-        ///  The timestamp of when the Bill estimate will  expire. A Bill estimate becomes inaccessible after expiration.
+        ///  The timestamp of when the Bill estimate will expire. A Bill estimate becomes inaccessible after expiration.
         public let expiresAt: Date?
         ///  This attribute provides the reason if a Bill estimate result generation fails.
         public let failureMessage: String?
@@ -1863,7 +1865,7 @@ extension BCMPricingCalculator {
         public let id: String
         ///  The name of your newly created Bill estimate.
         public let name: String?
-        ///  The status of your newly created Bill estimate. Bill estimate creation can take anywhere between 8 to 12 hours.  The status will allow you to identify when the Bill estimate is complete or has failed.
+        ///  The status of your newly created Bill estimate. Bill estimate creation can take anywhere between 8 to 12 hours. The status will allow you to identify when the Bill estimate is complete or has failed.
         public let status: BillEstimateStatus?
 
         @inlinable
@@ -2505,6 +2507,7 @@ extension BCMPricingCalculator {
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, min: 36)
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -2554,6 +2557,7 @@ extension BCMPricingCalculator {
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, min: 36)
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -2606,6 +2610,7 @@ extension BCMPricingCalculator {
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, min: 36)
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -2681,6 +2686,7 @@ extension BCMPricingCalculator {
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, min: 36)
             try self.validate(self.billEstimateId, name: "billEstimateId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -2756,6 +2762,7 @@ extension BCMPricingCalculator {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -2807,6 +2814,7 @@ extension BCMPricingCalculator {
             try self.validate(self.billScenarioId, name: "billScenarioId", parent: name, min: 36)
             try self.validate(self.billScenarioId, name: "billScenarioId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -2859,6 +2867,7 @@ extension BCMPricingCalculator {
             try self.validate(self.billScenarioId, name: "billScenarioId", parent: name, min: 36)
             try self.validate(self.billScenarioId, name: "billScenarioId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -2934,6 +2943,7 @@ extension BCMPricingCalculator {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -3040,7 +3050,8 @@ extension BCMPricingCalculator {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.workloadEstimateId, name: "workloadEstimateId", parent: name, max: 36)
@@ -3119,6 +3130,7 @@ extension BCMPricingCalculator {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -3466,11 +3478,11 @@ extension BCMPricingCalculator {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.managementAccountRateTypeSelections, name: "managementAccountRateTypeSelections", parent: name, max: 2)
+            try self.validate(self.managementAccountRateTypeSelections, name: "managementAccountRateTypeSelections", parent: name, max: 3)
             try self.validate(self.managementAccountRateTypeSelections, name: "managementAccountRateTypeSelections", parent: name, min: 1)
-            try self.validate(self.memberAccountRateTypeSelections, name: "memberAccountRateTypeSelections", parent: name, max: 2)
+            try self.validate(self.memberAccountRateTypeSelections, name: "memberAccountRateTypeSelections", parent: name, max: 3)
             try self.validate(self.memberAccountRateTypeSelections, name: "memberAccountRateTypeSelections", parent: name, min: 1)
-            try self.validate(self.standaloneAccountRateTypeSelections, name: "standaloneAccountRateTypeSelections", parent: name, max: 2)
+            try self.validate(self.standaloneAccountRateTypeSelections, name: "standaloneAccountRateTypeSelections", parent: name, max: 3)
             try self.validate(self.standaloneAccountRateTypeSelections, name: "standaloneAccountRateTypeSelections", parent: name, min: 1)
         }
 

@@ -896,14 +896,17 @@ extension DatabaseMigrationService {
         public let settings: DataProviderSettings
         /// One or more tags to be assigned to the data provider.
         public let tags: [Tag]?
+        /// Indicates whether the data provider is virtual.
+        public let virtual: Bool?
 
         @inlinable
-        public init(dataProviderName: String? = nil, description: String? = nil, engine: String, settings: DataProviderSettings, tags: [Tag]? = nil) {
+        public init(dataProviderName: String? = nil, description: String? = nil, engine: String, settings: DataProviderSettings, tags: [Tag]? = nil, virtual: Bool? = nil) {
             self.dataProviderName = dataProviderName
             self.description = description
             self.engine = engine
             self.settings = settings
             self.tags = tags
+            self.virtual = virtual
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -912,6 +915,7 @@ extension DatabaseMigrationService {
             case engine = "Engine"
             case settings = "Settings"
             case tags = "Tags"
+            case virtual = "Virtual"
         }
     }
 
@@ -1476,7 +1480,7 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateReplicationSubnetGroupMessage: AWSEncodableShape {
-        /// The description for the subnet group.
+        /// The description for the subnet group.  Constraints: This parameter Must not contain non-printable control characters.
         public let replicationSubnetGroupDescription: String
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
         public let replicationSubnetGroupIdentifier: String
@@ -1756,15 +1760,18 @@ extension DatabaseMigrationService {
         public let engine: String?
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings?
+        /// Indicates whether the data provider is virtual.
+        public let virtual: Bool?
 
         @inlinable
-        public init(dataProviderArn: String? = nil, dataProviderCreationTime: Date? = nil, dataProviderName: String? = nil, description: String? = nil, engine: String? = nil, settings: DataProviderSettings? = nil) {
+        public init(dataProviderArn: String? = nil, dataProviderCreationTime: Date? = nil, dataProviderName: String? = nil, description: String? = nil, engine: String? = nil, settings: DataProviderSettings? = nil, virtual: Bool? = nil) {
             self.dataProviderArn = dataProviderArn
             self.dataProviderCreationTime = dataProviderCreationTime
             self.dataProviderName = dataProviderName
             self.description = description
             self.engine = engine
             self.settings = settings
+            self.virtual = virtual
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1774,6 +1781,7 @@ extension DatabaseMigrationService {
             case description = "Description"
             case engine = "Engine"
             case settings = "Settings"
+            case virtual = "Virtual"
         }
     }
 
@@ -3094,7 +3102,9 @@ extension DatabaseMigrationService {
     public struct DescribeFleetAdvisorSchemaObjectSummaryRequest: AWSEncodableShape {
         ///  If you specify any of the following filters, the output includes information for only those schema objects that meet the filter criteria:    schema-id – The ID of the schema, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.   Example: describe-fleet-advisor-schema-object-summary --filter Name="schema-id",Values="50"
         public let filters: [Filter]?
-        /// Sets the maximum number of records returned in the response.
+        ///
+        /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support.
+        ///   Sets the maximum number of records returned in the response.
         public let maxRecords: Int?
         /// If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
@@ -4965,16 +4975,22 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The port value for the DB2 LUW data provider.
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The name of the DB2 LUW server.
         public let serverName: String?
         /// The SSL mode used to connect to the DB2 LUW data provider. The default value is none. Valid Values: none and verify-ca.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -4983,6 +4999,8 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case serverName = "ServerName"
             case sslMode = "SslMode"
         }
@@ -4995,16 +5013,22 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The port value for the DB2 for z/OS data provider.
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The name of the DB2 for z/OS server.
         public let serverName: String?
         /// The SSL mode used to connect to the DB2 for z/OS data provider. The default value is none. Valid Values: none and verify-ca.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -5013,6 +5037,8 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case serverName = "ServerName"
             case sslMode = "SslMode"
         }
@@ -5368,15 +5394,21 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The port value for the MariaDB data provider
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The name of the MariaDB server.
         public let serverName: String?
         /// The SSL mode used to connect to the MariaDB data provider.  The default value is none.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(certificateArn: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(certificateArn: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.certificateArn = certificateArn
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -5384,6 +5416,8 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case serverName = "ServerName"
             case sslMode = "SslMode"
         }
@@ -5478,16 +5512,22 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The port value for the Microsoft SQL Server data provider.
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The name of the Microsoft SQL Server server.
         public let serverName: String?
         /// The SSL mode used to connect to the Microsoft SQL Server data provider.  The default value is none.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -5496,6 +5536,8 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case serverName = "ServerName"
             case sslMode = "SslMode"
         }
@@ -5661,15 +5703,18 @@ extension DatabaseMigrationService {
         public let exactSettings: Bool?
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings?
+        /// Indicates whether the data provider is virtual.
+        public let virtual: Bool?
 
         @inlinable
-        public init(dataProviderIdentifier: String, dataProviderName: String? = nil, description: String? = nil, engine: String? = nil, exactSettings: Bool? = nil, settings: DataProviderSettings? = nil) {
+        public init(dataProviderIdentifier: String, dataProviderName: String? = nil, description: String? = nil, engine: String? = nil, exactSettings: Bool? = nil, settings: DataProviderSettings? = nil, virtual: Bool? = nil) {
             self.dataProviderIdentifier = dataProviderIdentifier
             self.dataProviderName = dataProviderName
             self.description = description
             self.engine = engine
             self.exactSettings = exactSettings
             self.settings = settings
+            self.virtual = virtual
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5679,6 +5724,7 @@ extension DatabaseMigrationService {
             case engine = "Engine"
             case exactSettings = "ExactSettings"
             case settings = "Settings"
+            case virtual = "Virtual"
         }
     }
 
@@ -6482,15 +6528,21 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The port value for the MySQL data provider.
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The name of the MySQL server.
         public let serverName: String?
         /// The SSL mode used to connect to the MySQL data provider.  The default value is none.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(certificateArn: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(certificateArn: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.certificateArn = certificateArn
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -6498,6 +6550,8 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case serverName = "ServerName"
             case sslMode = "SslMode"
         }
@@ -6550,6 +6604,10 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The port value for the Oracle data provider.
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The ARN of the IAM role that provides access to the secret in Secrets Manager  that contains the Oracle ASM connection details.
         public let secretsManagerOracleAsmAccessRoleArn: String?
         /// The identifier of the secret in Secrets Manager that contains the Oracle ASM connection details. Required only if your data provider uses the Oracle ASM server.
@@ -6564,11 +6622,13 @@ extension DatabaseMigrationService {
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(asmServer: String? = nil, certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecurityDbEncryptionAccessRoleArn: String? = nil, secretsManagerSecurityDbEncryptionSecretId: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(asmServer: String? = nil, certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecurityDbEncryptionAccessRoleArn: String? = nil, secretsManagerSecurityDbEncryptionSecretId: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.asmServer = asmServer
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.secretsManagerOracleAsmAccessRoleArn = secretsManagerOracleAsmAccessRoleArn
             self.secretsManagerOracleAsmSecretId = secretsManagerOracleAsmSecretId
             self.secretsManagerSecurityDbEncryptionAccessRoleArn = secretsManagerSecurityDbEncryptionAccessRoleArn
@@ -6582,6 +6642,8 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case secretsManagerOracleAsmAccessRoleArn = "SecretsManagerOracleAsmAccessRoleArn"
             case secretsManagerOracleAsmSecretId = "SecretsManagerOracleAsmSecretId"
             case secretsManagerSecurityDbEncryptionAccessRoleArn = "SecretsManagerSecurityDbEncryptionAccessRoleArn"
@@ -6982,16 +7044,22 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The port value for the PostgreSQL data provider.
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The name of the PostgreSQL server.
         public let serverName: String?
         /// The SSL mode used to connect to the PostgreSQL data provider.  The default value is none.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -7000,6 +7068,8 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case serverName = "ServerName"
             case sslMode = "SslMode"
         }
@@ -7342,19 +7412,27 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The port value for the Amazon Redshift data provider.
         public let port: Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public let s3AccessRoleArn: String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public let s3Path: String?
         /// The name of the Amazon Redshift server.
         public let serverName: String?
 
         @inlinable
-        public init(databaseName: String? = nil, port: Int? = nil, serverName: String? = nil) {
+        public init(databaseName: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil) {
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case port = "Port"
+            case s3AccessRoleArn = "S3AccessRoleArn"
+            case s3Path = "S3Path"
             case serverName = "ServerName"
         }
     }
@@ -8497,7 +8575,7 @@ extension DatabaseMigrationService {
         public let datePartitionEnabled: Bool?
         /// Identifies the sequence of the date format to use during folder partitioning. The default value is YYYYMMDD. Use this parameter when DatePartitionedEnabled is set to true.
         public let datePartitionSequence: DatePartitionSequenceValue?
-        /// When creating an S3 target endpoint, set DatePartitionTimezone to convert the current UTC time into a specified time zone. The conversion occurs when a date partition folder is created and a CDC filename is generated. The time zone format is Area/Location. Use this parameter when DatePartitionedEnabled is set to true, as shown in the following example.  s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName": "dms-nattarat-test"}'
+        /// When creating an S3 target endpoint, set DatePartitionTimezone to convert the current UTC time into a specified time zone. The conversion occurs when a date partition folder is created and a CDC filename is generated. The time zone format is Area/Location. Use this parameter when DatePartitionedEnabled is set to true, as shown in the following example:  s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName": "dms-nattarat-test"}'
         public let datePartitionTimezone: String?
         /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. This parameter defaults to 1024 * 1024 bytes (1 MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. This size is used for .parquet file format only.
         public let dictPageSizeLimit: Int?
@@ -9250,7 +9328,7 @@ extension DatabaseMigrationService {
         public let cdcStopPosition: String?
         /// The Amazon Resource Name (ARN) of the replication task to be started.
         public let replicationTaskArn: String
-        /// The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. This option will start the migration. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
+        /// The type of replication task to start.  start-replication is the only valid action that can be used for the first time a task with the migration type of full-loadfull-load, full-load-and-cdc or cdc is run. Any other action used for the first time on a given task, such as resume-processing and reload-target will result in data errors. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. For a full-load task, the resume-processing option will reload any tables that were partially loaded or not yet loaded during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position. For a cdc only task, to start from a specific position, you must use start-replication and also specify the start position. Check the source endpoint DMS documentation for any limitations. For example, not all sources support starting from a time.   resume-processing is only available for previously executed tasks.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
 
         @inlinable

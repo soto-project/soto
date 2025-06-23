@@ -413,6 +413,7 @@ public struct WAFV2: AWSService {
     /// Creates a WebACL per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
     ///
     /// Parameters:
+    ///   - applicationConfig: Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
     ///   - associationConfig: Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     ///   - captchaConfig: Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     ///   - challengeConfig: Specifies how WAF should handle challenge evaluations for rules that don't have
@@ -421,6 +422,7 @@ public struct WAFV2: AWSService {
     ///   - defaultAction: The action to perform if none of the Rules contained in the WebACL match.
     ///   - description: A description of the web ACL that helps with identification.
     ///   - name: The name of the web ACL. You cannot change the name of a web ACL after you create it.
+    ///   - onSourceDDoSProtectionConfig: Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
     ///   - rules: The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
     ///   - scope: Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
     ///   - tags: An array of key:value pairs to associate with the resource.
@@ -429,6 +431,7 @@ public struct WAFV2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createWebACL(
+        applicationConfig: ApplicationConfig? = nil,
         associationConfig: AssociationConfig? = nil,
         captchaConfig: CaptchaConfig? = nil,
         challengeConfig: ChallengeConfig? = nil,
@@ -437,6 +440,7 @@ public struct WAFV2: AWSService {
         defaultAction: DefaultAction,
         description: String? = nil,
         name: String,
+        onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil,
         rules: [Rule]? = nil,
         scope: Scope,
         tags: [Tag]? = nil,
@@ -445,6 +449,7 @@ public struct WAFV2: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWebACLResponse {
         let input = CreateWebACLRequest(
+            applicationConfig: applicationConfig, 
             associationConfig: associationConfig, 
             captchaConfig: captchaConfig, 
             challengeConfig: challengeConfig, 
@@ -453,6 +458,7 @@ public struct WAFV2: AWSService {
             defaultAction: defaultAction, 
             description: description, 
             name: name, 
+            onSourceDDoSProtectionConfig: onSourceDDoSProtectionConfig, 
             rules: rules, 
             scope: scope, 
             tags: tags, 
@@ -2131,6 +2137,7 @@ public struct WAFV2: AWSService {
     ///   - id: The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     ///   - lockToken: A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     ///   - name: The name of the web ACL. You cannot change the name of a web ACL after you create it.
+    ///   - onSourceDDoSProtectionConfig: Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
     ///   - rules: The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
     ///   - scope: Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
     ///   - tokenDomains: Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" }  Public suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
@@ -2148,6 +2155,7 @@ public struct WAFV2: AWSService {
         id: String,
         lockToken: String,
         name: String,
+        onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil,
         rules: [Rule]? = nil,
         scope: Scope,
         tokenDomains: [String]? = nil,
@@ -2165,6 +2173,7 @@ public struct WAFV2: AWSService {
             id: id, 
             lockToken: lockToken, 
             name: name, 
+            onSourceDDoSProtectionConfig: onSourceDDoSProtectionConfig, 
             rules: rules, 
             scope: scope, 
             tokenDomains: tokenDomains, 

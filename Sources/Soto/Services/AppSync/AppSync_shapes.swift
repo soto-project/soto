@@ -884,6 +884,18 @@ extension AppSync {
         public let type: ApiCacheType
 
         @inlinable
+        public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, healthMetricsConfig: CacheHealthMetricsConfig? = nil, ttl: Int64 = 0, type: ApiCacheType) {
+            self.apiCachingBehavior = apiCachingBehavior
+            self.apiId = apiId
+            self.atRestEncryptionEnabled = nil
+            self.healthMetricsConfig = healthMetricsConfig
+            self.transitEncryptionEnabled = nil
+            self.ttl = ttl
+            self.type = type
+        }
+
+        @available(*, deprecated, message: "Members atRestEncryptionEnabled, transitEncryptionEnabled have been deprecated")
+        @inlinable
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, healthMetricsConfig: CacheHealthMetricsConfig? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64 = 0, type: ApiCacheType) {
             self.apiCachingBehavior = apiCachingBehavior
             self.apiId = apiId
