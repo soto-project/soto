@@ -68,9 +68,13 @@ extension Backup {
         case backupJobSuccessful = "BACKUP_JOB_SUCCESSFUL"
         case backupPlanCreated = "BACKUP_PLAN_CREATED"
         case backupPlanModified = "BACKUP_PLAN_MODIFIED"
+        case continuousBackupInterrupted = "CONTINUOUS_BACKUP_INTERRUPTED"
         case copyJobFailed = "COPY_JOB_FAILED"
         case copyJobStarted = "COPY_JOB_STARTED"
         case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
+        case recoveryPointIndexCompleted = "RECOVERY_POINT_INDEX_COMPLETED"
+        case recoveryPointIndexDeleted = "RECOVERY_POINT_INDEX_DELETED"
+        case recoveryPointIndexingFailed = "RECOVERY_POINT_INDEXING_FAILED"
         case recoveryPointModified = "RECOVERY_POINT_MODIFIED"
         case restoreJobCompleted = "RESTORE_JOB_COMPLETED"
         case restoreJobFailed = "RESTORE_JOB_FAILED"
@@ -132,11 +136,27 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
+    public enum MpaRevokeSessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpaSessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecoveryPointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
         case completed = "COMPLETED"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case expired = "EXPIRED"
         case partial = "PARTIAL"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -205,6 +225,7 @@ extension Backup {
     public enum VaultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backupVault = "BACKUP_VAULT"
         case logicallyAirGappedBackupVault = "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
+        case restoreAccessBackupVault = "RESTORE_ACCESS_BACKUP_VAULT"
         public var description: String { return self.rawValue }
     }
 
@@ -264,6 +285,39 @@ extension Backup {
         }
     }
 
+    public struct AssociateBackupVaultMpaApprovalTeamInput: AWSEncodableShape {
+        /// The name of the backup vault to associate with the MPA approval team.
+        public let backupVaultName: String
+        /// The Amazon Resource Name (ARN) of the MPA approval team to associate with the backup vault.
+        public let mpaApprovalTeamArn: String
+        /// A comment provided by the requester explaining the association request.
+        public let requesterComment: String?
+
+        @inlinable
+        public init(backupVaultName: String, mpaApprovalTeamArn: String, requesterComment: String? = nil) {
+            self.backupVaultName = backupVaultName
+            self.mpaApprovalTeamArn = mpaApprovalTeamArn
+            self.requesterComment = requesterComment
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encode(self.mpaApprovalTeamArn, forKey: .mpaApprovalTeamArn)
+            try container.encodeIfPresent(self.requesterComment, forKey: .requesterComment)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mpaApprovalTeamArn = "MpaApprovalTeamArn"
+            case requesterComment = "RequesterComment"
+        }
+    }
+
     public struct BackupJob: AWSDecodableShape {
         /// The account ID that owns the backup job.
         public let accountId: String?
@@ -271,7 +325,7 @@ extension Backup {
         public let backupJobId: String?
         /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. If you specify an invalid option, you get an InvalidParameterValueException exception.
         public let backupOptions: [String: String]?
-        /// The size, in bytes, of a backup.
+        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
         public let backupSizeInBytes: Int64?
         /// Represents the type of backup for a backup job.
         public let backupType: String?
@@ -550,7 +604,7 @@ extension Backup {
         public let ruleId: String?
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
-        /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
+        /// A cron expression in UTC specifying when Backup initiates a backup job.  When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *). For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public let scheduleExpression: String?
         /// The timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -606,7 +660,7 @@ extension Backup {
         public let recoveryPointTags: [String: String]?
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
-        /// A CRON expression in UTC specifying when Backup initiates a backup job.
+        /// A CRON expression in UTC specifying when Backup initiates a backup job. When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *).
         public let scheduleExpression: String?
         /// The timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -1129,7 +1183,7 @@ extension Backup {
         public let creatorRequestId: String?
 
         @inlinable
-        public init(backupPlan: BackupPlanInput, backupPlanTags: [String: String]? = nil, creatorRequestId: String? = nil) {
+        public init(backupPlan: BackupPlanInput, backupPlanTags: [String: String]? = nil, creatorRequestId: String? = CreateBackupPlanInput.idempotencyToken()) {
             self.backupPlan = backupPlan
             self.backupPlanTags = backupPlanTags
             self.creatorRequestId = creatorRequestId
@@ -1185,7 +1239,7 @@ extension Backup {
         public let creatorRequestId: String?
 
         @inlinable
-        public init(backupPlanId: String, backupSelection: BackupSelection, creatorRequestId: String? = nil) {
+        public init(backupPlanId: String, backupSelection: BackupSelection, creatorRequestId: String? = CreateBackupSelectionInput.idempotencyToken()) {
             self.backupPlanId = backupPlanId
             self.backupSelection = backupSelection
             self.creatorRequestId = creatorRequestId
@@ -1242,7 +1296,7 @@ extension Backup {
         public let encryptionKeyArn: String?
 
         @inlinable
-        public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil) {
+        public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = CreateBackupVaultInput.idempotencyToken(), encryptionKeyArn: String? = nil) {
             self.backupVaultName = backupVaultName
             self.backupVaultTags = backupVaultTags
             self.creatorRequestId = creatorRequestId
@@ -1363,7 +1417,7 @@ extension Backup {
         public let title: String
 
         @inlinable
-        public init(description: String, idempotencyToken: String? = nil, recoveryPointSelection: RecoveryPointSelection? = nil, tags: [String: String]? = nil, title: String) {
+        public init(description: String, idempotencyToken: String? = CreateLegalHoldInput.idempotencyToken(), recoveryPointSelection: RecoveryPointSelection? = nil, tags: [String: String]? = nil, title: String) {
             self.description = description
             self.idempotencyToken = idempotencyToken
             self.recoveryPointSelection = recoveryPointSelection
@@ -1431,7 +1485,7 @@ extension Backup {
         public let minRetentionDays: Int64
 
         @inlinable
-        public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = nil, maxRetentionDays: Int64, minRetentionDays: Int64) {
+        public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = CreateLogicallyAirGappedBackupVaultInput.idempotencyToken(), maxRetentionDays: Int64, minRetentionDays: Int64) {
             self.backupVaultName = backupVaultName
             self.backupVaultTags = backupVaultTags
             self.creatorRequestId = creatorRequestId
@@ -1548,6 +1602,66 @@ extension Backup {
             case creationTime = "CreationTime"
             case reportPlanArn = "ReportPlanArn"
             case reportPlanName = "ReportPlanName"
+        }
+    }
+
+    public struct CreateRestoreAccessBackupVaultInput: AWSEncodableShape {
+        /// The name of the backup vault to associate with an MPA approval team.
+        public let backupVaultName: String?
+        /// Optional tags to assign to the restore access backup vault.
+        public let backupVaultTags: [String: String]?
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        public let creatorRequestId: String?
+        /// A comment explaining the reason for requesting restore access to the backup vault.
+        public let requesterComment: String?
+        /// The ARN of the source backup vault containing the recovery points to which temporary access is requested.
+        public let sourceBackupVaultArn: String
+
+        @inlinable
+        public init(backupVaultName: String? = nil, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = CreateRestoreAccessBackupVaultInput.idempotencyToken(), requesterComment: String? = nil, sourceBackupVaultArn: String) {
+            self.backupVaultName = backupVaultName
+            self.backupVaultTags = backupVaultTags
+            self.creatorRequestId = creatorRequestId
+            self.requesterComment = requesterComment
+            self.sourceBackupVaultArn = sourceBackupVaultArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultName = "BackupVaultName"
+            case backupVaultTags = "BackupVaultTags"
+            case creatorRequestId = "CreatorRequestId"
+            case requesterComment = "RequesterComment"
+            case sourceBackupVaultArn = "SourceBackupVaultArn"
+        }
+    }
+
+    public struct CreateRestoreAccessBackupVaultOutput: AWSDecodableShape {
+        /// >The date and time when the restore access backup vault was created, in Unix format and Coordinated Universal Time
+        public let creationDate: Date?
+        /// The ARN that uniquely identifies the created restore access backup vault.
+        public let restoreAccessBackupVaultArn: String?
+        /// The name of the created restore access backup vault.
+        public let restoreAccessBackupVaultName: String?
+        /// The current state of the restore access backup vault.
+        public let vaultState: VaultState?
+
+        @inlinable
+        public init(creationDate: Date? = nil, restoreAccessBackupVaultArn: String? = nil, restoreAccessBackupVaultName: String? = nil, vaultState: VaultState? = nil) {
+            self.creationDate = creationDate
+            self.restoreAccessBackupVaultArn = restoreAccessBackupVaultArn
+            self.restoreAccessBackupVaultName = restoreAccessBackupVaultName
+            self.vaultState = vaultState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case restoreAccessBackupVaultArn = "RestoreAccessBackupVaultArn"
+            case restoreAccessBackupVaultName = "RestoreAccessBackupVaultName"
+            case vaultState = "VaultState"
         }
     }
 
@@ -1979,7 +2093,7 @@ extension Backup {
         public let backupJobId: String?
         /// Represents the options specified as part of backup plan or on-demand backup job.
         public let backupOptions: [String: String]?
-        /// The size, in bytes, of a backup.
+        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
         public let backupSizeInBytes: Int64?
         /// Represents the actual backup type selected for a backup job. For example, if a successful Windows Volume Shadow Copy Service (VSS) backup was taken, BackupType returns "WindowsVSS". If BackupType is empty, then the backup type was a regular backup.
         public let backupType: String?
@@ -2123,6 +2237,8 @@ extension Backup {
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// Information about the latest update to the MPA approval team association for this backup vault.
+        public let latestMpaApprovalTeamUpdate: LatestMpaApprovalTeamUpdate?
         /// The date and time when Backup Vault Lock configuration cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change any of your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lockDate: Date?
         /// A Boolean that indicates whether Backup Vault Lock is currently protecting the backup vault. True means that Vault Lock causes delete or update operations on the recovery points stored in the vault to fail.
@@ -2131,25 +2247,35 @@ extension Backup {
         public let maxRetentionDays: Int64?
         /// The Backup Vault Lock setting that specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock will not enforce a minimum retention period. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
         public let minRetentionDays: Int64?
-        /// The number of recovery points that are stored in a backup vault.
+        /// The ARN of the MPA approval team associated with this backup vault.
+        public let mpaApprovalTeamArn: String?
+        /// The ARN of the MPA session associated with this backup vault.
+        public let mpaSessionArn: String?
+        /// The number of recovery points that are stored in a backup vault. Recovery point count value displayed in the console can be an approximation. Use  ListRecoveryPointsByBackupVault API to obtain the exact count.
         public let numberOfRecoveryPoints: Int64?
+        /// The ARN of the source backup vault from which this restore access backup vault was created.
+        public let sourceBackupVaultArn: String?
         /// The current state of the vault.->
         public let vaultState: VaultState?
         /// The type of vault described.
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, latestMpaApprovalTeamUpdate: LatestMpaApprovalTeamUpdate? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, mpaApprovalTeamArn: String? = nil, mpaSessionArn: String? = nil, numberOfRecoveryPoints: Int64? = nil, sourceBackupVaultArn: String? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
+            self.latestMpaApprovalTeamUpdate = latestMpaApprovalTeamUpdate
             self.lockDate = lockDate
             self.locked = locked
             self.maxRetentionDays = maxRetentionDays
             self.minRetentionDays = minRetentionDays
+            self.mpaApprovalTeamArn = mpaApprovalTeamArn
+            self.mpaSessionArn = mpaSessionArn
             self.numberOfRecoveryPoints = numberOfRecoveryPoints
+            self.sourceBackupVaultArn = sourceBackupVaultArn
             self.vaultState = vaultState
             self.vaultType = vaultType
         }
@@ -2160,11 +2286,15 @@ extension Backup {
             case creationDate = "CreationDate"
             case creatorRequestId = "CreatorRequestId"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case latestMpaApprovalTeamUpdate = "LatestMpaApprovalTeamUpdate"
             case lockDate = "LockDate"
             case locked = "Locked"
             case maxRetentionDays = "MaxRetentionDays"
             case minRetentionDays = "MinRetentionDays"
+            case mpaApprovalTeamArn = "MpaApprovalTeamArn"
+            case mpaSessionArn = "MpaSessionArn"
             case numberOfRecoveryPoints = "NumberOfRecoveryPoints"
+            case sourceBackupVaultArn = "SourceBackupVaultArn"
             case vaultState = "VaultState"
             case vaultType = "VaultType"
         }
@@ -2410,6 +2540,8 @@ extension Backup {
         public let indexStatus: IndexStatus?
         /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
         public let indexStatusMessage: String?
+        /// The date and time when the backup job that created this recovery point was initiated, in Unix format and Coordinated Universal Time (UTC).
+        public let initiationDate: Date?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
         /// This returns the boolean value that a recovery point is a parent (composite) job.
@@ -2430,7 +2562,7 @@ extension Backup {
         public let resourceType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
         public let sourceBackupVaultArn: String?
-        /// A status code specifying the state of the recovery point.  PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see UpdateBackupPlan. You can also increase your backup plan window using the Console by choosing and editing your backup plan.  EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.  STOPPED status occurs on a continuous backup where a user has taken some  action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge,  or disabling the EventBridge rules that are put in place by Backup. For  recovery points of Amazon S3, Amazon RDS, and Amazon Aurora resources, this status  occurs when the retention period of a continuous backup rule is changed. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created.  The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
+        /// A status code specifying the state of the recovery point. For more information, see   Recovery point status in the Backup Developer  Guide.    CREATING status indicates that an Backup job has been  initiated for a resource. The backup process has started and is actively processing  a backup job for the associated recovery point.    AVAILABLE status indicates that the backup was successfully created  for the recovery point. The backup process has completed without any issues, and the  recovery point is now ready for use.    PARTIAL status indicates a composite recovery point has one or more  nested recovery points that were not in the backup.    EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.    STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. For recovery points of Amazon S3, Amazon RDS, and Amazon Aurora resources, this status occurs when the retention period of a continuous backup rule is changed. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
         public let status: RecoveryPointStatus?
         /// A status message explaining the status of the recovery point.
         public let statusMessage: String?
@@ -2440,7 +2572,7 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil, vaultType: VaultType? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, initiationDate: Date? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil, vaultType: VaultType? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2453,6 +2585,7 @@ extension Backup {
             self.iamRoleArn = iamRoleArn
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
+            self.initiationDate = initiationDate
             self.isEncrypted = isEncrypted
             self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
@@ -2482,6 +2615,7 @@ extension Backup {
             case iamRoleArn = "IamRoleArn"
             case indexStatus = "IndexStatus"
             case indexStatusMessage = "IndexStatusMessage"
+            case initiationDate = "InitiationDate"
             case isEncrypted = "IsEncrypted"
             case isParent = "IsParent"
             case lastRestoreTime = "LastRestoreTime"
@@ -2692,6 +2826,34 @@ extension Backup {
             case statusMessage = "StatusMessage"
             case validationStatus = "ValidationStatus"
             case validationStatusMessage = "ValidationStatusMessage"
+        }
+    }
+
+    public struct DisassociateBackupVaultMpaApprovalTeamInput: AWSEncodableShape {
+        /// The name of the backup vault from which to disassociate the MPA approval team.
+        public let backupVaultName: String
+        /// An optional comment explaining the reason for disassociating the MPA approval team from the backup vault.
+        public let requesterComment: String?
+
+        @inlinable
+        public init(backupVaultName: String, requesterComment: String? = nil) {
+            self.backupVaultName = backupVaultName
+            self.requesterComment = requesterComment
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encodeIfPresent(self.requesterComment, forKey: .requesterComment)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requesterComment = "RequesterComment"
         }
     }
 
@@ -3613,6 +3775,66 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct LatestMpaApprovalTeamUpdate: AWSDecodableShape {
+        /// The date and time when the MPA approval team update will expire.
+        public let expiryDate: Date?
+        /// The date and time when the MPA approval team update was initiated.
+        public let initiationDate: Date?
+        /// The ARN of the MPA session associated with this update.
+        public let mpaSessionArn: String?
+        /// The current status of the MPA approval team update.
+        public let status: MpaSessionStatus?
+        /// A message describing the current status of the MPA approval team update.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(expiryDate: Date? = nil, initiationDate: Date? = nil, mpaSessionArn: String? = nil, status: MpaSessionStatus? = nil, statusMessage: String? = nil) {
+            self.expiryDate = expiryDate
+            self.initiationDate = initiationDate
+            self.mpaSessionArn = mpaSessionArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiryDate = "ExpiryDate"
+            case initiationDate = "InitiationDate"
+            case mpaSessionArn = "MpaSessionArn"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct LatestRevokeRequest: AWSDecodableShape {
+        /// The date and time when the revoke request will expire.
+        public let expiryDate: Date?
+        /// The date and time when the revoke request was initiated.
+        public let initiationDate: Date?
+        /// The ARN of the MPA session associated with this revoke request.
+        public let mpaSessionArn: String?
+        /// The current status of the revoke request.
+        public let status: MpaRevokeSessionStatus?
+        /// A message describing the current status of the revoke request.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(expiryDate: Date? = nil, initiationDate: Date? = nil, mpaSessionArn: String? = nil, status: MpaRevokeSessionStatus? = nil, statusMessage: String? = nil) {
+            self.expiryDate = expiryDate
+            self.initiationDate = initiationDate
+            self.mpaSessionArn = mpaSessionArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiryDate = "ExpiryDate"
+            case initiationDate = "InitiationDate"
+            case mpaSessionArn = "MpaSessionArn"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -4815,6 +5037,56 @@ extension Backup {
         }
     }
 
+    public struct ListRestoreAccessBackupVaultsInput: AWSEncodableShape {
+        /// The name of the backup vault for which to list associated restore access backup vaults.
+        public let backupVaultName: String
+        /// The maximum number of items to return in the response.
+        public let maxResults: Int?
+        /// The pagination token from a previous request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(backupVaultName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.backupVaultName = backupVaultName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRestoreAccessBackupVaultsOutput: AWSDecodableShape {
+        /// The pagination token to use in a subsequent request to retrieve the next set of results.
+        public let nextToken: String?
+        /// A list of restore access backup vaults associated with the specified backup vault.
+        public let restoreAccessBackupVaults: [RestoreAccessBackupVaultListMember]?
+
+        @inlinable
+        public init(nextToken: String? = nil, restoreAccessBackupVaults: [RestoreAccessBackupVaultListMember]? = nil) {
+            self.nextToken = nextToken
+            self.restoreAccessBackupVaults = restoreAccessBackupVaults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case restoreAccessBackupVaults = "RestoreAccessBackupVaults"
+        }
+    }
+
     public struct ListRestoreJobSummariesInput: AWSEncodableShape {
         /// Returns the job count for the specified account. If the request is sent from a member account or an account  not part of Amazon Web Services Organizations, jobs within requestor's account  will be returned. Root, admin, and delegated administrator accounts can use  the value ANY to return job counts from every account in the  organization.  AGGREGATE_ALL aggregates job counts  from all accounts within the authenticated organization,  then returns the sum.
         public let accountId: String?
@@ -5306,7 +5578,7 @@ extension Backup {
     }
 
     public struct PutBackupVaultNotificationsInput: AWSEncodableShape {
-        /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     The list below includes both supported events and deprecated events that are no longer in use (for reference). Deprecated events do not return statuses or notifications.  Refer to the list above for the supported events.
+        /// An array of events that indicate the status of jobs to back up resources to the backup vault. For the list of supported events, common use cases, and code samples, see Notification options with Backup.
         public let backupVaultEvents: [BackupVaultEvent]
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let backupVaultName: String
@@ -5392,6 +5664,8 @@ extension Backup {
         public let indexStatus: IndexStatus?
         /// A string in the form of a detailed message explaining the status of a backup index associated  with the recovery point.
         public let indexStatusMessage: String?
+        /// The date and time when the backup job that created this recovery point was initiated, in Unix format and Coordinated Universal Time (UTC).
+        public let initiationDate: Date?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
         /// This is a boolean value indicating this is  a parent (composite) recovery point.
@@ -5420,7 +5694,7 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, initiationDate: Date? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -5433,6 +5707,7 @@ extension Backup {
             self.iamRoleArn = iamRoleArn
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
+            self.initiationDate = initiationDate
             self.isEncrypted = isEncrypted
             self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
@@ -5461,6 +5736,7 @@ extension Backup {
             case iamRoleArn = "IamRoleArn"
             case indexStatus = "IndexStatus"
             case indexStatusMessage = "IndexStatusMessage"
+            case initiationDate = "InitiationDate"
             case isEncrypted = "IsEncrypted"
             case isParent = "IsParent"
             case lastRestoreTime = "LastRestoreTime"
@@ -5796,6 +6072,36 @@ extension Backup {
         }
     }
 
+    public struct RestoreAccessBackupVaultListMember: AWSDecodableShape {
+        /// The date and time when the restore access backup vault was approved.
+        public let approvalDate: Date?
+        /// The date and time when the restore access backup vault was created.
+        public let creationDate: Date?
+        /// Information about the latest request to revoke access to this backup vault.
+        public let latestRevokeRequest: LatestRevokeRequest?
+        /// The ARN of the restore access backup vault.
+        public let restoreAccessBackupVaultArn: String?
+        /// The current state of the restore access backup vault.
+        public let vaultState: VaultState?
+
+        @inlinable
+        public init(approvalDate: Date? = nil, creationDate: Date? = nil, latestRevokeRequest: LatestRevokeRequest? = nil, restoreAccessBackupVaultArn: String? = nil, vaultState: VaultState? = nil) {
+            self.approvalDate = approvalDate
+            self.creationDate = creationDate
+            self.latestRevokeRequest = latestRevokeRequest
+            self.restoreAccessBackupVaultArn = restoreAccessBackupVaultArn
+            self.vaultState = vaultState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvalDate = "ApprovalDate"
+            case creationDate = "CreationDate"
+            case latestRevokeRequest = "LatestRevokeRequest"
+            case restoreAccessBackupVaultArn = "RestoreAccessBackupVaultArn"
+            case vaultState = "VaultState"
+        }
+    }
+
     public struct RestoreJobCreator: AWSDecodableShape {
         /// An Amazon Resource Name (ARN) that uniquely identifies  a restore testing plan.
         public let restoreTestingPlanArn: String?
@@ -5939,7 +6245,7 @@ extension Backup {
         public let recoveryPointSelection: RestoreTestingRecoveryPointSelection
         /// The RestoreTestingPlanName is a unique string that is the name  of the restore testing plan. This cannot be changed after creation,  and it must consist of only alphanumeric characters and underscores.
         public let restoreTestingPlanName: String
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore  testing plan is executed. When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *).
         public let scheduleExpression: String
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -5979,7 +6285,7 @@ extension Backup {
         public let restoreTestingPlanArn: String
         /// The restore testing plan name.
         public let restoreTestingPlanName: String
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore  testing plan is executed. When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *).
         public let scheduleExpression: String
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -6025,7 +6331,7 @@ extension Backup {
         public let restoreTestingPlanArn: String
         /// The restore testing plan name.
         public let restoreTestingPlanName: String
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         public let scheduleExpression: String
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -6059,7 +6365,7 @@ extension Backup {
     public struct RestoreTestingPlanForUpdate: AWSEncodableShape {
         /// Required: Algorithm; RecoveryPointTypes;  IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if  not specified); ExcludeVaults (defaults to empty  list if not listed).
         public let recoveryPointSelection: RestoreTestingRecoveryPointSelection?
-        /// A CRON expression in specified timezone when a restore  testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         public let scheduleExpression: String?
         /// Optional. This is the timezone in which the schedule  expression is set. By default, ScheduleExpressions are in UTC.  You can modify this to a specified timezone.
         public let scheduleExpressionTimezone: String?
@@ -6125,7 +6431,7 @@ extension Backup {
         public let restoreMetadataOverrides: [String: String]?
         /// The unique name of the restore testing selection  that belongs to the related restore testing plan.
         public let restoreTestingSelectionName: String
-        /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
+        /// This is amount of hours (0 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
         public let validationWindowHours: Int?
 
         @inlinable
@@ -6264,6 +6570,36 @@ extension Backup {
         }
     }
 
+    public struct RevokeRestoreAccessBackupVaultInput: AWSEncodableShape {
+        /// The name of the source backup vault associated with the restore access backup vault to be revoked.
+        public let backupVaultName: String
+        /// A comment explaining the reason for revoking access to the restore access backup vault.
+        public let requesterComment: String?
+        /// The ARN of the restore access backup vault to revoke.
+        public let restoreAccessBackupVaultArn: String
+
+        @inlinable
+        public init(backupVaultName: String, requesterComment: String? = nil, restoreAccessBackupVaultArn: String) {
+            self.backupVaultName = backupVaultName
+            self.requesterComment = requesterComment
+            self.restoreAccessBackupVaultArn = restoreAccessBackupVaultArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodeQuery(self.requesterComment, key: "requesterComment")
+            request.encodePath(self.restoreAccessBackupVaultArn, key: "RestoreAccessBackupVaultArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ServiceUnavailableException: AWSErrorShape {
         public let code: String?
         public let context: String?
@@ -6309,7 +6645,7 @@ extension Backup {
         public let startWindowMinutes: Int64?
 
         @inlinable
-        public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, index: Index? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
+        public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = StartBackupJobInput.idempotencyToken(), index: Index? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
             self.backupOptions = backupOptions
             self.backupVaultName = backupVaultName
             self.completeWindowMinutes = completeWindowMinutes
@@ -6384,7 +6720,7 @@ extension Backup {
         public let sourceBackupVaultName: String
 
         @inlinable
-        public init(destinationBackupVaultArn: String, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String, sourceBackupVaultName: String) {
+        public init(destinationBackupVaultArn: String, iamRoleArn: String, idempotencyToken: String? = StartCopyJobInput.idempotencyToken(), lifecycle: Lifecycle? = nil, recoveryPointArn: String, sourceBackupVaultName: String) {
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.iamRoleArn = iamRoleArn
             self.idempotencyToken = idempotencyToken
@@ -6488,7 +6824,7 @@ extension Backup {
         public let resourceType: String?
 
         @inlinable
-        public init(copySourceTagsToRestoredResource: Bool? = nil, iamRoleArn: String? = nil, idempotencyToken: String? = nil, metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {
+        public init(copySourceTagsToRestoredResource: Bool? = nil, iamRoleArn: String? = nil, idempotencyToken: String? = StartRestoreJobInput.idempotencyToken(), metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {
             self.copySourceTagsToRestoredResource = copySourceTagsToRestoredResource
             self.iamRoleArn = iamRoleArn
             self.idempotencyToken = idempotencyToken
@@ -6544,7 +6880,7 @@ extension Backup {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource. ARNs that do not include backup are incompatible with tagging.  TagResource and UntagResource with invalid ARNs will  result in an error. Acceptable ARN content can include  arn:aws:backup:us-east. Invalid ARN content may look like  arn:aws:ec2:us-east.
+        /// The ARN that uniquely identifies the resource.
         public let resourceArn: String
         /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
         public let tags: [String: String]

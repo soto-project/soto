@@ -343,7 +343,7 @@ public struct MediaConnect: AWSService {
     ///   - outputs:  The outputs that you want to add to this flow.
     ///   - source:  The settings for the source that you want to use for the new flow.
     ///   - sourceFailoverConfig:  The settings for source failover.
-    ///   - sourceMonitoringConfig: The settings for source monitoring.
+    ///   - sourceMonitoringConfig:  The settings for source monitoring.
     ///   - sources: The sources that are assigned to the flow.
     ///   - vpcInterfaces:  The VPC interfaces you want on the flow.
     ///   - logger: Logger use during operation
@@ -623,7 +623,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeFlowSourceMetadata(input, logger: logger)
     }
 
-    /// Describes the thumbnail for the flow source.
+    ///  Describes the thumbnail for the flow source.
     @Sendable
     @inlinable
     public func describeFlowSourceThumbnail(_ input: DescribeFlowSourceThumbnailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowSourceThumbnailResponse {
@@ -636,7 +636,7 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Describes the thumbnail for the flow source.
+    ///  Describes the thumbnail for the flow source.
     ///
     /// Parameters:
     ///   - flowArn:  The Amazon Resource Name (ARN) of the flow.
@@ -1459,7 +1459,7 @@ public struct MediaConnect: AWSService {
     ///   - bridgeArn:  TheAmazon Resource Name (ARN) of the bridge that you want to update.
     ///   - egressGatewayBridge:  A cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
     ///   - ingressGatewayBridge:  A ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
-    ///   - sourceFailoverConfig: The settings for source failover.
+    ///   - sourceFailoverConfig:  The settings for source failover.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBridge(
@@ -1495,8 +1495,8 @@ public struct MediaConnect: AWSService {
     ///
     /// Parameters:
     ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
-    ///   - networkOutput: The network of the bridge output.
-    ///   - outputName: Tname of the output that you want to update.
+    ///   - networkOutput:  The network of the bridge output.
+    ///   - outputName:  Tname of the output that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBridgeOutput(
@@ -1531,8 +1531,8 @@ public struct MediaConnect: AWSService {
     /// Parameters:
     ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
     ///   - flowSource:  The name of the flow that you want to update.
-    ///   - networkSource: The network for the bridge source.
-    ///   - sourceName: The name of the source that you want to update.
+    ///   - networkSource:  The network for the bridge source.
+    ///   - sourceName:  The name of the source that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBridgeSource(
@@ -1568,7 +1568,7 @@ public struct MediaConnect: AWSService {
     ///
     /// Parameters:
     ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update the state of.
-    ///   - desiredState: The desired state for the bridge.
+    ///   - desiredState:  The desired state for the bridge.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBridgeState(
@@ -1603,7 +1603,7 @@ public struct MediaConnect: AWSService {
     ///   - maintenance:  The maintenance setting of the flow.
     ///   - ndiConfig:  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
     ///   - sourceFailoverConfig:  The settings for source failover.
-    ///   - sourceMonitoringConfig: The settings for source monitoring.
+    ///   - sourceMonitoringConfig:  The settings for source monitoring.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFlow(
@@ -1820,7 +1820,7 @@ public struct MediaConnect: AWSService {
     ///   - decryption: The type of encryption that is used on the content ingested from the source.
     ///   - description: A description of the source. This description is not visible outside of the current Amazon Web Services account.
     ///   - entitlementArn: The Amazon Resource Name (ARN) of the entitlement that allows you to subscribe to the flow. The entitlement is set by the content originator, and the ARN is generated as part of the originator's flow.
-    ///   - flowArn: The ARN of the flow that you want to update.
+    ///   - flowArn:  The ARN of the flow that you want to update.
     ///   - gatewayBridgeSource: The source configuration for cloud flows receiving a stream from a bridge.
     ///   - ingestPort: The port that the flow listens on for incoming content. If the protocol of the source is Zixi, the port must be set to 2088.
     ///   - maxBitrate: The maximum bitrate for RIST, RTP, and RTP-FEC streams.
@@ -1828,7 +1828,7 @@ public struct MediaConnect: AWSService {
     ///   - maxSyncBuffer: The size of the buffer (in milliseconds) to use to sync incoming source data.
     ///   - mediaStreamSourceConfigurations: The media stream that is associated with the source, and the parameters for that association.
     ///   - minLatency: The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-    ///   - protocol: The protocol that the source uses to deliver the content to MediaConnect.
+    ///   - protocol: The protocol that the source uses to deliver the content to MediaConnect.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     ///   - senderControlPort: The port that the flow uses to send outbound requests to initiate connection with the sender.
     ///   - senderIpAddress: The IP address that the flow communicates with to initiate connection with the sender.
     ///   - sourceArn: The ARN of the source that you want to update.

@@ -7867,6 +7867,40 @@ extension Glue {
         }
     }
 
+    public struct DataQualityAggregatedMetrics: AWSDecodableShape {
+        /// The total number of rows that failed one or more data quality rules.
+        public let totalRowsFailed: Double?
+        /// The total number of rows that passed all applicable data quality rules.
+        public let totalRowsPassed: Double?
+        /// The total number of rows that were processed during the data quality evaluation.
+        public let totalRowsProcessed: Double?
+        /// The total number of data quality rules that failed their evaluation criteria.
+        public let totalRulesFailed: Double?
+        /// The total number of data quality rules that passed their evaluation criteria.
+        public let totalRulesPassed: Double?
+        /// The total number of data quality rules that were evaluated.
+        public let totalRulesProcessed: Double?
+
+        @inlinable
+        public init(totalRowsFailed: Double? = nil, totalRowsPassed: Double? = nil, totalRowsProcessed: Double? = nil, totalRulesFailed: Double? = nil, totalRulesPassed: Double? = nil, totalRulesProcessed: Double? = nil) {
+            self.totalRowsFailed = totalRowsFailed
+            self.totalRowsPassed = totalRowsPassed
+            self.totalRowsProcessed = totalRowsProcessed
+            self.totalRulesFailed = totalRulesFailed
+            self.totalRulesPassed = totalRulesPassed
+            self.totalRulesProcessed = totalRulesProcessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalRowsFailed = "TotalRowsFailed"
+            case totalRowsPassed = "TotalRowsPassed"
+            case totalRowsProcessed = "TotalRowsProcessed"
+            case totalRulesFailed = "TotalRulesFailed"
+            case totalRulesPassed = "TotalRulesPassed"
+            case totalRulesProcessed = "TotalRulesProcessed"
+        }
+    }
+
     public struct DataQualityAnalyzerResult: AWSDecodableShape {
         /// A description of the data quality analyzer.
         public let description: String?
@@ -7982,6 +8016,8 @@ extension Glue {
     }
 
     public struct DataQualityResult: AWSDecodableShape {
+        ///  A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+        public let aggregatedMetrics: DataQualityAggregatedMetrics?
         /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
         public let analyzerResults: [DataQualityAnalyzerResult]?
         /// The date and time when this data quality run completed.
@@ -8012,7 +8048,8 @@ extension Glue {
         public let startedOn: Date?
 
         @inlinable
-        public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+        public init(aggregatedMetrics: DataQualityAggregatedMetrics? = nil, analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+            self.aggregatedMetrics = aggregatedMetrics
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
@@ -8030,6 +8067,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregatedMetrics = "AggregatedMetrics"
             case analyzerResults = "AnalyzerResults"
             case completedOn = "CompletedOn"
             case dataSource = "DataSource"
@@ -8182,15 +8220,18 @@ extension Glue {
         public let name: String?
         /// A pass or fail status for the rule.
         public let result: DataQualityRuleResultStatus?
+        /// A map containing metrics associated with the evaluation of the rule based on row-level results.
+        public let ruleMetrics: [String: Double]?
 
         @inlinable
-        public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluatedRule: String? = nil, evaluationMessage: String? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil) {
+        public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluatedRule: String? = nil, evaluationMessage: String? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil, ruleMetrics: [String: Double]? = nil) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluatedRule = evaluatedRule
             self.evaluationMessage = evaluationMessage
             self.name = name
             self.result = result
+            self.ruleMetrics = ruleMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8200,6 +8241,7 @@ extension Glue {
             case evaluationMessage = "EvaluationMessage"
             case name = "Name"
             case result = "Result"
+            case ruleMetrics = "RuleMetrics"
         }
     }
 
@@ -12399,6 +12441,8 @@ extension Glue {
     }
 
     public struct GetDataQualityResultResponse: AWSDecodableShape {
+        ///  A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+        public let aggregatedMetrics: DataQualityAggregatedMetrics?
         /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
         public let analyzerResults: [DataQualityAnalyzerResult]?
         /// The date and time when the run for this data quality result was completed.
@@ -12429,7 +12473,8 @@ extension Glue {
         public let startedOn: Date?
 
         @inlinable
-        public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+        public init(aggregatedMetrics: DataQualityAggregatedMetrics? = nil, analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+            self.aggregatedMetrics = aggregatedMetrics
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
@@ -12447,6 +12492,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregatedMetrics = "AggregatedMetrics"
             case analyzerResults = "AnalyzerResults"
             case completedOn = "CompletedOn"
             case dataSource = "DataSource"

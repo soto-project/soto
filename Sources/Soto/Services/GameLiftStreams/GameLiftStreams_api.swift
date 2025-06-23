@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS GameLiftStreams service.
 ///
-/// Amazon GameLift Streams Amazon GameLift Streams provides a global cloud solution for content streaming experiences. Use Amazon GameLift Streams tools to upload and configure content for streaming, deploy and scale computing resources to host streams, and manage stream session placement to meet customer demand. This Reference Guide describes the Amazon GameLift Streams service API. You can use the API through the Amazon Web Services SDK, the Command Line Interface (AWS CLI), or by making direct REST calls through HTTPS. See the Amazon GameLift Streams Developer Guide for more information on how Amazon GameLift Streams works and how to work with it.
+/// Amazon GameLift Streams Amazon GameLift Streams provides a global cloud solution for content streaming experiences. Use Amazon GameLift Streams tools to upload and configure content for streaming, deploy and scale computing resources to host streams, and manage stream session placement to meet customer demand. This Reference Guide describes the Amazon GameLift Streams service API. You can use the API through the Amazon Web Services SDK, the Command Line Interface (CLI), or by making direct REST calls through HTTPS. See the Amazon GameLift Streams Developer Guide for more information on how Amazon GameLift Streams works and how to work with it.
 public struct GameLiftStreams: AWSService {
     // MARK: Member variables
 
@@ -121,6 +121,7 @@ public struct GameLiftStreams: AWSService {
         [.fips]: .init(endpoints: [
             "af-south-1": "gameliftstreams-fips.af-south-1.api.aws",
             "ap-east-1": "gameliftstreams-fips.ap-east-1.api.aws",
+            "ap-east-2": "gameliftstreams-fips.ap-east-2.api.aws",
             "ap-northeast-1": "gameliftstreams-fips.ap-northeast-1.api.aws",
             "ap-northeast-2": "gameliftstreams-fips.ap-northeast-2.api.aws",
             "ap-northeast-3": "gameliftstreams-fips.ap-northeast-3.api.aws",
@@ -160,7 +161,7 @@ public struct GameLiftStreams: AWSService {
 
     // MARK: API Calls
 
-    ///  Add locations that can host stream sessions. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality.  This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
+    ///  Add locations that can host stream sessions. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality.   This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
     @Sendable
     @inlinable
     public func addStreamGroupLocations(_ input: AddStreamGroupLocationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddStreamGroupLocationsOutput {
@@ -173,10 +174,10 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    ///  Add locations that can host stream sessions. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality.  This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
+    ///  Add locations that can host stream sessions. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality.   This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
     ///
     /// Parameters:
-    ///   - identifier:  A stream group to add the specified locations to.  This value is a
+    ///   - identifier:  A stream group to add the specified locations to.  This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - locationConfigurations:  A set of one or more locations and the streaming capacity for each location.
     ///   - logger: Logger use during operation
     @inlinable
@@ -208,8 +209,8 @@ public struct GameLiftStreams: AWSService {
     /// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using DisassociateApplications.
     ///
     /// Parameters:
-    ///   - applicationIdentifiers: A set of applications to associate with the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
-    ///   - identifier: A stream group to associate to the applications. This value is a  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    ///   - applicationIdentifiers: A set of applications to associate with the stream group. This value is a set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
+    ///   - identifier: A stream group to associate to the applications. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateApplications(
@@ -224,7 +225,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.associateApplications(input, logger: logger)
     }
 
-    /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.   Make sure that your files in the Amazon S3 bucket are the correct version you want to use. As soon as you create a Amazon GameLift Streams application, you cannot change the files at a later time.   If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to INITIALIZED. When an application reaches READY status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
+    /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it.  Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.    Make sure that your files in the Amazon S3 bucket are the correct version you want to use. If you change the files at a later time, you will need to create a new Amazon GameLift Streams application.    If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to INITIALIZED. When an application reaches READY status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
     @Sendable
     @inlinable
     public func createApplication(_ input: CreateApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationOutput {
@@ -237,11 +238,11 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.   Make sure that your files in the Amazon S3 bucket are the correct version you want to use. As soon as you create a Amazon GameLift Streams application, you cannot change the files at a later time.   If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to INITIALIZED. When an application reaches READY status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
+    /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it.  Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.    Make sure that your files in the Amazon S3 bucket are the correct version you want to use. If you change the files at a later time, you will need to create a new Amazon GameLift Streams application.    If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to INITIALIZED. When an application reaches READY status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
     ///
     /// Parameters:
-    ///   - applicationLogOutputUri: An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
-    ///   - applicationLogPaths: Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
+    ///   - applicationLogOutputUri: An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide.
+    ///   - applicationLogPaths: Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri.
     ///   - applicationSourceUri: The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application.  The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region.
     ///   - clientToken:  A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
     ///   - description: A human-readable label for the application. You can update this value later.
@@ -274,10 +275,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.createApplication(input, logger: logger)
     }
 
-    ///  Manage how Amazon GameLift Streams streams your applications by using a stream group. A stream group is a collection of resources that Amazon GameLift Streams uses to stream your application to end-users. When you create a stream group, you specify an application to stream by default and the type of hardware to use, such as the graphical processing unit (GPU). You can also link additional applications, which allows you to stream those applications using this stream group. Depending on your expected users, you also scale the number of concurrent streams you want to support at one time, and in what locations.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity: always-on and on-demand:
-    ///     Always-on:  The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.
-    ///      On-demand:  The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
-    ///     To adjust the capacity of any ACTIVE stream group, call UpdateStreamGroup.  If the request is successful, Amazon GameLift Streams begins creating the stream group. Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to ACTIVATING. When the stream group reaches ACTIVE status, you can start stream sessions by using StartStreamSession. To check the stream group's status, call GetStreamGroup.
+    ///  Manage how Amazon GameLift Streams streams your applications by using a stream group. A stream group is a collection of resources that Amazon GameLift Streams uses to stream your application to end-users. When you create a stream group, you specify an application to stream by default and the type of hardware to use, such as the graphical processing unit (GPU). You can also link additional applications, which allows you to stream those applications using this stream group. Depending on your expected users, you also scale the number of concurrent streams you want to support at one time, and in what locations.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity, always-on and on-demand:     Always-on: The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.     On-demand: The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).     To adjust the capacity of any ACTIVE stream group, call UpdateStreamGroup.   If the request is successful, Amazon GameLift Streams begins creating the stream group. Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to ACTIVATING. When the stream group reaches ACTIVE status, you can start stream sessions by using StartStreamSession. To check the stream group's status, call GetStreamGroup.
     @Sendable
     @inlinable
     public func createStreamGroup(_ input: CreateStreamGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamGroupOutput {
@@ -290,14 +288,11 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    ///  Manage how Amazon GameLift Streams streams your applications by using a stream group. A stream group is a collection of resources that Amazon GameLift Streams uses to stream your application to end-users. When you create a stream group, you specify an application to stream by default and the type of hardware to use, such as the graphical processing unit (GPU). You can also link additional applications, which allows you to stream those applications using this stream group. Depending on your expected users, you also scale the number of concurrent streams you want to support at one time, and in what locations.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity: always-on and on-demand:
-    ///     Always-on:  The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.
-    ///      On-demand:  The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
-    ///     To adjust the capacity of any ACTIVE stream group, call UpdateStreamGroup.  If the request is successful, Amazon GameLift Streams begins creating the stream group. Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to ACTIVATING. When the stream group reaches ACTIVE status, you can start stream sessions by using StartStreamSession. To check the stream group's status, call GetStreamGroup.
+    ///  Manage how Amazon GameLift Streams streams your applications by using a stream group. A stream group is a collection of resources that Amazon GameLift Streams uses to stream your application to end-users. When you create a stream group, you specify an application to stream by default and the type of hardware to use, such as the graphical processing unit (GPU). You can also link additional applications, which allows you to stream those applications using this stream group. Depending on your expected users, you also scale the number of concurrent streams you want to support at one time, and in what locations.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity, always-on and on-demand:     Always-on: The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.     On-demand: The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).     To adjust the capacity of any ACTIVE stream group, call UpdateStreamGroup.   If the request is successful, Amazon GameLift Streams begins creating the stream group. Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to ACTIVATING. When the stream group reaches ACTIVE status, you can start stream sessions by using StartStreamSession. To check the stream group's status, call GetStreamGroup.
     ///
     /// Parameters:
     ///   - clientToken:  A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
-    ///   - defaultApplicationIdentifier: The unique identifier of the Amazon GameLift Streams application that you want to associate to a stream group as the default application. The application must be in READY status. By setting the default application identifier, you will optimize startup performance of this application in your stream group. Once set, this application cannot be disassociated from the stream group, unlike applications that are associated using AssociateApplications. If not set when creating a stream group, you will need to call AssociateApplications later, before you can start streaming.
+    ///   - defaultApplicationIdentifier: The unique identifier of the Amazon GameLift Streams application that you want to associate to a stream group as the default application. The application must be in READY status. By setting the default application identifier, you will optimize startup performance of this application in your stream group. Once set, this application cannot be disassociated from the stream group, unlike applications that are associated using AssociateApplications. If not set when creating a stream group, you will need to call AssociateApplications later, before you can start streaming. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     ///   - description: A descriptive label for the stream group.
     ///   - locationConfigurations:  A set of one or more locations and the streaming capacity for each location.
     ///   - streamClass: The target stream quality for sessions that are hosted in this stream group. Set a stream class that is appropriate to the type of content that you're streaming. Stream class determines the type of computing resources Amazon GameLift Streams uses and impacts the cost of streaming. The following options are available:  A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
@@ -341,9 +336,9 @@ public struct GameLiftStreams: AWSService {
     ///
     /// Parameters:
     ///   - clientToken:  A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
-    ///   - identifier:  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    ///   - identifier:  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.   The stream group that you want to run this stream session with. The stream group must be in ACTIVE status and have idle stream capacity.
     ///   - signalRequest: A WebRTC ICE offer string to use when initializing a WebRTC connection. The offer is a very long JSON string. Provide the string as a text value in quotes. The offer must be newly generated, not the same offer provided to StartStreamSession.
-    ///   - streamSessionIdentifier:  Amazon Resource Name (ARN) that uniquely identifies the stream session resource. Format example: 1AB2C3De4. The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status.
+    ///   - streamSessionIdentifier:  Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.   The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status.
     ///   - logger: Logger use during operation
     @inlinable
     public func createStreamSessionConnection(
@@ -362,7 +357,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.createStreamSessionConnection(input, logger: logger)
     }
 
-    /// Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket. You can only delete an application that meets the following conditions:    The application is in READY or ERROR status. You cannot delete an application that's in PROCESSING or INITIALIZED status.   The application is not the default application of any stream groups. You must first delete the stream group by using DeleteStreamGroup.   The application is not linked to any stream groups. You must first unlink the stream group by using DisassociateApplications.   An application is not streaming in any ongoing stream session. You must wait until the client ends the stream session or call TerminateStreamSession to end the stream.    If any active stream groups exist for this application, this request returns a ValidationException.
+    /// Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket.  You can only delete an application that meets the following conditions:    The application is in READY or ERROR status. You cannot delete an application that's in PROCESSING or INITIALIZED status.   The application is not the default application of any stream groups. You must first delete the stream group by using DeleteStreamGroup.   The application is not linked to any stream groups. You must first unlink the stream group by using DisassociateApplications.    An application is not streaming in any ongoing stream session. You must wait until the client ends the stream session or call TerminateStreamSession to end the stream.    If any active stream groups exist for this application, this request returns a ValidationException.
     @Sendable
     @inlinable
     public func deleteApplication(_ input: DeleteApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -375,10 +370,10 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    /// Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket. You can only delete an application that meets the following conditions:    The application is in READY or ERROR status. You cannot delete an application that's in PROCESSING or INITIALIZED status.   The application is not the default application of any stream groups. You must first delete the stream group by using DeleteStreamGroup.   The application is not linked to any stream groups. You must first unlink the stream group by using DisassociateApplications.   An application is not streaming in any ongoing stream session. You must wait until the client ends the stream session or call TerminateStreamSession to end the stream.    If any active stream groups exist for this application, this request returns a ValidationException.
+    /// Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket.  You can only delete an application that meets the following conditions:    The application is in READY or ERROR status. You cannot delete an application that's in PROCESSING or INITIALIZED status.   The application is not the default application of any stream groups. You must first delete the stream group by using DeleteStreamGroup.   The application is not linked to any stream groups. You must first unlink the stream group by using DisassociateApplications.    An application is not streaming in any ongoing stream session. You must wait until the client ends the stream session or call TerminateStreamSession to end the stream.    If any active stream groups exist for this application, this request returns a ValidationException.
     ///
     /// Parameters:
-    ///   - identifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteApplication(
@@ -407,7 +402,7 @@ public struct GameLiftStreams: AWSService {
     /// Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is DELETING. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
     ///
     /// Parameters:
-    ///   - identifier: The unique ID value of the stream group resource to delete. Format example: sg-1AB2C3De4.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteStreamGroup(
@@ -420,7 +415,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.deleteStreamGroup(input, logger: logger)
     }
 
-    ///  When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams using this stream group. The disassociate action does not affect the stream capacity of a stream group.  You can only disassociate an application if it's not a default application of the stream group. Check DefaultApplicationIdentifier by calling GetStreamGroup.
+    ///  When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams using this stream group. The disassociate action does not affect the stream capacity of a stream group.   You can only disassociate an application if it's not a default application of the stream group. Check DefaultApplicationIdentifier by calling GetStreamGroup.
     @Sendable
     @inlinable
     public func disassociateApplications(_ input: DisassociateApplicationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateApplicationsOutput {
@@ -433,11 +428,11 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    ///  When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams using this stream group. The disassociate action does not affect the stream capacity of a stream group.  You can only disassociate an application if it's not a default application of the stream group. Check DefaultApplicationIdentifier by calling GetStreamGroup.
+    ///  When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams using this stream group. The disassociate action does not affect the stream capacity of a stream group.   You can only disassociate an application if it's not a default application of the stream group. Check DefaultApplicationIdentifier by calling GetStreamGroup.
     ///
     /// Parameters:
-    ///   - applicationIdentifiers: A set of applications that you want to disassociate from the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
-    ///   - identifier: A stream group to disassociate these applications from. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    ///   - applicationIdentifiers: A set of applications that you want to disassociate from the stream group. This value is a set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
+    ///   - identifier: A stream group to disassociate these applications from. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateApplications(
@@ -452,7 +447,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.disassociateApplications(input, logger: logger)
     }
 
-    ///  Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output.  You can only call this action on a stream session that is in progress, specifically in one of the following statuses ACTIVE, CONNECTED, PENDING_CLIENT_RECONNECTION, and RECONNECTING. You must provide an Amazon Simple Storage Service (Amazon S3) bucket to store the files in. When the session ends, Amazon GameLift Streams produces a compressed folder that contains all of the files and directories that were modified or created by the application during the stream session. AWS uses your security credentials to authenticate and authorize access to your Amazon S3 bucket.  Amazon GameLift Streams collects the following generated and modified files. Find them in the corresponding folders in the .zip archive.    application/: The folder where your application or game is stored.       profile/: The user profile folder.    temp/: The system temp folder.    To verify the status of the exported files, use GetStreamSession.  To delete the files, delete the object in the S3 bucket.
+    ///  Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output.   You can only call this action on a stream session that is in progress, specifically in one of the following statuses ACTIVE, CONNECTED, PENDING_CLIENT_RECONNECTION, and RECONNECTING. You must provide an Amazon Simple Storage Service (Amazon S3) bucket to store the files in. When the session ends, Amazon GameLift Streams produces a compressed folder that contains all of the files and directories that were modified or created by the application during the stream session. AWS uses your security credentials to authenticate and authorize access to your Amazon S3 bucket.  Amazon GameLift Streams collects the following generated and modified files. Find them in the corresponding folders in the .zip archive.    application/: The folder where your application or game is stored.       profile/: The user profile folder.    temp/: The system temp folder.    To verify the status of the exported files, use GetStreamSession.  To delete the files, delete the object in the S3 bucket.
     @Sendable
     @inlinable
     public func exportStreamSessionFiles(_ input: ExportStreamSessionFilesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportStreamSessionFilesOutput {
@@ -465,12 +460,12 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    ///  Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output.  You can only call this action on a stream session that is in progress, specifically in one of the following statuses ACTIVE, CONNECTED, PENDING_CLIENT_RECONNECTION, and RECONNECTING. You must provide an Amazon Simple Storage Service (Amazon S3) bucket to store the files in. When the session ends, Amazon GameLift Streams produces a compressed folder that contains all of the files and directories that were modified or created by the application during the stream session. AWS uses your security credentials to authenticate and authorize access to your Amazon S3 bucket.  Amazon GameLift Streams collects the following generated and modified files. Find them in the corresponding folders in the .zip archive.    application/: The folder where your application or game is stored.       profile/: The user profile folder.    temp/: The system temp folder.    To verify the status of the exported files, use GetStreamSession.  To delete the files, delete the object in the S3 bucket.
+    ///  Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output.   You can only call this action on a stream session that is in progress, specifically in one of the following statuses ACTIVE, CONNECTED, PENDING_CLIENT_RECONNECTION, and RECONNECTING. You must provide an Amazon Simple Storage Service (Amazon S3) bucket to store the files in. When the session ends, Amazon GameLift Streams produces a compressed folder that contains all of the files and directories that were modified or created by the application during the stream session. AWS uses your security credentials to authenticate and authorize access to your Amazon S3 bucket.  Amazon GameLift Streams collects the following generated and modified files. Find them in the corresponding folders in the .zip archive.    application/: The folder where your application or game is stored.       profile/: The user profile folder.    temp/: The system temp folder.    To verify the status of the exported files, use GetStreamSession.  To delete the files, delete the object in the S3 bucket.
     ///
     /// Parameters:
-    ///   - identifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
-    ///   - outputUri:  The S3 bucket URI where Amazon GameLift Streams uploads the set of compressed exported files for this stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension. Example 1: If you provide an S3 URI called s3://MyBucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location.  Example 2: If you provide an S3 URI called s3://MyBucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://MyBucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
-    ///   - streamSessionIdentifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+    ///   - outputUri:  The S3 bucket URI where Amazon GameLift Streams uploads the set of compressed exported files for this stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension.  Example 1: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location.   Example 2: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
+    ///   - streamSessionIdentifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
     ///   - logger: Logger use during operation
     @inlinable
     public func exportStreamSessionFiles(
@@ -503,7 +498,7 @@ public struct GameLiftStreams: AWSService {
     /// Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application.
     ///
     /// Parameters:
-    ///   - identifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     ///   - logger: Logger use during operation
     @inlinable
     public func getApplication(
@@ -532,7 +527,7 @@ public struct GameLiftStreams: AWSService {
     /// Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group.
     ///
     /// Parameters:
-    ///   - identifier: The unique ID value of the stream group resource to retrieve. Format example: sg-1AB2C3De4.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - logger: Logger use during operation
     @inlinable
     public func getStreamGroup(
@@ -561,8 +556,8 @@ public struct GameLiftStreams: AWSService {
     /// Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
     ///
     /// Parameters:
-    ///   - identifier: The stream group that runs this stream session. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
-    ///   - streamSessionIdentifier: An  Amazon Resource Name (ARN) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
+    ///   - identifier: The stream group that runs this stream session. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+    ///   - streamSessionIdentifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
     ///   - logger: Logger use during operation
     @inlinable
     public func getStreamSession(
@@ -594,7 +589,7 @@ public struct GameLiftStreams: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
-    ///   - nextToken: The  token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+    ///   - nextToken: The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplications(
@@ -626,7 +621,7 @@ public struct GameLiftStreams: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
-    ///   - nextToken: A  token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+    ///   - nextToken: A token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
     ///   - logger: Logger use during operation
     @inlinable
     public func listStreamGroups(
@@ -657,10 +652,10 @@ public struct GameLiftStreams: AWSService {
     /// Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting. To retrieve stream sessions, specify the stream group, and optionally filter by stream session status. You can paginate the results as needed. This operation returns the requested stream sessions in no particular order.
     ///
     /// Parameters:
-    ///   - exportFilesStatus: Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.
+    ///   - exportFilesStatus: Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.  Exported files can be in one of the following states:     SUCCEEDED: The exported files are successfully stored in S3 bucket.     FAILED: The session ended but Amazon GameLift Streams couldn't collect and upload the to S3.     PENDING: Either the stream session is still in progress, or uploading the exported files to the S3 bucket is in progress.
     ///   - identifier: The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the Amazon Resource Name (ARN).
-    ///   - maxResults: The  number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
-    ///   - nextToken: The  token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+    ///   - maxResults: The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
+    ///   - nextToken: The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
     ///   - status: Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.
     ///   - logger: Logger use during operation
     @inlinable
@@ -699,8 +694,8 @@ public struct GameLiftStreams: AWSService {
     ///
     /// Parameters:
     ///   - exportFilesStatus: Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.
-    ///   - maxResults: The  number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
-    ///   - nextToken: The  token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+    ///   - maxResults: The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
+    ///   - nextToken: The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
     ///   - status: Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.
     ///   - logger: Logger use during operation
     @inlinable
@@ -720,7 +715,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.listStreamSessionsByAccount(input, logger: logger)
     }
 
-    /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource.  Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference   Amazon Web Services Tagging Strategies
+    /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource.  Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference    Amazon Web Services Tagging Strategies
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -733,10 +728,10 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource.  Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference   Amazon Web Services Tagging Strategies
+    /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource.  Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference    Amazon Web Services Tagging Strategies
     ///
     /// Parameters:
-    ///   - resourceArn: The (Amazon Resource Name (ARN) that you want to retrieve tags for. To get a Amazon GameLift Streams resource ARN, call a List or Get operation for the resource.
+    ///   - resourceArn: The Amazon Resource Name (ARN) that you want to retrieve tags for. To get an Amazon GameLift Streams resource ARN, call a List or Get operation for the resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -749,7 +744,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    ///  Removes a set of remote locations from this stream group. Amazon GameLift Streams works to release allocated compute resources in these location. Thus, stream sessions can no longer start from these locations by using this stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal S3 bucket at this location.  You cannot remove the region where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero.
+    ///  Removes a set of remote locations from this stream group. Amazon GameLift Streams works to release allocated compute resources in these location. Thus, stream sessions can no longer start from these locations by using this stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal S3 bucket at this location.   You cannot remove the region where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero.
     @Sendable
     @inlinable
     public func removeStreamGroupLocations(_ input: RemoveStreamGroupLocationsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -762,11 +757,11 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    ///  Removes a set of remote locations from this stream group. Amazon GameLift Streams works to release allocated compute resources in these location. Thus, stream sessions can no longer start from these locations by using this stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal S3 bucket at this location.  You cannot remove the region where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero.
+    ///  Removes a set of remote locations from this stream group. Amazon GameLift Streams works to release allocated compute resources in these location. Thus, stream sessions can no longer start from these locations by using this stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal S3 bucket at this location.   You cannot remove the region where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero.
     ///
     /// Parameters:
-    ///   - identifier:  A stream group to remove the specified locations from.  This value is a
-    ///   - locations:  A set of locations to remove this stream group.  A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
+    ///   - identifier:  A stream group to remove the specified locations from.   This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+    ///   - locations:  A set of locations to remove this stream group.   A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeStreamGroupLocations(
@@ -781,7 +776,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.removeStreamGroupLocations(input, logger: logger)
     }
 
-    ///  This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource, or stream capacity, that a stream group has allocated.  To start a new stream session, specify a stream group and application ID, along with the transport protocol and signal request settings to use with the stream. You must have associated at least one application to the stream group before starting a stream session, either when creating the stream group, or by using AssociateApplications. For stream groups that have multiple locations, provide a set of locations ordered by priority by setting Locations. Amazon GameLift Streams will start a single stream session in the next available location. An application must be finished replicating in a remote location before the remote location can host a stream.  If the request is successful, Amazon GameLift Streams begins to prepare the stream. Amazon GameLift Streams assigns an Amazon Resource Name (ARN) value to the stream session resource and sets the status to ACTIVATING. During the stream preparation process, Amazon GameLift Streams queues the request and searches for available stream capacity to run the stream. This can result to one of the following:    Amazon GameLift Streams identifies an available compute resource to run the application content and start the stream. When the stream is ready, the stream session's status changes to ACTIVE and includes stream connection information. Provide the connection information to the requesting client to join the stream session.   Amazon GameLift Streams doesn't identify an available resource within a certain time, set by ClientToken. In this case, Amazon GameLift Streams stops processing the request, and the stream session object status changes to ERROR with status reason placementTimeout.
+    ///  This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource that a stream group has allocated.  To start a new stream session, specify a stream group and application ID, along with the transport protocol and signal request settings to use with the stream. You must have associated at least one application to the stream group before starting a stream session, either when creating the stream group, or by using AssociateApplications.  For stream groups that have multiple locations, provide a set of locations ordered by priority using a Locations parameter. Amazon GameLift Streams will start a single stream session in the next available location. An application must be finished replicating in a remote location before the remote location can host a stream.   If the request is successful, Amazon GameLift Streams begins to prepare the stream. Amazon GameLift Streams assigns an Amazon Resource Name (ARN) value to the stream session resource and sets the status to ACTIVATING. During the stream preparation process, Amazon GameLift Streams queues the request and searches for available stream capacity to run the stream. This results in one of the following:     Amazon GameLift Streams identifies an available compute resource to run the application content and start the stream. When the stream is ready, the stream session's status changes to ACTIVE and includes stream connection information. Provide the connection information to the requesting client to join the stream session.    Amazon GameLift Streams doesn't identify an available resource within a certain time, set by ClientToken. In this case, Amazon GameLift Streams stops processing the request, and the stream session object status changes to ERROR with status reason placementTimeout.
     @Sendable
     @inlinable
     public func startStreamSession(_ input: StartStreamSessionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartStreamSessionOutput {
@@ -794,20 +789,20 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    ///  This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource, or stream capacity, that a stream group has allocated.  To start a new stream session, specify a stream group and application ID, along with the transport protocol and signal request settings to use with the stream. You must have associated at least one application to the stream group before starting a stream session, either when creating the stream group, or by using AssociateApplications. For stream groups that have multiple locations, provide a set of locations ordered by priority by setting Locations. Amazon GameLift Streams will start a single stream session in the next available location. An application must be finished replicating in a remote location before the remote location can host a stream.  If the request is successful, Amazon GameLift Streams begins to prepare the stream. Amazon GameLift Streams assigns an Amazon Resource Name (ARN) value to the stream session resource and sets the status to ACTIVATING. During the stream preparation process, Amazon GameLift Streams queues the request and searches for available stream capacity to run the stream. This can result to one of the following:    Amazon GameLift Streams identifies an available compute resource to run the application content and start the stream. When the stream is ready, the stream session's status changes to ACTIVE and includes stream connection information. Provide the connection information to the requesting client to join the stream session.   Amazon GameLift Streams doesn't identify an available resource within a certain time, set by ClientToken. In this case, Amazon GameLift Streams stops processing the request, and the stream session object status changes to ERROR with status reason placementTimeout.
+    ///  This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource that a stream group has allocated.  To start a new stream session, specify a stream group and application ID, along with the transport protocol and signal request settings to use with the stream. You must have associated at least one application to the stream group before starting a stream session, either when creating the stream group, or by using AssociateApplications.  For stream groups that have multiple locations, provide a set of locations ordered by priority using a Locations parameter. Amazon GameLift Streams will start a single stream session in the next available location. An application must be finished replicating in a remote location before the remote location can host a stream.   If the request is successful, Amazon GameLift Streams begins to prepare the stream. Amazon GameLift Streams assigns an Amazon Resource Name (ARN) value to the stream session resource and sets the status to ACTIVATING. During the stream preparation process, Amazon GameLift Streams queues the request and searches for available stream capacity to run the stream. This results in one of the following:     Amazon GameLift Streams identifies an available compute resource to run the application content and start the stream. When the stream is ready, the stream session's status changes to ACTIVE and includes stream connection information. Provide the connection information to the requesting client to join the stream session.    Amazon GameLift Streams doesn't identify an available resource within a certain time, set by ClientToken. In this case, Amazon GameLift Streams stops processing the request, and the stream session object status changes to ERROR with status reason placementTimeout.
     ///
     /// Parameters:
-    ///   - additionalEnvironmentVariables: A set of options that you can use to control the stream session runtime environment, expressed as a set of key-value pairs.  You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client.  If you want to debug your application with environment variables, we recommend that you do so in a local environment outside of Amazon GameLift Streams.  For more information, refer to the Compatibility Guidance in the troubleshooting section of the Developer Guide.   AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes.  AdditionalEnvironmentVariables passes data using environment variables; while  AdditionalLaunchArgs passes data using command-line arguments.
-    ///   - additionalLaunchArgs: A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client.  AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes.  AdditionalEnvironmentVariables passes data using environment variables; while  AdditionalLaunchArgs passes data using command-line arguments.
-    ///   - applicationIdentifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    ///   - additionalEnvironmentVariables: A set of options that you can use to control the stream session runtime environment, expressed as a set of key-value pairs. You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client.  If you want to debug your application with environment variables, we recommend that you do so in a local environment outside of Amazon GameLift Streams. For more information, refer to the Compatibility Guidance in the troubleshooting section of the Developer Guide.   AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
+    ///   - additionalLaunchArgs: A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client.  AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
+    ///   - applicationIdentifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     ///   - clientToken:  A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
     ///   - connectionTimeoutSeconds: Length of time (in seconds) that Amazon GameLift Streams should wait for a client to connect to the stream session. This time span starts when the stream session reaches ACTIVE status. If no client connects before the timeout, Amazon GameLift Streams stops the stream session with status of TERMINATED. Default value is 120.
     ///   - description: A human-readable label for the stream session. You can update this value later.
-    ///   - identifier: The stream group to run this stream session with. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
-    ///   - locations:  A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location.  This value is A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
+    ///   - identifier: The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+    ///   - locations:  A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location.   This value is A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
     ///   - protocol: The data transport protocol to use for the stream session.
     ///   - sessionLengthSeconds: The maximum length of time (in seconds) that Amazon GameLift Streams keeps the stream session open. At this point, Amazon GameLift Streams ends the stream session regardless of any existing client connections. Default value is 43200.
-    ///   - signalRequest: A WebRTC ICE offer string to use when initializing a WebRTC connection. The offer is a very long JSON string. Provide the string as a text value in quotes.
+    ///   - signalRequest: A WebRTC ICE offer string to use when initializing a WebRTC connection. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accomplished using CreateStreamSessionConnection.
     ///   - userId:  An opaque, unique identifier for an end-user, defined by the developer.
     ///   - logger: Logger use during operation
     @inlinable
@@ -843,7 +838,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.startStreamSession(input, logger: logger)
     }
 
-    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types:   Application   StreamGroup    Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference   Amazon Web Services Tagging Strategies
+    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types:   Application   StreamGroup    Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference    Amazon Web Services Tagging Strategies
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -856,7 +851,7 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types:   Application   StreamGroup    Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference   Amazon Web Services Tagging Strategies
+    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types:   Application   StreamGroup    Learn more   Tagging Amazon Web Services Resources in the Amazon Web Services General Reference    Amazon Web Services Tagging Strategies
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon GameLift Streams resource that you want to apply tags to.
@@ -891,8 +886,8 @@ public struct GameLiftStreams: AWSService {
     /// Permanently terminates an active stream session. When called, the stream session status changes to TERMINATING. You can terminate a stream session in any status except ACTIVATING. If the stream session is in ACTIVATING status, an exception is thrown.
     ///
     /// Parameters:
-    ///   - identifier:  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
-    ///   - streamSessionIdentifier:  Amazon Resource Name (ARN) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
+    ///   - identifier:  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.  The stream group that runs this stream session.
+    ///   - streamSessionIdentifier:  Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
     ///   - logger: Logger use during operation
     @inlinable
     public func terminateStreamSession(
@@ -955,10 +950,10 @@ public struct GameLiftStreams: AWSService {
     ///  Updates the mutable configuration settings for a Amazon GameLift Streams application resource. You can change the Description, ApplicationLogOutputUri, and ApplicationLogPaths.  To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application.
     ///
     /// Parameters:
-    ///   - applicationLogOutputUri: An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
-    ///   - applicationLogPaths: Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
+    ///   - applicationLogOutputUri: An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide.
+    ///   - applicationLogPaths: Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri.
     ///   - description: A human-readable label for the application.
-    ///   - identifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplication(
@@ -977,10 +972,7 @@ public struct GameLiftStreams: AWSService {
         return try await self.updateApplication(input, logger: logger)
     }
 
-    ///  Updates the configuration settings for an Amazon GameLift Streams stream group resource. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity: always-on and on-demand:
-    ///     Always-on:  The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.
-    ///      On-demand:  The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
-    ///     To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group.
+    ///  Updates the configuration settings for an Amazon GameLift Streams stream group resource. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity, always-on and on-demand:     Always-on: The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.     On-demand: The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).    To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group.
     @Sendable
     @inlinable
     public func updateStreamGroup(_ input: UpdateStreamGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStreamGroupOutput {
@@ -993,14 +985,11 @@ public struct GameLiftStreams: AWSService {
             logger: logger
         )
     }
-    ///  Updates the configuration settings for an Amazon GameLift Streams stream group resource. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity: always-on and on-demand:
-    ///     Always-on:  The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.
-    ///      On-demand:  The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
-    ///     To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group.
+    ///  Updates the configuration settings for an Amazon GameLift Streams stream group resource. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group.   Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity, always-on and on-demand:     Always-on: The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.     On-demand: The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).    To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group.
     ///
     /// Parameters:
     ///   - description: A descriptive label for the stream group.
-    ///   - identifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - locationConfigurations:  A set of one or more locations and the streaming capacity for each location.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1121,9 +1110,9 @@ extension GameLiftStreams {
     /// Return PaginatorSequence for operation ``listStreamSessions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - exportFilesStatus: Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.
+    ///   - exportFilesStatus: Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.  Exported files can be in one of the following states:     SUCCEEDED: The exported files are successfully stored in S3 bucket.     FAILED: The session ended but Amazon GameLift Streams couldn't collect and upload the to S3.     PENDING: Either the stream session is still in progress, or uploading the exported files to the S3 bucket is in progress.
     ///   - identifier: The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the Amazon Resource Name (ARN).
-    ///   - maxResults: The  number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
+    ///   - maxResults: The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
     ///   - status: Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1165,7 +1154,7 @@ extension GameLiftStreams {
     ///
     /// - Parameters:
     ///   - exportFilesStatus: Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.
-    ///   - maxResults: The  number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
+    ///   - maxResults: The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
     ///   - status: Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1255,7 +1244,7 @@ extension GameLiftStreams {
     /// Waiter for operation ``getApplication(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - identifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilApplicationDeleted(
@@ -1291,7 +1280,7 @@ extension GameLiftStreams {
     /// Waiter for operation ``getApplication(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - identifier: An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilApplicationReady(
@@ -1331,7 +1320,7 @@ extension GameLiftStreams {
     /// Waiter for operation ``getStreamGroup(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - identifier: The unique ID value of the stream group resource to retrieve. Format example: sg-1AB2C3De4.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStreamGroupActive(
@@ -1368,7 +1357,7 @@ extension GameLiftStreams {
     /// Waiter for operation ``getStreamGroup(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - identifier: The unique ID value of the stream group resource to retrieve. Format example: sg-1AB2C3De4.
+    ///   - identifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStreamGroupDeleted(
@@ -1404,8 +1393,8 @@ extension GameLiftStreams {
     /// Waiter for operation ``getStreamSession(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - identifier: The stream group that runs this stream session. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
-    ///   - streamSessionIdentifier: An  Amazon Resource Name (ARN) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
+    ///   - identifier: The stream group that runs this stream session. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+    ///   - streamSessionIdentifier: An Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStreamSessionActive(

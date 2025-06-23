@@ -126,6 +126,8 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The date and time when the application run was created.
         public let createdAt: Date
+        /// The IAM Identity Center configuration applied to enable trusted identity propagation.
+        public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// The image configuration applied to all worker types.
         public let imageConfiguration: ImageConfiguration?
         /// The initial capacity of the application.
@@ -141,7 +143,7 @@ extension EMRServerless {
         public let networkConfiguration: NetworkConfiguration?
         /// The Amazon EMR release associated with the application.
         public let releaseLabel: String
-        /// The Configuration  specifications of an application. Each configuration consists of a classification and properties. You use this  parameter when creating or updating an application. To see the runtimeConfiguration object of an application, run the GetApplication API operation.
+        /// The Configuration specifications of an application. Each configuration consists of a classification and properties. You use this parameter when creating or updating an application. To see the runtimeConfiguration object of an application, run the GetApplication API operation.
         public let runtimeConfiguration: [Configuration]?
         /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
         public let schedulerConfiguration: SchedulerConfiguration?
@@ -159,13 +161,14 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, identityCenterConfiguration: IdentityCenterConfiguration? = nil, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.createdAt = createdAt
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
@@ -191,6 +194,7 @@ extension EMRServerless {
             case autoStartConfiguration = "autoStartConfiguration"
             case autoStopConfiguration = "autoStopConfiguration"
             case createdAt = "createdAt"
+            case identityCenterConfiguration = "identityCenterConfiguration"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
@@ -297,11 +301,14 @@ extension EMRServerless {
         public let applicationId: String
         /// The ID of the job run to cancel.
         public let jobRunId: String
+        /// The duration in seconds to wait before forcefully terminating the job after cancellation is requested.
+        public let shutdownGracePeriodInSeconds: Int?
 
         @inlinable
-        public init(applicationId: String, jobRunId: String) {
+        public init(applicationId: String, jobRunId: String, shutdownGracePeriodInSeconds: Int? = nil) {
             self.applicationId = applicationId
             self.jobRunId = jobRunId
+            self.shutdownGracePeriodInSeconds = shutdownGracePeriodInSeconds
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -309,6 +316,7 @@ extension EMRServerless {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
             request.encodePath(self.jobRunId, key: "jobRunId")
+            request.encodeQuery(self.shutdownGracePeriodInSeconds, key: "shutdownGracePeriodInSeconds")
         }
 
         public func validate(name: String) throws {
@@ -467,11 +475,13 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to create. Its value must be unique for each request.
         public let clientToken: String
+        /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
+        public let identityCenterConfiguration: IdentityCenterConfigurationInput?
         /// The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
         public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is created.
         public let initialCapacity: [String: InitialCapacityConfig]?
-        /// The interactive configuration object that enables the interactive use cases  to use when running an application.
+        /// The interactive configuration object that enables the interactive use cases to use when running an application.
         public let interactiveConfiguration: InteractiveConfiguration?
         /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
@@ -483,7 +493,7 @@ extension EMRServerless {
         public let networkConfiguration: NetworkConfiguration?
         /// The Amazon EMR release associated with the application.
         public let releaseLabel: String
-        /// The Configuration  specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
+        /// The Configuration specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
         public let runtimeConfiguration: [Configuration]?
         /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
         public let schedulerConfiguration: SchedulerConfiguration?
@@ -495,11 +505,12 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
@@ -519,6 +530,7 @@ extension EMRServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
+            try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
             try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
             try self.initialCapacity?.forEach {
                 try validate($0.key, name: "initialCapacity.key", parent: name, max: 50)
@@ -563,6 +575,7 @@ extension EMRServerless {
             case autoStartConfiguration = "autoStartConfiguration"
             case autoStopConfiguration = "autoStopConfiguration"
             case clientToken = "clientToken"
+            case identityCenterConfiguration = "identityCenterConfiguration"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
@@ -805,6 +818,44 @@ extension EMRServerless {
         }
     }
 
+    public struct IdentityCenterConfiguration: AWSDecodableShape {
+        /// The ARN of the EMR Serverless created IAM Identity Center Application that provides trusted-identity propagation.
+        public let identityCenterApplicationArn: String?
+        /// The ARN of the IAM Identity Center instance.
+        public let identityCenterInstanceArn: String?
+
+        @inlinable
+        public init(identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
+            self.identityCenterApplicationArn = identityCenterApplicationArn
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityCenterApplicationArn = "identityCenterApplicationArn"
+            case identityCenterInstanceArn = "identityCenterInstanceArn"
+        }
+    }
+
+    public struct IdentityCenterConfigurationInput: AWSEncodableShape {
+        /// The ARN of the IAM Identity Center instance.
+        public let identityCenterInstanceArn: String?
+
+        @inlinable
+        public init(identityCenterInstanceArn: String? = nil) {
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, max: 1024)
+            try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, min: 10)
+            try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityCenterInstanceArn = "identityCenterInstanceArn"
+        }
+    }
+
     public struct ImageConfiguration: AWSDecodableShape {
         /// The image URI.
         public let imageUri: String
@@ -906,6 +957,7 @@ extension EMRServerless {
         public let createdBy: String
         /// The date and time when the job was terminated.
         public let endedAt: Date?
+        public let executionIamPolicy: JobRunExecutionIamPolicy?
         /// The execution role ARN of the job run.
         public let executionRole: String
         /// Returns the job run timeout value from the StartJobRun call. If no timeout was specified, then it returns the default timeout of 720 minutes.
@@ -941,7 +993,7 @@ extension EMRServerless {
         public let updatedAt: Date
 
         @inlinable
-        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, endedAt: Date? = nil, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, queuedDurationMilliseconds: Int64? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, startedAt: Date? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
+        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, endedAt: Date? = nil, executionIamPolicy: JobRunExecutionIamPolicy? = nil, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, queuedDurationMilliseconds: Int64? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, startedAt: Date? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
             self.attempt = attempt
@@ -952,6 +1004,7 @@ extension EMRServerless {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
+            self.executionIamPolicy = executionIamPolicy
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
@@ -982,6 +1035,7 @@ extension EMRServerless {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case endedAt = "endedAt"
+            case executionIamPolicy = "executionIamPolicy"
             case executionRole = "executionRole"
             case executionTimeoutMinutes = "executionTimeoutMinutes"
             case jobDriver = "jobDriver"
@@ -1069,6 +1123,36 @@ extension EMRServerless {
             case stateDetails = "stateDetails"
             case type = "type"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct JobRunExecutionIamPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// An IAM inline policy to use as an execution IAM policy.
+        public let policy: String?
+        /// A list of Amazon Resource Names (ARNs) to use as an execution IAM policy.
+        public let policyArns: [String]?
+
+        @inlinable
+        public init(policy: String? = nil, policyArns: [String]? = nil) {
+            self.policy = policy
+            self.policyArns = policyArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 2048)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "^([\t\n\r -ÿ]+)$")
+            try self.policyArns?.forEach {
+                try validate($0, name: "policyArns[]", parent: name, max: 2048)
+                try validate($0, name: "policyArns[]", parent: name, min: 20)
+                try validate($0, name: "policyArns[]", parent: name, pattern: "^([\t\n\r -~ -퟿-�က0-ჿFF]+)$")
+            }
+            try self.validate(self.policyArns, name: "policyArns", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case policyArns = "policyArns"
         }
     }
 
@@ -1243,7 +1327,7 @@ extension EMRServerless {
     public struct ListJobRunAttemptsResponse: AWSDecodableShape {
         /// The array of the listed job run attempt objects.
         public let jobRunAttempts: [JobRunAttemptSummary]
-        /// The output displays the token for the next set of application results.  This is required for pagination and is available as a response of the previous request.
+        /// The output displays the token for the next set of application results. This is required for pagination and is available as a response of the previous request.
         public let nextToken: String?
 
         @inlinable
@@ -1619,10 +1703,10 @@ extension EMRServerless {
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: ".*\\S.*")
             try self.entryPointArguments?.forEach {
-                try validate($0, name: "entryPointArguments[]", parent: name, max: 10280)
                 try validate($0, name: "entryPointArguments[]", parent: name, min: 1)
                 try validate($0, name: "entryPointArguments[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.validate(self.entryPointArguments, name: "entryPointArguments", parent: name, max: 1024)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102400)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, min: 1)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, pattern: ".*\\S.*")
@@ -1670,6 +1754,8 @@ extension EMRServerless {
         public let clientToken: String
         /// The configuration overrides for the job run.
         public let configurationOverrides: ConfigurationOverrides?
+        /// You can pass an optional IAM policy. The resulting job IAM role permissions will be an intersection of this policy and the policy associated with your job execution role.
+        public let executionIamPolicy: JobRunExecutionIamPolicy?
         /// The execution role ARN for the job run.
         public let executionRoleArn: String
         /// The maximum duration for the job run to run. If the job run runs beyond this duration, it will be automatically cancelled.
@@ -1686,10 +1772,11 @@ extension EMRServerless {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationId: String, clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver? = nil, mode: JobRunMode? = nil, name: String? = nil, retryPolicy: RetryPolicy? = nil, tags: [String: String]? = nil) {
+        public init(applicationId: String, clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionIamPolicy: JobRunExecutionIamPolicy? = nil, executionRoleArn: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver? = nil, mode: JobRunMode? = nil, name: String? = nil, retryPolicy: RetryPolicy? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
+            self.executionIamPolicy = executionIamPolicy
             self.executionRoleArn = executionRoleArn
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
@@ -1705,6 +1792,7 @@ extension EMRServerless {
             request.encodePath(self.applicationId, key: "applicationId")
             try container.encode(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.configurationOverrides, forKey: .configurationOverrides)
+            try container.encodeIfPresent(self.executionIamPolicy, forKey: .executionIamPolicy)
             try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.executionTimeoutMinutes, forKey: .executionTimeoutMinutes)
             try container.encodeIfPresent(self.jobDriver, forKey: .jobDriver)
@@ -1722,6 +1810,7 @@ extension EMRServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
             try self.configurationOverrides?.validate(name: "\(name).configurationOverrides")
+            try self.executionIamPolicy?.validate(name: "\(name).executionIamPolicy")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
@@ -1745,6 +1834,7 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case configurationOverrides = "configurationOverrides"
+            case executionIamPolicy = "executionIamPolicy"
             case executionRoleArn = "executionRoleArn"
             case executionTimeoutMinutes = "executionTimeoutMinutes"
             case jobDriver = "jobDriver"
@@ -1919,11 +2009,13 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to update. Its value must be unique for each request.
         public let clientToken: String
+        /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
+        public let identityCenterConfiguration: IdentityCenterConfigurationInput?
         /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
         public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is updated.
         public let initialCapacity: [String: InitialCapacityConfig]?
-        /// The interactive configuration object that contains new interactive use cases  when the application is updated.
+        /// The interactive configuration object that contains new interactive use cases when the application is updated.
         public let interactiveConfiguration: InteractiveConfiguration?
         /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
@@ -1932,7 +2024,7 @@ extension EMRServerless {
         public let networkConfiguration: NetworkConfiguration?
         /// The Amazon EMR release label for the application. You can change the release label to use a different release of Amazon EMR.
         public let releaseLabel: String?
-        /// The Configuration  specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
+        /// The Configuration specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
         public let runtimeConfiguration: [Configuration]?
         /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
         public let schedulerConfiguration: SchedulerConfiguration?
@@ -1940,12 +2032,13 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
@@ -1966,6 +2059,7 @@ extension EMRServerless {
             try container.encodeIfPresent(self.autoStartConfiguration, forKey: .autoStartConfiguration)
             try container.encodeIfPresent(self.autoStopConfiguration, forKey: .autoStopConfiguration)
             try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.identityCenterConfiguration, forKey: .identityCenterConfiguration)
             try container.encodeIfPresent(self.imageConfiguration, forKey: .imageConfiguration)
             try container.encodeIfPresent(self.initialCapacity, forKey: .initialCapacity)
             try container.encodeIfPresent(self.interactiveConfiguration, forKey: .interactiveConfiguration)
@@ -1985,6 +2079,7 @@ extension EMRServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
+            try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
             try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
             try self.initialCapacity?.forEach {
                 try validate($0.key, name: "initialCapacity.key", parent: name, max: 50)
@@ -2016,6 +2111,7 @@ extension EMRServerless {
             case autoStartConfiguration = "autoStartConfiguration"
             case autoStopConfiguration = "autoStopConfiguration"
             case clientToken = "clientToken"
+            case identityCenterConfiguration = "identityCenterConfiguration"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
@@ -2048,7 +2144,7 @@ extension EMRServerless {
         public let cpu: String
         /// The disk requirements for every worker instance of the worker type.
         public let disk: String?
-        /// The disk type for every worker instance of the work type. Shuffle optimized disks have higher performance  characteristics and are better for shuffle heavy workloads. Default is STANDARD.
+        /// The disk type for every worker instance of the work type. Shuffle optimized disks have higher performance characteristics and are better for shuffle heavy workloads. Default is STANDARD.
         public let diskType: String?
         /// The memory requirements for every worker instance of the worker type.
         public let memory: String

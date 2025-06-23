@@ -30,6 +30,7 @@ let package = Package(
     products: [
         .library(name: "SotoACM", targets: ["SotoACM"]),
         .library(name: "SotoACMPCA", targets: ["SotoACMPCA"]),
+        .library(name: "SotoAIOps", targets: ["SotoAIOps"]),
         .library(name: "SotoAPIGateway", targets: ["SotoAPIGateway"]),
         .library(name: "SotoARCZonalShift", targets: ["SotoARCZonalShift"]),
         .library(name: "SotoAccessAnalyzer", targets: ["SotoAccessAnalyzer"]),
@@ -174,6 +175,7 @@ let package = Package(
         .library(name: "SotoEntityResolution", targets: ["SotoEntityResolution"]),
         .library(name: "SotoEventBridge", targets: ["SotoEventBridge"]),
         .library(name: "SotoEvidently", targets: ["SotoEvidently"]),
+        .library(name: "SotoEvs", targets: ["SotoEvs"]),
         .library(name: "SotoFIS", targets: ["SotoFIS"]),
         .library(name: "SotoFMS", targets: ["SotoFMS"]),
         .library(name: "SotoFSx", targets: ["SotoFSx"]),
@@ -255,6 +257,7 @@ let package = Package(
         .library(name: "SotoLookoutMetrics", targets: ["SotoLookoutMetrics"]),
         .library(name: "SotoLookoutVision", targets: ["SotoLookoutVision"]),
         .library(name: "SotoM2", targets: ["SotoM2"]),
+        .library(name: "SotoMPA", targets: ["SotoMPA"]),
         .library(name: "SotoMQ", targets: ["SotoMQ"]),
         .library(name: "SotoMTurk", targets: ["SotoMTurk"]),
         .library(name: "SotoMWAA", targets: ["SotoMWAA"]),
@@ -433,7 +436,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.7.1")
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.6.0")
     ],
     targets: [
         .target(
@@ -446,6 +449,12 @@ let package = Package(
             name: "SotoACMPCA",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/ACMPCA",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoAIOps",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/AIOps",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -1313,6 +1322,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoEvs",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/Evs",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoFIS",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/FIS",
@@ -1796,6 +1811,12 @@ let package = Package(
             name: "SotoM2",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/M2",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoMPA",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/MPA",
             swiftSettings: swiftSettings
         ),
         .target(

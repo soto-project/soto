@@ -25,6 +25,12 @@ import Foundation
 extension ACM {
     // MARK: Enums
 
+    public enum CertificateExport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateManagedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudfront = "CLOUDFRONT"
         public var description: String { return self.rawValue }
@@ -258,7 +264,7 @@ extension ACM {
         public let status: CertificateStatus?
         /// The name of the entity that is associated with the public key contained in the certificate.
         public let subject: String?
-        /// One or more domain names (subject alternative names)  included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
         public let subjectAlternativeNames: [String]?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the Certificate Manager User Guide.
         public let type: CertificateType?
@@ -328,14 +334,18 @@ extension ACM {
     public struct CertificateOptions: AWSEncodableShape & AWSDecodableShape {
         /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED.
         public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
+        /// You can opt in to allow the export of your certificates by specifying ENABLED.
+        public let export: CertificateExport?
 
         @inlinable
-        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil) {
+        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil, export: CertificateExport? = nil) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
+            self.export = export
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateTransparencyLoggingPreference = "CertificateTransparencyLoggingPreference"
+            case export = "Export"
         }
     }
 
@@ -348,6 +358,8 @@ extension ACM {
         public let domainName: String?
         /// Indicates whether the certificate has been exported. This value exists only when the certificate type is PRIVATE.
         public let exported: Bool?
+        /// Indicates if export is enabled for the certificate.
+        public let exportOption: CertificateExport?
         /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
         public let extendedKeyUsages: [ExtendedKeyUsageName]?
         /// When called by ListCertificates, indicates whether the full list of subject alternative names has been included in the response. If false, the response includes all of the subject alternative names included in the certificate. If true, the response only includes the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use DescribeCertificate.
@@ -374,17 +386,18 @@ extension ACM {
         public let revokedAt: Date?
         /// The status of the certificate. A certificate enters status PENDING_VALIDATION upon being requested, unless it fails for any of the reasons given in the troubleshooting topic Certificate request fails. ACM makes repeated attempts to validate a certificate for 72 hours and then times out. If a certificate shows status FAILED or VALIDATION_TIMED_OUT, delete the request, correct the issue with DNS validation or Email validation, and try again. If validation succeeds, the certificate enters status ISSUED.
         public let status: CertificateStatus?
-        /// One or more domain names (subject alternative names)  included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.  When called by ListCertificates, this parameter will only return the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use DescribeCertificate.
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.  When called by ListCertificates, this parameter will only return the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use DescribeCertificate.
         public let subjectAlternativeNameSummaries: [String]?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the Certificate Manager User Guide.
         public let type: CertificateType?
 
         @inlinable
-        public init(certificateArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, exported: Bool? = nil, extendedKeyUsages: [ExtendedKeyUsageName]? = nil, hasAdditionalSubjectAlternativeNames: Bool? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalEligibility: RenewalEligibility? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, subjectAlternativeNameSummaries: [String]? = nil, type: CertificateType? = nil) {
+        public init(certificateArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, exported: Bool? = nil, exportOption: CertificateExport? = nil, extendedKeyUsages: [ExtendedKeyUsageName]? = nil, hasAdditionalSubjectAlternativeNames: Bool? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalEligibility: RenewalEligibility? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, subjectAlternativeNameSummaries: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
             self.createdAt = createdAt
             self.domainName = domainName
             self.exported = exported
+            self.exportOption = exportOption
             self.extendedKeyUsages = extendedKeyUsages
             self.hasAdditionalSubjectAlternativeNames = hasAdditionalSubjectAlternativeNames
             self.importedAt = importedAt
@@ -407,6 +420,7 @@ extension ACM {
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
             case exported = "Exported"
+            case exportOption = "ExportOption"
             case extendedKeyUsages = "ExtendedKeyUsages"
             case hasAdditionalSubjectAlternativeNames = "HasAdditionalSubjectAlternativeNames"
             case importedAt = "ImportedAt"
@@ -482,9 +496,9 @@ extension ACM {
     public struct DomainValidation: AWSDecodableShape {
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com.
         public let domainName: String
-        /// Contains information for HTTP-based domain validation of certificates requested through CloudFront and issued by ACM. This field exists only when the certificate type is AMAZON_ISSUED and the validation method is HTTP.
+        /// Contains information for HTTP-based domain validation of certificates requested through Amazon CloudFront and issued by ACM. This field exists only when the certificate type is AMAZON_ISSUED and the validation method is HTTP.
         public let httpRedirect: HttpRedirect?
-        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership. Note: The CNAME information that you need does not include the name of your domain. If you include your domain name in the DNS database CNAME record, validation fails. For example, if the name is "_a79865eb4cd1a6ab990a45779b4e0b96.yourdomain.com", only "_a79865eb4cd1a6ab990a45779b4e0b96" must be used.
+        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership.  The CNAME information that you need does not include the name of your domain. If you include your domain name in the DNS database CNAME record, validation fails. For example, if the name is _a79865eb4cd1a6ab990a45779b4e0b96.yourdomain.com, only _a79865eb4cd1a6ab990a45779b4e0b96 must be used.
         public let resourceRecord: ResourceRecord?
         /// The domain name that ACM used to send domain validation emails.
         public let validationDomain: String?
@@ -629,6 +643,8 @@ extension ACM {
     }
 
     public struct Filters: AWSEncodableShape {
+        /// Specify ENABLED or DISABLED to identify certificates that can be exported.
+        public let exportOption: CertificateExport?
         /// Specify one or more ExtendedKeyUsage extension values.
         public let extendedKeyUsage: [ExtendedKeyUsageName]?
         /// Specify one or more algorithms that can be used to generate key pairs. Default filtering returns only RSA_1024 and RSA_2048 certificates that have at least one domain. To return other certificate types, provide the desired type signatures in a comma-separated list. For example, "keyTypes": ["RSA_2048","RSA_4096"] returns both RSA_2048 and RSA_4096 certificates.
@@ -639,7 +655,8 @@ extension ACM {
         public let managedBy: CertificateManagedBy?
 
         @inlinable
-        public init(extendedKeyUsage: [ExtendedKeyUsageName]? = nil, keyTypes: [KeyAlgorithm]? = nil, keyUsage: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil) {
+        public init(exportOption: CertificateExport? = nil, extendedKeyUsage: [ExtendedKeyUsageName]? = nil, keyTypes: [KeyAlgorithm]? = nil, keyUsage: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil) {
+            self.exportOption = exportOption
             self.extendedKeyUsage = extendedKeyUsage
             self.keyTypes = keyTypes
             self.keyUsage = keyUsage
@@ -647,6 +664,7 @@ extension ACM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case exportOption = "exportOption"
             case extendedKeyUsage = "extendedKeyUsage"
             case keyTypes = "keyTypes"
             case keyUsage = "keyUsage"
@@ -1006,9 +1024,9 @@ extension ACM {
         public let keyAlgorithm: KeyAlgorithm?
         /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
         public let managedBy: CertificateManagedBy?
-        /// Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging.
+        /// You can use this parameter to specify whether to add the certificate to a certificate transparency log and export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging. You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see Certificate Manager exportable public certificate.
         public let options: CertificateOptions?
-        /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas. The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
+        /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas.  The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
         public let subjectAlternativeNames: [String]?
         /// One or more resource tags to associate with the certificate.
         public let tags: [Tag]?
@@ -1142,6 +1160,44 @@ extension ACM {
         }
     }
 
+    public struct RevokeCertificateRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form:   arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
+        public let certificateArn: String
+        /// Specifies why you revoked the certificate.
+        public let revocationReason: RevocationReason
+
+        @inlinable
+        public init(certificateArn: String, revocationReason: RevocationReason) {
+            self.certificateArn = certificateArn
+            self.revocationReason = revocationReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case revocationReason = "RevocationReason"
+        }
+    }
+
+    public struct RevokeCertificateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the public or private certificate that was revoked.
+        public let certificateArn: String?
+
+        @inlinable
+        public init(certificateArn: String? = nil) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key of the tag.
         public let key: String
@@ -1171,7 +1227,7 @@ extension ACM {
     public struct UpdateCertificateOptionsRequest: AWSEncodableShape {
         /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String
-        /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
+        /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log or export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
         public let options: CertificateOptions
 
         @inlinable
@@ -1238,7 +1294,7 @@ public struct ACMErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
     public static var conflictException: Self { .init(.conflictException) }
-    /// One or more of of request parameters specified is not valid.
+    /// One or more of request parameters specified is not valid.
     public static var invalidArgsException: Self { .init(.invalidArgsException) }
     /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     public static var invalidArnException: Self { .init(.invalidArnException) }

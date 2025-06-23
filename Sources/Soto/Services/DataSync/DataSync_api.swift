@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS DataSync service.
 ///
-/// DataSync DataSync is an online data movement and discovery service that simplifies data migration and helps you quickly, easily, and securely transfer your file or object data to, from, and between Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the  DataSync User Guide .
+/// DataSync DataSync is an online data movement service that simplifies data migration and helps you quickly, easily, and securely transfer your file or object data to, from, and between Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the  DataSync User Guide .
 public struct DataSync: AWSService {
     // MARK: Member variables
 
@@ -216,7 +216,7 @@ public struct DataSync: AWSService {
         return try await self.createAgent(input, logger: logger)
     }
 
-    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types. You also need a DataSync agent that can connect to your container.
+    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. You can make transfers with or without a DataSync agent that connects to your container. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types.
     @Sendable
     @inlinable
     public func createLocationAzureBlob(_ input: CreateLocationAzureBlobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationAzureBlobResponse {
@@ -229,25 +229,29 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types. You also need a DataSync agent that can connect to your container.
+    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. You can make transfers with or without a DataSync agent that connects to your container. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types.
     ///
     /// Parameters:
     ///   - accessTier: Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers.
-    ///   - agentArns: Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see Using multiple agents for your transfer.
+    ///   - agentArns: (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see Using multiple agents for your transfer.  Make sure you configure this parameter correctly when you first create your storage location. You cannot add or remove agents from a storage location after you create it.
     ///   - authenticationType: Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
     ///   - blobType: Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this paramater as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure the DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     ///   - containerUrl: Specifies the URL of the Azure Blob Storage container involved in your transfer.
-    ///   - sasConfiguration: Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+    ///   - sasConfiguration: Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.  If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
     ///   - subdirectory: Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
     ///   - logger: Logger use during operation
     @inlinable
     public func createLocationAzureBlob(
         accessTier: AzureAccessTier? = nil,
-        agentArns: [String],
+        agentArns: [String]? = nil,
         authenticationType: AzureBlobAuthenticationType,
         blobType: AzureBlobType? = nil,
+        cmkSecretConfig: CmkSecretConfig? = nil,
         containerUrl: String,
+        customSecretConfig: CustomSecretConfig? = nil,
         sasConfiguration: AzureBlobSasConfiguration? = nil,
         subdirectory: String? = nil,
         tags: [TagListEntry]? = nil,
@@ -258,7 +262,9 @@ public struct DataSync: AWSService {
             agentArns: agentArns, 
             authenticationType: authenticationType, 
             blobType: blobType, 
+            cmkSecretConfig: cmkSecretConfig, 
             containerUrl: containerUrl, 
+            customSecretConfig: customSecretConfig, 
             sasConfiguration: sasConfiguration, 
             subdirectory: subdirectory, 
             tags: tags
@@ -586,7 +592,7 @@ public struct DataSync: AWSService {
         return try await self.createLocationNfs(input, logger: logger)
     }
 
-    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
+    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. You can make transfers with or without a DataSync agent. Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
     @Sendable
     @inlinable
     public func createLocationObjectStorage(_ input: CreateLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationObjectStorageResponse {
@@ -599,12 +605,14 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
+    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. You can make transfers with or without a DataSync agent. Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
     ///
     /// Parameters:
     ///   - accessKey: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
-    ///   - agentArns: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system.
+    ///   - agentArns: (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter.  Make sure you configure this parameter correctly when you first create your storage location. You cannot add or remove agents from a storage location after you create it.
     ///   - bucketName: Specifies the name of the object storage bucket involved in the transfer.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this paramater as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure the DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     ///   - secretKey: Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
     ///   - serverCertificate: Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS.
     ///   - serverHostname: Specifies the domain name or IP version 4 (IPv4) address of the object storage server that your DataSync agent connects to.
@@ -616,8 +624,10 @@ public struct DataSync: AWSService {
     @inlinable
     public func createLocationObjectStorage(
         accessKey: String? = nil,
-        agentArns: [String],
+        agentArns: [String]? = nil,
         bucketName: String,
+        cmkSecretConfig: CmkSecretConfig? = nil,
+        customSecretConfig: CustomSecretConfig? = nil,
         secretKey: String? = nil,
         serverCertificate: AWSBase64Data? = nil,
         serverHostname: String,
@@ -631,6 +641,8 @@ public struct DataSync: AWSService {
             accessKey: accessKey, 
             agentArns: agentArns, 
             bucketName: bucketName, 
+            cmkSecretConfig: cmkSecretConfig, 
+            customSecretConfig: customSecretConfig, 
             secretKey: secretKey, 
             serverCertificate: serverCertificate, 
             serverHostname: serverHostname, 
@@ -777,7 +789,7 @@ public struct DataSync: AWSService {
     ///   - schedule: Specifies a schedule for when you want your task to run. For more information, see Scheduling your task.
     ///   - sourceLocationArn: Specifies the ARN of your transfer's source location.
     ///   - tags: Specifies the tags that you want to apply to your task.  Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
-    ///   - taskMode: Specifies one of the following task modes for your data transfer:    ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for transfers between Amazon S3 locations.  To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.     BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to quotas on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.   For more information, see Understanding task mode differences.
+    ///   - taskMode: Specifies one of the following task modes for your data transfer:    ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for transfers between Amazon S3 locations, transfers between Azure Blob and Amazon S3 without an agent, and transfers between other clouds and Amazon S3 without an agent.  To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.     BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to quotas on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.   For more information, see Understanding task mode differences.
     ///   - taskReportConfig: Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1638,9 +1650,11 @@ public struct DataSync: AWSService {
     ///
     /// Parameters:
     ///   - accessTier: Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers.
-    ///   - agentArns: Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see Using multiple agents for your transfer.
+    ///   - agentArns: (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see Using multiple agents for your transfer.  You cannot add or remove agents from a storage location after you initially create it.
     ///   - authenticationType: Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
     ///   - blobType: Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
     ///   - locationArn: Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
     ///   - sasConfiguration: Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
     ///   - subdirectory: Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
@@ -1651,6 +1665,8 @@ public struct DataSync: AWSService {
         agentArns: [String]? = nil,
         authenticationType: AzureBlobAuthenticationType? = nil,
         blobType: AzureBlobType? = nil,
+        cmkSecretConfig: CmkSecretConfig? = nil,
+        customSecretConfig: CustomSecretConfig? = nil,
         locationArn: String,
         sasConfiguration: AzureBlobSasConfiguration? = nil,
         subdirectory: String? = nil,
@@ -1661,6 +1677,8 @@ public struct DataSync: AWSService {
             agentArns: agentArns, 
             authenticationType: authenticationType, 
             blobType: blobType, 
+            cmkSecretConfig: cmkSecretConfig, 
+            customSecretConfig: customSecretConfig, 
             locationArn: locationArn, 
             sasConfiguration: sasConfiguration, 
             subdirectory: subdirectory
@@ -1975,7 +1993,9 @@ public struct DataSync: AWSService {
     ///
     /// Parameters:
     ///   - accessKey: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
-    ///   - agentArns: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system.
+    ///   - agentArns: (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter.  You cannot add or remove agents from a storage location after you initially create it.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
     ///   - locationArn: Specifies the ARN of the object storage system location that you're updating.
     ///   - secretKey: Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
     ///   - serverCertificate: Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
@@ -1988,6 +2008,8 @@ public struct DataSync: AWSService {
     public func updateLocationObjectStorage(
         accessKey: String? = nil,
         agentArns: [String]? = nil,
+        cmkSecretConfig: CmkSecretConfig? = nil,
+        customSecretConfig: CustomSecretConfig? = nil,
         locationArn: String,
         secretKey: String? = nil,
         serverCertificate: AWSBase64Data? = nil,
@@ -2000,6 +2022,8 @@ public struct DataSync: AWSService {
         let input = UpdateLocationObjectStorageRequest(
             accessKey: accessKey, 
             agentArns: agentArns, 
+            cmkSecretConfig: cmkSecretConfig, 
+            customSecretConfig: customSecretConfig, 
             locationArn: locationArn, 
             secretKey: secretKey, 
             serverCertificate: serverCertificate, 

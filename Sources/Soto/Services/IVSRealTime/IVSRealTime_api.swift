@@ -26,7 +26,11 @@ import Foundation
 ///
 /// The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP
 /// 	  API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses,
-/// 	  including errors.   Key Concepts     Stage — A virtual space where participants can exchange video in real time.    Participant token — A token that authenticates a participant when they join a stage.    Participant object — Represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   For server-side composition:    Composition process — Composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition operations support this process.    Composition — Controls the look of the outputs, including how participants are positioned in the video.   For more information about your IVS live stream, also see Getting Started with Amazon IVS Real-Time Streaming.  Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related operations: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.
+/// 	  including errors.   Key Concepts     Stage — A virtual space where participants can exchange video in real time.    Participant token — A token that authenticates a participant when they join a stage.    Participant object — Represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   For server-side composition:    Composition process — Composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition operations support this process.    Composition — Controls the look of the outputs, including how participants are positioned in the video.   For participant replication:    Source stage — The stage where the participant originally joined, which is used as the source for
+/// 			replication.    Destination stage — The stage to which the participant is replicated.
+/// 				    Replicated participant — A participant in a stage that is replicated to one or more destination stages.
+/// 				    Replica participant — A participant in a destination stage that is replicated from another stage
+/// 			(the source stage).   For more information about your IVS live stream, also see Getting Started with Amazon IVS Real-Time Streaming.  Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related operations: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.
 public struct IVSRealTime: AWSService {
     // MARK: Member variables
 
@@ -899,6 +903,44 @@ public struct IVSRealTime: AWSService {
         return try await self.listParticipantEvents(input, logger: logger)
     }
 
+    /// Lists all the replicas for a participant from a source stage.
+    @Sendable
+    @inlinable
+    public func listParticipantReplicas(_ input: ListParticipantReplicasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListParticipantReplicasResponse {
+        try await self.client.execute(
+            operation: "ListParticipantReplicas", 
+            path: "/ListParticipantReplicas", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all the replicas for a participant from a source stage.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return. Default: 50.
+    ///   - nextToken: The first participant to retrieve. This is used for pagination; see the nextToken response field.
+    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+    ///   - sourceStageArn: ARN of the stage where the participant is publishing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listParticipantReplicas(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        participantId: String,
+        sourceStageArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListParticipantReplicasResponse {
+        let input = ListParticipantReplicasRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            participantId: participantId, 
+            sourceStageArn: sourceStageArn
+        )
+        return try await self.listParticipantReplicas(input, logger: logger)
+    }
+
     /// Lists all participants in a specified stage session.
     @Sendable
     @inlinable
@@ -1152,6 +1194,47 @@ public struct IVSRealTime: AWSService {
         return try await self.startComposition(input, logger: logger)
     }
 
+    /// Starts replicating a publishing participant from a source stage to a destination stage.
+    @Sendable
+    @inlinable
+    public func startParticipantReplication(_ input: StartParticipantReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartParticipantReplicationResponse {
+        try await self.client.execute(
+            operation: "StartParticipantReplication", 
+            path: "/StartParticipantReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts replicating a publishing participant from a source stage to a destination stage.
+    ///
+    /// Parameters:
+    ///   - attributes: Application-provided attributes to set on the replicated participant in the destination stage.
+    ///   - destinationStageArn: ARN of the stage to which the participant will be replicated.
+    ///   - participantId: Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by
+    ///   - reconnectWindowSeconds: If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE.
+    ///   - sourceStageArn: ARN of the stage where the participant is publishing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startParticipantReplication(
+        attributes: [String: String]? = nil,
+        destinationStageArn: String,
+        participantId: String,
+        reconnectWindowSeconds: Int? = nil,
+        sourceStageArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartParticipantReplicationResponse {
+        let input = StartParticipantReplicationRequest(
+            attributes: attributes, 
+            destinationStageArn: destinationStageArn, 
+            participantId: participantId, 
+            reconnectWindowSeconds: reconnectWindowSeconds, 
+            sourceStageArn: sourceStageArn
+        )
+        return try await self.startParticipantReplication(input, logger: logger)
+    }
+
     /// Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
     @Sendable
     @inlinable
@@ -1179,6 +1262,41 @@ public struct IVSRealTime: AWSService {
             arn: arn
         )
         return try await self.stopComposition(input, logger: logger)
+    }
+
+    /// Stops a replicated participant session.
+    @Sendable
+    @inlinable
+    public func stopParticipantReplication(_ input: StopParticipantReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopParticipantReplicationResponse {
+        try await self.client.execute(
+            operation: "StopParticipantReplication", 
+            path: "/StopParticipantReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a replicated participant session.
+    ///
+    /// Parameters:
+    ///   - destinationStageArn: ARN of the stage where the participant has been replicated.
+    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+    ///   - sourceStageArn: ARN of the stage where the participant is publishing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopParticipantReplication(
+        destinationStageArn: String,
+        participantId: String,
+        sourceStageArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopParticipantReplicationResponse {
+        let input = StopParticipantReplicationRequest(
+            destinationStageArn: destinationStageArn, 
+            participantId: participantId, 
+            sourceStageArn: sourceStageArn
+        )
+        return try await self.stopParticipantReplication(input, logger: logger)
     }
 
     /// Adds or updates tags for the AWS resource with the specified ARN.
@@ -1483,6 +1601,46 @@ extension IVSRealTime {
         return self.listParticipantEventsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listParticipantReplicas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listParticipantReplicasPaginator(
+        _ input: ListParticipantReplicasRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListParticipantReplicasRequest, ListParticipantReplicasResponse> {
+        return .init(
+            input: input,
+            command: self.listParticipantReplicas,
+            inputKey: \ListParticipantReplicasRequest.nextToken,
+            outputKey: \ListParticipantReplicasResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listParticipantReplicas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return. Default: 50.
+    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+    ///   - sourceStageArn: ARN of the stage where the participant is publishing.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listParticipantReplicasPaginator(
+        maxResults: Int? = nil,
+        participantId: String,
+        sourceStageArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListParticipantReplicasRequest, ListParticipantReplicasResponse> {
+        let input = ListParticipantReplicasRequest(
+            maxResults: maxResults, 
+            participantId: participantId, 
+            sourceStageArn: sourceStageArn
+        )
+        return self.listParticipantReplicasPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listParticipants(_:logger:)``.
     ///
     /// - Parameters:
@@ -1718,6 +1876,18 @@ extension IVSRealTime.ListParticipantEventsRequest: AWSPaginateToken {
             participantId: self.participantId,
             sessionId: self.sessionId,
             stageArn: self.stageArn
+        )
+    }
+}
+
+extension IVSRealTime.ListParticipantReplicasRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListParticipantReplicasRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            participantId: self.participantId,
+            sourceStageArn: self.sourceStageArn
         )
     }
 }

@@ -1597,7 +1597,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -1973,7 +1973,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2207,7 +2207,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -2284,7 +2284,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -2399,7 +2399,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -2485,7 +2485,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, max: 512)
             try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, min: 1)
-            try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, pattern: "^arn:aws[a-z-]*:events:[a-z]{2}-[a-z-]+-\\d+:\\d{12}:event-bus/[\\w.-]+$")
+            try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, pattern: "^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\\d+:\\d{12}:event-bus/[\\w.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3183,7 +3183,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -3239,7 +3239,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
@@ -3329,7 +3329,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -3546,7 +3546,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[\\.\\-_A-Za-z0-9]+$")
             try self.resources?.forEach {
                 try validate($0, name: "resources[]", parent: name, max: 2048)
             }
@@ -3789,7 +3789,7 @@ extension EventBridge {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -3846,7 +3846,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -4013,7 +4013,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "^(arn:aws[\\w-]*:events:[a-z]+-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+$")
             try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, max: 64)
                 try validate($0, name: "ids[]", parent: name, min: 1)

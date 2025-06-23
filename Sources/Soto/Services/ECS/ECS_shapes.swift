@@ -279,6 +279,8 @@ extension ECS {
         case windowsServer2019Full = "WINDOWS_SERVER_2019_FULL"
         case windowsServer2022Core = "WINDOWS_SERVER_2022_CORE"
         case windowsServer2022Full = "WINDOWS_SERVER_2022_FULL"
+        case windowsServer2025Core = "WINDOWS_SERVER_2025_CORE"
+        case windowsServer2025Full = "WINDOWS_SERVER_2025_FULL"
         case windowsServer20H2Core = "WINDOWS_SERVER_20H2_CORE"
         public var description: String { return self.rawValue }
     }
@@ -1212,7 +1214,7 @@ extension ECS {
         public let hostname: String?
         /// The image used to start a container. This string is passed directly to the Docker
         /// 			daemon. By default, images in the Docker Hub registry are available. Other repositories
-        /// 			are specified with either  repository-url/image:tag or  repository-url/image@digest . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the docker
+        /// 			are specified with either  repository-url/image:tag or  repository-url/image@digest . For images using tags (repository-url/image:tag), up to 255 characters total are allowed, including letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs (#). For images using digests (repository-url/image@digest), the 255 character limit applies only to the repository URL and image name (everything before the @ sign). The only supported hash function is sha256, and the hash value after sha256: must be exactly 64 characters (only letters A-F, a-f, and numbers 0-9 are allowed). This parameter maps to Image in the docker
         /// 			container create command and the IMAGE parameter of docker run.   When a new task starts, the Amazon ECS container agent pulls the latest version of
         /// 					the specified image and tag for the container to use. However, subsequent
         /// 					updates to a repository image aren't propagated to already running tasks.   Images in Amazon ECR repositories can be specified by either using the full
@@ -5077,7 +5079,7 @@ extension ECS {
         /// 						Amazon Web Services Region by using the defaultLogDriverMode account setting.
         /// 						If you don't specify the mode option or
         /// 						configure the account setting, Amazon ECS will default to the
-        /// 							blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used, the
+        /// 							blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  On June 25, 2025, Amazon ECS is changing the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.     max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used, the
         /// 							max-buffer-size log option controls the size of the buffer
         /// 						that's used for intermediate message storage. Make sure to specify an
         /// 						adequate buffer size based on your application. When the buffer fills up,
@@ -5642,7 +5644,7 @@ extension ECS {
         /// 						blocking and non-blocking. If you don't specify a
         /// 					delivery mode in your container definition's logConfiguration, the
         /// 					mode you specify using this account setting will be used as the default. For
-        /// 					more information about log delivery modes, see LogConfiguration.    guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
+        /// 					more information about log delivery modes, see LogConfiguration.  On June 25, 2025, Amazon ECS is changing the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.       guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
         /// 			Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your
         /// 			Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring.
         public let name: SettingName
@@ -5741,7 +5743,8 @@ extension ECS {
         /// 					blocking and non-blocking. If you don't specify a
         /// 					delivery mode in your container definition's logConfiguration, the
         /// 					mode you specify using this account setting will be used as the default. For
-        /// 					more information about log delivery modes, see LogConfiguration.    guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
+        /// 					more information about log delivery modes, see LogConfiguration.
+        /// 				  On June 25, 2025, Amazon ECS is changing the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.       guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
         /// 			Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your
         /// 			Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring.
         public let name: SettingName
@@ -8880,24 +8883,13 @@ extension ECS {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
         /// 			the  Amazon Elastic Container Service Developer Guide .
         public let availabilityZoneRebalancing: AvailabilityZoneRebalancing?
-        /// The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the
-        /// 			service can be updated to use one or more capacity providers as opposed to the default
-        /// 			capacity provider strategy. However, when a service is using a capacity provider
-        /// 			strategy that's not the default capacity provider strategy, the service can't be updated
-        /// 			to use the cluster's default capacity provider strategy. A capacity provider strategy consists of one or more capacity providers along with the
-        /// 				base and weight to assign to them. A capacity provider
-        /// 			must be associated with the cluster to be used in a capacity provider strategy. The
-        /// 				PutClusterCapacityProviders API is used to associate a capacity provider
-        /// 			with a cluster. Only capacity providers with an ACTIVE or
-        /// 				UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity
-        /// 			provider must already be created. New capacity providers can be created with the CreateClusterCapacityProvider API operation. To use a Fargate capacity provider, specify either the FARGATE or
-        /// 				FARGATE_SPOT capacity providers. The Fargate capacity providers are
-        /// 			available to all accounts and only need to be associated with a cluster to be
-        /// 			used. The PutClusterCapacityProvidersAPI operation is used to update the list of
-        /// 			available capacity providers for a cluster after the cluster is created.
+        /// The details of a capacity provider strategy. You can set a capacity provider when you
+        /// 			create a cluster, run a task, or update a service. When you use Fargate, the capacity providers are FARGATE or
+        /// 				FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green
+        /// 			deployments. The following list provides the valid transitions:   Update the Fargate launch type to an Auto Scaling group capacity provider.   Update the Amazon EC2 launch type to a Fargate capacity provider.   Update the Fargate capacity provider to an Auto Scaling group capacity provider.   Update the Amazon EC2 capacity provider to a Fargate capacity provider.    Update the Auto Scaling group or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProviderStrategy parameter.   For information about Amazon Web Services CDK considerations, see Amazon Web Services CDK considerations.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on.
-        /// 			If you do not specify a cluster, the default cluster is assumed.
+        /// 			If you do not specify a cluster, the default cluster is assumed. You can't change the cluster name.
         public let cluster: String?
         /// Optional deployment parameters that control how many tasks run during the deployment
         /// 			and the ordering of stopping and starting tasks.
@@ -8931,7 +8923,7 @@ extension ECS {
         /// 			period can prevent the service scheduler from marking tasks as unhealthy and stopping
         /// 			them before they have time to come up.
         public let healthCheckGracePeriodSeconds: Int?
-        /// A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
+        ///  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
         /// 			container name, and the container port to access from the load balancer. The container
         /// 			name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks
         /// 			with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks
@@ -8981,7 +8973,8 @@ extension ECS {
         /// 	Only the tasks that Amazon ECS services create are supported with Service Connect.
         /// 	For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
         public let serviceConnectConfiguration: ServiceConnectConfiguration?
-        /// The details for the service discovery registries to assign to this service. For more
+        ///  You must have a service-linked role when you update this property. For more information about the role see the CreateService request
+        /// 				parameter  role .   The details for the service discovery registries to assign to this service. For more
         /// 			information, see Service
         /// 				Discovery. When you add, update, or remove the service registries configuration, Amazon ECS starts new
         /// 			tasks with the updated service registries configuration, and then stops the old tasks

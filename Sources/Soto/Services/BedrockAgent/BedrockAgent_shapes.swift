@@ -69,6 +69,14 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum AliasInvocationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Agent is actively processing requests
+        case acceptInvocations = "ACCEPT_INVOCATIONS"
+        /// Agent is paused and will not accept new requests
+        case rejectInvocations = "REJECT_INVOCATIONS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CachePointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "default"
         public var description: String { return self.rawValue }
@@ -1650,6 +1658,8 @@ extension BedrockAgent {
         public let agentAliasStatus: AgentAliasStatus
         /// The unique identifier of the agent.
         public let agentId: String
+        /// The invocation state for the agent alias. If the agent alias is running, the value is ACCEPT_INVOCATIONS. If the agent alias is paused, the value is REJECT_INVOCATIONS. Use the UpdateAgentAlias operation to change the invocation state.
+        public let aliasInvocationState: AliasInvocationState?
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// The time at which the alias of the agent was created.
@@ -1666,13 +1676,14 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(agentAliasArn: String, agentAliasHistoryEvents: [AgentAliasHistoryEvent]? = nil, agentAliasId: String, agentAliasName: String, agentAliasStatus: AgentAliasStatus, agentId: String, clientToken: String? = nil, createdAt: Date, description: String? = nil, failureReasons: [String]? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem], updatedAt: Date) {
+        public init(agentAliasArn: String, agentAliasHistoryEvents: [AgentAliasHistoryEvent]? = nil, agentAliasId: String, agentAliasName: String, agentAliasStatus: AgentAliasStatus, agentId: String, aliasInvocationState: AliasInvocationState? = nil, clientToken: String? = nil, createdAt: Date, description: String? = nil, failureReasons: [String]? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.agentAliasArn = agentAliasArn
             self.agentAliasHistoryEvents = agentAliasHistoryEvents
             self.agentAliasId = agentAliasId
             self.agentAliasName = agentAliasName
             self.agentAliasStatus = agentAliasStatus
             self.agentId = agentId
+            self.aliasInvocationState = aliasInvocationState
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
@@ -1688,6 +1699,7 @@ extension BedrockAgent {
             case agentAliasName = "agentAliasName"
             case agentAliasStatus = "agentAliasStatus"
             case agentId = "agentId"
+            case aliasInvocationState = "aliasInvocationState"
             case clientToken = "clientToken"
             case createdAt = "createdAt"
             case description = "description"
@@ -1755,6 +1767,8 @@ extension BedrockAgent {
         public let agentAliasName: String
         /// The status of the alias.
         public let agentAliasStatus: AgentAliasStatus
+        /// The invocation state for the agent alias. If the agent alias is running, the value is ACCEPT_INVOCATIONS. If the agent alias is paused, the value is REJECT_INVOCATIONS. Use the UpdateAgentAlias operation to change the invocation state.
+        public let aliasInvocationState: AliasInvocationState?
         /// The time at which the alias of the agent was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -1767,10 +1781,11 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(agentAliasId: String, agentAliasName: String, agentAliasStatus: AgentAliasStatus, createdAt: Date, description: String? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil, updatedAt: Date) {
+        public init(agentAliasId: String, agentAliasName: String, agentAliasStatus: AgentAliasStatus, aliasInvocationState: AliasInvocationState? = nil, createdAt: Date, description: String? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil, updatedAt: Date) {
             self.agentAliasId = agentAliasId
             self.agentAliasName = agentAliasName
             self.agentAliasStatus = agentAliasStatus
+            self.aliasInvocationState = aliasInvocationState
             self.createdAt = createdAt
             self.description = description
             self.routingConfiguration = routingConfiguration
@@ -1781,6 +1796,7 @@ extension BedrockAgent {
             case agentAliasId = "agentAliasId"
             case agentAliasName = "agentAliasName"
             case agentAliasStatus = "agentAliasStatus"
+            case aliasInvocationState = "aliasInvocationState"
             case createdAt = "createdAt"
             case description = "description"
             case routingConfiguration = "routingConfiguration"
@@ -8579,7 +8595,7 @@ extension BedrockAgent {
         public let parserMode: CreationMode?
         /// Specifies whether to override the default prompt template for this promptType. Set this value to OVERRIDDEN to use the prompt that you provide in the basePromptTemplate. If you leave it as DEFAULT, the agent uses a default prompt template.
         public let promptCreationMode: CreationMode?
-        /// Specifies whether to allow the agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.    PRE_PROCESSING – ENABLED     ORCHESTRATION – ENABLED     KNOWLEDGE_BASE_RESPONSE_GENERATION – ENABLED     POST_PROCESSING – DISABLED
+        /// Specifies whether to allow the agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.    PRE_PROCESSING – DISABLED     ORCHESTRATION – ENABLED     KNOWLEDGE_BASE_RESPONSE_GENERATION – ENABLED     POST_PROCESSING – DISABLED
         public let promptState: PromptState?
         /// The step in the agent sequence that this prompt configuration applies to.
         public let promptType: PromptType?
@@ -10541,16 +10557,19 @@ extension BedrockAgent {
         public let agentAliasName: String
         /// The unique identifier of the agent.
         public let agentId: String
+        /// The invocation state for the agent alias. To pause the agent alias, set the value to REJECT_INVOCATIONS. To start the agent alias running again, set the value to ACCEPT_INVOCATIONS. Use the GetAgentAlias, or ListAgentAliases, operation to get the invocation state of an agent alias.
+        public let aliasInvocationState: AliasInvocationState?
         /// Specifies a new description for the alias.
         public let description: String?
         /// Contains details about the routing configuration of the alias.
         public let routingConfiguration: [AgentAliasRoutingConfigurationListItem]?
 
         @inlinable
-        public init(agentAliasId: String, agentAliasName: String, agentId: String, description: String? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil) {
+        public init(agentAliasId: String, agentAliasName: String, agentId: String, aliasInvocationState: AliasInvocationState? = nil, description: String? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil) {
             self.agentAliasId = agentAliasId
             self.agentAliasName = agentAliasName
             self.agentId = agentId
+            self.aliasInvocationState = aliasInvocationState
             self.description = description
             self.routingConfiguration = routingConfiguration
         }
@@ -10561,6 +10580,7 @@ extension BedrockAgent {
             request.encodePath(self.agentAliasId, key: "agentAliasId")
             try container.encode(self.agentAliasName, forKey: .agentAliasName)
             request.encodePath(self.agentId, key: "agentId")
+            try container.encodeIfPresent(self.aliasInvocationState, forKey: .aliasInvocationState)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.routingConfiguration, forKey: .routingConfiguration)
         }
@@ -10581,6 +10601,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case agentAliasName = "agentAliasName"
+            case aliasInvocationState = "aliasInvocationState"
             case description = "description"
             case routingConfiguration = "routingConfiguration"
         }

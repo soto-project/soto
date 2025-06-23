@@ -550,6 +550,11 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityReservationPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityReservationsOnly = "capacity-reservations-only"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacitySizeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityPercent = "CAPACITY_PERCENT"
         case instanceCount = "INSTANCE_COUNT"
@@ -744,6 +749,7 @@ extension SageMaker {
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
+        case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
         case mlR6I12Xlarge = "ml.r6i.12xlarge"
         case mlR6I16Xlarge = "ml.r6i.16xlarge"
         case mlR6I24Xlarge = "ml.r6i.24xlarge"
@@ -2069,6 +2075,15 @@ extension SageMaker {
         case mlC6I4Xlarge = "ml.c6i.4xlarge"
         case mlC6I8Xlarge = "ml.c6i.8xlarge"
         case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlC7I12Xlarge = "ml.c7i.12xlarge"
+        case mlC7I16Xlarge = "ml.c7i.16xlarge"
+        case mlC7I24Xlarge = "ml.c7i.24xlarge"
+        case mlC7I2Xlarge = "ml.c7i.2xlarge"
+        case mlC7I48Xlarge = "ml.c7i.48xlarge"
+        case mlC7I4Xlarge = "ml.c7i.4xlarge"
+        case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7ILarge = "ml.c7i.large"
+        case mlC7IXlarge = "ml.c7i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
@@ -2119,6 +2134,15 @@ extension SageMaker {
         case mlM6I8Xlarge = "ml.m6i.8xlarge"
         case mlM6ILarge = "ml.m6i.large"
         case mlM6IXlarge = "ml.m6i.xlarge"
+        case mlM7I12Xlarge = "ml.m7i.12xlarge"
+        case mlM7I16Xlarge = "ml.m7i.16xlarge"
+        case mlM7I24Xlarge = "ml.m7i.24xlarge"
+        case mlM7I2Xlarge = "ml.m7i.2xlarge"
+        case mlM7I48Xlarge = "ml.m7i.48xlarge"
+        case mlM7I4Xlarge = "ml.m7i.4xlarge"
+        case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7ILarge = "ml.m7i.large"
+        case mlM7IXlarge = "ml.m7i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
@@ -2141,6 +2165,15 @@ extension SageMaker {
         case mlR5DXlarge = "ml.r5d.xlarge"
         case mlR5Large = "ml.r5.large"
         case mlR5Xlarge = "ml.r5.xlarge"
+        case mlR7I12Xlarge = "ml.r7i.12xlarge"
+        case mlR7I16Xlarge = "ml.r7i.16xlarge"
+        case mlR7I24Xlarge = "ml.r7i.24xlarge"
+        case mlR7I2Xlarge = "ml.r7i.2xlarge"
+        case mlR7I48Xlarge = "ml.r7i.48xlarge"
+        case mlR7I4Xlarge = "ml.r7i.4xlarge"
+        case mlR7I8Xlarge = "ml.r7i.8xlarge"
+        case mlR7ILarge = "ml.r7i.large"
+        case mlR7IXlarge = "ml.r7i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
         case mlT3Large = "ml.t3.large"
         case mlT3Medium = "ml.t3.medium"
@@ -2259,6 +2292,15 @@ extension SageMaker {
         case mlC6I8Xlarge = "ml.c6i.8xlarge"
         case mlC6ILarge = "ml.c6i.large"
         case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlC6In12Xlarge = "ml.c6in.12xlarge"
+        case mlC6In16Xlarge = "ml.c6in.16xlarge"
+        case mlC6In24Xlarge = "ml.c6in.24xlarge"
+        case mlC6In2Xlarge = "ml.c6in.2xlarge"
+        case mlC6In32Xlarge = "ml.c6in.32xlarge"
+        case mlC6In4Xlarge = "ml.c6in.4xlarge"
+        case mlC6In8Xlarge = "ml.c6in.8xlarge"
+        case mlC6InLarge = "ml.c6in.large"
+        case mlC6InXlarge = "ml.c6in.xlarge"
         case mlC7G12Xlarge = "ml.c7g.12xlarge"
         case mlC7G16Xlarge = "ml.c7g.16xlarge"
         case mlC7G2Xlarge = "ml.c7g.2xlarge"
@@ -2275,6 +2317,16 @@ extension SageMaker {
         case mlC7I8Xlarge = "ml.c7i.8xlarge"
         case mlC7ILarge = "ml.c7i.large"
         case mlC7IXlarge = "ml.c7i.xlarge"
+        case mlC8G12Xlarge = "ml.c8g.12xlarge"
+        case mlC8G16Xlarge = "ml.c8g.16xlarge"
+        case mlC8G24Xlarge = "ml.c8g.24xlarge"
+        case mlC8G2Xlarge = "ml.c8g.2xlarge"
+        case mlC8G48Xlarge = "ml.c8g.48xlarge"
+        case mlC8G4Xlarge = "ml.c8g.4xlarge"
+        case mlC8G8Xlarge = "ml.c8g.8xlarge"
+        case mlC8GLarge = "ml.c8g.large"
+        case mlC8GMedium = "ml.c8g.medium"
+        case mlC8GXlarge = "ml.c8g.xlarge"
         case mlDl124Xlarge = "ml.dl1.24xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
@@ -2363,6 +2415,16 @@ extension SageMaker {
         case mlM7I8Xlarge = "ml.m7i.8xlarge"
         case mlM7ILarge = "ml.m7i.large"
         case mlM7IXlarge = "ml.m7i.xlarge"
+        case mlM8G12Xlarge = "ml.m8g.12xlarge"
+        case mlM8G16Xlarge = "ml.m8g.16xlarge"
+        case mlM8G24Xlarge = "ml.m8g.24xlarge"
+        case mlM8G2Xlarge = "ml.m8g.2xlarge"
+        case mlM8G48Xlarge = "ml.m8g.48xlarge"
+        case mlM8G4Xlarge = "ml.m8g.4xlarge"
+        case mlM8G8Xlarge = "ml.m8g.8xlarge"
+        case mlM8GLarge = "ml.m8g.large"
+        case mlM8GMedium = "ml.m8g.medium"
+        case mlM8GXlarge = "ml.m8g.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
@@ -2374,6 +2436,8 @@ extension SageMaker {
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
+        case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
         case mlR52Xlarge = "ml.r5.2xlarge"
@@ -2409,6 +2473,14 @@ extension SageMaker {
         case mlR6I8Xlarge = "ml.r6i.8xlarge"
         case mlR6ILarge = "ml.r6i.large"
         case mlR6IXlarge = "ml.r6i.xlarge"
+        case mlR7Gd12Xlarge = "ml.r7gd.12xlarge"
+        case mlR7Gd16Xlarge = "ml.r7gd.16xlarge"
+        case mlR7Gd2Xlarge = "ml.r7gd.2xlarge"
+        case mlR7Gd4Xlarge = "ml.r7gd.4xlarge"
+        case mlR7Gd8Xlarge = "ml.r7gd.8xlarge"
+        case mlR7GdLarge = "ml.r7gd.large"
+        case mlR7GdMedium = "ml.r7gd.medium"
+        case mlR7GdXlarge = "ml.r7gd.xlarge"
         case mlR7I12Xlarge = "ml.r7i.12xlarge"
         case mlR7I16Xlarge = "ml.r7i.16xlarge"
         case mlR7I24Xlarge = "ml.r7i.24xlarge"
@@ -2558,6 +2630,7 @@ extension SageMaker {
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
+        case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn248Xlarge = "ml.trn2.48xlarge"
         public var description: String { return self.rawValue }
@@ -2647,6 +2720,7 @@ extension SageMaker {
 
     public enum S3DataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case augmentedManifestFile = "AugmentedManifestFile"
+        case converse = "Converse"
         case manifestFile = "ManifestFile"
         case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
@@ -3008,6 +3082,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum TrackingServerMaintenanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case maintenanceComplete = "MaintenanceComplete"
+        case maintenanceFailed = "MaintenanceFailed"
+        case maintenanceInProgress = "MaintenanceInProgress"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrackingServerSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case l = "Large"
         case m = "Medium"
@@ -3079,6 +3160,15 @@ extension SageMaker {
         case mlC6I4Xlarge = "ml.c6i.4xlarge"
         case mlC6I8Xlarge = "ml.c6i.8xlarge"
         case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlC7I12Xlarge = "ml.c7i.12xlarge"
+        case mlC7I16Xlarge = "ml.c7i.16xlarge"
+        case mlC7I24Xlarge = "ml.c7i.24xlarge"
+        case mlC7I2Xlarge = "ml.c7i.2xlarge"
+        case mlC7I48Xlarge = "ml.c7i.48xlarge"
+        case mlC7I4Xlarge = "ml.c7i.4xlarge"
+        case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7ILarge = "ml.c7i.large"
+        case mlC7IXlarge = "ml.c7i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
@@ -3129,6 +3219,15 @@ extension SageMaker {
         case mlM6I8Xlarge = "ml.m6i.8xlarge"
         case mlM6ILarge = "ml.m6i.large"
         case mlM6IXlarge = "ml.m6i.xlarge"
+        case mlM7I12Xlarge = "ml.m7i.12xlarge"
+        case mlM7I16Xlarge = "ml.m7i.16xlarge"
+        case mlM7I24Xlarge = "ml.m7i.24xlarge"
+        case mlM7I2Xlarge = "ml.m7i.2xlarge"
+        case mlM7I48Xlarge = "ml.m7i.48xlarge"
+        case mlM7I4Xlarge = "ml.m7i.4xlarge"
+        case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7ILarge = "ml.m7i.large"
+        case mlM7IXlarge = "ml.m7i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
@@ -3141,6 +3240,7 @@ extension SageMaker {
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
+        case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -3157,6 +3257,15 @@ extension SageMaker {
         case mlR5DXlarge = "ml.r5d.xlarge"
         case mlR5Large = "ml.r5.large"
         case mlR5Xlarge = "ml.r5.xlarge"
+        case mlR7I12Xlarge = "ml.r7i.12xlarge"
+        case mlR7I16Xlarge = "ml.r7i.16xlarge"
+        case mlR7I24Xlarge = "ml.r7i.24xlarge"
+        case mlR7I2Xlarge = "ml.r7i.2xlarge"
+        case mlR7I48Xlarge = "ml.r7i.48xlarge"
+        case mlR7I4Xlarge = "ml.r7i.4xlarge"
+        case mlR7I8Xlarge = "ml.r7i.8xlarge"
+        case mlR7ILarge = "ml.r7i.large"
+        case mlR7IXlarge = "ml.r7i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
         case mlT3Large = "ml.t3.large"
         case mlT3Medium = "ml.t3.medium"
@@ -6077,6 +6186,205 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case values = "Values"
+        }
+    }
+
+    public struct CfnCreateTemplateProvider: AWSEncodableShape {
+        ///  An array of CloudFormation stack parameters.
+        public let parameters: [CfnStackCreateParameter]?
+        ///  The IAM role that CloudFormation assumes when creating the stack.
+        public let roleARN: String?
+        ///  A unique identifier for the template within the project.
+        public let templateName: String?
+        ///  The Amazon S3 URL of the CloudFormation template.
+        public let templateURL: String?
+
+        @inlinable
+        public init(parameters: [CfnStackCreateParameter]? = nil, roleARN: String? = nil, templateName: String? = nil, templateURL: String? = nil) {
+            self.parameters = parameters
+            self.roleARN = roleARN
+            self.templateName = templateName
+            self.templateURL = templateURL
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 180)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 32)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^(?=.{1,32}$)[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, pattern: "^(?=.{1,1024}$)(https)://([^/]+)/(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case roleARN = "RoleARN"
+            case templateName = "TemplateName"
+            case templateURL = "TemplateURL"
+        }
+    }
+
+    public struct CfnStackCreateParameter: AWSEncodableShape {
+        ///  The name of the CloudFormation parameter.
+        public let key: String?
+        ///  The value of the CloudFormation parameter.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 255)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^.{1,255}$")
+            try self.validate(self.value, name: "value", parent: name, max: 4096)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^.{0,4096}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct CfnStackDetail: AWSDecodableShape {
+        ///  The unique identifier of the CloudFormation stack.
+        public let id: String?
+        ///  The name of the CloudFormation stack.
+        public let name: String?
+        ///  A human-readable message about the stack's current status.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil, statusMessage: String? = nil) {
+            self.id = id
+            self.name = name
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct CfnStackParameter: AWSDecodableShape {
+        ///  The name of the CloudFormation parameter.
+        public let key: String?
+        ///  The value of the CloudFormation parameter.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct CfnStackUpdateParameter: AWSEncodableShape {
+        ///  The name of the CloudFormation parameter.
+        public let key: String?
+        ///  The value of the CloudFormation parameter.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 255)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^.{1,255}$")
+            try self.validate(self.value, name: "value", parent: name, max: 4096)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^.{0,4096}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct CfnTemplateProviderDetail: AWSDecodableShape {
+        ///  An array of CloudFormation stack parameters.
+        public let parameters: [CfnStackParameter]?
+        ///  The IAM role used by CloudFormation to create the stack.
+        public let roleARN: String?
+        ///  Information about the CloudFormation stack created by the template provider.
+        public let stackDetail: CfnStackDetail?
+        ///  The unique identifier of the template within the project.
+        public let templateName: String?
+        ///  The Amazon S3 URL of the CloudFormation template.
+        public let templateURL: String?
+
+        @inlinable
+        public init(parameters: [CfnStackParameter]? = nil, roleARN: String? = nil, stackDetail: CfnStackDetail? = nil, templateName: String? = nil, templateURL: String? = nil) {
+            self.parameters = parameters
+            self.roleARN = roleARN
+            self.stackDetail = stackDetail
+            self.templateName = templateName
+            self.templateURL = templateURL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case roleARN = "RoleARN"
+            case stackDetail = "StackDetail"
+            case templateName = "TemplateName"
+            case templateURL = "TemplateURL"
+        }
+    }
+
+    public struct CfnUpdateTemplateProvider: AWSEncodableShape {
+        ///  An array of CloudFormation stack parameters.
+        public let parameters: [CfnStackUpdateParameter]?
+        ///  The unique identifier of the template to update within the project.
+        public let templateName: String?
+        ///  The Amazon S3 URL of the CloudFormation template.
+        public let templateURL: String?
+
+        @inlinable
+        public init(parameters: [CfnStackUpdateParameter]? = nil, templateName: String? = nil, templateURL: String? = nil) {
+            self.parameters = parameters
+            self.templateName = templateName
+            self.templateURL = templateURL
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 180)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 32)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^(?=.{1,32}$)[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, pattern: "^(?=.{1,1024}$)(https)://([^/]+)/(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case templateName = "TemplateName"
+            case templateURL = "TemplateURL"
         }
     }
 
@@ -11451,13 +11759,16 @@ extension SageMaker {
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails?
         /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
+        ///  An array of template provider configurations for creating infrastructure resources for the project.
+        public let templateProviders: [CreateTemplateProvider]?
 
         @inlinable
-        public init(projectDescription: String? = nil, projectName: String? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil) {
+        public init(projectDescription: String? = nil, projectName: String? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil, templateProviders: [CreateTemplateProvider]? = nil) {
             self.projectDescription = projectDescription
             self.projectName = projectName
             self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
             self.tags = tags
+            self.templateProviders = templateProviders
         }
 
         public func validate(name: String) throws {
@@ -11471,6 +11782,11 @@ extension SageMaker {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.templateProviders?.forEach {
+                try $0.validate(name: "\(name).templateProviders[]")
+            }
+            try self.validate(self.templateProviders, name: "templateProviders", parent: name, max: 1)
+            try self.validate(self.templateProviders, name: "templateProviders", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11478,6 +11794,7 @@ extension SageMaker {
             case projectName = "ProjectName"
             case serviceCatalogProvisioningDetails = "ServiceCatalogProvisioningDetails"
             case tags = "Tags"
+            case templateProviders = "TemplateProviders"
         }
     }
 
@@ -11615,6 +11932,24 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case studioLifecycleConfigArn = "StudioLifecycleConfigArn"
+        }
+    }
+
+    public struct CreateTemplateProvider: AWSEncodableShape {
+        ///  The CloudFormation template provider configuration for creating infrastructure resources.
+        public let cfnTemplateProvider: CfnCreateTemplateProvider?
+
+        @inlinable
+        public init(cfnTemplateProvider: CfnCreateTemplateProvider? = nil) {
+            self.cfnTemplateProvider = cfnTemplateProvider
+        }
+
+        public func validate(name: String) throws {
+            try self.cfnTemplateProvider?.validate(name: "\(name).cfnTemplateProvider")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cfnTemplateProvider = "CfnTemplateProvider"
         }
     }
 
@@ -17631,6 +17966,8 @@ extension SageMaker {
         public let roleArn: String?
         /// The ARN of the described tracking server.
         public let trackingServerArn: String?
+        ///  The current maintenance status of the described MLflow Tracking Server.
+        public let trackingServerMaintenanceStatus: TrackingServerMaintenanceStatus?
         /// The name of the described tracking server.
         public let trackingServerName: String?
         /// The size of the described tracking server.
@@ -17643,7 +17980,7 @@ extension SageMaker {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, trackingServerArn: String? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, trackingServerStatus: TrackingServerStatus? = nil, trackingServerUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, trackingServerArn: String? = nil, trackingServerMaintenanceStatus: TrackingServerMaintenanceStatus? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, trackingServerStatus: TrackingServerStatus? = nil, trackingServerUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
             self.createdBy = createdBy
@@ -17654,6 +17991,7 @@ extension SageMaker {
             self.mlflowVersion = mlflowVersion
             self.roleArn = roleArn
             self.trackingServerArn = trackingServerArn
+            self.trackingServerMaintenanceStatus = trackingServerMaintenanceStatus
             self.trackingServerName = trackingServerName
             self.trackingServerSize = trackingServerSize
             self.trackingServerStatus = trackingServerStatus
@@ -17672,6 +18010,7 @@ extension SageMaker {
             case mlflowVersion = "MlflowVersion"
             case roleArn = "RoleArn"
             case trackingServerArn = "TrackingServerArn"
+            case trackingServerMaintenanceStatus = "TrackingServerMaintenanceStatus"
             case trackingServerName = "TrackingServerName"
             case trackingServerSize = "TrackingServerSize"
             case trackingServerStatus = "TrackingServerStatus"
@@ -19088,9 +19427,11 @@ extension SageMaker {
         public let serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails?
         /// Information used to provision a service catalog product. For information, see What is Amazon Web Services Service Catalog.
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails?
+        ///  An array of template providers associated with the project.
+        public let templateProviderDetails: [TemplateProviderDetail]?
 
         @inlinable
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, templateProviderDetails: [TemplateProviderDetail]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -19102,6 +19443,7 @@ extension SageMaker {
             self.projectStatus = projectStatus
             self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
             self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
+            self.templateProviderDetails = templateProviderDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19116,6 +19458,7 @@ extension SageMaker {
             case projectStatus = "ProjectStatus"
             case serviceCatalogProvisionedProductDetails = "ServiceCatalogProvisionedProductDetails"
             case serviceCatalogProvisioningDetails = "ServiceCatalogProvisioningDetails"
+            case templateProviderDetails = "TemplateProviderDetails"
         }
     }
 
@@ -20730,6 +21073,32 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case ebsVolumeSizeInGb = "EbsVolumeSizeInGb"
+        }
+    }
+
+    public struct Ec2CapacityReservation: AWSDecodableShape {
+        /// The number of instances that are currently available in the EC2 capacity reservation.
+        public let availableInstanceCount: Int?
+        /// The unique identifier for an EC2 capacity reservation that's part of the ML capacity reservation.
+        public let ec2CapacityReservationId: String?
+        /// The number of instances that you allocated to the EC2 capacity reservation.
+        public let totalInstanceCount: Int?
+        /// The number of instances from the EC2 capacity reservation that are being used by the endpoint.
+        public let usedByCurrentEndpoint: Int?
+
+        @inlinable
+        public init(availableInstanceCount: Int? = nil, ec2CapacityReservationId: String? = nil, totalInstanceCount: Int? = nil, usedByCurrentEndpoint: Int? = nil) {
+            self.availableInstanceCount = availableInstanceCount
+            self.ec2CapacityReservationId = ec2CapacityReservationId
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableInstanceCount = "AvailableInstanceCount"
+            case ec2CapacityReservationId = "Ec2CapacityReservationId"
+            case totalInstanceCount = "TotalInstanceCount"
+            case usedByCurrentEndpoint = "UsedByCurrentEndpoint"
         }
     }
 
@@ -35766,6 +36135,8 @@ extension SageMaker {
     public struct ProductionVariant: AWSEncodableShape & AWSDecodableShape {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public let acceleratorType: ProductionVariantAcceleratorType?
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public let capacityReservationConfig: ProductionVariantCapacityReservationConfig?
         /// The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting. For more information about health check, see How Your Container Should Respond to Health Check (Ping) Requests.
         public let containerStartupHealthCheckTimeoutInSeconds: Int?
         /// Specifies configuration for a core dump from the model container when the process crashes.
@@ -35796,8 +36167,9 @@ extension SageMaker {
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, enableSSMAccess: Bool? = nil, inferenceAmiVersion: ProductionVariantInferenceAmiVersion? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, capacityReservationConfig: ProductionVariantCapacityReservationConfig? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, enableSSMAccess: Bool? = nil, inferenceAmiVersion: ProductionVariantInferenceAmiVersion? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorType = acceleratorType
+            self.capacityReservationConfig = capacityReservationConfig
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
             self.enableSSMAccess = enableSSMAccess
@@ -35815,6 +36187,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.capacityReservationConfig?.validate(name: "\(name).capacityReservationConfig")
             try self.validate(self.containerStartupHealthCheckTimeoutInSeconds, name: "containerStartupHealthCheckTimeoutInSeconds", parent: name, max: 3600)
             try self.validate(self.containerStartupHealthCheckTimeoutInSeconds, name: "containerStartupHealthCheckTimeoutInSeconds", parent: name, min: 60)
             try self.coreDumpConfig?.validate(name: "\(name).coreDumpConfig")
@@ -35834,6 +36207,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case acceleratorType = "AcceleratorType"
+            case capacityReservationConfig = "CapacityReservationConfig"
             case containerStartupHealthCheckTimeoutInSeconds = "ContainerStartupHealthCheckTimeoutInSeconds"
             case coreDumpConfig = "CoreDumpConfig"
             case enableSSMAccess = "EnableSSMAccess"
@@ -35848,6 +36222,64 @@ extension SageMaker {
             case serverlessConfig = "ServerlessConfig"
             case variantName = "VariantName"
             case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct ProductionVariantCapacityReservationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Options that you can choose for the capacity reservation. SageMaker AI supports the following options:  capacity-reservations-only  SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public let capacityReservationPreference: CapacityReservationPreference?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public let mlReservationArn: String?
+
+        @inlinable
+        public init(capacityReservationPreference: CapacityReservationPreference? = nil, mlReservationArn: String? = nil) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.mlReservationArn = mlReservationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, max: 258)
+            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, min: 20)
+            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:ml-reservation/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case mlReservationArn = "MlReservationArn"
+        }
+    }
+
+    public struct ProductionVariantCapacityReservationSummary: AWSDecodableShape {
+        /// The number of instances that are currently available in the ML capacity reservation.
+        public let availableInstanceCount: Int?
+        /// The option that you chose for the capacity reservation. SageMaker AI supports the following options:  capacity-reservations-only  SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public let capacityReservationPreference: CapacityReservationPreference?
+        /// The EC2 capacity reservations that are shared to this ML capacity reservation, if any.
+        public let ec2CapacityReservations: [Ec2CapacityReservation]?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public let mlReservationArn: String?
+        /// The number of instances that you allocated to the ML capacity reservation.
+        public let totalInstanceCount: Int?
+        /// The number of instances from the ML capacity reservation that are being used by the endpoint.
+        public let usedByCurrentEndpoint: Int?
+
+        @inlinable
+        public init(availableInstanceCount: Int? = nil, capacityReservationPreference: CapacityReservationPreference? = nil, ec2CapacityReservations: [Ec2CapacityReservation]? = nil, mlReservationArn: String? = nil, totalInstanceCount: Int? = nil, usedByCurrentEndpoint: Int? = nil) {
+            self.availableInstanceCount = availableInstanceCount
+            self.capacityReservationPreference = capacityReservationPreference
+            self.ec2CapacityReservations = ec2CapacityReservations
+            self.mlReservationArn = mlReservationArn
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableInstanceCount = "AvailableInstanceCount"
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case ec2CapacityReservations = "Ec2CapacityReservations"
+            case mlReservationArn = "MlReservationArn"
+            case totalInstanceCount = "TotalInstanceCount"
+            case usedByCurrentEndpoint = "UsedByCurrentEndpoint"
         }
     }
 
@@ -35996,6 +36428,8 @@ extension SageMaker {
     }
 
     public struct ProductionVariantSummary: AWSDecodableShape {
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public let capacityReservationConfig: ProductionVariantCapacityReservationSummary?
         /// The number of instances associated with the variant.
         public let currentInstanceCount: Int?
         /// The serverless configuration for the endpoint.
@@ -36020,7 +36454,8 @@ extension SageMaker {
         public let variantStatus: [ProductionVariantStatus]?
 
         @inlinable
-        public init(currentInstanceCount: Int? = nil, currentServerlessConfig: ProductionVariantServerlessConfig? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredServerlessConfig: ProductionVariantServerlessConfig? = nil, desiredWeight: Float? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, variantName: String? = nil, variantStatus: [ProductionVariantStatus]? = nil) {
+        public init(capacityReservationConfig: ProductionVariantCapacityReservationSummary? = nil, currentInstanceCount: Int? = nil, currentServerlessConfig: ProductionVariantServerlessConfig? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredServerlessConfig: ProductionVariantServerlessConfig? = nil, desiredWeight: Float? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, variantName: String? = nil, variantStatus: [ProductionVariantStatus]? = nil) {
+            self.capacityReservationConfig = capacityReservationConfig
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
             self.currentWeight = currentWeight
@@ -36035,6 +36470,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityReservationConfig = "CapacityReservationConfig"
             case currentInstanceCount = "CurrentInstanceCount"
             case currentServerlessConfig = "CurrentServerlessConfig"
             case currentWeight = "CurrentWeight"
@@ -36238,9 +36674,11 @@ extension SageMaker {
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
+        ///  An array of template providers associated with the project.
+        public let templateProviderDetails: [TemplateProviderDetail]?
 
         @inlinable
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil, templateProviderDetails: [TemplateProviderDetail]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -36253,6 +36691,7 @@ extension SageMaker {
             self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
             self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
             self.tags = tags
+            self.templateProviderDetails = templateProviderDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -36268,6 +36707,7 @@ extension SageMaker {
             case serviceCatalogProvisionedProductDetails = "ServiceCatalogProvisionedProductDetails"
             case serviceCatalogProvisioningDetails = "ServiceCatalogProvisioningDetails"
             case tags = "Tags"
+            case templateProviderDetails = "TemplateProviderDetails"
         }
     }
 
@@ -37499,7 +37939,7 @@ extension SageMaker {
         public let instanceCount: Int?
         /// The configuration of a heterogeneous cluster in JSON format.
         public let instanceGroups: [InstanceGroup]?
-        /// The ML compute instance type.   SageMaker Training on Amazon Elastic Compute Cloud (EC2) P4de instances is in preview release starting December 9th, 2022.   Amazon EC2 P4de instances (currently in preview) are powered by 8 NVIDIA A100 GPUs with 80GB high-performance HBM2e GPU memory, which accelerate the speed of training ML models that need to be trained on large datasets of high-resolution data. In this preview release, Amazon SageMaker supports ML training jobs on P4de instances (ml.p4de.24xlarge) to reduce model training time. The ml.p4de.24xlarge instances are available in the following Amazon Web Services Regions.    US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   To request quota limit increase and start using P4de instances, contact the SageMaker Training service team through your account team.
+        /// The ML compute instance type.
         public let instanceType: TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
         public let keepAlivePeriodInSeconds: Int?
@@ -37806,7 +38246,7 @@ extension SageMaker {
         public let modelAccessConfig: ModelAccessConfig?
         /// If you want SageMaker to replicate the entire dataset on each ML compute instance that is launched for model training, specify FullyReplicated.  If you want SageMaker to replicate a subset of data on each ML compute instance that is launched for model training, specify ShardedByS3Key. If there are n ML compute instances launched for a training job, each instance gets approximately 1/n of the number of S3 objects. In this case, model training on each machine uses only the subset of training data.  Don't choose more ML compute instances for training than available S3 objects. If you do, some nodes won't get any data and you will pay for nodes that aren't getting any training data. This applies in both File and Pipe modes. Keep this in mind when developing algorithms.  In distributed training, where you use multiple ML compute EC2 instances, you might choose ShardedByS3Key. If the algorithm requires copying training data to the ML storage volume (when TrainingInputMode is set to File), this copies 1/n of the number of objects.
         public let s3DataDistributionType: S3DataDistribution?
-        /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training.  If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe.
+        /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training.  If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe. If you choose Converse, S3Uri identifies an Amazon S3 location that contains data formatted according to Converse format. This format structures conversational messages with specific roles and content types used for training and fine-tuning foundational models.
         public let s3DataType: S3DataType?
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:     A key name prefix might look like this: s3://bucketname/exampleprefix/     A manifest might look like this: s3://bucketname/example.manifest   A manifest is an S3 object which is a JSON file consisting of an array of elements. The first element is a prefix which is followed by one or more suffixes. SageMaker appends the suffix elements to the prefix to get a full set of S3Uri. Note that the prefix must be a valid non-empty S3Uri that precludes users from specifying a manifest whose individual S3Uri is sourced from different S3 buckets.  The following code example shows a valid manifest format:   [ {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    "relative/path/custdata-N"   ]   This JSON is equivalent to the following S3Uri list:  s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...   s3://customer_bucket/some/prefix/relative/path/custdata-N  The complete set of S3Uri in this manifest is the input data for the channel for this data source. The object that each S3Uri points to must be readable by the IAM role that SageMaker uses to perform tasks on your behalf.    Your input bucket must be located in same Amazon Web Services region as your training job.
         public let s3Uri: String?
@@ -38273,7 +38713,7 @@ extension SageMaker {
             try self.validate(self.durationHours, name: "durationHours", parent: name, max: 87600)
             try self.validate(self.durationHours, name: "durationHours", parent: name, min: 1)
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, max: 256)
-            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 1)
+            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
             try self.validate(self.targetResources, name: "targetResources", parent: name, min: 1)
         }
 
@@ -39910,6 +40350,20 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case metricSpecification = "MetricSpecification"
             case targetValue = "TargetValue"
+        }
+    }
+
+    public struct TemplateProviderDetail: AWSDecodableShape {
+        ///  Details about a CloudFormation template provider configuration and associated provisioning information.
+        public let cfnTemplateProviderDetail: CfnTemplateProviderDetail?
+
+        @inlinable
+        public init(cfnTemplateProviderDetail: CfnTemplateProviderDetail? = nil) {
+            self.cfnTemplateProviderDetail = cfnTemplateProviderDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cfnTemplateProviderDetail = "CfnTemplateProviderDetail"
         }
     }
 
@@ -41878,17 +42332,20 @@ extension SageMaker {
         public let projectId: String?
         /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
         public let projectS3Path: String?
+        /// The ARN of the application managed by SageMaker AI and SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
+        public let singleSignOnApplicationArn: String?
         /// Sets whether you can access the domain in Amazon SageMaker Studio:  ENABLED  You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces.  DISABLED  You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface.   To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
         public let studioWebPortalAccess: FeatureStatus?
 
         @inlinable
-        public init(domainAccountId: String? = nil, domainId: String? = nil, domainRegion: String? = nil, environmentId: String? = nil, projectId: String? = nil, projectS3Path: String? = nil, studioWebPortalAccess: FeatureStatus? = nil) {
+        public init(domainAccountId: String? = nil, domainId: String? = nil, domainRegion: String? = nil, environmentId: String? = nil, projectId: String? = nil, projectS3Path: String? = nil, singleSignOnApplicationArn: String? = nil, studioWebPortalAccess: FeatureStatus? = nil) {
             self.domainAccountId = domainAccountId
             self.domainId = domainId
             self.domainRegion = domainRegion
             self.environmentId = environmentId
             self.projectId = projectId
             self.projectS3Path = projectS3Path
+            self.singleSignOnApplicationArn = singleSignOnApplicationArn
             self.studioWebPortalAccess = studioWebPortalAccess
         }
 
@@ -41903,6 +42360,7 @@ extension SageMaker {
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.projectS3Path, name: "projectS3Path", parent: name, max: 1024)
             try self.validate(self.projectS3Path, name: "projectS3Path", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.singleSignOnApplicationArn, name: "singleSignOnApplicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::[0-9]+:application\\/[a-zA-Z0-9-_.]+\\/apl-[a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -41912,6 +42370,7 @@ extension SageMaker {
             case environmentId = "EnvironmentId"
             case projectId = "ProjectId"
             case projectS3Path = "ProjectS3Path"
+            case singleSignOnApplicationArn = "SingleSignOnApplicationArn"
             case studioWebPortalAccess = "StudioWebPortalAccess"
         }
     }
@@ -43940,13 +44399,16 @@ extension SageMaker {
         public let serviceCatalogProvisioningUpdateDetails: ServiceCatalogProvisioningUpdateDetails?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources. In addition, the project must have tag update constraints set in order to include this parameter in the request. For more information, see Amazon Web Services Service Catalog Tag Update Constraints.
         public let tags: [Tag]?
+        ///  The template providers to update in the project.
+        public let templateProvidersToUpdate: [UpdateTemplateProvider]?
 
         @inlinable
-        public init(projectDescription: String? = nil, projectName: String? = nil, serviceCatalogProvisioningUpdateDetails: ServiceCatalogProvisioningUpdateDetails? = nil, tags: [Tag]? = nil) {
+        public init(projectDescription: String? = nil, projectName: String? = nil, serviceCatalogProvisioningUpdateDetails: ServiceCatalogProvisioningUpdateDetails? = nil, tags: [Tag]? = nil, templateProvidersToUpdate: [UpdateTemplateProvider]? = nil) {
             self.projectDescription = projectDescription
             self.projectName = projectName
             self.serviceCatalogProvisioningUpdateDetails = serviceCatalogProvisioningUpdateDetails
             self.tags = tags
+            self.templateProvidersToUpdate = templateProvidersToUpdate
         }
 
         public func validate(name: String) throws {
@@ -43960,6 +44422,11 @@ extension SageMaker {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.templateProvidersToUpdate?.forEach {
+                try $0.validate(name: "\(name).templateProvidersToUpdate[]")
+            }
+            try self.validate(self.templateProvidersToUpdate, name: "templateProvidersToUpdate", parent: name, max: 1)
+            try self.validate(self.templateProvidersToUpdate, name: "templateProvidersToUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -43967,6 +44434,7 @@ extension SageMaker {
             case projectName = "ProjectName"
             case serviceCatalogProvisioningUpdateDetails = "ServiceCatalogProvisioningUpdateDetails"
             case tags = "Tags"
+            case templateProvidersToUpdate = "TemplateProvidersToUpdate"
         }
     }
 
@@ -44031,6 +44499,24 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case spaceArn = "SpaceArn"
+        }
+    }
+
+    public struct UpdateTemplateProvider: AWSEncodableShape {
+        ///  The CloudFormation template provider configuration to update.
+        public let cfnTemplateProvider: CfnUpdateTemplateProvider?
+
+        @inlinable
+        public init(cfnTemplateProvider: CfnUpdateTemplateProvider? = nil) {
+            self.cfnTemplateProvider = cfnTemplateProvider
+        }
+
+        public func validate(name: String) throws {
+            try self.cfnTemplateProvider?.validate(name: "\(name).cfnTemplateProvider")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cfnTemplateProvider = "CfnTemplateProvider"
         }
     }
 

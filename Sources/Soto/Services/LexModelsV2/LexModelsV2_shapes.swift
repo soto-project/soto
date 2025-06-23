@@ -3355,7 +3355,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^[0-9]+$")
             try self.conversationLogSettings?.validate(name: "\(name).conversationLogSettings")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3473,7 +3473,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.generativeAISettings?.validate(name: "\(name).generativeAISettings")
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1.0)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0.0)
@@ -3649,7 +3649,7 @@ extension LexModelsV2 {
                 try validate($0.value, name: "botTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.botTags, name: "botTags", parent: name, max: 200)
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 86400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -3770,7 +3770,7 @@ extension LexModelsV2 {
                 try $0.value.validate(name: "\(name).botVersionLocaleSpecification[\"\($0.key)\"]")
             }
             try self.validate(self.botVersionLocaleSpecification, name: "botVersionLocaleSpecification", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3957,7 +3957,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
             try self.initialResponseSetting?.validate(name: "\(name).initialResponseSetting")
             try self.inputContexts?.forEach {
@@ -4282,7 +4282,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.validate(self.intentId, name: "intentId", parent: name, max: 10)
             try self.validate(self.intentId, name: "intentId", parent: name, min: 10)
             try self.validate(self.intentId, name: "intentId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -4428,7 +4428,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.compositeSlotTypeSetting?.validate(name: "\(name).compositeSlotTypeSetting")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.externalSourceSetting?.validate(name: "\(name).externalSourceSetting")
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, max: 100)
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, min: 1)
@@ -10984,6 +10984,20 @@ extension LexModelsV2 {
         }
     }
 
+    public struct NluImprovementSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the assisted nlu feature is enabled.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
     public struct ObfuscationSetting: AWSEncodableShape & AWSDecodableShape {
         /// Value that determines whether Amazon Lex obscures slot values in conversation logs. The default is to obscure the values.
         public let obfuscationSettingType: ObfuscationSettingType
@@ -11590,11 +11604,14 @@ extension LexModelsV2 {
     }
 
     public struct RuntimeSettings: AWSEncodableShape & AWSDecodableShape {
+        /// An object containing specifications for the assisted nlu feature.
+        public let nluImprovement: NluImprovementSpecification?
         /// An object containing specifications for the assisted slot resolution feature.
         public let slotResolutionImprovement: SlotResolutionImprovementSpecification?
 
         @inlinable
-        public init(slotResolutionImprovement: SlotResolutionImprovementSpecification? = nil) {
+        public init(nluImprovement: NluImprovementSpecification? = nil, slotResolutionImprovement: SlotResolutionImprovementSpecification? = nil) {
+            self.nluImprovement = nluImprovement
             self.slotResolutionImprovement = slotResolutionImprovement
         }
 
@@ -11603,6 +11620,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nluImprovement = "nluImprovement"
             case slotResolutionImprovement = "slotResolutionImprovement"
         }
     }
@@ -12859,7 +12877,7 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.generationDataSource.validate(name: "\(name).generationDataSource")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
@@ -13457,7 +13475,7 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.importInputLocation.validate(name: "\(name).importInputLocation")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
@@ -13901,7 +13919,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
             try self.conversationLogSettings?.validate(name: "\(name).conversationLogSettings")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14013,7 +14031,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.generativeAISettings?.validate(name: "\(name).generativeAISettings")
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1.0)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0.0)
@@ -14242,7 +14260,7 @@ extension LexModelsV2 {
             try self.validate(self.botName, name: "botName", parent: name, max: 100)
             try self.validate(self.botName, name: "botName", parent: name, min: 1)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 86400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -14480,7 +14498,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.fulfillmentCodeHook?.validate(name: "\(name).fulfillmentCodeHook")
             try self.initialResponseSetting?.validate(name: "\(name).initialResponseSetting")
             try self.inputContexts?.forEach {
@@ -14741,7 +14759,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.validate(self.intentId, name: "intentId", parent: name, max: 10)
             try self.validate(self.intentId, name: "intentId", parent: name, min: 10)
             try self.validate(self.intentId, name: "intentId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -14897,7 +14915,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.compositeSlotTypeSetting?.validate(name: "\(name).compositeSlotTypeSetting")
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.externalSourceSetting?.validate(name: "\(name).externalSourceSetting")
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, max: 10)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, min: 10)
@@ -15009,7 +15027,7 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
             try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
             try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
             try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")

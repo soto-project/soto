@@ -137,8 +137,8 @@ public struct Organizations: AWSService {
         return try await self.acceptHandshake(input, logger: logger)
     }
 
-    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY    This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY    This operation can be called only from the organization's
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func attachPolicy(_ input: AttachPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -151,8 +151,8 @@ public struct Organizations: AWSService {
             logger: logger
         )
     }
-    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY    This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY    This operation can be called only from the organization's
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - policyId: The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
@@ -376,7 +376,7 @@ public struct Organizations: AWSService {
     }
 
     /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organizations policies. If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func createPolicy(_ input: CreatePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyResponse {
@@ -390,14 +390,14 @@ public struct Organizations: AWSService {
         )
     }
     /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organizations policies. If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - content: The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter.  The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organizations User Guide.
     ///   - description: An optional description to assign to the policy.
     ///   - name: The friendly name to assign to the policy. The regex pattern  that is used to validate this parameter is a string of any of the characters in the ASCII  character range.
     ///   - tags: A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
-    ///   - type: The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - type: The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - logger: Logger use during operation
     @inlinable
     public func createPolicy(
@@ -490,7 +490,7 @@ public struct Organizations: AWSService {
     }
 
     /// Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -504,7 +504,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - policyId: The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
@@ -520,7 +520,7 @@ public struct Organizations: AWSService {
         return try await self.deletePolicy(input, logger: logger)
     }
 
-    /// Deletes the resource policy from your organization. You can only call this operation from the organization's management account.
+    /// Deletes the resource policy from your organization. This operation can be called only from the organization's management account.
     @Sendable
     @inlinable
     public func deleteResourcePolicy(logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -566,7 +566,7 @@ public struct Organizations: AWSService {
     }
 
     /// Retrieves Organizations-related information about the specified account. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func describeAccount(_ input: DescribeAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountResponse {
@@ -580,7 +580,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Retrieves Organizations-related information about the specified account. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - accountId: The unique identifier (ID) of the Amazon Web Services account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
@@ -597,7 +597,7 @@ public struct Organizations: AWSService {
     }
 
     /// Retrieves the current status of an asynchronous request to create an account. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func describeCreateAccountStatus(_ input: DescribeCreateAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCreateAccountStatusResponse {
@@ -611,7 +611,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Retrieves the current status of an asynchronous request to create an account. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - createAccountRequestId: Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id response in an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string  requires "car-" followed by from 8 to 32 lowercase letters or digits.
@@ -643,7 +643,7 @@ public struct Organizations: AWSService {
     /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see Understanding management policy inheritance in the Organizations User Guide. This operation can be called from any account in the organization.
     ///
     /// Parameters:
-    ///   - policyType: The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - policyType: The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - targetId: When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
     ///   - logger: Logger use during operation
     @inlinable
@@ -702,7 +702,7 @@ public struct Organizations: AWSService {
     }
 
     /// Retrieves information about an organizational unit (OU). This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func describeOrganizationalUnit(_ input: DescribeOrganizationalUnitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationalUnitResponse {
@@ -716,7 +716,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Retrieves information about an organizational unit (OU). This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - organizationalUnitId: The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires  "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the  OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters  or digits.
@@ -733,7 +733,7 @@ public struct Organizations: AWSService {
     }
 
     /// Retrieves information about a policy. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func describePolicy(_ input: DescribePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePolicyResponse {
@@ -747,7 +747,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Retrieves information about a policy. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - policyId: The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
@@ -764,7 +764,7 @@ public struct Organizations: AWSService {
     }
 
     /// Retrieves information about a resource policy. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func describeResourcePolicy(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePolicyResponse {
@@ -778,7 +778,7 @@ public struct Organizations: AWSService {
     }
 
     /// Detaches a policy from a target root, organizational unit (OU), or account.  If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate.  Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you can remove the default SCP. This is the authorization strategy of an "allow list". If you instead attach a second SCP and leave the FullAWSAccess SCP still attached, and specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP), you're using the authorization strategy of a "deny list". This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func detachPolicy(_ input: DetachPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -792,7 +792,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Detaches a policy from a target root, organizational unit (OU), or account.  If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate.  Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you can remove the default SCP. This is the authorization strategy of an "allow list". If you instead attach a second SCP and leave the FullAWSAccess SCP still attached, and specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP), you're using the authorization strategy of a "deny list". This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - policyId: The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
@@ -841,7 +841,7 @@ public struct Organizations: AWSService {
     }
 
     /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if all features are enabled for the organization. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use DescribeOrganization.
     @Sendable
     @inlinable
     public func disablePolicyType(_ input: DisablePolicyTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisablePolicyTypeResponse {
@@ -855,10 +855,10 @@ public struct Organizations: AWSService {
         )
     }
     /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if all features are enabled for the organization. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use DescribeOrganization.
     ///
     /// Parameters:
-    ///   - policyType: The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - policyType: The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - rootId: The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
     ///   - logger: Logger use during operation
     @inlinable
@@ -874,7 +874,7 @@ public struct Organizations: AWSService {
         return try await self.disablePolicyType(input, logger: logger)
     }
 
-    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization,  create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. You can only call this operation from the organization's management account and only if the organization has enabled all features.
+    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization,  create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's management account.
     @Sendable
     @inlinable
     public func enableAWSServiceAccess(_ input: EnableAWSServiceAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -887,7 +887,7 @@ public struct Organizations: AWSService {
             logger: logger
         )
     }
-    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization,  create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. You can only call this operation from the organization's management account and only if the organization has enabled all features.
+    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization,  create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's management account.
     ///
     /// Parameters:
     ///   - servicePrincipal: The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
@@ -930,7 +930,7 @@ public struct Organizations: AWSService {
     }
 
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the DisablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
     @Sendable
     @inlinable
     public func enablePolicyType(_ input: EnablePolicyTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnablePolicyTypeResponse {
@@ -944,10 +944,10 @@ public struct Organizations: AWSService {
         )
     }
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the DisablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
     ///
     /// Parameters:
-    ///   - policyType: The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - policyType: The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - rootId: The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
     ///   - logger: Logger use during operation
     @inlinable
@@ -963,7 +963,7 @@ public struct Organizations: AWSService {
         return try await self.enablePolicyType(input, logger: logger)
     }
 
-    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response.    You can invite Amazon Web Services accounts only from the same seller as the management account. For example, if your organization's management account was created by Amazon Internet Services Pvt. Ltd (AISPL), an Amazon Web Services seller in India, you can invite only other AISPL accounts to your organization. You can't combine accounts from AISPL and Amazon Web Services or from any other Amazon Web Services seller. For more information, see Consolidated billing in India.   If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists after an hour, contact Amazon Web Services Support.    If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
+    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response.  If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists after an hour, contact Amazon Web Services Support.  If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
     @Sendable
     @inlinable
     public func inviteAccountToOrganization(_ input: InviteAccountToOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InviteAccountToOrganizationResponse {
@@ -976,7 +976,7 @@ public struct Organizations: AWSService {
             logger: logger
         )
     }
-    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response.    You can invite Amazon Web Services accounts only from the same seller as the management account. For example, if your organization's management account was created by Amazon Internet Services Pvt. Ltd (AISPL), an Amazon Web Services seller in India, you can invite only other AISPL accounts to your organization. You can't combine accounts from AISPL and Amazon Web Services or from any other Amazon Web Services seller. For more information, see Consolidated billing in India.   If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists after an hour, contact Amazon Web Services Support.    If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
+    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response.  If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists after an hour, contact Amazon Web Services Support.  If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
     ///
     /// Parameters:
     ///   - notes: Additional information that you want to include in the generated email to the recipient account owner.
@@ -998,7 +998,7 @@ public struct Organizations: AWSService {
         return try await self.inviteAccountToOrganization(input, logger: logger)
     }
 
-    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use RemoveAccountFromOrganization instead. This operation can be called only from a member account in the organization.    The management account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. This includes preventing them from successfully calling LeaveOrganization and leaving the organization.   You can leave an organization as a member account only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For each account that you want to make standalone, you must perform the following steps. If any of the steps are already completed for this account, that step doesn't appear.   Choose a support plan   Provide and verify the required contact information   Provide a current payment method   Amazon Web Services uses the payment method to charge for any billable (not free tier) Amazon Web Services activity that occurs while the account isn't attached to an organization. For more information, see Considerations before removing an account from an organization in the Organizations User Guide.   The account that you want to leave must not be a delegated administrator account for any Amazon Web Services service enabled for your organization. If the account is a delegated administrator, you must first change the delegated administrator account to another account that is remaining in the organization.   You can leave an organization only after you enable IAM user access to billing in your account. For more information, see About IAM access to the Billing and Cost Management console in the Amazon Web Services Billing and Cost Management User Guide.   After the account leaves the organization, all tags that were attached to the account object in the organization are deleted. Amazon Web Services accounts outside of an organization do not support tags.   A newly created account has a waiting period before it can be removed from its organization. You must wait until at least seven days after the account was created. Invited accounts aren't subject to this waiting period.   If you are using an organization principal to call LeaveOrganization across multiple accounts, you can only do this up to 5 accounts per second in a single organization.
+    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use RemoveAccountFromOrganization instead. This operation can be called only from a member account in the organization.    The management account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. This includes preventing them from successfully calling LeaveOrganization and leaving the organization.   You can leave an organization as a member account only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For each account that you want to make standalone, you must perform the following steps. If any of the steps are already completed for this account, that step doesn't appear.   Choose a support plan   Provide and verify the required contact information   Provide a current payment method   Amazon Web Services uses the payment method to charge for any billable (not free tier) Amazon Web Services activity that occurs while the account isn't attached to an organization. For more information, see Considerations before removing an account from an organization in the Organizations User Guide.   The account that you want to leave must not be a delegated administrator account for any Amazon Web Services service enabled for your organization. If the account is a delegated administrator, you must first change the delegated administrator account to another account that is remaining in the organization.   After the account leaves the organization, all tags that were attached to the account object in the organization are deleted. Amazon Web Services accounts outside of an organization do not support tags.   A newly created account has a waiting period before it can be removed from its organization. You must wait until at least seven days after the account was created. Invited accounts aren't subject to this waiting period.   If you are using an organization principal to call LeaveOrganization across multiple accounts, you can only do this up to 5 accounts per second in a single organization.
     @Sendable
     @inlinable
     public func leaveOrganization(logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1012,7 +1012,7 @@ public struct Organizations: AWSService {
     }
 
     /// Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with Organizations, including the list of services that currently work with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listAWSServiceAccessForOrganization(_ input: ListAWSServiceAccessForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAWSServiceAccessForOrganizationResponse {
@@ -1026,7 +1026,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with Organizations, including the list of services that currently work with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1050,7 +1050,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listAccounts(_ input: ListAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountsResponse {
@@ -1068,7 +1068,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1092,7 +1092,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listAccountsForParent(_ input: ListAccountsForParentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountsForParentResponse {
@@ -1110,7 +1110,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1137,7 +1137,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listChildren(_ input: ListChildrenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChildrenResponse {
@@ -1155,7 +1155,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - childType: Filters the output to include only the specified child type.
@@ -1185,7 +1185,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listCreateAccountStatus(_ input: ListCreateAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCreateAccountStatusResponse {
@@ -1203,7 +1203,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1226,7 +1226,7 @@ public struct Organizations: AWSService {
     }
 
     /// Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listDelegatedAdministrators(_ input: ListDelegatedAdministratorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDelegatedAdministratorsResponse {
@@ -1240,7 +1240,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1263,7 +1263,7 @@ public struct Organizations: AWSService {
     }
 
     /// List the Amazon Web Services services for which the specified account is a delegated administrator. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listDelegatedServicesForAccount(_ input: ListDelegatedServicesForAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDelegatedServicesForAccountResponse {
@@ -1277,7 +1277,7 @@ public struct Organizations: AWSService {
         )
     }
     /// List the Amazon Web Services services for which the specified account is a delegated administrator. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - accountId: The account ID number of a delegated administrator account in the organization.
@@ -1347,7 +1347,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listHandshakesForOrganization(_ input: ListHandshakesForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHandshakesForOrganizationResponse {
@@ -1365,7 +1365,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - filter: A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
@@ -1392,7 +1392,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listOrganizationalUnitsForParent(_ input: ListOrganizationalUnitsForParentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationalUnitsForParentResponse {
@@ -1410,7 +1410,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1437,7 +1437,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  In the current release, a child can have only a single parent.
+    /// management account or by a member account that is a delegated administrator.  In the current release, a child can have only a single parent.
     @Sendable
     @inlinable
     public func listParents(_ input: ListParentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListParentsResponse {
@@ -1455,7 +1455,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  In the current release, a child can have only a single parent.
+    /// management account or by a member account that is a delegated administrator.  In the current release, a child can have only a single parent.
     ///
     /// Parameters:
     ///   - childId: The unique identifier (ID) of the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the  following:    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that  contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional  lowercase letters or digits.
@@ -1482,7 +1482,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listPolicies(_ input: ListPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPoliciesResponse {
@@ -1500,10 +1500,10 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
-    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
     ///   - logger: Logger use during operation
@@ -1527,7 +1527,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listPoliciesForTarget(_ input: ListPoliciesForTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPoliciesForTargetResponse {
@@ -1545,10 +1545,10 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
-    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
     ///   - targetId: The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32  lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
@@ -1575,7 +1575,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
     @Sendable
     @inlinable
     public func listRoots(_ input: ListRootsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRootsResponse {
@@ -1593,7 +1593,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1613,7 +1613,7 @@ public struct Organizations: AWSService {
     }
 
     /// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations.   Amazon Web Services account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1627,7 +1627,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations.   Amazon Web Services account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
@@ -1651,7 +1651,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTargetsForPolicyResponse {
@@ -1669,7 +1669,7 @@ public struct Organizations: AWSService {
     /// occasionally return an empty set of results even when there are more results available. The
     /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -1726,7 +1726,7 @@ public struct Organizations: AWSService {
         return try await self.moveAccount(input, logger: logger)
     }
 
-    /// Creates or updates a resource policy. You can only call this operation from the organization's management account.
+    /// Creates or updates a resource policy. This operation can be called only from the organization's management account..
     @Sendable
     @inlinable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
@@ -1739,7 +1739,7 @@ public struct Organizations: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates a resource policy. You can only call this operation from the organization's management account.
+    /// Creates or updates a resource policy. This operation can be called only from the organization's management account..
     ///
     /// Parameters:
     ///   - content: If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see SCP syntax in the Organizations User Guide.
@@ -1820,7 +1820,7 @@ public struct Organizations: AWSService {
     }
 
     /// Adds one or more tags to the specified resource. Currently, you can attach tags to the following resources in Organizations.   Amazon Web Services account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1834,7 +1834,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Adds one or more tags to the specified resource. Currently, you can attach tags to the following resources in Organizations.   Amazon Web Services account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - resourceId: The ID of the resource to add a tag to. You can specify any of the following taggable resources.   Amazon Web Services account – specify the account ID number.   Organizational unit  – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3
@@ -1854,7 +1854,7 @@ public struct Organizations: AWSService {
     }
 
     /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations.   Amazon Web Services account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1868,7 +1868,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations.   Amazon Web Services account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - resourceId: The ID of the resource to remove a tag from. You can specify any of the following taggable resources.   Amazon Web Services account – specify the account ID number.   Organizational unit  – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3
@@ -1920,7 +1920,7 @@ public struct Organizations: AWSService {
     }
 
     /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     @Sendable
     @inlinable
     public func updatePolicy(_ input: UpdatePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePolicyResponse {
@@ -1934,7 +1934,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
+    /// management account or by a member account that is a delegated administrator.
     ///
     /// Parameters:
     ///   - content: If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see SCP syntax in the Organizations User Guide. The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organizations User Guide.
@@ -2398,7 +2398,7 @@ extension Organizations {
     /// Return PaginatorSequence for operation ``listPolicies(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2435,7 +2435,7 @@ extension Organizations {
     /// Return PaginatorSequence for operation ``listPoliciesForTarget(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - targetId: The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32  lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
     ///   - logger: Logger used for logging

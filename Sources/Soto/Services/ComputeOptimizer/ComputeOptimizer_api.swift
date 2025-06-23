@@ -504,7 +504,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.exportLicenseRecommendations(input, logger: logger)
     }
 
-    ///  Export optimization recommendations for your Amazon Relational Database Service (Amazon RDS).  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Amazon RDS export job in progress per Amazon Web Services Region.
+    ///  Export optimization recommendations for your Amazon Aurora and Amazon Relational Database Service (Amazon RDS) databases.  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services Region.
     @Sendable
     @inlinable
     public func exportRDSDatabaseRecommendations(_ input: ExportRDSDatabaseRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportRDSDatabaseRecommendationsResponse {
@@ -517,13 +517,13 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    ///  Export optimization recommendations for your Amazon Relational Database Service (Amazon RDS).  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Amazon RDS export job in progress per Amazon Web Services Region.
+    ///  Export optimization recommendations for your Amazon Aurora and Amazon Relational Database Service (Amazon RDS) databases.  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services Region.
     ///
     /// Parameters:
-    ///   - accountIds:  The Amazon Web Services account IDs for the export Amazon RDS recommendations.  If your account is the management account or the delegated administrator  of an organization, use this parameter to specify the member account you want to  export recommendations to. This parameter can't be specified together with the include member accounts  parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    ///   - accountIds:  The Amazon Web Services account IDs for the export Amazon Aurora and RDS database recommendations.  If your account is the management account or the delegated administrator  of an organization, use this parameter to specify the member account you want to  export recommendations to. This parameter can't be specified together with the include member accounts  parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
     ///   - fieldsToExport: The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
     ///   - fileFormat:  The format of the export file.   The CSV file is the only export file format currently supported.
-    ///   - filters:  An array of objects to specify a filter that exports a more specific set of  Amazon RDS recommendations.
+    ///   - filters:  An array of objects to specify a filter that exports a more specific set of  Amazon Aurora and RDS recommendations.
     ///   - includeMemberAccounts: If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the  organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for  member accounts aren't included in the export.
     ///   - recommendationPreferences: 
     ///   - s3DestinationConfig: 
@@ -1022,7 +1022,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.getLicenseRecommendations(input, logger: logger)
     }
 
-    ///  Returns the projected metrics of Amazon RDS recommendations.
+    ///  Returns the projected metrics of Aurora and RDS database recommendations.
     @Sendable
     @inlinable
     public func getRDSDatabaseRecommendationProjectedMetrics(_ input: GetRDSDatabaseRecommendationProjectedMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRDSDatabaseRecommendationProjectedMetricsResponse {
@@ -1035,13 +1035,13 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    ///  Returns the projected metrics of Amazon RDS recommendations.
+    ///  Returns the projected metrics of Aurora and RDS database recommendations.
     ///
     /// Parameters:
     ///   - endTime:  The timestamp of the last projected metrics data point to return.
     ///   - period:  The granularity, in seconds, of the projected metrics data points.
     ///   - recommendationPreferences: 
-    ///   - resourceArn:  The ARN that identifies the Amazon RDS.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}
+    ///   - resourceArn:  The ARN that identifies the Amazon Aurora or RDS database.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}
     ///   - startTime:  The timestamp of the first projected metrics data point to return.
     ///   - stat:  The statistic of the projected metrics.
     ///   - logger: Logger use during operation
@@ -1066,7 +1066,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.getRDSDatabaseRecommendationProjectedMetrics(input, logger: logger)
     }
 
-    ///  Returns Amazon RDS recommendations.  Compute Optimizer generates recommendations for Amazon RDS that  meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
+    ///  Returns Amazon Aurora and RDS database recommendations.  Compute Optimizer generates recommendations for Amazon Aurora and RDS databases that  meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
     @Sendable
     @inlinable
     public func getRDSDatabaseRecommendations(_ input: GetRDSDatabaseRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRDSDatabaseRecommendationsResponse {
@@ -1079,15 +1079,15 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    ///  Returns Amazon RDS recommendations.  Compute Optimizer generates recommendations for Amazon RDS that  meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
+    ///  Returns Amazon Aurora and RDS database recommendations.  Compute Optimizer generates recommendations for Amazon Aurora and RDS databases that  meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
     ///
     /// Parameters:
-    ///   - accountIds:  Return the Amazon RDS recommendations to the specified Amazon Web Services account IDs.  If your account is the management account or the delegated administrator  of an organization, use this parameter to return the Amazon RDS recommendations to specific member accounts. You can only specify one account ID per request.
-    ///   - filters:  An array of objects to specify a filter that returns a more specific list of Amazon RDS recommendations.
-    ///   - maxResults: The maximum number of Amazon RDS recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
-    ///   - nextToken:  The token to advance to the next page of Amazon RDS recommendations.
+    ///   - accountIds:  Return the Amazon Aurora and RDS database recommendations to the specified Amazon Web Services account IDs.  If your account is the management account or the delegated administrator  of an organization, use this parameter to return the Amazon Aurora and RDS database recommendations to specific member accounts. You can only specify one account ID per request.
+    ///   - filters:  An array of objects to specify a filter that returns a more specific list of Amazon Aurora and RDS database recommendations.
+    ///   - maxResults: The maximum number of Amazon Aurora and RDS database recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    ///   - nextToken:  The token to advance to the next page of Amazon Aurora and RDS database recommendations.
     ///   - recommendationPreferences: 
-    ///   - resourceArns:  The ARN that identifies the Amazon RDS.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}  The following is the format of a DB Cluster ARN:   arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
+    ///   - resourceArns:  The ARN that identifies the Amazon Aurora or RDS database.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}  The following is the format of a DB Cluster ARN:   arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
     ///   - logger: Logger use during operation
     @inlinable
     public func getRDSDatabaseRecommendations(
@@ -1148,7 +1148,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.getRecommendationPreferences(input, logger: logger)
     }
 
-    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.
+    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   EC2Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.   Commercial software licenses in an account that are InsufficientMetrics,  NotOptimized or Optimized.   Amazon Aurora and Amazon RDS databases in an account that are Underprovisioned,  Overprovisioned, Optimized, or NotOptimized.
     @Sendable
     @inlinable
     public func getRecommendationSummaries(_ input: GetRecommendationSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationSummariesResponse {
@@ -1161,7 +1161,7 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.
+    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   EC2Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.   Commercial software licenses in an account that are InsufficientMetrics,  NotOptimized or Optimized.   Amazon Aurora and Amazon RDS databases in an account that are Underprovisioned,  Overprovisioned, Optimized, or NotOptimized.
     ///
     /// Parameters:
     ///   - accountIds: The ID of the Amazon Web Services account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.

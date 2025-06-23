@@ -37,6 +37,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum AllowedOperators: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -60,6 +66,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutomationRulesActionTypeV2: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case externalIntegration = "EXTERNAL_INTEGRATION"
+        case findingFieldsUpdate = "FINDING_FIELDS_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
@@ -69,6 +81,14 @@ extension SecurityHub {
     public enum AwsS3BucketNotificationConfigurationS3KeyFilterRuleName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case prefix = "Prefix"
         case suffix = "Suffix"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchUpdateFindingsV2UnprocessedFindingErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
         public var description: String { return self.rawValue }
     }
 
@@ -90,6 +110,26 @@ extension SecurityHub {
     public enum ConnectionDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inbound = "INBOUND"
         case outbound = "OUTBOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorAuthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorProviderName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jiraCloud = "JIRA_CLOUD"
+        case servicenow = "SERVICENOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case failedToConnect = "FAILED_TO_CONNECT"
+        case pendingAuthorization = "PENDING_AUTHORIZATION"
+        case pendingConfiguration = "PENDING_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
@@ -116,7 +156,35 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupByField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activityName = "activity_name"
+        case className = "class_name"
+        case cloudAccountUid = "cloud.account.uid"
+        case cloudProvider = "cloud.provider"
+        case cloudRegion = "cloud.region"
+        case complianceAssessmentsName = "compliance.assessments.name"
+        case complianceControl = "compliance.control"
+        case complianceStatus = "compliance.status"
+        case findingInfoTitle = "finding_info.title"
+        case findingInfoTypes = "finding_info.types"
+        case metadataProductName = "metadata.product.name"
+        case metadataProductUid = "metadata.product.uid"
+        case resourcesType = "resources.type"
+        case resourcesUid = "resources.uid"
+        case severity = "severity"
+        case status = "status"
+        case vulnerabilitiesFixCoverage = "vulnerabilities.fix_coverage"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case receiveFindingsFromSecurityHub = "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
+        case sendFindingsToSecurityHub = "SEND_FINDINGS_TO_SECURITY_HUB"
+        case updateFindingsInSecurityHub = "UPDATE_FINDINGS_IN_SECURITY_HUB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationV2Type: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case receiveFindingsFromSecurityHub = "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
         case sendFindingsToSecurityHub = "SEND_FINDINGS_TO_SECURITY_HUB"
         case updateFindingsInSecurityHub = "UPDATE_FINDINGS_IN_SECURITY_HUB"
@@ -163,6 +231,72 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum OcsfBooleanField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complianceAssessmentsMeetsCriteria = "compliance.assessments.meets_criteria"
+        case vulnerabilitiesIsExploitAvailable = "vulnerabilities.is_exploit_available"
+        case vulnerabilitiesIsFixAvailable = "vulnerabilities.is_fix_available"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OcsfDateField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case findingInfoCreatedTimeDt = "finding_info.created_time_dt"
+        case findingInfoFirstSeenTimeDt = "finding_info.first_seen_time_dt"
+        case findingInfoLastSeenTimeDt = "finding_info.last_seen_time_dt"
+        case findingInfoModifiedTimeDt = "finding_info.modified_time_dt"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OcsfMapField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resourcesTags = "resources.tags"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OcsfNumberField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activityId = "activity_id"
+        case complianceStatusId = "compliance.status_id"
+        case confidenceScore = "confidence_score"
+        case findingInfoRelatedEventsCount = "finding_info.related_events_count"
+        case severityId = "severity_id"
+        case statusId = "status_id"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OcsfStringField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activityName = "activity_name"
+        case className = "class_name"
+        case cloudAccountUid = "cloud.account.uid"
+        case cloudProvider = "cloud.provider"
+        case cloudRegion = "cloud.region"
+        case comment = "comment"
+        case complianceAssessmentsCategory = "compliance.assessments.category"
+        case complianceAssessmentsName = "compliance.assessments.name"
+        case complianceControl = "compliance.control"
+        case complianceStandards = "compliance.standards"
+        case complianceStatus = "compliance.status"
+        case findingInfoDesc = "finding_info.desc"
+        case findingInfoRelatedEventsProductUid = "finding_info.related_events.product.uid"
+        case findingInfoRelatedEventsTitle = "finding_info.related_events.title"
+        case findingInfoRelatedEventsUid = "finding_info.related_events.uid"
+        case findingInfoSrcUrl = "finding_info.src_url"
+        case findingInfoTitle = "finding_info.title"
+        case findingInfoTypes = "finding_info.types"
+        case findingInfoUid = "finding_info.uid"
+        case metadataProductName = "metadata.product.name"
+        case metadataProductUid = "metadata.product.uid"
+        case metadataProductVendorName = "metadata.product.vendor_name"
+        case metadataUid = "metadata.uid"
+        case remediationDesc = "remediation.desc"
+        case remediationReferences = "remediation.references"
+        case resourcesCloudPartition = "resources.cloud_partition"
+        case resourcesRegion = "resources.region"
+        case resourcesType = "resources.type"
+        case resourcesUid = "resources.uid"
+        case severity = "severity"
+        case status = "status"
+        case vulnerabilitiesFixCoverage = "vulnerabilities.fix_coverage"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrganizationConfigurationConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case central = "CENTRAL"
         case local = "LOCAL"
@@ -201,7 +335,72 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiMl = "AI/ML"
+        case code = "Code"
+        case compute = "Compute"
+        case database = "Database"
+        case identity = "Identity"
+        case network = "Network"
+        case other = "Other"
+        case storage = "Storage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceGroupByField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountId = "account_id"
+        case findingType = "findings_summary.finding_type"
+        case region = "region"
+        case resourceCategory = "resource_category"
+        case resourceName = "resource_name"
+        case resourceType = "resource_type"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourcesDateField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resourceCreationTimeDt = "resource_creation_time_dt"
+        case resourceDetailCaptureTimeDt = "resource_detail_capture_time_dt"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourcesMapField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case tag = "tags"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourcesNumberField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case severityCritical = "findings_summary.severities.critical"
+        case severityFatal = "findings_summary.severities.fatal"
+        case severityHigh = "findings_summary.severities.high"
+        case severityInformational = "findings_summary.severities.informational"
+        case severityLow = "findings_summary.severities.low"
+        case severityMedium = "findings_summary.severities.medium"
+        case severityOther = "findings_summary.severities.other"
+        case severityUnknown = "findings_summary.severities.unknown"
+        case totalFindings = "findings_summary.total_findings"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourcesStringField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountId = "account_id"
+        case findingType = "findings_summary.finding_type"
+        case productName = "findings_summary.product_name"
+        case region = "region"
+        case resourceArn = "resource_arn"
+        case resourceCategory = "resource_category"
+        case resourceId = "resource_id"
+        case resourceName = "resource_name"
+        case resourceType = "resource_type"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleStatusV2: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
@@ -209,6 +408,12 @@ extension SecurityHub {
 
     public enum SecurityControlProperty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case parameters = "Parameters"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecurityHubFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case securityHub = "SecurityHub"
+        case securityHubV2 = "SecurityHubV2"
         public var description: String { return self.rawValue }
     }
 
@@ -259,6 +464,7 @@ extension SecurityHub {
 
     public enum StringFilterComparison: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CONTAINS"
+        case containsWord = "CONTAINS_WORD"
         case equals = "EQUALS"
         case notContains = "NOT_CONTAINS"
         case notEquals = "NOT_EQUALS"
@@ -523,6 +729,68 @@ extension SecurityHub {
             case integerList = "IntegerList"
             case string = "String"
             case stringList = "StringList"
+        }
+    }
+
+    public enum ProviderConfiguration: AWSEncodableShape, Sendable {
+        /// The configuration settings required to establish an integration with Jira Cloud.
+        case jiraCloud(JiraCloudProviderConfiguration)
+        /// The configuration settings required to establish an integration with ServiceNow ITSM.
+        case serviceNow(ServiceNowProviderConfiguration)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .jiraCloud(let value):
+                try container.encode(value, forKey: .jiraCloud)
+            case .serviceNow(let value):
+                try container.encode(value, forKey: .serviceNow)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .jiraCloud(let value):
+                try value.validate(name: "\(name).jiraCloud")
+            case .serviceNow(let value):
+                try value.validate(name: "\(name).serviceNow")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jiraCloud = "JiraCloud"
+            case serviceNow = "ServiceNow"
+        }
+    }
+
+    public enum ProviderDetail: AWSDecodableShape, Sendable {
+        /// Details about a Jira Cloud integration.
+        case jiraCloud(JiraCloudDetail)
+        /// Details about a ServiceNow ITSM integration.
+        case serviceNow(ServiceNowDetail)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .jiraCloud:
+                let value = try container.decode(JiraCloudDetail.self, forKey: .jiraCloud)
+                self = .jiraCloud(value)
+            case .serviceNow:
+                let value = try container.decode(ServiceNowDetail.self, forKey: .serviceNow)
+                self = .serviceNow(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jiraCloud = "JiraCloud"
+            case serviceNow = "ServiceNow"
         }
     }
 
@@ -977,6 +1245,20 @@ extension SecurityHub {
         }
     }
 
+    public struct AggregatorV2: AWSDecodableShape {
+        /// The ARN of the aggregatorV2.
+        public let aggregatorV2Arn: String?
+
+        @inlinable
+        public init(aggregatorV2Arn: String? = nil) {
+            self.aggregatorV2Arn = aggregatorV2Arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatorV2Arn = "AggregatorV2Arn"
+        }
+    }
+
     public struct AssociatedStandard: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the  Amazon Resource Name (ARN) returned for a standard in the DescribeStandards API response.
         public let standardsId: String?
@@ -1108,6 +1390,47 @@ extension SecurityHub {
         }
     }
 
+    public struct AutomationRulesActionTypeObjectV2: AWSDecodableShape {
+        /// The category of action to be executed by the automation rule.
+        public let type: AutomationRulesActionTypeV2?
+
+        @inlinable
+        public init(type: AutomationRulesActionTypeV2? = nil) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct AutomationRulesActionV2: AWSEncodableShape & AWSDecodableShape {
+        /// The settings for integrating automation rule actions with external systems or service.
+        public let externalIntegrationConfiguration: ExternalIntegrationConfiguration?
+        /// The changes to be applied to fields in a security finding when an automation rule is triggered.
+        public let findingFieldsUpdate: AutomationRulesFindingFieldsUpdateV2?
+        /// The category of action to be executed by the automation rule.
+        public let type: AutomationRulesActionTypeV2?
+
+        @inlinable
+        public init(externalIntegrationConfiguration: ExternalIntegrationConfiguration? = nil, findingFieldsUpdate: AutomationRulesFindingFieldsUpdateV2? = nil, type: AutomationRulesActionTypeV2? = nil) {
+            self.externalIntegrationConfiguration = externalIntegrationConfiguration
+            self.findingFieldsUpdate = findingFieldsUpdate
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.externalIntegrationConfiguration?.validate(name: "\(name).externalIntegrationConfiguration")
+            try self.findingFieldsUpdate?.validate(name: "\(name).findingFieldsUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalIntegrationConfiguration = "ExternalIntegrationConfiguration"
+            case findingFieldsUpdate = "FindingFieldsUpdate"
+            case type = "Type"
+        }
+    }
+
     public struct AutomationRulesConfig: AWSDecodableShape {
         ///  One or more actions to update finding fields if a finding matches the defined criteria  of the rule.
         public let actions: [AutomationRulesAction]?
@@ -1223,6 +1546,32 @@ extension SecurityHub {
             case userDefinedFields = "UserDefinedFields"
             case verificationState = "VerificationState"
             case workflow = "Workflow"
+        }
+    }
+
+    public struct AutomationRulesFindingFieldsUpdateV2: AWSEncodableShape & AWSDecodableShape {
+        /// Notes or contextual information for findings that are modified by the automation rule.
+        public let comment: String?
+        /// The severity level to be assigned to findings that match the automation rule criteria.
+        public let severityId: Int?
+        /// The status to be applied to findings that match automation rule criteria.
+        public let statusId: Int?
+
+        @inlinable
+        public init(comment: String? = nil, severityId: Int? = nil, statusId: Int? = nil) {
+            self.comment = comment
+            self.severityId = severityId
+            self.statusId = statusId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case severityId = "SeverityId"
+            case statusId = "StatusId"
         }
     }
 
@@ -1540,6 +1889,54 @@ extension SecurityHub {
             case description = "Description"
             case isTerminal = "IsTerminal"
             case ruleArn = "RuleArn"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AutomationRulesMetadataV2: AWSDecodableShape {
+        /// The list of action to be performed when the rule criteria is met.
+        public let actions: [AutomationRulesActionTypeObjectV2]?
+        /// The timestamp for when the automation rule was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// An explanation for the purpose and funcitonality of the automation rule.
+        public let description: String?
+        /// The ARN of the automation rule.
+        public let ruleArn: String?
+        /// The ID of the automation rule.
+        public let ruleId: String?
+        /// The name of the automation rule.
+        public let ruleName: String?
+        /// The value for the rule priority.
+        public let ruleOrder: Float?
+        /// The status of the automation rule.
+        public let ruleStatus: RuleStatusV2?
+        /// The timestamp for the most recent modification to the automation rule.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(actions: [AutomationRulesActionTypeObjectV2]? = nil, createdAt: Date? = nil, description: String? = nil, ruleArn: String? = nil, ruleId: String? = nil, ruleName: String? = nil, ruleOrder: Float? = nil, ruleStatus: RuleStatusV2? = nil, updatedAt: Date? = nil) {
+            self.actions = actions
+            self.createdAt = createdAt
+            self.description = description
+            self.ruleArn = ruleArn
+            self.ruleId = ruleId
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case ruleArn = "RuleArn"
+            case ruleId = "RuleId"
             case ruleName = "RuleName"
             case ruleOrder = "RuleOrder"
             case ruleStatus = "RuleStatus"
@@ -20966,6 +21363,110 @@ extension SecurityHub {
         }
     }
 
+    public struct BatchUpdateFindingsV2ProcessedFinding: AWSDecodableShape {
+        /// The finding identifier of a processed finding.
+        public let findingIdentifier: OcsfFindingIdentifier?
+        /// The metadata.uid of a processed finding.
+        public let metadataUid: String?
+
+        @inlinable
+        public init(findingIdentifier: OcsfFindingIdentifier? = nil, metadataUid: String? = nil) {
+            self.findingIdentifier = findingIdentifier
+            self.metadataUid = metadataUid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingIdentifier = "FindingIdentifier"
+            case metadataUid = "MetadataUid"
+        }
+    }
+
+    public struct BatchUpdateFindingsV2Request: AWSEncodableShape {
+        /// The updated value for a user provided comment about the finding.  Minimum character length 1.  Maximum character length 512.
+        public let comment: String?
+        /// Provides information to identify a specific V2 finding.
+        public let findingIdentifiers: [OcsfFindingIdentifier]?
+        /// The list of finding metadata.uid to indicate findings to update.  Finding metadata.uid is a globally unique identifier associated with the finding.  Customers cannot use MetadataUids together with FindingIdentifiers.
+        public let metadataUids: [String]?
+        /// The updated value for the normalized severity identifier.  The severity ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99].  When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
+        public let severityId: Int?
+        /// The updated value for the normalized status identifier.  The status ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99].  When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
+        public let statusId: Int?
+
+        @inlinable
+        public init(comment: String? = nil, findingIdentifiers: [OcsfFindingIdentifier]? = nil, metadataUids: [String]? = nil, severityId: Int? = nil, statusId: Int? = nil) {
+            self.comment = comment
+            self.findingIdentifiers = findingIdentifiers
+            self.metadataUids = metadataUids
+            self.severityId = severityId
+            self.statusId = statusId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, pattern: "\\S")
+            try self.findingIdentifiers?.forEach {
+                try $0.validate(name: "\(name).findingIdentifiers[]")
+            }
+            try self.validate(self.findingIdentifiers, name: "findingIdentifiers", parent: name, max: 100)
+            try self.metadataUids?.forEach {
+                try validate($0, name: "metadataUids[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.metadataUids, name: "metadataUids", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case findingIdentifiers = "FindingIdentifiers"
+            case metadataUids = "MetadataUids"
+            case severityId = "SeverityId"
+            case statusId = "StatusId"
+        }
+    }
+
+    public struct BatchUpdateFindingsV2Response: AWSDecodableShape {
+        /// The list of findings that were updated successfully.
+        public let processedFindings: [BatchUpdateFindingsV2ProcessedFinding]?
+        /// The list of V2 findings that were not updated.
+        public let unprocessedFindings: [BatchUpdateFindingsV2UnprocessedFinding]?
+
+        @inlinable
+        public init(processedFindings: [BatchUpdateFindingsV2ProcessedFinding]? = nil, unprocessedFindings: [BatchUpdateFindingsV2UnprocessedFinding]? = nil) {
+            self.processedFindings = processedFindings
+            self.unprocessedFindings = unprocessedFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processedFindings = "ProcessedFindings"
+            case unprocessedFindings = "UnprocessedFindings"
+        }
+    }
+
+    public struct BatchUpdateFindingsV2UnprocessedFinding: AWSDecodableShape {
+        /// Indicates the specific type of error preventing successful processing of a finding during a batch update operation.
+        public let errorCode: BatchUpdateFindingsV2UnprocessedFindingErrorCode?
+        /// A detailed description of why a finding could not be processed during a batch update operation.
+        public let errorMessage: String?
+        /// The finding identifier of an unprocessed finding.
+        public let findingIdentifier: OcsfFindingIdentifier?
+        /// The metadata.uid of an unprocessed finding.
+        public let metadataUid: String?
+
+        @inlinable
+        public init(errorCode: BatchUpdateFindingsV2UnprocessedFindingErrorCode? = nil, errorMessage: String? = nil, findingIdentifier: OcsfFindingIdentifier? = nil, metadataUid: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.findingIdentifier = findingIdentifier
+            self.metadataUid = metadataUid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case findingIdentifier = "FindingIdentifier"
+            case metadataUid = "MetadataUid"
+        }
+    }
+
     public struct BatchUpdateStandardsControlAssociationsRequest: AWSEncodableShape {
         ///  Updates the enablement status of a security control in a specified standard.   Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
         public let standardsControlAssociationUpdates: [StandardsControlAssociationUpdate]?
@@ -21280,6 +21781,52 @@ extension SecurityHub {
         }
     }
 
+    public struct CompositeFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Enables filtering  based on boolean field values.
+        public let booleanFilters: [OcsfBooleanFilter]?
+        /// Enables filtering based on date and timestamp fields.
+        public let dateFilters: [OcsfDateFilter]?
+        /// Enables filtering based on map field values.
+        public let mapFilters: [OcsfMapFilter]?
+        /// Enables filtering based on numerical field values.
+        public let numberFilters: [OcsfNumberFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public let `operator`: AllowedOperators?
+        /// Enables filtering based on string field values.
+        public let stringFilters: [OcsfStringFilter]?
+
+        @inlinable
+        public init(booleanFilters: [OcsfBooleanFilter]? = nil, dateFilters: [OcsfDateFilter]? = nil, mapFilters: [OcsfMapFilter]? = nil, numberFilters: [OcsfNumberFilter]? = nil, operator: AllowedOperators? = nil, stringFilters: [OcsfStringFilter]? = nil) {
+            self.booleanFilters = booleanFilters
+            self.dateFilters = dateFilters
+            self.mapFilters = mapFilters
+            self.numberFilters = numberFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.dateFilters?.forEach {
+                try $0.validate(name: "\(name).dateFilters[]")
+            }
+            try self.mapFilters?.forEach {
+                try $0.validate(name: "\(name).mapFilters[]")
+            }
+            try self.stringFilters?.forEach {
+                try $0.validate(name: "\(name).stringFilters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case booleanFilters = "BooleanFilters"
+            case dateFilters = "DateFilters"
+            case mapFilters = "MapFilters"
+            case numberFilters = "NumberFilters"
+            case `operator` = "Operator"
+            case stringFilters = "StringFilters"
+        }
+    }
+
     public struct ConfigurationPolicyAssociation: AWSEncodableShape & AWSDecodableShape {
         ///  The target account, organizational unit, or the root.
         public let target: Target?
@@ -21369,6 +21916,98 @@ extension SecurityHub {
             case name = "Name"
             case serviceEnabled = "ServiceEnabled"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct ConnectorRegistrationsV2Request: AWSEncodableShape {
+        /// The authCode retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+        public let authCode: String?
+        /// The authState retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+        public let authState: String?
+
+        @inlinable
+        public init(authCode: String? = nil, authState: String? = nil) {
+            self.authCode = authCode
+            self.authState = authState
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authCode, name: "authCode", parent: name, pattern: "\\S")
+            try self.validate(self.authState, name: "authState", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authCode = "AuthCode"
+            case authState = "AuthState"
+        }
+    }
+
+    public struct ConnectorRegistrationsV2Response: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connectorV2.
+        public let connectorArn: String?
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorId: String? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
+            case connectorId = "ConnectorId"
+        }
+    }
+
+    public struct ConnectorSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connectorV2.
+        public let connectorArn: String?
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String?
+        /// ISO 8601 UTC timestamp for the time create the connectorV2.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The description of the connectorV2.
+        public let description: String?
+        /// The Name field contains the user-defined name assigned to the integration connector. This helps identify and manage multiple connectors within Security Hub.
+        public let name: String?
+        /// The connectorV2 third party provider configuration summary.
+        public let providerSummary: ProviderSummary?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, name: String? = nil, providerSummary: ProviderSummary? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.providerSummary = providerSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
+            case connectorId = "ConnectorId"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case name = "Name"
+            case providerSummary = "ProviderSummary"
         }
     }
 
@@ -21487,6 +22126,76 @@ extension SecurityHub {
         }
     }
 
+    public struct CreateAggregatorV2Request: AWSEncodableShape {
+        /// A unique identifier used to ensure idempotency.
+        public let clientToken: String?
+        /// The list of Regions that are linked to the aggregation Region.
+        public let linkedRegions: [String]?
+        /// Determines how Regions are linked to an Aggregator V2.
+        public let regionLinkingMode: String?
+        /// A list of key-value pairs to be applied to the AggregatorV2.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateAggregatorV2Request.idempotencyToken(), linkedRegions: [String]? = nil, regionLinkingMode: String? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.linkedRegions = linkedRegions
+            self.regionLinkingMode = regionLinkingMode
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
+            try self.linkedRegions?.forEach {
+                try validate($0, name: "linkedRegions[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.regionLinkingMode, name: "regionLinkingMode", parent: name, pattern: "\\S")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case linkedRegions = "LinkedRegions"
+            case regionLinkingMode = "RegionLinkingMode"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAggregatorV2Response: AWSDecodableShape {
+        /// The Amazon Web Services Region where data is aggregated.
+        public let aggregationRegion: String?
+        /// The ARN of the AggregatorV2.
+        public let aggregatorV2Arn: String?
+        /// The list of Regions that are linked to the aggregation Region.
+        public let linkedRegions: [String]?
+        /// Determines how Regions are linked to an Aggregator V2.
+        public let regionLinkingMode: String?
+
+        @inlinable
+        public init(aggregationRegion: String? = nil, aggregatorV2Arn: String? = nil, linkedRegions: [String]? = nil, regionLinkingMode: String? = nil) {
+            self.aggregationRegion = aggregationRegion
+            self.aggregatorV2Arn = aggregatorV2Arn
+            self.linkedRegions = linkedRegions
+            self.regionLinkingMode = regionLinkingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationRegion = "AggregationRegion"
+            case aggregatorV2Arn = "AggregatorV2Arn"
+            case linkedRegions = "LinkedRegions"
+            case regionLinkingMode = "RegionLinkingMode"
+        }
+    }
+
     public struct CreateAutomationRuleRequest: AWSEncodableShape {
         ///  One or more actions to update finding fields if a finding matches the conditions  specified in Criteria.
         public let actions: [AutomationRulesAction]?
@@ -21561,6 +22270,90 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct CreateAutomationRuleV2Request: AWSEncodableShape {
+        /// A list of actions to be performed when the rule criteria is met.
+        public let actions: [AutomationRulesActionV2]?
+        /// A unique identifier used to ensure idempotency.
+        public let clientToken: String?
+        /// The filtering type and configuration of the automation rule.
+        public let criteria: Criteria?
+        /// A description of the V2 automation rule.
+        public let description: String?
+        /// The name of the V2 automation rule.
+        public let ruleName: String?
+        /// The value for the rule priority.
+        public let ruleOrder: Float?
+        /// The status of the V2 automation rule.
+        public let ruleStatus: RuleStatusV2?
+        /// A list of key-value pairs associated with the V2 automation rule.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(actions: [AutomationRulesActionV2]? = nil, clientToken: String? = CreateAutomationRuleV2Request.idempotencyToken(), criteria: Criteria? = nil, description: String? = nil, ruleName: String? = nil, ruleOrder: Float? = nil, ruleStatus: RuleStatusV2? = nil, tags: [String: String]? = nil) {
+            self.actions = actions
+            self.clientToken = clientToken
+            self.criteria = criteria
+            self.description = description
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 1)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
+            try self.criteria?.validate(name: "\(name).criteria")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "\\S")
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, max: 1000.0)
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, min: 1.0)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case clientToken = "ClientToken"
+            case criteria = "Criteria"
+            case description = "Description"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAutomationRuleV2Response: AWSDecodableShape {
+        /// The ARN of the V2 automation rule.
+        public let ruleArn: String?
+        /// The ID of the V2 automation rule.
+        public let ruleId: String?
+
+        @inlinable
+        public init(ruleArn: String? = nil, ruleId: String? = nil) {
+            self.ruleArn = ruleArn
+            self.ruleId = ruleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+            case ruleId = "RuleId"
         }
     }
 
@@ -21641,6 +22434,80 @@ extension SecurityHub {
             case id = "Id"
             case name = "Name"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct CreateConnectorV2Request: AWSEncodableShape {
+        /// A unique identifier used to ensure idempotency.
+        public let clientToken: String?
+        /// The description of the connectorV2.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of KMS key used to encrypt secrets for the connectorV2.
+        public let kmsKeyArn: String?
+        /// The unique name of the connectorV2.
+        public let name: String?
+        /// The third-party provider’s service configuration.
+        public let provider: ProviderConfiguration?
+        /// The tags to add to the connectorV2 when you create.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateConnectorV2Request.idempotencyToken(), description: String? = nil, kmsKeyArn: String? = nil, name: String? = nil, provider: ProviderConfiguration? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.provider = provider
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.provider?.validate(name: "\(name).provider")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case kmsKeyArn = "KmsKeyArn"
+            case name = "Name"
+            case provider = "Provider"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectorV2Response: AWSDecodableShape {
+        /// The Url provide to customers for OAuth auth code flow.
+        public let authUrl: String?
+        /// The Amazon Resource Name (ARN) of the connectorV2.
+        public let connectorArn: String?
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String?
+
+        @inlinable
+        public init(authUrl: String? = nil, connectorArn: String? = nil, connectorId: String? = nil) {
+            self.authUrl = authUrl
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authUrl = "AuthUrl"
+            case connectorArn = "ConnectorArn"
+            case connectorId = "ConnectorId"
         }
     }
 
@@ -21770,6 +22637,54 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct CreateTicketV2Request: AWSEncodableShape {
+        /// The client idempotency token.
+        public let clientToken: String?
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String?
+        /// The the unique ID for the finding.
+        public let findingMetadataUid: String?
+
+        @inlinable
+        public init(clientToken: String? = CreateTicketV2Request.idempotencyToken(), connectorId: String? = nil, findingMetadataUid: String? = nil) {
+            self.clientToken = clientToken
+            self.connectorId = connectorId
+            self.findingMetadataUid = findingMetadataUid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "\\S")
+            try self.validate(self.findingMetadataUid, name: "findingMetadataUid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case connectorId = "ConnectorId"
+            case findingMetadataUid = "FindingMetadataUid"
+        }
+    }
+
+    public struct CreateTicketV2Response: AWSDecodableShape {
+        /// The ID for the ticketv2.
+        public let ticketId: String?
+        /// The url to the created ticket.
+        public let ticketSrcUrl: String?
+
+        @inlinable
+        public init(ticketId: String? = nil, ticketSrcUrl: String? = nil) {
+            self.ticketId = ticketId
+            self.ticketSrcUrl = ticketSrcUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ticketId = "TicketId"
+            case ticketSrcUrl = "TicketSrcUrl"
         }
     }
 
@@ -22006,6 +22921,58 @@ extension SecurityHub {
         }
     }
 
+    public struct DeleteAggregatorV2Request: AWSEncodableShape {
+        /// The ARN of the Aggregator V2.
+        public let aggregatorV2Arn: String
+
+        @inlinable
+        public init(aggregatorV2Arn: String) {
+            self.aggregatorV2Arn = aggregatorV2Arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aggregatorV2Arn, key: "AggregatorV2Arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aggregatorV2Arn, name: "aggregatorV2Arn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAggregatorV2Response: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAutomationRuleV2Request: AWSEncodableShape {
+        /// The ARN of the V2 automation rule.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAutomationRuleV2Response: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteConfigurationPolicyRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
         public let identifier: String
@@ -22029,6 +22996,32 @@ extension SecurityHub {
     }
 
     public struct DeleteConfigurationPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteConnectorV2Request: AWSEncodableShape {
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String
+
+        @inlinable
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorId, key: "ConnectorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConnectorV2Response: AWSDecodableShape {
         public init() {}
     }
 
@@ -22337,6 +23330,73 @@ extension SecurityHub {
         }
     }
 
+    public struct DescribeProductsV2Request: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeProductsV2Response: AWSDecodableShape {
+        /// The pagination token to use to request the next page of results.  Otherwise, this parameter is null.
+        public let nextToken: String?
+        /// Gets information about the product integration.
+        public let productsV2: [ProductV2]?
+
+        @inlinable
+        public init(nextToken: String? = nil, productsV2: [ProductV2]? = nil) {
+            self.nextToken = nextToken
+            self.productsV2 = productsV2
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case productsV2 = "ProductsV2"
+        }
+    }
+
+    public struct DescribeSecurityHubV2Request: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeSecurityHubV2Response: AWSDecodableShape {
+        /// The ARN of the service resource.
+        public let hubV2Arn: String?
+        /// The date and time when the service was enabled in the account.
+        public let subscribedAt: String?
+
+        @inlinable
+        public init(hubV2Arn: String? = nil, subscribedAt: String? = nil) {
+            self.hubV2Arn = hubV2Arn
+            self.subscribedAt = subscribedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubV2Arn = "HubV2Arn"
+            case subscribedAt = "SubscribedAt"
+        }
+    }
+
     public struct DescribeStandardsControlsRequest: AWSEncodableShape {
         /// The maximum number of security standard controls to return.
         public let maxResults: Int?
@@ -22479,10 +23539,13 @@ extension SecurityHub {
     public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Amazon Web Services account identifier of the Security Hub administrator account.
         public let adminAccountId: String?
+        /// The feature for which the delegated admin account is disabled.  Defaults to Security Hub if not specified.
+        public let feature: SecurityHubFeature?
 
         @inlinable
-        public init(adminAccountId: String? = nil) {
+        public init(adminAccountId: String? = nil, feature: SecurityHubFeature? = nil) {
             self.adminAccountId = adminAccountId
+            self.feature = feature
         }
 
         public func validate(name: String) throws {
@@ -22491,6 +23554,7 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case adminAccountId = "AdminAccountId"
+            case feature = "Feature"
         }
     }
 
@@ -22503,6 +23567,14 @@ extension SecurityHub {
     }
 
     public struct DisableSecurityHubResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisableSecurityHubV2Request: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DisableSecurityHubV2Response: AWSDecodableShape {
         public init() {}
     }
 
@@ -22630,10 +23702,13 @@ extension SecurityHub {
     public struct EnableOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
         public let adminAccountId: String?
+        /// The feature for which the delegated admin account is enabled.  Defaults to Security Hub if not specified.
+        public let feature: SecurityHubFeature?
 
         @inlinable
-        public init(adminAccountId: String? = nil) {
+        public init(adminAccountId: String? = nil, feature: SecurityHubFeature? = nil) {
             self.adminAccountId = adminAccountId
+            self.feature = feature
         }
 
         public func validate(name: String) throws {
@@ -22642,11 +23717,26 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case adminAccountId = "AdminAccountId"
+            case feature = "Feature"
         }
     }
 
     public struct EnableOrganizationAdminAccountResponse: AWSDecodableShape {
-        public init() {}
+        /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
+        public let adminAccountId: String?
+        /// The feature where the delegated administrator is enabled.  The default is Security Hub CSPM if no delegated administrator is specified in the request.
+        public let feature: SecurityHubFeature?
+
+        @inlinable
+        public init(adminAccountId: String? = nil, feature: SecurityHubFeature? = nil) {
+            self.adminAccountId = adminAccountId
+            self.feature = feature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccountId = "AdminAccountId"
+            case feature = "Feature"
+        }
     }
 
     public struct EnableSecurityHubRequest: AWSEncodableShape {
@@ -22686,6 +23776,45 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct EnableSecurityHubV2Request: AWSEncodableShape {
+        /// The tags to add to the hub V2 resource when you enable Security Hub.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct EnableSecurityHubV2Response: AWSDecodableShape {
+        /// The ARN of the V2 resource that was created.
+        public let hubV2Arn: String?
+
+        @inlinable
+        public init(hubV2Arn: String? = nil) {
+            self.hubV2Arn = hubV2Arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubV2Arn = "HubV2Arn"
+        }
+    }
+
     public struct EnumConfigurationOptions: AWSDecodableShape {
         ///  The valid values for a control parameter that is an enum.
         public let allowedValues: [String]?
@@ -22723,6 +23852,24 @@ extension SecurityHub {
             case allowedValues = "AllowedValues"
             case defaultValue = "DefaultValue"
             case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ExternalIntegrationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the connector that establishes the integration.
+        public let connectorArn: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil) {
+            self.connectorArn = connectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
         }
     }
 
@@ -23093,6 +24240,128 @@ extension SecurityHub {
         }
     }
 
+    public struct GetAggregatorV2Request: AWSEncodableShape {
+        /// The ARN of the Aggregator V2.
+        public let aggregatorV2Arn: String
+
+        @inlinable
+        public init(aggregatorV2Arn: String) {
+            self.aggregatorV2Arn = aggregatorV2Arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aggregatorV2Arn, key: "AggregatorV2Arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aggregatorV2Arn, name: "aggregatorV2Arn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAggregatorV2Response: AWSDecodableShape {
+        /// The Amazon Web Services Region where data is aggregated.
+        public let aggregationRegion: String?
+        /// The ARN of the Aggregator V2.
+        public let aggregatorV2Arn: String?
+        /// The list of Regions that are linked to the aggregation Region.
+        public let linkedRegions: [String]?
+        /// Determines how Regions are linked to an Aggregator V2.
+        public let regionLinkingMode: String?
+
+        @inlinable
+        public init(aggregationRegion: String? = nil, aggregatorV2Arn: String? = nil, linkedRegions: [String]? = nil, regionLinkingMode: String? = nil) {
+            self.aggregationRegion = aggregationRegion
+            self.aggregatorV2Arn = aggregatorV2Arn
+            self.linkedRegions = linkedRegions
+            self.regionLinkingMode = regionLinkingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationRegion = "AggregationRegion"
+            case aggregatorV2Arn = "AggregatorV2Arn"
+            case linkedRegions = "LinkedRegions"
+            case regionLinkingMode = "RegionLinkingMode"
+        }
+    }
+
+    public struct GetAutomationRuleV2Request: AWSEncodableShape {
+        /// The ARN of the V2 automation rule.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomationRuleV2Response: AWSDecodableShape {
+        /// A list of actions performed when the rule criteria is met.
+        public let actions: [AutomationRulesActionV2]?
+        /// The timestamp when the V2 automation rule was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The filtering type and configuration of the V2 automation rule.
+        public let criteria: Criteria?
+        /// A description of the automation rule.
+        public let description: String?
+        /// The ARN of the V2 automation rule.
+        public let ruleArn: String?
+        /// The ID of the V2 automation rule.
+        public let ruleId: String?
+        /// The name of the V2 automation rule.
+        public let ruleName: String?
+        /// The value for the rule priority.
+        public let ruleOrder: Float?
+        /// The status of the V2 automation automation rule.
+        public let ruleStatus: RuleStatusV2?
+        /// The timestamp when the V2 automation rule was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(actions: [AutomationRulesActionV2]? = nil, createdAt: Date? = nil, criteria: Criteria? = nil, description: String? = nil, ruleArn: String? = nil, ruleId: String? = nil, ruleName: String? = nil, ruleOrder: Float? = nil, ruleStatus: RuleStatusV2? = nil, updatedAt: Date? = nil) {
+            self.actions = actions
+            self.createdAt = createdAt
+            self.criteria = criteria
+            self.description = description
+            self.ruleArn = ruleArn
+            self.ruleId = ruleId
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case createdAt = "CreatedAt"
+            case criteria = "Criteria"
+            case description = "Description"
+            case ruleArn = "RuleArn"
+            case ruleId = "RuleId"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct GetConfigurationPolicyAssociationRequest: AWSEncodableShape {
         ///  The target account ID, organizational unit ID, or the root ID to retrieve the association for.
         public let target: Target?
@@ -23209,6 +24478,76 @@ extension SecurityHub {
             case id = "Id"
             case name = "Name"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetConnectorV2Request: AWSEncodableShape {
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String
+
+        @inlinable
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorId, key: "ConnectorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectorV2Response: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connectorV2.
+        public let connectorArn: String?
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String?
+        /// ISO 8601 UTC timestamp for the time create the connectorV2.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The description of the connectorV2.
+        public let description: String?
+        /// The current health status for connectorV2
+        public let health: HealthCheck?
+        /// The Amazon Resource Name (ARN) of KMS key used for the connectorV2.
+        public let kmsKeyArn: String?
+        /// ISO 8601 UTC timestamp for the time update the connectorV2 connectorStatus.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The name of the connectorV2.
+        public let name: String?
+        /// The third-party provider detail for a service configuration.
+        public let providerDetail: ProviderDetail?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, health: HealthCheck? = nil, kmsKeyArn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, providerDetail: ProviderDetail? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.description = description
+            self.health = health
+            self.kmsKeyArn = kmsKeyArn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.providerDetail = providerDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
+            case connectorId = "ConnectorId"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case health = "Health"
+            case kmsKeyArn = "KmsKeyArn"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case name = "Name"
+            case providerDetail = "ProviderDetail"
         }
     }
 
@@ -23365,6 +24704,50 @@ extension SecurityHub {
         }
     }
 
+    public struct GetFindingStatisticsV2Request: AWSEncodableShape {
+        /// Specifies how security findings should be aggregated and organized in the statistical analysis.  It can accept up to 5 groupBy fields in a single call.
+        public let groupByRules: [GroupByRule]?
+        /// The maximum number of results to be returned.
+        public let maxStatisticResults: Int?
+        /// Orders the aggregation count in descending or ascending order.  Descending order is the default.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(groupByRules: [GroupByRule]? = nil, maxStatisticResults: Int? = nil, sortOrder: SortOrder? = nil) {
+            self.groupByRules = groupByRules
+            self.maxStatisticResults = maxStatisticResults
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.groupByRules?.forEach {
+                try $0.validate(name: "\(name).groupByRules[]")
+            }
+            try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, max: 400)
+            try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByRules = "GroupByRules"
+            case maxStatisticResults = "MaxStatisticResults"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct GetFindingStatisticsV2Response: AWSDecodableShape {
+        /// Aggregated statistics about security findings based on specified grouping criteria.
+        public let groupByResults: [GroupByResult]?
+
+        @inlinable
+        public init(groupByResults: [GroupByResult]? = nil) {
+            self.groupByResults = groupByResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByResults = "GroupByResults"
+        }
+    }
+
     public struct GetFindingsRequest: AWSEncodableShape {
         /// The finding attributes used to define a condition to filter the returned findings. You can filter by up to 10 finding attributes. For each attribute, you can provide up to 20 filter values. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
         public let filters: AwsSecurityFindingFilters?
@@ -23408,6 +24791,59 @@ extension SecurityHub {
 
         @inlinable
         public init(findings: [AwsSecurityFinding]? = nil, nextToken: String? = nil) {
+            self.findings = findings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "Findings"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetFindingsV2Request: AWSEncodableShape {
+        /// The finding attributes used to define a condition to filter the returned OCSF findings.  You can filter up to 10 composite filters.  For each filter type inside of a composite filter, you can provide up to 20 filters.
+        public let filters: OcsfFindingFilters?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        ///  The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+        public let nextToken: String?
+        /// The finding attributes used to sort the list of returned findings.
+        public let sortCriteria: [SortCriterion]?
+
+        @inlinable
+        public init(filters: OcsfFindingFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.sortCriteria?.forEach {
+                try $0.validate(name: "\(name).sortCriteria[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct GetFindingsV2Response: AWSDecodableShape {
+        /// An array of security findings returned by the operation.
+        public let findings: [AWSDocument]?
+        /// The pagination token to use to request the next page of results.  Otherwise, this parameter is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(findings: [AWSDocument]? = nil, nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
         }
@@ -23576,6 +25012,103 @@ extension SecurityHub {
         }
     }
 
+    public struct GetResourcesStatisticsV2Request: AWSEncodableShape {
+        /// How resource statistics should be aggregated and organized in the response.
+        public let groupByRules: [ResourceGroupByRule]?
+        /// The maximum number of results to be returned.
+        public let maxStatisticResults: Int?
+        /// Sorts aggregated statistics.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(groupByRules: [ResourceGroupByRule]? = nil, maxStatisticResults: Int? = nil, sortOrder: SortOrder? = nil) {
+            self.groupByRules = groupByRules
+            self.maxStatisticResults = maxStatisticResults
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.groupByRules?.forEach {
+                try $0.validate(name: "\(name).groupByRules[]")
+            }
+            try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, max: 400)
+            try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByRules = "GroupByRules"
+            case maxStatisticResults = "MaxStatisticResults"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct GetResourcesStatisticsV2Response: AWSDecodableShape {
+        /// The aggregated statistics about resources based on the specified grouping rule.
+        public let groupByResults: [GroupByResult]?
+
+        @inlinable
+        public init(groupByResults: [GroupByResult]? = nil) {
+            self.groupByResults = groupByResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByResults = "GroupByResults"
+        }
+    }
+
+    public struct GetResourcesV2Request: AWSEncodableShape {
+        /// Filters resources based on a set of criteria.
+        public let filters: ResourcesFilters?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+        public let nextToken: String?
+        /// The finding attributes used to sort the list of returned findings.
+        public let sortCriteria: [SortCriterion]?
+
+        @inlinable
+        public init(filters: ResourcesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.sortCriteria?.forEach {
+                try $0.validate(name: "\(name).sortCriteria[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct GetResourcesV2Response: AWSDecodableShape {
+        /// The pagination token to use to request the next page of results.  Otherwise, this parameter is null.
+        public let nextToken: String?
+        /// Filters resources based on a set of criteria.
+        public let resources: [ResourceResult]?
+
+        @inlinable
+        public init(nextToken: String? = nil, resources: [ResourceResult]? = nil) {
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resources = "Resources"
+        }
+    }
+
     public struct GetSecurityControlDefinitionRequest: AWSEncodableShape {
         ///  The ID of the security control to retrieve the definition for. This field doesn’t accept an Amazon Resource Name (ARN).
         public let securityControlId: String?
@@ -23608,6 +25141,87 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case securityControlDefinition = "SecurityControlDefinition"
+        }
+    }
+
+    public struct GroupByResult: AWSDecodableShape {
+        /// The attribute by which filtered security findings should be grouped.
+        public let groupByField: String?
+        /// An array of grouped values and their respective counts for each GroupByField.
+        public let groupByValues: [GroupByValue]?
+
+        @inlinable
+        public init(groupByField: String? = nil, groupByValues: [GroupByValue]? = nil) {
+            self.groupByField = groupByField
+            self.groupByValues = groupByValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByField = "GroupByField"
+            case groupByValues = "GroupByValues"
+        }
+    }
+
+    public struct GroupByRule: AWSEncodableShape {
+        /// The criteria used to select which security findings should be included in the grouping operation.
+        public let filters: OcsfFindingFilters?
+        /// The attribute by which filtered findings should be grouped.
+        public let groupByField: GroupByField?
+
+        @inlinable
+        public init(filters: OcsfFindingFilters? = nil, groupByField: GroupByField? = nil) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case groupByField = "GroupByField"
+        }
+    }
+
+    public struct GroupByValue: AWSDecodableShape {
+        /// The number of findings for a specific FieldValue and GroupByField.
+        public let count: Int?
+        /// The value of the field by which findings are grouped.
+        public let fieldValue: String?
+
+        @inlinable
+        public init(count: Int? = nil, fieldValue: String? = nil) {
+            self.count = count
+            self.fieldValue = fieldValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case fieldValue = "FieldValue"
+        }
+    }
+
+    public struct HealthCheck: AWSDecodableShape {
+        /// The status of the connectorV2.
+        public let connectorStatus: ConnectorStatus?
+        /// ISO 8601 UTC timestamp for the time check the health status of the connectorV2.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastCheckedAt: Date?
+        /// The message for the reason of connectorStatus change.
+        public let message: String?
+
+        @inlinable
+        public init(connectorStatus: ConnectorStatus? = nil, lastCheckedAt: Date? = nil, message: String? = nil) {
+            self.connectorStatus = connectorStatus
+            self.lastCheckedAt = lastCheckedAt
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorStatus = "ConnectorStatus"
+            case lastCheckedAt = "LastCheckedAt"
+            case message = "Message"
         }
     }
 
@@ -23816,6 +25430,22 @@ extension SecurityHub {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct InvalidAccessException: AWSErrorShape {
         public let code: String?
         public let message: String?
@@ -23987,6 +25617,72 @@ extension SecurityHub {
         }
     }
 
+    public struct JiraCloudDetail: AWSDecodableShape {
+        /// The status of the authorization between Jira Cloud and the service.
+        public let authStatus: ConnectorAuthStatus?
+        /// The URL to provide to customers for OAuth auth code flow.
+        public let authUrl: String?
+        /// The cloud id of the Jira Cloud.
+        public let cloudId: String?
+        /// The URL domain of your Jira Cloud instance.
+        public let domain: String?
+        /// The projectKey of Jira Cloud.
+        public let projectKey: String?
+
+        @inlinable
+        public init(authStatus: ConnectorAuthStatus? = nil, authUrl: String? = nil, cloudId: String? = nil, domain: String? = nil, projectKey: String? = nil) {
+            self.authStatus = authStatus
+            self.authUrl = authUrl
+            self.cloudId = cloudId
+            self.domain = domain
+            self.projectKey = projectKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authStatus = "AuthStatus"
+            case authUrl = "AuthUrl"
+            case cloudId = "CloudId"
+            case domain = "Domain"
+            case projectKey = "ProjectKey"
+        }
+    }
+
+    public struct JiraCloudProviderConfiguration: AWSEncodableShape {
+        /// The project key for a JiraCloud instance.
+        public let projectKey: String?
+
+        @inlinable
+        public init(projectKey: String? = nil) {
+            self.projectKey = projectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectKey, name: "projectKey", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectKey = "ProjectKey"
+        }
+    }
+
+    public struct JiraCloudUpdateConfiguration: AWSEncodableShape {
+        /// The project key for a JiraCloud instance.
+        public let projectKey: String?
+
+        @inlinable
+        public init(projectKey: String? = nil) {
+            self.projectKey = projectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectKey, name: "projectKey", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectKey = "ProjectKey"
+        }
+    }
+
     public struct KeywordFilter: AWSEncodableShape & AWSDecodableShape {
         /// A value for the keyword.
         public let value: String?
@@ -24018,6 +25714,51 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case message = "Message"
+        }
+    }
+
+    public struct ListAggregatorsV2Request: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAggregatorsV2Response: AWSDecodableShape {
+        /// An array of aggregators.
+        public let aggregatorsV2: [AggregatorV2]?
+        /// The pagination token to use to request the next page of results.  Otherwise, this parameter is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(aggregatorsV2: [AggregatorV2]? = nil, nextToken: String? = nil) {
+            self.aggregatorsV2 = aggregatorsV2
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatorsV2 = "AggregatorsV2"
+            case nextToken = "NextToken"
         }
     }
 
@@ -24063,6 +25804,51 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case automationRulesMetadata = "AutomationRulesMetadata"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAutomationRulesV2Request: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token required for pagination.  On your first call, set the value of this parameter to NULL.  For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutomationRulesV2Response: AWSDecodableShape {
+        /// The pagination token to use to request the next page of results.  Otherwise, this parameter is null.
+        public let nextToken: String?
+        /// An array of automation rules.
+        public let rules: [AutomationRulesMetadataV2]?
+
+        @inlinable
+        public init(nextToken: String? = nil, rules: [AutomationRulesMetadataV2]? = nil) {
+            self.nextToken = nextToken
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rules = "Rules"
         }
     }
 
@@ -24153,6 +25939,59 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case configurationPolicyAssociationSummaries = "ConfigurationPolicyAssociationSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorsV2Request: AWSEncodableShape {
+        /// The status for the connectorV2.
+        public let connectorStatus: ConnectorStatus?
+        /// The maximum number of results to be returned.
+        public let maxResults: Int?
+        /// The pagination token per the Amazon Web Services Pagination standard
+        public let nextToken: String?
+        /// The name of the third-party provider.
+        public let providerName: ConnectorProviderName?
+
+        @inlinable
+        public init(connectorStatus: ConnectorStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, providerName: ConnectorProviderName? = nil) {
+            self.connectorStatus = connectorStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.providerName = providerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectorStatus, key: "ConnectorStatus")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.providerName, key: "ProviderName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConnectorsV2Response: AWSDecodableShape {
+        /// An array of connectorV2 summaries.
+        public let connectors: [ConnectorSummary]?
+        /// The pagination token to use to request the next page of results.  Otherwise, this parameter is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectors: [ConnectorSummary]? = nil, nextToken: String? = nil) {
+            self.connectors = connectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectors = "Connectors"
             case nextToken = "NextToken"
         }
     }
@@ -24342,13 +26181,16 @@ extension SecurityHub {
     }
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
+        /// The feature where the delegated administrator account is listed.  Defaults to Security Hub if not specified.
+        public let feature: SecurityHubFeature?
         /// The maximum number of items to return in the response.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(feature: SecurityHubFeature? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.feature = feature
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -24356,6 +26198,7 @@ extension SecurityHub {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.feature, key: "Feature")
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
         }
@@ -24371,17 +26214,21 @@ extension SecurityHub {
     public struct ListOrganizationAdminAccountsResponse: AWSDecodableShape {
         /// The list of Security Hub administrator accounts.
         public let adminAccounts: [AdminAccount]?
+        /// The feature where the delegated administrator account is listed.  Defaults to Security Hub CSPM if not specified.
+        public let feature: SecurityHubFeature?
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
         @inlinable
-        public init(adminAccounts: [AdminAccount]? = nil, nextToken: String? = nil) {
+        public init(adminAccounts: [AdminAccount]? = nil, feature: SecurityHubFeature? = nil, nextToken: String? = nil) {
             self.adminAccounts = adminAccounts
+            self.feature = feature
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case adminAccounts = "AdminAccounts"
+            case feature = "Feature"
             case nextToken = "NextToken"
         }
     }
@@ -25084,6 +26931,155 @@ extension SecurityHub {
         }
     }
 
+    public struct OcsfBooleanFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field.
+        public let fieldName: OcsfBooleanField?
+        public let filter: BooleanFilter?
+
+        @inlinable
+        public init(fieldName: OcsfBooleanField? = nil, filter: BooleanFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct OcsfDateFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field.
+        public let fieldName: OcsfDateField?
+        public let filter: DateFilter?
+
+        @inlinable
+        public init(fieldName: OcsfDateField? = nil, filter: DateFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct OcsfFindingFilters: AWSEncodableShape & AWSDecodableShape {
+        /// Enables the creation of complex filtering conditions by combining filter criteria.
+        public let compositeFilters: [CompositeFilter]?
+        /// The logical operators used to combine the filtering on multiple CompositeFilters.
+        public let compositeOperator: AllowedOperators?
+
+        @inlinable
+        public init(compositeFilters: [CompositeFilter]? = nil, compositeOperator: AllowedOperators? = nil) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+
+        public func validate(name: String) throws {
+            try self.compositeFilters?.forEach {
+                try $0.validate(name: "\(name).compositeFilters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compositeFilters = "CompositeFilters"
+            case compositeOperator = "CompositeOperator"
+        }
+    }
+
+    public struct OcsfFindingIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// Finding cloud.account.uid, which is a unique identifier in the Amazon Web Services account..
+        public let cloudAccountUid: String?
+        /// Finding finding_info.uid, which is a unique identifier for the finding from the finding provider.
+        public let findingInfoUid: String?
+        /// Finding metadata.product.uid, which is a unique identifier for the product.
+        public let metadataProductUid: String?
+
+        @inlinable
+        public init(cloudAccountUid: String? = nil, findingInfoUid: String? = nil, metadataProductUid: String? = nil) {
+            self.cloudAccountUid = cloudAccountUid
+            self.findingInfoUid = findingInfoUid
+            self.metadataProductUid = metadataProductUid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudAccountUid, name: "cloudAccountUid", parent: name, pattern: "\\S")
+            try self.validate(self.findingInfoUid, name: "findingInfoUid", parent: name, pattern: "\\S")
+            try self.validate(self.metadataProductUid, name: "metadataProductUid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudAccountUid = "CloudAccountUid"
+            case findingInfoUid = "FindingInfoUid"
+            case metadataProductUid = "MetadataProductUid"
+        }
+    }
+
+    public struct OcsfMapFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field.
+        public let fieldName: OcsfMapField?
+        public let filter: MapFilter?
+
+        @inlinable
+        public init(fieldName: OcsfMapField? = nil, filter: MapFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct OcsfNumberFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field.
+        public let fieldName: OcsfNumberField?
+        public let filter: NumberFilter?
+
+        @inlinable
+        public init(fieldName: OcsfNumberField? = nil, filter: NumberFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct OcsfStringFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field.
+        public let fieldName: OcsfStringField?
+        public let filter: StringFilter?
+
+        @inlinable
+        public init(fieldName: OcsfStringField? = nil, filter: StringFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
     public struct OrganizationConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  Indicates whether the organization uses local or central configuration.  If you use local configuration, the  Security Hub delegated administrator can set AutoEnable to true and  AutoEnableStandards to DEFAULT. This automatically enables Security Hub and  default security standards in new organization accounts. These new account settings must be set separately in  each Amazon Web Services Region, and settings may be different in each Region.   If you use central configuration, the delegated administrator can create configuration policies. Configuration  policies can be used to configure Security Hub, security standards, and security controls in multiple  accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a  configuration policy and associate it with the root or specific organizational units (OUs). New accounts will  inherit the policy from the root or their assigned OU.
         public let configurationType: OrganizationConfigurationConfigurationType?
@@ -25409,6 +27405,44 @@ extension SecurityHub {
         }
     }
 
+    public struct ProductV2: AWSDecodableShape {
+        /// The URL to the serviceV@ or productV2 documentation about the integration, which includes how to activate the integration.
+        public let activationUrl: String?
+        /// The domains or functional areas the productV2 addresses.
+        public let categories: [String]?
+        /// The name of the organization or vendor that provides the productV2.
+        public let companyName: String?
+        /// Detailed information about the productV2.
+        public let description: String?
+        /// The type of integration.
+        public let integrationV2Types: [IntegrationV2Type]?
+        /// The console URL where you can purchase or subscribe to products.
+        public let marketplaceUrl: String?
+        /// The name of the productV2.
+        public let productV2Name: String?
+
+        @inlinable
+        public init(activationUrl: String? = nil, categories: [String]? = nil, companyName: String? = nil, description: String? = nil, integrationV2Types: [IntegrationV2Type]? = nil, marketplaceUrl: String? = nil, productV2Name: String? = nil) {
+            self.activationUrl = activationUrl
+            self.categories = categories
+            self.companyName = companyName
+            self.description = description
+            self.integrationV2Types = integrationV2Types
+            self.marketplaceUrl = marketplaceUrl
+            self.productV2Name = productV2Name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationUrl = "ActivationUrl"
+            case categories = "Categories"
+            case companyName = "CompanyName"
+            case description = "Description"
+            case integrationV2Types = "IntegrationV2Types"
+            case marketplaceUrl = "MarketplaceUrl"
+            case productV2Name = "ProductV2Name"
+        }
+    }
+
     public struct PropagatingVgwSetDetails: AWSEncodableShape & AWSDecodableShape {
         ///  The ID of the virtual private gateway.
         public let gatewayId: String?
@@ -25424,6 +27458,24 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayId = "GatewayId"
+        }
+    }
+
+    public struct ProviderSummary: AWSDecodableShape {
+        /// The status for the connectorV2.
+        public let connectorStatus: ConnectorStatus?
+        /// The name of the provider.
+        public let providerName: ConnectorProviderName?
+
+        @inlinable
+        public init(connectorStatus: ConnectorStatus? = nil, providerName: ConnectorProviderName? = nil) {
+            self.connectorStatus = connectorStatus
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorStatus = "ConnectorStatus"
+            case providerName = "ProviderName"
         }
     }
 
@@ -26129,6 +28181,54 @@ extension SecurityHub {
         }
     }
 
+    public struct ResourceFindingsSummary: AWSDecodableShape {
+        /// The category or classification of the security finding.
+        public let findingType: String?
+        /// The name of the product associated with the security finding.
+        public let productName: String?
+        /// A breakdown of security findings by their severity levels.
+        public let severities: ResourceSeverityBreakdown?
+        /// The total count of security findings.
+        public let totalFindings: Int?
+
+        @inlinable
+        public init(findingType: String? = nil, productName: String? = nil, severities: ResourceSeverityBreakdown? = nil, totalFindings: Int? = nil) {
+            self.findingType = findingType
+            self.productName = productName
+            self.severities = severities
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingType = "FindingType"
+            case productName = "ProductName"
+            case severities = "Severities"
+            case totalFindings = "TotalFindings"
+        }
+    }
+
+    public struct ResourceGroupByRule: AWSEncodableShape {
+        /// The criteria used to select resources and associated security findings.
+        public let filters: ResourcesFilters?
+        /// Specifies the attribute that resources should be grouped by.
+        public let groupByField: ResourceGroupByField?
+
+        @inlinable
+        public init(filters: ResourcesFilters? = nil, groupByField: ResourceGroupByField? = nil) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case groupByField = "GroupByField"
+        }
+    }
+
     public struct ResourceInUseException: AWSErrorShape {
         public let code: String?
         public let message: String?
@@ -26158,6 +28258,270 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case message = "Message"
+        }
+    }
+
+    public struct ResourceResult: AWSDecodableShape {
+        /// The Amazon Web Services account that owns the resource.
+        public let accountId: String?
+        /// An aggregated view of security findings associated with a resource.
+        public let findingsSummary: [ResourceFindingsSummary]?
+        /// The Amazon Web Services Region where the resource is located.
+        public let region: String?
+        /// Specifies the ARN that uniquely identifies a resource.
+        public let resourceArn: String?
+        /// The grouping where the resource belongs.
+        public let resourceCategory: ResourceCategory?
+        /// The configuration details of a resource.
+        public let resourceConfig: AWSDocument?
+        /// The time when the resource was created.
+        public let resourceCreationTimeDt: String?
+        /// The timestamp when information about the resource was captured.
+        public let resourceDetailCaptureTimeDt: String?
+        /// The unique identifier for a resource.
+        public let resourceId: String?
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The key-value pairs associated with a resource.
+        public let resourceTags: [ResourceTag]?
+        /// The type of resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(accountId: String? = nil, findingsSummary: [ResourceFindingsSummary]? = nil, region: String? = nil, resourceArn: String? = nil, resourceCategory: ResourceCategory? = nil, resourceConfig: AWSDocument? = nil, resourceCreationTimeDt: String? = nil, resourceDetailCaptureTimeDt: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: String? = nil) {
+            self.accountId = accountId
+            self.findingsSummary = findingsSummary
+            self.region = region
+            self.resourceArn = resourceArn
+            self.resourceCategory = resourceCategory
+            self.resourceConfig = resourceConfig
+            self.resourceCreationTimeDt = resourceCreationTimeDt
+            self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case findingsSummary = "FindingsSummary"
+            case region = "Region"
+            case resourceArn = "ResourceArn"
+            case resourceCategory = "ResourceCategory"
+            case resourceConfig = "ResourceConfig"
+            case resourceCreationTimeDt = "ResourceCreationTimeDt"
+            case resourceDetailCaptureTimeDt = "ResourceDetailCaptureTimeDt"
+            case resourceId = "ResourceId"
+            case resourceName = "ResourceName"
+            case resourceTags = "ResourceTags"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceSeverityBreakdown: AWSDecodableShape {
+        /// The number of findings with a severity level of critical.
+        public let critical: Int?
+        /// The number of findings with a severity level of fatal.
+        public let fatal: Int?
+        /// The number of findings with a severity level of high.
+        public let high: Int?
+        /// The number of findings that provide security-related information.
+        public let informational: Int?
+        /// The number of findings with a severity level of low.
+        public let low: Int?
+        /// The number of findings with a severity level of medium.
+        public let medium: Int?
+        /// The number of findings not in any of the severity categories.
+        public let other: Int?
+        /// The number of findings with a severity level cannot be determined.
+        public let unknown: Int?
+
+        @inlinable
+        public init(critical: Int? = nil, fatal: Int? = nil, high: Int? = nil, informational: Int? = nil, low: Int? = nil, medium: Int? = nil, other: Int? = nil, unknown: Int? = nil) {
+            self.critical = critical
+            self.fatal = fatal
+            self.high = high
+            self.informational = informational
+            self.low = low
+            self.medium = medium
+            self.other = other
+            self.unknown = unknown
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case critical = "Critical"
+            case fatal = "Fatal"
+            case high = "High"
+            case informational = "Informational"
+            case low = "Low"
+            case medium = "Medium"
+            case other = "Other"
+            case unknown = "Unknown"
+        }
+    }
+
+    public struct ResourceTag: AWSDecodableShape {
+        /// The identifier or name of the tag.
+        public let key: String?
+        /// The data associated with the tag key.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ResourcesCompositeFilter: AWSEncodableShape {
+        /// Enables filtering based on date and timestamp field values.
+        public let dateFilters: [ResourcesDateFilter]?
+        /// Enables filtering based on map-based field values.
+        public let mapFilters: [ResourcesMapFilter]?
+        /// Enables filtering based on numerical field values.
+        public let numberFilters: [ResourcesNumberFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public let `operator`: AllowedOperators?
+        /// Enables filtering based on string field values.
+        public let stringFilters: [ResourcesStringFilter]?
+
+        @inlinable
+        public init(dateFilters: [ResourcesDateFilter]? = nil, mapFilters: [ResourcesMapFilter]? = nil, numberFilters: [ResourcesNumberFilter]? = nil, operator: AllowedOperators? = nil, stringFilters: [ResourcesStringFilter]? = nil) {
+            self.dateFilters = dateFilters
+            self.mapFilters = mapFilters
+            self.numberFilters = numberFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.dateFilters?.forEach {
+                try $0.validate(name: "\(name).dateFilters[]")
+            }
+            try self.mapFilters?.forEach {
+                try $0.validate(name: "\(name).mapFilters[]")
+            }
+            try self.stringFilters?.forEach {
+                try $0.validate(name: "\(name).stringFilters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateFilters = "DateFilters"
+            case mapFilters = "MapFilters"
+            case numberFilters = "NumberFilters"
+            case `operator` = "Operator"
+            case stringFilters = "StringFilters"
+        }
+    }
+
+    public struct ResourcesDateFilter: AWSEncodableShape {
+        /// The name of the field.
+        public let fieldName: ResourcesDateField?
+        public let filter: DateFilter?
+
+        @inlinable
+        public init(fieldName: ResourcesDateField? = nil, filter: DateFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct ResourcesFilters: AWSEncodableShape {
+        /// A collection of complex filtering conditions that can be applied to Amazon Web Services resources.
+        public let compositeFilters: [ResourcesCompositeFilter]?
+        /// The logical operator used to combine multiple filter conditions in the structure.
+        public let compositeOperator: AllowedOperators?
+
+        @inlinable
+        public init(compositeFilters: [ResourcesCompositeFilter]? = nil, compositeOperator: AllowedOperators? = nil) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+
+        public func validate(name: String) throws {
+            try self.compositeFilters?.forEach {
+                try $0.validate(name: "\(name).compositeFilters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compositeFilters = "CompositeFilters"
+            case compositeOperator = "CompositeOperator"
+        }
+    }
+
+    public struct ResourcesMapFilter: AWSEncodableShape {
+        /// The name of the field.
+        public let fieldName: ResourcesMapField?
+        public let filter: MapFilter?
+
+        @inlinable
+        public init(fieldName: ResourcesMapField? = nil, filter: MapFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct ResourcesNumberFilter: AWSEncodableShape {
+        /// The name of the field.
+        public let fieldName: ResourcesNumberField?
+        public let filter: NumberFilter?
+
+        @inlinable
+        public init(fieldName: ResourcesNumberField? = nil, filter: NumberFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct ResourcesStringFilter: AWSEncodableShape {
+        /// The name of the field.
+        public let fieldName: ResourcesStringField?
+        public let filter: StringFilter?
+
+        @inlinable
+        public init(fieldName: ResourcesStringField? = nil, filter: StringFilter? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
         }
     }
 
@@ -27081,6 +29445,56 @@ extension SecurityHub {
         }
     }
 
+    public struct ServiceNowDetail: AWSDecodableShape {
+        /// The status of the authorization between Jira Cloud and the service.
+        public let authStatus: ConnectorAuthStatus?
+        /// The clientId of ServiceNow ITSM.
+        public let clientId: String?
+        /// The instanceName of ServiceNow ITSM.
+        public let instanceName: String?
+
+        @inlinable
+        public init(authStatus: ConnectorAuthStatus? = nil, clientId: String? = nil, instanceName: String? = nil) {
+            self.authStatus = authStatus
+            self.clientId = clientId
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authStatus = "AuthStatus"
+            case clientId = "ClientId"
+            case instanceName = "InstanceName"
+        }
+    }
+
+    public struct ServiceNowProviderConfiguration: AWSEncodableShape {
+        /// The client ID of ServiceNow ITSM.
+        public let clientId: String?
+        /// The client secret of ServiceNow ITSM.
+        public let clientSecret: String?
+        /// The instance name of ServiceNow ITSM.
+        public let instanceName: String?
+
+        @inlinable
+        public init(clientId: String? = nil, clientSecret: String? = nil, instanceName: String? = nil) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.instanceName = instanceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S")
+            try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case instanceName = "InstanceName"
+        }
+    }
+
     public struct Severity: AWSEncodableShape & AWSDecodableShape {
         /// The severity value of the finding. The allowed values are the following.    INFORMATIONAL - No issue was found.    LOW - The issue does not require action on its own.    MEDIUM - The issue must be addressed but not urgently.    HIGH - The issue must be addressed as a priority.    CRITICAL - The issue must be remediated immediately to avoid it escalating.   If you provide Normalized and don't provide Label, then Label is set automatically as follows.    0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL
         public let label: SeverityLabel?
@@ -27836,7 +30250,7 @@ extension SecurityHub {
     }
 
     public struct StringFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The condition to apply to a string value when filtering Security Hub findings. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, the  filter Title CONTAINS CloudFront matches findings that have a Title that  includes the string CloudFront.   To search for values that exactly match the filter value, use EQUALS. For example,  the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of  123456789012.   To search for values that start with the filter value, use PREFIX. For example, the  filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts  with us. A ResourceRegion that starts with a different value, such as af,  ap, or ca, doesn't match.    CONTAINS, EQUALS, and PREFIX filters on the same field are joined by  OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR  Title CONTAINS CloudWatch match a finding that includes either CloudFront,  CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, the  filter Title NOT_CONTAINS CloudFront matches findings that have a Title that  excludes the string CloudFront.   To search for values other than the filter value, use NOT_EQUALS. For  example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account  ID other than 123456789012.   To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For  example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a  ResourceRegion that starts with a value other than us.    NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field  are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND  Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and  CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly,  you can't provide both an EQUALS filter and a NOT_EQUALS or  PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters  can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with  other NOT_CONTAINS filters.  You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field.  Security Hub first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub first identifies findings that have resource types  that start with either AwsIam or AwsEc2. It then excludes findings that have a resource  type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface     CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information,  see Automation rules in the Security Hub User Guide.
+        /// The condition to apply to a string value when filtering Security Hub findings. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, the  filter Title CONTAINS CloudFront matches findings that have a Title that  includes the string CloudFront.   To search for values that exactly match the filter value, use EQUALS. For example,  the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of  123456789012.   To search for values that start with the filter value, use PREFIX. For example, the  filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts  with us. A ResourceRegion that starts with a different value, such as af,  ap, or ca, doesn't match.    CONTAINS, EQUALS, and PREFIX filters on the same field are joined by  OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR  Title CONTAINS CloudWatch match a finding that includes either CloudFront,  CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, the  filter Title NOT_CONTAINS CloudFront matches findings that have a Title that  excludes the string CloudFront.   To search for values other than the filter value, use NOT_EQUALS. For  example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account  ID other than 123456789012.   To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For  example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a  ResourceRegion that starts with a value other than us.    NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field  are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND  Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and  CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly,  you can't provide both an EQUALS filter and a NOT_EQUALS or  PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters  can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with  other NOT_CONTAINS filters.  You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field.  Security Hub first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub first identifies findings that have resource types  that start with either AwsIam or AwsEc2. It then excludes findings that have a resource  type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface     CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1.  CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourceStatisticsV2 APIs.  For more information, see Automation rules in the Security Hub User Guide.
         public let comparison: StringFilterComparison?
         /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter value, there's no match.
         public let value: String?
@@ -27999,6 +30413,22 @@ extension SecurityHub {
             case sourceUrl = "SourceUrl"
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -28188,6 +30618,136 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct UpdateAggregatorV2Request: AWSEncodableShape {
+        /// The ARN of the Aggregator V2.
+        public let aggregatorV2Arn: String
+        /// A list of Amazon Web Services Regions linked to the aggegation Region.
+        public let linkedRegions: [String]?
+        /// Determines how Amazon Web Services Regions should be linked to the Aggregator V2.
+        public let regionLinkingMode: String?
+
+        @inlinable
+        public init(aggregatorV2Arn: String, linkedRegions: [String]? = nil, regionLinkingMode: String? = nil) {
+            self.aggregatorV2Arn = aggregatorV2Arn
+            self.linkedRegions = linkedRegions
+            self.regionLinkingMode = regionLinkingMode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aggregatorV2Arn, key: "AggregatorV2Arn")
+            try container.encodeIfPresent(self.linkedRegions, forKey: .linkedRegions)
+            try container.encodeIfPresent(self.regionLinkingMode, forKey: .regionLinkingMode)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aggregatorV2Arn, name: "aggregatorV2Arn", parent: name, pattern: "\\S")
+            try self.linkedRegions?.forEach {
+                try validate($0, name: "linkedRegions[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.regionLinkingMode, name: "regionLinkingMode", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedRegions = "LinkedRegions"
+            case regionLinkingMode = "RegionLinkingMode"
+        }
+    }
+
+    public struct UpdateAggregatorV2Response: AWSDecodableShape {
+        /// The Amazon Web Services Region where data is aggregated.
+        public let aggregationRegion: String?
+        /// The ARN of the Aggregator V2.
+        public let aggregatorV2Arn: String?
+        /// A list of Amazon Web Services Regions linked to the aggegation Region.
+        public let linkedRegions: [String]?
+        /// Determines how Amazon Web Services Regions should be linked to the Aggregator V2.
+        public let regionLinkingMode: String?
+
+        @inlinable
+        public init(aggregationRegion: String? = nil, aggregatorV2Arn: String? = nil, linkedRegions: [String]? = nil, regionLinkingMode: String? = nil) {
+            self.aggregationRegion = aggregationRegion
+            self.aggregatorV2Arn = aggregatorV2Arn
+            self.linkedRegions = linkedRegions
+            self.regionLinkingMode = regionLinkingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationRegion = "AggregationRegion"
+            case aggregatorV2Arn = "AggregatorV2Arn"
+            case linkedRegions = "LinkedRegions"
+            case regionLinkingMode = "RegionLinkingMode"
+        }
+    }
+
+    public struct UpdateAutomationRuleV2Request: AWSEncodableShape {
+        /// A list of actions to be performed when the rule criteria is met.
+        public let actions: [AutomationRulesActionV2]?
+        /// The filtering type and configuration of the automation rule.
+        public let criteria: Criteria?
+        /// A description of the automation rule.
+        public let description: String?
+        /// The ARN of the automation rule.
+        public let identifier: String
+        /// The name of the automation rule.
+        public let ruleName: String?
+        /// Represents a value for the rule priority.
+        public let ruleOrder: Float?
+        /// The status of the automation rule.
+        public let ruleStatus: RuleStatusV2?
+
+        @inlinable
+        public init(actions: [AutomationRulesActionV2]? = nil, criteria: Criteria? = nil, description: String? = nil, identifier: String, ruleName: String? = nil, ruleOrder: Float? = nil, ruleStatus: RuleStatusV2? = nil) {
+            self.actions = actions
+            self.criteria = criteria
+            self.description = description
+            self.identifier = identifier
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actions, forKey: .actions)
+            try container.encodeIfPresent(self.criteria, forKey: .criteria)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.ruleName, forKey: .ruleName)
+            try container.encodeIfPresent(self.ruleOrder, forKey: .ruleOrder)
+            try container.encodeIfPresent(self.ruleStatus, forKey: .ruleStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 1)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.criteria?.validate(name: "\(name).criteria")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "\\S")
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, max: 1000.0)
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, min: 1.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case criteria = "Criteria"
+            case description = "Description"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+        }
+    }
+
+    public struct UpdateAutomationRuleV2Response: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateAutomationRulesRequestItem: AWSEncodableShape {
         ///  One or more actions to update finding fields if a finding matches the conditions  specified in Criteria.
         public let actions: [AutomationRulesAction]?
@@ -28329,6 +30889,51 @@ extension SecurityHub {
             case name = "Name"
             case updatedAt = "UpdatedAt"
         }
+    }
+
+    public struct UpdateConnectorV2Request: AWSEncodableShape {
+        /// The clientSecret of ServiceNow.
+        public let clientSecret: String?
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        public let connectorId: String
+        /// The description of the connectorV2.
+        public let description: String?
+        /// The third-party provider’s service configuration.
+        public let provider: ProviderUpdateConfiguration?
+
+        @inlinable
+        public init(clientSecret: String? = nil, connectorId: String, description: String? = nil, provider: ProviderUpdateConfiguration? = nil) {
+            self.clientSecret = clientSecret
+            self.connectorId = connectorId
+            self.description = description
+            self.provider = provider
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientSecret, forKey: .clientSecret)
+            request.encodePath(self.connectorId, key: "ConnectorId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.provider, forKey: .provider)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.provider?.validate(name: "\(name).provider")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientSecret = "ClientSecret"
+            case description = "Description"
+            case provider = "Provider"
+        }
+    }
+
+    public struct UpdateConnectorV2Response: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateFindingAggregatorRequest: AWSEncodableShape {
@@ -28608,6 +31213,22 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case uid = "Uid"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -28923,6 +31544,24 @@ extension SecurityHub {
         }
     }
 
+    public struct Criteria: AWSEncodableShape & AWSDecodableShape {
+        /// The filtering conditions that align with OCSF standards.
+        public let ocsfFindingCriteria: OcsfFindingFilters?
+
+        @inlinable
+        public init(ocsfFindingCriteria: OcsfFindingFilters? = nil) {
+            self.ocsfFindingCriteria = ocsfFindingCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.ocsfFindingCriteria?.validate(name: "\(name).ocsfFindingCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ocsfFindingCriteria = "OcsfFindingCriteria"
+        }
+    }
+
     public struct Policy: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Web Services service that the configuration policy applies to.
         public let securityHub: SecurityHubPolicy?
@@ -28940,6 +31579,24 @@ extension SecurityHub {
             case securityHub = "SecurityHub"
         }
     }
+
+    public struct ProviderUpdateConfiguration: AWSEncodableShape {
+        /// The parameters required to update the configuration for a Jira Cloud integration.
+        public let jiraCloud: JiraCloudUpdateConfiguration?
+
+        @inlinable
+        public init(jiraCloud: JiraCloudUpdateConfiguration? = nil) {
+            self.jiraCloud = jiraCloud
+        }
+
+        public func validate(name: String) throws {
+            try self.jiraCloud?.validate(name: "\(name).jiraCloud")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jiraCloud = "JiraCloud"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -28948,13 +31605,17 @@ extension SecurityHub {
 public struct SecurityHubErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalException = "InternalException"
+        case internalServerException = "InternalServerException"
         case invalidAccessException = "InvalidAccessException"
         case invalidInputException = "InvalidInputException"
         case limitExceededException = "LimitExceededException"
         case resourceConflictException = "ResourceConflictException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -28977,8 +31638,12 @@ public struct SecurityHubErrorType: AWSErrorType {
 
     /// You don't have permission to perform the action specified in the request.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request causes conflict with the current state of the service resource.
+    public static var conflictException: Self { .init(.conflictException) }
     /// Internal server error.
     public static var internalException: Self { .init(.internalException) }
+    ///  The request has failed due to an internal failure of the service.
+    public static var internalServerException: Self { .init(.internalServerException) }
     /// The account doesn't have permission to perform this action.
     public static var invalidAccessException: Self { .init(.invalidAccessException) }
     /// The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
@@ -28991,18 +31656,26 @@ public struct SecurityHubErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The request was rejected because we can't find the specified resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  The limit on the number of requests per second was exceeded.
+    public static var throttlingException: Self { .init(.throttlingException) }
+    /// The request has failed validation because it's missing required fields or has invalid inputs.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension SecurityHubErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "AccessDeniedException": SecurityHub.AccessDeniedException.self,
+        "ConflictException": SecurityHub.ConflictException.self,
         "InternalException": SecurityHub.InternalException.self,
+        "InternalServerException": SecurityHub.InternalServerException.self,
         "InvalidAccessException": SecurityHub.InvalidAccessException.self,
         "InvalidInputException": SecurityHub.InvalidInputException.self,
         "LimitExceededException": SecurityHub.LimitExceededException.self,
         "ResourceConflictException": SecurityHub.ResourceConflictException.self,
         "ResourceInUseException": SecurityHub.ResourceInUseException.self,
-        "ResourceNotFoundException": SecurityHub.ResourceNotFoundException.self
+        "ResourceNotFoundException": SecurityHub.ResourceNotFoundException.self,
+        "ThrottlingException": SecurityHub.ThrottlingException.self,
+        "ValidationException": SecurityHub.ValidationException.self
     ]
 }
 

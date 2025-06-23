@@ -74,6 +74,7 @@ extension PaymentCryptographyData {
     public enum KeyCheckValueAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ansiX924 = "ANSI_X9_24"
         case cmac = "CMAC"
+        case hmac = "HMAC"
         public var description: String { return self.rawValue }
     }
 
@@ -154,6 +155,10 @@ extension PaymentCryptographyData {
         case aes128 = "AES_128"
         case aes192 = "AES_192"
         case aes256 = "AES_256"
+        case hmacSha224 = "HMAC_SHA224"
+        case hmacSha256 = "HMAC_SHA256"
+        case hmacSha384 = "HMAC_SHA384"
+        case hmacSha512 = "HMAC_SHA512"
         case tdes2Key = "TDES_2KEY"
         case tdes3Key = "TDES_3KEY"
         public var description: String { return self.rawValue }
@@ -1094,7 +1099,7 @@ extension PaymentCryptographyData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cipherText, name: "cipherText", parent: name, max: 4096)
+            try self.validate(self.cipherText, name: "cipherText", parent: name, max: 4224)
             try self.validate(self.cipherText, name: "cipherText", parent: name, min: 2)
             try self.validate(self.cipherText, name: "cipherText", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.decryptionAttributes.validate(name: "\(name).decryptionAttributes")
@@ -1181,8 +1186,8 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, max: 24)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 10)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 16)
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^(?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1208,8 +1213,8 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, max: 24)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 10)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 16)
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^(?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1245,8 +1250,8 @@ extension PaymentCryptographyData {
             try self.validate(self.initializationVector, name: "initializationVector", parent: name, min: 16)
             try self.validate(self.initializationVector, name: "initializationVector", parent: name, pattern: "^(?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32})$")
             try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, max: 24)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 10)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 16)
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^(?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1555,7 +1560,7 @@ extension PaymentCryptographyData {
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
-            try self.validate(self.plainText, name: "plainText", parent: name, max: 4064)
+            try self.validate(self.plainText, name: "plainText", parent: name, max: 4096)
             try self.validate(self.plainText, name: "plainText", parent: name, min: 2)
             try self.validate(self.plainText, name: "plainText", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.wrappedKey?.validate(name: "\(name).wrappedKey")
@@ -2108,8 +2113,8 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, max: 24)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 10)
-            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, min: 16)
+            try self.validate(self.keySerialNumber, name: "keySerialNumber", parent: name, pattern: "^(?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2237,7 +2242,7 @@ extension PaymentCryptographyData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cipherText, name: "cipherText", parent: name, max: 4096)
+            try self.validate(self.cipherText, name: "cipherText", parent: name, max: 4224)
             try self.validate(self.cipherText, name: "cipherText", parent: name, min: 2)
             try self.validate(self.cipherText, name: "cipherText", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.incomingEncryptionAttributes.validate(name: "\(name).incomingEncryptionAttributes")

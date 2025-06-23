@@ -82,6 +82,7 @@ extension AutoScaling {
     public enum CpuManufacturer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonWebServices = "amazon-web-services"
         case amd = "amd"
+        case apple = "apple"
         case intel = "intel"
         public var description: String { return self.rawValue }
     }
@@ -771,15 +772,18 @@ extension AutoScaling {
         /// One or more filters to limit the results based on specific tags.
         @OptionalCustomCoding<StandardArrayCoder<Filter>>
         public var filters: [Filter]?
+        ///  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
+        public let includeInstances: Bool?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         @inlinable
-        public init(autoScalingGroupNames: [String]? = nil, filters: [Filter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(autoScalingGroupNames: [String]? = nil, filters: [Filter]? = nil, includeInstances: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.autoScalingGroupNames = autoScalingGroupNames
             self.filters = filters
+            self.includeInstances = includeInstances
             self.maxRecords = maxRecords
             self.nextToken = nextToken
         }
@@ -799,6 +803,7 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupNames = "AutoScalingGroupNames"
             case filters = "Filters"
+            case includeInstances = "IncludeInstances"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
         }
@@ -1050,7 +1055,7 @@ extension AutoScaling {
     }
 
     public struct BlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
-        /// The device name assigned to the volume (for example, /dev/sdh or xvdh). For more information, see Device naming on Linux instances in the Amazon EC2 User Guide for Linux Instances.  To define a block device mapping, set the device name and exactly one of the following properties: Ebs, NoDevice, or VirtualName.
+        /// The device name assigned to the volume (for example, /dev/sdh or xvdh). For more information, see Device naming on Linux instances in the Amazon EC2 User Guide.  To define a block device mapping, set the device name and exactly one of the following properties: Ebs, NoDevice, or VirtualName.
         public let deviceName: String?
         /// Information to attach an EBS volume to an instance at launch.
         public let ebs: Ebs?
@@ -1311,7 +1316,7 @@ extension AutoScaling {
         public let mixedInstancesPolicy: MixedInstancesPolicy?
         /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
-        /// The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
+        /// The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
@@ -1467,7 +1472,7 @@ extension AutoScaling {
     public struct CreateLaunchConfigurationType: AWSEncodableShape {
         /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. If you specify true, each instance in the Auto Scaling group receives a unique public IPv4 address. For more information, see Provide network connectivity for your Auto Scaling instances using Amazon VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
         public let associatePublicIpAddress: Bool?
-        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide for Linux Instances.
+        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide.
         @OptionalCustomCoding<StandardArrayCoder<BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
         /// Available for backward compatibility.
@@ -1475,21 +1480,21 @@ extension AutoScaling {
         /// Available for backward compatibility.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var classicLinkVPCSecurityGroups: [String]?
-        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux Instances. The default value is false.
+        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide. The default value is false.
         public let ebsOptimized: Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see IAM role for applications that run on Amazon EC2 instances in the Amazon EC2 Auto Scaling User Guide.
         public let iamInstanceProfile: String?
-        /// The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see Find a Linux AMI in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an ImageId is not required.
+        /// The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see Find a Linux AMI in the Amazon EC2 User Guide. If you specify InstanceId, an ImageId is not required.
         public let imageId: String?
         /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, except for the block device mapping. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Create a launch configuration in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
         /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. The default value is true (enabled).  When detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your account is charged a fee. When you disable detailed monitoring, CloudWatch generates metrics every 5 minutes. For more information, see Configure monitoring for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMonitoring: InstanceMonitoring?
-        /// Specifies the instance type of the EC2 instance. For information about available instance types, see Available instance types in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an InstanceType is not required.
+        /// Specifies the instance type of the EC2 instance. For information about available instance types, see Available instance types in the Amazon EC2 User Guide. If you specify InstanceId, an InstanceType is not required.
         public let instanceType: String?
-        /// The ID of the kernel associated with the AMI.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide for Linux Instances.
+        /// The ID of the kernel associated with the AMI.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide.
         public let kernelId: String?
-        /// The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide for Linux Instances.
+        /// The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide.
         public let keyName: String?
         /// The name of the launch configuration. This name must be unique per Region per account.
         public let launchConfigurationName: String?
@@ -1497,7 +1502,7 @@ extension AutoScaling {
         public let metadataOptions: InstanceMetadataOptions?
         /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this property to dedicated. If you specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when you create your group. Valid values: default | dedicated
         public let placementTenancy: String?
-        /// The ID of the RAM disk to select.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide for Linux Instances.
+        /// The ID of the RAM disk to select.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide.
         public let ramdiskId: String?
         /// A list that contains the security group IDs to assign to the instances in the Auto Scaling group. For more information, see Control traffic to your Amazon Web Services resources using security groups in the Amazon Virtual Private Cloud User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
@@ -3309,22 +3314,22 @@ extension AutoScaling {
         public var allowedInstanceTypes: [String]?
         /// Indicates whether bare metal instance types are included, excluded, or required. Default: excluded
         public let bareMetal: BareMetal?
-        /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide for Linux Instances. Default: No minimum or maximum limits
+        /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide. Default: No minimum or maximum limits
         public let baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest?
         ///  The baseline performance factors for the instance requirements.
         public let baselinePerformanceFactors: BaselinePerformanceFactorsRequest?
-        /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see Burstable performance instances in the Amazon EC2 User Guide for Linux Instances. Default: excluded
+        /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see Burstable performance instances in the Amazon EC2 User Guide. Default: excluded
         public let burstablePerformance: BurstablePerformance?
-        /// Lists which specific CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU hardware manufacturer with the CPU hardware architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template.   Default: Any manufacturer
+        /// Lists which specific CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.   For instance types with Apple CPUs, specify apple.    Don't confuse the CPU hardware manufacturer with the CPU hardware architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template.   Default: Any manufacturer
         @OptionalCustomCoding<StandardArrayCoder<CpuManufacturer>>
         public var cpuManufacturers: [CpuManufacturer]?
         /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*.  For example, if you specify c5*, you are excluding the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 Auto Scaling will exclude all the M5a instance types, but not the M5n instance types.  If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes.  Default: No excluded instance types
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedInstanceTypes: [String]?
-        /// Indicates whether current or previous generation instance types are included.   For current generation instance types, specify current. The current generation includes EC2 instance types currently recommended for use. This typically includes the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide for Linux Instances.   For previous generation instance types, specify previous.   Default: Any current or previous generation
+        /// Indicates whether current or previous generation instance types are included.   For current generation instance types, specify current. The current generation includes EC2 instance types currently recommended for use. This typically includes the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide.   For previous generation instance types, specify previous.   Default: Any current or previous generation
         @OptionalCustomCoding<StandardArrayCoder<InstanceGeneration>>
         public var instanceGenerations: [InstanceGeneration]?
-        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, see Amazon EC2 instance store in the Amazon EC2 User Guide for Linux Instances. Default: included
+        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, see Amazon EC2 instance store in the Amazon EC2 User Guide. Default: included
         public let localStorage: LocalStorage?
         /// Indicates the type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SSD) storage, specify ssd.   Default: Any local storage type
         @OptionalCustomCoding<StandardArrayCoder<LocalStorageType>>
@@ -3492,7 +3497,7 @@ extension AutoScaling {
     public struct LaunchConfiguration: AWSDecodableShape {
         /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. For more information, see Provide network connectivity for your Auto Scaling instances using Amazon VPC in the Amazon EC2 Auto Scaling User Guide.
         public let associatePublicIpAddress: Bool?
-        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide for Linux Instances.
+        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide.
         @OptionalCustomCoding<StandardArrayCoder<BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
         /// Available for backward compatibility.
@@ -3502,19 +3507,19 @@ extension AutoScaling {
         public var classicLinkVPCSecurityGroups: [String]?
         /// The creation date and time for the launch configuration.
         public let createdTime: Date?
-        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux Instances.
+        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide.
         public let ebsOptimized: Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see IAM role for applications that run on Amazon EC2 instances in the Amazon EC2 Auto Scaling User Guide.
         public let iamInstanceProfile: String?
-        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. For more information, see Find a Linux AMI in the Amazon EC2 User Guide for Linux Instances.
+        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. For more information, see Find a Linux AMI in the Amazon EC2 User Guide.
         public let imageId: String?
         /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. For more information, see Configure monitoring for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMonitoring: InstanceMonitoring?
-        /// The instance type for the instances. For information about available instance types, see Available instance types in the Amazon EC2 User Guide for Linux Instances.
+        /// The instance type for the instances. For information about available instance types, see Available instance types in the Amazon EC2 User Guide.
         public let instanceType: String?
         /// The ID of the kernel associated with the AMI.
         public let kernelId: String?
-        /// The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide for Linux Instances.
+        /// The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide.
         public let keyName: String?
         /// The Amazon Resource Name (ARN) of the launch configuration.
         public let launchConfigurationARN: String?
@@ -3531,7 +3536,7 @@ extension AutoScaling {
         public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Requesting Spot Instances for fault-tolerant and flexible applications in the Amazon EC2 Auto Scaling User Guide.
         public let spotPrice: String?
-        /// The user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data (Linux) and Instance metadata and user data (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
+        /// The user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data in the Amazon EC2 User Guide. If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public let userData: String?
 
         @inlinable
@@ -3682,7 +3687,7 @@ extension AutoScaling {
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The instance requirements. Amazon EC2 Auto Scaling uses your specified requirements to identify instance types. Then, it uses your On-Demand and Spot allocation strategies to launch instances from these instance types. You can specify up to four separate sets of instance requirements per Auto Scaling group. This is useful for provisioning instances from different Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this, create the AMIs and create a new launch template for each AMI. Then, create a compatible set of instance requirements for each launch template.   If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
-        /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon EC2 User Guide for Linux Instances. You can specify up to 40 instance types per Auto Scaling group.
+        /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon EC2 User Guide. You can specify up to 40 instance types per Auto Scaling group.
         public let instanceType: String?
         /// Provides a launch template for the specified instance type or set of instance requirements. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's specified in the LaunchTemplate definition. For more information, see Specifying a different launch template for an instance type in the Amazon EC2 Auto Scaling User Guide.  You can specify up to 20 launch templates per Auto Scaling group. The launch templates specified in the overrides and in the LaunchTemplate definition count towards this limit.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
@@ -5756,7 +5761,7 @@ extension AutoScaling {
         public let mixedInstancesPolicy: MixedInstancesPolicy?
         /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
-        /// The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
+        /// The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see Placement groups in the Amazon EC2 User Guide.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?

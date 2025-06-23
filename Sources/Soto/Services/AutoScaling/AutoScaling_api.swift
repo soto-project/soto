@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS AutoScaling service.
 ///
-/// Amazon EC2 Auto Scaling Amazon EC2 Auto Scaling is designed to automatically launch and terminate EC2 instances based on user-defined scaling policies, scheduled actions, and health checks. For more information, see the Amazon EC2 Auto Scaling User Guide and the Amazon EC2 Auto Scaling API Reference.
+/// Amazon EC2 Auto Scaling The DescribeAutoScalingGroups API operation might be throttled when retrieving details for an Auto Scaling group that contains many instances. By default, this operation returns details for all instances in the group.  To help prevent throttling, you can set the IncludeInstances parameter to false to exclude instance details from the response. Amazon EC2 Auto Scaling is designed to automatically launch and terminate EC2 instances based on user-defined scaling policies, scheduled actions, and health checks. For more information, see the Amazon EC2 Auto Scaling User Guide and the Amazon EC2 Auto Scaling API Reference.
 public struct AutoScaling: AWSService {
     // MARK: Member variables
 
@@ -398,7 +398,7 @@ public struct AutoScaling: AWSService {
     ///   - minSize: The minimum size of the group.
     ///   - mixedInstancesPolicy: The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
     ///   - newInstancesProtectedFromScaleIn: Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
-    ///   - placementGroup: The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
+    ///   - placementGroup: The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     ///   - serviceLinkedRoleARN: The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
     ///   - skipZonalShiftValidation:  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
     ///   - tags: One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see Tag Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide.
@@ -497,21 +497,21 @@ public struct AutoScaling: AWSService {
     ///
     /// Parameters:
     ///   - associatePublicIpAddress: Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. If you specify true, each instance in the Auto Scaling group receives a unique public IPv4 address. For more information, see Provide network connectivity for your Auto Scaling instances using Amazon VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
-    ///   - blockDeviceMappings: The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide for Linux Instances.
+    ///   - blockDeviceMappings: The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide.
     ///   - classicLinkVPCId: Available for backward compatibility.
     ///   - classicLinkVPCSecurityGroups: Available for backward compatibility.
-    ///   - ebsOptimized: Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux Instances. The default value is false.
+    ///   - ebsOptimized: Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide. The default value is false.
     ///   - iamInstanceProfile: The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see IAM role for applications that run on Amazon EC2 instances in the Amazon EC2 Auto Scaling User Guide.
-    ///   - imageId: The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see Find a Linux AMI in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an ImageId is not required.
+    ///   - imageId: The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see Find a Linux AMI in the Amazon EC2 User Guide. If you specify InstanceId, an ImageId is not required.
     ///   - instanceId: The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, except for the block device mapping. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Create a launch configuration in the Amazon EC2 Auto Scaling User Guide.
     ///   - instanceMonitoring: Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. The default value is true (enabled).  When detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your account is charged a fee. When you disable detailed monitoring, CloudWatch generates metrics every 5 minutes. For more information, see Configure monitoring for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
-    ///   - instanceType: Specifies the instance type of the EC2 instance. For information about available instance types, see Available instance types in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an InstanceType is not required.
-    ///   - kernelId: The ID of the kernel associated with the AMI.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide for Linux Instances.
-    ///   - keyName: The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide for Linux Instances.
+    ///   - instanceType: Specifies the instance type of the EC2 instance. For information about available instance types, see Available instance types in the Amazon EC2 User Guide. If you specify InstanceId, an InstanceType is not required.
+    ///   - kernelId: The ID of the kernel associated with the AMI.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide.
+    ///   - keyName: The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide.
     ///   - launchConfigurationName: The name of the launch configuration. This name must be unique per Region per account.
     ///   - metadataOptions: The metadata options for the instances. For more information, see Configure the instance metadata options in the Amazon EC2 Auto Scaling User Guide.
     ///   - placementTenancy: The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this property to dedicated. If you specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when you create your group. Valid values: default | dedicated
-    ///   - ramdiskId: The ID of the RAM disk to select.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide for Linux Instances.
+    ///   - ramdiskId: The ID of the RAM disk to select.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide.
     ///   - securityGroups: A list that contains the security group IDs to assign to the instances in the Auto Scaling group. For more information, see Control traffic to your Amazon Web Services resources using security groups in the Amazon Virtual Private Cloud User Guide.
     ///   - spotPrice: The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Request Spot Instances for fault-tolerant and flexible applications in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 0.001  When you change your maximum price by creating a new launch configuration, running instances will continue to run as long as the maximum price for those running instances is higher than the current Spot price.
     ///   - userData: The user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data (Linux) and Instance metadata and user data (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
@@ -886,6 +886,7 @@ public struct AutoScaling: AWSService {
     /// Parameters:
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
+    ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
     ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
@@ -893,6 +894,7 @@ public struct AutoScaling: AWSService {
     public func describeAutoScalingGroups(
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
+        includeInstances: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -900,6 +902,7 @@ public struct AutoScaling: AWSService {
         let input = AutoScalingGroupNamesType(
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
+            includeInstances: includeInstances, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -2387,7 +2390,7 @@ public struct AutoScaling: AWSService {
     ///   - minSize: The minimum size of the Auto Scaling group.
     ///   - mixedInstancesPolicy: The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
     ///   - newInstancesProtectedFromScaleIn: Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
-    ///   - placementGroup: The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
+    ///   - placementGroup: The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see Placement groups in the Amazon EC2 User Guide.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     ///   - serviceLinkedRoleARN: The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
     ///   - skipZonalShiftValidation:  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
     ///   - terminationPolicies: A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
@@ -2491,18 +2494,21 @@ extension AutoScaling {
     /// - Parameters:
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
+    ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
     ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeAutoScalingGroupsPaginator(
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
+        includeInstances: Bool? = nil,
         maxRecords: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<AutoScalingGroupNamesType, AutoScalingGroupsType> {
         let input = AutoScalingGroupNamesType(
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
+            includeInstances: includeInstances, 
             maxRecords: maxRecords
         )
         return self.describeAutoScalingGroupsPaginator(input, logger: logger)
@@ -2986,6 +2992,7 @@ extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateToken {
         return .init(
             autoScalingGroupNames: self.autoScalingGroupNames,
             filters: self.filters,
+            includeInstances: self.includeInstances,
             maxRecords: self.maxRecords,
             nextToken: token
         )
@@ -3163,6 +3170,7 @@ extension AutoScaling {
     /// - Parameters:
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
+    ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
     ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger used for logging
@@ -3170,6 +3178,7 @@ extension AutoScaling {
     public func waitUntilGroupExists(
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
+        includeInstances: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3177,6 +3186,7 @@ extension AutoScaling {
         let input = AutoScalingGroupNamesType(
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
+            includeInstances: includeInstances, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -3209,6 +3219,7 @@ extension AutoScaling {
     /// - Parameters:
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
+    ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
     ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger used for logging
@@ -3216,6 +3227,7 @@ extension AutoScaling {
     public func waitUntilGroupInService(
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
+        includeInstances: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3223,6 +3235,7 @@ extension AutoScaling {
         let input = AutoScalingGroupNamesType(
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
+            includeInstances: includeInstances, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -3255,6 +3268,7 @@ extension AutoScaling {
     /// - Parameters:
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
+    ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
     ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger used for logging
@@ -3262,6 +3276,7 @@ extension AutoScaling {
     public func waitUntilGroupNotExists(
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
+        includeInstances: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3269,6 +3284,7 @@ extension AutoScaling {
         let input = AutoScalingGroupNamesType(
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
+            includeInstances: includeInstances, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )

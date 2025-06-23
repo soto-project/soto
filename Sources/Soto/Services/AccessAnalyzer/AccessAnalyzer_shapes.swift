@@ -139,10 +139,17 @@ extension AccessAnalyzer {
 
     public enum FindingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case externalAccess = "ExternalAccess"
+        case internalAccess = "InternalAccess"
         case unusedIAMRole = "UnusedIAMRole"
         case unusedIAMUserAccessKey = "UnusedIAMUserAccessKey"
         case unusedIAMUserPassword = "UnusedIAMUserPassword"
         case unusedPermission = "UnusedPermission"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InternalAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case intraAccount = "INTRA_ACCOUNT"
+        case intraOrg = "INTRA_ORG"
         public var description: String { return self.rawValue }
     }
 
@@ -208,6 +215,12 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iamRole = "IAM_ROLE"
+        case iamUser = "IAM_USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsServiceAccessDisabled = "AWS_SERVICE_ACCESS_DISABLED"
         case delegatedAdministratorDeregistered = "DELEGATED_ADMINISTRATOR_DEREGISTERED"
@@ -229,6 +242,7 @@ extension AccessAnalyzer {
 
     public enum ResourceControlPolicyRestriction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applicable = "APPLICABLE"
+        case applied = "APPLIED"
         case failedToEvaluateRcp = "FAILED_TO_EVALUATE_RCP"
         case notApplicable = "NOT_APPLICABLE"
         public var description: String { return self.rawValue }
@@ -252,6 +266,14 @@ extension AccessAnalyzer {
         case awsSNSTopic = "AWS::SNS::Topic"
         case awsSQSQueue = "AWS::SQS::Queue"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceControlPolicyRestriction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicable = "APPLICABLE"
+        case applied = "APPLIED"
+        case failedToEvaluateScp = "FAILED_TO_EVALUATE_SCP"
+        case notApplicable = "NOT_APPLICABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -291,8 +313,10 @@ extension AccessAnalyzer {
 
     public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
+        case accountInternalAccess = "ACCOUNT_INTERNAL_ACCESS"
         case accountUnusedAccess = "ACCOUNT_UNUSED_ACCESS"
         case organization = "ORGANIZATION"
+        case organizationInternalAccess = "ORGANIZATION_INTERNAL_ACCESS"
         case organizationUnusedAccess = "ORGANIZATION_UNUSED_ACCESS"
         public var description: String { return self.rawValue }
     }
@@ -335,6 +359,47 @@ extension AccessAnalyzer {
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case uri = "uri"
+        }
+    }
+
+    public enum AnalyzerConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Specifies the configuration of an internal access analyzer for an Amazon Web Services organization or account. This configuration determines how the analyzer evaluates access within your Amazon Web Services environment.
+        case internalAccess(InternalAccessConfiguration)
+        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account.
+        case unusedAccess(UnusedAccessConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .internalAccess:
+                let value = try container.decode(InternalAccessConfiguration.self, forKey: .internalAccess)
+                self = .internalAccess(value)
+            case .unusedAccess:
+                let value = try container.decode(UnusedAccessConfiguration.self, forKey: .unusedAccess)
+                self = .unusedAccess(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .internalAccess(let value):
+                try container.encode(value, forKey: .internalAccess)
+            case .unusedAccess(let value):
+                try container.encode(value, forKey: .unusedAccess)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case internalAccess = "internalAccess"
+            case unusedAccess = "unusedAccess"
         }
     }
 
@@ -491,6 +556,8 @@ extension AccessAnalyzer {
     public enum FindingDetails: AWSDecodableShape, Sendable {
         /// The details for an external access analyzer finding.
         case externalAccessDetails(ExternalAccessDetails)
+        /// The details for an internal access analyzer finding. This contains information about access patterns identified within your Amazon Web Services organization or account.
+        case internalAccessDetails(InternalAccessDetails)
         /// The details for an unused access analyzer finding with an unused IAM role finding type.
         case unusedIamRoleDetails(UnusedIamRoleDetails)
         /// The details for an unused access analyzer finding with an unused IAM user access key finding type.
@@ -513,6 +580,9 @@ extension AccessAnalyzer {
             case .externalAccessDetails:
                 let value = try container.decode(ExternalAccessDetails.self, forKey: .externalAccessDetails)
                 self = .externalAccessDetails(value)
+            case .internalAccessDetails:
+                let value = try container.decode(InternalAccessDetails.self, forKey: .internalAccessDetails)
+                self = .internalAccessDetails(value)
             case .unusedIamRoleDetails:
                 let value = try container.decode(UnusedIamRoleDetails.self, forKey: .unusedIamRoleDetails)
                 self = .unusedIamRoleDetails(value)
@@ -530,6 +600,7 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case externalAccessDetails = "externalAccessDetails"
+            case internalAccessDetails = "internalAccessDetails"
             case unusedIamRoleDetails = "unusedIamRoleDetails"
             case unusedIamUserAccessKeyDetails = "unusedIamUserAccessKeyDetails"
             case unusedIamUserPasswordDetails = "unusedIamUserPasswordDetails"
@@ -540,6 +611,8 @@ extension AccessAnalyzer {
     public enum FindingsStatistics: AWSDecodableShape, Sendable {
         /// The aggregate statistics for an external access analyzer.
         case externalAccessFindingsStatistics(ExternalAccessFindingsStatistics)
+        /// The aggregate statistics for an internal access analyzer. This includes information about active, archived, and resolved findings related to internal access within your Amazon Web Services organization or account.
+        case internalAccessFindingsStatistics(InternalAccessFindingsStatistics)
         /// The aggregate statistics for an unused access analyzer.
         case unusedAccessFindingsStatistics(UnusedAccessFindingsStatistics)
 
@@ -556,6 +629,9 @@ extension AccessAnalyzer {
             case .externalAccessFindingsStatistics:
                 let value = try container.decode(ExternalAccessFindingsStatistics.self, forKey: .externalAccessFindingsStatistics)
                 self = .externalAccessFindingsStatistics(value)
+            case .internalAccessFindingsStatistics:
+                let value = try container.decode(InternalAccessFindingsStatistics.self, forKey: .internalAccessFindingsStatistics)
+                self = .internalAccessFindingsStatistics(value)
             case .unusedAccessFindingsStatistics:
                 let value = try container.decode(UnusedAccessFindingsStatistics.self, forKey: .unusedAccessFindingsStatistics)
                 self = .unusedAccessFindingsStatistics(value)
@@ -564,6 +640,7 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case externalAccessFindingsStatistics = "externalAccessFindingsStatistics"
+            case internalAccessFindingsStatistics = "internalAccessFindingsStatistics"
             case unusedAccessFindingsStatistics = "unusedAccessFindingsStatistics"
         }
     }
@@ -954,7 +1031,7 @@ extension AccessAnalyzer {
     public struct AnalyzerSummary: AWSDecodableShape {
         /// The ARN of the analyzer.
         public let arn: String
-        /// Specifies whether the analyzer is an external access or unused access analyzer.
+        /// Specifies if the analyzer is an external access, unused access, or internal access analyzer.
         public let configuration: AnalyzerConfiguration?
         /// A timestamp for the time at which the analyzer was created.
         @CustomCoding<ISO8601DateCoder>
@@ -1346,11 +1423,11 @@ extension AccessAnalyzer {
         public let archiveRules: [InlineArchiveRule]?
         /// A client token.
         public let clientToken: String?
-        /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration.
+        /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration. If the analyzer is an internal access analyzer, the specified internal access analysis rules are used for the configuration.
         public let configuration: AnalyzerConfiguration?
         /// An array of key-value pairs to apply to the analyzer. You can use the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. For the tag key, you can specify a value that is 1 to 128 characters in length and cannot be prefixed with aws:. For the tag value, you can specify a value that is 0 to 256 characters in length.
         public let tags: [String: String]?
-        /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
+        /// The type of analyzer to create. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
         public let type: `Type`
 
         @inlinable
@@ -1627,7 +1704,7 @@ extension AccessAnalyzer {
         public let isPublic: Bool?
         /// The external principal that has access to a resource within the zone of trust.
         public let principal: [String: String]?
-        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).    APPLICABLE: There is an RCP present in the organization but IAM Access Analyzer does not include it in the evaluation of effective permissions. For example, if s3:DeleteObject is blocked by the RCP and the restriction is APPLICABLE, then s3:DeleteObject would still be included in the list of actions for the finding.    FAILED_TO_EVALUATE_RCP: There was an error evaluating the RCP.    NOT_APPLICABLE: There was no RCP present in the organization, or there was no RCP applicable to the resource. For example, the resource being analyzed is an Amazon RDS snapshot and there is an RCP in the organization, but the RCP only impacts Amazon S3 buckets.    APPLIED: This restriction is not currently available for external access findings.
         public let resourceControlPolicyRestriction: ResourceControlPolicyRestriction?
         /// The sources of the external access finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
         public let sources: [FindingSource]?
@@ -1891,7 +1968,7 @@ extension AccessAnalyzer {
         public var createdAt: Date
         /// The error that resulted in an Error finding.
         public let error: String?
-        /// The type of the external access or unused access finding.
+        /// The type of the access finding. For external access analyzers, the type is ExternalAccess. For unused access analyzers, the type can be UnusedIAMRole, UnusedIAMUserAccessKey, UnusedIAMUserPassword, or UnusedPermission. For internal access analyzers, the type is InternalAccess.
         public let findingType: FindingType?
         /// The ID of the finding.
         public let id: String
@@ -2342,7 +2419,7 @@ extension AccessAnalyzer {
         public let error: String?
         /// A localized message that explains the finding and provides guidance on how to address it.
         public let findingDetails: [FindingDetails]
-        /// The type of the finding. For external access analyzers, the type is ExternalAccess. For unused access analyzers, the type can be UnusedIAMRole, UnusedIAMUserAccessKey, UnusedIAMUserPassword, or UnusedPermission.
+        /// The type of the finding. For external access analyzers, the type is ExternalAccess. For unused access analyzers, the type can be UnusedIAMRole, UnusedIAMUserAccessKey, UnusedIAMUserPassword, or UnusedPermission. For internal access analyzers, the type is InternalAccess.
         public let findingType: FindingType?
         /// The ID of the finding to retrieve.
         public let id: String
@@ -2511,6 +2588,150 @@ extension AccessAnalyzer {
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case ruleName = "ruleName"
+        }
+    }
+
+    public struct InternalAccessAnalysisRule: AWSEncodableShape & AWSDecodableShape {
+        /// A list of rules for the internal access analyzer containing criteria to include in analysis. Only resources that meet the rule criteria will generate findings.
+        public let inclusions: [InternalAccessAnalysisRuleCriteria]?
+
+        @inlinable
+        public init(inclusions: [InternalAccessAnalysisRuleCriteria]? = nil) {
+            self.inclusions = inclusions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inclusions = "inclusions"
+        }
+    }
+
+    public struct InternalAccessAnalysisRuleCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// A list of Amazon Web Services account IDs to apply to the internal access analysis rule criteria. Account IDs can only be applied to the analysis rule criteria for organization-level analyzers.
+        public let accountIds: [String]?
+        /// A list of resource ARNs to apply to the internal access analysis rule criteria. The analyzer will only generate findings for resources that match these ARNs.
+        public let resourceArns: [String]?
+        /// A list of resource types to apply to the internal access analysis rule criteria. The analyzer will only generate findings for resources of these types. These resource types are currently supported for internal access analyzers:    AWS::S3::Bucket     AWS::RDS::DBSnapshot     AWS::RDS::DBClusterSnapshot     AWS::S3Express::DirectoryBucket     AWS::DynamoDB::Table     AWS::DynamoDB::Stream
+        public let resourceTypes: [ResourceType]?
+
+        @inlinable
+        public init(accountIds: [String]? = nil, resourceArns: [String]? = nil, resourceTypes: [ResourceType]? = nil) {
+            self.accountIds = accountIds
+            self.resourceArns = resourceArns
+            self.resourceTypes = resourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case resourceArns = "resourceArns"
+            case resourceTypes = "resourceTypes"
+        }
+    }
+
+    public struct InternalAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about analysis rules for the internal access analyzer. These rules determine which resources and access patterns will be analyzed.
+        public let analysisRule: InternalAccessAnalysisRule?
+
+        @inlinable
+        public init(analysisRule: InternalAccessAnalysisRule? = nil) {
+            self.analysisRule = analysisRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisRule = "analysisRule"
+        }
+    }
+
+    public struct InternalAccessDetails: AWSDecodableShape {
+        /// The type of internal access identified in the finding. This indicates how the access is granted within your Amazon Web Services environment.
+        public let accessType: InternalAccessType?
+        /// The action in the analyzed policy statement that has internal access permission to use.
+        public let action: [String]?
+        /// The condition in the analyzed policy statement that resulted in an internal access finding.
+        public let condition: [String: String]?
+        /// The principal that has access to a resource within the internal environment.
+        public let principal: [String: String]?
+        /// The Amazon Web Services account ID that owns the principal identified in the internal access finding.
+        public let principalOwnerAccount: String?
+        /// The type of principal identified in the internal access finding, such as IAM role or IAM user.
+        public let principalType: PrincipalType?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).    APPLICABLE: There is an RCP present in the organization but IAM Access Analyzer does not include it in the evaluation of effective permissions. For example, if s3:DeleteObject is blocked by the RCP and the restriction is APPLICABLE, then s3:DeleteObject would still be included in the list of actions for the finding. Only applicable to internal access findings with the account as the zone of trust.     FAILED_TO_EVALUATE_RCP: There was an error evaluating the RCP.    NOT_APPLICABLE: There was no RCP present in the organization. For internal access findings with the account as the zone of trust, NOT_APPLICABLE could also indicate that there was no RCP applicable to the resource.    APPLIED: An RCP is present in the organization and IAM Access Analyzer included it in the evaluation of effective permissions. For example, if s3:DeleteObject is blocked by the RCP and the restriction is APPLIED, then s3:DeleteObject would not be included in the list of actions for the finding. Only applicable to internal access findings with the organization as the zone of trust.
+        public let resourceControlPolicyRestriction: ResourceControlPolicyRestriction?
+        /// The type of restriction applied to the finding by an Organizations service control policy (SCP).    APPLICABLE: There is an SCP present in the organization but IAM Access Analyzer does not include it in the evaluation of effective permissions. Only applicable to internal access findings with the account as the zone of trust.     FAILED_TO_EVALUATE_SCP: There was an error evaluating the SCP.    NOT_APPLICABLE: There was no SCP present in the organization. For internal access findings with the account as the zone of trust, NOT_APPLICABLE could also indicate that there was no SCP applicable to the principal.    APPLIED: An SCP is present in the organization and IAM Access Analyzer included it in the evaluation of effective permissions. Only applicable to internal access findings with the organization as the zone of trust.
+        public let serviceControlPolicyRestriction: ServiceControlPolicyRestriction?
+        /// The sources of the internal access finding. This indicates how the access that generated the finding is granted within your Amazon Web Services environment.
+        public let sources: [FindingSource]?
+
+        @inlinable
+        public init(accessType: InternalAccessType? = nil, action: [String]? = nil, condition: [String: String]? = nil, principal: [String: String]? = nil, principalOwnerAccount: String? = nil, principalType: PrincipalType? = nil, resourceControlPolicyRestriction: ResourceControlPolicyRestriction? = nil, serviceControlPolicyRestriction: ServiceControlPolicyRestriction? = nil, sources: [FindingSource]? = nil) {
+            self.accessType = accessType
+            self.action = action
+            self.condition = condition
+            self.principal = principal
+            self.principalOwnerAccount = principalOwnerAccount
+            self.principalType = principalType
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
+            self.serviceControlPolicyRestriction = serviceControlPolicyRestriction
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessType = "accessType"
+            case action = "action"
+            case condition = "condition"
+            case principal = "principal"
+            case principalOwnerAccount = "principalOwnerAccount"
+            case principalType = "principalType"
+            case resourceControlPolicyRestriction = "resourceControlPolicyRestriction"
+            case serviceControlPolicyRestriction = "serviceControlPolicyRestriction"
+            case sources = "sources"
+        }
+    }
+
+    public struct InternalAccessFindingsStatistics: AWSDecodableShape {
+        /// The total number of active findings for each resource type of the specified internal access analyzer.
+        public let resourceTypeStatistics: [ResourceType: InternalAccessResourceTypeDetails]?
+        /// The number of active findings for the specified internal access analyzer.
+        public let totalActiveFindings: Int?
+        /// The number of archived findings for the specified internal access analyzer.
+        public let totalArchivedFindings: Int?
+        /// The number of resolved findings for the specified internal access analyzer.
+        public let totalResolvedFindings: Int?
+
+        @inlinable
+        public init(resourceTypeStatistics: [ResourceType: InternalAccessResourceTypeDetails]? = nil, totalActiveFindings: Int? = nil, totalArchivedFindings: Int? = nil, totalResolvedFindings: Int? = nil) {
+            self.resourceTypeStatistics = resourceTypeStatistics
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTypeStatistics = "resourceTypeStatistics"
+            case totalActiveFindings = "totalActiveFindings"
+            case totalArchivedFindings = "totalArchivedFindings"
+            case totalResolvedFindings = "totalResolvedFindings"
+        }
+    }
+
+    public struct InternalAccessResourceTypeDetails: AWSDecodableShape {
+        /// The total number of active findings for the resource type in the internal access analyzer.
+        public let totalActiveFindings: Int?
+        /// The total number of archived findings for the resource type in the internal access analyzer.
+        public let totalArchivedFindings: Int?
+        /// The total number of resolved findings for the resource type in the internal access analyzer.
+        public let totalResolvedFindings: Int?
+
+        @inlinable
+        public init(totalActiveFindings: Int? = nil, totalArchivedFindings: Int? = nil, totalResolvedFindings: Int? = nil) {
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalActiveFindings = "totalActiveFindings"
+            case totalArchivedFindings = "totalArchivedFindings"
+            case totalResolvedFindings = "totalResolvedFindings"
         }
     }
 
@@ -4229,20 +4450,6 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case vpcId = "vpcId"
-        }
-    }
-
-    public struct AnalyzerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account.
-        public let unusedAccess: UnusedAccessConfiguration?
-
-        @inlinable
-        public init(unusedAccess: UnusedAccessConfiguration? = nil) {
-            self.unusedAccess = unusedAccess
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unusedAccess = "unusedAccess"
         }
     }
 

@@ -211,6 +211,10 @@ extension ECR {
         public let imageHash: String?
         /// The image tags attached to the Amazon ECR container image.
         public let imageTags: [String]?
+        /// The number of Amazon ECS or Amazon EKS clusters currently running the image.
+        public let inUseCount: Int64?
+        /// The most recent date and time a cluster was running the image.
+        public let lastInUseAt: Date?
         /// The platform of the Amazon ECR container image.
         public let platform: String?
         /// The date and time the Amazon ECR container image was pushed.
@@ -221,11 +225,13 @@ extension ECR {
         public let repositoryName: String?
 
         @inlinable
-        public init(architecture: String? = nil, author: String? = nil, imageHash: String? = nil, imageTags: [String]? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String? = nil, repositoryName: String? = nil) {
+        public init(architecture: String? = nil, author: String? = nil, imageHash: String? = nil, imageTags: [String]? = nil, inUseCount: Int64? = nil, lastInUseAt: Date? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String? = nil, repositoryName: String? = nil) {
             self.architecture = architecture
             self.author = author
             self.imageHash = imageHash
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.platform = platform
             self.pushedAt = pushedAt
             self.registry = registry
@@ -237,6 +243,8 @@ extension ECR {
             case author = "author"
             case imageHash = "imageHash"
             case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
             case platform = "platform"
             case pushedAt = "pushedAt"
             case registry = "registry"
@@ -524,7 +532,7 @@ extension ECR {
         public let registryId: String?
         /// The name of the upstream registry.
         public let upstreamRegistry: UpstreamRegistry?
-        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
+        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – .dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
         public let upstreamRegistryUrl: String
         /// The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT.
         public let upstreamRepositoryPrefix: String?
@@ -1658,7 +1666,7 @@ extension ECR {
     }
 
     public struct GetAuthorizationTokenResponse: AWSDecodableShape {
-        /// A list of authorization token data objects that correspond to the registryIds values in the request.
+        /// A list of authorization token data objects that correspond to the registryIds values in the request.  The size of the authorization token returned by Amazon ECR is not fixed. We recommend that you don't make assumptions about the maximum size.
         public let authorizationData: [AuthorizationData]?
 
         @inlinable
@@ -1724,7 +1732,7 @@ extension ECR {
         public let filter: LifecyclePolicyPreviewFilter?
         /// The list of imageIDs to be included.
         public let imageIds: [ImageIdentifier]?
-        /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 1000. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to  100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
+        /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 100. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to 100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated  GetLifecyclePolicyPreviewRequest request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the  previous results that returned the nextToken value. This value is  null when there are no more results to return. This option cannot be used when you specify images with imageIds.
         public let nextToken: String?
@@ -1990,7 +1998,7 @@ extension ECR {
         public let imageScanFindingsSummary: ImageScanFindingsSummary?
         /// The current state of the scan.
         public let imageScanStatus: ImageScanStatus?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image sizes returned by DescribeImages.
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
         public let imageSizeInBytes: Int64?
         /// The list of tags associated with this image.
         public let imageTags: [String]?

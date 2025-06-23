@@ -109,16 +109,19 @@ public struct EMRServerless: AWSService {
     /// Parameters:
     ///   - applicationId: The ID of the application on which the job run will be canceled.
     ///   - jobRunId: The ID of the job run to cancel.
+    ///   - shutdownGracePeriodInSeconds: The duration in seconds to wait before forcefully terminating the job after cancellation is requested.
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelJobRun(
         applicationId: String,
         jobRunId: String,
+        shutdownGracePeriodInSeconds: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CancelJobRunResponse {
         let input = CancelJobRunRequest(
             applicationId: applicationId, 
-            jobRunId: jobRunId
+            jobRunId: jobRunId, 
+            shutdownGracePeriodInSeconds: shutdownGracePeriodInSeconds
         )
         return try await self.cancelJobRun(input, logger: logger)
     }
@@ -143,15 +146,16 @@ public struct EMRServerless: AWSService {
     ///   - autoStartConfiguration: The configuration for an application to automatically start on job submission.
     ///   - autoStopConfiguration: The configuration for an application to automatically stop after a certain amount of time being idle.
     ///   - clientToken: The client idempotency token of the application to create. Its value must be unique for each request.
+    ///   - identityCenterConfiguration: The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     ///   - imageConfiguration: The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
     ///   - initialCapacity: The capacity to initialize when the application is created.
-    ///   - interactiveConfiguration: The interactive configuration object that enables the interactive use cases  to use when running an application.
+    ///   - interactiveConfiguration: The interactive configuration object that enables the interactive use cases to use when running an application.
     ///   - maximumCapacity: The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
     ///   - monitoringConfiguration: The configuration setting for monitoring.
     ///   - name: The name of the application.
     ///   - networkConfiguration: The network configuration for customer VPC connectivity.
     ///   - releaseLabel: The Amazon EMR release associated with the application.
-    ///   - runtimeConfiguration: The Configuration  specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
+    ///   - runtimeConfiguration: The Configuration specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
     ///   - schedulerConfiguration: The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
     ///   - tags: The tags assigned to the application.
     ///   - type: The type of application you want to start, such as Spark or Hive.
@@ -163,6 +167,7 @@ public struct EMRServerless: AWSService {
         autoStartConfiguration: AutoStartConfig? = nil,
         autoStopConfiguration: AutoStopConfig? = nil,
         clientToken: String = CreateApplicationRequest.idempotencyToken(),
+        identityCenterConfiguration: IdentityCenterConfigurationInput? = nil,
         imageConfiguration: ImageConfigurationInput? = nil,
         initialCapacity: [String: InitialCapacityConfig]? = nil,
         interactiveConfiguration: InteractiveConfiguration? = nil,
@@ -183,6 +188,7 @@ public struct EMRServerless: AWSService {
             autoStartConfiguration: autoStartConfiguration, 
             autoStopConfiguration: autoStopConfiguration, 
             clientToken: clientToken, 
+            identityCenterConfiguration: identityCenterConfiguration, 
             imageConfiguration: imageConfiguration, 
             initialCapacity: initialCapacity, 
             interactiveConfiguration: interactiveConfiguration, 
@@ -528,6 +534,7 @@ public struct EMRServerless: AWSService {
     ///   - applicationId: The ID of the application on which to run the job.
     ///   - clientToken: The client idempotency token of the job run to start. Its value must be unique for each request.
     ///   - configurationOverrides: The configuration overrides for the job run.
+    ///   - executionIamPolicy: You can pass an optional IAM policy. The resulting job IAM role permissions will be an intersection of this policy and the policy associated with your job execution role.
     ///   - executionRoleArn: The execution role ARN for the job run.
     ///   - executionTimeoutMinutes: The maximum duration for the job run to run. If the job run runs beyond this duration, it will be automatically cancelled.
     ///   - jobDriver: The job driver for the job run.
@@ -541,6 +548,7 @@ public struct EMRServerless: AWSService {
         applicationId: String,
         clientToken: String = StartJobRunRequest.idempotencyToken(),
         configurationOverrides: ConfigurationOverrides? = nil,
+        executionIamPolicy: JobRunExecutionIamPolicy? = nil,
         executionRoleArn: String,
         executionTimeoutMinutes: Int64? = nil,
         jobDriver: JobDriver? = nil,
@@ -554,6 +562,7 @@ public struct EMRServerless: AWSService {
             applicationId: applicationId, 
             clientToken: clientToken, 
             configurationOverrides: configurationOverrides, 
+            executionIamPolicy: executionIamPolicy, 
             executionRoleArn: executionRoleArn, 
             executionTimeoutMinutes: executionTimeoutMinutes, 
             jobDriver: jobDriver, 
@@ -679,14 +688,15 @@ public struct EMRServerless: AWSService {
     ///   - autoStartConfiguration: The configuration for an application to automatically start on job submission.
     ///   - autoStopConfiguration: The configuration for an application to automatically stop after a certain amount of time being idle.
     ///   - clientToken: The client idempotency token of the application to update. Its value must be unique for each request.
+    ///   - identityCenterConfiguration: Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
     ///   - imageConfiguration: The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
     ///   - initialCapacity: The capacity to initialize when the application is updated.
-    ///   - interactiveConfiguration: The interactive configuration object that contains new interactive use cases  when the application is updated.
+    ///   - interactiveConfiguration: The interactive configuration object that contains new interactive use cases when the application is updated.
     ///   - maximumCapacity: The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
     ///   - monitoringConfiguration: The configuration setting for monitoring.
     ///   - networkConfiguration: 
     ///   - releaseLabel: The Amazon EMR release label for the application. You can change the release label to use a different release of Amazon EMR.
-    ///   - runtimeConfiguration: The Configuration  specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
+    ///   - runtimeConfiguration: The Configuration specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
     ///   - schedulerConfiguration: The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
     ///   - workerTypeSpecifications: The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
     ///   - logger: Logger use during operation
@@ -697,6 +707,7 @@ public struct EMRServerless: AWSService {
         autoStartConfiguration: AutoStartConfig? = nil,
         autoStopConfiguration: AutoStopConfig? = nil,
         clientToken: String = UpdateApplicationRequest.idempotencyToken(),
+        identityCenterConfiguration: IdentityCenterConfigurationInput? = nil,
         imageConfiguration: ImageConfigurationInput? = nil,
         initialCapacity: [String: InitialCapacityConfig]? = nil,
         interactiveConfiguration: InteractiveConfiguration? = nil,
@@ -715,6 +726,7 @@ public struct EMRServerless: AWSService {
             autoStartConfiguration: autoStartConfiguration, 
             autoStopConfiguration: autoStopConfiguration, 
             clientToken: clientToken, 
+            identityCenterConfiguration: identityCenterConfiguration, 
             imageConfiguration: imageConfiguration, 
             initialCapacity: initialCapacity, 
             interactiveConfiguration: interactiveConfiguration, 

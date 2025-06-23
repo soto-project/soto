@@ -140,7 +140,7 @@ public struct Bedrock: AWSService {
 
     // MARK: API Calls
 
-    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has  following status FAILED, COMPLETED, and STOPPED.  You can request up to 25 model evaluation jobs be deleted in a single request.
+    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
     @Sendable
     @inlinable
     public func batchDeleteEvaluationJob(_ input: BatchDeleteEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteEvaluationJobResponse {
@@ -153,7 +153,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has  following status FAILED, COMPLETED, and STOPPED.  You can request up to 25 model evaluation jobs be deleted in a single request.
+    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
     ///
     /// Parameters:
     ///   - jobIdentifiers: A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete.
@@ -167,6 +167,50 @@ public struct Bedrock: AWSService {
             jobIdentifiers: jobIdentifiers
         )
         return try await self.batchDeleteEvaluationJob(input, logger: logger)
+    }
+
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput. The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:    Creating - Initial state during validation and registration    Active - Model is ready for use in inference    Failed - Creation process encountered an error    Related APIs     GetCustomModel     ListCustomModels     DeleteCustomModel
+    @Sendable
+    @inlinable
+    public func createCustomModel(_ input: CreateCustomModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomModelResponse {
+        try await self.client.execute(
+            operation: "CreateCustomModel", 
+            path: "/custom-models/create-custom-model", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput. The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:    Creating - Initial state during validation and registration    Active - Model is ready for use in inference    Failed - Creation process encountered an error    Related APIs     GetCustomModel     ListCustomModels     DeleteCustomModel
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - modelKmsKeyArn: The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model.  If you provide a customer managed KMS key, your Amazon Bedrock service role must have permissions to use it. For more information see Encryption of imported models.
+    ///   - modelName: A unique name for the custom model.
+    ///   - modelSourceConfig: The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts.
+    ///   - modelTags: A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see Tagging resources in the Amazon Bedrock User Guide.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCustomModel(
+        clientRequestToken: String? = CreateCustomModelRequest.idempotencyToken(),
+        modelKmsKeyArn: String? = nil,
+        modelName: String,
+        modelSourceConfig: ModelDataSource,
+        modelTags: [Tag]? = nil,
+        roleArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCustomModelResponse {
+        let input = CreateCustomModelRequest(
+            clientRequestToken: clientRequestToken, 
+            modelKmsKeyArn: modelKmsKeyArn, 
+            modelName: modelName, 
+            modelSourceConfig: modelSourceConfig, 
+            modelTags: modelTags, 
+            roleArn: roleArn
+        )
+        return try await self.createCustomModel(input, logger: logger)
     }
 
     /// Creates an evaluation job.
@@ -189,12 +233,12 @@ public struct Bedrock: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
     ///   - customerEncryptionKeyId: Specify your customer managed encryption key Amazon Resource Name (ARN) that will be used to encrypt your evaluation job.
     ///   - evaluationConfig: Contains the configuration details of either an automated or human-based evaluation job.
-    ///   - inferenceConfig: Contains the configuration details of the inference model for the evaluation job. For model evaluation jobs, automated jobs support a single model or  inference profile, and jobs that use human workers support  two models or inference profiles.
+    ///   - inferenceConfig: Contains the configuration details of the inference model for the evaluation job. For model evaluation jobs, automated jobs support a single model or inference profile, and jobs that use human workers support two models or inference profiles.
     ///   - jobDescription: A description of the evaluation job.
-    ///   - jobName: A name for the evaluation job. Names must unique with your Amazon Web Services account,  and your account's Amazon Web Services region.
+    ///   - jobName: A name for the evaluation job. Names must unique with your Amazon Web Services account, and your account's Amazon Web Services region.
     ///   - jobTags: Tags to attach to the model evaluation job.
-    ///   - outputDataConfig: Contains the configuration details of the Amazon S3 bucket for storing the results  of the evaluation job.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can  assume to perform tasks on your behalf. To learn more about the required permissions,  see Required  permissions for model evaluations.
+    ///   - outputDataConfig: Contains the configuration details of the Amazon S3 bucket for storing the results of the evaluation job.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. To learn more about the required permissions, see Required permissions for model evaluations.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEvaluationJob(
@@ -225,7 +269,7 @@ public struct Bedrock: AWSService {
         return try await self.createEvaluationJob(input, logger: logger)
     }
 
-    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms, competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func createGuardrail(_ input: CreateGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGuardrailResponse {
@@ -238,12 +282,12 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms, competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - blockedInputMessaging: The message to return when the guardrail blocks a prompt.
     ///   - blockedOutputsMessaging: The message to return when the guardrail blocks a model response.
-    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request  completes no more than once. If this token matches a previous request,  Amazon Bedrock ignores the request, but does not return an error.  For more information, see Ensuring  idempotency in the Amazon S3 User Guide.
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide.
     ///   - contentPolicyConfig: The content filter policies to configure for the guardrail.
     ///   - contextualGroundingPolicyConfig: The contextual grounding policy configuration used to create a guardrail.
     ///   - crossRegionConfig: The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the Amazon Bedrock User Guide.
@@ -290,7 +334,7 @@ public struct Bedrock: AWSService {
         return try await self.createGuardrail(input, logger: logger)
     }
 
-    /// Creates a version of the guardrail. Use this API to create a snapshot of the  guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
+    /// Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
     @Sendable
     @inlinable
     public func createGuardrailVersion(_ input: CreateGuardrailVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGuardrailVersionResponse {
@@ -303,10 +347,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a version of the guardrail. Use this API to create a snapshot of the  guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
+    /// Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
     ///
     /// Parameters:
-    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request  completes no more than once. If this token matches a previous request,  Amazon Bedrock ignores the request, but does not return an error.  For more information, see Ensuring  idempotency in the Amazon S3 User Guide.
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide.
     ///   - description: A description of the guardrail version.
     ///   - guardrailIdentifier: The unique identifier of the guardrail. This can be an ID or the ARN.
     ///   - logger: Logger use during operation
@@ -345,7 +389,7 @@ public struct Bedrock: AWSService {
     ///   - description: A description for the inference profile.
     ///   - inferenceProfileName: A name for the inference profile.
     ///   - modelSource: The foundation model or system-defined inference profile that the inference profile will track metrics and costs for.
-    ///   - tags: An array of objects, each of which contains a tag and its value. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    ///   - tags: An array of objects, each of which contains a tag and its value. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createInferenceProfile(
@@ -451,7 +495,7 @@ public struct Bedrock: AWSService {
         return try await self.createModelCopyJob(input, logger: logger)
     }
 
-    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the  model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.  For information on the format of training and validation data, see Prepare the datasets.  Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see Custom models in the Amazon Bedrock User Guide.
+    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.  For information on the format of training and validation data, see Prepare the datasets.  Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func createModelCustomizationJob(_ input: CreateModelCustomizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelCustomizationJobResponse {
@@ -464,7 +508,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the  model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.  For information on the format of training and validation data, see Prepare the datasets.  Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see Custom models in the Amazon Bedrock User Guide.
+    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.  For information on the format of training and validation data, see Prepare the datasets.  Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see Custom models in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - baseModelIdentifier: Name of the base model.
@@ -522,7 +566,7 @@ public struct Bedrock: AWSService {
         return try await self.createModelCustomizationJob(input, logger: logger)
     }
 
-    /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information,  see Import a customized model
+    /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
     @Sendable
     @inlinable
     public func createModelImportJob(_ input: CreateModelImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelImportJobResponse {
@@ -535,10 +579,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information,  see Import a customized model
+    /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
     ///
     /// Parameters:
-    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information,  see Ensuring idempotency.
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
     ///   - importedModelKmsKeyId: The imported model is encrypted at rest using this key.
     ///   - importedModelName: The name of the imported model.
     ///   - importedModelTags: Tags to attach to the imported model.
@@ -764,7 +808,7 @@ public struct Bedrock: AWSService {
     /// Deletes a guardrail.   To delete a guardrail, only specify the ARN of the guardrail in the guardrailIdentifier field. If you delete a guardrail, all of its versions will be deleted.   To delete a version of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field and the version in the guardrailVersion field.
     ///
     /// Parameters:
-    ///   - guardrailIdentifier: The unique identifier of the guardrail.  This can be an ID or the ARN.
+    ///   - guardrailIdentifier: The unique identifier of the guardrail. This can be an ID or the ARN.
     ///   - guardrailVersion: The version of the guardrail.
     ///   - logger: Logger use during operation
     @inlinable
@@ -780,7 +824,7 @@ public struct Bedrock: AWSService {
         return try await self.deleteGuardrail(input, logger: logger)
     }
 
-    /// Deletes a custom model that you imported earlier. For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func deleteImportedModel(_ input: DeleteImportedModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImportedModelResponse {
@@ -793,7 +837,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Deletes a custom model that you imported earlier. For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - modelIdentifier: Name of the imported model to delete.
@@ -980,7 +1024,7 @@ public struct Bedrock: AWSService {
         return try await self.deregisterMarketplaceModelEndpoint(input, logger: logger)
     }
 
-    /// Get the properties associated with a Amazon Bedrock custom model that you have created.For more information, see Custom models in the Amazon Bedrock User Guide.
+    /// Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func getCustomModel(_ input: GetCustomModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomModelResponse {
@@ -993,7 +1037,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Get the properties associated with a Amazon Bedrock custom model that you have created.For more information, see Custom models in the Amazon Bedrock User Guide.
+    /// Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - modelIdentifier: Name or Amazon Resource Name (ARN) of the custom model.
@@ -1083,7 +1127,7 @@ public struct Bedrock: AWSService {
     /// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version.
     ///
     /// Parameters:
-    ///   - guardrailIdentifier: The unique identifier of the guardrail for which to get details.  This can be an ID or the ARN.
+    ///   - guardrailIdentifier: The unique identifier of the guardrail for which to get details. This can be an ID or the ARN.
     ///   - guardrailVersion: The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1244,7 +1288,7 @@ public struct Bedrock: AWSService {
         return try await self.getModelCustomizationJob(input, logger: logger)
     }
 
-    /// Retrieves the properties associated with import model job, including the status of the  job. For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func getModelImportJob(_ input: GetModelImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelImportJobResponse {
@@ -1257,7 +1301,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the properties associated with import model job, including the status of the  job. For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - jobIdentifier: The identifier of the import job.
@@ -1408,6 +1452,7 @@ public struct Bedrock: AWSService {
     ///   - foundationModelArnEquals: Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
     ///   - isOwned: Return custom models depending on if the current account owns them (true) or if they were shared with the current account (false).
     ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - modelStatus: The status of them model to filter results by. Possible values include:    Creating - Include only models that are currently being created and validated.    Active - Include only models that have been successfully created and are ready for use.    Failed - Include only models where the creation process failed.   If you don't specify a status, the API returns models in all states.
     ///   - nameContains: Return custom models only if the job name contains these characters.
     ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     ///   - sortBy: The field to sort by in the returned list of models.
@@ -1421,6 +1466,7 @@ public struct Bedrock: AWSService {
         foundationModelArnEquals: String? = nil,
         isOwned: Bool? = nil,
         maxResults: Int? = nil,
+        modelStatus: ModelStatus? = nil,
         nameContains: String? = nil,
         nextToken: String? = nil,
         sortBy: SortModelsBy? = nil,
@@ -1434,6 +1480,7 @@ public struct Bedrock: AWSService {
             foundationModelArnEquals: foundationModelArnEquals, 
             isOwned: isOwned, 
             maxResults: maxResults, 
+            modelStatus: modelStatus, 
             nameContains: nameContains, 
             nextToken: nextToken, 
             sortBy: sortBy, 
@@ -1549,7 +1596,7 @@ public struct Bedrock: AWSService {
     /// Lists details about all the guardrails in an account. To list the DRAFT version of all your guardrails, don't specify the guardrailIdentifier field. To list all versions of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field. You can set the maximum number of results to return in a response in the maxResults field. If there are more results than the number you set, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
     ///
     /// Parameters:
-    ///   - guardrailIdentifier: The unique identifier of the guardrail.  This can be an ID or the ARN.
+    ///   - guardrailIdentifier: The unique identifier of the guardrail. This can be an ID or the ARN.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: If there are more results than were returned in the response, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
     ///   - logger: Logger use during operation
@@ -1568,7 +1615,7 @@ public struct Bedrock: AWSService {
         return try await self.listGuardrails(input, logger: logger)
     }
 
-    /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func listImportedModels(_ input: ListImportedModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportedModelsResponse {
@@ -1581,7 +1628,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - creationTimeAfter: Return imported models that were created after the specified time.
@@ -1791,7 +1838,7 @@ public struct Bedrock: AWSService {
         return try await self.listModelCustomizationJobs(input, logger: logger)
     }
 
-    /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func listModelImportJobs(_ input: ListModelImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelImportJobsResponse {
@@ -1804,7 +1851,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - creationTimeAfter: Return import jobs that were created after the specified time.
@@ -1979,7 +2026,7 @@ public struct Bedrock: AWSService {
         return try await self.listProvisionedModelThroughputs(input, logger: logger)
     }
 
-    /// List the tags associated with the specified resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// List the tags associated with the specified resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1992,7 +2039,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// List the tags associated with the specified resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// List the tags associated with the specified resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the resource.
@@ -2156,7 +2203,7 @@ public struct Bedrock: AWSService {
         return try await self.stopModelInvocationJob(input, logger: logger)
     }
 
-    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -2169,7 +2216,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the resource to tag.
@@ -2188,7 +2235,7 @@ public struct Bedrock: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Remove one or more tags from a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -2201,7 +2248,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Remove one or more tags from a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the resource to untag.
@@ -2242,7 +2289,7 @@ public struct Bedrock: AWSService {
     ///   - contextualGroundingPolicyConfig: The contextual grounding policy configuration used to update a guardrail.
     ///   - crossRegionConfig: The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the Amazon Bedrock User Guide.
     ///   - description: A description of the guardrail.
-    ///   - guardrailIdentifier: The unique identifier of the guardrail.  This can be an ID or the ARN.
+    ///   - guardrailIdentifier: The unique identifier of the guardrail. This can be an ID or the ARN.
     ///   - kmsKeyId: The ARN of the KMS key with which to encrypt the guardrail.
     ///   - name: A name for the guardrail.
     ///   - sensitiveInformationPolicyConfig: The sensitive information policy to configure for the guardrail.
@@ -2393,6 +2440,7 @@ extension Bedrock {
     ///   - foundationModelArnEquals: Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
     ///   - isOwned: Return custom models depending on if the current account owns them (true) or if they were shared with the current account (false).
     ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - modelStatus: The status of them model to filter results by. Possible values include:    Creating - Include only models that are currently being created and validated.    Active - Include only models that have been successfully created and are ready for use.    Failed - Include only models where the creation process failed.   If you don't specify a status, the API returns models in all states.
     ///   - nameContains: Return custom models only if the job name contains these characters.
     ///   - sortBy: The field to sort by in the returned list of models.
     ///   - sortOrder: The sort order of the results.
@@ -2405,6 +2453,7 @@ extension Bedrock {
         foundationModelArnEquals: String? = nil,
         isOwned: Bool? = nil,
         maxResults: Int? = nil,
+        modelStatus: ModelStatus? = nil,
         nameContains: String? = nil,
         sortBy: SortModelsBy? = nil,
         sortOrder: SortOrder? = nil,
@@ -2417,6 +2466,7 @@ extension Bedrock {
             foundationModelArnEquals: foundationModelArnEquals, 
             isOwned: isOwned, 
             maxResults: maxResults, 
+            modelStatus: modelStatus, 
             nameContains: nameContains, 
             sortBy: sortBy, 
             sortOrder: sortOrder
@@ -2500,7 +2550,7 @@ extension Bedrock {
     /// Return PaginatorSequence for operation ``listGuardrails(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - guardrailIdentifier: The unique identifier of the guardrail.  This can be an ID or the ARN.
+    ///   - guardrailIdentifier: The unique identifier of the guardrail. This can be an ID or the ARN.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2956,6 +3006,7 @@ extension Bedrock.ListCustomModelsRequest: AWSPaginateToken {
             foundationModelArnEquals: self.foundationModelArnEquals,
             isOwned: self.isOwned,
             maxResults: self.maxResults,
+            modelStatus: self.modelStatus,
             nameContains: self.nameContains,
             nextToken: token,
             sortBy: self.sortBy,

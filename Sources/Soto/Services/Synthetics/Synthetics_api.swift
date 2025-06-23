@@ -189,8 +189,8 @@ public struct Synthetics: AWSService {
     ///
     /// Parameters:
     ///   - artifactConfig: A structure that contains the configuration for canary artifacts, including  the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
-    ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  S3 bucket can't include a period (.).
-    ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.
+    ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
+    ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - name: The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
@@ -746,15 +746,15 @@ public struct Synthetics: AWSService {
     ///
     /// Parameters:
     ///   - artifactConfig: 
-    ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
+    ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this
     ///   - code: 
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
-    ///   - failureRetentionPeriodInDays: The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+    ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - name: The name of the canary that you want to dry run. To find canary names, use DescribeCanaries.
-    ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is AUTOMATIC, it means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+    ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means
     ///   - runConfig: 
     ///   - runtimeVersion: Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
-    ///   - successRetentionPeriodInDays: The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+    ///   - successRetentionPeriodInDays: The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - visualReference: 
     ///   - vpcConfig: 
     ///   - logger: Logger use during operation
@@ -901,8 +901,8 @@ public struct Synthetics: AWSService {
     ///
     /// Parameters:
     ///   - artifactConfig: A structure that contains the configuration for canary artifacts,  including the encryption-at-rest settings for artifacts that  the canary uploads to Amazon S3.
-    ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
-    ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an S3 bucket, the bucket name, key, and version are also included.
+    ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
+    ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
     ///   - dryRunId: Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.

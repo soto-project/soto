@@ -31,6 +31,13 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "DUAL_STACK"
+        case ipv4Only = "IPV4_ONLY"
+        case ipv6Only = "IPV6_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case creating = "creating"
@@ -144,7 +151,7 @@ extension EFS {
     }
 
     public struct AccessPointDescription: AWSDecodableShape {
-        /// The  unique Amazon Resource Name (ARN) associated with the access point.
+        /// The unique Amazon Resource Name (ARN) associated with the access point.
         public let accessPointArn: String?
         /// The ID of the access point, assigned by Amazon EFS.
         public let accessPointId: String?
@@ -357,7 +364,7 @@ extension EFS {
         public let kmsKeyId: String?
         /// The performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems.  Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems.  Default is generalPurpose.
         public let performanceMode: PerformanceMode?
-        /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
+        /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web ServicesSupport. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// Use to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair. Each key must be unique. For more  information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
@@ -408,17 +415,23 @@ extension EFS {
     public struct CreateMountTargetRequest: AWSEncodableShape {
         /// The ID of the file system for which to create the mount target.
         public let fileSystemId: String
-        /// Valid IPv4 address within the address range of the specified subnet.
+        /// If the IP address type for the mount target is IPv4, then specify the IPv4 address within the address range of the specified subnet.
         public let ipAddress: String?
-        /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
+        /// Specify the type of IP address of the mount target you are creating. Options are IPv4, dual stack, or IPv6. If you don’t specify an IpAddressType, then IPv4 is used.   IPV4_ONLY – Create mount target with IPv4 only subnet or dual-stack subnet.   DUAL_STACK – Create mount target with dual-stack subnet.   IPV6_ONLY – Create mount target with IPv6 only subnet.    Creating IPv6 mount target only ENI in dual-stack subnet is not supported.
+        public let ipAddressType: IpAddressType?
+        /// If the IP address type for the mount target is IPv6, then specify the IPv6 address within the address range of the specified subnet.
+        public let ipv6Address: String?
+        /// VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as the subnet specified. The maximum number of security groups depends on account quota. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Security Groups table).
         public let securityGroups: [String]?
-        /// The ID of the subnet to add the mount target in. For One Zone  file systems, use the subnet that is associated with the file system's Availability Zone.
+        /// The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone.
         public let subnetId: String
 
         @inlinable
-        public init(fileSystemId: String, ipAddress: String? = nil, securityGroups: [String]? = nil, subnetId: String) {
+        public init(fileSystemId: String, ipAddress: String? = nil, ipAddressType: IpAddressType? = nil, ipv6Address: String? = nil, securityGroups: [String]? = nil, subnetId: String) {
             self.fileSystemId = fileSystemId
             self.ipAddress = ipAddress
+            self.ipAddressType = ipAddressType
+            self.ipv6Address = ipv6Address
             self.securityGroups = securityGroups
             self.subnetId = subnetId
         }
@@ -429,6 +442,8 @@ extension EFS {
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 15)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 7)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$")
+            try self.validate(self.ipv6Address, name: "ipv6Address", parent: name, max: 39)
+            try self.validate(self.ipv6Address, name: "ipv6Address", parent: name, min: 3)
             try self.securityGroups?.forEach {
                 try validate($0, name: "securityGroups[]", parent: name, max: 43)
                 try validate($0, name: "securityGroups[]", parent: name, min: 11)
@@ -443,6 +458,8 @@ extension EFS {
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case ipAddress = "IpAddress"
+            case ipAddressType = "IpAddressType"
+            case ipv6Address = "Ipv6Address"
             case securityGroups = "SecurityGroups"
             case subnetId = "SubnetId"
         }
@@ -1178,7 +1195,7 @@ extension EFS {
         public let ownerId: String?
         /// The Amazon Web Services Region in which the destination file system is located.
         public let region: String
-        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account  replication and required for cross-account replication.
+        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account replication and required for cross-account replication.
         public let roleArn: String?
         /// Describes the status of the replication configuration. For more information  about replication status, see Viewing replication details in the Amazon EFS User Guide.
         public let status: ReplicationStatus
@@ -1210,13 +1227,13 @@ extension EFS {
     public struct DestinationToCreate: AWSEncodableShape {
         /// To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
         public let availabilityZoneName: String?
-        /// The ID or ARN of the file system to use for the destination.  For cross-account replication, this must be an  ARN. The file system's  replication overwrite replication must be disabled. If no ID or ARN is  specified, then a new file system is created.
+        /// The ID or ARN of the file system to use for the destination.  For cross-account replication, this must be an  ARN. The file system's  replication overwrite replication must be disabled. If no ID or ARN is  specified, then a new file system is created.   When you initially configure replication to an existing file system, Amazon EFS writes data to or removes existing data from the destination file system to match data in the source file system. If you don't want to change data in the destination file system, then you should replicate to a new file system instead. For more information, see https://docs.aws.amazon.com/efs/latest/ug/create-replication.html.
         public let fileSystemId: String?
         /// Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - The ARN for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
         public let kmsKeyId: String?
         /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system. The Region must be enabled for the Amazon Web Services account that owns the source file system. For more information, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference Reference Guide.
         public let region: String?
-        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account  replication and required for cross-account replication.
+        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account replication and required for cross-account replication.
         public let roleArn: String?
 
         @inlinable
@@ -1420,7 +1437,7 @@ extension EFS {
     }
 
     public struct FileSystemProtectionDescription: AWSDecodableShape {
-        /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
+        /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
         public let replicationOverwriteProtection: ReplicationOverwriteProtection?
 
         @inlinable
@@ -1651,7 +1668,7 @@ extension EFS {
     public struct ModifyMountTargetSecurityGroupsRequest: AWSEncodableShape {
         /// The ID of the mount target whose security groups you want to modify.
         public let mountTargetId: String
-        /// An array of up to five VPC security group IDs.
+        /// An array of VPC security group IDs.
         public let securityGroups: [String]?
 
         @inlinable
@@ -1701,14 +1718,16 @@ extension EFS {
     }
 
     public struct MountTargetDescription: AWSDecodableShape {
-        /// The unique and consistent identifier of the Availability Zone that the mount target resides in.  For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every Amazon Web Services account.
+        /// The unique and consistent identifier of the Availability Zone that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every Amazon Web Services account.
         public let availabilityZoneId: String?
-        /// The name of the Availability Zone in which the mount target is located. Availability Zones are  independently mapped to names for each Amazon Web Services account. For example, the Availability Zone  us-east-1a for your Amazon Web Services account might not be the same location as us-east-1a for another Amazon Web Services account.
+        /// The name of the Availability Zone in which the mount target is located. Availability Zones are independently mapped to names for each Amazon Web Services account. For example, the Availability Zone us-east-1a for your Amazon Web Services account might not be the same location as us-east-1a for another Amazon Web Services account.
         public let availabilityZoneName: String?
         /// The ID of the file system for which the mount target is intended.
         public let fileSystemId: String
         /// Address at which the file system can be mounted by using the mount target.
         public let ipAddress: String?
+        /// The IPv6 address for the mount target.
+        public let ipv6Address: String?
         /// Lifecycle state of the mount target.
         public let lifeCycleState: LifeCycleState
         /// System-assigned mount target ID.
@@ -1723,11 +1742,12 @@ extension EFS {
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String, vpcId: String? = nil) {
+        public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, fileSystemId: String, ipAddress: String? = nil, ipv6Address: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String, vpcId: String? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
             self.ipAddress = ipAddress
+            self.ipv6Address = ipv6Address
             self.lifeCycleState = lifeCycleState
             self.mountTargetId = mountTargetId
             self.networkInterfaceId = networkInterfaceId
@@ -1741,6 +1761,7 @@ extension EFS {
             case availabilityZoneName = "AvailabilityZoneName"
             case fileSystemId = "FileSystemId"
             case ipAddress = "IpAddress"
+            case ipv6Address = "Ipv6Address"
             case lifeCycleState = "LifeCycleState"
             case mountTargetId = "MountTargetId"
             case networkInterfaceId = "NetworkInterfaceId"
@@ -2322,7 +2343,7 @@ extension EFS {
     public struct UpdateFileSystemRequest: AWSEncodableShape {
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
-        /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
+        /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web ServicesSupport. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned,  you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?
@@ -2470,13 +2491,13 @@ public struct EFSErrorType: AWSErrorType {
     public static var networkInterfaceLimitExceeded: Self { .init(.networkInterfaceLimitExceeded) }
     /// Returned if IpAddress was not specified in the request and there are no free IP addresses in the subnet.
     public static var noFreeAddressesInSubnet: Self { .init(.noFreeAddressesInSubnet) }
-    /// Returned if the default file system policy is in effect for the EFS file system specified.
+    /// Returned if no backup is specified for a One Zone EFS file system.
     public static var policyNotFound: Self { .init(.policyNotFound) }
     /// Returned if the file system is already included in a replication configuration.>
     public static var replicationAlreadyExists: Self { .init(.replicationAlreadyExists) }
     /// Returned if the specified file system does not have a replication configuration.
     public static var replicationNotFound: Self { .init(.replicationNotFound) }
-    /// Returned if the size of SecurityGroups specified in the request is greater than five.
+    /// Returned if the number of SecurityGroups specified in the request is greater than the limit, which is based on account quota.  Either delete some security groups or request that the account quota be raised. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Security Groups table).
     public static var securityGroupLimitExceeded: Self { .init(.securityGroupLimitExceeded) }
     /// Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
     public static var securityGroupNotFound: Self { .init(.securityGroupNotFound) }

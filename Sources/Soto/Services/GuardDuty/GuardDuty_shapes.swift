@@ -38,6 +38,16 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CoverageFilterCriterionKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case addonVersion = "ADDON_VERSION"
@@ -181,8 +191,11 @@ extension GuardDuty {
 
     public enum FindingResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessKey = "ACCESS_KEY"
+        case container = "CONTAINER"
         case ec2Instance = "EC2_INSTANCE"
         case ec2NetworkInterface = "EC2_NETWORK_INTERFACE"
+        case eksCluster = "EKS_CLUSTER"
+        case kubernetesWorkload = "KUBERNETES_WORKLOAD"
         case s3Bucket = "S3_BUCKET"
         case s3Object = "S3_OBJECT"
         public var description: String { return self.rawValue }
@@ -220,9 +233,15 @@ extension GuardDuty {
     public enum IndicatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attackTactic = "ATTACK_TACTIC"
         case attackTechnique = "ATTACK_TECHNIQUE"
+        case cryptominingDomain = "CRYPTOMINING_DOMAIN"
+        case cryptominingIp = "CRYPTOMINING_IP"
+        case cryptominingProcess = "CRYPTOMINING_PROCESS"
         case highRiskApi = "HIGH_RISK_API"
+        case maliciousDomain = "MALICIOUS_DOMAIN"
         case maliciousIp = "MALICIOUS_IP"
+        case maliciousProcess = "MALICIOUS_PROCESS"
         case suspiciousNetwork = "SUSPICIOUS_NETWORK"
+        case suspiciousProcess = "SUSPICIOUS_PROCESS"
         case suspiciousUserAgent = "SUSPICIOUS_USER_AGENT"
         case torIp = "TOR_IP"
         case unusualApiForAccount = "UNUSUAL_API_FOR_ACCOUNT"
@@ -249,6 +268,18 @@ extension GuardDuty {
         case deleted = "DELETED"
         case error = "ERROR"
         case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KubernetesResourcesTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cronjobs = "CRONJOBS"
+        case daemonsets = "DAEMONSETS"
+        case deployments = "DEPLOYMENTS"
+        case jobs = "JOBS"
+        case pods = "PODS"
+        case replicasets = "REPLICASETS"
+        case replicationcontrollers = "REPLICATIONCONTROLLERS"
+        case statefulsets = "STATEFULSETS"
         public var description: String { return self.rawValue }
     }
 
@@ -388,7 +419,11 @@ extension GuardDuty {
 
     public enum SignalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudTrail = "CLOUD_TRAIL"
+        case dnsLogs = "DNS_LOGS"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
         case finding = "FINDING"
+        case flowLogs = "FLOW_LOGS"
+        case runtimeMonitoring = "RUNTIME_MONITORING"
         case s3DataEvents = "S3_DATA_EVENTS"
         public var description: String { return self.rawValue }
     }
@@ -625,7 +660,7 @@ extension GuardDuty {
     public struct AccountDetail: AWSEncodableShape {
         /// The member account ID.
         public let accountId: String?
-        /// The email address of the member account.
+        /// The email address of the member account. The rules for a valid email address:   The email address must be a minimum of 6 and a maximum of 64 characters long.   All characters must be 7-bit ASCII characters.   There must be one and only one @ symbol, which separates the local name from the domain name.   The local name can't contain any of the following characters: whitespace, " ' ( )  [ ] : ' , \ | % &   The local name can't begin with a dot (.).   The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.).   The domain name can't begin or end with a dot (.) or hyphen (-).   The domain name must contain at least one dot.
         public let email: String?
 
         @inlinable
@@ -638,7 +673,8 @@ extension GuardDuty {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.email, name: "email", parent: name, max: 64)
-            try self.validate(self.email, name: "email", parent: name, min: 1)
+            try self.validate(self.email, name: "email", parent: name, min: 6)
+            try self.validate(self.email, name: "email", parent: name, pattern: "^See rules in parameter description$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -766,22 +802,48 @@ extension GuardDuty {
     public struct Actor: AWSDecodableShape {
         /// ID of the threat actor.
         public let id: String?
+        /// Contains information about the process associated with the threat actor. This includes details such as process name, path, execution time, and unique identifiers that help track the actor's activities within the system.
+        public let process: ActorProcess?
         /// Contains information about the user session where the activity initiated.
         public let session: Session?
         /// Contains information about the user credentials used by the threat actor.
         public let user: User?
 
         @inlinable
-        public init(id: String? = nil, session: Session? = nil, user: User? = nil) {
+        public init(id: String? = nil, process: ActorProcess? = nil, session: Session? = nil, user: User? = nil) {
             self.id = id
+            self.process = process
             self.session = session
             self.user = user
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "id"
+            case process = "process"
             case session = "session"
             case user = "user"
+        }
+    }
+
+    public struct ActorProcess: AWSDecodableShape {
+        /// The name of the process as it appears in the system.
+        public let name: String?
+        /// The full file path to the process executable on the system.
+        public let path: String?
+        /// The SHA256 hash of the process executable file, which can be used for identification and verification purposes.
+        public let sha256: String?
+
+        @inlinable
+        public init(name: String? = nil, path: String? = nil, sha256: String? = nil) {
+            self.name = name
+            self.path = path
+            self.sha256 = sha256
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case path = "path"
+            case sha256 = "sha256"
         }
     }
 
@@ -1258,6 +1320,24 @@ extension GuardDuty {
             case name = "name"
             case securityContext = "securityContext"
             case volumeMounts = "volumeMounts"
+        }
+    }
+
+    public struct ContainerFindingResource: AWSDecodableShape {
+        /// The container image information, including the image name and tag used to run the container that was involved in the finding.
+        public let image: String?
+        /// The unique ID associated with the container image.
+        public let imageUid: String?
+
+        @inlinable
+        public init(image: String? = nil, imageUid: String? = nil) {
+            self.image = image
+            self.imageUid = imageUid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "image"
+            case imageUid = "imageUid"
         }
     }
 
@@ -3319,6 +3399,36 @@ extension GuardDuty {
         }
     }
 
+    public struct EksCluster: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon EKS cluster involved in the finding.
+        public let arn: String?
+        /// The timestamp indicating when the Amazon EKS cluster was created, in UTC format.
+        public let createdAt: Date?
+        /// A list of unique identifiers for the Amazon EC2 instances that serve as worker nodes in the Amazon EKS cluster.
+        public let ec2InstanceUids: [String]?
+        /// The current status of the Amazon EKS cluster.
+        public let status: ClusterStatus?
+        /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) associated with the Amazon EKS cluster.
+        public let vpcId: String?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, ec2InstanceUids: [String]? = nil, status: ClusterStatus? = nil, vpcId: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.ec2InstanceUids = ec2InstanceUids
+            self.status = status
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case ec2InstanceUids = "ec2InstanceUids"
+            case status = "status"
+            case vpcId = "vpcId"
+        }
+    }
+
     public struct EksClusterDetails: AWSDecodableShape {
         /// EKS cluster ARN.
         public let arn: String?
@@ -3452,7 +3562,7 @@ extension GuardDuty {
     }
 
     public struct FilterCriterion: AWSEncodableShape {
-        /// An enum value representing possible scan properties to match with given scan entries.  Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
+        /// An enum value representing possible scan properties to match with given scan entries.
         public let criterionKey: CriterionKey?
         /// Contains information about the condition.
         public let filterCondition: FilterCondition?
@@ -3490,7 +3600,7 @@ extension GuardDuty {
         public let id: String?
         /// The partition associated with the finding.
         public let partition: String?
-        /// The Region where the finding was generated.
+        /// The Region where the finding was generated. For findings generated from Global Service Events, the Region value in the finding might differ from the Region where GuardDuty identifies the potential threat. For more information, see How GuardDuty handles Amazon Web Services CloudTrail global events in the Amazon GuardDuty User Guide.
         public let region: String?
         public let resource: Resource?
         /// The version of the schema used for the finding.
@@ -5085,6 +5195,28 @@ extension GuardDuty {
             case sessionName = "sessionName"
             case uid = "uid"
             case username = "username"
+        }
+    }
+
+    public struct KubernetesWorkload: AWSDecodableShape {
+        /// A list of unique identifiers for the containers that are part of the Kubernetes workload.
+        public let containerUids: [String]?
+        /// The types of Kubernetes resources involved in the workload.
+        public let kubernetesResourcesTypes: KubernetesResourcesTypes?
+        /// The Kubernetes namespace in which the workload is running, providing logical isolation within the cluster.
+        public let namespace: String?
+
+        @inlinable
+        public init(containerUids: [String]? = nil, kubernetesResourcesTypes: KubernetesResourcesTypes? = nil, namespace: String? = nil) {
+            self.containerUids = containerUids
+            self.kubernetesResourcesTypes = kubernetesResourcesTypes
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerUids = "containerUids"
+            case kubernetesResourcesTypes = "kubernetesResourcesTypes"
+            case namespace = "namespace"
         }
     }
 
@@ -7257,28 +7389,40 @@ extension GuardDuty {
     public struct ResourceData: AWSDecodableShape {
         /// Contains information about the IAM access key details of a user that involved in the GuardDuty finding.
         public let accessKey: AccessKey?
+        /// Contains detailed information about the container associated with the activity that prompted GuardDuty to generate a finding.
+        public let container: ContainerFindingResource?
         /// Contains information about the Amazon EC2 instance.
         public let ec2Instance: Ec2Instance?
         /// Contains information about the elastic network interface of the Amazon EC2 instance.
         public let ec2NetworkInterface: Ec2NetworkInterface?
+        /// Contains detailed information about the Amazon EKS cluster associated with the activity that prompted GuardDuty to generate a finding.
+        public let eksCluster: EksCluster?
+        /// Contains detailed information about the Kubernetes workload associated with the activity that prompted GuardDuty to generate a finding.
+        public let kubernetesWorkload: KubernetesWorkload?
         /// Contains information about the Amazon S3 bucket.
         public let s3Bucket: S3Bucket?
         /// Contains information about the Amazon S3 object.
         public let s3Object: S3Object?
 
         @inlinable
-        public init(accessKey: AccessKey? = nil, ec2Instance: Ec2Instance? = nil, ec2NetworkInterface: Ec2NetworkInterface? = nil, s3Bucket: S3Bucket? = nil, s3Object: S3Object? = nil) {
+        public init(accessKey: AccessKey? = nil, container: ContainerFindingResource? = nil, ec2Instance: Ec2Instance? = nil, ec2NetworkInterface: Ec2NetworkInterface? = nil, eksCluster: EksCluster? = nil, kubernetesWorkload: KubernetesWorkload? = nil, s3Bucket: S3Bucket? = nil, s3Object: S3Object? = nil) {
             self.accessKey = accessKey
+            self.container = container
             self.ec2Instance = ec2Instance
             self.ec2NetworkInterface = ec2NetworkInterface
+            self.eksCluster = eksCluster
+            self.kubernetesWorkload = kubernetesWorkload
             self.s3Bucket = s3Bucket
             self.s3Object = s3Object
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessKey = "accessKey"
+            case container = "container"
             case ec2Instance = "ec2Instance"
             case ec2NetworkInterface = "ec2NetworkInterface"
+            case eksCluster = "eksCluster"
+            case kubernetesWorkload = "kubernetesWorkload"
             case s3Bucket = "s3Bucket"
             case s3Object = "s3Object"
         }
@@ -8021,6 +8165,8 @@ extension GuardDuty {
     public struct Sequence: AWSDecodableShape {
         /// Contains information about the actors involved in the attack sequence.
         public let actors: [Actor]?
+        /// Additional types of sequences that may be associated with the attack sequence finding, providing further context about the nature of the detected threat.
+        public let additionalSequenceTypes: [String]?
         /// Description of the attack sequence.
         public let description: String?
         /// Contains information about the network endpoints that were used in the attack sequence.
@@ -8035,8 +8181,9 @@ extension GuardDuty {
         public let uid: String?
 
         @inlinable
-        public init(actors: [Actor]? = nil, description: String? = nil, endpoints: [NetworkEndpoint]? = nil, resources: [ResourceV2]? = nil, sequenceIndicators: [Indicator]? = nil, signals: [Signal]? = nil, uid: String? = nil) {
+        public init(actors: [Actor]? = nil, additionalSequenceTypes: [String]? = nil, description: String? = nil, endpoints: [NetworkEndpoint]? = nil, resources: [ResourceV2]? = nil, sequenceIndicators: [Indicator]? = nil, signals: [Signal]? = nil, uid: String? = nil) {
             self.actors = actors
+            self.additionalSequenceTypes = additionalSequenceTypes
             self.description = description
             self.endpoints = endpoints
             self.resources = resources
@@ -8047,6 +8194,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case actors = "actors"
+            case additionalSequenceTypes = "additionalSequenceTypes"
             case description = "description"
             case endpoints = "endpoints"
             case resources = "resources"

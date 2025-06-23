@@ -640,6 +640,32 @@ extension CostExplorer {
         }
     }
 
+    public struct ComparisonMetricValue: AWSDecodableShape {
+        /// The numeric value for the baseline time period measurement.
+        public let baselineTimePeriodAmount: String?
+        /// The numeric value for the comparison time period measurement.
+        public let comparisonTimePeriodAmount: String?
+        /// The calculated difference between ComparisonTimePeriodAmount and BaselineTimePeriodAmount.
+        public let difference: String?
+        /// The unit of measurement applicable to all numeric values in this comparison.
+        public let unit: String?
+
+        @inlinable
+        public init(baselineTimePeriodAmount: String? = nil, comparisonTimePeriodAmount: String? = nil, difference: String? = nil, unit: String? = nil) {
+            self.baselineTimePeriodAmount = baselineTimePeriodAmount
+            self.comparisonTimePeriodAmount = comparisonTimePeriodAmount
+            self.difference = difference
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineTimePeriodAmount = "BaselineTimePeriodAmount"
+            case comparisonTimePeriodAmount = "ComparisonTimePeriodAmount"
+            case difference = "Difference"
+            case unit = "Unit"
+        }
+    }
+
     public struct CostAllocationTag: AWSDecodableShape {
         /// The last date that the tag was either activated or deactivated.
         public let lastUpdatedDate: String?
@@ -720,6 +746,23 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
             case tagKey = "TagKey"
+        }
+    }
+
+    public struct CostAndUsageComparison: AWSDecodableShape {
+        public let costAndUsageSelector: Expression?
+        /// A mapping of metric names to their comparison values.
+        public let metrics: [String: ComparisonMetricValue]?
+
+        @inlinable
+        public init(costAndUsageSelector: Expression? = nil, metrics: [String: ComparisonMetricValue]? = nil) {
+            self.costAndUsageSelector = costAndUsageSelector
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costAndUsageSelector = "CostAndUsageSelector"
+            case metrics = "Metrics"
         }
     }
 
@@ -978,6 +1021,49 @@ extension CostExplorer {
             case key = "Key"
             case matchOptions = "MatchOptions"
             case values = "Values"
+        }
+    }
+
+    public struct CostComparisonDriver: AWSDecodableShape {
+        /// An array of cost drivers, each representing a cost difference between the baseline and comparison time periods. Each entry also includes a metric delta (for example, usage change) that contributed to the cost variance, along with the identifier and type of change.
+        public let costDrivers: [CostDriver]?
+        public let costSelector: Expression?
+        /// A mapping of metric names to their comparison values.
+        public let metrics: [String: ComparisonMetricValue]?
+
+        @inlinable
+        public init(costDrivers: [CostDriver]? = nil, costSelector: Expression? = nil, metrics: [String: ComparisonMetricValue]? = nil) {
+            self.costDrivers = costDrivers
+            self.costSelector = costSelector
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costDrivers = "CostDrivers"
+            case costSelector = "CostSelector"
+            case metrics = "Metrics"
+        }
+    }
+
+    public struct CostDriver: AWSDecodableShape {
+        /// A mapping of metric names to their comparison values, measuring the impact of this cost driver.
+        public let metrics: [String: ComparisonMetricValue]?
+        /// The specific identifier of the cost driver.
+        public let name: String?
+        /// The category or classification of the cost driver. Values include: BUNDLED_DISCOUNT, CREDIT, OUT_OF_CYCLE_CHARGE, REFUND, RECURRING_RESERVATION_FEE, RESERVATION_USAGE, RI_VOLUME_DISCOUNT, SAVINGS_PLAN_USAGE, SAVINGS_PLAN_NEGATION, SAVINGS_PLAN_RECURRING_FEE, SUPPORT_FEE, TAX, UPFRONT_RESERVATION_FEE, USAGE_CHANGE, COMMITMENT
+        public let type: String?
+
+        @inlinable
+        public init(metrics: [String: ComparisonMetricValue]? = nil, name: String? = nil, type: String? = nil) {
+            self.metrics = metrics
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metrics = "Metrics"
+            case name = "Name"
+            case type = "Type"
         }
     }
 
@@ -2150,6 +2236,87 @@ extension CostExplorer {
         }
     }
 
+    public struct GetCostAndUsageComparisonsRequest: AWSEncodableShape {
+        /// The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+        public let baselineTimePeriod: DateInterval
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
+        /// The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+        public let comparisonTimePeriod: DateInterval
+        public let filter: Expression?
+        /// You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY.
+        public let groupBy: [GroupDefinition]?
+        /// The maximum number of results that are returned for the request.
+        public let maxResults: Int?
+        /// The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+        public let metricForComparison: String
+        /// The token to retrieve the next set of paginated results.
+        public let nextPageToken: String?
+
+        @inlinable
+        public init(baselineTimePeriod: DateInterval, billingViewArn: String? = nil, comparisonTimePeriod: DateInterval, filter: Expression? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metricForComparison: String, nextPageToken: String? = nil) {
+            self.baselineTimePeriod = baselineTimePeriod
+            self.billingViewArn = billingViewArn
+            self.comparisonTimePeriod = comparisonTimePeriod
+            self.filter = filter
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.metricForComparison = metricForComparison
+            self.nextPageToken = nextPageToken
+        }
+
+        public func validate(name: String) throws {
+            try self.baselineTimePeriod.validate(name: "\(name).baselineTimePeriod")
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
+            try self.comparisonTimePeriod.validate(name: "\(name).comparisonTimePeriod")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metricForComparison, name: "metricForComparison", parent: name, max: 1024)
+            try self.validate(self.metricForComparison, name: "metricForComparison", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineTimePeriod = "BaselineTimePeriod"
+            case billingViewArn = "BillingViewArn"
+            case comparisonTimePeriod = "ComparisonTimePeriod"
+            case filter = "Filter"
+            case groupBy = "GroupBy"
+            case maxResults = "MaxResults"
+            case metricForComparison = "MetricForComparison"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetCostAndUsageComparisonsResponse: AWSDecodableShape {
+        /// An array of comparison results showing cost and usage metrics between BaselineTimePeriod and ComparisonTimePeriod.
+        public let costAndUsageComparisons: [CostAndUsageComparison]?
+        /// The token to retrieve the next set of paginated results.
+        public let nextPageToken: String?
+        /// A summary of the total cost and usage, comparing amounts between BaselineTimePeriod and ComparisonTimePeriod and their differences. This total represents the aggregate total across all paginated results, if the response spans multiple pages.
+        public let totalCostAndUsage: [String: ComparisonMetricValue]?
+
+        @inlinable
+        public init(costAndUsageComparisons: [CostAndUsageComparison]? = nil, nextPageToken: String? = nil, totalCostAndUsage: [String: ComparisonMetricValue]? = nil) {
+            self.costAndUsageComparisons = costAndUsageComparisons
+            self.nextPageToken = nextPageToken
+            self.totalCostAndUsage = totalCostAndUsage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costAndUsageComparisons = "CostAndUsageComparisons"
+            case nextPageToken = "NextPageToken"
+            case totalCostAndUsage = "TotalCostAndUsage"
+        }
+    }
+
     public struct GetCostAndUsageRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
         public let billingViewArn: String?
@@ -2397,6 +2564,83 @@ extension CostExplorer {
             case nextPageToken = "NextPageToken"
             case returnSize = "ReturnSize"
             case totalSize = "TotalSize"
+        }
+    }
+
+    public struct GetCostComparisonDriversRequest: AWSEncodableShape {
+        /// The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+        public let baselineTimePeriod: DateInterval
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
+        /// The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+        public let comparisonTimePeriod: DateInterval
+        public let filter: Expression?
+        /// You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY. Note that SERVICE and USAGE_TYPE dimensions are automatically included in the cost comparison drivers analysis.
+        public let groupBy: [GroupDefinition]?
+        /// The maximum number of results that are returned for the request.
+        public let maxResults: Int?
+        /// The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+        public let metricForComparison: String
+        /// The token to retrieve the next set of paginated results.
+        public let nextPageToken: String?
+
+        @inlinable
+        public init(baselineTimePeriod: DateInterval, billingViewArn: String? = nil, comparisonTimePeriod: DateInterval, filter: Expression? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metricForComparison: String, nextPageToken: String? = nil) {
+            self.baselineTimePeriod = baselineTimePeriod
+            self.billingViewArn = billingViewArn
+            self.comparisonTimePeriod = comparisonTimePeriod
+            self.filter = filter
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.metricForComparison = metricForComparison
+            self.nextPageToken = nextPageToken
+        }
+
+        public func validate(name: String) throws {
+            try self.baselineTimePeriod.validate(name: "\(name).baselineTimePeriod")
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
+            try self.comparisonTimePeriod.validate(name: "\(name).comparisonTimePeriod")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metricForComparison, name: "metricForComparison", parent: name, max: 1024)
+            try self.validate(self.metricForComparison, name: "metricForComparison", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineTimePeriod = "BaselineTimePeriod"
+            case billingViewArn = "BillingViewArn"
+            case comparisonTimePeriod = "ComparisonTimePeriod"
+            case filter = "Filter"
+            case groupBy = "GroupBy"
+            case maxResults = "MaxResults"
+            case metricForComparison = "MetricForComparison"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetCostComparisonDriversResponse: AWSDecodableShape {
+        /// An array of comparison results showing factors that drive significant cost differences between BaselineTimePeriod and ComparisonTimePeriod.
+        public let costComparisonDrivers: [CostComparisonDriver]?
+        /// The token to retrieve the next set of paginated results.
+        public let nextPageToken: String?
+
+        @inlinable
+        public init(costComparisonDrivers: [CostComparisonDriver]? = nil, nextPageToken: String? = nil) {
+            self.costComparisonDrivers = costComparisonDrivers
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costComparisonDrivers = "CostComparisonDrivers"
+            case nextPageToken = "NextPageToken"
         }
     }
 

@@ -90,7 +90,7 @@ public struct Inspector2: AWSService {
 
     // MARK: API Calls
 
-    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.   An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
+    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
     @Sendable
     @inlinable
     public func associateMember(_ input: AssociateMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateMemberResponse {
@@ -103,7 +103,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.   An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
+    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the member account to be associated.
@@ -117,6 +117,64 @@ public struct Inspector2: AWSService {
             accountId: accountId
         )
         return try await self.associateMember(input, logger: logger)
+    }
+
+    /// Associates multiple code repositories with an Amazon Inspector code security scan configuration.
+    @Sendable
+    @inlinable
+    public func batchAssociateCodeSecurityScanConfiguration(_ input: BatchAssociateCodeSecurityScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateCodeSecurityScanConfigurationResponse {
+        try await self.client.execute(
+            operation: "BatchAssociateCodeSecurityScanConfiguration", 
+            path: "/codesecurity/scan-configuration/batch/associate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates multiple code repositories with an Amazon Inspector code security scan configuration.
+    ///
+    /// Parameters:
+    ///   - associateConfigurationRequests: A list of code repositories to associate with the specified scan configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchAssociateCodeSecurityScanConfiguration(
+        associateConfigurationRequests: [AssociateConfigurationRequest],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchAssociateCodeSecurityScanConfigurationResponse {
+        let input = BatchAssociateCodeSecurityScanConfigurationRequest(
+            associateConfigurationRequests: associateConfigurationRequests
+        )
+        return try await self.batchAssociateCodeSecurityScanConfiguration(input, logger: logger)
+    }
+
+    /// Disassociates multiple code repositories from an Amazon Inspector code security scan configuration.
+    @Sendable
+    @inlinable
+    public func batchDisassociateCodeSecurityScanConfiguration(_ input: BatchDisassociateCodeSecurityScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateCodeSecurityScanConfigurationResponse {
+        try await self.client.execute(
+            operation: "BatchDisassociateCodeSecurityScanConfiguration", 
+            path: "/codesecurity/scan-configuration/batch/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates multiple code repositories from an Amazon Inspector code security scan configuration.
+    ///
+    /// Parameters:
+    ///   - disassociateConfigurationRequests: A list of code repositories to disassociate from the specified scan configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDisassociateCodeSecurityScanConfiguration(
+        disassociateConfigurationRequests: [DisassociateConfigurationRequest],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDisassociateCodeSecurityScanConfigurationResponse {
+        let input = BatchDisassociateCodeSecurityScanConfigurationRequest(
+            disassociateConfigurationRequests: disassociateConfigurationRequests
+        )
+        return try await self.batchDisassociateCodeSecurityScanConfiguration(input, logger: logger)
     }
 
     /// Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
@@ -369,7 +427,7 @@ public struct Inspector2: AWSService {
     /// Parameters:
     ///   - scanName: The scan name for the CIS scan configuration.
     ///   - schedule: The schedule for the CIS scan configuration.
-    ///   - securityLevel:  The security level for the CIS scan configuration.  Security level refers to the Benchmark levels that CIS assigns to a profile.
+    ///   - securityLevel:  The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile.
     ///   - tags: The tags for the CIS scan configuration.
     ///   - targets: The targets for the CIS scan configuration.
     ///   - logger: Logger use during operation
@@ -390,6 +448,85 @@ public struct Inspector2: AWSService {
             targets: targets
         )
         return try await self.createCisScanConfiguration(input, logger: logger)
+    }
+
+    /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup
+    @Sendable
+    @inlinable
+    public func createCodeSecurityIntegration(_ input: CreateCodeSecurityIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCodeSecurityIntegrationResponse {
+        try await self.client.execute(
+            operation: "CreateCodeSecurityIntegration", 
+            path: "/codesecurity/integration/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup
+    ///
+    /// Parameters:
+    ///   - details: The integration details specific to the repository provider type.
+    ///   - name: The name of the code security integration.
+    ///   - tags: The tags to apply to the code security integration.
+    ///   - type: The type of repository provider for the integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCodeSecurityIntegration(
+        details: CreateIntegrationDetail? = nil,
+        name: String,
+        tags: [String: String]? = nil,
+        type: IntegrationType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCodeSecurityIntegrationResponse {
+        let input = CreateCodeSecurityIntegrationRequest(
+            details: details, 
+            name: name, 
+            tags: tags, 
+            type: type
+        )
+        return try await self.createCodeSecurityIntegration(input, logger: logger)
+    }
+
+    /// Creates a scan configuration for code security scanning.
+    @Sendable
+    @inlinable
+    public func createCodeSecurityScanConfiguration(_ input: CreateCodeSecurityScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCodeSecurityScanConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateCodeSecurityScanConfiguration", 
+            path: "/codesecurity/scan-configuration/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a scan configuration for code security scanning.
+    ///
+    /// Parameters:
+    ///   - configuration: The configuration settings for the code security scan.
+    ///   - level: The security level for the scan configuration.
+    ///   - name: The name of the scan configuration.
+    ///   - scopeSettings: The scope settings that define which repositories will be scanned. Include this parameter to create a default scan configuration. Otherwise Amazon Inspector creates a general scan configuration.  A default scan configuration automatically applies to all existing and future projects imported into Amazon Inspector. Use the BatchAssociateCodeSecurityScanConfiguration operation to associate a general scan configuration with projects.
+    ///   - tags: The tags to apply to the scan configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCodeSecurityScanConfiguration(
+        configuration: CodeSecurityScanConfiguration,
+        level: ConfigurationLevel,
+        name: String,
+        scopeSettings: ScopeSettings? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCodeSecurityScanConfigurationResponse {
+        let input = CreateCodeSecurityScanConfigurationRequest(
+            configuration: configuration, 
+            level: level, 
+            name: name, 
+            scopeSettings: scopeSettings, 
+            tags: tags
+        )
+        return try await self.createCodeSecurityScanConfiguration(input, logger: logger)
     }
 
     /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
@@ -533,6 +670,64 @@ public struct Inspector2: AWSService {
             scanConfigurationArn: scanConfigurationArn
         )
         return try await self.deleteCisScanConfiguration(input, logger: logger)
+    }
+
+    /// Deletes a code security integration.
+    @Sendable
+    @inlinable
+    public func deleteCodeSecurityIntegration(_ input: DeleteCodeSecurityIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCodeSecurityIntegrationResponse {
+        try await self.client.execute(
+            operation: "DeleteCodeSecurityIntegration", 
+            path: "/codesecurity/integration/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a code security integration.
+    ///
+    /// Parameters:
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the code security integration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCodeSecurityIntegration(
+        integrationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCodeSecurityIntegrationResponse {
+        let input = DeleteCodeSecurityIntegrationRequest(
+            integrationArn: integrationArn
+        )
+        return try await self.deleteCodeSecurityIntegration(input, logger: logger)
+    }
+
+    /// Deletes a code security scan configuration.
+    @Sendable
+    @inlinable
+    public func deleteCodeSecurityScanConfiguration(_ input: DeleteCodeSecurityScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCodeSecurityScanConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteCodeSecurityScanConfiguration", 
+            path: "/codesecurity/scan-configuration/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a code security scan configuration.
+    ///
+    /// Parameters:
+    ///   - scanConfigurationArn: The Amazon Resource Name (ARN) of the scan configuration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCodeSecurityScanConfiguration(
+        scanConfigurationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCodeSecurityScanConfigurationResponse {
+        let input = DeleteCodeSecurityScanConfigurationRequest(
+            scanConfigurationArn: scanConfigurationArn
+        )
+        return try await self.deleteCodeSecurityScanConfiguration(input, logger: logger)
     }
 
     /// Deletes a filter resource.
@@ -763,7 +958,7 @@ public struct Inspector2: AWSService {
     /// Retrieves a CIS scan report.
     ///
     /// Parameters:
-    ///   - reportFormat:  The format of the report.  Valid values are PDF and CSV.  If no value is specified, the report format defaults to PDF.
+    ///   - reportFormat:  The format of the report. Valid values are PDF and CSV. If no value is specified, the report format defaults to PDF.
     ///   - scanArn: The scan ARN.
     ///   - targetAccounts: The target accounts.
     ///   - logger: Logger use during operation
@@ -865,6 +1060,99 @@ public struct Inspector2: AWSService {
             nextToken: nextToken
         )
         return try await self.getClustersForImage(input, logger: logger)
+    }
+
+    /// Retrieves information about a code security integration.
+    @Sendable
+    @inlinable
+    public func getCodeSecurityIntegration(_ input: GetCodeSecurityIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCodeSecurityIntegrationResponse {
+        try await self.client.execute(
+            operation: "GetCodeSecurityIntegration", 
+            path: "/codesecurity/integration/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a code security integration.
+    ///
+    /// Parameters:
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the code security integration to retrieve.
+    ///   - tags: The tags associated with the code security integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCodeSecurityIntegration(
+        integrationArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCodeSecurityIntegrationResponse {
+        let input = GetCodeSecurityIntegrationRequest(
+            integrationArn: integrationArn, 
+            tags: tags
+        )
+        return try await self.getCodeSecurityIntegration(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific code security scan.
+    @Sendable
+    @inlinable
+    public func getCodeSecurityScan(_ input: GetCodeSecurityScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCodeSecurityScanResponse {
+        try await self.client.execute(
+            operation: "GetCodeSecurityScan", 
+            path: "/codesecurity/scan/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific code security scan.
+    ///
+    /// Parameters:
+    ///   - resource: The resource identifier for the code repository that was scanned.
+    ///   - scanId: The unique identifier of the scan to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCodeSecurityScan(
+        resource: CodeSecurityResource,
+        scanId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCodeSecurityScanResponse {
+        let input = GetCodeSecurityScanRequest(
+            resource: resource, 
+            scanId: scanId
+        )
+        return try await self.getCodeSecurityScan(input, logger: logger)
+    }
+
+    /// Retrieves information about a code security scan configuration.
+    @Sendable
+    @inlinable
+    public func getCodeSecurityScanConfiguration(_ input: GetCodeSecurityScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCodeSecurityScanConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetCodeSecurityScanConfiguration", 
+            path: "/codesecurity/scan-configuration/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a code security scan configuration.
+    ///
+    /// Parameters:
+    ///   - scanConfigurationArn: The Amazon Resource Name (ARN) of the scan configuration to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCodeSecurityScanConfiguration(
+        scanConfigurationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCodeSecurityScanConfigurationResponse {
+        let input = GetCodeSecurityScanConfigurationRequest(
+            scanConfigurationArn: scanConfigurationArn
+        )
+        return try await self.getCodeSecurityScanConfiguration(input, logger: logger)
     }
 
     /// Retrieves setting configurations for Inspector scans.
@@ -1272,6 +1560,105 @@ public struct Inspector2: AWSService {
         return try await self.listCisScans(input, logger: logger)
     }
 
+    /// Lists all code security integrations in your account.
+    @Sendable
+    @inlinable
+    public func listCodeSecurityIntegrations(_ input: ListCodeSecurityIntegrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCodeSecurityIntegrationsResponse {
+        try await self.client.execute(
+            operation: "ListCodeSecurityIntegrations", 
+            path: "/codesecurity/integration/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all code security integrations in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCodeSecurityIntegrations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCodeSecurityIntegrationsResponse {
+        let input = ListCodeSecurityIntegrationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCodeSecurityIntegrations(input, logger: logger)
+    }
+
+    /// Lists the associations between code repositories and Amazon Inspector code security scan configurations.
+    @Sendable
+    @inlinable
+    public func listCodeSecurityScanConfigurationAssociations(_ input: ListCodeSecurityScanConfigurationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCodeSecurityScanConfigurationAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListCodeSecurityScanConfigurationAssociations", 
+            path: "/codesecurity/scan-configuration/associations/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the associations between code repositories and Amazon Inspector code security scan configurations.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
+    ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    ///   - scanConfigurationArn: The Amazon Resource Name (ARN) of the scan configuration to list associations for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCodeSecurityScanConfigurationAssociations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        scanConfigurationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCodeSecurityScanConfigurationAssociationsResponse {
+        let input = ListCodeSecurityScanConfigurationAssociationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            scanConfigurationArn: scanConfigurationArn
+        )
+        return try await self.listCodeSecurityScanConfigurationAssociations(input, logger: logger)
+    }
+
+    /// Lists all code security scan configurations in your account.
+    @Sendable
+    @inlinable
+    public func listCodeSecurityScanConfigurations(_ input: ListCodeSecurityScanConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCodeSecurityScanConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListCodeSecurityScanConfigurations", 
+            path: "/codesecurity/scan-configuration/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all code security scan configurations in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCodeSecurityScanConfigurations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCodeSecurityScanConfigurationsResponse {
+        let input = ListCodeSecurityScanConfigurationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCodeSecurityScanConfigurations(input, logger: logger)
+    }
+
     /// Lists coverage details for your environment.
     @Sendable
     @inlinable
@@ -1654,7 +2041,7 @@ public struct Inspector2: AWSService {
         return try await self.searchVulnerabilities(input, logger: logger)
     }
 
-    ///  Sends a CIS session health.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     @Sendable
     @inlinable
     public func sendCisSessionHealth(_ input: SendCisSessionHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendCisSessionHealthResponse {
@@ -1667,7 +2054,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    ///  Sends a CIS session health.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     ///
     /// Parameters:
     ///   - scanJobId: A unique identifier for the scan job.
@@ -1686,7 +2073,7 @@ public struct Inspector2: AWSService {
         return try await self.sendCisSessionHealth(input, logger: logger)
     }
 
-    ///  Sends a CIS session telemetry.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     @Sendable
     @inlinable
     public func sendCisSessionTelemetry(_ input: SendCisSessionTelemetryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendCisSessionTelemetryResponse {
@@ -1699,7 +2086,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    ///  Sends a CIS session telemetry.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     ///
     /// Parameters:
     ///   - messages: The CIS session telemetry messages.
@@ -1721,7 +2108,7 @@ public struct Inspector2: AWSService {
         return try await self.sendCisSessionTelemetry(input, logger: logger)
     }
 
-    ///  Starts a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     @Sendable
     @inlinable
     public func startCisSession(_ input: StartCisSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCisSessionResponse {
@@ -1734,7 +2121,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    ///  Starts a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     ///
     /// Parameters:
     ///   - message: The start CIS session message.
@@ -1753,7 +2140,39 @@ public struct Inspector2: AWSService {
         return try await self.startCisSession(input, logger: logger)
     }
 
-    ///  Stops a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
+    /// Initiates a code security scan on a specified repository.
+    @Sendable
+    @inlinable
+    public func startCodeSecurityScan(_ input: StartCodeSecurityScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCodeSecurityScanResponse {
+        try await self.client.execute(
+            operation: "StartCodeSecurityScan", 
+            path: "/codesecurity/scan/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a code security scan on a specified repository.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - resource: The resource identifier for the code repository to scan.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startCodeSecurityScan(
+        clientToken: String? = StartCodeSecurityScanRequest.idempotencyToken(),
+        resource: CodeSecurityResource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartCodeSecurityScanResponse {
+        let input = StartCodeSecurityScanRequest(
+            clientToken: clientToken, 
+            resource: resource
+        )
+        return try await self.startCodeSecurityScan(input, logger: logger)
+    }
+
+    ///  Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
     @Sendable
     @inlinable
     public func stopCisSession(_ input: StopCisSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCisSessionResponse {
@@ -1766,7 +2185,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    ///  Stops a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
+    ///  Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
     ///
     /// Parameters:
     ///   - message: The stop CIS session message.
@@ -1871,7 +2290,7 @@ public struct Inspector2: AWSService {
     ///   - scanConfigurationArn: The CIS scan configuration ARN.
     ///   - scanName: The scan name for the CIS scan configuration.
     ///   - schedule: The schedule for the CIS scan configuration.
-    ///   - securityLevel:  The security level for the CIS scan configuration.  Security level refers to the Benchmark levels that CIS assigns to a profile.
+    ///   - securityLevel:  The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile.
     ///   - targets: The targets for the CIS scan configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1891,6 +2310,70 @@ public struct Inspector2: AWSService {
             targets: targets
         )
         return try await self.updateCisScanConfiguration(input, logger: logger)
+    }
+
+    /// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup
+    @Sendable
+    @inlinable
+    public func updateCodeSecurityIntegration(_ input: UpdateCodeSecurityIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCodeSecurityIntegrationResponse {
+        try await self.client.execute(
+            operation: "UpdateCodeSecurityIntegration", 
+            path: "/codesecurity/integration/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup
+    ///
+    /// Parameters:
+    ///   - details: The updated integration details specific to the repository provider type.
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the code security integration to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCodeSecurityIntegration(
+        details: UpdateIntegrationDetails,
+        integrationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCodeSecurityIntegrationResponse {
+        let input = UpdateCodeSecurityIntegrationRequest(
+            details: details, 
+            integrationArn: integrationArn
+        )
+        return try await self.updateCodeSecurityIntegration(input, logger: logger)
+    }
+
+    /// Updates an existing code security scan configuration.
+    @Sendable
+    @inlinable
+    public func updateCodeSecurityScanConfiguration(_ input: UpdateCodeSecurityScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCodeSecurityScanConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateCodeSecurityScanConfiguration", 
+            path: "/codesecurity/scan-configuration/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing code security scan configuration.
+    ///
+    /// Parameters:
+    ///   - configuration: The updated configuration settings for the code security scan.
+    ///   - scanConfigurationArn: The Amazon Resource Name (ARN) of the scan configuration to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCodeSecurityScanConfiguration(
+        configuration: CodeSecurityScanConfiguration,
+        scanConfigurationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCodeSecurityScanConfigurationResponse {
+        let input = UpdateCodeSecurityScanConfigurationRequest(
+            configuration: configuration, 
+            scanConfigurationArn: scanConfigurationArn
+        )
+        return try await self.updateCodeSecurityScanConfiguration(input, logger: logger)
     }
 
     /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.

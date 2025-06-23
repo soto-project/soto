@@ -213,6 +213,44 @@ public struct Invoicing: AWSService {
         return try await self.getInvoiceUnit(input, logger: logger)
     }
 
+    /// Retrieves your invoice details programmatically, without line item details.
+    @Sendable
+    @inlinable
+    public func listInvoiceSummaries(_ input: ListInvoiceSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvoiceSummariesResponse {
+        try await self.client.execute(
+            operation: "ListInvoiceSummaries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves your invoice details programmatically, without line item details.
+    ///
+    /// Parameters:
+    ///   - filter: Filters you can use to customize your invoice summary.
+    ///   - maxResults: The maximum number of invoice summaries a paginated response can contain.
+    ///   - nextToken: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    ///   - selector: The option to retrieve details for a specific invoice by providing its unique ID. Alternatively, access information for all invoices linked to the account by providing an account ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInvoiceSummaries(
+        filter: InvoiceSummariesFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        selector: InvoiceSummariesSelector,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInvoiceSummariesResponse {
+        let input = ListInvoiceSummariesRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            selector: selector
+        )
+        return try await self.listInvoiceSummaries(input, logger: logger)
+    }
+
     /// This fetches a list of all invoice unit definitions for a given account, as of the provided AsOf date.
     @Sendable
     @inlinable
@@ -396,6 +434,46 @@ extension Invoicing {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Invoicing {
+    /// Return PaginatorSequence for operation ``listInvoiceSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvoiceSummariesPaginator(
+        _ input: ListInvoiceSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvoiceSummariesRequest, ListInvoiceSummariesResponse> {
+        return .init(
+            input: input,
+            command: self.listInvoiceSummaries,
+            inputKey: \ListInvoiceSummariesRequest.nextToken,
+            outputKey: \ListInvoiceSummariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInvoiceSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: Filters you can use to customize your invoice summary.
+    ///   - maxResults: The maximum number of invoice summaries a paginated response can contain.
+    ///   - selector: The option to retrieve details for a specific invoice by providing its unique ID. Alternatively, access information for all invoices linked to the account by providing an account ID.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvoiceSummariesPaginator(
+        filter: InvoiceSummariesFilter? = nil,
+        maxResults: Int? = nil,
+        selector: InvoiceSummariesSelector,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInvoiceSummariesRequest, ListInvoiceSummariesResponse> {
+        let input = ListInvoiceSummariesRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            selector: selector
+        )
+        return self.listInvoiceSummariesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listInvoiceUnits(_:logger:)``.
     ///
     /// - Parameters:
@@ -434,6 +512,18 @@ extension Invoicing {
             maxResults: maxResults
         )
         return self.listInvoiceUnitsPaginator(input, logger: logger)
+    }
+}
+
+extension Invoicing.ListInvoiceSummariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Invoicing.ListInvoiceSummariesRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            selector: self.selector
+        )
     }
 }
 

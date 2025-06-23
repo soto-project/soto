@@ -215,7 +215,7 @@ public struct ECS: AWSService {
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
     /// 			updating a service. volumeConfigurations is only supported for REPLICA
-    /// 			service and not DAEMON service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in
+    /// 			service and not DAEMON service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in
     /// 			the RUNNING state. Tasks for services that use a load balancer are
     /// 			considered healthy if they're in the RUNNING state and are reported as
     /// 			healthy by the load balancer. There are two service scheduler strategies available:    REPLICA - The replica scheduling strategy places and
@@ -287,7 +287,7 @@ public struct ECS: AWSService {
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
     /// 			updating a service. volumeConfigurations is only supported for REPLICA
-    /// 			service and not DAEMON service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in
+    /// 			service and not DAEMON service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in
     /// 			the RUNNING state. Tasks for services that use a load balancer are
     /// 			considered healthy if they're in the RUNNING state and are reported as
     /// 			healthy by the load balancer. There are two service scheduler strategies available:    REPLICA - The replica scheduling strategy places and
@@ -2185,7 +2185,7 @@ public struct ECS: AWSService {
     /// 			tasks using placement constraints and placement strategies. For more information, see
     /// 				Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use StartTask to use your own scheduler or place
     /// 			tasks manually on specific container instances. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
-    /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the
+    /// 			updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the
     /// 			distributed nature of the system supporting the API. This means that the result of an
     /// 			API command you run that affects your Amazon ECS resources might not be immediately visible
     /// 			to all subsequent commands you run. Keep this in mind when you carry out an API command
@@ -2222,7 +2222,7 @@ public struct ECS: AWSService {
     /// 			tasks using placement constraints and placement strategies. For more information, see
     /// 				Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use StartTask to use your own scheduler or place
     /// 			tasks manually on specific container instances. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
-    /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the
+    /// 			updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the
     /// 			distributed nature of the system supporting the API. This means that the result of an
     /// 			API command you run that affects your Amazon ECS resources might not be immediately visible
     /// 			to all subsequent commands you run. Keep this in mind when you carry out an API command
@@ -2315,7 +2315,7 @@ public struct ECS: AWSService {
     /// Starts a new task from the specified task definition on the specified container
     /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  Alternatively, you can useRunTask to place tasks for you. For more
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
-    /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
+    /// 			updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     @inlinable
     public func startTask(_ input: StartTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskResponse {
@@ -2331,7 +2331,7 @@ public struct ECS: AWSService {
     /// Starts a new task from the specified task definition on the specified container
     /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  Alternatively, you can useRunTask to place tasks for you. For more
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
-    /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
+    /// 			updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
     ///
     /// Parameters:
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster where to start your task.
@@ -2944,10 +2944,10 @@ public struct ECS: AWSService {
     /// 			registries, enable ECS managed tags option, propagate tags option, task placement
     /// 			constraints and strategies, and task definition. When you update any of these
     /// 			parameters, Amazon ECS starts new tasks with the new configuration.  You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or
-    /// 			running a task, or when creating or updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. You can update
+    /// 			running a task, or when creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. You can update
     /// 			your volume configurations and trigger a new deployment.
     /// 				volumeConfigurations is only supported for REPLICA service and not
-    /// 			DAEMON service. If you leave volumeConfigurations null, it doesn't trigger a new deployment. For more infomation on volumes,
+    /// 			DAEMON service. If you leave volumeConfigurations null, it doesn't trigger a new deployment. For more information on volumes,
     /// 			see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller,
     /// 			only the desired count, deployment configuration, health check grace period, task
     /// 			placement constraints and strategies, enable ECS managed tags option, and propagate tags
@@ -2960,7 +2960,7 @@ public struct ECS: AWSService {
     /// 			updated, create a new task set For more information, see CreateTaskSet. You can add to or subtract from the number of instantiations of a task definition in a
     /// 			service by specifying the cluster that the service is running in and a new
     /// 				desiredCount parameter. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or
-    /// 			running a task, or when creating or updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task
+    /// 			running a task, or when creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task
     /// 			definition with that image and deploy it to your service. The service scheduler uses the
     /// 			minimum healthy percent and maximum percent parameters (in the service's deployment
     /// 			configuration) to determine the deployment strategy.  If your updated Docker image uses the same tag as what is in the existing task
@@ -3005,9 +3005,7 @@ public struct ECS: AWSService {
     /// 					has one running service task and zones B and C each have two, container
     /// 					instances in either zone B or C are considered optimal for termination.   Stop the task on a container instance in an optimal Availability Zone (based
     /// 					on the previous steps), favoring container instances with the largest number of
-    /// 					running tasks for this service.    You must have a service-linked role when you update any of the following service
-    /// 				properties:    loadBalancers,    serviceRegistries    For more information about the role see the CreateService request
-    /// 				parameter  role .
+    /// 					running tasks for this service.
     @Sendable
     @inlinable
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceResponse {
@@ -3025,10 +3023,10 @@ public struct ECS: AWSService {
     /// 			registries, enable ECS managed tags option, propagate tags option, task placement
     /// 			constraints and strategies, and task definition. When you update any of these
     /// 			parameters, Amazon ECS starts new tasks with the new configuration.  You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or
-    /// 			running a task, or when creating or updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. You can update
+    /// 			running a task, or when creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. You can update
     /// 			your volume configurations and trigger a new deployment.
     /// 				volumeConfigurations is only supported for REPLICA service and not
-    /// 			DAEMON service. If you leave volumeConfigurations null, it doesn't trigger a new deployment. For more infomation on volumes,
+    /// 			DAEMON service. If you leave volumeConfigurations null, it doesn't trigger a new deployment. For more information on volumes,
     /// 			see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller,
     /// 			only the desired count, deployment configuration, health check grace period, task
     /// 			placement constraints and strategies, enable ECS managed tags option, and propagate tags
@@ -3041,7 +3039,7 @@ public struct ECS: AWSService {
     /// 			updated, create a new task set For more information, see CreateTaskSet. You can add to or subtract from the number of instantiations of a task definition in a
     /// 			service by specifying the cluster that the service is running in and a new
     /// 				desiredCount parameter. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or
-    /// 			running a task, or when creating or updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task
+    /// 			running a task, or when creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task
     /// 			definition with that image and deploy it to your service. The service scheduler uses the
     /// 			minimum healthy percent and maximum percent parameters (in the service's deployment
     /// 			configuration) to determine the deployment strategy.  If your updated Docker image uses the same tag as what is in the existing task
@@ -3086,13 +3084,11 @@ public struct ECS: AWSService {
     /// 					has one running service task and zones B and C each have two, container
     /// 					instances in either zone B or C are considered optimal for termination.   Stop the task on a container instance in an optimal Availability Zone (based
     /// 					on the previous steps), favoring container instances with the largest number of
-    /// 					running tasks for this service.    You must have a service-linked role when you update any of the following service
-    /// 				properties:    loadBalancers,    serviceRegistries    For more information about the role see the CreateService request
-    /// 				parameter  role .
+    /// 					running tasks for this service.
     ///
     /// Parameters:
     ///   - availabilityZoneRebalancing: Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-    ///   - capacityProviderStrategy: The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the
+    ///   - capacityProviderStrategy: The details of a capacity provider strategy. You can set a capacity provider when you
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on.
     ///   - deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment
     ///   - desiredCount: The number of instantiations of the task to place and keep running in your
@@ -3100,7 +3096,7 @@ public struct ECS: AWSService {
     ///   - enableExecuteCommand: If true, this enables execute command functionality on all task
     ///   - forceNewDeployment: Determines whether to force a new deployment of the service. By default, deployments
     ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
-    ///   - loadBalancers: A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
+    ///   - loadBalancers:  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
     ///   - networkConfiguration: An object representing the network configuration for the service.
     ///   - placementConstraints: An array of task placement constraint objects to update the service to use. If no
     ///   - placementStrategy: The task placement strategy objects to update the service to use. If no value is
@@ -3108,7 +3104,7 @@ public struct ECS: AWSService {
     ///   - propagateTags: Determines whether to propagate the tags from the task definition or the service to
     ///   - service: The name of the service to update.
     ///   - serviceConnectConfiguration: The configuration for this service to discover and connect to
-    ///   - serviceRegistries: The details for the service discovery registries to assign to this service. For more
+    ///   - serviceRegistries:  You must have a service-linked role when you update this property. For more information about the role see the CreateService request
     ///   - taskDefinition: The family and revision (family:revision) or
     ///   - volumeConfigurations: The details of the volume that was configuredAtLaunch. You can configure
     ///   - vpcLatticeConfigurations: An object representing the VPC Lattice configuration for the service being

@@ -44,6 +44,8 @@ extension GeoPlaces {
 
     public enum GeocodeAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case access = "Access"
+        case intersections = "Intersections"
+        case secondaryAddresses = "SecondaryAddresses"
         case timeZone = "TimeZone"
         public var description: String { return self.rawValue }
     }
@@ -70,6 +72,7 @@ extension GeoPlaces {
         case access = "Access"
         case contact = "Contact"
         case phonemes = "Phonemes"
+        case secondaryAddresses = "SecondaryAddresses"
         case timeZone = "TimeZone"
         public var description: String { return self.rawValue }
     }
@@ -93,6 +96,7 @@ extension GeoPlaces {
         case pointOfInterest = "PointOfInterest"
         case postalCode = "PostalCode"
         case region = "Region"
+        case secondaryAddress = "SecondaryAddress"
         case street = "Street"
         case subBlock = "SubBlock"
         case subDistrict = "SubDistrict"
@@ -135,6 +139,7 @@ extension GeoPlaces {
 
     public enum ReverseGeocodeAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case access = "Access"
+        case intersections = "Intersections"
         case timeZone = "TimeZone"
         public var description: String { return self.rawValue }
     }
@@ -286,12 +291,14 @@ extension GeoPlaces {
         public let intersection: [String]?
         /// Assembled address value built out of the address components, according to the regional postal rules. This is the correctly formatted address.
         public let label: String?
-        /// The locality or city of the address. Example: Vancouver.
+        /// The city or locality of the address. Example: Vancouver.
         public let locality: String?
-        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code, for which the result should posses.
+        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code, for which the result should possess.
         public let postalCode: String?
         /// The region or state results should be present in.  Example: North Rhine-Westphalia.
         public let region: Region?
+        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor.
+        public let secondaryAddressComponents: [SecondaryAddressComponent]?
         /// The name of the street results should be present in.
         public let street: String?
         /// Components of the street.  Example: Younge from the "Younge street".
@@ -304,7 +311,7 @@ extension GeoPlaces {
         public let subRegion: SubRegion?
 
         @inlinable
-        public init(addressNumber: String? = nil, block: String? = nil, building: String? = nil, country: Country? = nil, district: String? = nil, intersection: [String]? = nil, label: String? = nil, locality: String? = nil, postalCode: String? = nil, region: Region? = nil, street: String? = nil, streetComponents: [StreetComponents]? = nil, subBlock: String? = nil, subDistrict: String? = nil, subRegion: SubRegion? = nil) {
+        public init(addressNumber: String? = nil, block: String? = nil, building: String? = nil, country: Country? = nil, district: String? = nil, intersection: [String]? = nil, label: String? = nil, locality: String? = nil, postalCode: String? = nil, region: Region? = nil, secondaryAddressComponents: [SecondaryAddressComponent]? = nil, street: String? = nil, streetComponents: [StreetComponents]? = nil, subBlock: String? = nil, subDistrict: String? = nil, subRegion: SubRegion? = nil) {
             self.addressNumber = addressNumber
             self.block = block
             self.building = building
@@ -315,6 +322,7 @@ extension GeoPlaces {
             self.locality = locality
             self.postalCode = postalCode
             self.region = region
+            self.secondaryAddressComponents = secondaryAddressComponents
             self.street = street
             self.streetComponents = streetComponents
             self.subBlock = subBlock
@@ -333,6 +341,7 @@ extension GeoPlaces {
             case locality = "Locality"
             case postalCode = "PostalCode"
             case region = "Region"
+            case secondaryAddressComponents = "SecondaryAddressComponents"
             case street = "Street"
             case streetComponents = "StreetComponents"
             case subBlock = "SubBlock"
@@ -356,10 +365,12 @@ extension GeoPlaces {
         public let intersection: [Double]?
         /// The city or locality results should be present in.  Example: Vancouver.
         public let locality: Double?
-        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code, for which the result should posses.
+        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code, for which the result should possess.
         public let postalCode: Double?
         /// The region or state results should be to be present in.  Example: North Rhine-Westphalia.
         public let region: Double?
+        /// Match scores for the secondary address components in the result.
+        public let secondaryAddressComponents: [SecondaryAddressComponentMatchScore]?
         /// Name of sub-block.  Example: Sunny Mansion 203 sub-block: 4
         public let subBlock: Double?
         /// A subdivision of a district.  Example: Minden-Lübbecke
@@ -368,7 +379,7 @@ extension GeoPlaces {
         public let subRegion: Double?
 
         @inlinable
-        public init(addressNumber: Double? = nil, block: Double? = nil, building: Double? = nil, country: Double? = nil, district: Double? = nil, intersection: [Double]? = nil, locality: Double? = nil, postalCode: Double? = nil, region: Double? = nil, subBlock: Double? = nil, subDistrict: Double? = nil, subRegion: Double? = nil) {
+        public init(addressNumber: Double? = nil, block: Double? = nil, building: Double? = nil, country: Double? = nil, district: Double? = nil, intersection: [Double]? = nil, locality: Double? = nil, postalCode: Double? = nil, region: Double? = nil, secondaryAddressComponents: [SecondaryAddressComponentMatchScore]? = nil, subBlock: Double? = nil, subDistrict: Double? = nil, subRegion: Double? = nil) {
             self.addressNumber = addressNumber
             self.block = block
             self.building = building
@@ -378,6 +389,7 @@ extension GeoPlaces {
             self.locality = locality
             self.postalCode = postalCode
             self.region = region
+            self.secondaryAddressComponents = secondaryAddressComponents
             self.subBlock = subBlock
             self.subDistrict = subDistrict
             self.subRegion = subRegion
@@ -393,6 +405,7 @@ extension GeoPlaces {
             case locality = "Locality"
             case postalCode = "PostalCode"
             case region = "Region"
+            case secondaryAddressComponents = "SecondaryAddressComponents"
             case subBlock = "SubBlock"
             case subDistrict = "SubDistrict"
             case subRegion = "SubRegion"
@@ -448,8 +461,7 @@ extension GeoPlaces {
     public struct AutocompleteAddressHighlights: AWSDecodableShape {
         /// The house number or address results should have.
         public let addressNumber: [Highlight]?
-        /// Name of the block. Example: Sunny Mansion 203
-        /// block: 2 Chome
+        /// Name of the block.  Example: Sunny Mansion 203 block: 2 Chome
         public let block: [Highlight]?
         /// The name of the building at the address.
         public let building: [Highlight]?
@@ -463,13 +475,13 @@ extension GeoPlaces {
         public let label: [Highlight]?
         /// The city or locality results should be present in.  Example: Vancouver.
         public let locality: [Highlight]?
-        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code for which the result should posses.
+        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code for which the result should possess.
         public let postalCode: [Highlight]?
         /// The region or state results should be to be present in.  Example: North Rhine-Westphalia.
         public let region: RegionHighlights?
         /// The name of the street results should be present in.
         public let street: [Highlight]?
-        /// Name of sub-block. Example Sunny Mansion 203 sub-block: 4
+        /// Name of sub-block.  Example: Sunny Mansion 203 sub-block: 4
         public let subBlock: [Highlight]?
         /// Indicates the starting and ending index of the title in the text query that match the found title.
         public let subDistrict: [Highlight]?
@@ -575,7 +587,7 @@ extension GeoPlaces {
         public let additionalFeatures: [AutocompleteAdditionalFeature]?
         /// The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
         public let biasPosition: [Double]?
-        /// A structure which contains a set of inclusion/exclusion properties that results must posses in order to be returned as a result.
+        /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: AutocompleteFilter?
         /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
         public let intendedUse: AutocompleteIntendedUse?
@@ -585,11 +597,11 @@ extension GeoPlaces {
         public let language: String?
         /// An optional limit for the number of results returned in a single call.
         public let maxResults: Int?
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
         public let politicalView: String?
-        /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty,  partial district or locality information may be returned under a single postal code result entry. If it's populated with the value cityLookup, all cities in that postal code are returned.
+        /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned.
         public let postalCodeMode: PostalCodeMode?
-        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
+        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryText: String
 
         @inlinable
@@ -649,7 +661,7 @@ extension GeoPlaces {
     }
 
     public struct AutocompleteResponse: AWSDecodableShape {
-        /// The pricing bucket for which the query is charged at. For more inforamtion on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
         /// List of places or results returned for a query.
         public let resultItems: [AutocompleteResultItem]?
@@ -761,7 +773,7 @@ extension GeoPlaces {
     public struct ComponentMatchScores: AWSDecodableShape {
         /// The place's address.
         public let address: AddressComponentMatchScores?
-        /// Indicates the starting and ending index of the title in the text query that match the found title.
+        /// Indicates the match score of the title in the text query that match the found title.
         public let title: Double?
 
         @inlinable
@@ -941,6 +953,86 @@ extension GeoPlaces {
         }
     }
 
+    public struct GeocodeParsedQuery: AWSDecodableShape {
+        /// The place address.
+        public let address: GeocodeParsedQueryAddressComponents?
+        /// The localized display name of this result item based on request parameter language.
+        public let title: [ParsedQueryComponent]?
+
+        @inlinable
+        public init(address: GeocodeParsedQueryAddressComponents? = nil, title: [ParsedQueryComponent]? = nil) {
+            self.address = address
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case title = "Title"
+        }
+    }
+
+    public struct GeocodeParsedQueryAddressComponents: AWSDecodableShape {
+        /// The number that identifies an address within a street.
+        public let addressNumber: [ParsedQueryComponent]?
+        /// Name of the block.  Example: Sunny Mansion 203 block: 2 Chome
+        public let block: [ParsedQueryComponent]?
+        /// The name of the building at the address.
+        public let building: [ParsedQueryComponent]?
+        /// The alpha-2 or alpha-3 character code for the country that the results will be present in.
+        public let country: [ParsedQueryComponent]?
+        /// The district or division of a city the results should be present in.
+        public let district: [ParsedQueryComponent]?
+        /// The city or locality of the address. Example: Vancouver.
+        public let locality: [ParsedQueryComponent]?
+        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code, for which the result should possess.
+        public let postalCode: [ParsedQueryComponent]?
+        /// The region or state results should be present in.  Example: North Rhine-Westphalia.
+        public let region: [ParsedQueryComponent]?
+        /// Parsed secondary address components from the provided query text.
+        public let secondaryAddressComponents: [ParsedQuerySecondaryAddressComponent]?
+        /// The name of the street results should be present in.
+        public let street: [ParsedQueryComponent]?
+        /// Name of sub-block.  Example: Sunny Mansion 203 sub-block: 4
+        public let subBlock: [ParsedQueryComponent]?
+        /// A subdivision of a district.  Example: Minden-Lübbecke.
+        public let subDistrict: [ParsedQueryComponent]?
+        /// The sub-region or county for which results should be present in.
+        public let subRegion: [ParsedQueryComponent]?
+
+        @inlinable
+        public init(addressNumber: [ParsedQueryComponent]? = nil, block: [ParsedQueryComponent]? = nil, building: [ParsedQueryComponent]? = nil, country: [ParsedQueryComponent]? = nil, district: [ParsedQueryComponent]? = nil, locality: [ParsedQueryComponent]? = nil, postalCode: [ParsedQueryComponent]? = nil, region: [ParsedQueryComponent]? = nil, secondaryAddressComponents: [ParsedQuerySecondaryAddressComponent]? = nil, street: [ParsedQueryComponent]? = nil, subBlock: [ParsedQueryComponent]? = nil, subDistrict: [ParsedQueryComponent]? = nil, subRegion: [ParsedQueryComponent]? = nil) {
+            self.addressNumber = addressNumber
+            self.block = block
+            self.building = building
+            self.country = country
+            self.district = district
+            self.locality = locality
+            self.postalCode = postalCode
+            self.region = region
+            self.secondaryAddressComponents = secondaryAddressComponents
+            self.street = street
+            self.subBlock = subBlock
+            self.subDistrict = subDistrict
+            self.subRegion = subRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressNumber = "AddressNumber"
+            case block = "Block"
+            case building = "Building"
+            case country = "Country"
+            case district = "District"
+            case locality = "Locality"
+            case postalCode = "PostalCode"
+            case region = "Region"
+            case secondaryAddressComponents = "SecondaryAddressComponents"
+            case street = "Street"
+            case subBlock = "SubBlock"
+            case subDistrict = "SubDistrict"
+            case subRegion = "SubRegion"
+        }
+    }
+
     public struct GeocodeQueryComponents: AWSEncodableShape {
         /// The house number or address results should have.
         public let addressNumber: String?
@@ -948,9 +1040,9 @@ extension GeoPlaces {
         public let country: String?
         /// The district or division of a city the results should be present in.
         public let district: String?
-        /// City or locality results should be present in.  Example: Vancouver.
+        /// The city or locality results should be present in.  Example: Vancouver.
         public let locality: String?
-        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code for which the result should posses.
+        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code for which the result should possess.
         public let postalCode: String?
         /// The region or state results should be to be present in.  Example: North Rhine-Westphalia.
         public let region: String?
@@ -988,9 +1080,9 @@ extension GeoPlaces {
         public let additionalFeatures: [GeocodeAdditionalFeature]?
         /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
         public let biasPosition: [Double]?
-        /// A structure which contains a set of inclusion/exclusion properties that results must posses in order to be returned as a result.
+        /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: GeocodeFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an Geocode query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: GeocodeIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -998,10 +1090,10 @@ extension GeoPlaces {
         public let language: String?
         /// An optional limit for the number of results returned in a single call.
         public let maxResults: Int?
-        /// The alpha-2 or alpha-3 character code for the political view of a country.  The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
         public let queryComponents: GeocodeQueryComponents?
-        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
+        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryText: String?
 
         @inlinable
@@ -1061,7 +1153,7 @@ extension GeoPlaces {
     }
 
     public struct GeocodeResponse: AWSDecodableShape {
-        /// The pricing bucket for which the query is charged at. For more inforamtion on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
         /// List of places or results returned for a query.
         public let resultItems: [GeocodeResultItem]?
@@ -1085,7 +1177,7 @@ extension GeoPlaces {
     }
 
     public struct GeocodeResultItem: AWSDecodableShape {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point represented by longitude and latitude.
         public let accessPoints: [AccessPoint]?
         /// The place's address.
         public let address: Address?
@@ -1097,11 +1189,17 @@ extension GeoPlaces {
         public let distance: Int64?
         /// List of food types offered by this result.
         public let foodTypes: [FoodType]?
+        /// All Intersections that are near the provided address.
+        public let intersections: [Intersection]?
+        /// The main address corresponding to a place of type Secondary Address.
+        public let mainAddress: RelatedPlace?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public let mapView: [Double]?
         /// Indicates how well the entire input matches the returned. It is equal to 1 if all input tokens are recognized and matched.
         public let matchScores: MatchScoreDetails?
-        /// The PlaceId of the place you wish to receive the information for.
+        /// Free-form text query.
+        public let parsedQuery: GeocodeParsedQuery?
+        /// The PlaceId of the place result.
         public let placeId: String
         /// A PlaceType is a category that the result place must belong to.
         public let placeType: PlaceType
@@ -1111,26 +1209,32 @@ extension GeoPlaces {
         public let position: [Double]?
         /// Contains details about the postal code of the place/result.
         public let postalCodeDetails: [PostalCodeDetails]?
+        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.
+        public let secondaryAddresses: [RelatedPlace]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
         /// The localized display name of this result item based on request parameter language.
         public let title: String
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, matchScores: MatchScoreDetails? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, intersections: [Intersection]? = nil, mainAddress: RelatedPlace? = nil, mapView: [Double]? = nil, matchScores: MatchScoreDetails? = nil, parsedQuery: GeocodeParsedQuery? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, secondaryAddresses: [RelatedPlace]? = nil, timeZone: TimeZone? = nil, title: String) {
             self.accessPoints = accessPoints
             self.address = address
             self.addressNumberCorrected = addressNumberCorrected
             self.categories = categories
             self.distance = distance
             self.foodTypes = foodTypes
+            self.intersections = intersections
+            self.mainAddress = mainAddress
             self.mapView = mapView
             self.matchScores = matchScores
+            self.parsedQuery = parsedQuery
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
             self.position = position
             self.postalCodeDetails = postalCodeDetails
+            self.secondaryAddresses = secondaryAddresses
             self.timeZone = timeZone
             self.title = title
         }
@@ -1142,13 +1246,17 @@ extension GeoPlaces {
             case categories = "Categories"
             case distance = "Distance"
             case foodTypes = "FoodTypes"
+            case intersections = "Intersections"
+            case mainAddress = "MainAddress"
             case mapView = "MapView"
             case matchScores = "MatchScores"
+            case parsedQuery = "ParsedQuery"
             case placeId = "PlaceId"
             case placeType = "PlaceType"
             case politicalView = "PoliticalView"
             case position = "Position"
             case postalCodeDetails = "PostalCodeDetails"
+            case secondaryAddresses = "SecondaryAddresses"
             case timeZone = "TimeZone"
             case title = "Title"
         }
@@ -1157,7 +1265,7 @@ extension GeoPlaces {
     public struct GetPlaceRequest: AWSEncodableShape {
         /// A list of optional additional parameters such as time zone that can be requested for each result.
         public let additionalFeatures: [GetPlaceAdditionalFeature]?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an GetPlace query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: GetPlaceIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -1220,6 +1328,8 @@ extension GeoPlaces {
         public let contacts: Contacts?
         /// List of food types offered by this result.
         public let foodTypes: [FoodType]?
+        /// The main address corresponding to a place of type Secondary Address.
+        public let mainAddress: RelatedPlace?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set of four coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public let mapView: [Double]?
         /// List of opening hours objects.
@@ -1236,15 +1346,17 @@ extension GeoPlaces {
         public let position: [Double]?
         /// Contains details about the postal code of the place/result.
         public let postalCodeDetails: [PostalCodeDetails]?
-        /// The pricing bucket for which the query is charged at. For more inforamtion on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
+        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.
+        public let secondaryAddresses: [RelatedPlace]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
         /// The localized display name of this result item based on request parameter language.
         public let title: String
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, pricingBucket: String, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, foodTypes: [FoodType]? = nil, mainAddress: RelatedPlace? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, pricingBucket: String, secondaryAddresses: [RelatedPlace]? = nil, timeZone: TimeZone? = nil, title: String) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
@@ -1253,6 +1365,7 @@ extension GeoPlaces {
             self.categories = categories
             self.contacts = contacts
             self.foodTypes = foodTypes
+            self.mainAddress = mainAddress
             self.mapView = mapView
             self.openingHours = openingHours
             self.phonemes = phonemes
@@ -1262,6 +1375,7 @@ extension GeoPlaces {
             self.position = position
             self.postalCodeDetails = postalCodeDetails
             self.pricingBucket = pricingBucket
+            self.secondaryAddresses = secondaryAddresses
             self.timeZone = timeZone
             self.title = title
         }
@@ -1277,6 +1391,7 @@ extension GeoPlaces {
             self.categories = try container.decodeIfPresent([Category].self, forKey: .categories)
             self.contacts = try container.decodeIfPresent(Contacts.self, forKey: .contacts)
             self.foodTypes = try container.decodeIfPresent([FoodType].self, forKey: .foodTypes)
+            self.mainAddress = try container.decodeIfPresent(RelatedPlace.self, forKey: .mainAddress)
             self.mapView = try container.decodeIfPresent([Double].self, forKey: .mapView)
             self.openingHours = try container.decodeIfPresent([OpeningHours].self, forKey: .openingHours)
             self.phonemes = try container.decodeIfPresent(PhonemeDetails.self, forKey: .phonemes)
@@ -1286,6 +1401,7 @@ extension GeoPlaces {
             self.position = try container.decodeIfPresent([Double].self, forKey: .position)
             self.postalCodeDetails = try container.decodeIfPresent([PostalCodeDetails].self, forKey: .postalCodeDetails)
             self.pricingBucket = try response.decodeHeader(String.self, key: "x-amz-geo-pricing-bucket")
+            self.secondaryAddresses = try container.decodeIfPresent([RelatedPlace].self, forKey: .secondaryAddresses)
             self.timeZone = try container.decodeIfPresent(TimeZone.self, forKey: .timeZone)
             self.title = try container.decode(String.self, forKey: .title)
         }
@@ -1299,6 +1415,7 @@ extension GeoPlaces {
             case categories = "Categories"
             case contacts = "Contacts"
             case foodTypes = "FoodTypes"
+            case mainAddress = "MainAddress"
             case mapView = "MapView"
             case openingHours = "OpeningHours"
             case phonemes = "Phonemes"
@@ -1307,6 +1424,7 @@ extension GeoPlaces {
             case politicalView = "PoliticalView"
             case position = "Position"
             case postalCodeDetails = "PostalCodeDetails"
+            case secondaryAddresses = "SecondaryAddresses"
             case timeZone = "TimeZone"
             case title = "Title"
         }
@@ -1331,6 +1449,47 @@ extension GeoPlaces {
             case endIndex = "EndIndex"
             case startIndex = "StartIndex"
             case value = "Value"
+        }
+    }
+
+    public struct Intersection: AWSDecodableShape {
+        /// Position of the access point represented by longitude and latitude.
+        public let accessPoints: [AccessPoint]?
+        public let address: Address?
+        /// The distance in meters from the QueryPosition.
+        public let distance: Int64?
+        /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set of four coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
+        public let mapView: [Double]?
+        /// The PlaceId of the place result.
+        public let placeId: String
+        /// The position, in longitude and latitude.
+        public let position: [Double]?
+        /// The distance from the routing position of the nearby address to the street result.
+        public let routeDistance: Int64?
+        /// The localized display name of this result item based on request parameter language.
+        public let title: String
+
+        @inlinable
+        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, distance: Int64? = nil, mapView: [Double]? = nil, placeId: String, position: [Double]? = nil, routeDistance: Int64? = nil, title: String) {
+            self.accessPoints = accessPoints
+            self.address = address
+            self.distance = distance
+            self.mapView = mapView
+            self.placeId = placeId
+            self.position = position
+            self.routeDistance = routeDistance
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPoints = "AccessPoints"
+            case address = "Address"
+            case distance = "Distance"
+            case mapView = "MapView"
+            case placeId = "PlaceId"
+            case position = "Position"
+            case routeDistance = "RouteDistance"
+            case title = "Title"
         }
     }
 
@@ -1400,6 +1559,62 @@ extension GeoPlaces {
         }
     }
 
+    public struct ParsedQueryComponent: AWSDecodableShape {
+        /// End index of the parsed query component.
+        public let endIndex: Int?
+        /// The address component that the parsed query component corresponds to.
+        public let queryComponent: String?
+        /// Start index of the parsed query component.
+        public let startIndex: Int?
+        /// Value of the parsed query component.
+        public let value: String?
+
+        @inlinable
+        public init(endIndex: Int? = nil, queryComponent: String? = nil, startIndex: Int? = nil, value: String? = nil) {
+            self.endIndex = endIndex
+            self.queryComponent = queryComponent
+            self.startIndex = startIndex
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endIndex = "EndIndex"
+            case queryComponent = "QueryComponent"
+            case startIndex = "StartIndex"
+            case value = "Value"
+        }
+    }
+
+    public struct ParsedQuerySecondaryAddressComponent: AWSDecodableShape {
+        /// Secondary address designator provided in the query.
+        public let designator: String
+        /// End index of the parsed secondary address component in the query text.
+        public let endIndex: Int
+        /// Secondary address number provided in the query.
+        public let number: String
+        /// Start index of the parsed secondary address component in the query text.
+        public let startIndex: Int
+        /// Value of the parsed secondary address component.
+        public let value: String
+
+        @inlinable
+        public init(designator: String, endIndex: Int, number: String, startIndex: Int, value: String) {
+            self.designator = designator
+            self.endIndex = endIndex
+            self.number = number
+            self.startIndex = startIndex
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case designator = "Designator"
+            case endIndex = "EndIndex"
+            case number = "Number"
+            case startIndex = "StartIndex"
+            case value = "Value"
+        }
+    }
+
     public struct PhonemeDetails: AWSDecodableShape {
         /// How to pronounce the address.
         public let address: AddressComponentPhonemes?
@@ -1443,7 +1658,7 @@ extension GeoPlaces {
     public struct PostalCodeDetails: AWSDecodableShape {
         /// The postal authority or entity. This could be a governmental authority, a regulatory authority, or a designated postal operator.
         public let postalAuthority: PostalAuthority?
-        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code for which the result should posses.
+        /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code for which the result should possess.
         public let postalCode: String?
         /// The postal code type.
         public let postalCodeType: PostalCodeType?
@@ -1532,6 +1747,39 @@ extension GeoPlaces {
         }
     }
 
+    public struct RelatedPlace: AWSDecodableShape {
+        /// Position of the access point represented by longitude and latitude.
+        public let accessPoints: [AccessPoint]?
+        public let address: Address?
+        /// The PlaceId of the place result.
+        public let placeId: String
+        /// A PlaceType is a category that the result place must belong to.
+        public let placeType: PlaceType
+        /// The position, in longitude and latitude.
+        public let position: [Double]?
+        /// The localized display name of this result item based on request parameter language.
+        public let title: String
+
+        @inlinable
+        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, placeId: String, placeType: PlaceType, position: [Double]? = nil, title: String) {
+            self.accessPoints = accessPoints
+            self.address = address
+            self.placeId = placeId
+            self.placeType = placeType
+            self.position = position
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPoints = "AccessPoints"
+            case address = "Address"
+            case placeId = "PlaceId"
+            case placeType = "PlaceType"
+            case position = "Position"
+            case title = "Title"
+        }
+    }
+
     public struct ReverseGeocodeFilter: AWSEncodableShape {
         /// The included place types.
         public let includePlaceTypes: [ReverseGeocodeFilterPlaceType]?
@@ -1554,9 +1802,9 @@ extension GeoPlaces {
     public struct ReverseGeocodeRequest: AWSEncodableShape {
         /// A list of optional additional parameters, such as time zone that can be requested for each result.
         public let additionalFeatures: [ReverseGeocodeAdditionalFeature]?
-        /// A structure which contains a set of inclusion/exclusion properties that results must posses in order to be returned as a result.
+        /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: ReverseGeocodeFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an ReverseGeocode query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: ReverseGeocodeIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -1566,7 +1814,7 @@ extension GeoPlaces {
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position, in [lng, lat] for which you are querying nearby resultsfor. Results closer to the position will be ranked higher then results further away from the position
+        /// The position, in [lng, lat] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
         public let queryPosition: [Double]
         /// The maximum distance in meters from the QueryPosition from which a result will be returned.
         public let queryRadius: Int64?
@@ -1627,7 +1875,7 @@ extension GeoPlaces {
     }
 
     public struct ReverseGeocodeResponse: AWSDecodableShape {
-        /// The pricing bucket for which the query is charged at. For more inforamtion on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
         /// List of places or results returned for a query.
         public let resultItems: [ReverseGeocodeResultItem]?
@@ -1651,7 +1899,7 @@ extension GeoPlaces {
     }
 
     public struct ReverseGeocodeResultItem: AWSDecodableShape {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point represented by longitude and latitude.
         public let accessPoints: [AccessPoint]?
         /// The place's address.
         public let address: Address?
@@ -1663,6 +1911,8 @@ extension GeoPlaces {
         public let distance: Int64?
         /// List of food types offered by this result.
         public let foodTypes: [FoodType]?
+        /// All Intersections that are near the provided address.
+        public let intersections: [Intersection]?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public let mapView: [Double]?
         /// The PlaceId of the place you wish to receive the information for.
@@ -1681,13 +1931,14 @@ extension GeoPlaces {
         public let title: String
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, intersections: [Intersection]? = nil, mapView: [Double]? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, timeZone: TimeZone? = nil, title: String) {
             self.accessPoints = accessPoints
             self.address = address
             self.addressNumberCorrected = addressNumberCorrected
             self.categories = categories
             self.distance = distance
             self.foodTypes = foodTypes
+            self.intersections = intersections
             self.mapView = mapView
             self.placeId = placeId
             self.placeType = placeType
@@ -1705,6 +1956,7 @@ extension GeoPlaces {
             case categories = "Categories"
             case distance = "Distance"
             case foodTypes = "FoodTypes"
+            case intersections = "Intersections"
             case mapView = "MapView"
             case placeId = "PlaceId"
             case placeType = "PlaceType"
@@ -1785,9 +2037,9 @@ extension GeoPlaces {
     public struct SearchNearbyRequest: AWSEncodableShape {
         /// A list of optional additional parameters, such as time zone, that can be requested for each result.
         public let additionalFeatures: [SearchNearbyAdditionalFeature]?
-        /// A structure which contains a set of inclusion/exclusion properties that results must posses in order to be returned as a result.
+        /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SearchNearbyFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an SearchNearby query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: SearchNearbyIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -1795,13 +2047,13 @@ extension GeoPlaces {
         public let language: String?
         /// An optional limit for the number of results returned in a single call.
         public let maxResults: Int?
-        /// If nextToken is returned,  there are more results available. The value of nextToken is a unique pagination token for each page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
         public let nextToken: String?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position, in [lng, lat] for which you are querying nearby resultsfor. Results closer to the position will be ranked higher then results further away from the position
+        /// The position, in [lng, lat] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
         public let queryPosition: [Double]
-        /// The maximum distance in meters from the QueryPosition from which a result will be returned.
+        /// The maximum distance in meters from the QueryPosition from which a result will be returned.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryRadius: Int64?
 
         @inlinable
@@ -1865,9 +2117,9 @@ extension GeoPlaces {
     }
 
     public struct SearchNearbyResponse: AWSDecodableShape {
-        /// If nextToken is returned,  there are more results available. The value of nextToken is a unique pagination token for each page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
         public let nextToken: String?
-        /// The pricing bucket for which the query is charged at. For more inforamtion on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
         /// List of places or results returned for a query.
         public let resultItems: [SearchNearbyResultItem]?
@@ -2014,9 +2266,9 @@ extension GeoPlaces {
         public let additionalFeatures: [SearchTextAdditionalFeature]?
         /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
         public let biasPosition: [Double]?
-        /// A structure which contains a set of inclusion/exclusion properties that results must posses in order to be returned as a result.
+        /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SearchTextFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an SearchText query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: SearchTextIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -2024,13 +2276,13 @@ extension GeoPlaces {
         public let language: String?
         /// An optional limit for the number of results returned in a single call.
         public let maxResults: Int?
-        /// If nextToken is returned,  there are more results available. The value of nextToken is a unique pagination token for each page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
         public let nextToken: String?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The query Id.
+        /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryId: String?
-        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
+        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryText: String?
 
         @inlinable
@@ -2095,9 +2347,9 @@ extension GeoPlaces {
     }
 
     public struct SearchTextResponse: AWSDecodableShape {
-        /// If nextToken is returned,  there are more results available. The value of nextToken is a unique pagination token for each page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
         public let nextToken: String?
-        /// The pricing bucket for which the query is charged at. For more inforamtion on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
         /// List of places or results returned for a query.
         public let resultItems: [SearchTextResultItem]?
@@ -2205,8 +2457,36 @@ extension GeoPlaces {
         }
     }
 
+    public struct SecondaryAddressComponent: AWSDecodableShape {
+        /// Number that uniquely identifies a secondary address.
+        public let number: String
+
+        @inlinable
+        public init(number: String) {
+            self.number = number
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case number = "Number"
+        }
+    }
+
+    public struct SecondaryAddressComponentMatchScore: AWSDecodableShape {
+        /// Match score for the secondary address number.
+        public let number: Double?
+
+        @inlinable
+        public init(number: Double? = nil) {
+            self.number = number
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case number = "Number"
+        }
+    }
+
     public struct StreetComponents: AWSDecodableShape {
-        /// Base name part of the street name.  Example: Younge from the “Younge street".
+        /// Base name part of the street name.  Example: Younge from the "Younge street".
         public let baseName: String?
         /// Indicates the official directional identifiers assigned to highways.
         public let direction: String?
@@ -2216,11 +2496,11 @@ extension GeoPlaces {
         public let prefix: String?
         /// A suffix is a directional identifier that follows, but is not included in, the base name of a road.  Example W for West.
         public let suffix: String?
-        /// Street type part of the street name.  Example: “avenue".
+        /// Street type part of the street name.  Example: "avenue".
         public let type: String?
         /// Defines if the street type is before or after the base name.
         public let typePlacement: TypePlacement?
-        /// What character(s) separates the string from its type.
+        /// Defines a separator character such as "" or " " between the base name and type.
         public let typeSeparator: String?
 
         @inlinable
@@ -2416,9 +2696,9 @@ extension GeoPlaces {
     }
 
     public struct SuggestQueryResult: AWSDecodableShape {
-        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details SearchText API docs.
+        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details SearchText API docs.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryId: String?
-        /// The query type. Category qeuries will search for places which have an entry matching the given category, for example "doctor office". BusinessChain queries will search for instances of a given business.
+        /// The query type. Category queries will search for places which have an entry matching the given category, for example "doctor office". BusinessChain queries will search for instances of a given business.
         public let queryType: QueryType?
 
         @inlinable
@@ -2438,7 +2718,7 @@ extension GeoPlaces {
         public let additionalFeatures: [SuggestAdditionalFeature]?
         /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
         public let biasPosition: [Double]?
-        /// A structure which contains a set of inclusion/exclusion properties that results must posses in order to be returned as a result.
+        /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SuggestFilter?
         /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
         public let intendedUse: SuggestIntendedUse?
@@ -2452,7 +2732,7 @@ extension GeoPlaces {
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
+        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryText: String
 
         @inlinable
@@ -2512,7 +2792,7 @@ extension GeoPlaces {
     }
 
     public struct SuggestResponse: AWSDecodableShape {
-        /// The pricing bucket for which the query is charged at. For more inforamtion on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
         /// Maximum number of query terms to be returned for use with a search text query.
         public let queryRefinements: [QueryRefinement]?

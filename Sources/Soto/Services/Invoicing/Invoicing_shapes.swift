@@ -25,6 +25,18 @@ import Foundation
 extension Invoicing {
     // MARK: Enums
 
+    public enum InvoiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creditMemo = "CREDIT_MEMO"
+        case invoice = "INVOICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListInvoiceSummariesResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountId = "ACCOUNT_ID"
+        case invoiceId = "INVOICE_ID"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountMembershipError = "accountMembershipError"
         case cannotParse = "cannotParse"
@@ -62,6 +74,32 @@ extension Invoicing {
         }
     }
 
+    public struct AmountBreakdown: AWSDecodableShape {
+        ///  The discounted amount.
+        public let discounts: DiscountsBreakdown?
+        ///  The fee amount.
+        public let fees: FeesBreakdown?
+        ///  The total of a set of the breakdown.
+        public let subTotalAmount: String?
+        ///  The tax amount.
+        public let taxes: TaxesBreakdown?
+
+        @inlinable
+        public init(discounts: DiscountsBreakdown? = nil, fees: FeesBreakdown? = nil, subTotalAmount: String? = nil, taxes: TaxesBreakdown? = nil) {
+            self.discounts = discounts
+            self.fees = fees
+            self.subTotalAmount = subTotalAmount
+            self.taxes = taxes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discounts = "Discounts"
+            case fees = "Fees"
+            case subTotalAmount = "SubTotalAmount"
+            case taxes = "Taxes"
+        }
+    }
+
     public struct BatchGetInvoiceProfileRequest: AWSEncodableShape {
         /// Retrieves the corresponding invoice profile data for these account IDs.
         public let accountIds: [String]
@@ -95,6 +133,31 @@ extension Invoicing {
 
         private enum CodingKeys: String, CodingKey {
             case profiles = "Profiles"
+        }
+    }
+
+    public struct BillingPeriod: AWSEncodableShape & AWSDecodableShape {
+        ///  The billing period month.
+        public let month: Int
+        ///  The billing period year.
+        public let year: Int
+
+        @inlinable
+        public init(month: Int, year: Int) {
+            self.month = month
+            self.year = year
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.month, name: "month", parent: name, max: 12)
+            try self.validate(self.month, name: "month", parent: name, min: 1)
+            try self.validate(self.year, name: "year", parent: name, max: 2050)
+            try self.validate(self.year, name: "year", parent: name, min: 2005)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case month = "Month"
+            case year = "Year"
         }
     }
 
@@ -160,6 +223,46 @@ extension Invoicing {
         }
     }
 
+    public struct CurrencyExchangeDetails: AWSDecodableShape {
+        /// The currency exchange rate.
+        public let rate: String?
+        /// The exchange source currency.
+        public let sourceCurrencyCode: String?
+        /// The exchange target currency.
+        public let targetCurrencyCode: String?
+
+        @inlinable
+        public init(rate: String? = nil, sourceCurrencyCode: String? = nil, targetCurrencyCode: String? = nil) {
+            self.rate = rate
+            self.sourceCurrencyCode = sourceCurrencyCode
+            self.targetCurrencyCode = targetCurrencyCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rate = "Rate"
+            case sourceCurrencyCode = "SourceCurrencyCode"
+            case targetCurrencyCode = "TargetCurrencyCode"
+        }
+    }
+
+    public struct DateInterval: AWSEncodableShape {
+        ///  The end of the time period that you want invoice-related documents for. The end date is exclusive. For example, if end is 2019-01-10, Amazon Web Services retrieves invoice-related documents from the start date up to, but not including, 2018-01-10.
+        public let endDate: Date
+        ///  The beginning of the time period that you want invoice-related documents for. The start date is inclusive. For example, if start is 2019-01-01, AWS retrieves invoices starting at 2019-01-01 up to the end date.
+        public let startDate: Date
+
+        @inlinable
+        public init(endDate: Date, startDate: Date) {
+            self.endDate = endDate
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case startDate = "StartDate"
+        }
+    }
+
     public struct DeleteInvoiceUnitRequest: AWSEncodableShape {
         ///  The ARN to identify an invoice unit. This information can't be modified or deleted.
         public let invoiceUnitArn: String
@@ -194,10 +297,104 @@ extension Invoicing {
         }
     }
 
+    public struct DiscountsBreakdown: AWSDecodableShape {
+        /// The list of discounts information.
+        public let breakdown: [DiscountsBreakdownAmount]?
+        ///  The discount's total amount.
+        public let totalAmount: String?
+
+        @inlinable
+        public init(breakdown: [DiscountsBreakdownAmount]? = nil, totalAmount: String? = nil) {
+            self.breakdown = breakdown
+            self.totalAmount = totalAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakdown = "Breakdown"
+            case totalAmount = "TotalAmount"
+        }
+    }
+
+    public struct DiscountsBreakdownAmount: AWSDecodableShape {
+        /// The discounted amount.
+        public let amount: String?
+        ///  The list of discounts information.
+        public let description: String?
+        ///  The details for the discount rate..
+        public let rate: String?
+
+        @inlinable
+        public init(amount: String? = nil, description: String? = nil, rate: String? = nil) {
+            self.amount = amount
+            self.description = description
+            self.rate = rate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case description = "Description"
+            case rate = "Rate"
+        }
+    }
+
+    public struct Entity: AWSDecodableShape {
+        /// The name of the entity that issues the Amazon Web Services invoice.
+        public let invoicingEntity: String?
+
+        @inlinable
+        public init(invoicingEntity: String? = nil) {
+            self.invoicingEntity = invoicingEntity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invoicingEntity = "InvoicingEntity"
+        }
+    }
+
+    public struct FeesBreakdown: AWSDecodableShape {
+        /// The list of fees information.
+        public let breakdown: [FeesBreakdownAmount]?
+        ///  The total amount of fees.
+        public let totalAmount: String?
+
+        @inlinable
+        public init(breakdown: [FeesBreakdownAmount]? = nil, totalAmount: String? = nil) {
+            self.breakdown = breakdown
+            self.totalAmount = totalAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakdown = "Breakdown"
+            case totalAmount = "TotalAmount"
+        }
+    }
+
+    public struct FeesBreakdownAmount: AWSDecodableShape {
+        ///  The fee amount.
+        public let amount: String?
+        ///  The list of fees information.
+        public let description: String?
+        ///  Details about the rate amount.
+        public let rate: String?
+
+        @inlinable
+        public init(amount: String? = nil, description: String? = nil, rate: String? = nil) {
+            self.amount = amount
+            self.description = description
+            self.rate = rate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case description = "Description"
+            case rate = "Rate"
+        }
+    }
+
     public struct Filters: AWSEncodableShape {
-        /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
+        ///  You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
         public let accounts: [String]?
-        /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
+        ///  You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
         public let invoiceReceivers: [String]?
         ///  An optional input to the list API. You can specify a list of invoice unit names inside filters to return invoice units that match only the specified invoice unit names. If multiple names are provided, the result is an OR condition (match any) of the specified invoice unit names.
         public let names: [String]?
@@ -318,18 +515,48 @@ extension Invoicing {
         }
     }
 
+    public struct InvoiceCurrencyAmount: AWSDecodableShape {
+        ///  Details about the invoice currency amount.
+        public let amountBreakdown: AmountBreakdown?
+        /// The currency dominion of the invoice document.
+        public let currencyCode: String?
+        ///  The details of currency exchange.
+        public let currencyExchangeDetails: CurrencyExchangeDetails?
+        ///  The invoice currency amount.
+        public let totalAmount: String?
+        ///  Details about the invoice total amount before tax.
+        public let totalAmountBeforeTax: String?
+
+        @inlinable
+        public init(amountBreakdown: AmountBreakdown? = nil, currencyCode: String? = nil, currencyExchangeDetails: CurrencyExchangeDetails? = nil, totalAmount: String? = nil, totalAmountBeforeTax: String? = nil) {
+            self.amountBreakdown = amountBreakdown
+            self.currencyCode = currencyCode
+            self.currencyExchangeDetails = currencyExchangeDetails
+            self.totalAmount = totalAmount
+            self.totalAmountBeforeTax = totalAmountBeforeTax
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amountBreakdown = "AmountBreakdown"
+            case currencyCode = "CurrencyCode"
+            case currencyExchangeDetails = "CurrencyExchangeDetails"
+            case totalAmount = "TotalAmount"
+            case totalAmountBeforeTax = "TotalAmountBeforeTax"
+        }
+    }
+
     public struct InvoiceProfile: AWSDecodableShape {
-        /// The account ID the invoice profile is generated for.
+        ///  The account ID the invoice profile is generated for.
         public let accountId: String?
-        /// This specifies the issuing entity of the invoice.
+        ///  This specifies the issuing entity of the invoice.
         public let issuer: String?
         /// The address of the receiver that will be printed on the invoice.
         public let receiverAddress: ReceiverAddress?
         /// The email address for the invoice profile receiver.
         public let receiverEmail: String?
-        /// The name of the person receiving the invoice profile.
+        ///  The name of the person receiving the invoice profile.
         public let receiverName: String?
-        /// Your Tax Registration Number (TRN) information.
+        ///  Your Tax Registration Number (TRN) information.
         public let taxRegistrationNumber: String?
 
         @inlinable
@@ -352,6 +579,115 @@ extension Invoicing {
         }
     }
 
+    public struct InvoiceSummariesFilter: AWSEncodableShape {
+        /// The billing period associated with the invoice documents.
+        public let billingPeriod: BillingPeriod?
+        /// The name of the entity that issues the Amazon Web Services invoice.
+        public let invoicingEntity: String?
+        /// The date range for invoice summary retrieval.
+        public let timeInterval: DateInterval?
+
+        @inlinable
+        public init(billingPeriod: BillingPeriod? = nil, invoicingEntity: String? = nil, timeInterval: DateInterval? = nil) {
+            self.billingPeriod = billingPeriod
+            self.invoicingEntity = invoicingEntity
+            self.timeInterval = timeInterval
+        }
+
+        public func validate(name: String) throws {
+            try self.billingPeriod?.validate(name: "\(name).billingPeriod")
+            try self.validate(self.invoicingEntity, name: "invoicingEntity", parent: name, max: 1024)
+            try self.validate(self.invoicingEntity, name: "invoicingEntity", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingPeriod = "BillingPeriod"
+            case invoicingEntity = "InvoicingEntity"
+            case timeInterval = "TimeInterval"
+        }
+    }
+
+    public struct InvoiceSummariesSelector: AWSEncodableShape {
+        /// The query identifier type (INVOICE_ID or ACCOUNT_ID).
+        public let resourceType: ListInvoiceSummariesResourceType
+        /// The value of the query identifier.
+        public let value: String
+
+        @inlinable
+        public init(resourceType: ListInvoiceSummariesResourceType, value: String) {
+            self.resourceType = resourceType
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "ResourceType"
+            case value = "Value"
+        }
+    }
+
+    public struct InvoiceSummary: AWSDecodableShape {
+        ///  The Amazon Web Services account ID.
+        public let accountId: String?
+        ///  The summary with the product and service currency.
+        public let baseCurrencyAmount: InvoiceCurrencyAmount?
+        ///  The billing period of the invoice-related document.
+        public let billingPeriod: BillingPeriod?
+        ///  The invoice due date.
+        public let dueDate: Date?
+        /// The organization name providing Amazon Web Services services.
+        public let entity: Entity?
+        ///  The invoice ID.
+        public let invoiceId: String?
+        ///  The type of invoice.
+        public let invoiceType: InvoiceType?
+        ///  The issued date of the invoice.
+        public let issuedDate: Date?
+        /// The initial or original invoice ID.
+        public let originalInvoiceId: String?
+        ///  The summary with the customer configured currency.
+        public let paymentCurrencyAmount: InvoiceCurrencyAmount?
+        ///  The purchase order number associated to the invoice.
+        public let purchaseOrderNumber: String?
+        ///  The summary with the tax currency.
+        public let taxCurrencyAmount: InvoiceCurrencyAmount?
+
+        @inlinable
+        public init(accountId: String? = nil, baseCurrencyAmount: InvoiceCurrencyAmount? = nil, billingPeriod: BillingPeriod? = nil, dueDate: Date? = nil, entity: Entity? = nil, invoiceId: String? = nil, invoiceType: InvoiceType? = nil, issuedDate: Date? = nil, originalInvoiceId: String? = nil, paymentCurrencyAmount: InvoiceCurrencyAmount? = nil, purchaseOrderNumber: String? = nil, taxCurrencyAmount: InvoiceCurrencyAmount? = nil) {
+            self.accountId = accountId
+            self.baseCurrencyAmount = baseCurrencyAmount
+            self.billingPeriod = billingPeriod
+            self.dueDate = dueDate
+            self.entity = entity
+            self.invoiceId = invoiceId
+            self.invoiceType = invoiceType
+            self.issuedDate = issuedDate
+            self.originalInvoiceId = originalInvoiceId
+            self.paymentCurrencyAmount = paymentCurrencyAmount
+            self.purchaseOrderNumber = purchaseOrderNumber
+            self.taxCurrencyAmount = taxCurrencyAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case baseCurrencyAmount = "BaseCurrencyAmount"
+            case billingPeriod = "BillingPeriod"
+            case dueDate = "DueDate"
+            case entity = "Entity"
+            case invoiceId = "InvoiceId"
+            case invoiceType = "InvoiceType"
+            case issuedDate = "IssuedDate"
+            case originalInvoiceId = "OriginalInvoiceId"
+            case paymentCurrencyAmount = "PaymentCurrencyAmount"
+            case purchaseOrderNumber = "PurchaseOrderNumber"
+            case taxCurrencyAmount = "TaxCurrencyAmount"
+        }
+    }
+
     public struct InvoiceUnit: AWSDecodableShape {
         /// The assigned description for an invoice unit. This information can't be modified or deleted.
         public let description: String?
@@ -359,11 +695,11 @@ extension Invoicing {
         public let invoiceReceiver: String?
         /// ARN to identify an invoice unit. This information can't be modified or deleted.
         public let invoiceUnitArn: String?
-        /// The last time the invoice unit was updated. This is important to determine the version of invoice unit configuration used to create the invoices. Any invoice created after this modified time will use this invoice unit configuration.
+        ///  The last time the invoice unit was updated. This is important to determine the version of invoice unit configuration used to create the invoices. Any invoice created after this modified time will use this invoice unit configuration.
         public let lastModified: Date?
         ///  A unique name that is distinctive within your Amazon Web Services.
         public let name: String?
-        /// An InvoiceUnitRule object used the categorize invoice units.
+        ///  An InvoiceUnitRule object used the categorize invoice units.
         public let rule: InvoiceUnitRule?
         /// Whether the invoice unit based tax inheritance is/ should be enabled or disabled.
         public let taxInheritanceDisabled: Bool?
@@ -412,6 +748,59 @@ extension Invoicing {
         }
     }
 
+    public struct ListInvoiceSummariesRequest: AWSEncodableShape {
+        /// Filters you can use to customize your invoice summary.
+        public let filter: InvoiceSummariesFilter?
+        /// The maximum number of invoice summaries a paginated response can contain.
+        public let maxResults: Int?
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+        /// The option to retrieve details for a specific invoice by providing its unique ID. Alternatively, access information for all invoices linked to the account by providing an account ID.
+        public let selector: InvoiceSummariesSelector
+
+        @inlinable
+        public init(filter: InvoiceSummariesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, selector: InvoiceSummariesSelector) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.selector = selector
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.selector.validate(name: "\(name).selector")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case selector = "Selector"
+        }
+    }
+
+    public struct ListInvoiceSummariesResponse: AWSDecodableShape {
+        /// List of key (summary level) invoice details without line item details.
+        public let invoiceSummaries: [InvoiceSummary]
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+
+        @inlinable
+        public init(invoiceSummaries: [InvoiceSummary], nextToken: String? = nil) {
+            self.invoiceSummaries = invoiceSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invoiceSummaries = "InvoiceSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListInvoiceUnitsRequest: AWSEncodableShape {
         ///  The state of an invoice unit at a specified time. You can see legacy invoice units that are currently deleted if the AsOf time is set to before it was deleted. If an AsOf is not provided, the default value is the current time.
         public let asOf: Date?
@@ -434,7 +823,6 @@ extension Invoicing {
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
         }
@@ -477,7 +865,7 @@ extension Invoicing {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(invoicing)::[0-9]{12}:[-a-zA-Z0-9/:_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -500,23 +888,23 @@ extension Invoicing {
     }
 
     public struct ReceiverAddress: AWSDecodableShape {
-        /// The first line of the address.
+        ///  The first line of the address.
         public let addressLine1: String?
-        /// The second line of the address, if applicable.
+        ///  The second line of the address, if applicable.
         public let addressLine2: String?
-        /// The third line of the address, if applicable.
+        ///  The third line of the address, if applicable.
         public let addressLine3: String?
-        /// The city that the address is in.
+        ///  The city that the address is in.
         public let city: String?
-        /// A unique company name.
+        ///  A unique company name.
         public let companyName: String?
-        /// The country code for the country the address is in.
+        ///  The country code for the country the address is in.
         public let countryCode: String?
-        /// The district or country the address is located in.
+        ///  The district or country the address is located in.
         public let districtOrCounty: String?
-        /// The postal code associated with the address.
+        ///  The postal code associated with the address.
         public let postalCode: String?
-        /// The state, region, or province the address is located.
+        ///  The state, region, or province the address is located.
         public let stateOrRegion: String?
 
         @inlinable
@@ -565,7 +953,7 @@ extension Invoicing {
     public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
         /// The object key of your of your resource tag.
         public let key: String
-        /// The specific value of the resource tag.
+        ///  The specific value of the resource tag.
         public let value: String
 
         @inlinable
@@ -601,7 +989,7 @@ extension Invoicing {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(invoicing)::[0-9]{12}:[-a-zA-Z0-9/:_]+$")
             try self.resourceTags.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
@@ -616,6 +1004,46 @@ extension Invoicing {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TaxesBreakdown: AWSDecodableShape {
+        ///  A list of tax information.
+        public let breakdown: [TaxesBreakdownAmount]?
+        ///  The total amount for your taxes.
+        public let totalAmount: String?
+
+        @inlinable
+        public init(breakdown: [TaxesBreakdownAmount]? = nil, totalAmount: String? = nil) {
+            self.breakdown = breakdown
+            self.totalAmount = totalAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakdown = "Breakdown"
+            case totalAmount = "TotalAmount"
+        }
+    }
+
+    public struct TaxesBreakdownAmount: AWSDecodableShape {
+        ///  The tax amount.
+        public let amount: String?
+        ///  The details of the taxes.
+        public let description: String?
+        ///  The details of the tax rate.
+        public let rate: String?
+
+        @inlinable
+        public init(amount: String? = nil, description: String? = nil, rate: String? = nil) {
+            self.amount = amount
+            self.description = description
+            self.rate = rate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case description = "Description"
+            case rate = "Rate"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -633,7 +1061,7 @@ extension Invoicing {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(invoicing)::[0-9]{12}:[-a-zA-Z0-9/:_]+$")
             try self.resourceTagKeys.forEach {
                 try validate($0, name: "resourceTagKeys[]", parent: name, max: 128)
                 try validate($0, name: "resourceTagKeys[]", parent: name, min: 1)

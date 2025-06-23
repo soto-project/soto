@@ -111,6 +111,7 @@ public struct Amplify: AWSService {
     ///   - enableBranchAutoDeletion: Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     ///   - environmentVariables: The environment variables map for an Amplify app.  For a list of the environment variables that are accessible to Amplify by default, see Amplify Environment variables in the Amplify Hosting User Guide.
     ///   - iamServiceRoleArn: The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
+    ///   - jobConfig: Describes the configuration details that apply to the jobs for an Amplify app.
     ///   - name: The name of the Amplify app.
     ///   - oauthToken: The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
     ///   - platform: The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE and set the artifacts baseDirectory to .next in the application's build settings. For an example of the build specification settings, see Amplify build settings for a Next.js 14 SSG application in the Amplify Hosting User Guide.
@@ -135,6 +136,7 @@ public struct Amplify: AWSService {
         enableBranchAutoDeletion: Bool? = nil,
         environmentVariables: [String: String]? = nil,
         iamServiceRoleArn: String? = nil,
+        jobConfig: JobConfig? = nil,
         name: String,
         oauthToken: String? = nil,
         platform: Platform? = nil,
@@ -159,6 +161,7 @@ public struct Amplify: AWSService {
             enableBranchAutoDeletion: enableBranchAutoDeletion, 
             environmentVariables: environmentVariables, 
             iamServiceRoleArn: iamServiceRoleArn, 
+            jobConfig: jobConfig, 
             name: name, 
             oauthToken: oauthToken, 
             platform: platform, 
@@ -168,7 +171,7 @@ public struct Amplify: AWSService {
         return try await self.createApp(input, logger: logger)
     }
 
-    /// Creates a new backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Creates a new backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     @inlinable
     public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackendEnvironmentResult {
@@ -181,7 +184,7 @@ public struct Amplify: AWSService {
             logger: logger
         )
     }
-    /// Creates a new backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Creates a new backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
     /// Parameters:
     ///   - appId: The unique ID for an Amplify app.
@@ -441,7 +444,7 @@ public struct Amplify: AWSService {
         return try await self.deleteApp(input, logger: logger)
     }
 
-    /// Deletes a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Deletes a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     @inlinable
     public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBackendEnvironmentResult {
@@ -454,7 +457,7 @@ public struct Amplify: AWSService {
             logger: logger
         )
     }
-    /// Deletes a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Deletes a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
     /// Parameters:
     ///   - appId: The unique ID of an Amplify app.
@@ -697,7 +700,7 @@ public struct Amplify: AWSService {
         return try await self.getArtifactUrl(input, logger: logger)
     }
 
-    /// Returns a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Returns a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     @inlinable
     public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackendEnvironmentResult {
@@ -710,7 +713,7 @@ public struct Amplify: AWSService {
             logger: logger
         )
     }
-    /// Returns a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Returns a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
     /// Parameters:
     ///   - appId: The unique id for an Amplify app.
@@ -930,7 +933,7 @@ public struct Amplify: AWSService {
         return try await self.listArtifacts(input, logger: logger)
     }
 
-    /// Lists the backend environments for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Lists the backend environments for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     @inlinable
     public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackendEnvironmentsResult {
@@ -943,7 +946,7 @@ public struct Amplify: AWSService {
             logger: logger
         )
     }
-    /// Lists the backend environments for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Lists the backend environments for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
     /// Parameters:
     ///   - appId: The unique ID for an Amplify app.
@@ -1363,6 +1366,7 @@ public struct Amplify: AWSService {
     ///   - enableBranchAutoDeletion: Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     ///   - environmentVariables: The environment variables for an Amplify app.
     ///   - iamServiceRoleArn: The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
+    ///   - jobConfig: Describes the configuration details that apply to the jobs for an Amplify app.
     ///   - name: The name for an Amplify app.
     ///   - oauthToken: The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
     ///   - platform: The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE.
@@ -1387,6 +1391,7 @@ public struct Amplify: AWSService {
         enableBranchAutoDeletion: Bool? = nil,
         environmentVariables: [String: String]? = nil,
         iamServiceRoleArn: String? = nil,
+        jobConfig: JobConfig? = nil,
         name: String? = nil,
         oauthToken: String? = nil,
         platform: Platform? = nil,
@@ -1411,6 +1416,7 @@ public struct Amplify: AWSService {
             enableBranchAutoDeletion: enableBranchAutoDeletion, 
             environmentVariables: environmentVariables, 
             iamServiceRoleArn: iamServiceRoleArn, 
+            jobConfig: jobConfig, 
             name: name, 
             oauthToken: oauthToken, 
             platform: platform, 

@@ -624,6 +624,7 @@ extension CloudFormation {
     }
 
     public enum WarningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case excludedProperties = "EXCLUDED_PROPERTIES"
         case mutuallyExclusiveProperties = "MUTUALLY_EXCLUSIVE_PROPERTIES"
         case mutuallyExclusiveTypes = "MUTUALLY_EXCLUSIVE_TYPES"
         case unsupportedProperties = "UNSUPPORTED_PROPERTIES"
@@ -5645,7 +5646,7 @@ extension CloudFormation {
     }
 
     public struct ScanFilter: AWSEncodableShape & AWSDecodableShape {
-        /// An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string defines the resource type using the format AWS::ServiceName::ResourceType, for example, AWS::DynamoDB::Table. For the full list of supported resource types, see the Resource type support table in the CloudFormation User Guide. To scan all resource types within a service, you can use a wildcard, represented by an asterisk (*). You can place a asterisk at only the end of the string, for example, AWS::S3::*.
+        /// An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string defines the resource type using the format AWS::ServiceName::ResourceType, for example, AWS::DynamoDB::Table. For the full list of supported resource types, see the Resource type support table in the CloudFormation User Guide. To scan all resource types within a service, you can use a wildcard, represented by an asterisk (*). You can place an asterisk at only the end of the string, for example, AWS::S3::*.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var types: [String]?
 
