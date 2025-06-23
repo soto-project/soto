@@ -18,7 +18,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ref: main
         fetch-depth: 1
     - name: Install Dependencies
       run: |
