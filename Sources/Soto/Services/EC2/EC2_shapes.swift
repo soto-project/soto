@@ -8061,21 +8061,19 @@ extension EC2 {
     public struct CapacityBlockExtensionOffering: AWSDecodableShape {
         /// The Availability Zone of the Capacity Block that will be extended.
         public let availabilityZone: String?
-        /// The Availability Zone ID of the Capacity Block that will be
-        /// 			extended.
+        /// The Availability Zone ID of the Capacity Block that will be extended.
         public let availabilityZoneId: String?
         /// The amount of time of the Capacity Block extension offering in hours.
         public let capacityBlockExtensionDurationHours: Int?
-        /// The date and time at which the Capacity Block extension expires. When a Capacity
-        /// 			Block expires, the reserved capacity is released and you can no longer launch
-        /// 			instances into it. The Capacity Block's state changes to expired when
-        /// 			it reaches its end date
+        /// The date and time at which the Capacity Block extension expires. When a Capacity Block
+        /// 			expires, the reserved capacity is released and you can no longer launch instances into
+        /// 			it. The Capacity Block's state changes to expired when it reaches its end
+        /// 			date
         public let capacityBlockExtensionEndDate: Date?
         /// The ID of the Capacity Block extension offering.
         public let capacityBlockExtensionOfferingId: String?
-        /// The date and time at which the Capacity Block extension will start. This date is
-        /// 			also the same as the end date of the Capacity Block that will be
-        /// 			extended.
+        /// The date and time at which the Capacity Block extension will start. This date is also
+        /// 			the same as the end date of the Capacity Block that will be extended.
         public let capacityBlockExtensionStartDate: Date?
         /// The currency of the payment for the Capacity Block extension offering.
         public let currencyCode: String?
@@ -8085,8 +8083,8 @@ extension EC2 {
         public let instanceType: String?
         /// The start date of the Capacity Block that will be extended.
         public let startDate: Date?
-        /// Indicates the tenancy of the Capacity Block extension offering. A Capacity Block
-        /// 			can have one of the following tenancy settings:    default - The Capacity Block is created on hardware that is
+        /// Indicates the tenancy of the Capacity Block extension offering. A Capacity Block can
+        /// 			have one of the following tenancy settings:    default - The Capacity Block is created on hardware that is
         /// 					shared with other Amazon Web Services accounts.    dedicated - The Capacity Block is created on single-tenant
         /// 					hardware that is dedicated to a single Amazon Web Services account.
         public let tenancy: CapacityReservationTenancy?
@@ -8130,13 +8128,11 @@ extension EC2 {
         public let availabilityZone: String?
         /// The number of hours (in addition to capacityBlockDurationMinutes) for the
         /// 			duration of the Capacity Block reservation. For example, if a Capacity Block starts at
-        /// 			04:55 and ends at 11:30,
-        /// 			the hours field would be 6.
+        /// 				04:55 and ends at 11:30, the hours field would be 6.
         public let capacityBlockDurationHours: Int?
         /// The number of minutes (in addition to capacityBlockDurationHours) for the
         /// 			duration of the Capacity Block reservation. For example, if a Capacity Block starts at
-        /// 			08:55 and ends at 11:30,
-        /// 			the minutes field would be 35.
+        /// 				08:55 and ends at 11:30, the minutes field would be 35.
         public let capacityBlockDurationMinutes: Int?
         /// The ID of the Capacity Block offering.
         public let capacityBlockOfferingId: String?
@@ -8213,7 +8209,8 @@ extension EC2 {
         public let createDate: Date?
         /// The delivery method for a future-dated Capacity Reservation. incremental
         /// 			indicates that the requested capacity is delivered in addition to any running instances
-        /// 			and reserved capacity that you have in your account at the requested date and time.
+        /// 			and reserved capacity that you have in your account at the requested date and
+        /// 			time.
         public let deliveryPreference: CapacityReservationDeliveryPreference?
         /// Indicates whether the Capacity Reservation supports EBS-optimized instances. This
         /// 			optimization provides dedicated throughput to Amazon EBS and an optimized configuration
@@ -8394,8 +8391,8 @@ extension EC2 {
     }
 
     public struct CapacityReservationCommitmentInfo: AWSDecodableShape {
-        /// The date and time at which the commitment duration expires, in the ISO8601 format
-        /// 			in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). You can't decrease the
+        /// The date and time at which the commitment duration expires, in the ISO8601 format in
+        /// 			the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). You can't decrease the
         /// 			instance count or cancel the Capacity Reservation before this date and time.
         public let commitmentEndDate: Date?
         /// The instance capacity that you committed to when you requested the future-dated
@@ -8602,14 +8599,15 @@ extension EC2 {
     public struct CapacityReservationSpecification: AWSEncodableShape {
         /// Indicates the instance's Capacity Reservation preferences. Possible preferences
         /// 			include:    capacity-reservations-only - The instance will only run in a
-        /// 					Capacity Reservation or Capacity Reservation group. If capacity isn't
-        /// 					available, the instance will fail to launch.    open - The instance can run in any open Capacity
-        /// 					Reservation that has matching attributes (instance type, platform,
-        /// 					Availability Zone, and tenancy). If capacity isn't available, the instance
-        /// 					runs as an On-Demand Instance.    none - The instance doesn't run in a Capacity Reservation even if one is available. The
-        /// 					instance runs as an On-Demand Instance.
+        /// 					Capacity Reservation or Capacity Reservation group. If capacity isn't available,
+        /// 					the instance will fail to launch.    open - The instance can run in any open Capacity
+        /// 					Reservation that has matching attributes (instance type, platform, Availability
+        /// 					Zone, and tenancy). If capacity isn't available, the instance runs as an
+        /// 					On-Demand Instance.    none - The instance doesn't run in a Capacity Reservation even if
+        /// 					one is available. The instance runs as an On-Demand Instance.
         public let capacityReservationPreference: CapacityReservationPreference?
-        /// Information about the target Capacity Reservation or Capacity Reservation group.
+        /// Information about the target Capacity Reservation or Capacity Reservation
+        /// 			group.
         public let capacityReservationTarget: CapacityReservationTarget?
 
         @inlinable
@@ -10335,15 +10333,16 @@ extension EC2 {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempotency.
         public let clientToken: String?
         ///  Required for future-dated Capacity Reservations only. To create a Capacity
-        /// 			Reservation for immediate use, omit this parameter.   Specify a commitment duration, in seconds, for the future-dated Capacity Reservation. The commitment duration is a minimum duration for which you commit to having the
-        /// 			future-dated Capacity Reservation in the active state in your account
-        /// 			after it has been delivered. For more information, see
-        /// 			Commitment duration.
+        /// 				Reservation for immediate use, omit this parameter.   Specify a commitment duration, in seconds, for the future-dated Capacity
+        /// 			Reservation. The commitment duration is a minimum duration for which you commit to having the
+        /// 			future-dated Capacity Reservation in the active state in your account after
+        /// 			it has been delivered. For more information, see  Commitment
+        /// 				duration.
         public let commitmentDuration: Int64?
         ///  Required for future-dated Capacity Reservations only. To create a Capacity
-        /// 			Reservation for immediate use, omit this parameter.   Indicates that the requested capacity will be delivered in addition to any
-        /// 			running instances or reserved capacity that you have in your account at the
-        /// 			requested date and time. The only supported value is incremental.
+        /// 				Reservation for immediate use, omit this parameter.   Indicates that the requested capacity will be delivered in addition to any running
+        /// 			instances or reserved capacity that you have in your account at the requested date and
+        /// 			time. The only supported value is incremental.
         public let deliveryPreference: CapacityReservationDeliveryPreference?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -10355,13 +10354,13 @@ extension EC2 {
         public let ebsOptimized: Bool?
         /// The date and time at which the Capacity Reservation expires. When a Capacity
         /// 			Reservation expires, the reserved capacity is released and you can no longer launch
-        /// 			instances into it. The Capacity Reservation's state changes to expired
-        /// 			when it reaches its end date and time. You must provide an EndDate value if EndDateType is
-        /// 			limited. Omit EndDate if EndDateType is
-        /// 			unlimited. If the EndDateType is limited, the Capacity Reservation
-        /// 			is cancelled within an hour from the specified time. For example, if you specify
-        /// 			5/31/2019, 13:30:55, the Capacity Reservation is guaranteed to end between 13:30:55
-        /// 			and 14:30:55 on 5/31/2019. If you are requesting a future-dated Capacity Reservation, you can't specify an end
+        /// 			instances into it. The Capacity Reservation's state changes to expired when
+        /// 			it reaches its end date and time. You must provide an EndDate value if EndDateType is
+        /// 				limited. Omit EndDate if EndDateType is
+        /// 				unlimited. If the EndDateType is limited, the Capacity Reservation is
+        /// 			cancelled within an hour from the specified time. For example, if you specify 5/31/2019,
+        /// 			13:30:55, the Capacity Reservation is guaranteed to end between 13:30:55 and 14:30:55 on
+        /// 			5/31/2019. If you are requesting a future-dated Capacity Reservation, you can't specify an end
         /// 			date and time that is within the commitment duration.
         public let endDate: Date?
         /// Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can
@@ -10373,10 +10372,10 @@ extension EC2 {
         public let endDateType: EndDateType?
         ///  Deprecated.
         public let ephemeralStorage: Bool?
-        /// The number of instances for which to reserve capacity.  You can request future-dated Capacity Reservations for an instance count
-        /// 				with a minimum of 100 vCPUs. For example, if you request a future-dated Capacity
-        /// 				Reservation for m5.xlarge instances, you must request at least
-        /// 				25 instances (25 * m5.xlarge = 100 vCPUs).  Valid range: 1 - 1000
+        /// The number of instances for which to reserve capacity.  You can request future-dated Capacity Reservations for an instance count with a
+        /// 				minimum of 100 vCPUs. For example, if you request a future-dated Capacity
+        /// 				Reservation for m5.xlarge instances, you must request at least 25
+        /// 				instances (25 * m5.xlarge = 100 vCPUs).  Valid range: 1 - 1000
         public let instanceCount: Int?
         /// Indicates the type of instance launches that the Capacity Reservation accepts. The
         /// 			options include:    open - The Capacity Reservation automatically matches all instances
@@ -10385,26 +10384,26 @@ extension EC2 {
         /// 					automatically without specifying any additional parameters.    targeted - The Capacity Reservation only accepts instances that
         /// 					have matching attributes (instance type, platform, and Availability Zone), and
         /// 					explicitly target the Capacity Reservation. This ensures that only permitted
-        /// 					instances can use the reserved capacity.     If you are requesting a future-dated Capacity Reservation, you must specify targeted.  Default: open
+        /// 					instances can use the reserved capacity.     If you are requesting a future-dated Capacity Reservation, you must specify
+        /// 					targeted.  Default: open
         public let instanceMatchCriteria: InstanceMatchCriteria?
         /// The type of operating system for which to reserve capacity.
         public let instancePlatform: CapacityReservationInstancePlatform?
-        /// The instance type for which to reserve capacity.  You can request future-dated Capacity Reservations for instance types in the C, M, R, I,
-        /// 				and T instance families only.  For more information, see Instance types in the Amazon EC2 User Guide.
+        /// The instance type for which to reserve capacity.  You can request future-dated Capacity Reservations for instance types in the C, M,
+        /// 				R, I, and T instance families only.  For more information, see Instance types in the
+        /// 				Amazon EC2 User Guide.
         public let instanceType: String?
         ///  Not supported for future-dated Capacity Reservations.  The Amazon Resource Name (ARN) of the Outpost on which to create the Capacity
         /// 			Reservation.
         public let outpostArn: String?
-        ///  Not supported for future-dated Capacity Reservations.  The Amazon Resource Name (ARN) of the cluster placement group in which
-        /// 			to create the Capacity Reservation. For more information, see
-        ///
-        /// 				Capacity Reservations for cluster placement groups in the
-        /// 			Amazon EC2 User Guide.
+        ///  Not supported for future-dated Capacity Reservations.  The Amazon Resource Name (ARN) of the cluster placement group in which to create the
+        /// 			Capacity Reservation. For more information, see  Capacity Reservations for cluster
+        /// 				placement groups in the Amazon EC2 User Guide.
         public let placementGroupArn: String?
         ///  Required for future-dated Capacity Reservations only. To create a Capacity
-        /// 			Reservation for immediate use, omit this parameter.   The date and time at which the future-dated Capacity Reservation should become
+        /// 				Reservation for immediate use, omit this parameter.   The date and time at which the future-dated Capacity Reservation should become
         /// 			available for use, in the ISO8601 format in the UTC time zone
-        /// 			(YYYY-MM-DDThh:mm:ss.sssZ). You can request a future-dated Capacity Reservation between 5 and 120 days in
+        /// 				(YYYY-MM-DDThh:mm:ss.sssZ). You can request a future-dated Capacity Reservation between 5 and 120 days in
         /// 			advance.
         public let startDate: Date?
         /// The tags to apply to the Capacity Reservation during launch.
@@ -11384,18 +11383,21 @@ extension EC2 {
         public let name: String?
         /// Indicates whether or not the instance should be automatically rebooted before creating the image. Specify one of the following values:    true - The instance is not rebooted before creating the image. This creates crash-consistent snapshots that include only the data that has been written to the volumes at the time the snapshots are created. Buffered data and data in memory that has not yet been written to the volumes is not included in the snapshots.    false - The instance is rebooted before creating the image. This ensures that all buffered data and data in memory is written to the volumes before the snapshots are created.   Default: false
         public let noReboot: Bool?
+        ///  Only supported for instances in Local Zones. If the source instance is not in a Local Zone, omit this parameter.  The Amazon S3 location where the snapshots will be stored.   To create local snapshots in the same Local Zone as the source instance, specify local.   To create regional snapshots in the parent Region of the Local Zone, specify regional or omit this parameter.   Default: regional
+        public let snapshotLocation: SnapshotLocationEnum?
         /// The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other Amazon EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
         @inlinable
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, instanceId: String? = nil, name: String? = nil, noReboot: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, instanceId: String? = nil, name: String? = nil, noReboot: Bool? = nil, snapshotLocation: SnapshotLocationEnum? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.description = description
             self.dryRun = dryRun
             self.instanceId = instanceId
             self.name = name
             self.noReboot = noReboot
+            self.snapshotLocation = snapshotLocation
             self.tagSpecifications = tagSpecifications
         }
 
@@ -11406,6 +11408,7 @@ extension EC2 {
             case instanceId = "instanceId"
             case name = "name"
             case noReboot = "noReboot"
+            case snapshotLocation = "SnapshotLocation"
             case tagSpecifications = "TagSpecification"
         }
     }
@@ -13622,7 +13625,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The instance to specify which volumes should be included in the snapshots.
         public let instanceSpecification: InstanceSpecification?
-        ///  Only supported for instances in Local Zones. If the source instance is not in a Local Zone,  omit this parameter.    To create local snapshots in the same Local Zone as the source instance, specify  local.   To create a regional snapshots in the parent Region of the Local Zone, specify  regional or omit this parameter.   Default value: regional
+        ///  Only supported for instances in Local Zones. If the source instance is not in a Local Zone,  omit this parameter.    To create local snapshots in the same Local Zone as the source instance, specify  local.   To create regional snapshots in the parent Region of the Local Zone, specify  regional or omit this parameter.   Default value: regional
         public let location: SnapshotLocationEnum?
         ///  Only supported for instances on Outposts. If the source instance is not on an Outpost,  omit this parameter.    To create the snapshots on the same Outpost as the source instance, specify the  ARN of that Outpost. The snapshots must be created on the same Outpost as the instance.   To create the snapshots in the parent Region of the Outpost, omit this parameter.   For more information, see  Create local snapshots from volumes on an Outpost in the Amazon EBS User Guide.
         public let outpostArn: String?
@@ -19742,17 +19745,15 @@ extension EC2 {
     }
 
     public struct DescribeCapacityBlockOfferingsRequest: AWSEncodableShape {
-        /// The reservation duration for the Capacity Block, in hours. You must specify
-        /// 			the duration in 1-day increments up 14 days, and in 7-day increments up to
-        /// 			182 days.
+        /// The reservation duration for the Capacity Block, in hours. You must specify the
+        /// 			duration in 1-day increments up 14 days, and in 7-day increments up to 182 days.
         public let capacityDurationHours: Int?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The latest end date for the Capacity Block offering.
         public let endDateRange: Date?
-        /// The number of instances for which to reserve capacity. Each Capacity Block
-        /// 			can have up to 64 instances, and you can have up to 256 instances across Capacity
-        /// 			Blocks.
+        /// The number of instances for which to reserve capacity. Each Capacity Block can have up
+        /// 			to 64 instances, and you can have up to 256 instances across Capacity Blocks.
         public let instanceCount: Int?
         /// The type of instance for which the Capacity Block offering reserves capacity.
         public let instanceType: String?
@@ -30966,6 +30967,10 @@ extension EC2 {
     }
 
     public struct EbsBlockDevice: AWSEncodableShape & AWSDecodableShape {
+        /// The Availability Zone where the EBS volume will be created (for example, us-east-1a). Either AvailabilityZone or AvailabilityZoneId can be specified, but not both. If neither is specified, Amazon EC2 automatically selects an Availability Zone within the Region. This parameter is not supported when using CreateImage.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone where the EBS volume will be created (for example, use1-az1). Either AvailabilityZone or AvailabilityZoneId can be specified, but not both. If neither is specified, Amazon EC2 automatically selects an Availability Zone within the Region. This parameter is not supported when using CreateImage.
+        public let availabilityZoneId: String?
         /// Indicates whether the EBS volume is deleted on instance termination. For more information, see Preserving Amazon EBS volumes on instance termination in the Amazon EC2 User Guide.
         public let deleteOnTermination: Bool?
         /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on
@@ -30991,7 +30996,9 @@ extension EC2 {
         public let volumeType: VolumeType?
 
         @inlinable
-        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeInitializationRate: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeInitializationRate: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
@@ -31005,6 +31012,8 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case deleteOnTermination = "deleteOnTermination"
             case encrypted = "encrypted"
             case iops = "iops"
@@ -38889,7 +38898,7 @@ extension EC2 {
         /// The product codes attached to this instance, if applicable.
         @OptionalCustomCoding<EC2ArrayCoder<_ProductCodesEncoding, ProductCode>>
         public var productCodes: [ProductCode]?
-        /// [IPv4 only] The public DNS name assigned to the instance. This name is not available until the instance enters the running state. This name is only available if you've enabled DNS hostnames for your VPC.
+        /// The public DNS name assigned to the instance. This name is not available until the instance enters the running state. This name is only available if you've enabled DNS hostnames for your VPC. The format of this name depends on the public hostname type.
         public let publicDnsName: String?
         /// The public IPv4 address, or the Carrier IP address assigned to the instance, if applicable. A Carrier IP address only applies to an instance launched in a subnet associated with a Wavelength Zone.
         public let publicIpAddress: String?
@@ -45984,7 +45993,7 @@ extension EC2 {
     }
 
     public struct ModifyInstanceNetworkPerformanceRequest: AWSEncodableShape {
-        /// Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows:  default  This option uses the standard bandwidth configuration for your instance type.  vpc-1  This option boosts your networking baseline bandwidth and reduces your EBS  					baseline bandwidth.  ebs-1  This option boosts your EBS baseline bandwidth and reduces your networking  					baseline bandwidth.
+        /// Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows:  default  This option uses the standard bandwidth configuration for your instance type.  vpc-1  This option boosts your networking baseline bandwidth and reduces your EBS  baseline bandwidth.  ebs-1  This option boosts your EBS baseline bandwidth and reduces your networking  baseline bandwidth.
         public let bandwidthWeighting: InstanceBandwidthWeighting?
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?

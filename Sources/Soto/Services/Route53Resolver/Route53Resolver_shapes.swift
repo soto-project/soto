@@ -121,6 +121,7 @@ extension Route53Resolver {
         case detaching = "DETACHING"
         case failedCreation = "FAILED_CREATION"
         case failedResourceGone = "FAILED_RESOURCE_GONE"
+        case isolated = "ISOLATED"
         case remapAttaching = "REMAP_ATTACHING"
         case remapDetaching = "REMAP_DETACHING"
         case updateFailed = "UPDATE_FAILED"
@@ -167,6 +168,7 @@ extension Route53Resolver {
 
     public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inbound = "INBOUND"
+        case inboundDelegation = "INBOUND_DELEGATION"
         case outbound = "OUTBOUND"
         public var description: String { return self.rawValue }
     }
@@ -231,6 +233,7 @@ extension Route53Resolver {
     }
 
     public enum RuleTypeOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delegate = "DELEGATE"
         case forward = "FORWARD"
         case recursive = "RECURSIVE"
         case system = "SYSTEM"
@@ -749,7 +752,7 @@ extension Route53Resolver {
         /// 			without the risk of running the operation twice. CreatorRequestId can be
         /// 			any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
-        /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network
+        /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network.    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network.    INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
         public let direction: ResolverEndpointDirection
         /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward
         /// 			DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC.   Even though the minimum is 1, Route 53 requires that you create at least two.
@@ -761,8 +764,8 @@ extension Route53Resolver {
         public let outpostArn: String?
         /// The  instance type. If you specify this, you must also specify a value for the OutpostArn.
         public let preferredInstanceType: String?
-        /// 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only.
-        /// 		 For an inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.
+        /// 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
+        /// 		 For a default inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.
         public let protocols: [`Protocol`]?
         /// 			For the endpoint type you can choose either IPv4, IPv6, or dual-stack.
         /// 			A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This
@@ -911,6 +914,10 @@ extension Route53Resolver {
         /// 			without the risk of running the operation twice. CreatorRequestId can be
         /// 			any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
+        /// 			DNS queries with the delegation records that match this domain name are forwarded to the resolvers on your
+        /// 			network.
+        ///
+        public let delegationRecord: String?
         /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches
         /// 			multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains
         /// 			the most specific domain name (www.example.com).
@@ -920,7 +927,7 @@ extension Route53Resolver {
         /// The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify
         /// 			in TargetIps.
         public let resolverEndpointId: String?
-        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for
+        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for
         /// 			a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD
         /// 			for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify
         /// 			SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
@@ -931,8 +938,9 @@ extension Route53Resolver {
         public let targetIps: [TargetAddress]?
 
         @inlinable
-        public init(creatorRequestId: String, domainName: String? = nil, name: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, targetIps: [TargetAddress]? = nil) {
+        public init(creatorRequestId: String, delegationRecord: String? = nil, domainName: String? = nil, name: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, targetIps: [TargetAddress]? = nil) {
             self.creatorRequestId = creatorRequestId
+            self.delegationRecord = delegationRecord
             self.domainName = domainName
             self.name = name
             self.resolverEndpointId = resolverEndpointId
@@ -944,6 +952,8 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.validate(self.delegationRecord, name: "delegationRecord", parent: name, max: 256)
+            try self.validate(self.delegationRecord, name: "delegationRecord", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, max: 256)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 64)
@@ -962,6 +972,7 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case creatorRequestId = "CreatorRequestId"
+            case delegationRecord = "DelegationRecord"
             case domainName = "DomainName"
             case name = "Name"
             case resolverEndpointId = "ResolverEndpointId"
@@ -3607,7 +3618,7 @@ extension Route53Resolver {
         public let id: String?
         /// The owner account ID of the Amazon Virtual Private Cloud VPC.
         public let ownerId: String?
-        /// The ID of the Amazon Virtual Private Cloud VPC that you're configuring Resolver for.
+        /// The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for.
         public let resourceId: String?
 
         @inlinable
@@ -3661,7 +3672,7 @@ extension Route53Resolver {
         /// 				CreatorRequestId allows failed requests to be retried without the risk
         /// 			of running the operation twice.
         public let creatorRequestId: String?
-        /// Indicates whether the Resolver endpoint allows inbound or outbound DNS queries:    INBOUND: allows DNS queries to your VPC from your network    OUTBOUND: allows DNS queries from your VPC to your network
+        /// Indicates whether the Resolver endpoint allows inbound or outbound DNS queries:    INBOUND: allows DNS queries to your VPC from your network    OUTBOUND: allows DNS queries from your VPC to your network    INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
         public let direction: ResolverEndpointDirection?
         /// The ID of the VPC that you want to create the Resolver endpoint in.
         public let hostVPCId: String?
@@ -3680,8 +3691,8 @@ extension Route53Resolver {
         /// 			The Amazon EC2 instance type.
         ///
         public let preferredInstanceType: String?
-        /// 			Protocols used for the endpoint. DoH-FIPS is applicable for inbound endpoints only.
-        /// 		 For an inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.
+        /// 			Protocols used for the endpoint. DoH-FIPS is applicable for a default inbound endpoints only.
+        /// 		 For an inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.
         public let protocols: [`Protocol`]?
         /// 			The Resolver endpoint IP address type.
         ///
@@ -3848,6 +3859,9 @@ extension Route53Resolver {
         /// 				CreatorRequestId identifies the request and allows failed requests to
         /// 			be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
+        /// 			DNS queries with delegation records that point to this domain name are forwarded to resolvers on your network.
+        ///
+        public let delegationRecord: String?
         /// DNS queries for this domain name are forwarded to the IP addresses that are specified in TargetIps. If a query matches
         /// 			multiple Resolver rules (example.com and www.example.com), the query is routed using the Resolver rule that contains the most specific domain name
         /// 			(www.example.com).
@@ -3862,7 +3876,9 @@ extension Route53Resolver {
         public let ownerId: String?
         /// The ID of the endpoint that the rule is associated with.
         public let resolverEndpointId: String?
-        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for
+        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE.
+        /// 			If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains
+        /// 			the most specific domain name (www.example.com). When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for
         /// 			a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD
         /// 			for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify
         /// 			SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
@@ -3879,10 +3895,11 @@ extension Route53Resolver {
         public let targetIps: [TargetAddress]?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainName: String? = nil, id: String? = nil, modificationTime: String? = nil, name: String? = nil, ownerId: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption? = nil, shareStatus: ShareStatus? = nil, status: ResolverRuleStatus? = nil, statusMessage: String? = nil, targetIps: [TargetAddress]? = nil) {
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, delegationRecord: String? = nil, domainName: String? = nil, id: String? = nil, modificationTime: String? = nil, name: String? = nil, ownerId: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption? = nil, shareStatus: ShareStatus? = nil, status: ResolverRuleStatus? = nil, statusMessage: String? = nil, targetIps: [TargetAddress]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
+            self.delegationRecord = delegationRecord
             self.domainName = domainName
             self.id = id
             self.modificationTime = modificationTime
@@ -3900,6 +3917,7 @@ extension Route53Resolver {
             case arn = "Arn"
             case creationTime = "CreationTime"
             case creatorRequestId = "CreatorRequestId"
+            case delegationRecord = "DelegationRecord"
             case domainName = "DomainName"
             case id = "Id"
             case modificationTime = "ModificationTime"
@@ -4526,7 +4544,7 @@ extension Route53Resolver {
         /// 					Amazon EC2 guide.  We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the
         /// 			Amazon EC2 guide and the blog EC2-Classic Networking is Retiring – Here’s How to Prepare.   It can take some time for the status change to be completed.
         public let autodefinedReverseFlag: AutodefinedReverseFlag
-        /// Resource ID of the Amazon VPC that you want to update the Resolver configuration for.
+        /// The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for.
         public let resourceId: String
 
         @inlinable
@@ -4601,8 +4619,8 @@ extension Route53Resolver {
     public struct UpdateResolverEndpointRequest: AWSEncodableShape {
         /// The name of the Resolver endpoint that you want to update.
         public let name: String?
-        /// 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only.
-        /// 		 For an inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.    You can't change the protocol of an inbound endpoint directly from only Do53 to only DoH, or DoH-FIPS.
+        /// 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
+        /// 		 For a default inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.    You can't change the protocol of an inbound endpoint directly from only Do53 to only DoH, or DoH-FIPS.
         /// 			This is to prevent a sudden disruption to incoming traffic that
         /// 			relies on Do53. To change the protocol from Do53 to DoH, or DoH-FIPS, you must
         /// 			first enable both Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all incoming traffic

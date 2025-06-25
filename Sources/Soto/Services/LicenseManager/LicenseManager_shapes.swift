@@ -174,6 +174,11 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProductCodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case marketplace = "marketplace"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReceivedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
@@ -233,7 +238,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -345,7 +350,7 @@ extension LicenseManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -558,10 +563,10 @@ extension LicenseManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.principals.forEach {
                 try validate($0, name: "principals[]", parent: name, max: 2048)
-                try validate($0, name: "principals[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "principals[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.principals, name: "principals", parent: name, max: 1)
             try self.validate(self.principals, name: "principals", parent: name, min: 1)
@@ -636,7 +641,7 @@ extension LicenseManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.statusReason, name: "statusReason", parent: name, max: 400)
             try self.validate(self.statusReason, name: "statusReason", parent: name, pattern: "^[\\s\\S]+$")
         }
@@ -754,7 +759,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.destinationLicenseContext.validate(name: "\(name).destinationLicenseContext")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.sourceLicenseContext.validate(name: "\(name).sourceLicenseContext")
         }
 
@@ -971,7 +976,7 @@ extension LicenseManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validity.validate(name: "\(name).validity")
         }
 
@@ -1038,10 +1043,10 @@ extension LicenseManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.roleArns?.forEach {
                 try validate($0, name: "roleArns[]", parent: name, max: 2048)
-                try validate($0, name: "roleArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "roleArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.tokenProperties, name: "tokenProperties", parent: name, max: 3)
         }
@@ -1119,7 +1124,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.statusReason, name: "statusReason", parent: name, max: 400)
             try self.validate(self.statusReason, name: "statusReason", parent: name, pattern: "^[\\s\\S]+$")
         }
@@ -1203,7 +1208,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1452,7 +1457,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1674,7 +1679,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1708,7 +1713,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2155,19 +2160,26 @@ extension LicenseManager {
     }
 
     public struct LicenseConversionContext: AWSEncodableShape & AWSDecodableShape {
+        /// Product codes referred to in the license conversion process.
+        public let productCodes: [ProductCodeListItem]?
         /// The Usage operation value that corresponds to the license type you are converting your resource from.  For more information about which platforms correspond to which usage operation values see Sample data: usage operation by platform
         public let usageOperation: String?
 
         @inlinable
-        public init(usageOperation: String? = nil) {
+        public init(productCodes: [ProductCodeListItem]? = nil, usageOperation: String? = nil) {
+            self.productCodes = productCodes
             self.usageOperation = usageOperation
         }
 
         public func validate(name: String) throws {
+            try self.productCodes?.forEach {
+                try $0.validate(name: "\(name).productCodes[]")
+            }
             try self.validate(self.usageOperation, name: "usageOperation", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case productCodes = "ProductCodes"
             case usageOperation = "UsageOperation"
         }
     }
@@ -2353,7 +2365,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.grantArns?.forEach {
                 try validate($0, name: "grantArns[]", parent: name, max: 2048)
-                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2611,7 +2623,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2662,7 +2674,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.licenseArns?.forEach {
                 try validate($0, name: "licenseArns[]", parent: name, max: 2048)
-                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2714,7 +2726,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2766,7 +2778,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.grantArns?.forEach {
                 try validate($0, name: "grantArns[]", parent: name, max: 2048)
-                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2864,7 +2876,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.licenseArns?.forEach {
                 try validate($0, name: "licenseArns[]", parent: name, max: 2048)
-                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -3121,6 +3133,28 @@ extension LicenseManager {
         }
     }
 
+    public struct ProductCodeListItem: AWSEncodableShape & AWSDecodableShape {
+        /// The product code ID
+        public let productCodeId: String
+        /// The product code type
+        public let productCodeType: ProductCodeType
+
+        @inlinable
+        public init(productCodeId: String, productCodeType: ProductCodeType) {
+            self.productCodeId = productCodeId
+            self.productCodeType = productCodeType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.productCodeId, name: "productCodeId", parent: name, pattern: "^[A-Za-z0-9]{1,25}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productCodeId = "ProductCodeId"
+            case productCodeType = "ProductCodeType"
+        }
+    }
+
     public struct ProductInformation: AWSEncodableShape & AWSDecodableShape {
         /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.  The following filters and are supported when the resource type  is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an Amazon Web Services resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.  The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an Amazon Web Services account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise |  sql-server-standard |  sql-server-web |   windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2  	| db2-se | db2-ae.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard |  diagnostic pack sqlt |  tuning pack sqlt |  ols |  olap.
         public let productInformationFilterList: [ProductInformationFilter]
@@ -3230,7 +3264,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3272,7 +3306,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.licenseConfigurationArns.forEach {
                 try validate($0, name: "licenseConfigurationArns[]", parent: name, max: 2048)
-                try validate($0, name: "licenseConfigurationArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "licenseConfigurationArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
         }
 

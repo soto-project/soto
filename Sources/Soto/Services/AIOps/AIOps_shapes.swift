@@ -34,17 +34,19 @@ extension AIOps {
     // MARK: Shapes
 
     public struct CreateInvestigationGroupInput: AWSEncodableShape {
-        /// Use this structure to integrate Amazon Q Developer operational investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
+        /// Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
         public let chatbotNotificationChannel: [String: [String]]?
-        /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, Amazon Q Developer operational investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
+        /// Number of sourceAccountId values that have been configured for cross-account access.
+        public let crossAccountConfigurations: [CrossAccountConfiguration]?
+        /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// Specify true to enable Amazon Q Developer operational investigations to have access to change events that are recorded by CloudTrail. The default is true.
+        /// Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true.
         public let isCloudTrailEventHistoryEnabled: Bool?
-        /// A name for the investigation group.
+        /// Provides a name for the investigation group.
         public let name: String
         /// Specify how long that investigation data is kept. For more information, see Operational investigation data retention.  If you omit this parameter, the default of 90 days is used.
         public let retentionInDays: Int64?
-        /// Specify the ARN of the IAM role that Amazon Q Developer operational investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that Amazon Q Developer operational investigations will have access to during investigations. For more information, see How to control what data Amazon Q has access to during investigations.
+        /// Specify the ARN of the IAM role that CloudWatch investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see How to control what data Amazon Q has access to during investigations.
         public let roleArn: String
         /// Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
         public let tagKeyBoundaries: [String]?
@@ -52,8 +54,9 @@ extension AIOps {
         public let tags: [String: String]?
 
         @inlinable
-        public init(chatbotNotificationChannel: [String: [String]]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, isCloudTrailEventHistoryEnabled: Bool? = nil, name: String, retentionInDays: Int64? = nil, roleArn: String, tagKeyBoundaries: [String]? = nil, tags: [String: String]? = nil) {
+        public init(chatbotNotificationChannel: [String: [String]]? = nil, crossAccountConfigurations: [CrossAccountConfiguration]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, isCloudTrailEventHistoryEnabled: Bool? = nil, name: String, retentionInDays: Int64? = nil, roleArn: String, tagKeyBoundaries: [String]? = nil, tags: [String: String]? = nil) {
             self.chatbotNotificationChannel = chatbotNotificationChannel
+            self.crossAccountConfigurations = crossAccountConfigurations
             self.encryptionConfiguration = encryptionConfiguration
             self.isCloudTrailEventHistoryEnabled = isCloudTrailEventHistoryEnabled
             self.name = name
@@ -71,6 +74,10 @@ extension AIOps {
                 try validate($0.value, name: "chatbotNotificationChannel[\"\($0.key)\"]", parent: name, max: 5)
                 try validate($0.value, name: "chatbotNotificationChannel[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.crossAccountConfigurations?.forEach {
+                try $0.validate(name: "\(name).crossAccountConfigurations[]")
+            }
+            try self.validate(self.crossAccountConfigurations, name: "crossAccountConfigurations", parent: name, max: 25)
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -97,6 +104,7 @@ extension AIOps {
 
         private enum CodingKeys: String, CodingKey {
             case chatbotNotificationChannel = "chatbotNotificationChannel"
+            case crossAccountConfigurations = "crossAccountConfigurations"
             case encryptionConfiguration = "encryptionConfiguration"
             case isCloudTrailEventHistoryEnabled = "isCloudTrailEventHistoryEnabled"
             case name = "name"
@@ -118,6 +126,26 @@ extension AIOps {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+        }
+    }
+
+    public struct CrossAccountConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of an existing role which will be used to do investigations on your behalf.
+        public let sourceRoleArn: String?
+
+        @inlinable
+        public init(sourceRoleArn: String? = nil) {
+            self.sourceRoleArn = sourceRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceRoleArn, name: "sourceRoleArn", parent: name, max: 2048)
+            try self.validate(self.sourceRoleArn, name: "sourceRoleArn", parent: name, min: 20)
+            try self.validate(self.sourceRoleArn, name: "sourceRoleArn", parent: name, pattern: "^arn:.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceRoleArn = "sourceRoleArn"
         }
     }
 
@@ -264,9 +292,11 @@ extension AIOps {
         public let createdAt: Date?
         /// The name of the user who created the investigation group.
         public let createdBy: String?
+        /// Lists the AWSAccountId of the accounts configured for cross-account access and the results of the last scan performed on each account.
+        public let crossAccountConfigurations: [CrossAccountConfiguration]?
         /// Specifies the customer managed KMS key that the investigation group uses to encrypt data, if there is one. If not, the investigation group uses an Amazon Web Services key to encrypt the data.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// Specifies whether Amazon Q Developer operational investigationshas access to change events that are recorded by CloudTrail.
+        /// Specifies whether CloudWatch investigationshas access to change events that are recorded by CloudTrail.
         public let isCloudTrailEventHistoryEnabled: Bool?
         /// The date and time that the investigation group was most recently modified.
         public let lastModifiedAt: Date?
@@ -282,11 +312,12 @@ extension AIOps {
         public let tagKeyBoundaries: [String]?
 
         @inlinable
-        public init(arn: String? = nil, chatbotNotificationChannel: [String: [String]]? = nil, createdAt: Date? = nil, createdBy: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, isCloudTrailEventHistoryEnabled: Bool? = nil, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String? = nil, retentionInDays: Int64? = nil, roleArn: String? = nil, tagKeyBoundaries: [String]? = nil) {
+        public init(arn: String? = nil, chatbotNotificationChannel: [String: [String]]? = nil, createdAt: Date? = nil, createdBy: String? = nil, crossAccountConfigurations: [CrossAccountConfiguration]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, isCloudTrailEventHistoryEnabled: Bool? = nil, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String? = nil, retentionInDays: Int64? = nil, roleArn: String? = nil, tagKeyBoundaries: [String]? = nil) {
             self.arn = arn
             self.chatbotNotificationChannel = chatbotNotificationChannel
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.crossAccountConfigurations = crossAccountConfigurations
             self.encryptionConfiguration = encryptionConfiguration
             self.isCloudTrailEventHistoryEnabled = isCloudTrailEventHistoryEnabled
             self.lastModifiedAt = lastModifiedAt
@@ -302,6 +333,7 @@ extension AIOps {
             case chatbotNotificationChannel = "chatbotNotificationChannel"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
+            case crossAccountConfigurations = "crossAccountConfigurations"
             case encryptionConfiguration = "encryptionConfiguration"
             case isCloudTrailEventHistoryEnabled = "isCloudTrailEventHistoryEnabled"
             case lastModifiedAt = "lastModifiedAt"
@@ -390,7 +422,7 @@ extension AIOps {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the Amazon Q Developer operational investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is arn:aws:aiops:Region:account-id:investigation-group:investigation-group-id .
+        /// The ARN of the CloudWatch investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is arn:aws:aiops:Region:account-id:investigation-group:investigation-group-id .
         public let resourceArn: String
 
         @inlinable
@@ -560,22 +592,25 @@ extension AIOps {
     }
 
     public struct UpdateInvestigationGroupRequest: AWSEncodableShape {
-        /// Use this structure to integrate Amazon Q Developer operational investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
+        /// Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
         public let chatbotNotificationChannel: [String: [String]]?
-        /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, Amazon Q Developer operational investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
+        /// Used to configure cross-account access for an investigation group. It allows the investigation group to access resources in other accounts.
+        public let crossAccountConfigurations: [CrossAccountConfiguration]?
+        /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// Specify either the name or the ARN of the investigation group that you want to modify.
         public let identifier: String
-        /// Specify true to enable Amazon Q Developer operational investigations to have access to change events that are recorded by CloudTrail. The default is true.
+        /// Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true.
         public let isCloudTrailEventHistoryEnabled: Bool?
-        /// Specify this field if you want to change the IAM role that Amazon Q Developer operational investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that Amazon Q Developer operational investigations will have access to during investigations. For more information, see EHow to control what data Amazon Q has access to during investigations.
+        /// Specify this field if you want to change the IAM role that CloudWatch investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see EHow to control what data Amazon Q has access to during investigations.
         public let roleArn: String?
         /// Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
         public let tagKeyBoundaries: [String]?
 
         @inlinable
-        public init(chatbotNotificationChannel: [String: [String]]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, identifier: String, isCloudTrailEventHistoryEnabled: Bool? = nil, roleArn: String? = nil, tagKeyBoundaries: [String]? = nil) {
+        public init(chatbotNotificationChannel: [String: [String]]? = nil, crossAccountConfigurations: [CrossAccountConfiguration]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, identifier: String, isCloudTrailEventHistoryEnabled: Bool? = nil, roleArn: String? = nil, tagKeyBoundaries: [String]? = nil) {
             self.chatbotNotificationChannel = chatbotNotificationChannel
+            self.crossAccountConfigurations = crossAccountConfigurations
             self.encryptionConfiguration = encryptionConfiguration
             self.identifier = identifier
             self.isCloudTrailEventHistoryEnabled = isCloudTrailEventHistoryEnabled
@@ -587,6 +622,7 @@ extension AIOps {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.chatbotNotificationChannel, forKey: .chatbotNotificationChannel)
+            try container.encodeIfPresent(self.crossAccountConfigurations, forKey: .crossAccountConfigurations)
             try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             request.encodePath(self.identifier, key: "identifier")
             try container.encodeIfPresent(self.isCloudTrailEventHistoryEnabled, forKey: .isCloudTrailEventHistoryEnabled)
@@ -602,6 +638,10 @@ extension AIOps {
                 try validate($0.value, name: "chatbotNotificationChannel[\"\($0.key)\"]", parent: name, max: 5)
                 try validate($0.value, name: "chatbotNotificationChannel[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.crossAccountConfigurations?.forEach {
+                try $0.validate(name: "\(name).crossAccountConfigurations[]")
+            }
+            try self.validate(self.crossAccountConfigurations, name: "crossAccountConfigurations", parent: name, max: 25)
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(?:[\\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\\/[A-Za-z0-9]{16})$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -616,6 +656,7 @@ extension AIOps {
 
         private enum CodingKeys: String, CodingKey {
             case chatbotNotificationChannel = "chatbotNotificationChannel"
+            case crossAccountConfigurations = "crossAccountConfigurations"
             case encryptionConfiguration = "encryptionConfiguration"
             case isCloudTrailEventHistoryEnabled = "isCloudTrailEventHistoryEnabled"
             case roleArn = "roleArn"

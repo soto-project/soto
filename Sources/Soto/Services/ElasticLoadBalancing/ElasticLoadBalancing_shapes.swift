@@ -1545,10 +1545,10 @@ extension ElasticLoadBalancing {
         /// The name of the security group.
         public let groupName: String?
         /// The owner of the security group.
-        public let ownerAlias: Int?
+        public let ownerAlias: String?
 
         @inlinable
-        public init(groupName: String? = nil, ownerAlias: Int? = nil) {
+        public init(groupName: String? = nil, ownerAlias: String? = nil) {
             self.groupName = groupName
             self.ownerAlias = ownerAlias
         }

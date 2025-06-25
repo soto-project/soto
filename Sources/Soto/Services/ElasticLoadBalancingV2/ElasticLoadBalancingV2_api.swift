@@ -91,7 +91,7 @@ public struct ElasticLoadBalancingV2: AWSService {
 
     // MARK: API Calls
 
-    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see HTTPS listeners in the Application Load Balancers Guide or TLS listeners in the Network Load Balancers Guide.
+    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see SSL certificates in the Application Load Balancers Guide or Server  certificates in the Network Load Balancers Guide.
     @Sendable
     @inlinable
     public func addListenerCertificates(_ input: AddListenerCertificatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddListenerCertificatesOutput {
@@ -104,7 +104,7 @@ public struct ElasticLoadBalancingV2: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see HTTPS listeners in the Application Load Balancers Guide or TLS listeners in the Network Load Balancers Guide.
+    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see SSL certificates in the Application Load Balancers Guide or Server  certificates in the Network Load Balancers Guide.
     ///
     /// Parameters:
     ///   - certificates: The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
@@ -417,7 +417,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         return try await self.createTargetGroup(input, logger: logger)
     }
 
-    /// Creates a trust store.
+    /// Creates a trust store. For more information, see Mutual TLS for Application Load Balancers.
     @Sendable
     @inlinable
     public func createTrustStore(_ input: CreateTrustStoreInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrustStoreOutput {
@@ -430,7 +430,7 @@ public struct ElasticLoadBalancingV2: AWSService {
             logger: logger
         )
     }
-    /// Creates a trust store.
+    /// Creates a trust store. For more information, see Mutual TLS for Application Load Balancers.
     ///
     /// Parameters:
     ///   - caCertificatesBundleS3Bucket: The Amazon S3 bucket for the ca certificates bundle.
@@ -935,7 +935,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         return try await self.describeRules(input, logger: logger)
     }
 
-    /// Describes the specified policies or all policies used for SSL negotiation. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
+    /// Describes the specified policies or all policies used for SSL negotiation. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
     @Sendable
     @inlinable
     public func describeSSLPolicies(_ input: DescribeSSLPoliciesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSSLPoliciesOutput {
@@ -948,7 +948,7 @@ public struct ElasticLoadBalancingV2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified policies or all policies used for SSL negotiation. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
+    /// Describes the specified policies or all policies used for SSL negotiation. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
     ///
     /// Parameters:
     ///   - loadBalancerType:  The type of load balancer. The default lists the SSL policies for all load balancers.
@@ -1653,7 +1653,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         return try await self.modifyTrustStore(input, logger: logger)
     }
 
-    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. With a Network Load Balancer, you can't register instances by instance ID if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of these types by IP address.
+    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. For more information, see the following:    Register  targets for your Application Load Balancer     Register targets for your Network Load Balancer     Register targets for your Gateway Load Balancer
     @Sendable
     @inlinable
     public func registerTargets(_ input: RegisterTargetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterTargetsOutput {
@@ -1666,7 +1666,7 @@ public struct ElasticLoadBalancingV2: AWSService {
             logger: logger
         )
     }
-    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. With a Network Load Balancer, you can't register instances by instance ID if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of these types by IP address.
+    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. For more information, see the following:    Register  targets for your Application Load Balancer     Register targets for your Network Load Balancer     Register targets for your Gateway Load Balancer
     ///
     /// Parameters:
     ///   - targetGroupArn: The Amazon Resource Name (ARN) of the target group.
@@ -1932,6 +1932,40 @@ extension ElasticLoadBalancingV2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ElasticLoadBalancingV2 {
+    /// Return PaginatorSequence for operation ``describeAccountLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeAccountLimitsPaginator(
+        _ input: DescribeAccountLimitsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> {
+        return .init(
+            input: input,
+            command: self.describeAccountLimits,
+            inputKey: \DescribeAccountLimitsInput.marker,
+            outputKey: \DescribeAccountLimitsOutput.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeAccountLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - pageSize: The maximum number of results to return with this call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeAccountLimitsPaginator(
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> {
+        let input = DescribeAccountLimitsInput(
+            pageSize: pageSize
+        )
+        return self.describeAccountLimitsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeListenerCertificates(_:logger:)``.
     ///
     /// - Parameters:
@@ -2247,6 +2281,16 @@ extension ElasticLoadBalancingV2 {
             trustStoreArns: trustStoreArns
         )
         return self.describeTrustStoresPaginator(input, logger: logger)
+    }
+}
+
+extension ElasticLoadBalancingV2.DescribeAccountLimitsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ElasticLoadBalancingV2.DescribeAccountLimitsInput {
+        return .init(
+            marker: token,
+            pageSize: self.pageSize
+        )
     }
 }
 

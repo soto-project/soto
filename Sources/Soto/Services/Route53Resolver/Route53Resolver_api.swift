@@ -526,12 +526,12 @@ public struct Route53Resolver: AWSService {
     ///
     /// Parameters:
     ///   - creatorRequestId: A unique string that identifies the request and that allows failed requests to be retried
-    ///   - direction: Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network
+    ///   - direction: Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network.    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network.    INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
     ///   - ipAddresses: The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward
     ///   - name: A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
     ///   - outpostArn: The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a
     ///   - preferredInstanceType: The  instance type. If you specify this, you must also specify a value for the OutpostArn.
-    ///   - protocols: 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only.
+    ///   - protocols: 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
     ///   - resolverEndpointType: 			For the endpoint type you can choose either IPv4, IPv6, or dual-stack.
     ///   - securityGroupIds: The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify
     ///   - tags: A list of the tag keys and values that you want to associate with the endpoint.
@@ -630,16 +630,18 @@ public struct Route53Resolver: AWSService {
     ///
     /// Parameters:
     ///   - creatorRequestId: A unique string that identifies the request and that allows failed requests to be retried
+    ///   - delegationRecord: 			DNS queries with the delegation records that match this domain name are forwarded to the resolvers on your
     ///   - domainName: DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches
     ///   - name: A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
     ///   - resolverEndpointId: The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify
-    ///   - ruleType: When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for
+    ///   - ruleType: When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for
     ///   - tags: A list of the tag keys and values that you want to associate with the endpoint.
     ///   - targetIps: The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space.  TargetIps is available only when the value of Rule type is FORWARD.
     ///   - logger: Logger use during operation
     @inlinable
     public func createResolverRule(
         creatorRequestId: String,
+        delegationRecord: String? = nil,
         domainName: String? = nil,
         name: String? = nil,
         resolverEndpointId: String? = nil,
@@ -650,6 +652,7 @@ public struct Route53Resolver: AWSService {
     ) async throws -> CreateResolverRuleResponse {
         let input = CreateResolverRuleRequest(
             creatorRequestId: creatorRequestId, 
+            delegationRecord: delegationRecord, 
             domainName: domainName, 
             name: name, 
             resolverEndpointId: resolverEndpointId, 
@@ -2502,7 +2505,7 @@ public struct Route53Resolver: AWSService {
     ///
     /// Parameters:
     ///   - autodefinedReverseFlag: Indicates whether or not the Resolver will create autodefined rules for reverse DNS
-    ///   - resourceId: Resource ID of the Amazon VPC that you want to update the Resolver configuration for.
+    ///   - resourceId: The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateResolverConfig(
@@ -2568,7 +2571,7 @@ public struct Route53Resolver: AWSService {
     ///
     /// Parameters:
     ///   - name: The name of the Resolver endpoint that you want to update.
-    ///   - protocols: 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only.
+    ///   - protocols: 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
     ///   - resolverEndpointId: The ID of the Resolver endpoint that you want to update.
     ///   - resolverEndpointType: 			Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries.
     ///   - updateIpAddresses: 			Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack.

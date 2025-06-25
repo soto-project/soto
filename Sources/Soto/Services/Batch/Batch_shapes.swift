@@ -187,6 +187,12 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
+    public enum UserdataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eksBootstrapSh = "EKS_BOOTSTRAP_SH"
+        case eksNodeadm = "EKS_NODEADM"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ArrayProperties: AWSEncodableShape {
@@ -1703,7 +1709,7 @@ extension Batch {
         public let imageIdOverride: String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public let imageKubernetesVersion: String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2 AMI (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  ECS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   ECS_AL1   Amazon Linux. Amazon Linux has reached the end-of-life of standard support. For more information, see Amazon Linux AMI.    EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux AMI (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  EKS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2 AMI (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  ECS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   ECS_AL1   Amazon Linux. Amazon Linux has reached the end-of-life of standard support. For more information, see Amazon Linux AMI.    EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux AMI (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  EKS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  EKS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   EKS_AL2023_NVIDIA   Amazon Linux 2023 (accelerated): GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
         public let imageType: String?
 
         @inlinable
@@ -3155,14 +3161,17 @@ extension Batch {
         public let launchTemplateName: String?
         /// A launch template to use in place of the default launch template. You must specify either the launch template ID or launch template name in the request, but not both. You can specify up to ten (10) launch template overrides that are associated to unique instance types or families for each compute environment.  To unset all override templates for a compute environment, you can pass an empty array to the UpdateComputeEnvironment.overrides parameter, or not include the overrides parameter when submitting the UpdateComputeEnvironment API operation.
         public let overrides: [LaunchTemplateSpecificationOverride]?
+        /// The EKS node initialization process to use. You only need to specify this value if you are using a custom AMI. The default value is EKS_BOOTSTRAP_SH. If imageType is a custom AMI based on EKS_AL2023 or EKS_AL2023_NVIDIA then you must choose EKS_NODEADM.
+        public let userdataType: UserdataType?
         /// The version number of the launch template,  $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used.   If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  Default: $Default  Latest: $Latest
         public let version: String?
 
         @inlinable
-        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, overrides: [LaunchTemplateSpecificationOverride]? = nil, version: String? = nil) {
+        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, overrides: [LaunchTemplateSpecificationOverride]? = nil, userdataType: UserdataType? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.overrides = overrides
+            self.userdataType = userdataType
             self.version = version
         }
 
@@ -3170,6 +3179,7 @@ extension Batch {
             case launchTemplateId = "launchTemplateId"
             case launchTemplateName = "launchTemplateName"
             case overrides = "overrides"
+            case userdataType = "userdataType"
             case version = "version"
         }
     }
@@ -3181,14 +3191,17 @@ extension Batch {
         public let launchTemplateName: String?
         /// The instance type or family that this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:   Must be a valid Amazon EC2 instance type or family.    optimal isn't allowed.    targetInstanceTypes can target only instance types and families that are included within the  ComputeResource.instanceTypes set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].    targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
         public let targetInstanceTypes: [String]?
+        /// The EKS node initialization process to use. You only need to specify this value if you are using a custom AMI. The default value is EKS_BOOTSTRAP_SH. If imageType is a custom AMI based on EKS_AL2023 or EKS_AL2023_NVIDIA then you must choose EKS_NODEADM.
+        public let userdataType: UserdataType?
         /// The version number of the launch template,  $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used.   If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  Default: $Default  Latest: $Latest
         public let version: String?
 
         @inlinable
-        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, targetInstanceTypes: [String]? = nil, version: String? = nil) {
+        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, targetInstanceTypes: [String]? = nil, userdataType: UserdataType? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.targetInstanceTypes = targetInstanceTypes
+            self.userdataType = userdataType
             self.version = version
         }
 
@@ -3196,6 +3209,7 @@ extension Batch {
             case launchTemplateId = "launchTemplateId"
             case launchTemplateName = "launchTemplateName"
             case targetInstanceTypes = "targetInstanceTypes"
+            case userdataType = "userdataType"
             case version = "version"
         }
     }
@@ -4640,7 +4654,7 @@ extension Batch {
     public struct UpdatePolicy: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the job timeout (in minutes) when the compute environment infrastructure is updated. The default value is 30.
         public let jobExecutionTimeoutMinutes: Int64?
-        /// Specifies whether jobs are automatically terminated when the computer environment infrastructure is updated. The default value is false.
+        /// Specifies whether jobs are automatically terminated when the compute environment infrastructure is updated. The default value is false.
         public let terminateJobsOnUpdate: Bool?
 
         @inlinable

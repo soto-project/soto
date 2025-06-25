@@ -1988,13 +1988,16 @@ public struct EC2: AWSService {
         return try await self.cancelBundleTask(input, logger: logger)
     }
 
-    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes
-    /// 			the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
-    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the commitment
-    /// 			duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped
-    /// 			instances that target the Capacity Reservation can no longer launch. Modify these instances to either
-    /// 			target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation
-    /// 			that has matching attributes and sufficient capacity.
+    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and
+    /// 			changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
+    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation
+    /// 					during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the
+    /// 			commitment duration is waived, and you can cancel it as soon as it enters the
+    /// 				active state. Instances running in the reserved capacity continue running until you stop them.
+    /// 			Stopped instances that target the Capacity Reservation can no longer launch. Modify
+    /// 			these instances to either target a different Capacity Reservation, launch On-Demand
+    /// 			Instance capacity, or run in any open Capacity Reservation that has matching attributes
+    /// 			and sufficient capacity.
     @Sendable
     @inlinable
     public func cancelCapacityReservation(_ input: CancelCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelCapacityReservationResult {
@@ -2007,13 +2010,16 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes
-    /// 			the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
-    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the commitment
-    /// 			duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped
-    /// 			instances that target the Capacity Reservation can no longer launch. Modify these instances to either
-    /// 			target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation
-    /// 			that has matching attributes and sufficient capacity.
+    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and
+    /// 			changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
+    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation
+    /// 					during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the
+    /// 			commitment duration is waived, and you can cancel it as soon as it enters the
+    /// 				active state. Instances running in the reserved capacity continue running until you stop them.
+    /// 			Stopped instances that target the Capacity Reservation can no longer launch. Modify
+    /// 			these instances to either target a different Capacity Reservation, launch On-Demand
+    /// 			Instance capacity, or run in any open Capacity Reservation that has matching attributes
+    /// 			and sufficient capacity.
     ///
     /// Parameters:
     ///   - capacityReservationId: The ID of the Capacity Reservation to be cancelled.
@@ -2531,17 +2537,20 @@ public struct EC2: AWSService {
         return try await self.copySnapshot(input, logger: logger)
     }
 
-    /// Creates a new Capacity Reservation with the specified attributes. Capacity Reservations enable
-    /// 			you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any
-    /// 			duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a
-    /// 			Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see
-    /// 			Reserve compute capacity with On-Demand Capacity Reservations in the Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if:   Amazon EC2 does not have sufficient capacity. In this case, try again at a later
-    /// 					time, try in a different Availability Zone, or request a smaller Capacity Reservation. If
-    /// 					your workload is flexible across instance types and sizes, try with different instance
-    /// 					attributes.   The requested quantity exceeds your On-Demand Instance quota. In this case, increase your
-    /// 					On-Demand Instance quota for the requested instance type and try again. For more information,
-    /// 					see
-    /// 						Amazon EC2 Service Quotas in the Amazon EC2 User Guide.
+    /// Creates a new Capacity Reservation with the specified attributes. Capacity
+    /// 			Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific
+    /// 			Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts.
+    /// 			You can create a Capacity Reservation for immediate use or you can request a Capacity
+    /// 			Reservation for a future date. For more information, see  Reserve compute
+    /// 				capacity with On-Demand Capacity Reservations in the
+    /// 				Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if:   Amazon EC2 does not have sufficient capacity. In this case, try again
+    /// 					at a later time, try in a different Availability Zone, or request a smaller
+    /// 					Capacity Reservation. If your workload is flexible across instance types and
+    /// 					sizes, try with different instance attributes.   The requested quantity exceeds your On-Demand Instance quota. In this case,
+    /// 					increase your On-Demand Instance quota for the requested instance type and try
+    /// 					again. For more information, see
+    /// 						Amazon EC2 Service Quotas in the
+    /// 						Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createCapacityReservation(_ input: CreateCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityReservationResult {
@@ -2554,17 +2563,20 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a new Capacity Reservation with the specified attributes. Capacity Reservations enable
-    /// 			you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any
-    /// 			duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a
-    /// 			Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see
-    /// 			Reserve compute capacity with On-Demand Capacity Reservations in the Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if:   Amazon EC2 does not have sufficient capacity. In this case, try again at a later
-    /// 					time, try in a different Availability Zone, or request a smaller Capacity Reservation. If
-    /// 					your workload is flexible across instance types and sizes, try with different instance
-    /// 					attributes.   The requested quantity exceeds your On-Demand Instance quota. In this case, increase your
-    /// 					On-Demand Instance quota for the requested instance type and try again. For more information,
-    /// 					see
-    /// 						Amazon EC2 Service Quotas in the Amazon EC2 User Guide.
+    /// Creates a new Capacity Reservation with the specified attributes. Capacity
+    /// 			Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific
+    /// 			Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts.
+    /// 			You can create a Capacity Reservation for immediate use or you can request a Capacity
+    /// 			Reservation for a future date. For more information, see  Reserve compute
+    /// 				capacity with On-Demand Capacity Reservations in the
+    /// 				Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if:   Amazon EC2 does not have sufficient capacity. In this case, try again
+    /// 					at a later time, try in a different Availability Zone, or request a smaller
+    /// 					Capacity Reservation. If your workload is flexible across instance types and
+    /// 					sizes, try with different instance attributes.   The requested quantity exceeds your On-Demand Instance quota. In this case,
+    /// 					increase your On-Demand Instance quota for the requested instance type and try
+    /// 					again. For more information, see
+    /// 						Amazon EC2 Service Quotas in the
+    /// 						Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - availabilityZone: The Availability Zone in which to create the Capacity Reservation.
@@ -2577,12 +2589,12 @@ public struct EC2: AWSService {
     ///   - endDate: The date and time at which the Capacity Reservation expires. When a Capacity
     ///   - endDateType: Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can
     ///   - ephemeralStorage:  Deprecated.
-    ///   - instanceCount: The number of instances for which to reserve capacity.  You can request future-dated Capacity Reservations for an instance count
+    ///   - instanceCount: The number of instances for which to reserve capacity.  You can request future-dated Capacity Reservations for an instance count with a
     ///   - instanceMatchCriteria: Indicates the type of instance launches that the Capacity Reservation accepts. The
     ///   - instancePlatform: The type of operating system for which to reserve capacity.
-    ///   - instanceType: The instance type for which to reserve capacity.  You can request future-dated Capacity Reservations for instance types in the C, M, R, I,
+    ///   - instanceType: The instance type for which to reserve capacity.  You can request future-dated Capacity Reservations for instance types in the C, M,
     ///   - outpostArn:  Not supported for future-dated Capacity Reservations.  The Amazon Resource Name (ARN) of the Outpost on which to create the Capacity
-    ///   - placementGroupArn:  Not supported for future-dated Capacity Reservations.  The Amazon Resource Name (ARN) of the cluster placement group in which
+    ///   - placementGroupArn:  Not supported for future-dated Capacity Reservations.  The Amazon Resource Name (ARN) of the cluster placement group in which to create the
     ///   - startDate:  Required for future-dated Capacity Reservations only. To create a Capacity
     ///   - tagSpecifications: The tags to apply to the Capacity Reservation during launch.
     ///   - tenancy: Indicates the tenancy of the Capacity Reservation. A Capacity Reservation can have one
@@ -3416,7 +3428,7 @@ public struct EC2: AWSService {
         return try await self.createFpgaImage(input, logger: logger)
     }
 
-    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. The location of the source instance determines where you can create the snapshots of the AMI:   If the source instance is in a Region, you must create the snapshots in the same Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Region.   For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
     @Sendable
     @inlinable
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageResult {
@@ -3429,7 +3441,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. The location of the source instance determines where you can create the snapshots of the AMI:   If the source instance is in a Region, you must create the snapshots in the same Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Region.   For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Parameters:
     ///   - blockDeviceMappings: The block device mappings. When using the CreateImage action:   You can't change the volume size using the VolumeSize parameter. If you want a different volume size, you must first change the volume size of the source instance.   You can't modify the encryption status of existing volumes or snapshots. To create an AMI with volumes or snapshots that have a different encryption status (for example, where the source volume and snapshots are unencrypted, and you want to create an AMI with encrypted volumes or snapshots), use the CopyImage action.   The only option that can be changed for existing mappings or snapshots is DeleteOnTermination.
@@ -3438,6 +3450,7 @@ public struct EC2: AWSService {
     ///   - instanceId: The ID of the instance.
     ///   - name: A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
     ///   - noReboot: Indicates whether or not the instance should be automatically rebooted before creating the image. Specify one of the following values:    true - The instance is not rebooted before creating the image. This creates crash-consistent snapshots that include only the data that has been written to the volumes at the time the snapshots are created. Buffered data and data in memory that has not yet been written to the volumes is not included in the snapshots.    false - The instance is rebooted before creating the image. This ensures that all buffered data and data in memory is written to the volumes before the snapshots are created.   Default: false
+    ///   - snapshotLocation:  Only supported for instances in Local Zones. If the source instance is not in a Local Zone, omit this parameter.  The Amazon S3 location where the snapshots will be stored.   To create local snapshots in the same Local Zone as the source instance, specify local.   To create regional snapshots in the parent Region of the Local Zone, specify regional or omit this parameter.   Default: regional
     ///   - tagSpecifications: The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other Amazon EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3448,6 +3461,7 @@ public struct EC2: AWSService {
         instanceId: String? = nil,
         name: String? = nil,
         noReboot: Bool? = nil,
+        snapshotLocation: SnapshotLocationEnum? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateImageResult {
@@ -3458,12 +3472,13 @@ public struct EC2: AWSService {
             instanceId: instanceId, 
             name: name, 
             noReboot: noReboot, 
+            snapshotLocation: snapshotLocation, 
             tagSpecifications: tagSpecifications
         )
         return try await self.createImage(input, logger: logger)
     }
 
-    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see Connect to your instances without requiring a public IPv4 address using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createInstanceConnectEndpoint(_ input: CreateInstanceConnectEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstanceConnectEndpointResult {
@@ -3476,7 +3491,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see Connect to your instances without requiring a public IPv4 address using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -5316,7 +5331,7 @@ public struct EC2: AWSService {
     ///   - description:  A description propagated to every snapshot specified by the instance.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - instanceSpecification: The instance to specify which volumes should be included in the snapshots.
-    ///   - location:  Only supported for instances in Local Zones. If the source instance is not in a Local Zone,  omit this parameter.    To create local snapshots in the same Local Zone as the source instance, specify  local.   To create a regional snapshots in the parent Region of the Local Zone, specify  regional or omit this parameter.   Default value: regional
+    ///   - location:  Only supported for instances in Local Zones. If the source instance is not in a Local Zone,  omit this parameter.    To create local snapshots in the same Local Zone as the source instance, specify  local.   To create regional snapshots in the parent Region of the Local Zone, specify  regional or omit this parameter.   Default value: regional
     ///   - outpostArn:  Only supported for instances on Outposts. If the source instance is not on an Outpost,  omit this parameter.    To create the snapshots on the same Outpost as the source instance, specify the  ARN of that Outpost. The snapshots must be created on the same Outpost as the instance.   To create the snapshots in the parent Region of the Outpost, omit this parameter.   For more information, see  Create local snapshots from volumes on an Outpost in the Amazon EBS User Guide.
     ///   - tagSpecifications: Tags to apply to every snapshot specified by the instance.
     ///   - logger: Logger use during operation
@@ -10310,8 +10325,8 @@ public struct EC2: AWSService {
         return try await self.describeCapacityBlockExtensionHistory(input, logger: logger)
     }
 
-    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region
-    /// 			that you're currently using.
+    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services
+    /// 			Region that you're currently using.
     @Sendable
     @inlinable
     public func describeCapacityBlockExtensionOfferings(_ input: DescribeCapacityBlockExtensionOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockExtensionOfferingsResult {
@@ -10324,8 +10339,8 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region
-    /// 			that you're currently using.
+    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services
+    /// 			Region that you're currently using.
     ///
     /// Parameters:
     ///   - capacityBlockExtensionDurationHours: The duration of the Capacity Block extension offering in hours.
@@ -10354,7 +10369,8 @@ public struct EC2: AWSService {
     }
 
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
+    /// 			and instance count.
     @Sendable
     @inlinable
     public func describeCapacityBlockOfferings(_ input: DescribeCapacityBlockOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockOfferingsResult {
@@ -10368,13 +10384,14 @@ public struct EC2: AWSService {
         )
     }
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
+    /// 			and instance count.
     ///
     /// Parameters:
-    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify
+    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify the
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - endDateRange: The latest end date for the Capacity Block offering.
-    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block
+    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block can have up
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - nextToken: The token to use to retrieve the next page of results.
@@ -21655,16 +21672,20 @@ public struct EC2: AWSService {
         return try await self.modifyAvailabilityZoneGroup(input, logger: logger)
     }
 
-    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under
-    /// 			which it is to be released. You can't modify a Capacity Reservation's instance type, EBS
-    /// 			optimization, platform, instance store settings, Availability Zone, or tenancy. If you need
-    /// 			to modify any of these attributes, we recommend that you cancel the Capacity Reservation,
-    /// 			and then create a new one with the required attributes. For more information, see
-    ///
-    /// 				Modify an active Capacity Reservation. The allowed modifications depend on the state of the Capacity Reservation:    assessing or scheduled state - You can modify the tags only.    pending state - You can't modify the Capacity Reservation in any way.    active state but still within the commitment duration - You can't decrease the instance
-    /// 					count or set an end date that is within the commitment duration. All other modifications are allowed.    active state with no commitment duration or elapsed commitment duration - All modifications
-    /// 					are allowed.    expired, cancelled, unsupported, or failed state -
-    /// 					You can't modify the Capacity Reservation in any way.
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions
+    /// 			under which it is to be released. You can't modify a Capacity Reservation's instance
+    /// 			type, EBS optimization, platform, instance store settings, Availability Zone, or
+    /// 			tenancy. If you need to modify any of these attributes, we recommend that you cancel the
+    /// 			Capacity Reservation, and then create a new one with the required attributes. For more
+    /// 			information, see  Modify an active
+    /// 				Capacity Reservation. The allowed modifications depend on the state of the Capacity Reservation:    assessing or scheduled state - You can modify the
+    /// 					tags only.    pending state - You can't modify the Capacity Reservation in any
+    /// 					way.    active state but still within the commitment duration - You can't
+    /// 					decrease the instance count or set an end date that is within the commitment
+    /// 					duration. All other modifications are allowed.    active state with no commitment duration or elapsed commitment
+    /// 					duration - All modifications are allowed.    expired, cancelled, unsupported, or
+    /// 						failed state - You can't modify the Capacity Reservation in any
+    /// 					way.
     @Sendable
     @inlinable
     public func modifyCapacityReservation(_ input: ModifyCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyCapacityReservationResult {
@@ -21677,16 +21698,20 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under
-    /// 			which it is to be released. You can't modify a Capacity Reservation's instance type, EBS
-    /// 			optimization, platform, instance store settings, Availability Zone, or tenancy. If you need
-    /// 			to modify any of these attributes, we recommend that you cancel the Capacity Reservation,
-    /// 			and then create a new one with the required attributes. For more information, see
-    ///
-    /// 				Modify an active Capacity Reservation. The allowed modifications depend on the state of the Capacity Reservation:    assessing or scheduled state - You can modify the tags only.    pending state - You can't modify the Capacity Reservation in any way.    active state but still within the commitment duration - You can't decrease the instance
-    /// 					count or set an end date that is within the commitment duration. All other modifications are allowed.    active state with no commitment duration or elapsed commitment duration - All modifications
-    /// 					are allowed.    expired, cancelled, unsupported, or failed state -
-    /// 					You can't modify the Capacity Reservation in any way.
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions
+    /// 			under which it is to be released. You can't modify a Capacity Reservation's instance
+    /// 			type, EBS optimization, platform, instance store settings, Availability Zone, or
+    /// 			tenancy. If you need to modify any of these attributes, we recommend that you cancel the
+    /// 			Capacity Reservation, and then create a new one with the required attributes. For more
+    /// 			information, see  Modify an active
+    /// 				Capacity Reservation. The allowed modifications depend on the state of the Capacity Reservation:    assessing or scheduled state - You can modify the
+    /// 					tags only.    pending state - You can't modify the Capacity Reservation in any
+    /// 					way.    active state but still within the commitment duration - You can't
+    /// 					decrease the instance count or set an end date that is within the commitment
+    /// 					duration. All other modifications are allowed.    active state with no commitment duration or elapsed commitment
+    /// 					duration - All modifications are allowed.    expired, cancelled, unsupported, or
+    /// 						failed state - You can't modify the Capacity Reservation in any
+    /// 					way.
     ///
     /// Parameters:
     ///   - accept: Reserved. Capacity Reservations you have created are accepted by default.
@@ -22268,7 +22293,7 @@ public struct EC2: AWSService {
 
     /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to
     /// 			configure an instance to target a specific Capacity Reservation, run in any
-    /// 			open Capacity Reservation with matching attributes, run in On-Demand
+    /// 				open Capacity Reservation with matching attributes, run in On-Demand
     /// 			Instance capacity, or only run in a Capacity Reservation.
     @Sendable
     @inlinable
@@ -22284,7 +22309,7 @@ public struct EC2: AWSService {
     }
     /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to
     /// 			configure an instance to target a specific Capacity Reservation, run in any
-    /// 			open Capacity Reservation with matching attributes, run in On-Demand
+    /// 				open Capacity Reservation with matching attributes, run in On-Demand
     /// 			Instance capacity, or only run in a Capacity Reservation.
     ///
     /// Parameters:
@@ -22595,7 +22620,7 @@ public struct EC2: AWSService {
         return try await self.modifyInstanceMetadataOptions(input, logger: logger)
     }
 
-    /// Change the configuration of the network performance options for an existing  	instance.
+    /// Change the configuration of the network performance options for an existing  instance.
     @Sendable
     @inlinable
     public func modifyInstanceNetworkPerformanceOptions(_ input: ModifyInstanceNetworkPerformanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceNetworkPerformanceResult {
@@ -22608,10 +22633,10 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Change the configuration of the network performance options for an existing  	instance.
+    /// Change the configuration of the network performance options for an existing  instance.
     ///
     /// Parameters:
-    ///   - bandwidthWeighting: Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows:  default  This option uses the standard bandwidth configuration for your instance type.  vpc-1  This option boosts your networking baseline bandwidth and reduces your EBS  					baseline bandwidth.  ebs-1  This option boosts your EBS baseline bandwidth and reduces your networking  					baseline bandwidth.
+    ///   - bandwidthWeighting: Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows:  default  This option uses the standard bandwidth configuration for your instance type.  vpc-1  This option boosts your networking baseline bandwidth and reduces your EBS  baseline bandwidth.  ebs-1  This option boosts your EBS baseline bandwidth and reduces your networking  baseline bandwidth.
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - instanceId: The ID of the instance to update.
     ///   - logger: Logger use during operation
@@ -27217,7 +27242,7 @@ public struct EC2: AWSService {
         return try await self.sendDiagnosticInterrupt(input, logger: logger)
     }
 
-    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the italicized placeholders representing your specific values):  s3://amzn-s3-demo-bucket/your-optional-s3-prefix/ec2_targetId_reportId_yyyyMMddThhmmZ.csv   Prerequisites for generating a report    The StartDeclarativePoliciesReport API can only be called by the management account or delegated administrators for the organization.   An S3 bucket must be available before generating the report (you can create a new one or use an existing one), it must be in the same Region where the report generation request is made, and it must have an appropriate bucket policy. For a sample S3 policy, see Sample Amazon S3 policy under .   Trusted access must be enabled for the service for which the declarative policy will enforce a baseline configuration. If you use the Amazon Web Services Organizations console, this is done automatically when you enable declarative policies. The API uses the following service principal to identify the EC2 service: ec2.amazonaws.com. For more information on how to enable trusted access with the Amazon Web Services CLI and Amazon Web Services SDKs, see Using Organizations with other Amazon Web Services services in the Amazon Web Services Organizations User Guide.   Only one report per organization can be generated at a time. Attempting to generate a report while another is in progress will result in an error.   For more information, including the required IAM permissions to run this API, see Generating the account status report for declarative policies in the Amazon Web Services Organizations User Guide.
+    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the italicized placeholders representing your specific values):  s3://amzn-s3-demo-bucket/your-optional-s3-prefix/ec2_targetId_reportId_yyyyMMddThhmmZ.csv   Prerequisites for generating a report    The StartDeclarativePoliciesReport API can only be called by the management account or delegated administrators for the organization.   An S3 bucket must be available before generating the report (you can create a new one or use an existing one), it must be in the same Region where the report generation request is made, and it must have an appropriate bucket policy. For a sample S3 policy, see Sample Amazon S3 policy under Examples.   Trusted access must be enabled for the service for which the declarative policy will enforce a baseline configuration. If you use the Amazon Web Services Organizations console, this is done automatically when you enable declarative policies. The API uses the following service principal to identify the EC2 service: ec2.amazonaws.com. For more information on how to enable trusted access with the Amazon Web Services CLI and Amazon Web Services SDKs, see Using Organizations with other Amazon Web Services services in the Amazon Web Services Organizations User Guide.   Only one report per organization can be generated at a time. Attempting to generate a report while another is in progress will result in an error.   For more information, including the required IAM permissions to run this API, see Generating the account status report for declarative policies in the Amazon Web Services Organizations User Guide.
     @Sendable
     @inlinable
     public func startDeclarativePoliciesReport(_ input: StartDeclarativePoliciesReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDeclarativePoliciesReportResult {
@@ -27230,7 +27255,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the italicized placeholders representing your specific values):  s3://amzn-s3-demo-bucket/your-optional-s3-prefix/ec2_targetId_reportId_yyyyMMddThhmmZ.csv   Prerequisites for generating a report    The StartDeclarativePoliciesReport API can only be called by the management account or delegated administrators for the organization.   An S3 bucket must be available before generating the report (you can create a new one or use an existing one), it must be in the same Region where the report generation request is made, and it must have an appropriate bucket policy. For a sample S3 policy, see Sample Amazon S3 policy under .   Trusted access must be enabled for the service for which the declarative policy will enforce a baseline configuration. If you use the Amazon Web Services Organizations console, this is done automatically when you enable declarative policies. The API uses the following service principal to identify the EC2 service: ec2.amazonaws.com. For more information on how to enable trusted access with the Amazon Web Services CLI and Amazon Web Services SDKs, see Using Organizations with other Amazon Web Services services in the Amazon Web Services Organizations User Guide.   Only one report per organization can be generated at a time. Attempting to generate a report while another is in progress will result in an error.   For more information, including the required IAM permissions to run this API, see Generating the account status report for declarative policies in the Amazon Web Services Organizations User Guide.
+    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the italicized placeholders representing your specific values):  s3://amzn-s3-demo-bucket/your-optional-s3-prefix/ec2_targetId_reportId_yyyyMMddThhmmZ.csv   Prerequisites for generating a report    The StartDeclarativePoliciesReport API can only be called by the management account or delegated administrators for the organization.   An S3 bucket must be available before generating the report (you can create a new one or use an existing one), it must be in the same Region where the report generation request is made, and it must have an appropriate bucket policy. For a sample S3 policy, see Sample Amazon S3 policy under Examples.   Trusted access must be enabled for the service for which the declarative policy will enforce a baseline configuration. If you use the Amazon Web Services Organizations console, this is done automatically when you enable declarative policies. The API uses the following service principal to identify the EC2 service: ec2.amazonaws.com. For more information on how to enable trusted access with the Amazon Web Services CLI and Amazon Web Services SDKs, see Using Organizations with other Amazon Web Services services in the Amazon Web Services Organizations User Guide.   Only one report per organization can be generated at a time. Attempting to generate a report while another is in progress will result in an error.   For more information, including the required IAM permissions to run this API, see Generating the account status report for declarative policies in the Amazon Web Services Organizations User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -27410,7 +27435,7 @@ public struct EC2: AWSService {
         return try await self.startVpcEndpointServicePrivateDnsVerification(input, logger: logger)
     }
 
-    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can restart your instance at any time. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
+    /// Stops an Amazon EBS-backed instance. You can restart your instance at any time using the StartInstances API. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     @Sendable
     @inlinable
     public func stopInstances(_ input: StopInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopInstancesResult {
@@ -27423,7 +27448,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can restart your instance at any time. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
+    /// Stops an Amazon EBS-backed instance. You can restart your instance at any time using the StartInstances API. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28097,10 +28122,10 @@ extension EC2 {
     /// Return PaginatorSequence for operation ``describeCapacityBlockOfferings(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify
+    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify the
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - endDateRange: The latest end date for the Capacity Block offering.
-    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block
+    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block can have up
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - startDateRange: The earliest start date for the Capacity Block offering.

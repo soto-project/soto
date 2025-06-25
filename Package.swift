@@ -327,6 +327,7 @@ let package = Package(
         .library(name: "SotoPipes", targets: ["SotoPipes"]),
         .library(name: "SotoPolly", targets: ["SotoPolly"]),
         .library(name: "SotoPricing", targets: ["SotoPricing"]),
+        .library(name: "SotoPrivateNetworks", targets: ["SotoPrivateNetworks"]),
         .library(name: "SotoProton", targets: ["SotoProton"]),
         .library(name: "SotoQApps", targets: ["SotoQApps"]),
         .library(name: "SotoQBusiness", targets: ["SotoQBusiness"]),
@@ -433,6 +434,7 @@ let package = Package(
         .library(name: "SotoWorkSpaces", targets: ["SotoWorkSpaces"]),
         .library(name: "SotoWorkSpacesThinClient", targets: ["SotoWorkSpacesThinClient"]),
         .library(name: "SotoWorkSpacesWeb", targets: ["SotoWorkSpacesWeb"]),
+        .library(name: "SotoWorkspacesInstances", targets: ["SotoWorkspacesInstances"]),
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
@@ -2234,6 +2236,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoPrivateNetworks",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/PrivateNetworks",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoProton",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Proton",
@@ -2867,6 +2875,12 @@ let package = Package(
             name: "SotoWorkSpacesWeb",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/WorkSpacesWeb",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoWorkspacesInstances",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/WorkspacesInstances",
             swiftSettings: swiftSettings
         ),
         .target(
