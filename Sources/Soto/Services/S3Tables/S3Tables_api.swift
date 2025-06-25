@@ -599,7 +599,7 @@ public struct S3Tables: AWSService {
         return try await self.getTableEncryption(input, logger: logger)
     }
 
-    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
+    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.    You must have the s3tables:GetTableData permission to use set the compaction strategy to sort or zorder.
     @Sendable
     @inlinable
     public func getTableMaintenanceConfiguration(_ input: GetTableMaintenanceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableMaintenanceConfigurationResponse {
@@ -612,7 +612,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
+    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.    You must have the s3tables:GetTableData permission to use set the compaction strategy to sort or zorder.
     ///
     /// Parameters:
     ///   - name: The name of the table.

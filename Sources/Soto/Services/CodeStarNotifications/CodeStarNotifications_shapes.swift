@@ -72,7 +72,7 @@ extension CodeStarNotifications {
     public struct CreateNotificationRuleRequest: AWSEncodableShape {
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request with the same parameters is received and a token is included, the request returns information about the initial request that used that token.  The Amazon Web Services SDKs prepopulate client request tokens. If you are using an Amazon Web Services SDK, an idempotency token is created for you.
         public let clientRequestToken: String?
-        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created.
         public let detailType: DetailType
         /// A list of event types associated with this notification rule. For a list of allowed events, see EventTypeSummary.
         public let eventTypeIds: [String]
@@ -234,7 +234,7 @@ extension CodeStarNotifications {
         public let createdBy: String?
         /// The date and time the notification rule was created, in timestamp format.
         public let createdTimestamp: Date?
-        /// The level of detail included in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+        /// The level of detail included in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created.
         public let detailType: DetailType?
         /// A list of the event types associated with the notification rule.
         public let eventTypes: [EventTypeSummary]?
@@ -771,7 +771,7 @@ extension CodeStarNotifications {
     public struct UpdateNotificationRuleRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
-        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+        /// The level of detail to include in the notifications for this resource. BASIC will include only the  contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created.
         public let detailType: DetailType?
         /// A list of event types associated with this notification rule. For a complete list of event types and IDs, see  Notification concepts in the Developer Tools Console User Guide.
         public let eventTypeIds: [String]?
@@ -855,19 +855,19 @@ public struct CodeStarNotificationsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// AWS CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
+    /// CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+    /// CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// Some or all of the configuration is incomplete, missing, or not valid.
     public static var configurationException: Self { .init(.configurationException) }
     /// The value for the enumeration token used in the request to return the next batch of the results is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
-    /// One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
+    /// One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// A resource with the same name or ID already exists. Notification rule names must be unique in your Amazon Web Services account.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+    /// CodeStar Notifications can't find a resource that matches the provided ARN.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// One or more parameter values are not valid.
     public static var validationException: Self { .init(.validationException) }

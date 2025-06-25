@@ -75,7 +75,7 @@ public struct ACMPCA: AWSService {
             serviceName: "ACMPCA",
             serviceIdentifier: "acm-pca",
             serviceProtocol: .json(version: "1.1"),
-            apiVersion: "",
+            apiVersion: "2017-08-22",
             endpoint: endpoint,
             variantEndpoints: Self.variantEndpoints,
             errorType: ACMPCAErrorType.self,

@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS AIOps service.
 ///
-/// The Amazon Q Developer operational investigations feature is a generative AI-powered assistant that can help you respond to incidents in your system. It uses generative AI to scan your system's telemetry and quickly surface suggestions that might be related to your issue. These suggestions include metrics, logs, deployment events, and root-cause hypotheses.  You can use API actions to create, manage, and delete investigation groups and investigation group policies. To start and manage investigations, you must use the CloudWatch console.
+/// The CloudWatch investigations feature is a generative AI-powered assistant that can help you respond to incidents in your system. It uses generative AI to scan your system's telemetry and quickly surface suggestions that might be related to your issue. These suggestions include metrics, logs, deployment events, and root-cause hypotheses.  You can use API actions to create, manage, and delete investigation groups and investigation group policies. To start and manage investigations, you must use the CloudWatch console.
 public struct AIOps: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct AIOps: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an investigation group in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations. Settings in the investigation group help you centrally manage the common properties of your investigations, such as the following:   Who can access the investigations   Whether investigation data is encrypted with a customer managed Key Management Service key.   How long investigations and their data are retained by default.   Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up Amazon Q Developer operational investigations, you must be signed in to an IAM principal that has the either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions.  You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use PutInvestigationGroupPolicy to create a resource policy that grants this permission to CloudWatch alarms.  For more information about configuring CloudWatch alarms to work with Amazon Q Developer operational investigations, see
+    /// Creates an investigation group in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations. Settings in the investigation group help you centrally manage the common properties of your investigations, such as the following:   Who can access the investigations   Whether investigation data is encrypted with a customer managed Key Management Service key.   How long investigations and their data are retained by default.   Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up CloudWatch investigations, you must be signed in to an IAM principal that has the either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions.  You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use PutInvestigationGroupPolicy to create a resource policy that grants this permission to CloudWatch alarms.  For more information about configuring CloudWatch alarms to work with CloudWatch investigations, see
     @Sendable
     @inlinable
     public func createInvestigationGroup(_ input: CreateInvestigationGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInvestigationGroupOutput {
@@ -91,21 +91,23 @@ public struct AIOps: AWSService {
             logger: logger
         )
     }
-    /// Creates an investigation group in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations. Settings in the investigation group help you centrally manage the common properties of your investigations, such as the following:   Who can access the investigations   Whether investigation data is encrypted with a customer managed Key Management Service key.   How long investigations and their data are retained by default.   Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up Amazon Q Developer operational investigations, you must be signed in to an IAM principal that has the either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions.  You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use PutInvestigationGroupPolicy to create a resource policy that grants this permission to CloudWatch alarms.  For more information about configuring CloudWatch alarms to work with Amazon Q Developer operational investigations, see
+    /// Creates an investigation group in your account. Creating an investigation group is a one-time setup task for each Region in your account. It is a necessary task to be able to perform investigations. Settings in the investigation group help you centrally manage the common properties of your investigations, such as the following:   Who can access the investigations   Whether investigation data is encrypted with a customer managed Key Management Service key.   How long investigations and their data are retained by default.   Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up CloudWatch investigations, you must be signed in to an IAM principal that has the either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions.  You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use PutInvestigationGroupPolicy to create a resource policy that grants this permission to CloudWatch alarms.  For more information about configuring CloudWatch alarms to work with CloudWatch investigations, see
     ///
     /// Parameters:
-    ///   - chatbotNotificationChannel: Use this structure to integrate Amazon Q Developer operational investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
-    ///   - encryptionConfiguration: Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, Amazon Q Developer operational investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
-    ///   - isCloudTrailEventHistoryEnabled: Specify true to enable Amazon Q Developer operational investigations to have access to change events that are recorded by CloudTrail. The default is true.
-    ///   - name: A name for the investigation group.
+    ///   - chatbotNotificationChannel: Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
+    ///   - crossAccountConfigurations: Number of sourceAccountId values that have been configured for cross-account access.
+    ///   - encryptionConfiguration: Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
+    ///   - isCloudTrailEventHistoryEnabled: Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true.
+    ///   - name: Provides a name for the investigation group.
     ///   - retentionInDays: Specify how long that investigation data is kept. For more information, see Operational investigation data retention.  If you omit this parameter, the default of 90 days is used.
-    ///   - roleArn: Specify the ARN of the IAM role that Amazon Q Developer operational investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that Amazon Q Developer operational investigations will have access to during investigations. For more information, see How to control what data Amazon Q has access to during investigations.
+    ///   - roleArn: Specify the ARN of the IAM role that CloudWatch investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see How to control what data Amazon Q has access to during investigations.
     ///   - tagKeyBoundaries: Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
     ///   - tags: A list of key-value pairs to associate with the investigation group. You can associate as many as 50 tags with an investigation group. To be able to associate tags when you create the investigation group, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
     ///   - logger: Logger use during operation
     @inlinable
     public func createInvestigationGroup(
         chatbotNotificationChannel: [String: [String]]? = nil,
+        crossAccountConfigurations: [CrossAccountConfiguration]? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         isCloudTrailEventHistoryEnabled: Bool? = nil,
         name: String,
@@ -117,6 +119,7 @@ public struct AIOps: AWSService {
     ) async throws -> CreateInvestigationGroupOutput {
         let input = CreateInvestigationGroupInput(
             chatbotNotificationChannel: chatbotNotificationChannel, 
+            crossAccountConfigurations: crossAccountConfigurations, 
             encryptionConfiguration: encryptionConfiguration, 
             isCloudTrailEventHistoryEnabled: isCloudTrailEventHistoryEnabled, 
             name: name, 
@@ -276,7 +279,7 @@ public struct AIOps: AWSService {
         return try await self.listInvestigationGroups(input, logger: logger)
     }
 
-    /// Displays the tags associated with a Amazon Q Developer operational investigations resource. Currently, investigation groups support tagging.
+    /// Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
@@ -289,10 +292,10 @@ public struct AIOps: AWSService {
             logger: logger
         )
     }
-    /// Displays the tags associated with a Amazon Q Developer operational investigations resource. Currently, investigation groups support tagging.
+    /// Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
     ///
     /// Parameters:
-    ///   - resourceArn: The ARN of the Amazon Q Developer operational investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is arn:aws:aiops:Region:account-id:investigation-group:investigation-group-id .
+    ///   - resourceArn: The ARN of the CloudWatch investigations resource that you want to view tags for. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups. The ARN format for an investigation group is arn:aws:aiops:Region:account-id:investigation-group:investigation-group-id .
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -417,16 +420,18 @@ public struct AIOps: AWSService {
     /// Updates the configuration of the specified investigation group.
     ///
     /// Parameters:
-    ///   - chatbotNotificationChannel: Use this structure to integrate Amazon Q Developer operational investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
-    ///   - encryptionConfiguration: Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, Amazon Q Developer operational investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
+    ///   - chatbotNotificationChannel: Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
+    ///   - crossAccountConfigurations: Used to configure cross-account access for an investigation group. It allows the investigation group to access resources in other accounts.
+    ///   - encryptionConfiguration: Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
     ///   - identifier: Specify either the name or the ARN of the investigation group that you want to modify.
-    ///   - isCloudTrailEventHistoryEnabled: Specify true to enable Amazon Q Developer operational investigations to have access to change events that are recorded by CloudTrail. The default is true.
-    ///   - roleArn: Specify this field if you want to change the IAM role that Amazon Q Developer operational investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that Amazon Q Developer operational investigations will have access to during investigations. For more information, see EHow to control what data Amazon Q has access to during investigations.
+    ///   - isCloudTrailEventHistoryEnabled: Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true.
+    ///   - roleArn: Specify this field if you want to change the IAM role that CloudWatch investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see EHow to control what data Amazon Q has access to during investigations.
     ///   - tagKeyBoundaries: Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInvestigationGroup(
         chatbotNotificationChannel: [String: [String]]? = nil,
+        crossAccountConfigurations: [CrossAccountConfiguration]? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         identifier: String,
         isCloudTrailEventHistoryEnabled: Bool? = nil,
@@ -436,6 +441,7 @@ public struct AIOps: AWSService {
     ) async throws -> UpdateInvestigationGroupOutput {
         let input = UpdateInvestigationGroupRequest(
             chatbotNotificationChannel: chatbotNotificationChannel, 
+            crossAccountConfigurations: crossAccountConfigurations, 
             encryptionConfiguration: encryptionConfiguration, 
             identifier: identifier, 
             isCloudTrailEventHistoryEnabled: isCloudTrailEventHistoryEnabled, 

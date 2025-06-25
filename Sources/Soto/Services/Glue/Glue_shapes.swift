@@ -122,6 +122,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum CompactionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case binpack = "binpack"
+        case sort = "sort"
+        case zorder = "z-order"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Comparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equals = "EQUALS"
         case greaterThan = "GREATER_THAN"
@@ -4514,6 +4521,20 @@ extension Glue {
             case securityConfiguration = "SecurityConfiguration"
             case settingSource = "SettingSource"
             case tableName = "TableName"
+        }
+    }
+
+    public struct CompactionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for an Iceberg compaction optimizer.
+        public let icebergConfiguration: IcebergCompactionConfiguration?
+
+        @inlinable
+        public init(icebergConfiguration: IcebergCompactionConfiguration? = nil) {
+            self.icebergConfiguration = icebergConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergConfiguration = "icebergConfiguration"
         }
     }
 
@@ -15833,6 +15854,20 @@ extension Glue {
         }
     }
 
+    public struct IcebergCompactionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The strategy to use for compaction. Valid values are:    binpack: Combines small files into larger files, typically targeting sizes over 100MB, while applying any pending deletes.  This is the recommended compaction strategy for most use cases.     sort: Organizes data based on specified columns which are sorted hierarchically during compaction, improving query  performance for filtered operations. This strategy is recommended when your queries frequently filter on specific columns. To use this strategy,  you must first define a sort order in your Iceberg table properties using the sort_order table property.    z-order: Optimizes data organization by blending multiple attributes into a single scalar value that can be used for sorting,  allowing efficient querying across multiple dimensions. This strategy is recommended when you need to query data across multiple dimensions  simultaneously. To use this strategy, you must first define a sort order in your Iceberg table properties using the  sort_order table property.    If an input is not provided, the default value 'binpack' will be used.
+        public let strategy: CompactionStrategy?
+
+        @inlinable
+        public init(strategy: CompactionStrategy? = nil) {
+            self.strategy = strategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case strategy = "strategy"
+        }
+    }
+
     public struct IcebergCompactionMetrics: AWSDecodableShape {
         /// The number of DPU hours consumed by the job.
         public let dpuHours: Double?
@@ -25245,6 +25280,8 @@ extension Glue {
     }
 
     public struct TableOptimizerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for a compaction optimizer. This configuration defines how data files in your table will be compacted to  improve query performance and reduce storage costs.
+        public let compactionConfiguration: CompactionConfiguration?
         /// Whether table optimization is enabled.
         public let enabled: Bool?
         /// The configuration for an orphan file deletion optimizer.
@@ -25257,7 +25294,8 @@ extension Glue {
         public let vpcConfiguration: TableOptimizerVpcConfiguration?
 
         @inlinable
-        public init(enabled: Bool? = nil, orphanFileDeletionConfiguration: OrphanFileDeletionConfiguration? = nil, retentionConfiguration: RetentionConfiguration? = nil, roleArn: String? = nil, vpcConfiguration: TableOptimizerVpcConfiguration? = nil) {
+        public init(compactionConfiguration: CompactionConfiguration? = nil, enabled: Bool? = nil, orphanFileDeletionConfiguration: OrphanFileDeletionConfiguration? = nil, retentionConfiguration: RetentionConfiguration? = nil, roleArn: String? = nil, vpcConfiguration: TableOptimizerVpcConfiguration? = nil) {
+            self.compactionConfiguration = compactionConfiguration
             self.enabled = enabled
             self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
             self.retentionConfiguration = retentionConfiguration
@@ -25272,6 +25310,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compactionConfiguration = "compactionConfiguration"
             case enabled = "enabled"
             case orphanFileDeletionConfiguration = "orphanFileDeletionConfiguration"
             case retentionConfiguration = "retentionConfiguration"
@@ -25283,6 +25322,8 @@ extension Glue {
     public struct TableOptimizerRun: AWSDecodableShape {
         /// A CompactionMetrics object containing metrics for the optimizer run.
         public let compactionMetrics: CompactionMetrics?
+        /// The strategy used for the compaction run. Indicates which algorithm was applied to determine how files were selected and combined during the  compaction process. Valid values are:    binpack: Combines small files into larger files, typically targeting sizes over 100MB, while applying any pending deletes.  This is the recommended compaction strategy for most use cases.     sort: Organizes data based on specified columns which are sorted hierarchically during compaction, improving query  performance for filtered operations. This strategy is recommended when your queries frequently filter on specific columns. To use this strategy,  you must first define a sort order in your Iceberg table properties using the sort_order table property.    z-order: Optimizes data organization by blending multiple attributes into a single scalar value that can be used for sorting,  allowing efficient querying across multiple dimensions. This strategy is recommended when you need to query data across multiple dimensions  simultaneously. To use this strategy, you must first define a sort order in your Iceberg table properties using the  sort_order table property.
+        public let compactionStrategy: CompactionStrategy?
         /// Represents the epoch timestamp at which the compaction job ended.
         public let endTimestamp: Date?
         /// An error that occured during the optimizer run.
@@ -25299,8 +25340,9 @@ extension Glue {
         public let startTimestamp: Date?
 
         @inlinable
-        public init(compactionMetrics: CompactionMetrics? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
+        public init(compactionMetrics: CompactionMetrics? = nil, compactionStrategy: CompactionStrategy? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
             self.compactionMetrics = compactionMetrics
+            self.compactionStrategy = compactionStrategy
             self.endTimestamp = endTimestamp
             self.error = error
             self.eventType = eventType
@@ -25312,8 +25354,9 @@ extension Glue {
 
         @available(*, deprecated, message: "Members metrics have been deprecated")
         @inlinable
-        public init(compactionMetrics: CompactionMetrics? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, metrics: RunMetrics? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
+        public init(compactionMetrics: CompactionMetrics? = nil, compactionStrategy: CompactionStrategy? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, metrics: RunMetrics? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
             self.compactionMetrics = compactionMetrics
+            self.compactionStrategy = compactionStrategy
             self.endTimestamp = endTimestamp
             self.error = error
             self.eventType = eventType
@@ -25325,6 +25368,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case compactionMetrics = "compactionMetrics"
+            case compactionStrategy = "compactionStrategy"
             case endTimestamp = "endTimestamp"
             case error = "error"
             case eventType = "eventType"

@@ -99,6 +99,7 @@ extension Transcribe {
         case enZa = "en-ZA"
         case esEs = "es-ES"
         case esUs = "es-US"
+        case etEe = "et-EE"
         case etEt = "et-ET"
         case euEs = "eu-ES"
         case faIr = "fa-IR"

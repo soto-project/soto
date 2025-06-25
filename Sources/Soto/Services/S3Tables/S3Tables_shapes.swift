@@ -25,6 +25,14 @@ import Foundation
 extension S3Tables {
     // MARK: Enums
 
+    public enum IcebergCompactionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "auto"
+        case binpack = "binpack"
+        case sort = "sort"
+        case zorder = "z-order"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case failed = "Failed"
@@ -1088,11 +1096,14 @@ extension S3Tables {
     }
 
     public struct IcebergCompactionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations.
+        public let strategy: IcebergCompactionStrategy?
         /// The target file size for the table in MB.
         public let targetFileSizeMB: Int?
 
         @inlinable
-        public init(targetFileSizeMB: Int? = nil) {
+        public init(strategy: IcebergCompactionStrategy? = nil, targetFileSizeMB: Int? = nil) {
+            self.strategy = strategy
             self.targetFileSizeMB = targetFileSizeMB
         }
 
@@ -1102,6 +1113,7 @@ extension S3Tables {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case strategy = "strategy"
             case targetFileSizeMB = "targetFileSizeMB"
         }
     }

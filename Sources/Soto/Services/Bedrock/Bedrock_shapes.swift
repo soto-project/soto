@@ -25,9 +25,23 @@ import Foundation
 extension Bedrock {
     // MARK: Enums
 
+    public enum AgreementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case error = "ERROR"
+        case notAvailable = "NOT_AVAILABLE"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case modelEvaluation = "ModelEvaluation"
         case ragEvaluation = "RagEvaluation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthorizationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authorized = "AUTHORIZED"
+        case notAuthorized = "NOT_AUTHORIZED"
         public var description: String { return self.rawValue }
     }
 
@@ -42,6 +56,12 @@ extension Bedrock {
         case distillation = "DISTILLATION"
         case fineTuning = "FINE_TUNING"
         case imported = "IMPORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntitlementAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case notAvailable = "NOT_AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -304,6 +324,12 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum OfferType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "PUBLIC"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PerformanceConfigLatency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optimized = "optimized"
         case standard = "standard"
@@ -331,6 +357,12 @@ extension Bedrock {
 
     public enum QueryTransformationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case queryDecomposition = "QUERY_DECOMPOSITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RegionAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case notAvailable = "NOT_AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -975,6 +1007,24 @@ extension Bedrock {
 
     // MARK: Shapes
 
+    public struct AgreementAvailability: AWSDecodableShape {
+        /// Error message.
+        public let errorMessage: String?
+        /// Status of the agreement.
+        public let status: AgreementStatus
+
+        @inlinable
+        public init(errorMessage: String? = nil, status: AgreementStatus) {
+            self.errorMessage = errorMessage
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case status = "status"
+        }
+    }
+
     public struct AutomatedEvaluationConfig: AWSEncodableShape & AWSDecodableShape {
         /// Defines the configuration of custom metrics to be used in an evaluation job.
         public let customMetricConfig: AutomatedEvaluationCustomMetricConfig?
@@ -1347,6 +1397,43 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case jobArn = "jobArn"
+        }
+    }
+
+    public struct CreateFoundationModelAgreementRequest: AWSEncodableShape {
+        /// Model Id of the model for the access request.
+        public let modelId: String
+        /// An offer token encapsulates the information for an offer.
+        public let offerToken: String
+
+        @inlinable
+        public init(modelId: String, offerToken: String) {
+            self.modelId = modelId
+            self.offerToken = offerToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 140)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId = "modelId"
+            case offerToken = "offerToken"
+        }
+    }
+
+    public struct CreateFoundationModelAgreementResponse: AWSDecodableShape {
+        /// Model Id of the model for the access request.
+        public let modelId: String
+
+        @inlinable
+        public init(modelId: String) {
+            self.modelId = modelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId = "modelId"
         }
     }
 
@@ -2329,6 +2416,29 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct DeleteFoundationModelAgreementRequest: AWSEncodableShape {
+        /// Model Id of the model access to delete.
+        public let modelId: String
+
+        @inlinable
+        public init(modelId: String) {
+            self.modelId = modelId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 140)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId = "modelId"
+        }
+    }
+
+    public struct DeleteFoundationModelAgreementResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteGuardrailRequest: AWSEncodableShape {
         /// The unique identifier of the guardrail. This can be an ID or the ARN.
         public let guardrailIdentifier: String
@@ -2529,6 +2639,32 @@ extension Bedrock {
 
     public struct DeregisterMarketplaceModelEndpointResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DimensionalPriceRate: AWSDecodableShape {
+        /// Description of the price rate.
+        public let description: String?
+        /// Dimension for the price rate.
+        public let dimension: String?
+        /// Single-dimensional rate information.
+        public let price: String?
+        /// Unit associated with the price.
+        public let unit: String?
+
+        @inlinable
+        public init(description: String? = nil, dimension: String? = nil, price: String? = nil, unit: String? = nil) {
+            self.description = description
+            self.dimension = dimension
+            self.price = price
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case dimension = "dimension"
+            case price = "price"
+            case unit = "unit"
+        }
     }
 
     public struct DistillationConfig: AWSEncodableShape & AWSDecodableShape {
@@ -3306,6 +3442,59 @@ extension Bedrock {
             case outputDataConfig = "outputDataConfig"
             case roleArn = "roleArn"
             case status = "status"
+        }
+    }
+
+    public struct GetFoundationModelAvailabilityRequest: AWSEncodableShape {
+        /// The model Id of the foundation model.
+        public let modelId: String
+
+        @inlinable
+        public init(modelId: String) {
+            self.modelId = modelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.modelId, key: "modelId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 140)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFoundationModelAvailabilityResponse: AWSDecodableShape {
+        /// Agreement availability.
+        public let agreementAvailability: AgreementAvailability
+        /// Authorization status.
+        public let authorizationStatus: AuthorizationStatus
+        /// Entitlement availability.
+        public let entitlementAvailability: EntitlementAvailability
+        /// The model Id of the foundation model.
+        public let modelId: String
+        /// Region availability.
+        public let regionAvailability: RegionAvailability
+
+        @inlinable
+        public init(agreementAvailability: AgreementAvailability, authorizationStatus: AuthorizationStatus, entitlementAvailability: EntitlementAvailability, modelId: String, regionAvailability: RegionAvailability) {
+            self.agreementAvailability = agreementAvailability
+            self.authorizationStatus = authorizationStatus
+            self.entitlementAvailability = entitlementAvailability
+            self.modelId = modelId
+            self.regionAvailability = regionAvailability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementAvailability = "agreementAvailability"
+            case authorizationStatus = "authorizationStatus"
+            case entitlementAvailability = "entitlementAvailability"
+            case modelId = "modelId"
+            case regionAvailability = "regionAvailability"
         }
     }
 
@@ -4215,6 +4404,24 @@ extension Bedrock {
             case provisionedModelArn = "provisionedModelArn"
             case provisionedModelName = "provisionedModelName"
             case status = "status"
+        }
+    }
+
+    public struct GetUseCaseForModelAccessRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetUseCaseForModelAccessResponse: AWSDecodableShape {
+        /// Get customer profile Response.
+        public let formData: AWSBase64Data
+
+        @inlinable
+        public init(formData: AWSBase64Data) {
+            self.formData = formData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formData = "formData"
         }
     }
 
@@ -5419,6 +5626,20 @@ extension Bedrock {
         }
     }
 
+    public struct LegalTerm: AWSDecodableShape {
+        /// URL to the legal term document.
+        public let url: String?
+
+        @inlinable
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "url"
+        }
+    }
+
     public struct ListCustomModelsRequest: AWSEncodableShape {
         /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
         public let baseModelArnEquals: String?
@@ -5590,6 +5811,51 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case jobSummaries = "jobSummaries"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFoundationModelAgreementOffersRequest: AWSEncodableShape {
+        /// Model Id of the foundation model.
+        public let modelId: String
+        /// Type of offer associated with the model.
+        public let offerType: OfferType?
+
+        @inlinable
+        public init(modelId: String, offerType: OfferType? = nil) {
+            self.modelId = modelId
+            self.offerType = offerType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.modelId, key: "modelId")
+            request.encodeQuery(self.offerType, key: "offerType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 140)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFoundationModelAgreementOffersResponse: AWSDecodableShape {
+        /// Model Id of the foundation model.
+        public let modelId: String
+        /// List of the offers associated with the specified model.
+        public let offers: [Offer]
+
+        @inlinable
+        public init(modelId: String, offers: [Offer]) {
+            self.modelId = modelId
+            self.offers = offers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId = "modelId"
+            case offers = "offers"
         }
     }
 
@@ -6779,6 +7045,28 @@ extension Bedrock {
         }
     }
 
+    public struct Offer: AWSDecodableShape {
+        /// Offer Id for a model offer.
+        public let offerId: String?
+        /// Offer token.
+        public let offerToken: String
+        /// Details about the terms of the offer.
+        public let termDetails: TermDetails
+
+        @inlinable
+        public init(offerId: String? = nil, offerToken: String, termDetails: TermDetails) {
+            self.offerId = offerId
+            self.offerToken = offerToken
+            self.termDetails = termDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offerId = "offerId"
+            case offerToken = "offerToken"
+            case termDetails = "termDetails"
+        }
+    }
+
     public struct OrchestrationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains configuration details for transforming the prompt.
         public let queryTransformationConfiguration: QueryTransformationConfiguration
@@ -6824,6 +7112,20 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case latency = "latency"
+        }
+    }
+
+    public struct PricingTerm: AWSDecodableShape {
+        /// Describes a usage price for each dimension.
+        public let rateCard: [DimensionalPriceRate]
+
+        @inlinable
+        public init(rateCard: [DimensionalPriceRate]) {
+            self.rateCard = rateCard
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rateCard = "rateCard"
         }
     }
 
@@ -6998,6 +7300,29 @@ extension Bedrock {
     }
 
     public struct PutModelInvocationLoggingConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutUseCaseForModelAccessRequest: AWSEncodableShape {
+        /// Put customer profile Request.
+        public let formData: AWSBase64Data
+
+        @inlinable
+        public init(formData: AWSBase64Data) {
+            self.formData = formData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.formData, name: "formData", parent: name, max: 16384)
+            try self.validate(self.formData, name: "formData", parent: name, min: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formData = "formData"
+        }
+    }
+
+    public struct PutUseCaseForModelAccessResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -7381,6 +7706,20 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct SupportTerm: AWSDecodableShape {
+        /// Describes the refund policy.
+        public let refundPolicyDescription: String?
+
+        @inlinable
+        public init(refundPolicyDescription: String? = nil) {
+            self.refundPolicyDescription = refundPolicyDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refundPolicyDescription = "refundPolicyDescription"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// Key for the tag.
         public let key: String
@@ -7458,6 +7797,31 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case maxResponseLengthForInference = "maxResponseLengthForInference"
             case teacherModelIdentifier = "teacherModelIdentifier"
+        }
+    }
+
+    public struct TermDetails: AWSDecodableShape {
+        /// Describes the legal terms.
+        public let legalTerm: LegalTerm
+        /// Describes the support terms.
+        public let supportTerm: SupportTerm
+        public let usageBasedPricingTerm: PricingTerm
+        /// Describes the validity terms.
+        public let validityTerm: ValidityTerm?
+
+        @inlinable
+        public init(legalTerm: LegalTerm, supportTerm: SupportTerm, usageBasedPricingTerm: PricingTerm, validityTerm: ValidityTerm? = nil) {
+            self.legalTerm = legalTerm
+            self.supportTerm = supportTerm
+            self.usageBasedPricingTerm = usageBasedPricingTerm
+            self.validityTerm = validityTerm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case legalTerm = "legalTerm"
+            case supportTerm = "supportTerm"
+            case usageBasedPricingTerm = "usageBasedPricingTerm"
+            case validityTerm = "validityTerm"
         }
     }
 
@@ -7905,6 +8269,20 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case validationLoss = "validationLoss"
+        }
+    }
+
+    public struct ValidityTerm: AWSDecodableShape {
+        /// Describes the agreement duration.
+        public let agreementDuration: String?
+
+        @inlinable
+        public init(agreementDuration: String? = nil) {
+            self.agreementDuration = agreementDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementDuration = "agreementDuration"
         }
     }
 

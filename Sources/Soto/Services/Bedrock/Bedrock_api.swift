@@ -269,6 +269,38 @@ public struct Bedrock: AWSService {
         return try await self.createEvaluationJob(input, logger: logger)
     }
 
+    /// Request a model access agreement for the specified model.
+    @Sendable
+    @inlinable
+    public func createFoundationModelAgreement(_ input: CreateFoundationModelAgreementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFoundationModelAgreementResponse {
+        try await self.client.execute(
+            operation: "CreateFoundationModelAgreement", 
+            path: "/create-foundation-model-agreement", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Request a model access agreement for the specified model.
+    ///
+    /// Parameters:
+    ///   - modelId: Model Id of the model for the access request.
+    ///   - offerToken: An offer token encapsulates the information for an offer.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createFoundationModelAgreement(
+        modelId: String,
+        offerToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateFoundationModelAgreementResponse {
+        let input = CreateFoundationModelAgreementRequest(
+            modelId: modelId, 
+            offerToken: offerToken
+        )
+        return try await self.createFoundationModelAgreement(input, logger: logger)
+    }
+
     /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms, competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -792,6 +824,35 @@ public struct Bedrock: AWSService {
         return try await self.deleteCustomModel(input, logger: logger)
     }
 
+    /// Delete the model access agreement for the specified model.
+    @Sendable
+    @inlinable
+    public func deleteFoundationModelAgreement(_ input: DeleteFoundationModelAgreementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFoundationModelAgreementResponse {
+        try await self.client.execute(
+            operation: "DeleteFoundationModelAgreement", 
+            path: "/delete-foundation-model-agreement", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete the model access agreement for the specified model.
+    ///
+    /// Parameters:
+    ///   - modelId: Model Id of the model access to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteFoundationModelAgreement(
+        modelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteFoundationModelAgreementResponse {
+        let input = DeleteFoundationModelAgreementRequest(
+            modelId: modelId
+        )
+        return try await self.deleteFoundationModelAgreement(input, logger: logger)
+    }
+
     /// Deletes a guardrail.   To delete a guardrail, only specify the ARN of the guardrail in the guardrailIdentifier field. If you delete a guardrail, all of its versions will be deleted.   To delete a version of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field and the version in the guardrailVersion field.
     @Sendable
     @inlinable
@@ -1109,6 +1170,35 @@ public struct Bedrock: AWSService {
             modelIdentifier: modelIdentifier
         )
         return try await self.getFoundationModel(input, logger: logger)
+    }
+
+    /// Get information about the Foundation model availability.
+    @Sendable
+    @inlinable
+    public func getFoundationModelAvailability(_ input: GetFoundationModelAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFoundationModelAvailabilityResponse {
+        try await self.client.execute(
+            operation: "GetFoundationModelAvailability", 
+            path: "/foundation-model-availability/{modelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get information about the Foundation model availability.
+    ///
+    /// Parameters:
+    ///   - modelId: The model Id of the foundation model.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFoundationModelAvailability(
+        modelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFoundationModelAvailabilityResponse {
+        let input = GetFoundationModelAvailabilityRequest(
+            modelId: modelId
+        )
+        return try await self.getFoundationModelAvailability(input, logger: logger)
     }
 
     /// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version.
@@ -1430,6 +1520,32 @@ public struct Bedrock: AWSService {
         return try await self.getProvisionedModelThroughput(input, logger: logger)
     }
 
+    /// Get usecase for model access.
+    @Sendable
+    @inlinable
+    public func getUseCaseForModelAccess(_ input: GetUseCaseForModelAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUseCaseForModelAccessResponse {
+        try await self.client.execute(
+            operation: "GetUseCaseForModelAccess", 
+            path: "/use-case-for-model-access", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get usecase for model access.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getUseCaseForModelAccess(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetUseCaseForModelAccessResponse {
+        let input = GetUseCaseForModelAccessRequest(
+        )
+        return try await self.getUseCaseForModelAccess(input, logger: logger)
+    }
+
     /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -1540,6 +1656,38 @@ public struct Bedrock: AWSService {
             statusEquals: statusEquals
         )
         return try await self.listEvaluationJobs(input, logger: logger)
+    }
+
+    /// Get the offers associated with the specified model.
+    @Sendable
+    @inlinable
+    public func listFoundationModelAgreementOffers(_ input: ListFoundationModelAgreementOffersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFoundationModelAgreementOffersResponse {
+        try await self.client.execute(
+            operation: "ListFoundationModelAgreementOffers", 
+            path: "/list-foundation-model-agreement-offers/{modelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the offers associated with the specified model.
+    ///
+    /// Parameters:
+    ///   - modelId: Model Id of the foundation model.
+    ///   - offerType: Type of offer associated with the model.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFoundationModelAgreementOffers(
+        modelId: String,
+        offerType: OfferType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFoundationModelAgreementOffersResponse {
+        let input = ListFoundationModelAgreementOffersRequest(
+            modelId: modelId, 
+            offerType: offerType
+        )
+        return try await self.listFoundationModelAgreementOffers(input, logger: logger)
     }
 
     /// Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide.
@@ -2082,6 +2230,35 @@ public struct Bedrock: AWSService {
             loggingConfig: loggingConfig
         )
         return try await self.putModelInvocationLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Put usecase for model access.
+    @Sendable
+    @inlinable
+    public func putUseCaseForModelAccess(_ input: PutUseCaseForModelAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutUseCaseForModelAccessResponse {
+        try await self.client.execute(
+            operation: "PutUseCaseForModelAccess", 
+            path: "/use-case-for-model-access", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Put usecase for model access.
+    ///
+    /// Parameters:
+    ///   - formData: Put customer profile Request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putUseCaseForModelAccess(
+        formData: AWSBase64Data,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutUseCaseForModelAccessResponse {
+        let input = PutUseCaseForModelAccessRequest(
+            formData: formData
+        )
+        return try await self.putUseCaseForModelAccess(input, logger: logger)
     }
 
     /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
