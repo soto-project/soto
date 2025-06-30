@@ -243,6 +243,47 @@ public struct FSx: AWSService {
         return try await self.copySnapshotAndUpdateVolume(input, logger: logger)
     }
 
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the  volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information,  see Accessing your data using  access points  in the Amazon FSx for OpenZFS User Guide.  The requester requires the following permissions to perform these actions:    fsx:CreateAndAttachS3AccessPoint     s3:CreateAccessPoint     s3:GetAccessPoint     s3:PutAccessPointPolicy     s3:DeleteAccessPoint    The following actions are related to CreateAndAttachS3AccessPoint:    DescribeS3AccessPointAttachments     DetachAndDeleteS3AccessPoint
+    @Sendable
+    @inlinable
+    public func createAndAttachS3AccessPoint(_ input: CreateAndAttachS3AccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAndAttachS3AccessPointResponse {
+        try await self.client.execute(
+            operation: "CreateAndAttachS3AccessPoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the  volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information,  see Accessing your data using  access points  in the Amazon FSx for OpenZFS User Guide.  The requester requires the following permissions to perform these actions:    fsx:CreateAndAttachS3AccessPoint     s3:CreateAccessPoint     s3:GetAccessPoint     s3:PutAccessPointPolicy     s3:DeleteAccessPoint    The following actions are related to CreateAndAttachS3AccessPoint:    DescribeS3AccessPointAttachments     DetachAndDeleteS3AccessPoint
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: 
+    ///   - name: The name you want to assign to this S3 access point.
+    ///   - openZFSConfiguration: Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume.
+    ///   - s3AccessPoint: Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC.  For more information, see Creating access points restricted to a virtual private cloud.
+    ///   - type: The type of S3 access point you want to create. Only OpenZFS is supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAndAttachS3AccessPoint(
+        clientRequestToken: String? = CreateAndAttachS3AccessPointRequest.idempotencyToken(),
+        name: String? = nil,
+        openZFSConfiguration: CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil,
+        s3AccessPoint: CreateAndAttachS3AccessPointS3Configuration? = nil,
+        type: S3AccessPointAttachmentType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAndAttachS3AccessPointResponse {
+        let input = CreateAndAttachS3AccessPointRequest(
+            clientRequestToken: clientRequestToken, 
+            name: name, 
+            openZFSConfiguration: openZFSConfiguration, 
+            s3AccessPoint: s3AccessPoint, 
+            type: type
+        )
+        return try await self.createAndAttachS3AccessPoint(input, logger: logger)
+    }
+
     /// Creates a backup of an existing Amazon FSx for Windows File Server file system, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system. We recommend creating regular backups so that you can restore a file system or volume from a backup if an issue arises with the original file system or volume. For Amazon FSx for Lustre file systems, you can create a backup only for file systems that have the following configuration:   A Persistent deployment type   Are not linked to a data repository   For more information about backups, see the following:   For Amazon FSx for Lustre, see Working with FSx for Lustre backups.   For Amazon FSx for Windows, see Working with FSx for Windows backups.   For Amazon FSx for NetApp ONTAP, see Working with FSx for NetApp ONTAP backups.   For Amazon FSx for OpenZFS, see Working with FSx for OpenZFS backups.   If a backup with the specified client request token exists and the parameters match, this operation returns the description of the existing backup. If a backup with the specified client request token exists and the parameters don't match, this operation returns IncompatibleParameterError. If a backup with the specified client request token doesn't exist, CreateBackup does the following:    Creates a new Amazon FSx backup with an assigned ID, and an initial lifecycle state of CREATING.   Returns the description of the backup.   By using the idempotent operation, you can retry a CreateBackup operation without the risk of creating an extra backup. This approach can be useful when an initial call fails in a way that makes it unclear whether a backup was created. If you use the same client request token and the initial call created a backup, the operation returns a successful result because all the parameters are the same. The CreateBackup operation returns while the backup's lifecycle state is still CREATING. You can check the backup creation status by calling the DescribeBackups operation, which returns the backup state along with other information.
     @Sendable
     @inlinable
@@ -836,7 +877,7 @@ public struct FSx: AWSService {
         return try await self.deleteFileCache(input, logger: logger)
     }
 
-    /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleteFileSystem operation. By default, when you delete an Amazon FSx for Windows File Server file system, a final backup is created upon deletion. This final backup isn't subject to the file system's retention policy, and must be manually deleted. To delete an Amazon FSx for Lustre file system, first  unmount it from every connected Amazon EC2 instance, then provide a FileSystemId value to the DeleteFileSystem operation. By default, Amazon FSx will not take a final backup when the DeleteFileSystem operation is invoked. On file systems not linked to an Amazon S3 bucket, set SkipFinalBackup to false to take a final backup of the file system you are deleting. Backups cannot be enabled on S3-linked file systems. To ensure all of your data is written back to S3 before deleting your file system, you can either monitor for the AgeOfOldestQueuedMessage metric to be zero (if using automatic export) or you can run an export data repository task. If you have automatic export enabled and want to use an export data repository task, you have to disable automatic export before executing the export data repository task. The DeleteFileSystem operation returns while the file system has the DELETING status. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your account. If you pass the file system ID for a deleted file system, the DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is also deleted and can't be recovered by any means.
+    /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleteFileSystem operation. Before deleting an Amazon FSx for OpenZFS file system, make sure that there aren't  any Amazon S3 access points attached to any volume. For more information on how to list S3  access points that are attached to volumes, see  Listing S3 access point attachments.  For more information on how to delete S3 access points, see  Deleting an S3 access point attachment. By default, when you delete an Amazon FSx for Windows File Server file system, a final backup is created upon deletion. This final backup isn't subject to the file system's retention policy, and must be manually deleted. To delete an Amazon FSx for Lustre file system, first  unmount it from every connected Amazon EC2 instance, then provide a FileSystemId value to the DeleteFileSystem operation. By default, Amazon FSx will not take a final backup when the DeleteFileSystem operation is invoked. On file systems not linked to an Amazon S3 bucket, set SkipFinalBackup to false to take a final backup of the file system you are deleting. Backups cannot be enabled on S3-linked file systems. To ensure all of your data is written back to S3 before deleting your file system, you can either monitor for the AgeOfOldestQueuedMessage metric to be zero (if using automatic export) or you can run an export data repository task. If you have automatic export enabled and want to use an export data repository task, you have to disable automatic export before executing the export data repository task. The DeleteFileSystem operation returns while the file system has the DELETING status. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your account. If you pass the file system ID for a deleted file system, the DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is also deleted and can't be recovered by any means.
     @Sendable
     @inlinable
     public func deleteFileSystem(_ input: DeleteFileSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFileSystemResponse {
@@ -849,7 +890,7 @@ public struct FSx: AWSService {
             logger: logger
         )
     }
-    /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleteFileSystem operation. By default, when you delete an Amazon FSx for Windows File Server file system, a final backup is created upon deletion. This final backup isn't subject to the file system's retention policy, and must be manually deleted. To delete an Amazon FSx for Lustre file system, first  unmount it from every connected Amazon EC2 instance, then provide a FileSystemId value to the DeleteFileSystem operation. By default, Amazon FSx will not take a final backup when the DeleteFileSystem operation is invoked. On file systems not linked to an Amazon S3 bucket, set SkipFinalBackup to false to take a final backup of the file system you are deleting. Backups cannot be enabled on S3-linked file systems. To ensure all of your data is written back to S3 before deleting your file system, you can either monitor for the AgeOfOldestQueuedMessage metric to be zero (if using automatic export) or you can run an export data repository task. If you have automatic export enabled and want to use an export data repository task, you have to disable automatic export before executing the export data repository task. The DeleteFileSystem operation returns while the file system has the DELETING status. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your account. If you pass the file system ID for a deleted file system, the DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is also deleted and can't be recovered by any means.
+    /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleteFileSystem operation. Before deleting an Amazon FSx for OpenZFS file system, make sure that there aren't  any Amazon S3 access points attached to any volume. For more information on how to list S3  access points that are attached to volumes, see  Listing S3 access point attachments.  For more information on how to delete S3 access points, see  Deleting an S3 access point attachment. By default, when you delete an Amazon FSx for Windows File Server file system, a final backup is created upon deletion. This final backup isn't subject to the file system's retention policy, and must be manually deleted. To delete an Amazon FSx for Lustre file system, first  unmount it from every connected Amazon EC2 instance, then provide a FileSystemId value to the DeleteFileSystem operation. By default, Amazon FSx will not take a final backup when the DeleteFileSystem operation is invoked. On file systems not linked to an Amazon S3 bucket, set SkipFinalBackup to false to take a final backup of the file system you are deleting. Backups cannot be enabled on S3-linked file systems. To ensure all of your data is written back to S3 before deleting your file system, you can either monitor for the AgeOfOldestQueuedMessage metric to be zero (if using automatic export) or you can run an export data repository task. If you have automatic export enabled and want to use an export data repository task, you have to disable automatic export before executing the export data repository task. The DeleteFileSystem operation returns while the file system has the DELETING status. You can check the file system deletion status by calling the DescribeFileSystems operation, which returns a list of file systems in your account. If you pass the file system ID for a deleted file system, the DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is also deleted and can't be recovered by any means.
     ///
     /// Parameters:
     ///   - clientRequestToken: A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This token is automatically filled on your behalf when using the Command Line Interface (CLI) or an Amazon Web Services SDK.
@@ -1201,6 +1242,44 @@ public struct FSx: AWSService {
         return try await self.describeFileSystems(input, logger: logger)
     }
 
+    /// Describes one or more S3 access points attached to Amazon FSx volumes. The requester requires the following permission to perform this action:    fsx:DescribeS3AccessPointAttachments
+    @Sendable
+    @inlinable
+    public func describeS3AccessPointAttachments(_ input: DescribeS3AccessPointAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeS3AccessPointAttachmentsResponse {
+        try await self.client.execute(
+            operation: "DescribeS3AccessPointAttachments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more S3 access points attached to Amazon FSx volumes. The requester requires the following permission to perform this action:    fsx:DescribeS3AccessPointAttachments
+    ///
+    /// Parameters:
+    ///   - filters: Enter a filter Name and Values pair to view a select set of S3 access point attachments.
+    ///   - maxResults: 
+    ///   - names: The names of the S3 access point attachments whose descriptions you want to retrieve.
+    ///   - nextToken: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeS3AccessPointAttachments(
+        filters: [S3AccessPointAttachmentsFilter]? = nil,
+        maxResults: Int? = nil,
+        names: [String]? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeS3AccessPointAttachmentsResponse {
+        let input = DescribeS3AccessPointAttachmentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            names: names, 
+            nextToken: nextToken
+        )
+        return try await self.describeS3AccessPointAttachments(input, logger: logger)
+    }
+
     /// Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
     @Sendable
     @inlinable
@@ -1342,6 +1421,38 @@ public struct FSx: AWSService {
             volumeIds: volumeIds
         )
         return try await self.describeVolumes(input, logger: logger)
+    }
+
+    /// Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point. The requester requires the following permission to perform this action:    fsx:DetachAndDeleteS3AccessPoint     s3:DeleteAccessPoint
+    @Sendable
+    @inlinable
+    public func detachAndDeleteS3AccessPoint(_ input: DetachAndDeleteS3AccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachAndDeleteS3AccessPointResponse {
+        try await self.client.execute(
+            operation: "DetachAndDeleteS3AccessPoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point. The requester requires the following permission to perform this action:    fsx:DetachAndDeleteS3AccessPoint     s3:DeleteAccessPoint
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: 
+    ///   - name: The name of the S3 access point attachment that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func detachAndDeleteS3AccessPoint(
+        clientRequestToken: String? = DetachAndDeleteS3AccessPointRequest.idempotencyToken(),
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DetachAndDeleteS3AccessPointResponse {
+        let input = DetachAndDeleteS3AccessPointRequest(
+            clientRequestToken: clientRequestToken, 
+            name: name
+        )
+        return try await self.detachAndDeleteS3AccessPoint(input, logger: logger)
     }
 
     /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases  from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not  associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see  Working with DNS Aliases. The system generated response showing the DNS aliases that  Amazon FSx is attempting to disassociate from the file system.  Use the  API  operation to monitor the status of the aliases Amazon FSx is  disassociating with the file system.
@@ -2100,6 +2211,46 @@ extension FSx {
         return self.describeFileSystemsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeS3AccessPointAttachments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeS3AccessPointAttachmentsPaginator(
+        _ input: DescribeS3AccessPointAttachmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeS3AccessPointAttachmentsRequest, DescribeS3AccessPointAttachmentsResponse> {
+        return .init(
+            input: input,
+            command: self.describeS3AccessPointAttachments,
+            inputKey: \DescribeS3AccessPointAttachmentsRequest.nextToken,
+            outputKey: \DescribeS3AccessPointAttachmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeS3AccessPointAttachments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Enter a filter Name and Values pair to view a select set of S3 access point attachments.
+    ///   - maxResults: 
+    ///   - names: The names of the S3 access point attachments whose descriptions you want to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeS3AccessPointAttachmentsPaginator(
+        filters: [S3AccessPointAttachmentsFilter]? = nil,
+        maxResults: Int? = nil,
+        names: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeS3AccessPointAttachmentsRequest, DescribeS3AccessPointAttachmentsResponse> {
+        let input = DescribeS3AccessPointAttachmentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            names: names
+        )
+        return self.describeS3AccessPointAttachmentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeSnapshots(_:logger:)``.
     ///
     /// - Parameters:
@@ -2326,6 +2477,18 @@ extension FSx.DescribeFileSystemsRequest: AWSPaginateToken {
         return .init(
             fileSystemIds: self.fileSystemIds,
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension FSx.DescribeS3AccessPointAttachmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> FSx.DescribeS3AccessPointAttachmentsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            names: self.names,
             nextToken: token
         )
     }

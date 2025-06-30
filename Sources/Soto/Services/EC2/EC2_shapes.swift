@@ -13260,6 +13260,8 @@ extension EC2 {
         public let natGatewayId: String?
         /// The ID of a network interface.
         public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the ODB network.
+        public let odbNetworkArn: String?
         /// The ID of the route table for the route.
         public let routeTableId: String?
         /// The ID of a transit gateway.
@@ -13270,7 +13272,7 @@ extension EC2 {
         public let vpcPeeringConnectionId: String?
 
         @inlinable
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, odbNetworkArn: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -13283,6 +13285,7 @@ extension EC2 {
             self.localGatewayId = localGatewayId
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
+            self.odbNetworkArn = odbNetworkArn
             self.routeTableId = routeTableId
             self.transitGatewayId = transitGatewayId
             self.vpcEndpointId = vpcEndpointId
@@ -13302,6 +13305,7 @@ extension EC2 {
             case localGatewayId = "LocalGatewayId"
             case natGatewayId = "natGatewayId"
             case networkInterfaceId = "networkInterfaceId"
+            case odbNetworkArn = "OdbNetworkArn"
             case routeTableId = "routeTableId"
             case transitGatewayId = "TransitGatewayId"
             case vpcEndpointId = "VpcEndpointId"
@@ -18952,7 +18956,7 @@ extension EC2 {
     }
 
     public struct DeprovisionPublicIpv4PoolCidrRequest: AWSEncodableShape {
-        /// The CIDR you want to deprovision from the pool. Enter the CIDR you want to deprovision with a netmask of /32. You must rerun this command for each IP address in the CIDR range. If your CIDR is a /24, you will have to run this command to deprovision each of the 256 IP addresses in the /24 CIDR.
+        /// The CIDR you want to deprovision from the pool.
         public let cidr: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -53179,6 +53183,8 @@ extension EC2 {
         public let natGatewayId: String?
         /// The ID of a network interface.
         public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the ODB network.
+        public let odbNetworkArn: String?
         /// The ID of the route table.
         public let routeTableId: String?
         /// The ID of a transit gateway.
@@ -53189,7 +53195,7 @@ extension EC2 {
         public let vpcPeeringConnectionId: String?
 
         @inlinable
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, odbNetworkArn: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -53203,6 +53209,7 @@ extension EC2 {
             self.localTarget = localTarget
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
+            self.odbNetworkArn = odbNetworkArn
             self.routeTableId = routeTableId
             self.transitGatewayId = transitGatewayId
             self.vpcEndpointId = vpcEndpointId
@@ -53223,6 +53230,7 @@ extension EC2 {
             case localTarget = "LocalTarget"
             case natGatewayId = "natGatewayId"
             case networkInterfaceId = "networkInterfaceId"
+            case odbNetworkArn = "OdbNetworkArn"
             case routeTableId = "routeTableId"
             case transitGatewayId = "TransitGatewayId"
             case vpcEndpointId = "VpcEndpointId"
@@ -55257,6 +55265,8 @@ extension EC2 {
         public let natGatewayId: String?
         /// The ID of the network interface.
         public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the ODB network.
+        public let odbNetworkArn: String?
         /// Describes how the route was created.    CreateRouteTable - The route was automatically created when the route table was created.    CreateRoute - The route was manually added to the route table.    EnableVgwRoutePropagation - The route was propagated by route propagation.
         public let origin: RouteOrigin?
         /// The state of the route. The blackhole state indicates that the
@@ -55269,7 +55279,7 @@ extension EC2 {
         public let vpcPeeringConnectionId: String?
 
         @inlinable
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: RouteOrigin? = nil, state: RouteState? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, odbNetworkArn: String? = nil, origin: RouteOrigin? = nil, state: RouteState? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -55282,6 +55292,7 @@ extension EC2 {
             self.localGatewayId = localGatewayId
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
+            self.odbNetworkArn = odbNetworkArn
             self.origin = origin
             self.state = state
             self.transitGatewayId = transitGatewayId
@@ -55301,6 +55312,7 @@ extension EC2 {
             case localGatewayId = "localGatewayId"
             case natGatewayId = "natGatewayId"
             case networkInterfaceId = "networkInterfaceId"
+            case odbNetworkArn = "odbNetworkArn"
             case origin = "origin"
             case state = "state"
             case transitGatewayId = "transitGatewayId"

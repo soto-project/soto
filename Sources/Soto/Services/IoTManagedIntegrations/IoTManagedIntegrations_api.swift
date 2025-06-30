@@ -79,6 +79,135 @@ public struct IoTManagedIntegrations: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a new account association via the destination id.
+    @Sendable
+    @inlinable
+    public func createAccountAssociation(_ input: CreateAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateAccountAssociation", 
+            path: "/account-associations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new account association via the destination id.
+    ///
+    /// Parameters:
+    ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+    ///   - connectorDestinationId: The identifier of the connector destination.
+    ///   - description: A description of the account association request.
+    ///   - name: The name of the destination for the new account association.
+    ///   - tags: A set of key/value pairs that are used to manage the account association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAccountAssociation(
+        clientToken: String? = CreateAccountAssociationRequest.idempotencyToken(),
+        connectorDestinationId: String,
+        description: String? = nil,
+        name: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAccountAssociationResponse {
+        let input = CreateAccountAssociationRequest(
+            clientToken: clientToken, 
+            connectorDestinationId: connectorDestinationId, 
+            description: description, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createAccountAssociation(input, logger: logger)
+    }
+
+    /// Creates a C2C (cloud-to-cloud) connector.
+    @Sendable
+    @inlinable
+    public func createCloudConnector(_ input: CreateCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCloudConnectorResponse {
+        try await self.client.execute(
+            operation: "CreateCloudConnector", 
+            path: "/cloud-connectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a C2C (cloud-to-cloud) connector.
+    ///
+    /// Parameters:
+    ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+    ///   - description: A description of the C2C connector.
+    ///   - endpointConfig: The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements.
+    ///   - endpointType: The type of endpoint used for the cloud connector, which defines how the connector communicates with external services.
+    ///   - name: The display name of the C2C connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCloudConnector(
+        clientToken: String? = CreateCloudConnectorRequest.idempotencyToken(),
+        description: String? = nil,
+        endpointConfig: EndpointConfig,
+        endpointType: EndpointType? = nil,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCloudConnectorResponse {
+        let input = CreateCloudConnectorRequest(
+            clientToken: clientToken, 
+            description: description, 
+            endpointConfig: endpointConfig, 
+            endpointType: endpointType, 
+            name: name
+        )
+        return try await self.createCloudConnector(input, logger: logger)
+    }
+
+    /// Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func createConnectorDestination(_ input: CreateConnectorDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectorDestinationResponse {
+        try await self.client.execute(
+            operation: "CreateConnectorDestination", 
+            path: "/connector-destinations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - authConfig: The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
+    ///   - authType: The authentication type used for the connector destination, which determines how credentials and access are managed.
+    ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+    ///   - cloudConnectorId: The identifier of the C2C connector.
+    ///   - description: A description of the connector destination.
+    ///   - name: The display name of the connector destination.
+    ///   - secretsManager: The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConnectorDestination(
+        authConfig: AuthConfig,
+        authType: AuthType,
+        clientToken: String? = CreateConnectorDestinationRequest.idempotencyToken(),
+        cloudConnectorId: String,
+        description: String? = nil,
+        name: String? = nil,
+        secretsManager: SecretsManager,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConnectorDestinationResponse {
+        let input = CreateConnectorDestinationRequest(
+            authConfig: authConfig, 
+            authType: authType, 
+            clientToken: clientToken, 
+            cloudConnectorId: cloudConnectorId, 
+            description: description, 
+            name: name, 
+            secretsManager: secretsManager
+        )
+        return try await self.createConnectorDestination(input, logger: logger)
+    }
+
     /// Create a product credential locker. This operation will trigger the creation of all the manufacturing resources including the Wi-Fi setup key pair and device certificate.
     @Sendable
     @inlinable
@@ -136,7 +265,6 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - description: The description of the customer-managed destination.
     ///   - name: The name of the customer-managed destination.
     ///   - roleArn: The Amazon Resource Name (ARN) of the delivery destination role.
-    ///   - tags: A set of key/value pairs that are used to manage the destination.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDestination(
@@ -146,7 +274,6 @@ public struct IoTManagedIntegrations: AWSService {
         description: String? = nil,
         name: String,
         roleArn: String,
-        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDestinationResponse {
         let input = CreateDestinationRequest(
@@ -155,8 +282,7 @@ public struct IoTManagedIntegrations: AWSService {
             deliveryDestinationType: deliveryDestinationType, 
             description: description, 
             name: name, 
-            roleArn: roleArn, 
-            tags: tags
+            roleArn: roleArn
         )
         return try await self.createDestination(input, logger: logger)
     }
@@ -220,10 +346,11 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - brand: The brand of the device.
     ///   - capabilities: The capabilities of the device such as light bulb.
     ///   - capabilityReport: A report of the capabilities for the managed thing.
+    ///   - capabilitySchemas: The capability schemas that define the functionality and features supported by the managed thing, including device capabilities and their associated properties.
     ///   - classification: The classification of the managed thing such as light bulb or thermostat.
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     ///   - credentialLockerId: The identifier of the credential for the managed thing.
-    ///   - metaData: The metadata for the managed thing.
+    ///   - metaData: The metadata for the managed thing.  The managedThing metadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation.
     ///   - model: The model of the device.
     ///   - name: The name of the managed thing representing the physical device.
     ///   - owner: Owner of the device, usually an indication of whom the device belongs to. This value should not contain personal identifiable information.
@@ -238,6 +365,7 @@ public struct IoTManagedIntegrations: AWSService {
         brand: String? = nil,
         capabilities: String? = nil,
         capabilityReport: CapabilityReport? = nil,
+        capabilitySchemas: [CapabilitySchemaItem]? = nil,
         classification: String? = nil,
         clientToken: String? = CreateManagedThingRequest.idempotencyToken(),
         credentialLockerId: String? = nil,
@@ -256,6 +384,7 @@ public struct IoTManagedIntegrations: AWSService {
             brand: brand, 
             capabilities: capabilities, 
             capabilityReport: capabilityReport, 
+            capabilitySchemas: capabilitySchemas, 
             classification: classification, 
             clientToken: clientToken, 
             credentialLockerId: credentialLockerId, 
@@ -289,21 +418,18 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     ///   - destinationName: The name of the destination for the notification configuration.
     ///   - eventType: The type of event triggering a device notification to the customer-managed destination.
-    ///   - tags: A set of key/value pairs that are used to manage the notification configuration.
     ///   - logger: Logger use during operation
     @inlinable
     public func createNotificationConfiguration(
         clientToken: String? = CreateNotificationConfigurationRequest.idempotencyToken(),
         destinationName: String,
         eventType: EventType,
-        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateNotificationConfigurationResponse {
         let input = CreateNotificationConfigurationRequest(
             clientToken: clientToken, 
             destinationName: destinationName, 
-            eventType: eventType, 
-            tags: tags
+            eventType: eventType
         )
         return try await self.createNotificationConfiguration(input, logger: logger)
     }
@@ -447,6 +573,93 @@ public struct IoTManagedIntegrations: AWSService {
             tags: tags
         )
         return try await self.createProvisioningProfile(input, logger: logger)
+    }
+
+    /// Remove a third party account and related devices from an end user.
+    @Sendable
+    @inlinable
+    public func deleteAccountAssociation(_ input: DeleteAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAccountAssociation", 
+            path: "/account-associations/{AccountAssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Remove a third party account and related devices from an end user.
+    ///
+    /// Parameters:
+    ///   - accountAssociationId: The unique identifier of the account association to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAccountAssociation(
+        accountAssociationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAccountAssociationRequest(
+            accountAssociationId: accountAssociationId
+        )
+        return try await self.deleteAccountAssociation(input, logger: logger)
+    }
+
+    /// Delete a cloud connector.
+    @Sendable
+    @inlinable
+    public func deleteCloudConnector(_ input: DeleteCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteCloudConnector", 
+            path: "/cloud-connectors/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete a cloud connector.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the cloud connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCloudConnector(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteCloudConnectorRequest(
+            identifier: identifier
+        )
+        return try await self.deleteCloudConnector(input, logger: logger)
+    }
+
+    /// Delete a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func deleteConnectorDestination(_ input: DeleteConnectorDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConnectorDestination", 
+            path: "/connector-destinations/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the connector destination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnectorDestination(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConnectorDestinationRequest(
+            identifier: identifier
+        )
+        return try await self.deleteConnectorDestination(input, logger: logger)
     }
 
     /// Delete a credential locker.   This operation can't be undone and any existing device won't be able to use IoT managed integrations.
@@ -682,6 +895,125 @@ public struct IoTManagedIntegrations: AWSService {
             identifier: identifier
         )
         return try await self.deleteProvisioningProfile(input, logger: logger)
+    }
+
+    /// Deregisters an account association, removing the connection between a managed thing and a third-party account.
+    @Sendable
+    @inlinable
+    public func deregisterAccountAssociation(_ input: DeregisterAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeregisterAccountAssociation", 
+            path: "/managed-thing-associations/deregister", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deregisters an account association, removing the connection between a managed thing and a third-party account.
+    ///
+    /// Parameters:
+    ///   - accountAssociationId: The unique identifier of the account association to be deregistered.
+    ///   - managedThingId: The identifier of the managed thing to be deregistered from the account association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterAccountAssociation(
+        accountAssociationId: String,
+        managedThingId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeregisterAccountAssociationRequest(
+            accountAssociationId: accountAssociationId, 
+            managedThingId: managedThingId
+        )
+        return try await self.deregisterAccountAssociation(input, logger: logger)
+    }
+
+    /// Get an account association for an Amazon Web Services account linked to a customer-managed destination.
+    @Sendable
+    @inlinable
+    public func getAccountAssociation(_ input: GetAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountAssociationResponse {
+        try await self.client.execute(
+            operation: "GetAccountAssociation", 
+            path: "/account-associations/{AccountAssociationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get an account association for an Amazon Web Services account linked to a customer-managed destination.
+    ///
+    /// Parameters:
+    ///   - accountAssociationId: The unique identifier of the account association to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountAssociation(
+        accountAssociationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountAssociationResponse {
+        let input = GetAccountAssociationRequest(
+            accountAssociationId: accountAssociationId
+        )
+        return try await self.getAccountAssociation(input, logger: logger)
+    }
+
+    /// Gets all the information about a connector for a connector developer.
+    @Sendable
+    @inlinable
+    public func getCloudConnector(_ input: GetCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCloudConnectorResponse {
+        try await self.client.execute(
+            operation: "GetCloudConnector", 
+            path: "/cloud-connectors/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets all the information about a connector for a connector developer.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the C2C connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCloudConnector(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCloudConnectorResponse {
+        let input = GetCloudConnectorRequest(
+            identifier: identifier
+        )
+        return try await self.getCloudConnector(input, logger: logger)
+    }
+
+    /// Get a connector destination of a cloud-to-cloud (C2C) connector connecting to a customer's Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func getConnectorDestination(_ input: GetConnectorDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectorDestinationResponse {
+        try await self.client.execute(
+            operation: "GetConnectorDestination", 
+            path: "/connector-destinations/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get a connector destination of a cloud-to-cloud (C2C) connector connecting to a customer's Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the C2C connector destination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnectorDestination(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectorDestinationResponse {
+        let input = GetConnectorDestinationRequest(
+            identifier: identifier
+        )
+        return try await self.getConnectorDestination(input, logger: logger)
     }
 
     /// Get information on an existing credential locker
@@ -965,7 +1297,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getManagedThingConnectivityData(input, logger: logger)
     }
 
-    /// Get the metadata information for a managed thing.
+    /// Get the metadata information for a managed thing.  The managedThing metadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation.
     @Sendable
     @inlinable
     public func getManagedThingMetaData(_ input: GetManagedThingMetaDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedThingMetaDataResponse {
@@ -978,7 +1310,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Get the metadata information for a managed thing.
+    /// Get the metadata information for a managed thing.  The managedThing metadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation.
     ///
     /// Parameters:
     ///   - identifier: The managed thing id.
@@ -1203,6 +1535,114 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getSchemaVersion(input, logger: logger)
     }
 
+    /// Lists all account associations, with optional filtering by connector destination ID.
+    @Sendable
+    @inlinable
+    public func listAccountAssociations(_ input: ListAccountAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListAccountAssociations", 
+            path: "/account-associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all account associations, with optional filtering by connector destination ID.
+    ///
+    /// Parameters:
+    ///   - connectorDestinationId: The identifier of the connector destination to filter account associations by.
+    ///   - maxResults: The maximum number of account associations to return in a single response.
+    ///   - nextToken: A token used for pagination of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAccountAssociations(
+        connectorDestinationId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAccountAssociationsResponse {
+        let input = ListAccountAssociationsRequest(
+            connectorDestinationId: connectorDestinationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAccountAssociations(input, logger: logger)
+    }
+
+    /// Returns a list of connectors based on permissions.
+    @Sendable
+    @inlinable
+    public func listCloudConnectors(_ input: ListCloudConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCloudConnectorsResponse {
+        try await self.client.execute(
+            operation: "ListCloudConnectors", 
+            path: "/cloud-connectors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of connectors based on permissions.
+    ///
+    /// Parameters:
+    ///   - lambdaArn: The Amazon Resource Name (ARN) of the Lambda function to filter cloud connectors by.
+    ///   - maxResults: The maximum number of results to return at one time.
+    ///   - nextToken: A token that can be used to retrieve the next set of results.
+    ///   - type: The type of cloud connectors to filter by when listing available connectors.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCloudConnectors(
+        lambdaArn: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        type: CloudConnectorType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCloudConnectorsResponse {
+        let input = ListCloudConnectorsRequest(
+            lambdaArn: lambdaArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            type: type
+        )
+        return try await self.listCloudConnectors(input, logger: logger)
+    }
+
+    /// Lists all connector destinations, with optional filtering by cloud connector ID.
+    @Sendable
+    @inlinable
+    public func listConnectorDestinations(_ input: ListConnectorDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorDestinationsResponse {
+        try await self.client.execute(
+            operation: "ListConnectorDestinations", 
+            path: "/connector-destinations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all connector destinations, with optional filtering by cloud connector ID.
+    ///
+    /// Parameters:
+    ///   - cloudConnectorId: The identifier of the cloud connector to filter connector destinations by.
+    ///   - maxResults: The maximum number of connector destinations to return in a single response.
+    ///   - nextToken: A token used for pagination of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectorDestinations(
+        cloudConnectorId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectorDestinationsResponse {
+        let input = ListConnectorDestinationsRequest(
+            cloudConnectorId: cloudConnectorId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConnectorDestinations(input, logger: logger)
+    }
+
     /// List information on an existing credential locker.
     @Sendable
     @inlinable
@@ -1267,6 +1707,79 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.listDestinations(input, logger: logger)
     }
 
+    /// Lists all device discovery tasks, with optional filtering by type and status.
+    @Sendable
+    @inlinable
+    public func listDeviceDiscoveries(_ input: ListDeviceDiscoveriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeviceDiscoveriesResponse {
+        try await self.client.execute(
+            operation: "ListDeviceDiscoveries", 
+            path: "/device-discoveries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all device discovery tasks, with optional filtering by type and status.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of device discovery jobs to return in a single response.
+    ///   - nextToken: A token used for pagination of results.
+    ///   - statusFilter: The status to filter device discovery jobs by.
+    ///   - typeFilter: The discovery type to filter device discovery jobs by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDeviceDiscoveries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        statusFilter: DeviceDiscoveryStatus? = nil,
+        typeFilter: DiscoveryType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDeviceDiscoveriesResponse {
+        let input = ListDeviceDiscoveriesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            statusFilter: statusFilter, 
+            typeFilter: typeFilter
+        )
+        return try await self.listDeviceDiscoveries(input, logger: logger)
+    }
+
+    /// Lists all devices discovered during a specific device discovery task.
+    @Sendable
+    @inlinable
+    public func listDiscoveredDevices(_ input: ListDiscoveredDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDiscoveredDevicesResponse {
+        try await self.client.execute(
+            operation: "ListDiscoveredDevices", 
+            path: "/device-discoveries/{Identifier}/devices", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all devices discovered during a specific device discovery task.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the device discovery job to list discovered devices for.
+    ///   - maxResults: The maximum number of discovered devices to return in a single response.
+    ///   - nextToken: A token used for pagination of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDiscoveredDevices(
+        identifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDiscoveredDevicesResponse {
+        let input = ListDiscoveredDevicesRequest(
+            identifier: identifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDiscoveredDevices(input, logger: logger)
+    }
+
     /// List all event log configurations for an account.
     @Sendable
     @inlinable
@@ -1297,6 +1810,44 @@ public struct IoTManagedIntegrations: AWSService {
             nextToken: nextToken
         )
         return try await self.listEventLogConfigurations(input, logger: logger)
+    }
+
+    /// Lists all account associations for a specific managed thing.
+    @Sendable
+    @inlinable
+    public func listManagedThingAccountAssociations(_ input: ListManagedThingAccountAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedThingAccountAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListManagedThingAccountAssociations", 
+            path: "/managed-thing-associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all account associations for a specific managed thing.
+    ///
+    /// Parameters:
+    ///   - accountAssociationId: The identifier of the account association to filter results by. When specified, only associations with this account association ID will be returned.
+    ///   - managedThingId: The identifier of the managed thing to list account associations for.
+    ///   - maxResults: The maximum number of account associations to return in a single response.
+    ///   - nextToken: A token used for pagination of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listManagedThingAccountAssociations(
+        accountAssociationId: String? = nil,
+        managedThingId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListManagedThingAccountAssociationsResponse {
+        let input = ListManagedThingAccountAssociationsRequest(
+            accountAssociationId: accountAssociationId, 
+            managedThingId: managedThingId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listManagedThingAccountAssociations(input, logger: logger)
     }
 
     /// List schemas associated with a managed thing.
@@ -1340,7 +1891,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.listManagedThingSchemas(input, logger: logger)
     }
 
-    /// List all of the associations and statuses for a managed thing by its owner.
+    /// Listing all managed things with provision for filters.
     @Sendable
     @inlinable
     public func listManagedThings(_ input: ListManagedThingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedThingsResponse {
@@ -1353,10 +1904,11 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// List all of the associations and statuses for a managed thing by its owner.
+    /// Listing all managed things with provision for filters.
     ///
     /// Parameters:
-    ///   - connectorPolicyIdFilter: Filter on a connector policy id for a managed thing.
+    ///   - connectorDestinationIdFilter: Filter managed things by the connector destination ID they are associated with.
+    ///   - connectorDeviceIdFilter: Filter managed things by the connector device ID they are associated with. When specified, only managed things with this connector device ID will be returned.
     ///   - credentialLockerFilter: Filter on a credential locker for a managed thing.
     ///   - maxResults: The maximum number of results to return at one time.
     ///   - nextToken: A token that can be used to retrieve the next set of results.
@@ -1368,7 +1920,8 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listManagedThings(
-        connectorPolicyIdFilter: String? = nil,
+        connectorDestinationIdFilter: String? = nil,
+        connectorDeviceIdFilter: String? = nil,
         credentialLockerFilter: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -1380,7 +1933,8 @@ public struct IoTManagedIntegrations: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListManagedThingsResponse {
         let input = ListManagedThingsRequest(
-            connectorPolicyIdFilter: connectorPolicyIdFilter, 
+            connectorDestinationIdFilter: connectorDestinationIdFilter, 
+            connectorDeviceIdFilter: connectorDeviceIdFilter, 
             credentialLockerFilter: credentialLockerFilter, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -1603,6 +2157,35 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.listSchemaVersions(input, logger: logger)
     }
 
+    /// List tags for the specified resource.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List tags for the specified resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the resource for which to list tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide.
     @Sendable
     @inlinable
@@ -1696,6 +2279,41 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.putRuntimeLogConfiguration(input, logger: logger)
     }
 
+    /// Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
+    @Sendable
+    @inlinable
+    public func registerAccountAssociation(_ input: RegisterAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterAccountAssociationResponse {
+        try await self.client.execute(
+            operation: "RegisterAccountAssociation", 
+            path: "/managed-thing-associations/register", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
+    ///
+    /// Parameters:
+    ///   - accountAssociationId: The identifier of the account association to register with the managed thing.
+    ///   - deviceDiscoveryId: The identifier of the device discovery job associated with this registration.
+    ///   - managedThingId: The identifier of the managed thing to register with the account association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerAccountAssociation(
+        accountAssociationId: String,
+        deviceDiscoveryId: String,
+        managedThingId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterAccountAssociationResponse {
+        let input = RegisterAccountAssociationRequest(
+            accountAssociationId: accountAssociationId, 
+            deviceDiscoveryId: deviceDiscoveryId, 
+            managedThingId: managedThingId
+        )
+        return try await self.registerAccountAssociation(input, logger: logger)
+    }
+
     /// Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
     @Sendable
     @inlinable
@@ -1751,6 +2369,65 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.resetRuntimeLogConfiguration(input, logger: logger)
     }
 
+    /// Relays third-party device events for a connector such as a new device or a device state change event.
+    @Sendable
+    @inlinable
+    public func sendConnectorEvent(_ input: SendConnectorEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendConnectorEventResponse {
+        try await self.client.execute(
+            operation: "SendConnectorEvent", 
+            path: "/connector-event/{ConnectorId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Relays third-party device events for a connector such as a new device or a device state change event.
+    ///
+    /// Parameters:
+    ///   - connectorDeviceId: The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII).  This parameter is used for cloud-to-cloud devices only.
+    ///   - connectorId: The id of the connector between the third-party cloud provider and IoT managed integrations.
+    ///   - deviceDiscoveryId: The id for the device discovery job.
+    ///   - devices: The list of devices.
+    ///   - matterEndpoint: The device endpoint.
+    ///   - message: The device state change event payload. This parameter will include the following three fields:    uri: schema auc://&lt;PARTNER-DEVICE-ID&gt;/ResourcePath (The Resourcepath corresponds to an OCF resource.)    op: For device state changes, this field must populate as n+d.    cn: The content depends on the OCF resource referenced in ResourcePath.
+    ///   - operation: The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing.  The field op can have a value of "I" or "U". The field "cn" will contain the capability types.
+    ///   - operationVersion: The Open Connectivity Foundation (OCF) security specification version for the operation being requested on the managed thing. For more information, see OCF Security Specification.
+    ///   - statusCode: The status code of the Open Connectivity Foundation (OCF) operation being performed on the managed thing.
+    ///   - traceId: The trace request identifier used to correlate a command request and response. This is specified by the device owner, but will be generated by IoT managed integrations if not provided by the device owner.
+    ///   - userId: The id of the third-party cloud provider.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendConnectorEvent(
+        connectorDeviceId: String? = nil,
+        connectorId: String,
+        deviceDiscoveryId: String? = nil,
+        devices: [Device]? = nil,
+        matterEndpoint: MatterEndpoint? = nil,
+        message: String? = nil,
+        operation: ConnectorEventOperation,
+        operationVersion: String? = nil,
+        statusCode: Int? = nil,
+        traceId: String? = nil,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendConnectorEventResponse {
+        let input = SendConnectorEventRequest(
+            connectorDeviceId: connectorDeviceId, 
+            connectorId: connectorId, 
+            deviceDiscoveryId: deviceDiscoveryId, 
+            devices: devices, 
+            matterEndpoint: matterEndpoint, 
+            message: message, 
+            operation: operation, 
+            operationVersion: operationVersion, 
+            statusCode: statusCode, 
+            traceId: traceId, 
+            userId: userId
+        )
+        return try await self.sendConnectorEvent(input, logger: logger)
+    }
+
     /// Send the command to the device represented by the managed thing.
     @Sendable
     @inlinable
@@ -1767,26 +2444,55 @@ public struct IoTManagedIntegrations: AWSService {
     /// Send the command to the device represented by the managed thing.
     ///
     /// Parameters:
-    ///   - connectorAssociationId: The ID tracking the current discovery process for one connector association.
+    ///   - accountAssociationId: The identifier of the account association to use when sending a command to a managed thing.
     ///   - endpoints: The device endpoint.
     ///   - managedThingId: The id of the device.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendManagedThingCommand(
-        connectorAssociationId: String? = nil,
+        accountAssociationId: String? = nil,
         endpoints: [CommandEndpoint],
         managedThingId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SendManagedThingCommandResponse {
         let input = SendManagedThingCommandRequest(
-            connectorAssociationId: connectorAssociationId, 
+            accountAssociationId: accountAssociationId, 
             endpoints: endpoints, 
             managedThingId: managedThingId
         )
         return try await self.sendManagedThingCommand(input, logger: logger)
     }
 
-    ///  During user-guided setup, this is used to start device discovery. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
+    /// Initiates a refresh of an existing account association to update its authorization and connection status.
+    @Sendable
+    @inlinable
+    public func startAccountAssociationRefresh(_ input: StartAccountAssociationRefreshRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAccountAssociationRefreshResponse {
+        try await self.client.execute(
+            operation: "StartAccountAssociationRefresh", 
+            path: "/account-associations/{AccountAssociationId}/refresh", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a refresh of an existing account association to update its authorization and connection status.
+    ///
+    /// Parameters:
+    ///   - accountAssociationId: The unique identifier of the account association to refresh.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAccountAssociationRefresh(
+        accountAssociationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAccountAssociationRefreshResponse {
+        let input = StartAccountAssociationRefreshRequest(
+            accountAssociationId: accountAssociationId
+        )
+        return try await self.startAccountAssociationRefresh(input, logger: logger)
+    }
+
+    ///  This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
     @Sendable
     @inlinable
     public func startDeviceDiscovery(_ input: StartDeviceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDeviceDiscoveryResponse {
@@ -1799,38 +2505,216 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    ///  During user-guided setup, this is used to start device discovery. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
+    ///  This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
     ///
     /// Parameters:
+    ///   - accountAssociationId: The identifier of the cloud-to-cloud account association to use for discovery of third-party devices.
     ///   - authenticationMaterial: The authentication material required to start the local device discovery job request.
     ///   - authenticationMaterialType: The type of authentication material used for device discovery jobs.
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
-    ///   - connectorAssociationIdentifier: The id of the connector association.
     ///   - controllerIdentifier: The id of the end-user's IoT hub.
-    ///   - discoveryType: The discovery type supporting the type of device to be discovered in the device discovery job request.
-    ///   - tags: A set of key/value pairs that are used to manage the device discovery request.
+    ///   - customProtocolDetail: Additional protocol-specific details required for device discovery, which vary based on the discovery type.  For a DiscoveryType of CUSTOM, the string-to-string map must have a key value of Name set to a non-empty-string.
+    ///   - discoveryType: The discovery type supporting the type of device to be discovered in the device discovery task request.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDeviceDiscovery(
+        accountAssociationId: String? = nil,
         authenticationMaterial: String? = nil,
         authenticationMaterialType: DiscoveryAuthMaterialType? = nil,
         clientToken: String? = nil,
-        connectorAssociationIdentifier: String? = nil,
         controllerIdentifier: String? = nil,
+        customProtocolDetail: [String: String]? = nil,
         discoveryType: DiscoveryType,
-        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartDeviceDiscoveryResponse {
         let input = StartDeviceDiscoveryRequest(
+            accountAssociationId: accountAssociationId, 
             authenticationMaterial: authenticationMaterial, 
             authenticationMaterialType: authenticationMaterialType, 
             clientToken: clientToken, 
-            connectorAssociationIdentifier: connectorAssociationIdentifier, 
             controllerIdentifier: controllerIdentifier, 
-            discoveryType: discoveryType, 
-            tags: tags
+            customProtocolDetail: customProtocolDetail, 
+            discoveryType: discoveryType
         )
         return try await self.startDeviceDiscovery(input, logger: logger)
+    }
+
+    /// Add tags for the specified resource.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Add tags for the specified resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the resource to which to add tags.
+    ///   - tags: A set of key/value pairs that are used to manage the resource
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Remove tags for the specified resource.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Remove tags for the specified resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the resource to which to add tags.
+    ///   - tagKeys: A list of tag keys to remove from the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates the properties of an existing account association.
+    @Sendable
+    @inlinable
+    public func updateAccountAssociation(_ input: UpdateAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateAccountAssociation", 
+            path: "/account-associations/{AccountAssociationId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an existing account association.
+    ///
+    /// Parameters:
+    ///   - accountAssociationId: The unique identifier of the account association to update.
+    ///   - description: The new description to assign to the account association.
+    ///   - name: The new name to assign to the account association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAccountAssociation(
+        accountAssociationId: String,
+        description: String? = nil,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateAccountAssociationRequest(
+            accountAssociationId: accountAssociationId, 
+            description: description, 
+            name: name
+        )
+        return try await self.updateAccountAssociation(input, logger: logger)
+    }
+
+    /// Update an existing cloud connector.
+    @Sendable
+    @inlinable
+    public func updateCloudConnector(_ input: UpdateCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateCloudConnector", 
+            path: "/cloud-connectors/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update an existing cloud connector.
+    ///
+    /// Parameters:
+    ///   - description: The new description to assign to the cloud connector.
+    ///   - identifier: The unique identifier of the cloud connector to update.
+    ///   - name: The new display name to assign to the cloud connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCloudConnector(
+        description: String? = nil,
+        identifier: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateCloudConnectorRequest(
+            description: description, 
+            identifier: identifier, 
+            name: name
+        )
+        return try await self.updateCloudConnector(input, logger: logger)
+    }
+
+    /// Updates the properties of an existing connector destination.
+    @Sendable
+    @inlinable
+    public func updateConnectorDestination(_ input: UpdateConnectorDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateConnectorDestination", 
+            path: "/connector-destinations/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an existing connector destination.
+    ///
+    /// Parameters:
+    ///   - authConfig: The updated authentication configuration details for the connector destination.
+    ///   - authType: The new authentication type to use for the connector destination.
+    ///   - description: The new description to assign to the connector destination.
+    ///   - identifier: The unique identifier of the connector destination to update.
+    ///   - name: The new display name to assign to the connector destination.
+    ///   - secretsManager: The updated AWS Secrets Manager configuration for the connector destination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnectorDestination(
+        authConfig: AuthConfigUpdate? = nil,
+        authType: AuthType? = nil,
+        description: String? = nil,
+        identifier: String,
+        name: String? = nil,
+        secretsManager: SecretsManager? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateConnectorDestinationRequest(
+            authConfig: authConfig, 
+            authType: authType, 
+            description: description, 
+            identifier: identifier, 
+            name: name, 
+            secretsManager: secretsManager
+        )
+        return try await self.updateConnectorDestination(input, logger: logger)
     }
 
     ///  Update a destination specified by id.
@@ -1925,6 +2809,7 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - brand: The brand of the device.
     ///   - capabilities: The capabilities of the device such as light bulb.
     ///   - capabilityReport: A report of the capabilities for the managed thing.
+    ///   - capabilitySchemas: The updated capability schemas that define the functionality and features supported by the managed thing.
     ///   - classification: The classification of the managed thing such as light bulb or thermostat.
     ///   - credentialLockerId: The identifier of the credential for the managed thing.
     ///   - hubNetworkMode: The network mode for the hub-connected device.
@@ -1940,6 +2825,7 @@ public struct IoTManagedIntegrations: AWSService {
         brand: String? = nil,
         capabilities: String? = nil,
         capabilityReport: CapabilityReport? = nil,
+        capabilitySchemas: [CapabilitySchemaItem]? = nil,
         classification: String? = nil,
         credentialLockerId: String? = nil,
         hubNetworkMode: HubNetworkMode? = nil,
@@ -1955,6 +2841,7 @@ public struct IoTManagedIntegrations: AWSService {
             brand: brand, 
             capabilities: capabilities, 
             capabilityReport: capabilityReport, 
+            capabilitySchemas: capabilitySchemas, 
             classification: classification, 
             credentialLockerId: credentialLockerId, 
             hubNetworkMode: hubNetworkMode, 
@@ -2049,6 +2936,120 @@ extension IoTManagedIntegrations {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTManagedIntegrations {
+    /// Return PaginatorSequence for operation ``listAccountAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountAssociationsPaginator(
+        _ input: ListAccountAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccountAssociationsRequest, ListAccountAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAccountAssociations,
+            inputKey: \ListAccountAssociationsRequest.nextToken,
+            outputKey: \ListAccountAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAccountAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - connectorDestinationId: The identifier of the connector destination to filter account associations by.
+    ///   - maxResults: The maximum number of account associations to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountAssociationsPaginator(
+        connectorDestinationId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAccountAssociationsRequest, ListAccountAssociationsResponse> {
+        let input = ListAccountAssociationsRequest(
+            connectorDestinationId: connectorDestinationId, 
+            maxResults: maxResults
+        )
+        return self.listAccountAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCloudConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCloudConnectorsPaginator(
+        _ input: ListCloudConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCloudConnectorsRequest, ListCloudConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listCloudConnectors,
+            inputKey: \ListCloudConnectorsRequest.nextToken,
+            outputKey: \ListCloudConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCloudConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - lambdaArn: The Amazon Resource Name (ARN) of the Lambda function to filter cloud connectors by.
+    ///   - maxResults: The maximum number of results to return at one time.
+    ///   - type: The type of cloud connectors to filter by when listing available connectors.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCloudConnectorsPaginator(
+        lambdaArn: String? = nil,
+        maxResults: Int? = nil,
+        type: CloudConnectorType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCloudConnectorsRequest, ListCloudConnectorsResponse> {
+        let input = ListCloudConnectorsRequest(
+            lambdaArn: lambdaArn, 
+            maxResults: maxResults, 
+            type: type
+        )
+        return self.listCloudConnectorsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConnectorDestinations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorDestinationsPaginator(
+        _ input: ListConnectorDestinationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectorDestinationsRequest, ListConnectorDestinationsResponse> {
+        return .init(
+            input: input,
+            command: self.listConnectorDestinations,
+            inputKey: \ListConnectorDestinationsRequest.nextToken,
+            outputKey: \ListConnectorDestinationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectorDestinations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - cloudConnectorId: The identifier of the cloud connector to filter connector destinations by.
+    ///   - maxResults: The maximum number of connector destinations to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorDestinationsPaginator(
+        cloudConnectorId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectorDestinationsRequest, ListConnectorDestinationsResponse> {
+        let input = ListConnectorDestinationsRequest(
+            cloudConnectorId: cloudConnectorId, 
+            maxResults: maxResults
+        )
+        return self.listConnectorDestinationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCredentialLockers(_:logger:)``.
     ///
     /// - Parameters:
@@ -2117,6 +3118,83 @@ extension IoTManagedIntegrations {
         return self.listDestinationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDeviceDiscoveries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDeviceDiscoveriesPaginator(
+        _ input: ListDeviceDiscoveriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeviceDiscoveriesRequest, ListDeviceDiscoveriesResponse> {
+        return .init(
+            input: input,
+            command: self.listDeviceDiscoveries,
+            inputKey: \ListDeviceDiscoveriesRequest.nextToken,
+            outputKey: \ListDeviceDiscoveriesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDeviceDiscoveries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of device discovery jobs to return in a single response.
+    ///   - statusFilter: The status to filter device discovery jobs by.
+    ///   - typeFilter: The discovery type to filter device discovery jobs by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDeviceDiscoveriesPaginator(
+        maxResults: Int? = nil,
+        statusFilter: DeviceDiscoveryStatus? = nil,
+        typeFilter: DiscoveryType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDeviceDiscoveriesRequest, ListDeviceDiscoveriesResponse> {
+        let input = ListDeviceDiscoveriesRequest(
+            maxResults: maxResults, 
+            statusFilter: statusFilter, 
+            typeFilter: typeFilter
+        )
+        return self.listDeviceDiscoveriesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDiscoveredDevices(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDiscoveredDevicesPaginator(
+        _ input: ListDiscoveredDevicesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDiscoveredDevicesRequest, ListDiscoveredDevicesResponse> {
+        return .init(
+            input: input,
+            command: self.listDiscoveredDevices,
+            inputKey: \ListDiscoveredDevicesRequest.nextToken,
+            outputKey: \ListDiscoveredDevicesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDiscoveredDevices(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - identifier: The identifier of the device discovery job to list discovered devices for.
+    ///   - maxResults: The maximum number of discovered devices to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDiscoveredDevicesPaginator(
+        identifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDiscoveredDevicesRequest, ListDiscoveredDevicesResponse> {
+        let input = ListDiscoveredDevicesRequest(
+            identifier: identifier, 
+            maxResults: maxResults
+        )
+        return self.listDiscoveredDevicesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEventLogConfigurations(_:logger:)``.
     ///
     /// - Parameters:
@@ -2149,6 +3227,46 @@ extension IoTManagedIntegrations {
             maxResults: maxResults
         )
         return self.listEventLogConfigurationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listManagedThingAccountAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listManagedThingAccountAssociationsPaginator(
+        _ input: ListManagedThingAccountAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListManagedThingAccountAssociationsRequest, ListManagedThingAccountAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listManagedThingAccountAssociations,
+            inputKey: \ListManagedThingAccountAssociationsRequest.nextToken,
+            outputKey: \ListManagedThingAccountAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listManagedThingAccountAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountAssociationId: The identifier of the account association to filter results by. When specified, only associations with this account association ID will be returned.
+    ///   - managedThingId: The identifier of the managed thing to list account associations for.
+    ///   - maxResults: The maximum number of account associations to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listManagedThingAccountAssociationsPaginator(
+        accountAssociationId: String? = nil,
+        managedThingId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListManagedThingAccountAssociationsRequest, ListManagedThingAccountAssociationsResponse> {
+        let input = ListManagedThingAccountAssociationsRequest(
+            accountAssociationId: accountAssociationId, 
+            managedThingId: managedThingId, 
+            maxResults: maxResults
+        )
+        return self.listManagedThingAccountAssociationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listManagedThingSchemas(_:logger:)``.
@@ -2215,7 +3333,8 @@ extension IoTManagedIntegrations {
     /// Return PaginatorSequence for operation ``listManagedThings(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - connectorPolicyIdFilter: Filter on a connector policy id for a managed thing.
+    ///   - connectorDestinationIdFilter: Filter managed things by the connector destination ID they are associated with.
+    ///   - connectorDeviceIdFilter: Filter managed things by the connector device ID they are associated with. When specified, only managed things with this connector device ID will be returned.
     ///   - credentialLockerFilter: Filter on a credential locker for a managed thing.
     ///   - maxResults: The maximum number of results to return at one time.
     ///   - ownerFilter: Filter on device owners when listing managed things.
@@ -2226,7 +3345,8 @@ extension IoTManagedIntegrations {
     ///   - logger: Logger used for logging
     @inlinable
     public func listManagedThingsPaginator(
-        connectorPolicyIdFilter: String? = nil,
+        connectorDestinationIdFilter: String? = nil,
+        connectorDeviceIdFilter: String? = nil,
         credentialLockerFilter: String? = nil,
         maxResults: Int? = nil,
         ownerFilter: String? = nil,
@@ -2237,7 +3357,8 @@ extension IoTManagedIntegrations {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListManagedThingsRequest, ListManagedThingsResponse> {
         let input = ListManagedThingsRequest(
-            connectorPolicyIdFilter: connectorPolicyIdFilter, 
+            connectorDestinationIdFilter: connectorDestinationIdFilter, 
+            connectorDeviceIdFilter: connectorDeviceIdFilter, 
             credentialLockerFilter: credentialLockerFilter, 
             maxResults: maxResults, 
             ownerFilter: ownerFilter, 
@@ -2472,6 +3593,40 @@ extension IoTManagedIntegrations {
     }
 }
 
+extension IoTManagedIntegrations.ListAccountAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListAccountAssociationsRequest {
+        return .init(
+            connectorDestinationId: self.connectorDestinationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTManagedIntegrations.ListCloudConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListCloudConnectorsRequest {
+        return .init(
+            lambdaArn: self.lambdaArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
+        )
+    }
+}
+
+extension IoTManagedIntegrations.ListConnectorDestinationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListConnectorDestinationsRequest {
+        return .init(
+            cloudConnectorId: self.cloudConnectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IoTManagedIntegrations.ListCredentialLockersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListCredentialLockersRequest {
@@ -2492,10 +3647,45 @@ extension IoTManagedIntegrations.ListDestinationsRequest: AWSPaginateToken {
     }
 }
 
+extension IoTManagedIntegrations.ListDeviceDiscoveriesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListDeviceDiscoveriesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            statusFilter: self.statusFilter,
+            typeFilter: self.typeFilter
+        )
+    }
+}
+
+extension IoTManagedIntegrations.ListDiscoveredDevicesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListDiscoveredDevicesRequest {
+        return .init(
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IoTManagedIntegrations.ListEventLogConfigurationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListEventLogConfigurationsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTManagedIntegrations.ListManagedThingAccountAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListManagedThingAccountAssociationsRequest {
+        return .init(
+            accountAssociationId: self.accountAssociationId,
+            managedThingId: self.managedThingId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -2519,7 +3709,8 @@ extension IoTManagedIntegrations.ListManagedThingsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTManagedIntegrations.ListManagedThingsRequest {
         return .init(
-            connectorPolicyIdFilter: self.connectorPolicyIdFilter,
+            connectorDestinationIdFilter: self.connectorDestinationIdFilter,
+            connectorDeviceIdFilter: self.connectorDeviceIdFilter,
             credentialLockerFilter: self.credentialLockerFilter,
             maxResults: self.maxResults,
             nextToken: token,

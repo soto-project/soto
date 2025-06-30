@@ -51,6 +51,11 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccessEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case streamingWsp = "STREAMING_WSP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccessPropertyValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
@@ -251,6 +256,11 @@ extension WorkSpaces {
     public enum ImageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case owned = "OWNED"
         case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InternetFallbackProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pcoip = "PCOIP"
         public var description: String { return self.rawValue }
     }
 
@@ -628,6 +638,52 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case accountLink = "AccountLink"
+        }
+    }
+
+    public struct AccessEndpoint: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the type of access endpoint.
+        public let accessEndpointType: AccessEndpointType?
+        /// Indicates the VPC endpoint to use for access.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(accessEndpointType: AccessEndpointType? = nil, vpcEndpointId: String? = nil) {
+            self.accessEndpointType = accessEndpointType
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^[a-zA-Z0-9\\_\\-]{1,1000}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpointType = "AccessEndpointType"
+            case vpcEndpointId = "VpcEndpointId"
+        }
+    }
+
+    public struct AccessEndpointConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates a list of access endpoints associated with this directory.
+        public let accessEndpoints: [AccessEndpoint]
+        /// Indicates a list of protocols that fallback to using the public Internet when streaming over a VPC endpoint is not available.
+        public let internetFallbackProtocols: [InternetFallbackProtocol]?
+
+        @inlinable
+        public init(accessEndpoints: [AccessEndpoint], internetFallbackProtocols: [InternetFallbackProtocol]? = nil) {
+            self.accessEndpoints = accessEndpoints
+            self.internetFallbackProtocols = internetFallbackProtocols
+        }
+
+        public func validate(name: String) throws {
+            try self.accessEndpoints.forEach {
+                try $0.validate(name: "\(name).accessEndpoints[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoints = "AccessEndpoints"
+            case internetFallbackProtocols = "InternetFallbackProtocols"
         }
     }
 
@@ -4406,6 +4462,7 @@ extension WorkSpaces {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
+            try self.workspaceAccessProperties.validate(name: "\(name).workspaceAccessProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5896,6 +5953,8 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceAccessProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the configuration for accessing the WorkSpace.
+        public let accessEndpointConfig: AccessEndpointConfig?
         /// Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces.
         public let deviceTypeAndroid: AccessPropertyValue?
         /// Indicates whether users can use Chromebooks to access their WorkSpaces.
@@ -5916,7 +5975,8 @@ extension WorkSpaces {
         public let deviceTypeZeroClient: AccessPropertyValue?
 
         @inlinable
-        public init(deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeLinux: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeWorkSpacesThinClient: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
+        public init(accessEndpointConfig: AccessEndpointConfig? = nil, deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeLinux: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeWorkSpacesThinClient: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
+            self.accessEndpointConfig = accessEndpointConfig
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeChromeOs = deviceTypeChromeOs
             self.deviceTypeIos = deviceTypeIos
@@ -5928,7 +5988,12 @@ extension WorkSpaces {
             self.deviceTypeZeroClient = deviceTypeZeroClient
         }
 
+        public func validate(name: String) throws {
+            try self.accessEndpointConfig?.validate(name: "\(name).accessEndpointConfig")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case accessEndpointConfig = "AccessEndpointConfig"
             case deviceTypeAndroid = "DeviceTypeAndroid"
             case deviceTypeChromeOs = "DeviceTypeChromeOs"
             case deviceTypeIos = "DeviceTypeIos"
@@ -6549,6 +6614,7 @@ public struct WorkSpacesErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case incompatibleApplicationsException = "IncompatibleApplicationsException"
         case internalServerException = "InternalServerException"
+        case invalidParameterCombinationException = "InvalidParameterCombinationException"
         case invalidParameterValuesException = "InvalidParameterValuesException"
         case invalidResourceStateException = "InvalidResourceStateException"
         case operatingSystemNotCompatibleException = "OperatingSystemNotCompatibleException"
@@ -6597,6 +6663,8 @@ public struct WorkSpacesErrorType: AWSErrorType {
     public static var incompatibleApplicationsException: Self { .init(.incompatibleApplicationsException) }
     /// Unexpected server error occured.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Two or more of the selected parameter values cannot be used together.
+    public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
     /// One or more parameter values are not valid.
     public static var invalidParameterValuesException: Self { .init(.invalidParameterValuesException) }
     /// The state of the resource is not valid for this operation.

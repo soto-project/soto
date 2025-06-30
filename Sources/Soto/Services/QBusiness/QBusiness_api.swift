@@ -179,6 +179,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - actions: The list of Amazon Q Business actions that the ISV is allowed to perform.
     ///   - applicationId: The unique identifier of the Amazon Q Business application.
+    ///   - conditions: The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific attributes of the request.
     ///   - principal: The Amazon Resource Name of the IAM role for the ISV that is being granted permission.
     ///   - statementId: A unique identifier for the policy statement.
     ///   - logger: Logger use during operation
@@ -186,6 +187,7 @@ public struct QBusiness: AWSService {
     public func associatePermission(
         actions: [String],
         applicationId: String,
+        conditions: [PermissionCondition]? = nil,
         principal: String,
         statementId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -193,6 +195,7 @@ public struct QBusiness: AWSService {
         let input = AssociatePermissionRequest(
             actions: actions, 
             applicationId: applicationId, 
+            conditions: conditions, 
             principal: principal, 
             statementId: statementId
         )
@@ -584,6 +587,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - actionConfigurations: A list of action configurations specifying the allowed actions and any associated filters.
     ///   - applicationId: The unique identifier of the Amazon Q Business application.
+    ///   - authenticationDetail: The authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
     ///   - clientToken: A unique, case-sensitive identifier you provide to ensure idempotency of the request.
     ///   - displayName: A friendly name for the data accessor.
     ///   - principal: The Amazon Resource Name (ARN) of the IAM role for the ISV that will be accessing the data.
@@ -593,6 +597,7 @@ public struct QBusiness: AWSService {
     public func createDataAccessor(
         actionConfigurations: [ActionConfiguration],
         applicationId: String,
+        authenticationDetail: DataAccessorAuthenticationDetail? = nil,
         clientToken: String? = CreateDataAccessorRequest.idempotencyToken(),
         displayName: String,
         principal: String,
@@ -602,6 +607,7 @@ public struct QBusiness: AWSService {
         let input = CreateDataAccessorRequest(
             actionConfigurations: actionConfigurations, 
             applicationId: applicationId, 
+            authenticationDetail: authenticationDetail, 
             clientToken: clientToken, 
             displayName: displayName, 
             principal: principal, 
@@ -2840,6 +2846,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - actionConfigurations: The updated list of action configurations specifying the allowed actions and any associated filters.
     ///   - applicationId: The unique identifier of the Amazon Q Business application.
+    ///   - authenticationDetail: The updated authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
     ///   - dataAccessorId: The unique identifier of the data accessor to update.
     ///   - displayName: The updated friendly name for the data accessor.
     ///   - logger: Logger use during operation
@@ -2847,6 +2854,7 @@ public struct QBusiness: AWSService {
     public func updateDataAccessor(
         actionConfigurations: [ActionConfiguration],
         applicationId: String,
+        authenticationDetail: DataAccessorAuthenticationDetail? = nil,
         dataAccessorId: String,
         displayName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2854,6 +2862,7 @@ public struct QBusiness: AWSService {
         let input = UpdateDataAccessorRequest(
             actionConfigurations: actionConfigurations, 
             applicationId: applicationId, 
+            authenticationDetail: authenticationDetail, 
             dataAccessorId: dataAccessorId, 
             displayName: displayName
         )

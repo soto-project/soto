@@ -341,7 +341,7 @@ public struct S3Control: AWSService {
         return try await self.createAccessGrantsLocation(input, logger: logger)
     }
 
-    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
     @Sendable
     @inlinable
     public func createAccessPoint(_ input: CreateAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPointResult {
@@ -355,7 +355,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
@@ -363,7 +363,7 @@ public struct S3Control: AWSService {
     ///   - bucketAccountId: The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required.  For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
     ///   - name: The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
     ///   - publicAccessBlockConfiguration:  The PublicAccessBlock configuration that you want to apply to the access point.
-    ///   - scope: For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is not supported for access points for general purpose buckets.
+    ///   - scope: For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is only supported for access points attached to directory buckets.
     ///   - vpcConfiguration: If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2447,7 +2447,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessGrantsLocations(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns a list of the access points that are owned by the current account that's associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
     @Sendable
     @inlinable
     public func listAccessPoints(_ input: ListAccessPointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPointsResult {
@@ -2461,11 +2461,13 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns a list of the access points that are owned by the current account that's associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access points.
     ///   - bucket: The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    ///   - dataSourceId: The unique identifier for the data source of the access point.
+    ///   - dataSourceType: The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
     ///   - maxResults: The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
     ///   - nextToken: A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
     ///   - logger: Logger use during operation
@@ -2473,6 +2475,8 @@ public struct S3Control: AWSService {
     public func listAccessPoints(
         accountId: String,
         bucket: String? = nil,
+        dataSourceId: String? = nil,
+        dataSourceType: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2480,6 +2484,8 @@ public struct S3Control: AWSService {
         let input = ListAccessPointsRequest(
             accountId: accountId, 
             bucket: bucket, 
+            dataSourceId: dataSourceId, 
+            dataSourceType: dataSourceType, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -2908,7 +2914,7 @@ public struct S3Control: AWSService {
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
     ///   - name: The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
-    ///   - policy: The policy that you want to apply to the specified access point. For more information about access point policies, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory bucekts with access points in the Amazon S3 User Guide.
+    ///   - policy: The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAccessPointPolicy(
@@ -3783,18 +3789,24 @@ extension S3Control {
     /// - Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access points.
     ///   - bucket: The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    ///   - dataSourceId: The unique identifier for the data source of the access point.
+    ///   - dataSourceType: The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
     ///   - maxResults: The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAccessPointsPaginator(
         accountId: String,
         bucket: String? = nil,
+        dataSourceId: String? = nil,
+        dataSourceType: String? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListAccessPointsRequest, ListAccessPointsResult> {
         let input = ListAccessPointsRequest(
             accountId: accountId, 
             bucket: bucket, 
+            dataSourceId: dataSourceId, 
+            dataSourceType: dataSourceType, 
             maxResults: maxResults
         )
         return self.listAccessPointsPaginator(input, logger: logger)
@@ -4174,6 +4186,8 @@ extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
         return .init(
             accountId: self.accountId,
             bucket: self.bucket,
+            dataSourceId: self.dataSourceId,
+            dataSourceType: self.dataSourceType,
             maxResults: self.maxResults,
             nextToken: token
         )

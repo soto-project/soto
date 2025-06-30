@@ -308,6 +308,11 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum OpenZFSFileSystemUserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case posix = "POSIX"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OpenZFSQuotaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case group = "GROUP"
         case user = "USER"
@@ -359,6 +364,27 @@ extension FSx {
         case seconds = "SECONDS"
         case unspecified = "UNSPECIFIED"
         case years = "YEARS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3AccessPointAttachmentLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3AccessPointAttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case openzfs = "OPENZFS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3AccessPointAttachmentsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fileSystemId = "file-system-id"
+        case type = "type"
+        case volumeId = "volume-id"
         public var description: String { return self.rawValue }
     }
 
@@ -515,6 +541,23 @@ extension FSx {
     }
 
     // MARK: Shapes
+
+    public struct AccessPointAlreadyOwnedByYou: AWSErrorShape {
+        /// An error code indicating that an access point with that name already exists in the Amazon Web Services Region in your Amazon Web Services account.
+        public let errorCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
 
     public struct ActiveDirectoryBackupAttributes: AWSDecodableShape {
         /// The ID of the Amazon Web Services Managed Microsoft Active Directory instance to which the file system is joined.
@@ -1106,6 +1149,109 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case aggregates = "Aggregates"
             case constituentsPerAggregate = "ConstituentsPerAggregate"
+        }
+    }
+
+    public struct CreateAndAttachS3AccessPointOpenZFSConfiguration: AWSEncodableShape {
+        /// Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point.
+        public let fileSystemIdentity: OpenZFSFileSystemIdentity?
+        /// The ID of the FSx for OpenZFS volume to which you want the S3 access point attached.
+        public let volumeId: String?
+
+        @inlinable
+        public init(fileSystemIdentity: OpenZFSFileSystemIdentity? = nil, volumeId: String? = nil) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+
+        public func validate(name: String) throws {
+            try self.fileSystemIdentity?.validate(name: "\(name).fileSystemIdentity")
+            try self.validate(self.volumeId, name: "volumeId", parent: name, max: 23)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, min: 23)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "^(fsvol-[0-9a-f]{17,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemIdentity = "FileSystemIdentity"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct CreateAndAttachS3AccessPointRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The name you want to assign to this S3 access point.
+        public let name: String?
+        /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume.
+        public let openZFSConfiguration: CreateAndAttachS3AccessPointOpenZFSConfiguration?
+        /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC.  For more information, see Creating access points restricted to a virtual private cloud.
+        public let s3AccessPoint: CreateAndAttachS3AccessPointS3Configuration?
+        /// The type of S3 access point you want to create. Only OpenZFS is supported.
+        public let type: S3AccessPointAttachmentType?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateAndAttachS3AccessPointRequest.idempotencyToken(), name: String? = nil, openZFSConfiguration: CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil, s3AccessPoint: CreateAndAttachS3AccessPointS3Configuration? = nil, type: S3AccessPointAttachmentType? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.openZFSConfiguration = openZFSConfiguration
+            self.s3AccessPoint = s3AccessPoint
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$")
+            try self.openZFSConfiguration?.validate(name: "\(name).openZFSConfiguration")
+            try self.s3AccessPoint?.validate(name: "\(name).s3AccessPoint")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+            case openZFSConfiguration = "OpenZFSConfiguration"
+            case s3AccessPoint = "S3AccessPoint"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateAndAttachS3AccessPointResponse: AWSDecodableShape {
+        /// Describes the configuration of the S3 access point created.
+        public let s3AccessPointAttachment: S3AccessPointAttachment?
+
+        @inlinable
+        public init(s3AccessPointAttachment: S3AccessPointAttachment? = nil) {
+            self.s3AccessPointAttachment = s3AccessPointAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessPointAttachment = "S3AccessPointAttachment"
+        }
+    }
+
+    public struct CreateAndAttachS3AccessPointS3Configuration: AWSEncodableShape {
+        /// Specifies an access policy to associate with the S3 access point configuration. For more information, see  Configuring IAM policies for using access points  in the Amazon Simple Storage Service User Guide.
+        public let policy: String?
+        /// If included, Amazon S3 restricts access to this S3 access point to requests made from the specified virtual private cloud (VPC).
+        public let vpcConfiguration: S3AccessPointVpcConfiguration?
+
+        @inlinable
+        public init(policy: String? = nil, vpcConfiguration: S3AccessPointVpcConfiguration? = nil) {
+            self.policy = policy
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 200000)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case vpcConfiguration = "VpcConfiguration"
         }
     }
 
@@ -3708,6 +3854,65 @@ extension FSx {
         }
     }
 
+    public struct DescribeS3AccessPointAttachmentsRequest: AWSEncodableShape {
+        /// Enter a filter Name and Values pair to view a select set of S3 access point attachments.
+        public let filters: [S3AccessPointAttachmentsFilter]?
+        public let maxResults: Int?
+        /// The names of the S3 access point attachments whose descriptions you want to retrieve.
+        public let names: [String]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [S3AccessPointAttachmentsFilter]? = nil, maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.names = names
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 2)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.names?.forEach {
+                try validate($0, name: "names[]", parent: name, max: 50)
+                try validate($0, name: "names[]", parent: name, min: 3)
+                try validate($0, name: "names[]", parent: name, pattern: "^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 50)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeS3AccessPointAttachmentsResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// Array of S3 access point attachments returned after a successful DescribeS3AccessPointAttachments operation.
+        public let s3AccessPointAttachments: [S3AccessPointAttachment]?
+
+        @inlinable
+        public init(nextToken: String? = nil, s3AccessPointAttachments: [S3AccessPointAttachment]? = nil) {
+            self.nextToken = nextToken
+            self.s3AccessPointAttachments = s3AccessPointAttachments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case s3AccessPointAttachments = "S3AccessPointAttachments"
+        }
+    }
+
     public struct DescribeSharedVpcConfigurationRequest: AWSEncodableShape {
         public init() {}
     }
@@ -3904,6 +4109,50 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case volumes = "Volumes"
+        }
+    }
+
+    public struct DetachAndDeleteS3AccessPointRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The name of the S3 access point attachment that you want to delete.
+        public let name: String?
+
+        @inlinable
+        public init(clientRequestToken: String? = DetachAndDeleteS3AccessPointRequest.idempotencyToken(), name: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+        }
+    }
+
+    public struct DetachAndDeleteS3AccessPointResponse: AWSDecodableShape {
+        /// The lifecycle status of the S3 access point attachment.
+        public let lifecycle: S3AccessPointAttachmentLifecycle?
+        /// The name of the S3 access point attachment being deleted.
+        public let name: String?
+
+        @inlinable
+        public init(lifecycle: S3AccessPointAttachmentLifecycle? = nil, name: String? = nil) {
+            self.lifecycle = lifecycle
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycle = "Lifecycle"
+            case name = "Name"
         }
     }
 
@@ -4483,6 +4732,23 @@ extension FSx {
         }
     }
 
+    public struct InvalidAccessPoint: AWSErrorShape {
+        /// An error code indicating that the access point specified doesn't exist.
+        public let errorCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
     public struct InvalidNetworkSettings: AWSErrorShape {
         /// The route table ID is either invalid or not part of the VPC specified.
         public let invalidRouteTableId: String?
@@ -4505,6 +4771,23 @@ extension FSx {
             case invalidRouteTableId = "InvalidRouteTableId"
             case invalidSecurityGroupId = "InvalidSecurityGroupId"
             case invalidSubnetId = "InvalidSubnetId"
+            case message = "Message"
+        }
+    }
+
+    public struct InvalidRequest: AWSErrorShape {
+        /// An error code indicating that the action or operation requested is invalid.
+        public let errorCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
             case message = "Message"
         }
     }
@@ -5049,6 +5332,28 @@ extension FSx {
         }
     }
 
+    public struct OpenZFSFileSystemIdentity: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the UID and GIDs of the file system POSIX user.
+        public let posixUser: OpenZFSPosixFileSystemUser?
+        /// Specifies the FSx for OpenZFS user identity type, accepts only POSIX.
+        public let type: OpenZFSFileSystemUserType?
+
+        @inlinable
+        public init(posixUser: OpenZFSPosixFileSystemUser? = nil, type: OpenZFSFileSystemUserType? = nil) {
+            self.posixUser = posixUser
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.posixUser?.validate(name: "\(name).posixUser")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case posixUser = "PosixUser"
+            case type = "Type"
+        }
+    }
+
     public struct OpenZFSNfsExport: AWSEncodableShape & AWSDecodableShape {
         /// A list of configuration objects that contain the client and options for mounting the OpenZFS file system.
         public let clientConfigurations: [OpenZFSClientConfiguration]?
@@ -5084,6 +5389,40 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case copyStrategy = "CopyStrategy"
             case snapshotARN = "SnapshotARN"
+        }
+    }
+
+    public struct OpenZFSPosixFileSystemUser: AWSEncodableShape & AWSDecodableShape {
+        /// The GID of the file system user.
+        public let gid: Int64?
+        /// The list of secondary GIDs for the file system user.
+        public let secondaryGids: [Int64]?
+        /// The UID of the file system user.
+        public let uid: Int64?
+
+        @inlinable
+        public init(gid: Int64? = nil, secondaryGids: [Int64]? = nil, uid: Int64? = nil) {
+            self.gid = gid
+            self.secondaryGids = secondaryGids
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gid, name: "gid", parent: name, max: 4294967295)
+            try self.validate(self.gid, name: "gid", parent: name, min: 0)
+            try self.secondaryGids?.forEach {
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4294967295)
+                try validate($0, name: "secondaryGids[]", parent: name, min: 0)
+            }
+            try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 15)
+            try self.validate(self.uid, name: "uid", parent: name, max: 4294967295)
+            try self.validate(self.uid, name: "uid", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gid = "Gid"
+            case secondaryGids = "SecondaryGids"
+            case uid = "Uid"
         }
     }
 
@@ -5390,6 +5729,129 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct S3AccessPoint: AWSDecodableShape {
+        /// The S3 access point's alias.
+        public let alias: String?
+        /// he S3 access point's ARN.
+        public let resourceARN: String?
+        /// The S3 access point's virtual private cloud (VPC) configuration.
+        public let vpcConfiguration: S3AccessPointVpcConfiguration?
+
+        @inlinable
+        public init(alias: String? = nil, resourceARN: String? = nil, vpcConfiguration: S3AccessPointVpcConfiguration? = nil) {
+            self.alias = alias
+            self.resourceARN = resourceARN
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case resourceARN = "ResourceARN"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct S3AccessPointAttachment: AWSDecodableShape {
+        public let creationTime: Date?
+        /// The lifecycle status of the S3 access point attachment. The lifecycle can have the following values:   AVAILABLE - the S3 access point attachment is available for use   CREATING - Amazon FSx is creating the S3 access point and attachment   DELETING - Amazon FSx is deleting the S3 access point and attachment   FAILED - The S3 access point attachment is in a failed state. Delete and detach the S3 access  point attachment, and create a new one.   UPDATING - Amazon FSx is updating the S3 access point attachment
+        public let lifecycle: S3AccessPointAttachmentLifecycle?
+        public let lifecycleTransitionReason: LifecycleTransitionReason?
+        /// The name of the S3 access point attachment; also used for the name of the S3 access point.
+        public let name: String?
+        /// The OpenZFSConfiguration of the S3 access point attachment.
+        public let openZFSConfiguration: S3AccessPointOpenZFSConfiguration?
+        /// The S3 access point configuration of the S3 access point attachment.
+        public let s3AccessPoint: S3AccessPoint?
+        /// The type of Amazon FSx volume that the S3 access point is attached to.
+        public let type: S3AccessPointAttachmentType?
+
+        @inlinable
+        public init(creationTime: Date? = nil, lifecycle: S3AccessPointAttachmentLifecycle? = nil, lifecycleTransitionReason: LifecycleTransitionReason? = nil, name: String? = nil, openZFSConfiguration: S3AccessPointOpenZFSConfiguration? = nil, s3AccessPoint: S3AccessPoint? = nil, type: S3AccessPointAttachmentType? = nil) {
+            self.creationTime = creationTime
+            self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
+            self.name = name
+            self.openZFSConfiguration = openZFSConfiguration
+            self.s3AccessPoint = s3AccessPoint
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lifecycle = "Lifecycle"
+            case lifecycleTransitionReason = "LifecycleTransitionReason"
+            case name = "Name"
+            case openZFSConfiguration = "OpenZFSConfiguration"
+            case s3AccessPoint = "S3AccessPoint"
+            case type = "Type"
+        }
+    }
+
+    public struct S3AccessPointAttachmentsFilter: AWSEncodableShape {
+        /// The name of the filter.
+        public let name: S3AccessPointAttachmentsFilterName?
+        /// The values of the filter.
+        public let values: [String]?
+
+        @inlinable
+        public init(name: S3AccessPointAttachmentsFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z\\*\\.\\\\/\\?\\-\\_]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct S3AccessPointOpenZFSConfiguration: AWSDecodableShape {
+        /// The file system identity used to authorize file access requests made using the S3 access point.
+        public let fileSystemIdentity: OpenZFSFileSystemIdentity?
+        /// The ID of the FSx for OpenZFS volume that the S3 access point is attached to.
+        public let volumeId: String?
+
+        @inlinable
+        public init(fileSystemIdentity: OpenZFSFileSystemIdentity? = nil, volumeId: String? = nil) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemIdentity = "FileSystemIdentity"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct S3AccessPointVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the virtual private cloud (VPC) for the S3 access point VPC configuration, if one exists.
+        public let vpcId: String?
+
+        @inlinable
+        public init(vpcId: String? = nil) {
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 21)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 12)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^(vpc-[0-9a-f]{8,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcId = "VpcId"
         }
     }
 
@@ -5990,6 +6452,23 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case coolingPeriod = "CoolingPeriod"
             case name = "Name"
+        }
+    }
+
+    public struct TooManyAccessPoints: AWSErrorShape {
+        /// An error code indicating that you have reached the maximum number of S3 access points attachments allowed for your account in this Amazon Web Services Region, or for the file system.
+        public let errorCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
         }
     }
 
@@ -7093,6 +7572,7 @@ extension FSx {
 /// Error enum for FSx
 public struct FSxErrorType: AWSErrorType {
     enum Code: String {
+        case accessPointAlreadyOwnedByYou = "AccessPointAlreadyOwnedByYou"
         case activeDirectoryError = "ActiveDirectoryError"
         case backupBeingCopied = "BackupBeingCopied"
         case backupInProgress = "BackupInProgress"
@@ -7108,6 +7588,7 @@ public struct FSxErrorType: AWSErrorType {
         case incompatibleParameterError = "IncompatibleParameterError"
         case incompatibleRegionForMultiAZ = "IncompatibleRegionForMultiAZ"
         case internalServerError = "InternalServerError"
+        case invalidAccessPoint = "InvalidAccessPoint"
         case invalidDataRepositoryType = "InvalidDataRepositoryType"
         case invalidDestinationKmsKey = "InvalidDestinationKmsKey"
         case invalidExportPath = "InvalidExportPath"
@@ -7115,6 +7596,7 @@ public struct FSxErrorType: AWSErrorType {
         case invalidNetworkSettings = "InvalidNetworkSettings"
         case invalidPerUnitStorageThroughput = "InvalidPerUnitStorageThroughput"
         case invalidRegion = "InvalidRegion"
+        case invalidRequest = "InvalidRequest"
         case invalidSourceKmsKey = "InvalidSourceKmsKey"
         case missingFileCacheConfiguration = "MissingFileCacheConfiguration"
         case missingFileSystemConfiguration = "MissingFileSystemConfiguration"
@@ -7122,10 +7604,12 @@ public struct FSxErrorType: AWSErrorType {
         case notServiceResourceError = "NotServiceResourceError"
         case resourceDoesNotSupportTagging = "ResourceDoesNotSupportTagging"
         case resourceNotFound = "ResourceNotFound"
+        case s3AccessPointAttachmentNotFound = "S3AccessPointAttachmentNotFound"
         case serviceLimitExceeded = "ServiceLimitExceeded"
         case snapshotNotFound = "SnapshotNotFound"
         case sourceBackupUnavailable = "SourceBackupUnavailable"
         case storageVirtualMachineNotFound = "StorageVirtualMachineNotFound"
+        case tooManyAccessPoints = "TooManyAccessPoints"
         case unsupportedOperation = "UnsupportedOperation"
         case volumeNotFound = "VolumeNotFound"
     }
@@ -7148,6 +7632,8 @@ public struct FSxErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An access point with that name already exists in the Amazon Web Services Region in your Amazon Web Services account.
+    public static var accessPointAlreadyOwnedByYou: Self { .init(.accessPointAlreadyOwnedByYou) }
     /// An Active Directory error.
     public static var activeDirectoryError: Self { .init(.activeDirectoryError) }
     /// You can't delete a backup while it's being copied.
@@ -7178,6 +7664,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var incompatibleRegionForMultiAZ: Self { .init(.incompatibleRegionForMultiAZ) }
     /// A generic error indicating a server-side failure.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// The access point specified doesn't exist.
+    public static var invalidAccessPoint: Self { .init(.invalidAccessPoint) }
     /// You have filtered the response to a data repository type that is not supported.
     public static var invalidDataRepositoryType: Self { .init(.invalidDataRepositoryType) }
     /// The Key Management Service (KMS) key of the destination backup is not valid.
@@ -7192,6 +7680,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var invalidPerUnitStorageThroughput: Self { .init(.invalidPerUnitStorageThroughput) }
     /// The Region provided for SourceRegion is not valid or is in a different Amazon Web Services partition.
     public static var invalidRegion: Self { .init(.invalidRegion) }
+    /// The action or operation requested is invalid. Verify that the action is typed correctly.
+    public static var invalidRequest: Self { .init(.invalidRequest) }
     /// The Key Management Service (KMS) key of the source backup is not valid.
     public static var invalidSourceKmsKey: Self { .init(.invalidSourceKmsKey) }
     /// A cache configuration is required for this operation.
@@ -7206,6 +7696,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var resourceDoesNotSupportTagging: Self { .init(.resourceDoesNotSupportTagging) }
     /// The resource specified by the Amazon Resource Name (ARN) can't be found.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
+    /// The access point specified was not found.
+    public static var s3AccessPointAttachmentNotFound: Self { .init(.s3AccessPointAttachmentNotFound) }
     /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
     /// No Amazon FSx snapshots were found based on the supplied parameters.
@@ -7214,6 +7706,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var sourceBackupUnavailable: Self { .init(.sourceBackupUnavailable) }
     /// No FSx for ONTAP SVMs were found based upon the supplied parameters.
     public static var storageVirtualMachineNotFound: Self { .init(.storageVirtualMachineNotFound) }
+    /// You have reached the maximum number of S3 access points attachments allowed for your account in this Amazon Web Services Region, or for the file system. For more information, or to request an increase,  see Service quotas on FSx resources in the FSx for OpenZFS User Guide.
+    public static var tooManyAccessPoints: Self { .init(.tooManyAccessPoints) }
     /// The requested operation is not supported for this resource or API.
     public static var unsupportedOperation: Self { .init(.unsupportedOperation) }
     /// No Amazon FSx volumes were found based upon the supplied parameters.
@@ -7222,16 +7716,20 @@ public struct FSxErrorType: AWSErrorType {
 
 extension FSxErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessPointAlreadyOwnedByYou": FSx.AccessPointAlreadyOwnedByYou.self,
         "ActiveDirectoryError": FSx.ActiveDirectoryError.self,
         "BackupBeingCopied": FSx.BackupBeingCopied.self,
         "BackupRestoring": FSx.BackupRestoring.self,
         "IncompatibleParameterError": FSx.IncompatibleParameterError.self,
+        "InvalidAccessPoint": FSx.InvalidAccessPoint.self,
         "InvalidNetworkSettings": FSx.InvalidNetworkSettings.self,
+        "InvalidRequest": FSx.InvalidRequest.self,
         "NotServiceResourceError": FSx.NotServiceResourceError.self,
         "ResourceDoesNotSupportTagging": FSx.ResourceDoesNotSupportTagging.self,
         "ResourceNotFound": FSx.ResourceNotFound.self,
         "ServiceLimitExceeded": FSx.ServiceLimitExceeded.self,
-        "SourceBackupUnavailable": FSx.SourceBackupUnavailable.self
+        "SourceBackupUnavailable": FSx.SourceBackupUnavailable.self,
+        "TooManyAccessPoints": FSx.TooManyAccessPoints.self
     ]
 }
 

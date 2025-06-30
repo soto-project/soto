@@ -125,6 +125,12 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataAccessorAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsIamIdcAuthCode = "AWS_IAM_IDC_AUTH_CODE"
+        case awsIamIdcTti = "AWS_IAM_IDC_TTI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataSourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -289,6 +295,11 @@ extension QBusiness {
     public enum OrchestrationControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionConditionOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case stringEquals = "StringEquals"
         public var description: String { return self.rawValue }
     }
 
@@ -1525,15 +1536,18 @@ extension QBusiness {
         public let actions: [String]
         /// The unique identifier of the Amazon Q Business application.
         public let applicationId: String
+        /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific attributes of the request.
+        public let conditions: [PermissionCondition]?
         /// The Amazon Resource Name of the IAM role for the ISV that is being granted permission.
         public let principal: String
         /// A unique identifier for the policy statement.
         public let statementId: String
 
         @inlinable
-        public init(actions: [String], applicationId: String, principal: String, statementId: String) {
+        public init(actions: [String], applicationId: String, conditions: [PermissionCondition]? = nil, principal: String, statementId: String) {
             self.actions = actions
             self.applicationId = applicationId
+            self.conditions = conditions
             self.principal = principal
             self.statementId = statementId
         }
@@ -1543,6 +1557,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.actions, forKey: .actions)
             request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.conditions, forKey: .conditions)
             try container.encode(self.principal, forKey: .principal)
             try container.encode(self.statementId, forKey: .statementId)
         }
@@ -1556,6 +1571,11 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.conditions?.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 10)
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
             try self.validate(self.principal, name: "principal", parent: name, max: 1284)
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
             try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
@@ -1566,6 +1586,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
+            case conditions = "conditions"
             case principal = "principal"
             case statementId = "statementId"
         }
@@ -2855,6 +2876,8 @@ extension QBusiness {
         public let actionConfigurations: [ActionConfiguration]
         /// The unique identifier of the Amazon Q Business application.
         public let applicationId: String
+        /// The authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// A unique, case-sensitive identifier you provide to ensure idempotency of the request.
         public let clientToken: String?
         /// A friendly name for the data accessor.
@@ -2865,9 +2888,10 @@ extension QBusiness {
         public let tags: [Tag]?
 
         @inlinable
-        public init(actionConfigurations: [ActionConfiguration], applicationId: String, clientToken: String? = CreateDataAccessorRequest.idempotencyToken(), displayName: String, principal: String, tags: [Tag]? = nil) {
+        public init(actionConfigurations: [ActionConfiguration], applicationId: String, authenticationDetail: DataAccessorAuthenticationDetail? = nil, clientToken: String? = CreateDataAccessorRequest.idempotencyToken(), displayName: String, principal: String, tags: [Tag]? = nil) {
             self.actionConfigurations = actionConfigurations
             self.applicationId = applicationId
+            self.authenticationDetail = authenticationDetail
             self.clientToken = clientToken
             self.displayName = displayName
             self.principal = principal
@@ -2879,6 +2903,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.actionConfigurations, forKey: .actionConfigurations)
             request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.authenticationDetail, forKey: .authenticationDetail)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.displayName, forKey: .displayName)
             try container.encode(self.principal, forKey: .principal)
@@ -2894,6 +2919,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.authenticationDetail?.validate(name: "\(name).authenticationDetail")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
@@ -2910,6 +2936,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case actionConfigurations = "actionConfigurations"
+            case authenticationDetail = "authenticationDetail"
             case clientToken = "clientToken"
             case displayName = "displayName"
             case principal = "principal"
@@ -3639,6 +3666,8 @@ extension QBusiness {
     }
 
     public struct DataAccessor: AWSDecodableShape {
+        /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// The timestamp when the data accessor was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the data accessor.
@@ -3655,7 +3684,8 @@ extension QBusiness {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+        public init(authenticationDetail: DataAccessorAuthenticationDetail? = nil, createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+            self.authenticationDetail = authenticationDetail
             self.createdAt = createdAt
             self.dataAccessorArn = dataAccessorArn
             self.dataAccessorId = dataAccessorId
@@ -3666,6 +3696,7 @@ extension QBusiness {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationDetail = "authenticationDetail"
             case createdAt = "createdAt"
             case dataAccessorArn = "dataAccessorArn"
             case dataAccessorId = "dataAccessorId"
@@ -3673,6 +3704,58 @@ extension QBusiness {
             case idcApplicationArn = "idcApplicationArn"
             case principal = "principal"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DataAccessorAuthenticationDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The specific authentication configuration based on the authentication type.
+        public let authenticationConfiguration: DataAccessorAuthenticationConfiguration?
+        /// The type of authentication to use for the data accessor. This determines how the ISV authenticates when accessing data. You can use one of two authentication types:    AWS_IAM_IDC_TTI - Authentication using IAM Identity Center Trusted Token Issuer (TTI). This authentication type allows the ISV to use a trusted token issuer to generate tokens for accessing the data.    AWS_IAM_IDC_AUTH_CODE - Authentication using IAM Identity Center authorization code flow. This authentication type uses the standard OAuth 2.0 authorization code flow for authentication.
+        public let authenticationType: DataAccessorAuthenticationType
+        /// A list of external identifiers associated with this authentication configuration. These are used to correlate the data accessor with external systems.
+        public let externalIds: [String]?
+
+        @inlinable
+        public init(authenticationConfiguration: DataAccessorAuthenticationConfiguration? = nil, authenticationType: DataAccessorAuthenticationType, externalIds: [String]? = nil) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.authenticationType = authenticationType
+            self.externalIds = externalIds
+        }
+
+        public func validate(name: String) throws {
+            try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
+            try self.externalIds?.forEach {
+                try validate($0, name: "externalIds[]", parent: name, max: 1000)
+                try validate($0, name: "externalIds[]", parent: name, min: 1)
+                try validate($0, name: "externalIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.externalIds, name: "externalIds", parent: name, max: 1)
+            try self.validate(self.externalIds, name: "externalIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "authenticationConfiguration"
+            case authenticationType = "authenticationType"
+            case externalIds = "externalIds"
+        }
+    }
+
+    public struct DataAccessorIdcTrustedTokenIssuerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center Trusted Token Issuer that will be used for authentication.
+        public let idcTrustedTokenIssuerArn: String
+
+        @inlinable
+        public init(idcTrustedTokenIssuerArn: String) {
+            self.idcTrustedTokenIssuerArn = idcTrustedTokenIssuerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idcTrustedTokenIssuerArn, name: "idcTrustedTokenIssuerArn", parent: name, max: 1284)
+            try self.validate(self.idcTrustedTokenIssuerArn, name: "idcTrustedTokenIssuerArn", parent: name, pattern: "^arn:aws:sso::[0-9]{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcTrustedTokenIssuerArn = "idcTrustedTokenIssuerArn"
         }
     }
 
@@ -4989,6 +5072,8 @@ extension QBusiness {
         public let actionConfigurations: [ActionConfiguration]?
         /// The unique identifier of the Amazon Q Business application associated with this data accessor.
         public let applicationId: String?
+        /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// The timestamp when the data accessor was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the data accessor.
@@ -5005,9 +5090,10 @@ extension QBusiness {
         public let updatedAt: Date?
 
         @inlinable
-        public init(actionConfigurations: [ActionConfiguration]? = nil, applicationId: String? = nil, createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+        public init(actionConfigurations: [ActionConfiguration]? = nil, applicationId: String? = nil, authenticationDetail: DataAccessorAuthenticationDetail? = nil, createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
             self.actionConfigurations = actionConfigurations
             self.applicationId = applicationId
+            self.authenticationDetail = authenticationDetail
             self.createdAt = createdAt
             self.dataAccessorArn = dataAccessorArn
             self.dataAccessorId = dataAccessorId
@@ -5020,6 +5106,7 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case actionConfigurations = "actionConfigurations"
             case applicationId = "applicationId"
+            case authenticationDetail = "authenticationDetail"
             case createdAt = "createdAt"
             case dataAccessorArn = "dataAccessorArn"
             case dataAccessorId = "dataAccessorId"
@@ -5834,7 +5921,7 @@ extension QBusiness {
     public struct HookConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public let invocationCondition: DocumentAttributeCondition?
-        /// The Amazon Resource Name (ARN) of the Lambda function sduring ingestion. For more information, see Using Lambda functions for Amazon Q Business document enrichment.
+        /// The Amazon Resource Name (ARN) of the Lambda function during ingestion. For more information, see Using Lambda functions for Amazon Q Business document enrichment.
         public let lambdaArn: String?
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process.
         public let roleArn: String?
@@ -7385,6 +7472,39 @@ extension QBusiness {
         }
     }
 
+    public struct PermissionCondition: AWSEncodableShape {
+        /// The key for the condition. This identifies the attribute that the condition applies to.
+        public let conditionKey: String
+        /// The operator to use for the condition evaluation. This determines how the condition values are compared.
+        public let conditionOperator: PermissionConditionOperator
+        /// The values to compare against using the specified condition operator.
+        public let conditionValues: [String]
+
+        @inlinable
+        public init(conditionKey: String, conditionOperator: PermissionConditionOperator, conditionValues: [String]) {
+            self.conditionKey = conditionKey
+            self.conditionOperator = conditionOperator
+            self.conditionValues = conditionValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conditionKey, name: "conditionKey", parent: name, pattern: "^aws:PrincipalTag/qbusiness-dataaccessor:[a-zA-Z]+")
+            try self.conditionValues.forEach {
+                try validate($0, name: "conditionValues[]", parent: name, max: 1000)
+                try validate($0, name: "conditionValues[]", parent: name, min: 1)
+                try validate($0, name: "conditionValues[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.conditionValues, name: "conditionValues", parent: name, max: 1)
+            try self.validate(self.conditionValues, name: "conditionValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionKey = "conditionKey"
+            case conditionOperator = "conditionOperator"
+            case conditionValues = "conditionValues"
+        }
+    }
+
     public struct PersonalizationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An option to allow Amazon Q Business to customize chat responses using user specific metadata—specifically, location and job information—in your IAM Identity Center instance.
         public let personalizationControlMode: PersonalizationControlMode
@@ -8666,15 +8786,18 @@ extension QBusiness {
         public let actionConfigurations: [ActionConfiguration]
         /// The unique identifier of the Amazon Q Business application.
         public let applicationId: String
+        /// The updated authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// The unique identifier of the data accessor to update.
         public let dataAccessorId: String
         /// The updated friendly name for the data accessor.
         public let displayName: String?
 
         @inlinable
-        public init(actionConfigurations: [ActionConfiguration], applicationId: String, dataAccessorId: String, displayName: String? = nil) {
+        public init(actionConfigurations: [ActionConfiguration], applicationId: String, authenticationDetail: DataAccessorAuthenticationDetail? = nil, dataAccessorId: String, displayName: String? = nil) {
             self.actionConfigurations = actionConfigurations
             self.applicationId = applicationId
+            self.authenticationDetail = authenticationDetail
             self.dataAccessorId = dataAccessorId
             self.displayName = displayName
         }
@@ -8684,6 +8807,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.actionConfigurations, forKey: .actionConfigurations)
             request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.authenticationDetail, forKey: .authenticationDetail)
             request.encodePath(self.dataAccessorId, key: "dataAccessorId")
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
         }
@@ -8697,6 +8821,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.authenticationDetail?.validate(name: "\(name).authenticationDetail")
             try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, max: 36)
             try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, min: 36)
             try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
@@ -8707,6 +8832,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case actionConfigurations = "actionConfigurations"
+            case authenticationDetail = "authenticationDetail"
             case displayName = "displayName"
         }
     }
@@ -9471,6 +9597,24 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case conversation = "conversation"
+        }
+    }
+
+    public struct DataAccessorAuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for IAM Identity Center Trusted Token Issuer (TTI) authentication used when the authentication type is AWS_IAM_IDC_TTI.
+        public let idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration?
+
+        @inlinable
+        public init(idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration? = nil) {
+            self.idcTrustedTokenIssuerConfiguration = idcTrustedTokenIssuerConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.idcTrustedTokenIssuerConfiguration?.validate(name: "\(name).idcTrustedTokenIssuerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcTrustedTokenIssuerConfiguration = "idcTrustedTokenIssuerConfiguration"
         }
     }
 

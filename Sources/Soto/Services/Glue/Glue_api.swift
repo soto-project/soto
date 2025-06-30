@@ -1952,6 +1952,7 @@ public struct Glue: AWSService {
     /// Parameters:
     ///   - catalogId: The ID of the Data Catalog in which to create the Table. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
+    ///   - name: The unique identifier for the table within the specified database that will be  created in the Glue Data Catalog.
     ///   - openTableFormatInput: Specifies an OpenTableFormatInput structure when creating an open format table.
     ///   - partitionIndexes: A list of partition indexes, PartitionIndex structures, to create in the table.
     ///   - tableInput: The TableInput object that defines the metadata table to create in the catalog.
@@ -1961,6 +1962,7 @@ public struct Glue: AWSService {
     public func createTable(
         catalogId: String? = nil,
         databaseName: String,
+        name: String? = nil,
         openTableFormatInput: OpenTableFormatInput? = nil,
         partitionIndexes: [PartitionIndex]? = nil,
         tableInput: TableInput,
@@ -1970,6 +1972,7 @@ public struct Glue: AWSService {
         let input = CreateTableRequest(
             catalogId: catalogId, 
             databaseName: databaseName, 
+            name: name, 
             openTableFormatInput: openTableFormatInput, 
             partitionIndexes: partitionIndexes, 
             tableInput: tableInput, 
@@ -7883,7 +7886,7 @@ public struct Glue: AWSService {
         return try await self.startMLEvaluationTaskRun(input, logger: logger)
     }
 
-    /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
+    /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation. Note: The role used to write the generated labeling set to the OutputS3Path is the role associated with the Machine Learning Transform, specified in the CreateMLTransform API.
     @Sendable
     @inlinable
     public func startMLLabelingSetGenerationTaskRun(_ input: StartMLLabelingSetGenerationTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMLLabelingSetGenerationTaskRunResponse {
@@ -7896,7 +7899,7 @@ public struct Glue: AWSService {
             logger: logger
         )
     }
-    /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
+    /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation. Note: The role used to write the generated labeling set to the OutputS3Path is the role associated with the Machine Learning Transform, specified in the CreateMLTransform API.
     ///
     /// Parameters:
     ///   - outputS3Path: The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.
@@ -9179,9 +9182,11 @@ public struct Glue: AWSService {
     ///   - catalogId: The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
     ///   - force: A flag that can be set to true to ignore matching storage descriptor and subobject matching requirements.
+    ///   - name: The unique identifier for the table within the specified database that will be  created in the Glue Data Catalog.
     ///   - skipArchive: By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
     ///   - tableInput: An updated TableInput object to define the metadata table in the catalog.
     ///   - transactionId: The transaction ID at which to update the table contents.
+    ///   - updateOpenTableFormatInput: 
     ///   - versionId: The version ID at which to update the table contents.
     ///   - viewUpdateAction: The operation to be performed when updating the view.
     ///   - logger: Logger use during operation
@@ -9190,9 +9195,11 @@ public struct Glue: AWSService {
         catalogId: String? = nil,
         databaseName: String,
         force: Bool? = nil,
+        name: String? = nil,
         skipArchive: Bool? = nil,
-        tableInput: TableInput,
+        tableInput: TableInput? = nil,
         transactionId: String? = nil,
+        updateOpenTableFormatInput: UpdateOpenTableFormatInput? = nil,
         versionId: String? = nil,
         viewUpdateAction: ViewUpdateAction? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -9201,9 +9208,11 @@ public struct Glue: AWSService {
             catalogId: catalogId, 
             databaseName: databaseName, 
             force: force, 
+            name: name, 
             skipArchive: skipArchive, 
             tableInput: tableInput, 
             transactionId: transactionId, 
+            updateOpenTableFormatInput: updateOpenTableFormatInput, 
             versionId: versionId, 
             viewUpdateAction: viewUpdateAction
         )
