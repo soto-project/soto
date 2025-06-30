@@ -1072,9 +1072,9 @@ extension Deadline {
     }
 
     public struct AcceleratorSelection: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r550 as the runtime. The available GPU accelerators are:    t4 - NVIDIA T4 Tensor Core GPU    a10g - NVIDIA A10G Tensor Core GPU    l4 - NVIDIA L4 Tensor Core GPU    l40s - NVIDIA L40S Tensor Core GPU
+        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r570 as the runtime. The available GPU accelerators are:    t4 - NVIDIA T4 Tensor Core GPU    a10g - NVIDIA A10G Tensor Core GPU    l4 - NVIDIA L4 Tensor Core GPU    l40s - NVIDIA L40S Tensor Core GPU
         public let name: AcceleratorName
-        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs.  You can choose from the following runtimes:    latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.    grid:r550 - NVIDIA vGPU software 17     grid:r535 - NVIDIA vGPU software 16    If you don't specify a runtime, Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Deadline Cloud raises an exception.
+        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs.  You can choose from the following runtimes:    latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.    grid:r570 - NVIDIA vGPU software 18     grid:r535 - NVIDIA vGPU software 16    If you don't specify a runtime, Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Deadline Cloud raises an exception.
         public let runtime: String?
 
         @inlinable
@@ -4383,7 +4383,7 @@ extension Deadline {
         public let minWorkerCount: Int
         /// The IAM role ARN.
         public let roleArn: String
-        /// The Auto Scaling status of the fleet.
+        /// The status of the fleet.
         public let status: FleetStatus
         /// The number of target workers in the fleet.
         public let targetWorkerCount: Int?
@@ -4511,6 +4511,8 @@ extension Deadline {
         public let storageProfileId: String?
         /// The task status with which the job started.
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
+        /// The total number of times tasks from the job failed and were retried.
+        public let taskFailureRetryCount: Int?
         /// The task run status for the job.
         public let taskRunStatus: TaskRunStatus?
         /// The number of tasks running on the job.
@@ -4522,7 +4524,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.attachments = attachments
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4541,6 +4543,7 @@ extension Deadline {
             self.startedAt = startedAt
             self.storageProfileId = storageProfileId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -4566,6 +4569,7 @@ extension Deadline {
             case startedAt = "startedAt"
             case storageProfileId = "storageProfileId"
             case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
             case updatedAt = "updatedAt"
@@ -5443,6 +5447,8 @@ extension Deadline {
         public let stepId: String
         /// The task status with which the job started.
         public let targetTaskRunStatus: StepTargetTaskRunStatus?
+        /// The total number of times tasks from the step failed and were retried.
+        public let taskFailureRetryCount: Int?
         /// The task run status for the job.
         public let taskRunStatus: TaskRunStatus
         /// The number of tasks running on the job.
@@ -5454,7 +5460,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, dependencyCounts: DependencyCounts? = nil, description: String? = nil, endedAt: Date? = nil, lifecycleStatus: StepLifecycleStatus, lifecycleStatusMessage: String? = nil, name: String, parameterSpace: ParameterSpace? = nil, requiredCapabilities: StepRequiredCapabilities? = nil, startedAt: Date? = nil, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus, taskRunStatusCounts: [TaskRunStatus: Int], updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, dependencyCounts: DependencyCounts? = nil, description: String? = nil, endedAt: Date? = nil, lifecycleStatus: StepLifecycleStatus, lifecycleStatusMessage: String? = nil, name: String, parameterSpace: ParameterSpace? = nil, requiredCapabilities: StepRequiredCapabilities? = nil, startedAt: Date? = nil, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus, taskRunStatusCounts: [TaskRunStatus: Int], updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.dependencyCounts = dependencyCounts
@@ -5468,6 +5474,7 @@ extension Deadline {
             self.startedAt = startedAt
             self.stepId = stepId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -5488,6 +5495,7 @@ extension Deadline {
             case startedAt = "startedAt"
             case stepId = "stepId"
             case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
             case updatedAt = "updatedAt"
@@ -6197,13 +6205,15 @@ extension Deadline {
         public var startedAt: Date?
         /// The task status to start with on the job.
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
+        /// The total number of times tasks from the job failed and were retried.
+        public let taskFailureRetryCount: Int?
         /// The task run status for the job.    PENDING–pending and waiting for resources.    READY–ready to be processed.    ASSIGNED–assigned and will run next on a worker.    SCHEDULED–scheduled to be run on a worker.    INTERRUPTING–being interrupted.    RUNNING–running on a worker.    SUSPENDED–the task is suspended.    CANCELED–the task has been canceled.    FAILED–the task has failed.    SUCCEEDED–the task has succeeded.
         public let taskRunStatus: TaskRunStatus?
         /// The number of tasks running on the job.
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -6220,6 +6230,7 @@ extension Deadline {
             self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
         }
@@ -6241,6 +6252,7 @@ extension Deadline {
             case sourceJobId = "sourceJobId"
             case startedAt = "startedAt"
             case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
         }
@@ -6278,6 +6290,8 @@ extension Deadline {
         public var startedAt: Date?
         /// The task status to start with on the job.
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
+        /// The total number of times tasks from the job failed and were retried.
+        public let taskFailureRetryCount: Int?
         /// The task run status for the job.    PENDING–pending and waiting for resources.    READY–ready to be processed.    ASSIGNED–assigned and will run next on a worker.    SCHEDULED–scheduled to be run on a worker.    INTERRUPTING–being interrupted.    RUNNING–running on a worker.    SUSPENDED–the task is suspended.    CANCELED–the task has been canceled.    FAILED–the task has failed.    SUCCEEDED–the task has succeeded.
         public let taskRunStatus: TaskRunStatus?
         /// The number of tasks running on the job.
@@ -6289,7 +6303,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -6304,6 +6318,7 @@ extension Deadline {
             self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -6325,6 +6340,7 @@ extension Deadline {
             case sourceJobId = "sourceJobId"
             case startedAt = "startedAt"
             case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
             case updatedAt = "updatedAt"
@@ -9608,13 +9624,15 @@ extension Deadline {
         public let stepId: String?
         /// The task status to start with on the job.
         public let targetTaskRunStatus: StepTargetTaskRunStatus?
+        /// The total number of times tasks from the step failed and were retried.
+        public let taskFailureRetryCount: Int?
         /// The task run status for the job.    PENDING–pending and waiting for resources.    READY–ready to be processed.    ASSIGNED–assigned and will run next on a worker.    SCHEDULED–scheduled to be run on a worker.    INTERRUPTING–being interrupted.    RUNNING–running on a worker.    SUSPENDED–the task is suspended.    CANCELED–the task has been canceled.    FAILED–the task has failed.    SUCCEEDED–the task has succeeded.
         public let taskRunStatus: TaskRunStatus?
         /// The number of tasks running on the job.
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
 
         @inlinable
-        public init(createdAt: Date? = nil, endedAt: Date? = nil, jobId: String? = nil, lifecycleStatus: StepLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, name: String? = nil, parameterSpace: ParameterSpace? = nil, queueId: String? = nil, startedAt: Date? = nil, stepId: String? = nil, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
+        public init(createdAt: Date? = nil, endedAt: Date? = nil, jobId: String? = nil, lifecycleStatus: StepLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, name: String? = nil, parameterSpace: ParameterSpace? = nil, queueId: String? = nil, startedAt: Date? = nil, stepId: String? = nil, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
             self.createdAt = createdAt
             self.endedAt = endedAt
             self.jobId = jobId
@@ -9626,6 +9644,7 @@ extension Deadline {
             self.startedAt = startedAt
             self.stepId = stepId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
         }
@@ -9642,6 +9661,7 @@ extension Deadline {
             case startedAt = "startedAt"
             case stepId = "stepId"
             case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
         }
@@ -9671,6 +9691,8 @@ extension Deadline {
         public let stepId: String
         /// The task status to start with on the job.
         public let targetTaskRunStatus: StepTargetTaskRunStatus?
+        /// The total number of times tasks from the step failed and were retried.
+        public let taskFailureRetryCount: Int?
         /// The task run status for the job.    PENDING–pending and waiting for resources.    READY–ready to process.    ASSIGNED–assigned and will run next on a worker.    SCHEDULED–scheduled to run on a worker.    INTERRUPTING–being interrupted.    RUNNING–running on a worker.    SUSPENDED–the task is suspended.    CANCELED–the task has been canceled.    FAILED–the task has failed.    SUCCEEDED–the task has succeeded.
         public let taskRunStatus: TaskRunStatus
         /// The number of tasks running on the job.
@@ -9682,7 +9704,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, dependencyCounts: DependencyCounts? = nil, endedAt: Date? = nil, lifecycleStatus: StepLifecycleStatus, lifecycleStatusMessage: String? = nil, name: String, startedAt: Date? = nil, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus, taskRunStatusCounts: [TaskRunStatus: Int], updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, dependencyCounts: DependencyCounts? = nil, endedAt: Date? = nil, lifecycleStatus: StepLifecycleStatus, lifecycleStatusMessage: String? = nil, name: String, startedAt: Date? = nil, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus, taskRunStatusCounts: [TaskRunStatus: Int], updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.dependencyCounts = dependencyCounts
@@ -9693,6 +9715,7 @@ extension Deadline {
             self.startedAt = startedAt
             self.stepId = stepId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -9710,6 +9733,7 @@ extension Deadline {
             case startedAt = "startedAt"
             case stepId = "stepId"
             case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
             case updatedAt = "updatedAt"

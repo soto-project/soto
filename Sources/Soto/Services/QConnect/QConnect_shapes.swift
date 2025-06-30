@@ -1533,7 +1533,7 @@ extension QConnect {
         public let associationConfigurations: [AssociationConfiguration]?
         /// The AI Prompt identifier for the Intent Labeling prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public let intentLabelingGenerationAIPromptId: String?
-        /// The locale to which specifies the language and region settings that determine the response language for QueryAssistant.  Changing this locale to anything other than en_US, en_GB, or en_AU will turn off recommendations triggered by contact transcripts for agent assistance, as this feature is not supported in multiple languages.
+        /// The locale to which specifies the language and region settings that determine the response language for QueryAssistant.  For more information on supported locales, see Language support for Amazon Q in Connect.
         public let locale: String?
         /// The AI Prompt identifier for the Query Reformulation prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public let queryReformulationAIPromptId: String?
@@ -1571,9 +1571,9 @@ extension QConnect {
     }
 
     public struct AppIntegrationsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.   For  Salesforce, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.    For  ServiceNow, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.    For  Zendesk, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.    For SharePoint, your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.    For Amazon S3, the ObjectConfiguration and FileConfiguration of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the following format: s3://your_s3_bucket_name.  The bucket policy of the corresponding S3 bucket must allow the Amazon Web Services principal app-integrations.amazonaws.com to perform s3:ListBucket, s3:GetObject, and s3:GetBucketLocation against the bucket.
+        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.    For  Salesforce, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.     For  ServiceNow, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.     For  Zendesk, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.     For SharePoint, your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.     For Amazon S3, the ObjectConfiguration and FileConfiguration of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the following format: s3://your_s3_bucket_name.  The bucket policy of the corresponding S3 bucket must allow the Amazon Web Services principal app-integrations.amazonaws.com to perform s3:ListBucket, s3:GetObject, and s3:GetBucketLocation against the bucket.
         public let appIntegrationArn: String
-        /// The fields from the source that are made available to your agents in Amazon Q in Connect. Optional if ObjectConfiguration is included in the provided DataIntegration.    For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    For  Zendesk, you must include at least id, title, updated_at, and draft.    Make sure to include additional fields. These fields are indexed and used to source recommendations.
+        /// The fields from the source that are made available to your agents in Amazon Q in Connect. Optional if ObjectConfiguration is included in the provided DataIntegration.     For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    For  Zendesk, you must include at least id, title, updated_at, and draft.    Make sure to include additional fields. These fields are indexed and used to source recommendations.
         public let objectFields: [String]?
 
         @inlinable
@@ -2036,8 +2036,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The URI of the content.
         public let linkOutUri: String?
-        /// A key/value map to store attributes without affecting tagging or recommendations.
-        /// For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
+        /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
         public let metadata: [String: String]
         /// The name of the content.
         public let name: String
@@ -2153,8 +2152,7 @@ extension QConnect {
         public let knowledgeBaseArn: String
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         public let knowledgeBaseId: String
-        /// A key/value map to store attributes without affecting tagging or recommendations.
-        /// For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
+        /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
         public let metadata: [String: String]
         /// The name of the content.
         public let name: String
@@ -2794,7 +2792,7 @@ extension QConnect {
         public let description: String?
         /// The name of the assistant.
         public let name: String
-        /// The configuration information for the customer managed key used for encryption.  The customer managed key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal.  For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance.
+        /// The configuration information for the customer managed key used for encryption.  The customer managed key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal.  For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -2931,8 +2929,7 @@ extension QConnect {
         public let clientToken: String?
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
-        /// A key/value map to store attributes without affecting tagging or recommendations.
-        /// For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
+        /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
         public let metadata: [String: String]?
         /// The name of the content. Each piece of content in a knowledge base must have a unique name. You can retrieve a piece of content using only its knowledge base and its name with the SearchContent API.
         public let name: String
@@ -6377,8 +6374,7 @@ extension QConnect {
         public let assistantId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6428,8 +6424,7 @@ extension QConnect {
     public struct ListAssistantsRequest: AWSEncodableShape {
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6480,8 +6475,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6536,8 +6530,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6589,8 +6582,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6622,8 +6614,7 @@ extension QConnect {
     public struct ListImportJobsResponse: AWSDecodableShape {
         /// Summary information about the import jobs.
         public let importJobSummaries: [ImportJobSummary]
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6641,8 +6632,7 @@ extension QConnect {
     public struct ListKnowledgeBasesRequest: AWSEncodableShape {
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6693,8 +6683,7 @@ extension QConnect {
         public let maxResults: Int?
         /// The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
         public let messageTemplateId: String
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6749,8 +6738,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6859,8 +6847,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -6890,8 +6877,7 @@ extension QConnect {
     }
 
     public struct ListQuickResponsesResponse: AWSDecodableShape {
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// Summary information about the quick responses.
         public let quickResponseSummaries: [QuickResponseSummary]
@@ -6951,7 +6937,7 @@ extension QConnect {
         public let answerGenerationAIPromptId: String?
         /// The association configurations for overriding behavior on this AI Agent.
         public let associationConfigurations: [AssociationConfiguration]?
-        /// The locale to which specifies the language and region settings that determine the response language for QueryAssistant.
+        /// The locale to which specifies the language and region settings that determine the response language for QueryAssistant.  For more information on supported locales, see Language support for Amazon Q in Connect.
         public let locale: String?
 
         @inlinable
@@ -7676,8 +7662,7 @@ extension QConnect {
         public let assistantId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text.
         public let overrideKnowledgeBaseSearchType: KnowledgeBaseSearchType?
@@ -8532,8 +8517,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The search expression to filter results.
         public let searchExpression: SearchExpression
@@ -8612,8 +8596,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The search expression for querying the message template.
         public let searchExpression: MessageTemplateSearchExpression
@@ -8674,8 +8657,7 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The search expression for querying the quick response.
         public let searchExpression: QuickResponseSearchExpression
@@ -8715,8 +8697,7 @@ extension QConnect {
     }
 
     public struct SearchQuickResponsesResponse: AWSDecodableShape {
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The results of the quick response search.
         public let results: [QuickResponseSearchResultData]
@@ -8738,8 +8719,7 @@ extension QConnect {
         public let assistantId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The search expression to filter results.
         public let searchExpression: SearchExpression
@@ -10617,6 +10597,7 @@ public struct QConnectErrorType: AWSErrorType {
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case tooManyTagsException = "TooManyTagsException"
+        case unauthorizedException = "UnauthorizedException"
         case validationException = "ValidationException"
     }
 
@@ -10654,6 +10635,8 @@ public struct QConnectErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Amazon Q in Connect throws this exception if you have too many tags in your tag set.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// You do not have permission to perform this action.
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The input fails to satisfy the constraints specified by a service.
     public static var validationException: Self { .init(.validationException) }
 }

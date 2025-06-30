@@ -429,7 +429,7 @@ public struct QConnect: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: The description of the assistant.
     ///   - name: The name of the assistant.
-    ///   - serverSideEncryptionConfiguration: The configuration information for the customer managed key used for encryption.  The customer managed key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal.  For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance.
+    ///   - serverSideEncryptionConfiguration: The configuration information for the customer managed key used for encryption.  The customer managed key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal.  For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - type: The type of assistant.
     ///   - logger: Logger use during operation
@@ -513,7 +513,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - knowledgeBaseId: The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
-    ///   - metadata: A key/value map to store attributes without affecting tagging or recommendations.
+    ///   - metadata: A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
     ///   - name: The name of the content. Each piece of content in a knowledge base must have a unique name. You can retrieve a piece of content using only its knowledge base and its name with the SearchContent API.
     ///   - overrideLinkOutUri: The URI you want to use for the article. If the knowledge base has a templateUri, setting this argument overrides it for this piece of content.
     ///   - tags: The tags used to organize, track, or control access for this resource.
@@ -2150,7 +2150,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAssistantAssociations(
@@ -2184,7 +2184,7 @@ public struct QConnect: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAssistants(
@@ -2218,7 +2218,7 @@ public struct QConnect: AWSService {
     ///   - contentId: The identifier of the content.
     ///   - knowledgeBaseId: The identifier of the knowledge base.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listContentAssociations(
@@ -2255,7 +2255,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - knowledgeBaseId: The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listContents(
@@ -2290,7 +2290,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listImportJobs(
@@ -2324,7 +2324,7 @@ public struct QConnect: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listKnowledgeBases(
@@ -2358,7 +2358,7 @@ public struct QConnect: AWSService {
     ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listMessageTemplateVersions(
@@ -2395,7 +2395,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listMessageTemplates(
@@ -2468,7 +2468,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listQuickResponses(
@@ -2606,7 +2606,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - overrideKnowledgeBaseSearchType: The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text.
     ///   - queryCondition: Information about how to query content.
     ///   - queryInputData: Information about the query.
@@ -2753,7 +2753,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - knowledgeBaseId: The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchExpression: The search expression to filter results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2791,7 +2791,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchExpression: The search expression for querying the message template.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2830,7 +2830,7 @@ public struct QConnect: AWSService {
     ///   - attributes: The user-defined Amazon Connect contact attributes to be resolved when search results are returned.
     ///   - knowledgeBaseId: The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchExpression: The search expression for querying the quick response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2870,7 +2870,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchExpression: The search expression to filter results.
     ///   - logger: Logger use during operation
     @inlinable

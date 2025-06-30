@@ -4993,6 +4993,7 @@ public struct EC2: AWSService {
     ///   - localGatewayId: The ID of the local gateway.
     ///   - natGatewayId: [IPv4 traffic only] The ID of a NAT gateway.
     ///   - networkInterfaceId: The ID of a network interface.
+    ///   - odbNetworkArn: The Amazon Resource Name (ARN) of the ODB network.
     ///   - routeTableId: The ID of the route table for the route.
     ///   - transitGatewayId: The ID of a transit gateway.
     ///   - vpcEndpointId: The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
@@ -5012,6 +5013,7 @@ public struct EC2: AWSService {
         localGatewayId: String? = nil,
         natGatewayId: String? = nil,
         networkInterfaceId: String? = nil,
+        odbNetworkArn: String? = nil,
         routeTableId: String? = nil,
         transitGatewayId: String? = nil,
         vpcEndpointId: String? = nil,
@@ -5031,6 +5033,7 @@ public struct EC2: AWSService {
             localGatewayId: localGatewayId, 
             natGatewayId: natGatewayId, 
             networkInterfaceId: networkInterfaceId, 
+            odbNetworkArn: odbNetworkArn, 
             routeTableId: routeTableId, 
             transitGatewayId: transitGatewayId, 
             vpcEndpointId: vpcEndpointId, 
@@ -9793,7 +9796,7 @@ public struct EC2: AWSService {
     /// Deprovision a CIDR from a public IPv4 pool.
     ///
     /// Parameters:
-    ///   - cidr: The CIDR you want to deprovision from the pool. Enter the CIDR you want to deprovision with a netmask of /32. You must rerun this command for each IP address in the CIDR range. If your CIDR is a /24, you will have to run this command to deprovision each of the 256 IP addresses in the /24 CIDR.
+    ///   - cidr: The CIDR you want to deprovision from the pool.
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - poolId: The ID of the pool that you want to deprovision the CIDR from.
     ///   - logger: Logger use during operation
@@ -26022,6 +26025,7 @@ public struct EC2: AWSService {
     ///   - localTarget: Specifies whether to reset the local route to its default target (local).
     ///   - natGatewayId: [IPv4 traffic only] The ID of a NAT gateway.
     ///   - networkInterfaceId: The ID of a network interface.
+    ///   - odbNetworkArn: The Amazon Resource Name (ARN) of the ODB network.
     ///   - routeTableId: The ID of the route table.
     ///   - transitGatewayId: The ID of a transit gateway.
     ///   - vpcEndpointId: The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
@@ -26042,6 +26046,7 @@ public struct EC2: AWSService {
         localTarget: Bool? = nil,
         natGatewayId: String? = nil,
         networkInterfaceId: String? = nil,
+        odbNetworkArn: String? = nil,
         routeTableId: String? = nil,
         transitGatewayId: String? = nil,
         vpcEndpointId: String? = nil,
@@ -26062,6 +26067,7 @@ public struct EC2: AWSService {
             localTarget: localTarget, 
             natGatewayId: natGatewayId, 
             networkInterfaceId: networkInterfaceId, 
+            odbNetworkArn: odbNetworkArn, 
             routeTableId: routeTableId, 
             transitGatewayId: transitGatewayId, 
             vpcEndpointId: vpcEndpointId, 

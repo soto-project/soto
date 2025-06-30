@@ -233,6 +233,7 @@ let package = Package(
         .library(name: "SotoKendra", targets: ["SotoKendra"]),
         .library(name: "SotoKendraRanking", targets: ["SotoKendraRanking"]),
         .library(name: "SotoKeyspaces", targets: ["SotoKeyspaces"]),
+        .library(name: "SotoKeyspacesStreams", targets: ["SotoKeyspacesStreams"]),
         .library(name: "SotoKinesis", targets: ["SotoKinesis"]),
         .library(name: "SotoKinesisAnalytics", targets: ["SotoKinesisAnalytics"]),
         .library(name: "SotoKinesisAnalyticsV2", targets: ["SotoKinesisAnalyticsV2"]),
@@ -1669,6 +1670,12 @@ let package = Package(
             name: "SotoKeyspaces",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Keyspaces",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoKeyspacesStreams",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/KeyspacesStreams",
             swiftSettings: swiftSettings
         ),
         .target(
