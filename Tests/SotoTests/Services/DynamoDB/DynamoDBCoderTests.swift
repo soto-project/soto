@@ -133,6 +133,26 @@ final class DynamoDBCoderTests: XCTestCase {
         XCTAssertNoThrow(try self.testDecodeEncode(["answer": .s("no")], type: EnumTest.self))
     }
 
+    func testECustomDateDecode() throws {
+        struct DateTest: Codable, Equatable {
+            let date: Date
+        }
+        let decoder = DynamoDBDecoder()
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let dateValue = try container.decode(Double.self)
+            return Date(timeIntervalSinceReferenceDate: dateValue)
+        }
+        let encoder = DynamoDBEncoder()
+        encoder.dateEncodingStrategy = .custom { date, encoder in
+            .n(date.timeIntervalSinceReferenceDate.description)
+        }
+        let test = DateTest(date: .now)
+        let data = try encoder.encode(test)
+        let result = try decoder.decode(DateTest.self, from: data)
+        XCTAssertEqual(test.date.timeIntervalSince1970, result.date.timeIntervalSince1970, accuracy: 1.0)
+    }
+
     func testNestedKDC() {
         struct NestedKDCTest: Codable, Equatable {
             let firstName: String

@@ -721,6 +721,8 @@ extension _DynamoDBDecoder {
             }
             return date
         case .custom(let closure):
+            self.storage.pushAttribute(attribute)
+            defer { self.storage.popAttribute() }
             return try closure(self)
         }
     }
