@@ -141,6 +141,12 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "DUALSTACK"
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MapType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case directory = "DIRECTORY"
         case file = "FILE"
@@ -398,7 +404,7 @@ extension Transfer {
     public struct CreateAccessRequest: AWSEncodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
@@ -711,6 +717,8 @@ extension Transfer {
         public let identityProviderDetails: IdentityProviderDetails?
         /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
+        /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4.  The IpAddressType parameter has the following limitations:   It cannot be changed while the server is online. You must stop the server before modifying this parameter.   It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.     When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the EndpointDetails for the server.
+        public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
@@ -733,7 +741,7 @@ extension Transfer {
         public let workflowDetails: WorkflowDetails?
 
         @inlinable
-        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, ipAddressType: IpAddressType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.domain = domain
             self.endpointDetails = endpointDetails
@@ -741,6 +749,7 @@ extension Transfer {
             self.hostKey = hostKey
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderType = identityProviderType
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
             self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
@@ -791,6 +800,7 @@ extension Transfer {
             case hostKey = "HostKey"
             case identityProviderDetails = "IdentityProviderDetails"
             case identityProviderType = "IdentityProviderType"
+            case ipAddressType = "IpAddressType"
             case loggingRole = "LoggingRole"
             case postAuthenticationLoginBanner = "PostAuthenticationLoginBanner"
             case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
@@ -819,7 +829,7 @@ extension Transfer {
     }
 
     public struct CreateUserRequest: AWSEncodableShape {
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the value the user should see for their home directory when they log in. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
@@ -1944,7 +1954,7 @@ extension Transfer {
     public struct DescribedAccess: AWSDecodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock down the associated access to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
@@ -2356,6 +2366,8 @@ extension Transfer {
         public let identityProviderDetails: IdentityProviderDetails?
         /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
+        /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4.  The IpAddressType parameter has the following limitations:   It cannot be changed while the server is online. You must stop the server before modifying this parameter.   It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.     When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the EndpointDetails for the server.
+        public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
@@ -2384,7 +2396,7 @@ extension Transfer {
         public let workflowDetails: WorkflowDetails?
 
         @inlinable
-        public init(arn: String, as2ServiceManagedEgressIpAddresses: [String]? = nil, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(arn: String, as2ServiceManagedEgressIpAddresses: [String]? = nil, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, ipAddressType: IpAddressType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.arn = arn
             self.as2ServiceManagedEgressIpAddresses = as2ServiceManagedEgressIpAddresses
             self.certificate = certificate
@@ -2394,6 +2406,7 @@ extension Transfer {
             self.hostKeyFingerprint = hostKeyFingerprint
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderType = identityProviderType
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
             self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
@@ -2419,6 +2432,7 @@ extension Transfer {
             case hostKeyFingerprint = "HostKeyFingerprint"
             case identityProviderDetails = "IdentityProviderDetails"
             case identityProviderType = "IdentityProviderType"
+            case ipAddressType = "IpAddressType"
             case loggingRole = "LoggingRole"
             case postAuthenticationLoginBanner = "PostAuthenticationLoginBanner"
             case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
@@ -2438,7 +2452,7 @@ extension Transfer {
     public struct DescribedUser: AWSDecodableShape {
         /// Specifies the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         public let arn: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
@@ -2618,7 +2632,7 @@ extension Transfer {
     }
 
     public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
-        /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint. An address allocation ID corresponds to the allocation ID of an Elastic IP address. This value can be retrieved from the allocationId field from the Amazon EC2 Address data type. One way to retrieve this value is by calling the EC2 DescribeAddresses API. This parameter is optional. Set this parameter if you want to make your VPC endpoint public-facing. For details, see Create an internet-facing endpoint for your server.  This property can only be set as follows:    EndpointType must be set to VPC    The Transfer Family server must be offline.   You cannot set this parameter for Transfer Family servers that use the FTP protocol.   The server must already have SubnetIds populated (SubnetIds and AddressAllocationIds cannot be updated simultaneously).    AddressAllocationIds can't contain duplicates, and must be equal in length to SubnetIds. For example, if you have three subnet IDs, you must also specify three address allocation IDs.   Call the UpdateServer API to set or change this parameter.
+        /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint. An address allocation ID corresponds to the allocation ID of an Elastic IP address. This value can be retrieved from the allocationId field from the Amazon EC2 Address data type. One way to retrieve this value is by calling the EC2 DescribeAddresses API. This parameter is optional. Set this parameter if you want to make your VPC endpoint public-facing. For details, see Create an internet-facing endpoint for your server.  This property can only be set as follows:    EndpointType must be set to VPC    The Transfer Family server must be offline.   You cannot set this parameter for Transfer Family servers that use the FTP protocol.   The server must already have SubnetIds populated (SubnetIds and AddressAllocationIds cannot be updated simultaneously).    AddressAllocationIds can't contain duplicates, and must be equal in length to SubnetIds. For example, if you have three subnet IDs, you must also specify three address allocation IDs.   Call the UpdateServer API to set or change this parameter.   You can't set address allocation IDs for servers that have an IpAddressType set to DUALSTACK You can only set this property if IpAddressType is set to IPV4.
         public let addressAllocationIds: [String]?
         /// A list of security groups IDs that are available to attach to your server's endpoint.  This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the UpdateServer API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 ModifyVpcEndpoint API.
         public let securityGroupIds: [String]?
@@ -3730,7 +3744,7 @@ extension Transfer {
     public struct ListedAccess: AWSDecodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
@@ -3986,7 +4000,7 @@ extension Transfer {
     public struct ListedUser: AWSDecodableShape {
         /// Provides the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         public let arn: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public let homeDirectoryType: HomeDirectoryType?
@@ -4819,7 +4833,7 @@ extension Transfer {
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, max: 32)
-            try self.validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
+            try self.validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^[0-9a-fA-F\\.\\:]+$")
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -4909,7 +4923,7 @@ extension Transfer {
     public struct UpdateAccessRequest: AWSEncodableShape {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public let externalId: String
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
@@ -5301,6 +5315,8 @@ extension Transfer {
         public let hostKey: String?
         /// An array containing all of the information required to call a customer's authentication API method.
         public let identityProviderDetails: IdentityProviderDetails?
+        /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4.  The IpAddressType parameter has the following limitations:   It cannot be changed while the server is online. You must stop the server before modifying this parameter.   It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.     When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the EndpointDetails for the server.
+        public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
@@ -5323,12 +5339,13 @@ extension Transfer {
         public let workflowDetails: WorkflowDetails?
 
         @inlinable
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String, structuredLogDestinations: [String]? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, ipAddressType: IpAddressType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String, structuredLogDestinations: [String]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
             self.hostKey = hostKey
             self.identityProviderDetails = identityProviderDetails
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
             self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
@@ -5375,6 +5392,7 @@ extension Transfer {
             case endpointType = "EndpointType"
             case hostKey = "HostKey"
             case identityProviderDetails = "IdentityProviderDetails"
+            case ipAddressType = "IpAddressType"
             case loggingRole = "LoggingRole"
             case postAuthenticationLoginBanner = "PostAuthenticationLoginBanner"
             case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
@@ -5403,7 +5421,7 @@ extension Transfer {
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?

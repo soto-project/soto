@@ -408,7 +408,7 @@ extension NetworkFlowMonitor {
         public let monitorName: String
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
         public let queryId: String
 
         @inlinable
@@ -464,7 +464,7 @@ extension NetworkFlowMonitor {
         public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
         public let queryId: String
         /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
         public let scopeId: String
@@ -516,7 +516,7 @@ extension NetworkFlowMonitor {
         public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
         public let queryId: String
         /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
         public let scopeId: String
@@ -1084,7 +1084,7 @@ extension NetworkFlowMonitor {
         public let endTime: Date
         /// The maximum number of top contributors to return.
         public let limit: Int?
-        /// The metric that you want to query top contributors for. That is, you can specify this metric to  		return the top contributor network flows, for this type of metric, for a monitor and (optionally) within  		a specific category, such as network flows between Availability Zones.
+        /// The metric that you want to query top contributors for. That is, you can specify a metric  		with this call and return the top contributor network flows, for that type of metric, for a monitor  		and (optionally) within a specific category, such as network flows between Availability Zones.
         public let metricName: MonitorMetric
         /// The name of the monitor.
         public let monitorName: String
@@ -1262,7 +1262,7 @@ extension NetworkFlowMonitor {
     public struct StopQueryMonitorTopContributorsInput: AWSEncodableShape {
         /// The name of the monitor.
         public let monitorName: String
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
         public let queryId: String
 
         @inlinable
@@ -1292,7 +1292,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StopQueryWorkloadInsightsTopContributorsDataInput: AWSEncodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
         public let queryId: String
         /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
         public let scopeId: String
@@ -1318,7 +1318,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StopQueryWorkloadInsightsTopContributorsInput: AWSEncodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
         public let queryId: String
         /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
         public let scopeId: String

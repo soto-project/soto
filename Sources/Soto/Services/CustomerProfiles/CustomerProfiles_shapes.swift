@@ -433,6 +433,12 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum StatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalFailure = "INTERNAL_FAILURE"
+        case validationFailure = "VALIDATION_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StringDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case beginsWith = "BEGINS_WITH"
         case contains = "CONTAINS"
@@ -462,6 +468,16 @@ extension CustomerProfiles {
 
     public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case created = "CREATED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case partiallySucceeded = "PARTIALLY_SUCCEEDED"
+        case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -2512,6 +2528,77 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case snapshotId = "SnapshotId"
+        }
+    }
+
+    public struct CreateUploadJobRequest: AWSEncodableShape {
+        /// The expiry duration for the profiles ingested with the job. If not provided, the system default of 2 weeks is used.
+        public let dataExpiry: Int?
+        /// The unique name of the upload job. Could be a file name to identify the upload job.
+        public let displayName: String
+        /// The unique name of the domain. Domain should be exists for the upload job to be created.
+        public let domainName: String
+        /// The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field.
+        public let fields: [String: ObjectTypeField]
+        /// The unique key columns for de-duping the profiles used to map data to the profile.
+        public let uniqueKey: String
+
+        @inlinable
+        public init(dataExpiry: Int? = nil, displayName: String, domainName: String, fields: [String: ObjectTypeField], uniqueKey: String) {
+            self.dataExpiry = dataExpiry
+            self.displayName = displayName
+            self.domainName = domainName
+            self.fields = fields
+            self.uniqueKey = uniqueKey
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataExpiry, forKey: .dataExpiry)
+            try container.encode(self.displayName, forKey: .displayName)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.fields, forKey: .fields)
+            try container.encode(self.uniqueKey, forKey: .uniqueKey)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataExpiry, name: "dataExpiry", parent: name, max: 1098)
+            try self.validate(self.dataExpiry, name: "dataExpiry", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.fields.forEach {
+                try validate($0.key, name: "fields.key", parent: name, max: 64)
+                try validate($0.key, name: "fields.key", parent: name, min: 1)
+                try validate($0.key, name: "fields.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+                try $0.value.validate(name: "\(name).fields[\"\($0.key)\"]")
+            }
+            try self.validate(self.uniqueKey, name: "uniqueKey", parent: name, max: 1000)
+            try self.validate(self.uniqueKey, name: "uniqueKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataExpiry = "DataExpiry"
+            case displayName = "DisplayName"
+            case fields = "Fields"
+            case uniqueKey = "UniqueKey"
+        }
+    }
+
+    public struct CreateUploadJobResponse: AWSDecodableShape {
+        /// The unique identifier for the created upload job.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
         }
     }
 
@@ -5014,6 +5101,138 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetUploadJobPathRequest: AWSEncodableShape {
+        /// The unique name of the domain containing the upload job.
+        public let domainName: String
+        /// The unique identifier of the upload job to retrieve the upload path for. This is generated from the CreateUploadJob API.
+        public let jobId: String
+
+        @inlinable
+        public init(domainName: String, jobId: String) {
+            self.domainName = domainName
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetUploadJobPathResponse: AWSDecodableShape {
+        /// The plaintext data key used to encrypt the upload file.  To persist to the pre-signed url, use the client token and MD5 client token as header. The required headers are as follows:    x-amz-server-side-encryption-customer-key: Client Token    x-amz-server-side-encryption-customer-key-MD5: MD5 Client Token    x-amz-server-side-encryption-customer-algorithm: AES256
+        public let clientToken: String?
+        /// The pre-signed S3 URL for uploading the CSV file associated with the upload job.
+        public let url: String
+        /// The expiry timestamp for the pre-signed URL, after which the URL will no longer be valid.
+        public let validUntil: Date?
+
+        @inlinable
+        public init(clientToken: String? = nil, url: String, validUntil: Date? = nil) {
+            self.clientToken = clientToken
+            self.url = url
+            self.validUntil = validUntil
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case url = "Url"
+            case validUntil = "ValidUntil"
+        }
+    }
+
+    public struct GetUploadJobRequest: AWSEncodableShape {
+        /// The unique name of the domain containing the upload job.
+        public let domainName: String
+        /// The unique identifier of the upload job to retrieve.
+        public let jobId: String
+
+        @inlinable
+        public init(domainName: String, jobId: String) {
+            self.domainName = domainName
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetUploadJobResponse: AWSDecodableShape {
+        /// The timestamp when the upload job was completed.
+        public let completedAt: Date?
+        /// The timestamp when the upload job was created.
+        public let createdAt: Date?
+        /// The expiry duration for the profiles ingested with the upload job.
+        public let dataExpiry: Int?
+        /// The unique name of the upload job. Could be a file name to identify the upload job.
+        public let displayName: String?
+        /// The mapping between CSV Columns and Profile Object attributes for the upload job.
+        public let fields: [String: ObjectTypeField]?
+        /// The unique identifier of the upload job.
+        public let jobId: String?
+        /// The summary of results for the upload job, including the number of updated, created, and failed records.
+        public let resultsSummary: ResultsSummary?
+        /// The status describing the status for the upload job. The following are Valid Values:     CREATED: The upload job has been created, but has not started processing yet.     IN_PROGRESS: The upload job is currently in progress, ingesting and processing the profile data.     PARTIALLY_SUCCEEDED: The upload job has successfully completed the ingestion and processing of all profile data.     SUCCEEDED: The upload job has successfully completed the ingestion and processing of all profile data.     FAILED: The upload job has failed to complete.     STOPPED: The upload job has been manually stopped or terminated before completion.
+        public let status: UploadJobStatus?
+        /// The reason for the current status of the upload job. Possible reasons:     VALIDATION_FAILURE: The upload job has encountered an error or issue and was unable to complete the profile data ingestion.     INTERNAL_FAILURE: Failure caused from service side
+        public let statusReason: StatusReason?
+        /// The unique key columns used for de-duping the keys in the upload job.
+        public let uniqueKey: String?
+
+        @inlinable
+        public init(completedAt: Date? = nil, createdAt: Date? = nil, dataExpiry: Int? = nil, displayName: String? = nil, fields: [String: ObjectTypeField]? = nil, jobId: String? = nil, resultsSummary: ResultsSummary? = nil, status: UploadJobStatus? = nil, statusReason: StatusReason? = nil, uniqueKey: String? = nil) {
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.dataExpiry = dataExpiry
+            self.displayName = displayName
+            self.fields = fields
+            self.jobId = jobId
+            self.resultsSummary = resultsSummary
+            self.status = status
+            self.statusReason = statusReason
+            self.uniqueKey = uniqueKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "CompletedAt"
+            case createdAt = "CreatedAt"
+            case dataExpiry = "DataExpiry"
+            case displayName = "DisplayName"
+            case fields = "Fields"
+            case jobId = "JobId"
+            case resultsSummary = "ResultsSummary"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case uniqueKey = "UniqueKey"
+        }
+    }
+
     public struct GetWorkflowRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -6485,6 +6704,60 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListUploadJobsRequest: AWSEncodableShape {
+        /// The unique name of the domain to list upload jobs for.
+        public let domainName: String
+        /// The maximum number of upload jobs to return per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous call to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListUploadJobsResponse: AWSDecodableShape {
+        /// The list of upload jobs for the specified domain.
+        public let items: [UploadJobItem]?
+        /// The pagination token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [UploadJobItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListWorkflowsItem: AWSDecodableShape {
         /// Creation timestamp for workflow.
         public let createdAt: Date
@@ -7574,7 +7847,7 @@ extension CustomerProfiles {
             try self.fields?.forEach {
                 try validate($0.key, name: "fields.key", parent: name, max: 64)
                 try validate($0.key, name: "fields.key", parent: name, min: 1)
-                try validate($0.key, name: "fields.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+                try validate($0.key, name: "fields.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
                 try $0.value.validate(name: "\(name).fields[\"\($0.key)\"]")
             }
             try self.keys?.forEach {
@@ -7757,6 +8030,28 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case progressPercentage = "ProgressPercentage"
+        }
+    }
+
+    public struct ResultsSummary: AWSDecodableShape {
+        /// The number of records that were newly created during the upload job.
+        public let createdRecords: Int64?
+        /// The number of records that failed to be processed during the upload job.
+        public let failedRecords: Int64?
+        /// The number of records that were updated during the upload job.
+        public let updatedRecords: Int64?
+
+        @inlinable
+        public init(createdRecords: Int64? = nil, failedRecords: Int64? = nil, updatedRecords: Int64? = nil) {
+            self.createdRecords = createdRecords
+            self.failedRecords = failedRecords
+            self.updatedRecords = updatedRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdRecords = "CreatedRecords"
+            case failedRecords = "FailedRecords"
+            case updatedRecords = "UpdatedRecords"
         }
     }
 
@@ -8273,6 +8568,76 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case segmentDefinitionName = "SegmentDefinitionName"
         }
+    }
+
+    public struct StartUploadJobRequest: AWSEncodableShape {
+        /// The unique name of the domain containing the upload job to start.
+        public let domainName: String
+        /// The unique identifier of the upload job to start.
+        public let jobId: String
+
+        @inlinable
+        public init(domainName: String, jobId: String) {
+            self.domainName = domainName
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartUploadJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopUploadJobRequest: AWSEncodableShape {
+        /// The unique name of the domain containing the upload job to stop.
+        public let domainName: String
+        /// The unique identifier of the upload job to stop.
+        public let jobId: String
+
+        @inlinable
+        public init(domainName: String, jobId: String) {
+            self.domainName = domainName
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopUploadJobResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -9172,6 +9537,44 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case profileId = "ProfileId"
+        }
+    }
+
+    public struct UploadJobItem: AWSDecodableShape {
+        /// The timestamp when the upload job was completed.
+        public let completedAt: Date?
+        /// The timestamp when the upload job was created.
+        public let createdAt: Date?
+        /// The expiry duration for the profiles ingested with the upload job.
+        public let dataExpiry: Int?
+        /// The name of the upload job.
+        public let displayName: String?
+        /// The unique identifier of the upload job.
+        public let jobId: String?
+        /// The current status of the upload job.
+        public let status: UploadJobStatus?
+        /// The reason for the current status of the upload job.
+        public let statusReason: StatusReason?
+
+        @inlinable
+        public init(completedAt: Date? = nil, createdAt: Date? = nil, dataExpiry: Int? = nil, displayName: String? = nil, jobId: String? = nil, status: UploadJobStatus? = nil, statusReason: StatusReason? = nil) {
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.dataExpiry = dataExpiry
+            self.displayName = displayName
+            self.jobId = jobId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "CompletedAt"
+            case createdAt = "CreatedAt"
+            case dataExpiry = "DataExpiry"
+            case displayName = "DisplayName"
+            case jobId = "JobId"
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 

@@ -85,7 +85,7 @@ extension MedicalImaging {
     public enum MetadataUpdates: AWSEncodableShape, Sendable {
         /// The object containing removableAttributes and updatableAttributes.
         case dicomUpdates(DICOMUpdates)
-        /// Specifies the previous image set version ID to revert the current image set back to.  You must provide either revertToVersionId or DICOMUpdates in your request. A  ValidationException error is thrown if both parameters are provided at the same time.
+        /// Specifies the previous image set version ID to revert the current image set back to.  You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time.
         case revertToVersionId(String)
 
         public func encode(to encoder: Encoder) throws {
@@ -128,6 +128,8 @@ extension MedicalImaging {
         case dicomStudyId(String)
         /// The DICOM study instance UID for search.
         case dicomStudyInstanceUID(String)
+        /// The primary image set flag provided for search.
+        case isPrimary(Bool)
         /// The timestamp input for search.
         case updatedAt(Date)
 
@@ -148,6 +150,8 @@ extension MedicalImaging {
                 try container.encode(value, forKey: .dicomStudyId)
             case .dicomStudyInstanceUID(let value):
                 try container.encode(value, forKey: .dicomStudyInstanceUID)
+            case .isPrimary(let value):
+                try container.encode(value, forKey: .isPrimary)
             case .updatedAt(let value):
                 try container.encode(value, forKey: .updatedAt)
             }
@@ -182,6 +186,7 @@ extension MedicalImaging {
             case dicomStudyDateAndTime = "DICOMStudyDateAndTime"
             case dicomStudyId = "DICOMStudyId"
             case dicomStudyInstanceUID = "DICOMStudyInstanceUID"
+            case isPrimary = "isPrimary"
             case updatedAt = "updatedAt"
         }
     }
@@ -277,16 +282,19 @@ extension MedicalImaging {
         public let copyImageSetInformation: CopyImageSetInformation
         /// The data store identifier.
         public let datastoreId: String
-        /// Setting this flag will force the CopyImageSet operation, even if Patient, Study, or Series level metadata are mismatched across the sourceImageSet and destinationImageSet.
+        /// Providing this parameter will force completion of the CopyImageSet operation, even if there are inconsistent Patient, Study, and/or Series level metadata elements between the sourceImageSet and destinationImageSet.
         public let force: Bool?
+        /// Providing this parameter will configure the CopyImageSet operation to promote the given image set to the primary DICOM hierarchy. If successful, a new primary image set ID will be returned as the destination image set.
+        public let promoteToPrimary: Bool?
         /// The source image set identifier.
         public let sourceImageSetId: String
 
         @inlinable
-        public init(copyImageSetInformation: CopyImageSetInformation, datastoreId: String, force: Bool? = nil, sourceImageSetId: String) {
+        public init(copyImageSetInformation: CopyImageSetInformation, datastoreId: String, force: Bool? = nil, promoteToPrimary: Bool? = nil, sourceImageSetId: String) {
             self.copyImageSetInformation = copyImageSetInformation
             self.datastoreId = datastoreId
             self.force = force
+            self.promoteToPrimary = promoteToPrimary
             self.sourceImageSetId = sourceImageSetId
         }
 
@@ -296,6 +304,7 @@ extension MedicalImaging {
             try container.encode(self.copyImageSetInformation)
             request.encodePath(self.datastoreId, key: "datastoreId")
             request.encodeQuery(self.force, key: "force")
+            request.encodeQuery(self.promoteToPrimary, key: "promoteToPrimary")
             request.encodePath(self.sourceImageSetId, key: "sourceImageSetId")
         }
 
@@ -945,7 +954,7 @@ extension MedicalImaging {
 
     public struct GetImageFrameResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        /// The format in which the image frame information is returned to the customer. Default is  application/octet-stream.
+        /// The format in which the image frame information is returned to the customer. Default is application/octet-stream.    If the stored transfer syntax is 1.2.840.10008.1.2.1, the returned contentType is application/octet-stream.     If the stored transfer syntax is 1.2.840.10008.1.2.4.50, the returned contentType is image/jpeg.     If the stored transfer syntax is 1.2.840.10008.1.2.4.91, the returned contentType is image/j2c.     If the stored transfer syntax is MPEG2, 1.2.840.10008.1.2.4.100, 1.2.840.10008.1.2.4.100.1, 1.2.840.10008.1.2.4.101, or 1.2.840.10008.1.2.4.101.1, the returned contentType is video/mpeg.     If the stored transfer syntax is MPEG-4 AVC/H.264, UID 1.2.840.10008.1.2.4.102, 1.2.840.10008.1.2.4.102.1, 1.2.840.10008.1.2.4.103, 1.2.840.10008.1.2.4.103.1, 1.2.840.10008.1.2.4.104, 1.2.840.10008.1.2.4.104.1, 1.2.840.10008.1.2.4.105, 1.2.840.10008.1.2.4.105.1, 1.2.840.10008.1.2.4.106, or 1.2.840.10008.1.2.4.106.1, the returned contentType is video/mp4.     If the stored transfer syntax is HEVC/H.265, UID 1.2.840.10008.1.2.4.107 or 1.2.840.10008.1.2.4.108, the returned contentType is video/H256.     If the stored transfer syntax is 1.2.840.10008.1.2.4.202 or if the stored transfer syntax is missing, the returned contentType is image/jph.     If the stored transfer syntax is 1.2.840.10008.1.2.4.203, the returned contentType is image/jphc.
         public let contentType: String?
         /// The blob containing the aggregated image frame information.
         public let imageFrameBlob: AWSHTTPBody
@@ -1072,6 +1081,8 @@ extension MedicalImaging {
         public let imageSetState: ImageSetState
         /// The image set workflow status.
         public let imageSetWorkflowStatus: ImageSetWorkflowStatus?
+        /// The flag to determine whether the image set is primary or not.
+        public let isPrimary: Bool?
         /// The error message thrown if an image set action fails.
         public let message: String?
         /// This object contains the details of any overrides used while creating a specific image set version. If an image set was copied or updated using the force flag, this object will contain the forced flag.
@@ -1082,7 +1093,7 @@ extension MedicalImaging {
         public let versionId: String
 
         @inlinable
-        public init(createdAt: Date? = nil, datastoreId: String, deletedAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
+        public init(createdAt: Date? = nil, datastoreId: String, deletedAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, isPrimary: Bool? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
             self.createdAt = createdAt
             self.datastoreId = datastoreId
             self.deletedAt = deletedAt
@@ -1090,6 +1101,7 @@ extension MedicalImaging {
             self.imageSetId = imageSetId
             self.imageSetState = imageSetState
             self.imageSetWorkflowStatus = imageSetWorkflowStatus
+            self.isPrimary = isPrimary
             self.message = message
             self.overrides = overrides
             self.updatedAt = updatedAt
@@ -1104,6 +1116,7 @@ extension MedicalImaging {
             case imageSetId = "imageSetId"
             case imageSetState = "imageSetState"
             case imageSetWorkflowStatus = "imageSetWorkflowStatus"
+            case isPrimary = "isPrimary"
             case message = "message"
             case overrides = "overrides"
             case updatedAt = "updatedAt"
@@ -1140,9 +1153,11 @@ extension MedicalImaging {
         public let imageSetState: ImageSetState
         /// The image set workflow status.
         public let imageSetWorkflowStatus: ImageSetWorkflowStatus?
+        /// The flag to determine whether the image set is primary or not.
+        public let isPrimary: Bool?
         /// The error message thrown if an image set action fails.
         public let message: String?
-        /// Contains details on overrides used when creating the returned version of an image set. For example, if forced exists, the forced flag was used when  creating the image set.
+        /// Contains details on overrides used when creating the returned version of an image set. For example, if forced exists, the forced flag was used when creating the image set.
         public let overrides: Overrides?
         /// The timestamp when the image set properties were updated.
         public let updatedAt: Date?
@@ -1150,12 +1165,13 @@ extension MedicalImaging {
         public let versionId: String
 
         @inlinable
-        public init(createdAt: Date? = nil, deletedAt: Date? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
+        public init(createdAt: Date? = nil, deletedAt: Date? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, isPrimary: Bool? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
             self.imageSetId = imageSetId
             self.imageSetState = imageSetState
             self.imageSetWorkflowStatus = imageSetWorkflowStatus
+            self.isPrimary = isPrimary
             self.message = message
             self.overrides = overrides
             self.updatedAt = updatedAt
@@ -1168,6 +1184,7 @@ extension MedicalImaging {
             case imageSetId = "imageSetId"
             case imageSetState = "imageSetState"
             case imageSetWorkflowStatus = "ImageSetWorkflowStatus"
+            case isPrimary = "isPrimary"
             case message = "message"
             case overrides = "overrides"
             case updatedAt = "updatedAt"
@@ -1176,22 +1193,25 @@ extension MedicalImaging {
     }
 
     public struct ImageSetsMetadataSummary: AWSDecodableShape {
-        /// The time an image set is created. Sample creation  date is provided in 1985-04-12T23:20:50.52Z format.
+        /// The time an image set is created. Sample creation date is provided in 1985-04-12T23:20:50.52Z format.
         public let createdAt: Date?
         /// The DICOM tags associated with the image set.
         public let dicomTags: DICOMTags?
         /// The image set identifier.
         public let imageSetId: String
+        /// The flag to determine whether the image set is primary or not.
+        public let isPrimary: Bool?
         /// The time an image set was last updated.
         public let updatedAt: Date?
         /// The image set version.
         public let version: Int?
 
         @inlinable
-        public init(createdAt: Date? = nil, dicomTags: DICOMTags? = nil, imageSetId: String, updatedAt: Date? = nil, version: Int? = nil) {
+        public init(createdAt: Date? = nil, dicomTags: DICOMTags? = nil, imageSetId: String, isPrimary: Bool? = nil, updatedAt: Date? = nil, version: Int? = nil) {
             self.createdAt = createdAt
             self.dicomTags = dicomTags
             self.imageSetId = imageSetId
+            self.isPrimary = isPrimary
             self.updatedAt = updatedAt
             self.version = version
         }
@@ -1200,6 +1220,7 @@ extension MedicalImaging {
             case createdAt = "createdAt"
             case dicomTags = "DICOMTags"
             case imageSetId = "imageSetId"
+            case isPrimary = "isPrimary"
             case updatedAt = "updatedAt"
             case version = "version"
         }
@@ -1422,7 +1443,7 @@ extension MedicalImaging {
     }
 
     public struct Overrides: AWSDecodableShape {
-        /// Setting this flag will force the CopyImageSet and UpdateImageSetMetadata operations, even if Patient, Study, or Series level metadata are mismatched.
+        /// Providing this parameter will force completion of the CopyImageSet and UpdateImageSetMetadata actions, even if metadata is inconsistent at the Patient, Study, and/or Series levels.
         public let forced: Bool?
 
         @inlinable

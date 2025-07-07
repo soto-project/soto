@@ -174,6 +174,7 @@ extension IAM {
 
     public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
+        case expired = "Expired"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
@@ -1119,24 +1120,30 @@ extension IAM {
     }
 
     public struct CreateServiceSpecificCredentialRequest: AWSEncodableShape {
+        /// The number of days until the service specific credential expires. This field is only valid for Bedrock API keys and must be a positive integer. When not specified, the credential will not expire.
+        public let credentialAgeDays: Int?
         /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
         public let serviceName: String
         /// The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
         @inlinable
-        public init(serviceName: String, userName: String) {
+        public init(credentialAgeDays: Int? = nil, serviceName: String, userName: String) {
+            self.credentialAgeDays = credentialAgeDays
             self.serviceName = serviceName
             self.userName = userName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.credentialAgeDays, name: "credentialAgeDays", parent: name, max: 36600)
+            try self.validate(self.credentialAgeDays, name: "credentialAgeDays", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, max: 64)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case credentialAgeDays = "CredentialAgeDays"
             case serviceName = "ServiceName"
             case userName = "UserName"
         }
@@ -5083,40 +5090,65 @@ extension IAM {
     }
 
     public struct ListServiceSpecificCredentialsRequest: AWSEncodableShape {
+        /// A flag indicating whether to list service specific credentials for all users. This parameter cannot be specified together with UserName. When true, returns all credentials associated with the specified service.
+        public let allUsers: Bool?
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker from the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true.
+        public let maxItems: Int?
         /// Filters the returned results to only those for the specified Amazon Web Services service. If not specified, then Amazon Web Services returns service-specific credentials for all services.
         public let serviceName: String?
         /// The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
         @inlinable
-        public init(serviceName: String? = nil, userName: String? = nil) {
+        public init(allUsers: Bool? = nil, marker: String? = nil, maxItems: Int? = nil, serviceName: String? = nil, userName: String? = nil) {
+            self.allUsers = allUsers
+            self.marker = marker
+            self.maxItems = maxItems
             self.serviceName = serviceName
             self.userName = userName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 320)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, max: 64)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allUsers = "AllUsers"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
             case serviceName = "ServiceName"
             case userName = "UserName"
         }
     }
 
     public struct ListServiceSpecificCredentialsResponse: AWSDecodableShape {
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items.
+        public let isTruncated: Bool?
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
         /// A list of structures that each contain details about a service-specific credential.
         @OptionalCustomCoding<StandardArrayCoder<ServiceSpecificCredentialMetadata>>
         public var serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]?
 
         @inlinable
-        public init(serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]? = nil) {
+        public init(isTruncated: Bool? = nil, marker: String? = nil, serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]? = nil) {
+            self.isTruncated = isTruncated
+            self.marker = marker
             self.serviceSpecificCredentials = serviceSpecificCredentials
         }
 
         private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case marker = "Marker"
             case serviceSpecificCredentials = "ServiceSpecificCredentials"
         }
     }
@@ -6502,22 +6534,31 @@ extension IAM {
     public struct ServiceSpecificCredential: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
         public let createDate: Date
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        public let expirationDate: Date?
+        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        public let serviceCredentialAlias: String?
+        /// For Bedrock API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
+        public let serviceCredentialSecret: String?
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
         /// The generated password for the service-specific credential.
-        public let servicePassword: String
+        public let servicePassword: String?
         /// The unique identifier for the service-specific credential.
         public let serviceSpecificCredentialId: String
         /// The generated user name for the service-specific credential. This value is generated by combining the IAM user's name combined with the ID number of the Amazon Web Services account, as in jane-at-123456789012, for example. This value cannot be configured by the user.
-        public let serviceUserName: String
+        public let serviceUserName: String?
         /// The status of the service-specific credential. Active means that the key is valid for API calls, while Inactive means it is not.
         public let status: StatusType
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
 
         @inlinable
-        public init(createDate: Date, serviceName: String, servicePassword: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
+        public init(createDate: Date, expirationDate: Date? = nil, serviceCredentialAlias: String? = nil, serviceCredentialSecret: String? = nil, serviceName: String, servicePassword: String? = nil, serviceSpecificCredentialId: String, serviceUserName: String? = nil, status: StatusType, userName: String) {
             self.createDate = createDate
+            self.expirationDate = expirationDate
+            self.serviceCredentialAlias = serviceCredentialAlias
+            self.serviceCredentialSecret = serviceCredentialSecret
             self.serviceName = serviceName
             self.servicePassword = servicePassword
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
@@ -6528,6 +6569,9 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case createDate = "CreateDate"
+            case expirationDate = "ExpirationDate"
+            case serviceCredentialAlias = "ServiceCredentialAlias"
+            case serviceCredentialSecret = "ServiceCredentialSecret"
             case serviceName = "ServiceName"
             case servicePassword = "ServicePassword"
             case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
@@ -6540,20 +6584,26 @@ extension IAM {
     public struct ServiceSpecificCredentialMetadata: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
         public let createDate: Date
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        public let expirationDate: Date?
+        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        public let serviceCredentialAlias: String?
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
         /// The unique identifier for the service-specific credential.
         public let serviceSpecificCredentialId: String
         /// The generated user name for the service-specific credential.
-        public let serviceUserName: String
+        public let serviceUserName: String?
         /// The status of the service-specific credential. Active means that the key is valid for API calls, while Inactive means it is not.
         public let status: StatusType
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
 
         @inlinable
-        public init(createDate: Date, serviceName: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
+        public init(createDate: Date, expirationDate: Date? = nil, serviceCredentialAlias: String? = nil, serviceName: String, serviceSpecificCredentialId: String, serviceUserName: String? = nil, status: StatusType, userName: String) {
             self.createDate = createDate
+            self.expirationDate = expirationDate
+            self.serviceCredentialAlias = serviceCredentialAlias
             self.serviceName = serviceName
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.serviceUserName = serviceUserName
@@ -6563,6 +6613,8 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case createDate = "CreateDate"
+            case expirationDate = "ExpirationDate"
+            case serviceCredentialAlias = "ServiceCredentialAlias"
             case serviceName = "ServiceName"
             case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
             case serviceUserName = "ServiceUserName"
@@ -6891,7 +6943,7 @@ extension IAM {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices.
         public let key: String
-        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.  Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
+        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.
         public let value: String
 
         @inlinable

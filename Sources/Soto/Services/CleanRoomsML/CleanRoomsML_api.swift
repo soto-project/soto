@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CleanRoomsML service.
 ///
-/// Welcome to the Amazon Web Services Clean Rooms ML API Reference. Amazon Web Services Clean Rooms ML provides a privacy-enhancing method for two parties to identify similar users in their data without the need to share their data with each other. The first party brings the training data to Clean Rooms so that they can create and configure an audience model (lookalike model) and associate it with a collaboration. The second party then brings their seed data to Clean Rooms  and generates an audience (lookalike segment) that resembles the training data. To learn more about Amazon Web Services Clean Rooms ML concepts, procedures, and best practices, see the Clean Rooms User Guide. To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the Clean Rooms SQL Reference.
+/// Welcome to the Amazon Web Services Clean Rooms ML API Reference. Amazon Web Services Clean Rooms ML provides a privacy-enhancing method for two parties to identify similar users in their data without the need to share their data with each other. The first party brings the training data to Clean Rooms so that they can create and configure an audience model (lookalike model) and associate it with a collaboration. The second party then brings their seed data to Clean Rooms and generates an audience (lookalike segment) that resembles the training data. To learn more about Amazon Web Services Clean Rooms ML concepts, procedures, and best practices, see the Clean Rooms User Guide. To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the Clean Rooms SQL Reference.
 public struct CleanRoomsML: AWSService {
     // MARK: Member variables
 
@@ -96,16 +96,19 @@ public struct CleanRoomsML: AWSService {
     /// Parameters:
     ///   - membershipIdentifier: The membership ID of the trained model job that you want to cancel.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model job that you want to cancel.
+    ///   - versionIdentifier: The version identifier of the trained model to cancel. This parameter allows you to specify which version of the trained model you want to cancel when multiple versions exist. If versionIdentifier is not specified, the base model will be cancelled.
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelTrainedModel(
         membershipIdentifier: String,
         trainedModelArn: String,
+        versionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = CancelTrainedModelRequest(
             membershipIdentifier: membershipIdentifier, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            versionIdentifier: versionIdentifier
         )
         return try await self.cancelTrainedModel(input, logger: logger)
     }
@@ -400,16 +403,18 @@ public struct CleanRoomsML: AWSService {
     ///
     /// Parameters:
     ///   - configuredModelAlgorithmAssociationArn: The associated configured model algorithm used to train this model.
-    ///   - dataChannels: Defines the data channels that are used as input for the trained model request.
+    ///   - dataChannels: Defines the data channels that are used as input for the trained model request. Limit: Maximum of 20 channels total (including both dataChannels and incrementalTrainingDataChannels).
     ///   - description: The description of the trained model.
     ///   - environment: The environment variables to set in the Docker container.
     ///   - hyperparameters: Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process.
+    ///   - incrementalTrainingDataChannels: Specifies the incremental training data channels for the trained model.  Incremental training allows you to create a new trained model with updates without retraining from scratch. You can specify up to one incremental training data channel that references a previously trained model and its version. Limit: Maximum of 20 channels total (including both incrementalTrainingDataChannels and dataChannels).
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data.
     ///   - membershipIdentifier: The membership ID of the member that is creating the trained model.
     ///   - name: The name of the trained model.
     ///   - resourceConfig: Information about the EC2 resources that are used to train this model.
     ///   - stoppingCondition: The criteria that is used to stop model training.
     ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    ///   - trainingInputMode: The input mode for accessing the training data. This parameter determines how the training data is made available to the training algorithm. Valid values are:    File - The training data is downloaded to the training instance and made available as files.    FastFile - The training data is streamed directly from Amazon S3 to the training algorithm, providing faster access for large datasets.    Pipe - The training data is streamed to the training algorithm using named pipes, which can improve performance for certain algorithms.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTrainedModel(
@@ -418,12 +423,14 @@ public struct CleanRoomsML: AWSService {
         description: String? = nil,
         environment: [String: String]? = nil,
         hyperparameters: [String: String]? = nil,
+        incrementalTrainingDataChannels: [IncrementalTrainingDataChannel]? = nil,
         kmsKeyArn: String? = nil,
         membershipIdentifier: String,
         name: String,
         resourceConfig: ResourceConfig,
         stoppingCondition: StoppingCondition? = nil,
         tags: [String: String]? = nil,
+        trainingInputMode: TrainingInputMode? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTrainedModelResponse {
         let input = CreateTrainedModelRequest(
@@ -432,12 +439,14 @@ public struct CleanRoomsML: AWSService {
             description: description, 
             environment: environment, 
             hyperparameters: hyperparameters, 
+            incrementalTrainingDataChannels: incrementalTrainingDataChannels, 
             kmsKeyArn: kmsKeyArn, 
             membershipIdentifier: membershipIdentifier, 
             name: name, 
             resourceConfig: resourceConfig, 
             stoppingCondition: stoppingCondition, 
-            tags: tags
+            tags: tags, 
+            trainingInputMode: trainingInputMode
         )
         return try await self.createTrainedModel(input, logger: logger)
     }
@@ -721,7 +730,7 @@ public struct CleanRoomsML: AWSService {
         return try await self.deleteMLInputChannelData(input, logger: logger)
     }
 
-    /// Deletes the output of a trained model.
+    /// Deletes the model artifacts stored by the service.
     @Sendable
     @inlinable
     public func deleteTrainedModelOutput(_ input: DeleteTrainedModelOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -734,21 +743,24 @@ public struct CleanRoomsML: AWSService {
             logger: logger
         )
     }
-    /// Deletes the output of a trained model.
+    /// Deletes the model artifacts stored by the service.
     ///
     /// Parameters:
     ///   - membershipIdentifier: The membership ID of the member that is deleting the trained model output.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model whose output you want to delete.
+    ///   - versionIdentifier: The version identifier of the trained model to delete. If not specified, the operation will delete the base version of the trained model. When specified, only the particular version will be deleted.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteTrainedModelOutput(
         membershipIdentifier: String,
         trainedModelArn: String,
+        versionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeleteTrainedModelOutputRequest(
             membershipIdentifier: membershipIdentifier, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            versionIdentifier: versionIdentifier
         )
         return try await self.deleteTrainedModelOutput(input, logger: logger)
     }
@@ -922,16 +934,19 @@ public struct CleanRoomsML: AWSService {
     /// Parameters:
     ///   - collaborationIdentifier: The collaboration ID that contains the trained model that you want to return information about.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that you want to return information about.
+    ///   - versionIdentifier: The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest version of the trained model.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCollaborationTrainedModel(
         collaborationIdentifier: String,
         trainedModelArn: String,
+        versionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCollaborationTrainedModelResponse {
         let input = GetCollaborationTrainedModelRequest(
             collaborationIdentifier: collaborationIdentifier, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            versionIdentifier: versionIdentifier
         )
         return try await self.getCollaborationTrainedModel(input, logger: logger)
     }
@@ -1134,16 +1149,19 @@ public struct CleanRoomsML: AWSService {
     /// Parameters:
     ///   - membershipIdentifier: The membership ID of the member that created the trained model that you are interested in.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that you are interested in.
+    ///   - versionIdentifier: The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest version of the trained model.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTrainedModel(
         membershipIdentifier: String,
         trainedModelArn: String,
+        versionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTrainedModelResponse {
         let input = GetTrainedModelRequest(
             membershipIdentifier: membershipIdentifier, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            versionIdentifier: versionIdentifier
         )
         return try await self.getTrainedModel(input, logger: logger)
     }
@@ -1404,6 +1422,7 @@ public struct CleanRoomsML: AWSService {
     ///   - maxResults: The maximum size of the results that is returned per call.
     ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the export jobs that you are interested in.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to filter export jobs by. When specified, only export jobs for this specific version of the trained model are returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCollaborationTrainedModelExportJobs(
@@ -1411,13 +1430,15 @@ public struct CleanRoomsML: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         trainedModelArn: String,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListCollaborationTrainedModelExportJobsResponse {
         let input = ListCollaborationTrainedModelExportJobsRequest(
             collaborationIdentifier: collaborationIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return try await self.listCollaborationTrainedModelExportJobs(input, logger: logger)
     }
@@ -1442,6 +1463,7 @@ public struct CleanRoomsML: AWSService {
     ///   - maxResults: The maximum size of the results that is returned per call.
     ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCollaborationTrainedModelInferenceJobs(
@@ -1449,13 +1471,15 @@ public struct CleanRoomsML: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         trainedModelArn: String? = nil,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListCollaborationTrainedModelInferenceJobsResponse {
         let input = ListCollaborationTrainedModelInferenceJobsRequest(
             collaborationIdentifier: collaborationIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return try await self.listCollaborationTrainedModelInferenceJobs(input, logger: logger)
     }
@@ -1678,6 +1702,7 @@ public struct CleanRoomsML: AWSService {
     ///   - membershipIdentifier: The membership
     ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of a trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTrainedModelInferenceJobs(
@@ -1685,15 +1710,58 @@ public struct CleanRoomsML: AWSService {
         membershipIdentifier: String,
         nextToken: String? = nil,
         trainedModelArn: String? = nil,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListTrainedModelInferenceJobsResponse {
         let input = ListTrainedModelInferenceJobsRequest(
             maxResults: maxResults, 
             membershipIdentifier: membershipIdentifier, 
             nextToken: nextToken, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return try await self.listTrainedModelInferenceJobs(input, logger: logger)
+    }
+
+    /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
+    @Sendable
+    @inlinable
+    public func listTrainedModelVersions(_ input: ListTrainedModelVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrainedModelVersionsResponse {
+        try await self.client.execute(
+            operation: "ListTrainedModelVersions", 
+            path: "/memberships/{membershipIdentifier}/trained-models/{trainedModelArn}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of trained model versions to return in a single page. The default value is 10, and the maximum value is 100.
+    ///   - membershipIdentifier: The membership identifier for the collaboration that contains the trained model.
+    ///   - nextToken: The pagination token from a previous ListTrainedModelVersions request. Use this token to retrieve the next page of results.
+    ///   - status: Filter the results to only include trained model versions with the specified status. Valid values include CREATE_PENDING, CREATE_IN_PROGRESS, ACTIVE, CREATE_FAILED, and others.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model for which to list versions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrainedModelVersions(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        status: TrainedModelStatus? = nil,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrainedModelVersionsResponse {
+        let input = ListTrainedModelVersionsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken, 
+            status: status, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.listTrainedModelVersions(input, logger: logger)
     }
 
     /// Returns a list of trained models.
@@ -1939,6 +2007,7 @@ public struct CleanRoomsML: AWSService {
     ///   - name: The name of the trained model export job.
     ///   - outputConfiguration: The output configuration information for the trained model export job.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that you want to export.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to export. This specifies which version of the trained model should be exported to the specified destination.
     ///   - logger: Logger use during operation
     @inlinable
     public func startTrainedModelExportJob(
@@ -1947,6 +2016,7 @@ public struct CleanRoomsML: AWSService {
         name: String,
         outputConfiguration: TrainedModelExportOutputConfiguration,
         trainedModelArn: String,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = StartTrainedModelExportJobRequest(
@@ -1954,7 +2024,8 @@ public struct CleanRoomsML: AWSService {
             membershipIdentifier: membershipIdentifier, 
             name: name, 
             outputConfiguration: outputConfiguration, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return try await self.startTrainedModelExportJob(input, logger: logger)
     }
@@ -1987,6 +2058,7 @@ public struct CleanRoomsML: AWSService {
     ///   - resourceConfig: Defines the resource configuration for the trained model inference job.
     ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that is used for this trained model inference job.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to use for inference. This specifies which version of the trained model should be used to generate predictions on the input data.
     ///   - logger: Logger use during operation
     @inlinable
     public func startTrainedModelInferenceJob(
@@ -2002,6 +2074,7 @@ public struct CleanRoomsML: AWSService {
         resourceConfig: InferenceResourceConfig,
         tags: [String: String]? = nil,
         trainedModelArn: String,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartTrainedModelInferenceJobResponse {
         let input = StartTrainedModelInferenceJobRequest(
@@ -2016,7 +2089,8 @@ public struct CleanRoomsML: AWSService {
             outputConfiguration: outputConfiguration, 
             resourceConfig: resourceConfig, 
             tags: tags, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return try await self.startTrainedModelInferenceJob(input, logger: logger)
     }
@@ -2355,18 +2429,21 @@ extension CleanRoomsML {
     ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained model export jobs that you are interested in.
     ///   - maxResults: The maximum size of the results that is returned per call.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the export jobs that you are interested in.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to filter export jobs by. When specified, only export jobs for this specific version of the trained model are returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCollaborationTrainedModelExportJobsPaginator(
         collaborationIdentifier: String,
         maxResults: Int? = nil,
         trainedModelArn: String,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelExportJobsRequest, ListCollaborationTrainedModelExportJobsResponse> {
         let input = ListCollaborationTrainedModelExportJobsRequest(
             collaborationIdentifier: collaborationIdentifier, 
             maxResults: maxResults, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return self.listCollaborationTrainedModelExportJobsPaginator(input, logger: logger)
     }
@@ -2395,18 +2472,21 @@ extension CleanRoomsML {
     ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained model inference jobs that you are interested in.
     ///   - maxResults: The maximum size of the results that is returned per call.
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCollaborationTrainedModelInferenceJobsPaginator(
         collaborationIdentifier: String,
         maxResults: Int? = nil,
         trainedModelArn: String? = nil,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelInferenceJobsRequest, ListCollaborationTrainedModelInferenceJobsResponse> {
         let input = ListCollaborationTrainedModelInferenceJobsRequest(
             collaborationIdentifier: collaborationIdentifier, 
             maxResults: maxResults, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return self.listCollaborationTrainedModelInferenceJobsPaginator(input, logger: logger)
     }
@@ -2614,20 +2694,66 @@ extension CleanRoomsML {
     ///   - maxResults: The maximum size of the results that is returned per call.
     ///   - membershipIdentifier: The membership
     ///   - trainedModelArn: The Amazon Resource Name (ARN) of a trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - trainedModelVersionIdentifier: The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTrainedModelInferenceJobsPaginator(
         maxResults: Int? = nil,
         membershipIdentifier: String,
         trainedModelArn: String? = nil,
+        trainedModelVersionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListTrainedModelInferenceJobsRequest, ListTrainedModelInferenceJobsResponse> {
         let input = ListTrainedModelInferenceJobsRequest(
             maxResults: maxResults, 
             membershipIdentifier: membershipIdentifier, 
-            trainedModelArn: trainedModelArn
+            trainedModelArn: trainedModelArn, 
+            trainedModelVersionIdentifier: trainedModelVersionIdentifier
         )
         return self.listTrainedModelInferenceJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTrainedModelVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainedModelVersionsPaginator(
+        _ input: ListTrainedModelVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrainedModelVersionsRequest, ListTrainedModelVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listTrainedModelVersions,
+            inputKey: \ListTrainedModelVersionsRequest.nextToken,
+            outputKey: \ListTrainedModelVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrainedModelVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of trained model versions to return in a single page. The default value is 10, and the maximum value is 100.
+    ///   - membershipIdentifier: The membership identifier for the collaboration that contains the trained model.
+    ///   - status: Filter the results to only include trained model versions with the specified status. Valid values include CREATE_PENDING, CREATE_IN_PROGRESS, ACTIVE, CREATE_FAILED, and others.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model for which to list versions.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainedModelVersionsPaginator(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        status: TrainedModelStatus? = nil,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrainedModelVersionsRequest, ListTrainedModelVersionsResponse> {
+        let input = ListTrainedModelVersionsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            status: status, 
+            trainedModelArn: trainedModelArn
+        )
+        return self.listTrainedModelVersionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listTrainedModels(_:logger:)``.
@@ -2764,7 +2890,8 @@ extension CleanRoomsML.ListCollaborationTrainedModelExportJobsRequest: AWSPagina
             collaborationIdentifier: self.collaborationIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
-            trainedModelArn: self.trainedModelArn
+            trainedModelArn: self.trainedModelArn,
+            trainedModelVersionIdentifier: self.trainedModelVersionIdentifier
         )
     }
 }
@@ -2776,7 +2903,8 @@ extension CleanRoomsML.ListCollaborationTrainedModelInferenceJobsRequest: AWSPag
             collaborationIdentifier: self.collaborationIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
-            trainedModelArn: self.trainedModelArn
+            trainedModelArn: self.trainedModelArn,
+            trainedModelVersionIdentifier: self.trainedModelVersionIdentifier
         )
     }
 }
@@ -2841,6 +2969,20 @@ extension CleanRoomsML.ListTrainedModelInferenceJobsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             membershipIdentifier: self.membershipIdentifier,
             nextToken: token,
+            trainedModelArn: self.trainedModelArn,
+            trainedModelVersionIdentifier: self.trainedModelVersionIdentifier
+        )
+    }
+}
+
+extension CleanRoomsML.ListTrainedModelVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListTrainedModelVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token,
+            status: self.status,
             trainedModelArn: self.trainedModelArn
         )
     }

@@ -282,13 +282,63 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum CitationLocation: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The character-level location within the document where the cited content is found.
+        case documentChar(DocumentCharLocation)
+        /// The chunk-level location within the document where the cited content is found, typically used for documents that have been segmented into logical chunks.
+        case documentChunk(DocumentChunkLocation)
+        /// The page-level location within the document where the cited content is found.
+        case documentPage(DocumentPageLocation)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .documentChar:
+                let value = try container.decode(DocumentCharLocation.self, forKey: .documentChar)
+                self = .documentChar(value)
+            case .documentChunk:
+                let value = try container.decode(DocumentChunkLocation.self, forKey: .documentChunk)
+                self = .documentChunk(value)
+            case .documentPage:
+                let value = try container.decode(DocumentPageLocation.self, forKey: .documentPage)
+                self = .documentPage(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .documentChar(let value):
+                try container.encode(value, forKey: .documentChar)
+            case .documentChunk(let value):
+                try container.encode(value, forKey: .documentChunk)
+            case .documentPage(let value):
+                try container.encode(value, forKey: .documentPage)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentChar = "documentChar"
+            case documentChunk = "documentChunk"
+            case documentPage = "documentPage"
+        }
+    }
+
     public enum ContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// CachePoint to include in the message.
         case cachePoint(CachePointBlock)
+        /// A content block that contains both generated text and associated citation information, providing traceability between the response and source documents.
+        case citationsContent(CitationsContentBlock)
         /// A document to include in the message.
         case document(DocumentBlock)
-        /// Contains the content to assess with the guardrail. If you don't specify guardContent in a call to the Converse API, the guardrail (if passed in the Converse API) assesses the entire message. For more information, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
-        ///
+        /// Contains the content to assess with the guardrail. If you don't specify guardContent in a call to the Converse API, the guardrail (if passed in the Converse API) assesses the entire message. For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
         case guardContent(GuardrailConverseContentBlock)
         /// Image to include in the message.   This field is only supported by Anthropic Claude 3 models.
         case image(ImageBlock)
@@ -316,6 +366,9 @@ extension BedrockRuntime {
             case .cachePoint:
                 let value = try container.decode(CachePointBlock.self, forKey: .cachePoint)
                 self = .cachePoint(value)
+            case .citationsContent:
+                let value = try container.decode(CitationsContentBlock.self, forKey: .citationsContent)
+                self = .citationsContent(value)
             case .document:
                 let value = try container.decode(DocumentBlock.self, forKey: .document)
                 self = .document(value)
@@ -348,6 +401,8 @@ extension BedrockRuntime {
             switch self {
             case .cachePoint(let value):
                 try container.encode(value, forKey: .cachePoint)
+            case .citationsContent(let value):
+                try container.encode(value, forKey: .citationsContent)
             case .document(let value):
                 try container.encode(value, forKey: .document)
             case .guardContent(let value):
@@ -386,6 +441,7 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case cachePoint = "cachePoint"
+            case citationsContent = "citationsContent"
             case document = "document"
             case guardContent = "guardContent"
             case image = "image"
@@ -398,6 +454,8 @@ extension BedrockRuntime {
     }
 
     public enum ContentBlockDelta: AWSDecodableShape, Sendable {
+        /// Incremental citation information that is streamed as part of the response generation process.
+        case citation(CitationsDelta)
         /// Contains content regarding the reasoning that is carried out by the model. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
         case reasoningContent(ReasoningContentBlockDelta)
         /// The content text.
@@ -415,6 +473,9 @@ extension BedrockRuntime {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .citation:
+                let value = try container.decode(CitationsDelta.self, forKey: .citation)
+                self = .citation(value)
             case .reasoningContent:
                 let value = try container.decode(ReasoningContentBlockDelta.self, forKey: .reasoningContent)
                 self = .reasoningContent(value)
@@ -428,6 +489,7 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case citation = "citation"
             case reasoningContent = "reasoningContent"
             case text = "text"
             case toolUse = "toolUse"
@@ -451,11 +513,11 @@ extension BedrockRuntime {
         case metadata(ConverseStreamMetadataEvent)
         /// A streaming error occurred. Retry your request.
         case modelStreamErrorException(ModelStreamErrorException)
-        /// The service isn't currently available. For troubleshooting this error,  see ServiceUnavailable in the Amazon Bedrock User Guide
+        /// The service isn't currently available. For troubleshooting this error, see ServiceUnavailable in the Amazon Bedrock User Guide
         case serviceUnavailableException(ServiceUnavailableException)
         /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide
         case throttlingException(ThrottlingException)
-        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error,  see ValidationError in the Amazon Bedrock User Guide
+        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see ValidationError in the Amazon Bedrock User Guide
         case validationException(ValidationException)
 
         public init(from decoder: Decoder) throws {
@@ -522,8 +584,12 @@ extension BedrockRuntime {
     public enum DocumentSource: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
         case bytes(AWSBase64Data)
+        /// The structured content of the document source, which may include various content blocks such as text, images, or other document elements.
+        case content([DocumentContentBlock])
         /// The location of a document object in an Amazon S3 bucket. To see which models support S3 uploads, see Supported models and features for Converse.
         case s3Location(S3Location)
+        /// The text content of the document source.
+        case text(String)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -538,9 +604,15 @@ extension BedrockRuntime {
             case .bytes:
                 let value = try container.decode(AWSBase64Data.self, forKey: .bytes)
                 self = .bytes(value)
+            case .content:
+                let value = try container.decode([DocumentContentBlock].self, forKey: .content)
+                self = .content(value)
             case .s3Location:
                 let value = try container.decode(S3Location.self, forKey: .s3Location)
                 self = .s3Location(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
             }
         }
 
@@ -549,8 +621,12 @@ extension BedrockRuntime {
             switch self {
             case .bytes(let value):
                 try container.encode(value, forKey: .bytes)
+            case .content(let value):
+                try container.encode(value, forKey: .content)
             case .s3Location(let value):
                 try container.encode(value, forKey: .s3Location)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
             }
         }
 
@@ -565,7 +641,9 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case bytes = "bytes"
+            case content = "content"
             case s3Location = "s3Location"
+            case text = "text"
         }
     }
 
@@ -954,7 +1032,7 @@ extension BedrockRuntime {
         case any(AnyToolChoice)
         /// (Default). The Model automatically decides if a tool should be called or whether to generate text instead.
         case auto(AutoToolChoice)
-        /// The Model must request the specified tool.  Only supported by Anthropic Claude 3 models.
+        /// The Model must request the specified tool. Only supported by Anthropic Claude 3 models.
         case tool(SpecificToolChoice)
 
         public func encode(to encoder: Encoder) throws {
@@ -1328,6 +1406,96 @@ extension BedrockRuntime {
         }
     }
 
+    public struct Citation: AWSEncodableShape & AWSDecodableShape {
+        /// The precise location within the source document where the cited content can be found, including character positions, page numbers, or chunk identifiers.
+        public let location: CitationLocation?
+        /// The specific content from the source document that was referenced or cited in the generated response.
+        public let sourceContent: [CitationSourceContent]?
+        /// The title or identifier of the source document being cited.
+        public let title: String?
+
+        @inlinable
+        public init(location: CitationLocation? = nil, sourceContent: [CitationSourceContent]? = nil, title: String? = nil) {
+            self.location = location
+            self.sourceContent = sourceContent
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case sourceContent = "sourceContent"
+            case title = "title"
+        }
+    }
+
+    public struct CitationSourceContentDelta: AWSDecodableShape {
+        /// An incremental update to the text content from the source document that is being cited.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct CitationsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether document citations should be included in the model's response. When set to true, the model can generate citations that reference the source documents used to inform the response.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
+    public struct CitationsContentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// An array of citations that reference the source documents used to generate the associated content.
+        public let citations: [Citation]?
+        /// The generated content that is supported by the associated citations.
+        public let content: [CitationGeneratedContent]?
+
+        @inlinable
+        public init(citations: [Citation]? = nil, content: [CitationGeneratedContent]? = nil) {
+            self.citations = citations
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case citations = "citations"
+            case content = "content"
+        }
+    }
+
+    public struct CitationsDelta: AWSDecodableShape {
+        /// Specifies the precise location within a source document where cited content can be found. This can include character-level positions, page numbers, or document chunks depending on the document type and indexing method.
+        public let location: CitationLocation?
+        /// The specific content from the source document that was referenced or cited in the generated response.
+        public let sourceContent: [CitationSourceContentDelta]?
+        /// The title or identifier of the source document being cited.
+        public let title: String?
+
+        @inlinable
+        public init(location: CitationLocation? = nil, sourceContent: [CitationSourceContentDelta]? = nil, title: String? = nil) {
+            self.location = location
+            self.sourceContent = sourceContent
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case sourceContent = "sourceContent"
+            case title = "title"
+        }
+    }
+
     public struct ContentBlockDeltaEvent: AWSDecodableShape {
         /// The block index for a content block delta event.
         public let contentBlockIndex: Int
@@ -1413,7 +1581,7 @@ extension BedrockRuntime {
         public let requestMetadata: [String: String]?
         /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
-        /// Configuration information for the tools that the model can use when generating a response.  For information about models that support tool use, see  Supported models and model features.
+        /// Configuration information for the tools that the model can use when generating a response.  For information about models that support tool use, see Supported models and model features.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
@@ -1578,7 +1746,7 @@ extension BedrockRuntime {
         public let requestMetadata: [String: String]?
         /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
-        /// Configuration information for the tools that the model can use when generating a response. For information about models that support streaming tool use, see  Supported models and model features.
+        /// Configuration information for the tools that the model can use when generating a response. For information about models that support streaming tool use, see Supported models and model features.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
@@ -1699,15 +1867,21 @@ extension BedrockRuntime {
     }
 
     public struct DocumentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings that control how citations should be generated for this specific document.
+        public let citations: CitationsConfig?
+        /// Contextual information about how the document should be processed or interpreted by the model when generating citations.
+        public let context: String?
         /// The format of a document, or its extension.
-        public let format: DocumentFormat
+        public let format: DocumentFormat?
         /// A name for the document. The name can only contain the following characters:   Alphanumeric characters   Whitespace characters (no more than one in a row)   Hyphens   Parentheses   Square brackets    This field is vulnerable to prompt injections, because the model might inadvertently interpret it as instructions. Therefore, we recommend that you specify a neutral name.
         public let name: String
         /// Contains the content of the document.
         public let source: DocumentSource
 
         @inlinable
-        public init(format: DocumentFormat, name: String, source: DocumentSource) {
+        public init(citations: CitationsConfig? = nil, context: String? = nil, format: DocumentFormat? = nil, name: String, source: DocumentSource) {
+            self.citations = citations
+            self.context = context
             self.format = format
             self.name = name
             self.source = source
@@ -1718,9 +1892,77 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case citations = "citations"
+            case context = "context"
             case format = "format"
             case name = "name"
             case source = "source"
+        }
+    }
+
+    public struct DocumentCharLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The index of the document within the array of documents provided in the request.
+        public let documentIndex: Int?
+        /// The ending character position of the cited content within the document.
+        public let end: Int?
+        /// The starting character position of the cited content within the document.
+        public let start: Int?
+
+        @inlinable
+        public init(documentIndex: Int? = nil, end: Int? = nil, start: Int? = nil) {
+            self.documentIndex = documentIndex
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentIndex = "documentIndex"
+            case end = "end"
+            case start = "start"
+        }
+    }
+
+    public struct DocumentChunkLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The index of the document within the array of documents provided in the request.
+        public let documentIndex: Int?
+        /// The ending chunk identifier or index of the cited content within the document.
+        public let end: Int?
+        /// The starting chunk identifier or index of the cited content within the document.
+        public let start: Int?
+
+        @inlinable
+        public init(documentIndex: Int? = nil, end: Int? = nil, start: Int? = nil) {
+            self.documentIndex = documentIndex
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentIndex = "documentIndex"
+            case end = "end"
+            case start = "start"
+        }
+    }
+
+    public struct DocumentPageLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The index of the document within the array of documents provided in the request.
+        public let documentIndex: Int?
+        /// The ending page number of the cited content within the document.
+        public let end: Int?
+        /// The starting page number of the cited content within the document.
+        public let start: Int?
+
+        @inlinable
+        public init(documentIndex: Int? = nil, end: Int? = nil, start: Int? = nil) {
+            self.documentIndex = documentIndex
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentIndex = "documentIndex"
+            case end = "end"
+            case start = "start"
         }
     }
 
@@ -2463,7 +2705,7 @@ extension BedrockRuntime {
         public let guardrailIdentifier: String?
         /// The version number for the guardrail. The value can also be DRAFT.
         public let guardrailVersion: String?
-        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let modelId: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
@@ -2592,7 +2834,7 @@ extension BedrockRuntime {
         public let guardrailIdentifier: String?
         /// The version number for the guardrail. The value can also be DRAFT.
         public let guardrailVersion: String?
-        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let modelId: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
@@ -3291,6 +3533,34 @@ extension BedrockRuntime {
         }
     }
 
+    public struct CitationGeneratedContent: AWSEncodableShape & AWSDecodableShape {
+        /// The text content that was generated by the model and is supported by the associated citation.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct CitationSourceContent: AWSEncodableShape & AWSDecodableShape {
+        /// The text content from the source document that is being cited.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
     public struct ContentBlockStart: AWSDecodableShape {
         /// Information about a tool that the model is requesting to use.
         public let toolUse: ToolUseBlockStart?
@@ -3316,6 +3586,20 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct DocumentContentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The text content of the document.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 
@@ -3431,11 +3715,11 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error,  see AccessDeniedException in the Amazon Bedrock User Guide
+    /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error, see AccessDeniedException in the Amazon Bedrock User Guide
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Error occurred because of a conflict while performing an operation.
     public static var conflictException: Self { .init(.conflictException) }
-    /// An internal server error occurred. For troubleshooting this error,  see InternalFailure in the Amazon Bedrock User Guide
+    /// An internal server error occurred. For troubleshooting this error, see InternalFailure in the Amazon Bedrock User Guide
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request failed due to an error while processing the model.
     public static var modelErrorException: Self { .init(.modelErrorException) }
@@ -3445,15 +3729,15 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     public static var modelStreamErrorException: Self { .init(.modelStreamErrorException) }
     /// The request took too long to process. Processing time exceeded the model timeout length.
     public static var modelTimeoutException: Self { .init(.modelTimeoutException) }
-    /// The specified resource ARN was not found. For troubleshooting this error,  see ResourceNotFound in the Amazon Bedrock User Guide
+    /// The specified resource ARN was not found. For troubleshooting this error, see ResourceNotFound in the Amazon Bedrock User Guide
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Your request exceeds the service quota for your account. You can view your quotas at Viewing service quotas. You can resubmit your request later.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The service isn't currently available. For troubleshooting this error,  see ServiceUnavailable in the Amazon Bedrock User Guide
+    /// The service isn't currently available. For troubleshooting this error, see ServiceUnavailable in the Amazon Bedrock User Guide
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error,  see ValidationError in the Amazon Bedrock User Guide
+    /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see ValidationError in the Amazon Bedrock User Guide
     public static var validationException: Self { .init(.validationException) }
 }
 

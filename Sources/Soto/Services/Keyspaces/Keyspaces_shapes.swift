@@ -25,6 +25,20 @@ import Foundation
 extension Keyspaces {
     // MARK: Enums
 
+    public enum CdcPropagateTags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case table = "TABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CdcStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClientSideTimestampsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
@@ -92,10 +106,18 @@ extension Keyspaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ViewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case keysOnly = "KEYS_ONLY"
+        case newAndOldImages = "NEW_AND_OLD_IMAGES"
+        case newImage = "NEW_IMAGE"
+        case oldImage = "OLD_IMAGE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AutoScalingPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down  when it falls below the target. A double between 20 and 90.
+        /// Auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down when it falls below the target. A double between 20 and 90.
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
         @inlinable
@@ -111,11 +133,11 @@ extension Keyspaces {
     public struct AutoScalingSettings: AWSEncodableShape & AWSDecodableShape {
         /// This optional parameter enables auto scaling for the table if set to false.
         public let autoScalingDisabled: Bool?
-        /// Manage costs by specifying the maximum amount of throughput to provision. The value must be between 1  and the max throughput per second quota for your account (40,000 by default).
+        /// Manage costs by specifying the maximum amount of throughput to provision. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
         public let maximumUnits: Int64?
-        /// The minimum level of throughput the table should always be ready to support. The value must be between 1  and the max throughput per second quota for your account (40,000 by default).
+        /// The minimum level of throughput the table should always be ready to support. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
         public let minimumUnits: Int64?
-        /// Amazon Keyspaces supports the target tracking auto scaling policy. With this policy, Amazon Keyspaces auto scaling ensures that the table's ratio of consumed to provisioned capacity stays at or near the target value that you specify. You  define the target value as a percentage between 20 and 90.
+        /// Amazon Keyspaces supports the target tracking auto scaling policy. With this policy, Amazon Keyspaces auto scaling ensures that the table's ratio of consumed to provisioned capacity stays at or near the target value that you specify. You define the target value as a percentage between 20 and 90.
         public let scalingPolicy: AutoScalingPolicy?
 
         @inlinable
@@ -215,6 +237,58 @@ extension Keyspaces {
         }
     }
 
+    public struct CdcSpecification: AWSEncodableShape {
+        /// Specifies that the stream inherits the tags from the table.
+        public let propagateTags: CdcPropagateTags?
+        /// The status of the CDC stream. You can enable or disable a stream for a table.
+        public let status: CdcStatus
+        /// The tags (key-value pairs) that you want to apply to the stream.
+        public let tags: [Tag]?
+        /// The view type specifies the changes Amazon Keyspaces records for each changed row in the stream. After you create the stream, you can't make changes to this selection.  The options are:    NEW_AND_OLD_IMAGES - both versions of the row, before and after the change. This is the default.    NEW_IMAGE - the version of the row after the change.    OLD_IMAGE - the version of the row before the change.    KEYS_ONLY - the partition and clustering keys of the row that was changed.
+        public let viewType: ViewType?
+
+        @inlinable
+        public init(propagateTags: CdcPropagateTags? = nil, status: CdcStatus, tags: [Tag]? = nil, viewType: ViewType? = nil) {
+            self.propagateTags = propagateTags
+            self.status = status
+            self.tags = tags
+            self.viewType = viewType
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 60)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case propagateTags = "propagateTags"
+            case status = "status"
+            case tags = "tags"
+            case viewType = "viewType"
+        }
+    }
+
+    public struct CdcSpecificationSummary: AWSDecodableShape {
+        /// The status of the CDC stream. Specifies if the table has a CDC stream.
+        public let status: CdcStatus
+        /// The view type specifies the changes Amazon Keyspaces records for each changed row in the stream. This setting can't be changed, after the stream has been created.  The options are:    NEW_AND_OLD_IMAGES - both versions of the row, before and after the change. This is the default.    NEW_IMAGE - the version of the row after the change.    OLD_IMAGE - the version of the row before the change.    KEYS_ONLY - the partition and clustering keys of the row that was changed.
+        public let viewType: ViewType?
+
+        @inlinable
+        public init(status: CdcStatus, viewType: ViewType? = nil) {
+            self.status = status
+            self.viewType = viewType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case viewType = "viewType"
+        }
+    }
+
     public struct ClientSideTimestamps: AWSEncodableShape & AWSDecodableShape {
         /// Shows how to enable client-side timestamps settings for the specified table.
         public let status: ClientSideTimestampsStatus
@@ -282,7 +356,7 @@ extension Keyspaces {
     public struct CreateKeyspaceRequest: AWSEncodableShape {
         /// The name of the keyspace to be created.
         public let keyspaceName: String
-        ///  The replication specification of the keyspace includes:    replicationStrategy - the required value is SINGLE_REGION or  MULTI_REGION.    regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where  the keyspace is going to be replicated in.
+        ///  The replication specification of the keyspace includes:    replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.    regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in.
         public let replicationSpecification: ReplicationSpecification?
         /// A list of key-value pair tags to be attached to the keyspace. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide.
         public let tags: [Tag]?
@@ -328,25 +402,27 @@ extension Keyspaces {
     }
 
     public struct CreateTableRequest: AWSEncodableShape {
-        /// The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity  automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
+        /// The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
         public let autoScalingSpecification: AutoScalingSpecification?
         /// Specifies the read/write throughput capacity mode for the table. The options are:    throughputMode:PAY_PER_REQUEST and     throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
         public let capacitySpecification: CapacitySpecification?
-        ///  Enables client-side timestamps for the table. By default, the setting is disabled. You can enable  client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
+        /// The CDC stream settings of the table.
+        public let cdcSpecification: CdcSpecification?
+        ///  Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
         public let clientSideTimestamps: ClientSideTimestamps?
         /// This parameter allows to enter a description of the table.
         public let comment: Comment?
         /// The default Time to Live setting in seconds for the table. For more information, see Setting the default TTL value for a table in the Amazon Keyspaces Developer Guide.
         public let defaultTimeToLive: Int?
-        /// Specifies how the encryption key for encryption at rest is managed for the table.   You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.   The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
+        /// Specifies how the encryption key for encryption at rest is managed for the table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.   The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
         public let encryptionSpecification: EncryptionSpecification?
         /// The name of the keyspace that the table is going to be created in.
         public let keyspaceName: String
-        /// Specifies if pointInTimeRecovery is enabled or disabled for the table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the  default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
+        /// Specifies if pointInTimeRecovery is enabled or disabled for the table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
         public let pointInTimeRecovery: PointInTimeRecovery?
-        /// The optional Amazon Web Services Region specific settings of a multi-Region table. These settings overwrite the general settings of the table for the specified Region.  For a multi-Region table in provisioned capacity mode, you can configure the table's read capacity differently for each Region's replica. The write capacity, however,  remains synchronized between all replicas to ensure that there's enough capacity to replicate writes across all Regions. To define the read capacity for a table  replica in a specific Region, you can do so by configuring the following parameters.    region: The Region where these settings are applied. (Required)    readCapacityUnits: The provisioned read capacity units. (Optional)    readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
+        /// The optional Amazon Web Services Region specific settings of a multi-Region table. These settings overwrite the general settings of the table for the specified Region.  For a multi-Region table in provisioned capacity mode, you can configure the table's read capacity differently for each Region's replica. The write capacity, however, remains synchronized between all replicas to ensure that there's enough capacity to replicate writes across all Regions. To define the read capacity for a table replica in a specific Region, you can do so by configuring the following parameters.    region: The Region where these settings are applied. (Required)    readCapacityUnits: The provisioned read capacity units. (Optional)    readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
         public let replicaSpecifications: [ReplicaSpecification]?
-        /// The schemaDefinition consists of the following parameters. For each column to be created:    name  -  The name of the column.    type  -  An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.   The primary key of the table consists of the following columns:    partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The partition key portion of the primary key is required and determines how Amazon Keyspaces stores your data.    name - The name of each partition key column.    clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition.    name - The name of the clustering column.     orderBy - Sets the ascendant (ASC) or descendant (DESC) order modifier. To define a column as static use staticColumns  -  Static columns store values that are shared by all rows in the same partition:    name  -  The name of the column.    type  -  An Amazon Keyspaces data type.
+        /// The schemaDefinition consists of the following parameters. For each column to be created:    name - The name of the column.    type - An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.   The primary key of the table consists of the following columns:    partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The partition key portion of the primary key is required and determines how Amazon Keyspaces stores your data.    name - The name of each partition key column.    clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition.    name - The name of the clustering column.     orderBy - Sets the ascendant (ASC) or descendant (DESC) order modifier. To define a column as static use staticColumns - Static columns store values that are shared by all rows in the same partition:    name - The name of the column.    type - An Amazon Keyspaces data type.
         public let schemaDefinition: SchemaDefinition
         /// The name of the table.
         public let tableName: String
@@ -356,9 +432,10 @@ extension Keyspaces {
         public let ttl: TimeToLive?
 
         @inlinable
-        public init(autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, schemaDefinition: SchemaDefinition, tableName: String, tags: [Tag]? = nil, ttl: TimeToLive? = nil) {
+        public init(autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, cdcSpecification: CdcSpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, schemaDefinition: SchemaDefinition, tableName: String, tags: [Tag]? = nil, ttl: TimeToLive? = nil) {
             self.autoScalingSpecification = autoScalingSpecification
             self.capacitySpecification = capacitySpecification
+            self.cdcSpecification = cdcSpecification
             self.clientSideTimestamps = clientSideTimestamps
             self.comment = comment
             self.defaultTimeToLive = defaultTimeToLive
@@ -375,6 +452,7 @@ extension Keyspaces {
         public func validate(name: String) throws {
             try self.autoScalingSpecification?.validate(name: "\(name).autoScalingSpecification")
             try self.capacitySpecification?.validate(name: "\(name).capacitySpecification")
+            try self.cdcSpecification?.validate(name: "\(name).cdcSpecification")
             try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, max: 630720000)
             try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, min: 0)
             try self.encryptionSpecification?.validate(name: "\(name).encryptionSpecification")
@@ -399,6 +477,7 @@ extension Keyspaces {
         private enum CodingKeys: String, CodingKey {
             case autoScalingSpecification = "autoScalingSpecification"
             case capacitySpecification = "capacitySpecification"
+            case cdcSpecification = "cdcSpecification"
             case clientSideTimestamps = "clientSideTimestamps"
             case comment = "comment"
             case defaultTimeToLive = "defaultTimeToLive"
@@ -432,7 +511,7 @@ extension Keyspaces {
         public let fieldDefinitions: [FieldDefinition]
         ///  The name of the keyspace.
         public let keyspaceName: String
-        ///  The name of the user-defined type.  UDT names must contain 48 characters or less, must begin with an alphabetic character, and  can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters.  Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the  name when you create the UDT, but you must escape each double quote character with an additional  double quote character.
+        ///  The name of the user-defined type.  UDT names must contain 48 characters or less, must begin with an alphabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters.  Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an additional double quote character.
         public let typeName: String
 
         @inlinable
@@ -578,7 +657,7 @@ extension Keyspaces {
     public struct EncryptionSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key, for example kms_key_identifier:ARN.
         public let kmsKeyIdentifier: String?
-        /// The encryption option specified for the table. You can choose one of the following KMS keys (KMS keys):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is type:AWS_OWNED_KMS_KEY.  For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
+        /// The encryption option specified for the table. You can choose one of the following KMS keys (KMS keys):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is type:AWS_OWNED_KMS_KEY.  For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
         public let type: EncryptionType
 
         @inlinable
@@ -601,7 +680,7 @@ extension Keyspaces {
     public struct FieldDefinition: AWSEncodableShape & AWSDecodableShape {
         ///  The identifier.
         public let name: String
-        ///  Any supported Cassandra data type, including collections and other user-defined types that are  contained in the same keyspace.  For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide.
+        ///  Any supported Cassandra data type, including collections and other user-defined types that are contained in the same keyspace.  For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide.
         public let type: String
 
         @inlinable
@@ -753,6 +832,8 @@ extension Keyspaces {
     public struct GetTableResponse: AWSDecodableShape {
         /// The read/write throughput capacity mode for a table. The options are:    throughputMode:PAY_PER_REQUEST     throughputMode:PROVISIONED
         public let capacitySpecification: CapacitySpecificationSummary?
+        /// The CDC stream settings of the table.
+        public let cdcSpecification: CdcSpecificationSummary?
         ///  The client-side timestamps setting of the table.
         public let clientSideTimestamps: ClientSideTimestamps?
         /// The the description of the specified table.
@@ -765,6 +846,8 @@ extension Keyspaces {
         public let encryptionSpecification: EncryptionSpecification?
         /// The name of the keyspace that the specified table is stored in.
         public let keyspaceName: String
+        /// The Amazon Resource Name (ARN) of the stream.
+        public let latestStreamArn: String?
         /// The point-in-time recovery status of the specified table.
         public let pointInTimeRecovery: PointInTimeRecoverySummary?
         /// Returns the Amazon Web Services Region specific settings of all Regions a multi-Region table is replicated in.
@@ -781,14 +864,16 @@ extension Keyspaces {
         public let ttl: TimeToLive?
 
         @inlinable
-        public init(capacitySpecification: CapacitySpecificationSummary? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, creationTimestamp: Date? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecoverySummary? = nil, replicaSpecifications: [ReplicaSpecificationSummary]? = nil, resourceArn: String, schemaDefinition: SchemaDefinition? = nil, status: TableStatus? = nil, tableName: String, ttl: TimeToLive? = nil) {
+        public init(capacitySpecification: CapacitySpecificationSummary? = nil, cdcSpecification: CdcSpecificationSummary? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, creationTimestamp: Date? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, latestStreamArn: String? = nil, pointInTimeRecovery: PointInTimeRecoverySummary? = nil, replicaSpecifications: [ReplicaSpecificationSummary]? = nil, resourceArn: String, schemaDefinition: SchemaDefinition? = nil, status: TableStatus? = nil, tableName: String, ttl: TimeToLive? = nil) {
             self.capacitySpecification = capacitySpecification
+            self.cdcSpecification = cdcSpecification
             self.clientSideTimestamps = clientSideTimestamps
             self.comment = comment
             self.creationTimestamp = creationTimestamp
             self.defaultTimeToLive = defaultTimeToLive
             self.encryptionSpecification = encryptionSpecification
             self.keyspaceName = keyspaceName
+            self.latestStreamArn = latestStreamArn
             self.pointInTimeRecovery = pointInTimeRecovery
             self.replicaSpecifications = replicaSpecifications
             self.resourceArn = resourceArn
@@ -800,12 +885,14 @@ extension Keyspaces {
 
         private enum CodingKeys: String, CodingKey {
             case capacitySpecification = "capacitySpecification"
+            case cdcSpecification = "cdcSpecification"
             case clientSideTimestamps = "clientSideTimestamps"
             case comment = "comment"
             case creationTimestamp = "creationTimestamp"
             case defaultTimeToLive = "defaultTimeToLive"
             case encryptionSpecification = "encryptionSpecification"
             case keyspaceName = "keyspaceName"
+            case latestStreamArn = "latestStreamArn"
             case pointInTimeRecovery = "pointInTimeRecovery"
             case replicaSpecifications = "replicaSpecifications"
             case resourceArn = "resourceArn"
@@ -893,7 +980,7 @@ extension Keyspaces {
         public let keyspaceName: String
         ///  If the replicationStrategy of the keyspace is MULTI_REGION, a list of replication Regions is returned.
         public let replicationRegions: [String]?
-        ///  This property specifies if a keyspace is a single Region keyspace or a multi-Region keyspace.  The available  values are SINGLE_REGION or MULTI_REGION.
+        ///  This property specifies if a keyspace is a single Region keyspace or a multi-Region keyspace. The available values are SINGLE_REGION or MULTI_REGION.
         public let replicationStrategy: Rs
         /// The unique identifier of the keyspace in the format of an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -915,7 +1002,7 @@ extension Keyspaces {
     }
 
     public struct ListKeyspacesRequest: AWSEncodableShape {
-        /// The total number of keyspaces to return in the output. If the total number of keyspaces available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+        /// The total number of keyspaces to return in the output. If the total number of keyspaces available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
         public let maxResults: Int?
         /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
         public let nextToken: String?
@@ -960,7 +1047,7 @@ extension Keyspaces {
     public struct ListTablesRequest: AWSEncodableShape {
         /// The name of the keyspace.
         public let keyspaceName: String
-        /// The total number of tables to return in the output. If the total number of tables available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+        /// The total number of tables to return in the output. If the total number of tables available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
         public let maxResults: Int?
         /// The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
         public let nextToken: String?
@@ -1008,7 +1095,7 @@ extension Keyspaces {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The total number of tags to return in the output. If the total number of tags available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+        /// The total number of tags to return in the output. If the total number of tags available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
         public let maxResults: Int?
         /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
         public let nextToken: String?
@@ -1060,7 +1147,7 @@ extension Keyspaces {
     public struct ListTypesRequest: AWSEncodableShape {
         ///  The name of the keyspace that contains the listed types.
         public let keyspaceName: String
-        ///  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an  argument of a subsequent API invocation.
+        ///  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
         public let maxResults: Int?
         ///  The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
         public let nextToken: String?
@@ -1226,7 +1313,7 @@ extension Keyspaces {
         public let keyspaceStatus: KeyspaceStatus
         ///  The name of the Region that was added to the keyspace.
         public let region: String
-        ///  This shows the replication progress of tables in the keyspace. The value is expressed as a percentage of the newly replicated tables  with status Active compared to the total number of tables in the keyspace.
+        ///  This shows the replication progress of tables in the keyspace. The value is expressed as a percentage of the newly replicated tables with status Active compared to the total number of tables in the keyspace.
         public let tablesReplicationProgress: String?
 
         @inlinable
@@ -1246,7 +1333,7 @@ extension Keyspaces {
     public struct ReplicationSpecification: AWSEncodableShape {
         ///  The regionList contains the Amazon Web Services Regions where the keyspace is replicated in.
         public let regionList: [String]?
-        ///  The replicationStrategy of a keyspace, the required value is SINGLE_REGION or  MULTI_REGION.
+        ///  The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION.
         public let replicationStrategy: Rs
 
         @inlinable
@@ -1288,11 +1375,11 @@ extension Keyspaces {
     }
 
     public struct RestoreTableRequest: AWSEncodableShape {
-        /// The optional auto scaling settings for the restored table in provisioned capacity mode.  Specifies if the service can manage throughput capacity of a provisioned table  automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
+        /// The optional auto scaling settings for the restored table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
         public let autoScalingSpecification: AutoScalingSpecification?
         /// Specifies the read/write throughput capacity mode for the target table. The options are:    throughputMode:PAY_PER_REQUEST     throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
         public let capacitySpecificationOverride: CapacitySpecification?
-        /// Specifies the encryption settings for the target table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
+        /// Specifies the encryption settings for the target table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
         public let encryptionSpecificationOverride: EncryptionSpecification?
         /// Specifies the pointInTimeRecovery settings for the target table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
         public let pointInTimeRecoveryOverride: PointInTimeRecovery?
@@ -1450,7 +1537,7 @@ extension Keyspaces {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an  existing tag (same key), the existing tag value will be updated to the new value.
+        /// The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
         public let key: String
         /// The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String
@@ -1508,13 +1595,13 @@ extension Keyspaces {
     }
 
     public struct TargetTrackingScalingPolicyConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies if scale-in is enabled. When auto scaling automatically decreases capacity for a table,  the table scales in. When scaling policies are set, they can't scale in the table lower than its minimum capacity.
+        /// Specifies if scale-in is enabled. When auto scaling automatically decreases capacity for a table, the table scales in. When scaling policies are set, they can't scale in the table lower than its minimum capacity.
         public let disableScaleIn: Bool?
         /// Specifies a scale-in cool down period. A cooldown period in seconds between scaling activities that lets the table stabilize before another scaling activity starts.
         public let scaleInCooldown: Int?
         /// Specifies a scale out cool down period. A cooldown period in seconds between scaling activities that lets the table stabilize before another scaling activity starts.
         public let scaleOutCooldown: Int?
-        /// Specifies the target value for the target tracking auto scaling policy. Amazon Keyspaces auto scaling scales up capacity automatically when traffic exceeds this target utilization  rate, and then back down when it falls below the target. This ensures that the ratio of consumed capacity to provisioned capacity stays at or near this value. You define targetValue as a percentage. A double between 20 and 90.
+        /// Specifies the target value for the target tracking auto scaling policy. Amazon Keyspaces auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down when it falls below the target. This ensures that the ratio of consumed capacity to provisioned capacity stays at or near this value. You define targetValue as a percentage. A double between 20 and 90.
         public let targetValue: Double
 
         @inlinable
@@ -1622,17 +1709,19 @@ extension Keyspaces {
     }
 
     public struct UpdateTableRequest: AWSEncodableShape {
-        /// For each column to be added to the specified table:    name  -  The name of the column.    type  -  An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.
+        /// For each column to be added to the specified table:    name - The name of the column.    type - An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.
         public let addColumns: [ColumnDefinition]?
-        /// The optional auto scaling settings to update for a table in provisioned capacity mode.  Specifies if the service can manage throughput capacity of a provisioned table  automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. If auto scaling is already enabled for the table, you can use UpdateTable to update the minimum and maximum values or the  auto scaling policy settings independently. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
+        /// The optional auto scaling settings to update for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. If auto scaling is already enabled for the table, you can use UpdateTable to update the minimum and maximum values or the auto scaling policy settings independently. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
         public let autoScalingSpecification: AutoScalingSpecification?
         /// Modifies the read/write throughput capacity mode for the table. The options are:    throughputMode:PAY_PER_REQUEST and     throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
         public let capacitySpecification: CapacitySpecification?
-        /// Enables client-side timestamps for the table. By default, the setting is disabled. You can enable  client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
+        /// The CDC stream settings of the table.
+        public let cdcSpecification: CdcSpecification?
+        /// Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
         public let clientSideTimestamps: ClientSideTimestamps?
         /// The default Time to Live setting in seconds for the table. For more information, see Setting the default TTL value for a table in the Amazon Keyspaces Developer Guide.
         public let defaultTimeToLive: Int?
-        /// Modifies the encryption settings of the table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
+        /// Modifies the encryption settings of the table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
         public let encryptionSpecification: EncryptionSpecification?
         /// The name of the keyspace the specified table is stored in.
         public let keyspaceName: String
@@ -1646,10 +1735,11 @@ extension Keyspaces {
         public let ttl: TimeToLive?
 
         @inlinable
-        public init(addColumns: [ColumnDefinition]? = nil, autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, tableName: String, ttl: TimeToLive? = nil) {
+        public init(addColumns: [ColumnDefinition]? = nil, autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, cdcSpecification: CdcSpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, tableName: String, ttl: TimeToLive? = nil) {
             self.addColumns = addColumns
             self.autoScalingSpecification = autoScalingSpecification
             self.capacitySpecification = capacitySpecification
+            self.cdcSpecification = cdcSpecification
             self.clientSideTimestamps = clientSideTimestamps
             self.defaultTimeToLive = defaultTimeToLive
             self.encryptionSpecification = encryptionSpecification
@@ -1664,6 +1754,7 @@ extension Keyspaces {
             try self.validate(self.addColumns, name: "addColumns", parent: name, min: 1)
             try self.autoScalingSpecification?.validate(name: "\(name).autoScalingSpecification")
             try self.capacitySpecification?.validate(name: "\(name).capacitySpecification")
+            try self.cdcSpecification?.validate(name: "\(name).cdcSpecification")
             try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, max: 630720000)
             try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, min: 0)
             try self.encryptionSpecification?.validate(name: "\(name).encryptionSpecification")
@@ -1683,6 +1774,7 @@ extension Keyspaces {
             case addColumns = "addColumns"
             case autoScalingSpecification = "autoScalingSpecification"
             case capacitySpecification = "capacitySpecification"
+            case cdcSpecification = "cdcSpecification"
             case clientSideTimestamps = "clientSideTimestamps"
             case defaultTimeToLive = "defaultTimeToLive"
             case encryptionSpecification = "encryptionSpecification"
@@ -1742,13 +1834,13 @@ public struct KeyspacesErrorType: AWSErrorType {
 
     /// You don't have sufficient access permissions to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to  perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     public static var conflictException: Self { .init(.conflictException) }
     /// Amazon Keyspaces was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The operation tried to access a keyspace, table, or type that doesn't exist. The resource might not be specified correctly,  or its status might not be ACTIVE.
+    /// The operation tried to access a keyspace, table, or type that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The operation exceeded the service quota for this resource.  For more information on service quotas, see Quotas in the Amazon Keyspaces Developer Guide.
+    /// The operation exceeded the service quota for this resource. For more information on service quotas, see Quotas in the Amazon Keyspaces Developer Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The operation failed due to an invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }

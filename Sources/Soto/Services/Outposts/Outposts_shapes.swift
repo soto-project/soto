@@ -268,9 +268,9 @@ extension Outposts {
         /// The city for the address.
         public let city: String
         /// The name of the contact.
-        public let contactName: String?
+        public let contactName: String
         /// The phone number of the contact.
-        public let contactPhoneNumber: String?
+        public let contactPhoneNumber: String
         /// The ISO-3166 two-letter country code for the address.
         public let countryCode: String
         /// The district or county for the address.
@@ -283,7 +283,7 @@ extension Outposts {
         public let stateOrRegion: String
 
         @inlinable
-        public init(addressLine1: String, addressLine2: String? = nil, addressLine3: String? = nil, city: String, contactName: String? = nil, contactPhoneNumber: String? = nil, countryCode: String, districtOrCounty: String? = nil, municipality: String? = nil, postalCode: String, stateOrRegion: String) {
+        public init(addressLine1: String, addressLine2: String? = nil, addressLine3: String? = nil, city: String, contactName: String, contactPhoneNumber: String, countryCode: String, districtOrCounty: String? = nil, municipality: String? = nil, postalCode: String, stateOrRegion: String) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
             self.addressLine3 = addressLine3

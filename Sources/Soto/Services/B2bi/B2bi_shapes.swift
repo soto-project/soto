@@ -59,6 +59,13 @@ extension B2bi {
         public var description: String { return self.rawValue }
     }
 
+    public enum LineTerminator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cr = "CR"
+        case crlf = "CRLF"
+        case lf = "LF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Logging: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -92,6 +99,39 @@ extension B2bi {
     public enum TransformerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case inactive = "inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WrapFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lineLength = "LINE_LENGTH"
+        case oneLine = "ONE_LINE"
+        case segment = "SEGMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum X12FunctionalAcknowledgment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case doNotGenerate = "DO_NOT_GENERATE"
+        case generateAllSegments = "GENERATE_ALL_SEGMENTS"
+        case generateWithoutTransactionSetResponseLoop = "GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum X12GS05TimeFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hhmm = "HHMM"
+        case hhmmss = "HHMMSS"
+        case hhmmssdd = "HHMMSSDD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum X12SplitBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case transaction = "TRANSACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum X12TechnicalAcknowledgment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case doNotGenerate = "DO_NOT_GENERATE"
+        case generateAllSegments = "GENERATE_ALL_SEGMENTS"
         public var description: String { return self.rawValue }
     }
 
@@ -453,12 +493,29 @@ extension B2bi {
 
     // MARK: Shapes
 
+    public struct AdvancedOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains X12-specific advanced options, such as split options for processing X12 EDI files.
+        public let x12: X12AdvancedOptions?
+
+        @inlinable
+        public init(x12: X12AdvancedOptions? = nil) {
+            self.x12 = x12
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x12 = "x12"
+        }
+    }
+
     public struct CapabilityOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains the inbound EDI options for the capability.
+        public let inboundEdi: InboundEdiOptions?
         /// A structure that contains the outbound EDI options.
         public let outboundEdi: OutboundEdiOptions?
 
         @inlinable
-        public init(outboundEdi: OutboundEdiOptions? = nil) {
+        public init(inboundEdi: InboundEdiOptions? = nil, outboundEdi: OutboundEdiOptions? = nil) {
+            self.inboundEdi = inboundEdi
             self.outboundEdi = outboundEdi
         }
 
@@ -467,6 +524,7 @@ extension B2bi {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inboundEdi = "inboundEdi"
             case outboundEdi = "outboundEdi"
         }
     }
@@ -901,7 +959,7 @@ extension B2bi {
         public let ediType: EdiType?
         /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat?
-        /// Specify  the InputConversion object, which contains the format options for the inbound transformation.
+        /// Specify the InputConversion object, which contains the format options for the inbound transformation.
         public let inputConversion: InputConversion?
         /// Specify the structure that contains the mapping template and its language (either XSLT or JSONATA).
         public let mapping: Mapping?
@@ -1194,11 +1252,11 @@ extension B2bi {
     }
 
     public struct GenerateMappingRequest: AWSEncodableShape {
-        /// Provide the contents of a sample X12 EDI file (for inbound EDI) or JSON/XML file (for outbound EDI) to use as a starting point for the mapping.
+        /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping.
         public let inputFileContent: String
         /// Specify the mapping type: either JSONATA or XSLT.
         public let mappingType: MappingType
-        /// Provide the contents of a sample X12 EDI file (for outbound EDI) or JSON/XML file (for inbound EDI) to use as a target for the mapping.
+        /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping.
         public let outputFileContent: String
 
         @inlinable
@@ -1625,19 +1683,37 @@ extension B2bi {
         }
     }
 
+    public struct InboundEdiOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains X12-specific options for processing inbound X12 EDI files.
+        public let x12: X12InboundEdiOptions?
+
+        @inlinable
+        public init(x12: X12InboundEdiOptions? = nil) {
+            self.x12 = x12
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x12 = "x12"
+        }
+    }
+
     public struct InputConversion: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies advanced options for the input conversion process. These options provide additional control over how EDI files are processed during transformation.
+        public let advancedOptions: AdvancedOptions?
         /// A structure that contains the formatting options for an inbound transformer.
         public let formatOptions: FormatOptions?
         /// The format for the transformer input: currently on X12 is supported.
         public let fromFormat: FromFormat
 
         @inlinable
-        public init(formatOptions: FormatOptions? = nil, fromFormat: FromFormat) {
+        public init(advancedOptions: AdvancedOptions? = nil, formatOptions: FormatOptions? = nil, fromFormat: FromFormat) {
+            self.advancedOptions = advancedOptions
             self.formatOptions = formatOptions
             self.fromFormat = fromFormat
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedOptions = "advancedOptions"
             case formatOptions = "formatOptions"
             case fromFormat = "fromFormat"
         }
@@ -2310,6 +2386,8 @@ extension B2bi {
     }
 
     public struct TestParsingRequest: AWSEncodableShape {
+        /// Specifies advanced options for parsing the input EDI file. These options allow for more granular control over the parsing process, including split options for X12 files.
+        public let advancedOptions: AdvancedOptions?
         /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
         public let ediType: EdiType
         /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
@@ -2318,7 +2396,8 @@ extension B2bi {
         public let inputFile: S3Location
 
         @inlinable
-        public init(ediType: EdiType, fileFormat: FileFormat, inputFile: S3Location) {
+        public init(advancedOptions: AdvancedOptions? = nil, ediType: EdiType, fileFormat: FileFormat, inputFile: S3Location) {
+            self.advancedOptions = advancedOptions
             self.ediType = ediType
             self.fileFormat = fileFormat
             self.inputFile = inputFile
@@ -2329,6 +2408,7 @@ extension B2bi {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedOptions = "advancedOptions"
             case ediType = "ediType"
             case fileFormat = "fileFormat"
             case inputFile = "inputFile"
@@ -2338,14 +2418,18 @@ extension B2bi {
     public struct TestParsingResponse: AWSDecodableShape {
         /// Returns the contents of the input file being tested, parsed according to the specified EDI (electronic data interchange) type.
         public let parsedFileContent: String
+        /// Returns an array of parsed file contents when the input file is split according to the specified split options. Each element in the array represents a separate split file's parsed content.
+        public let parsedSplitFileContents: [String]?
 
         @inlinable
-        public init(parsedFileContent: String) {
+        public init(parsedFileContent: String, parsedSplitFileContents: [String]? = nil) {
             self.parsedFileContent = parsedFileContent
+            self.parsedSplitFileContents = parsedSplitFileContents
         }
 
         private enum CodingKeys: String, CodingKey {
             case parsedFileContent = "parsedFileContent"
+            case parsedSplitFileContents = "parsedSplitFileContents"
         }
     }
 
@@ -2973,6 +3057,95 @@ extension B2bi {
         }
     }
 
+    public struct WrapOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the maximum length of a line before wrapping occurs. This value is used when wrapBy is set to LINE_LENGTH.
+        public let lineLength: Int?
+        /// Specifies the character sequence used to terminate lines when wrapping. Valid values:    CRLF: carriage return and line feed    LF: line feed)    CR: carriage return
+        public let lineTerminator: LineTerminator?
+        /// Specifies the method used for wrapping lines in the EDI output. Valid values:    SEGMENT: Wraps by segment.    ONE_LINE: Indicates that the entire content is on a single line.  When you specify ONE_LINE, do not provide either the line length nor the line terminator value.     LINE_LENGTH: Wraps by character count, as specified by lineLength value.
+        public let wrapBy: WrapFormat
+
+        @inlinable
+        public init(lineLength: Int? = nil, lineTerminator: LineTerminator? = nil, wrapBy: WrapFormat) {
+            self.lineLength = lineLength
+            self.lineTerminator = lineTerminator
+            self.wrapBy = wrapBy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lineLength, name: "lineLength", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineLength = "lineLength"
+            case lineTerminator = "lineTerminator"
+            case wrapBy = "wrapBy"
+        }
+    }
+
+    public struct X12AcknowledgmentOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether functional acknowledgments (997/999) should be generated for incoming X12 transactions. Valid values are DO_NOT_GENERATE, GENERATE_ALL_SEGMENTS and GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP. If you choose GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP, Amazon Web Services B2B Data Interchange skips the AK2_Loop when generating an acknowledgment document.
+        public let functionalAcknowledgment: X12FunctionalAcknowledgment
+        /// Specifies whether technical acknowledgments (TA1) should be generated for incoming X12 interchanges. Valid values are DO_NOT_GENERATE and GENERATE_ALL_SEGMENTS and.
+        public let technicalAcknowledgment: X12TechnicalAcknowledgment
+
+        @inlinable
+        public init(functionalAcknowledgment: X12FunctionalAcknowledgment, technicalAcknowledgment: X12TechnicalAcknowledgment) {
+            self.functionalAcknowledgment = functionalAcknowledgment
+            self.technicalAcknowledgment = technicalAcknowledgment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionalAcknowledgment = "functionalAcknowledgment"
+            case technicalAcknowledgment = "technicalAcknowledgment"
+        }
+    }
+
+    public struct X12AdvancedOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies options for splitting X12 EDI files. These options control how large X12 files are divided into smaller, more manageable units.
+        public let splitOptions: X12SplitOptions?
+
+        @inlinable
+        public init(splitOptions: X12SplitOptions? = nil) {
+            self.splitOptions = splitOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case splitOptions = "splitOptions"
+        }
+    }
+
+    public struct X12ControlNumbers: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the starting functional group control number (GS06) to use for X12 EDI generation. This number is incremented for each new functional group. For the GS (functional group) envelope, Amazon Web Services B2B Data Interchange generates a functional group control number that is unique to the sender ID, receiver ID, and functional identifier code combination.
+        public let startingFunctionalGroupControlNumber: Int?
+        /// Specifies the starting interchange control number (ISA13) to use for X12 EDI generation. This number is incremented for each new interchange. For the ISA (interchange) envelope, Amazon Web Services B2B Data Interchange generates an interchange control number that is unique for the ISA05 and ISA06 (sender) &amp; ISA07 and ISA08 (receiver) combination.
+        public let startingInterchangeControlNumber: Int?
+        /// Specifies the starting transaction set control number (ST02) to use for X12 EDI generation. This number is incremented for each new transaction set.
+        public let startingTransactionSetControlNumber: Int?
+
+        @inlinable
+        public init(startingFunctionalGroupControlNumber: Int? = nil, startingInterchangeControlNumber: Int? = nil, startingTransactionSetControlNumber: Int? = nil) {
+            self.startingFunctionalGroupControlNumber = startingFunctionalGroupControlNumber
+            self.startingInterchangeControlNumber = startingInterchangeControlNumber
+            self.startingTransactionSetControlNumber = startingTransactionSetControlNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.startingFunctionalGroupControlNumber, name: "startingFunctionalGroupControlNumber", parent: name, max: 999999999)
+            try self.validate(self.startingFunctionalGroupControlNumber, name: "startingFunctionalGroupControlNumber", parent: name, min: 1)
+            try self.validate(self.startingInterchangeControlNumber, name: "startingInterchangeControlNumber", parent: name, max: 999999999)
+            try self.validate(self.startingInterchangeControlNumber, name: "startingInterchangeControlNumber", parent: name, min: 1)
+            try self.validate(self.startingTransactionSetControlNumber, name: "startingTransactionSetControlNumber", parent: name, max: 999999999)
+            try self.validate(self.startingTransactionSetControlNumber, name: "startingTransactionSetControlNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startingFunctionalGroupControlNumber = "startingFunctionalGroupControlNumber"
+            case startingInterchangeControlNumber = "startingInterchangeControlNumber"
+            case startingTransactionSetControlNumber = "startingTransactionSetControlNumber"
+        }
+    }
+
     public struct X12Delimiters: AWSEncodableShape & AWSDecodableShape {
         /// The component, or sub-element, separator. The default value is : (colon).
         public let componentSeparator: String?
@@ -3028,18 +3201,22 @@ extension B2bi {
     public struct X12Envelope: AWSEncodableShape & AWSDecodableShape {
         /// A container for the X12 outbound EDI headers.
         public let common: X12OutboundEdiHeaders?
+        public let wrapOptions: WrapOptions?
 
         @inlinable
-        public init(common: X12OutboundEdiHeaders? = nil) {
+        public init(common: X12OutboundEdiHeaders? = nil, wrapOptions: WrapOptions? = nil) {
             self.common = common
+            self.wrapOptions = wrapOptions
         }
 
         public func validate(name: String) throws {
             try self.common?.validate(name: "\(name).common")
+            try self.wrapOptions?.validate(name: "\(name).wrapOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case common = "common"
+            case wrapOptions = "wrapOptions"
         }
     }
 
@@ -3074,6 +3251,20 @@ extension B2bi {
             case applicationReceiverCode = "applicationReceiverCode"
             case applicationSenderCode = "applicationSenderCode"
             case responsibleAgencyCode = "responsibleAgencyCode"
+        }
+    }
+
+    public struct X12InboundEdiOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies acknowledgment options for inbound X12 EDI files. These options control how functional and technical acknowledgments are handled.
+        public let acknowledgmentOptions: X12AcknowledgmentOptions?
+
+        @inlinable
+        public init(acknowledgmentOptions: X12AcknowledgmentOptions? = nil) {
+            self.acknowledgmentOptions = acknowledgmentOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgmentOptions = "acknowledgmentOptions"
         }
     }
 
@@ -3139,34 +3330,56 @@ extension B2bi {
     }
 
     public struct X12OutboundEdiHeaders: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies control number configuration for outbound X12 EDI headers. These settings determine the starting values for interchange, functional group, and transaction set control numbers.
+        public let controlNumbers: X12ControlNumbers?
         /// The delimiters, for example semicolon (;), that separates sections of the headers for the X12 object.
         public let delimiters: X12Delimiters?
         /// The functional group headers for the X12 object.
         public let functionalGroupHeaders: X12FunctionalGroupHeaders?
+        public let gs05TimeFormat: X12GS05TimeFormat?
         /// In X12 EDI messages, delimiters are used to mark the end of segments or elements, and are defined in the interchange control header.
         public let interchangeControlHeaders: X12InterchangeControlHeaders?
         /// Specifies whether or not to validate the EDI for this X12 object: TRUE or FALSE.
         public let validateEdi: Bool?
 
         @inlinable
-        public init(delimiters: X12Delimiters? = nil, functionalGroupHeaders: X12FunctionalGroupHeaders? = nil, interchangeControlHeaders: X12InterchangeControlHeaders? = nil, validateEdi: Bool? = nil) {
+        public init(controlNumbers: X12ControlNumbers? = nil, delimiters: X12Delimiters? = nil, functionalGroupHeaders: X12FunctionalGroupHeaders? = nil, gs05TimeFormat: X12GS05TimeFormat? = nil, interchangeControlHeaders: X12InterchangeControlHeaders? = nil, validateEdi: Bool? = nil) {
+            self.controlNumbers = controlNumbers
             self.delimiters = delimiters
             self.functionalGroupHeaders = functionalGroupHeaders
+            self.gs05TimeFormat = gs05TimeFormat
             self.interchangeControlHeaders = interchangeControlHeaders
             self.validateEdi = validateEdi
         }
 
         public func validate(name: String) throws {
+            try self.controlNumbers?.validate(name: "\(name).controlNumbers")
             try self.delimiters?.validate(name: "\(name).delimiters")
             try self.functionalGroupHeaders?.validate(name: "\(name).functionalGroupHeaders")
             try self.interchangeControlHeaders?.validate(name: "\(name).interchangeControlHeaders")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlNumbers = "controlNumbers"
             case delimiters = "delimiters"
             case functionalGroupHeaders = "functionalGroupHeaders"
+            case gs05TimeFormat = "gs05TimeFormat"
             case interchangeControlHeaders = "interchangeControlHeaders"
             case validateEdi = "validateEdi"
+        }
+    }
+
+    public struct X12SplitOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the method used to split X12 EDI files. Valid values include TRANSACTION (split by individual transaction sets), or NONE (no splitting).
+        public let splitBy: X12SplitBy
+
+        @inlinable
+        public init(splitBy: X12SplitBy) {
+            self.splitBy = splitBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case splitBy = "splitBy"
         }
     }
 

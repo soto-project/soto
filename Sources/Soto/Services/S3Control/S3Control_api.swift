@@ -341,7 +341,7 @@ public struct S3Control: AWSService {
         return try await self.createAccessGrantsLocation(input, logger: logger)
     }
 
-    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
     @Sendable
     @inlinable
     public func createAccessPoint(_ input: CreateAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPointResult {
@@ -355,7 +355,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
@@ -363,7 +363,7 @@ public struct S3Control: AWSService {
     ///   - bucketAccountId: The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required.  For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
     ///   - name: The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
     ///   - publicAccessBlockConfiguration:  The PublicAccessBlock configuration that you want to apply to the access point.
-    ///   - scope: For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is not supported for access points for general purpose buckets.
+    ///   - scope: For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is only supported for access points attached to directory buckets.
     ///   - vpcConfiguration: If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2447,7 +2447,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessGrantsLocations(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns a list of the access points that are owned by the current account that's associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
     @Sendable
     @inlinable
     public func listAccessPoints(_ input: ListAccessPointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPointsResult {
@@ -2461,11 +2461,13 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns a list of the access points that are owned by the current account that's associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access points.
     ///   - bucket: The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    ///   - dataSourceId: The unique identifier for the data source of the access point.
+    ///   - dataSourceType: The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
     ///   - maxResults: The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
     ///   - nextToken: A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
     ///   - logger: Logger use during operation
@@ -2473,6 +2475,8 @@ public struct S3Control: AWSService {
     public func listAccessPoints(
         accountId: String,
         bucket: String? = nil,
+        dataSourceId: String? = nil,
+        dataSourceType: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2480,6 +2484,8 @@ public struct S3Control: AWSService {
         let input = ListAccessPointsRequest(
             accountId: accountId, 
             bucket: bucket, 
+            dataSourceId: dataSourceId, 
+            dataSourceType: dataSourceType, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -2784,7 +2790,7 @@ public struct S3Control: AWSService {
         return try await self.listStorageLensGroups(input, logger: logger)
     }
 
-    /// This operation allows you to list all the Amazon Web Services resource tags for a specified resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.   Permissions  You must have the s3:ListTagsForResource permission to use this operation.     This operation is only supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.   For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
@@ -2798,11 +2804,11 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// This operation allows you to list all the Amazon Web Services resource tags for a specified resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.   Permissions  You must have the s3:ListTagsForResource permission to use this operation.     This operation is only supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.   For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the resource owner.
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 resource that you want to list the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -2908,7 +2914,7 @@ public struct S3Control: AWSService {
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
     ///   - name: The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
-    ///   - policy: The policy that you want to apply to the specified access point. For more information about access point policies, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory bucekts with access points in the Amazon S3 User Guide.
+    ///   - policy: The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAccessPointPolicy(
@@ -3398,7 +3404,7 @@ public struct S3Control: AWSService {
         return try await self.submitMultiRegionAccessPointRoutes(input, logger: logger)
     }
 
-    ///  Creates a new Amazon Web Services resource tag or updates an existing resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.    Permissions  You must have the s3:TagResource permission to use this operation.    For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    ///  Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for the following Amazon S3 resource:    Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
@@ -3412,11 +3418,11 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  Creates a new Amazon Web Services resource tag or updates an existing resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.    Permissions  You must have the s3:TagResource permission to use this operation.    For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    ///  Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for the following Amazon S3 resource:    Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID that created the S3 resource that you're trying to add tags to or the requester's account ID.
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 resource that you're trying to add tags to. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 resource that you're applying tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     ///   - tags: The Amazon Web Services resource tags that you want to add to the specified S3 resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3434,7 +3440,7 @@ public struct S3Control: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    ///  This operation removes the specified Amazon Web Services resource tags from an S3 resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.   This operation is only supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.    Permissions  You must have the s3:UntagResource permission to use this operation.    For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResult {
@@ -3448,11 +3454,11 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation removes the specified Amazon Web Services resource tags from an S3 resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.   This operation is only supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.    Permissions  You must have the s3:UntagResource permission to use this operation.    For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
     ///
     /// Parameters:
     ///   - accountId:  The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from.
-    ///   - resourceArn:  The Amazon Resource Name (ARN) of the S3 resource that you're trying to remove the tags from.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 resource that you're removing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     ///   - tagKeys:  The array of tag key-value pairs that you're trying to remove from of the S3 resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3783,18 +3789,24 @@ extension S3Control {
     /// - Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access points.
     ///   - bucket: The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
+    ///   - dataSourceId: The unique identifier for the data source of the access point.
+    ///   - dataSourceType: The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
     ///   - maxResults: The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAccessPointsPaginator(
         accountId: String,
         bucket: String? = nil,
+        dataSourceId: String? = nil,
+        dataSourceType: String? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListAccessPointsRequest, ListAccessPointsResult> {
         let input = ListAccessPointsRequest(
             accountId: accountId, 
             bucket: bucket, 
+            dataSourceId: dataSourceId, 
+            dataSourceType: dataSourceType, 
             maxResults: maxResults
         )
         return self.listAccessPointsPaginator(input, logger: logger)
@@ -4174,6 +4186,8 @@ extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
         return .init(
             accountId: self.accountId,
             bucket: self.bucket,
+            dataSourceId: self.dataSourceId,
+            dataSourceType: self.dataSourceType,
             maxResults: self.maxResults,
             nextToken: token
         )

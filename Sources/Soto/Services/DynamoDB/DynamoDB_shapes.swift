@@ -226,11 +226,14 @@ extension DynamoDB {
 
     public enum ReplicaStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        case archiving = "ARCHIVING"
         case creating = "CREATING"
         case creationFailed = "CREATION_FAILED"
         case deleting = "DELETING"
         case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
         case regionDisabled = "REGION_DISABLED"
+        case replicationNotAuthorized = "REPLICATION_NOT_AUTHORIZED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -320,6 +323,7 @@ extension DynamoDB {
         case creating = "CREATING"
         case deleting = "DELETING"
         case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
+        case replicationNotAuthorized = "REPLICATION_NOT_AUTHORIZED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -329,6 +333,13 @@ extension DynamoDB {
         case disabling = "DISABLING"
         case enabled = "ENABLED"
         case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WitnessStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -1421,6 +1432,20 @@ extension DynamoDB {
         }
     }
 
+    public struct CreateGlobalTableWitnessGroupMemberAction: AWSEncodableShape {
+        /// The Amazon Web Services Region name to be added as a witness Region for the MRSC global table. The witness must be in a different Region than the replicas and within the same Region set:   US Region set: US East (N. Virginia), US East (Ohio), US West (Oregon)   EU Region set: Europe (Ireland), Europe (London), Europe (Paris), Europe (Frankfurt)   AP Region set: Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Osaka)
+        public let regionName: String
+
+        @inlinable
+        public init(regionName: String) {
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+        }
+    }
+
     public struct CreateReplicaAction: AWSEncodableShape {
         /// The Region of the replica to be added.
         public let regionName: String
@@ -1714,6 +1739,20 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
+        }
+    }
+
+    public struct DeleteGlobalTableWitnessGroupMemberAction: AWSEncodableShape {
+        /// The witness Region name to be removed from the MRSC global table.
+        public let regionName: String
+
+        @inlinable
+        public init(regionName: String) {
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
         }
     }
 
@@ -3207,6 +3246,42 @@ extension DynamoDB {
             case indexName = "IndexName"
             case provisionedWriteCapacityAutoScalingSettingsUpdate = "ProvisionedWriteCapacityAutoScalingSettingsUpdate"
             case provisionedWriteCapacityUnits = "ProvisionedWriteCapacityUnits"
+        }
+    }
+
+    public struct GlobalTableWitnessDescription: AWSDecodableShape {
+        /// The name of the Amazon Web Services Region that serves as a witness for the MRSC global table.
+        public let regionName: String?
+        /// The current status of the witness Region in the MRSC global table.
+        public let witnessStatus: WitnessStatus?
+
+        @inlinable
+        public init(regionName: String? = nil, witnessStatus: WitnessStatus? = nil) {
+            self.regionName = regionName
+            self.witnessStatus = witnessStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+            case witnessStatus = "WitnessStatus"
+        }
+    }
+
+    public struct GlobalTableWitnessGroupUpdate: AWSEncodableShape {
+        /// Specifies a witness Region to be added to a new MRSC global table. The witness must be added when creating the MRSC global table.
+        public let create: CreateGlobalTableWitnessGroupMemberAction?
+        /// Specifies a witness Region to be removed from an existing global table. Must be done in conjunction with removing a replica. The deletion of both a witness and replica converts the remaining replica to a single-Region DynamoDB table.
+        public let delete: DeleteGlobalTableWitnessGroupMemberAction?
+
+        @inlinable
+        public init(create: CreateGlobalTableWitnessGroupMemberAction? = nil, delete: DeleteGlobalTableWitnessGroupMemberAction? = nil) {
+            self.create = create
+            self.delete = delete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case create = "Create"
+            case delete = "Delete"
         }
     }
 
@@ -5625,6 +5700,8 @@ extension DynamoDB {
         public let globalSecondaryIndexes: [GlobalSecondaryIndexDescription]?
         /// Represents the version of global tables in use, if the table is replicated across Amazon Web Services Regions.
         public let globalTableVersion: String?
+        /// The witness Region and its current status in the MRSC global table. Only one witness Region can be configured per MRSC global table.
+        public let globalTableWitnesses: [GlobalTableWitnessDescription]?
         /// The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let itemCount: Int64?
         /// The primary key structure for the table. Each KeySchemaElement consists of:    AttributeName - The name of the attribute.    KeyType - The role of the attribute:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.    For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide.
@@ -5635,7 +5712,7 @@ extension DynamoDB {
         public let latestStreamLabel: String?
         /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
         public let localSecondaryIndexes: [LocalSecondaryIndexDescription]?
-        /// Indicates one of the following consistency modes for a global table:    EVENTUAL: Indicates that the global table is configured for multi-Region eventual consistency.    STRONG: Indicates that the global table is configured for multi-Region strong consistency (preview).  Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see Global tables multi-Region strong consistency.    If you don't specify this field, the global table consistency mode defaults to EVENTUAL.
+        /// Indicates one of the following consistency modes for a global table:    EVENTUAL: Indicates that the global table is configured for multi-Region eventual consistency (MREC).    STRONG: Indicates that the global table is configured for multi-Region strong consistency (MRSC).   If you don't specify this field, the global table consistency mode defaults to EVENTUAL. For more information about global tables consistency modes, see  Consistency modes in DynamoDB developer guide.
         public let multiRegionConsistency: MultiRegionConsistency?
         /// The maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public let onDemandThroughput: OnDemandThroughput?
@@ -5665,7 +5742,7 @@ extension DynamoDB {
         public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, globalTableWitnesses: [GlobalTableWitnessDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -5673,6 +5750,7 @@ extension DynamoDB {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableVersion = globalTableVersion
+            self.globalTableWitnesses = globalTableWitnesses
             self.itemCount = itemCount
             self.keySchema = keySchema
             self.latestStreamArn = latestStreamArn
@@ -5702,6 +5780,7 @@ extension DynamoDB {
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case globalTableVersion = "GlobalTableVersion"
+            case globalTableWitnesses = "GlobalTableWitnesses"
             case itemCount = "ItemCount"
             case keySchema = "KeySchema"
             case latestStreamArn = "LatestStreamArn"
@@ -6506,13 +6585,15 @@ extension DynamoDB {
         public let deletionProtectionEnabled: Bool?
         /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
-        /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency. This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (preview).  Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see Global tables multi-Region strong consistency.    If you don't specify this parameter, the global table consistency mode defaults to EVENTUAL.
+        /// A list of witness updates for a  MRSC global table. A witness provides a cost-effective alternative to a full replica in a MRSC global table by maintaining replicated change data written to global table replicas. You cannot perform read or write operations on a witness. For each witness, you can request one action:    Create - add a new witness to the global table.    Delete - remove a witness from the global table.   You can create or delete only one witness per UpdateTable operation. For more information, see Multi-Region strong consistency (MRSC) in the Amazon DynamoDB Developer Guide
+        public let globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]?
+        /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency (MREC). This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (MRSC).   If you don't specify this field, the global table consistency mode defaults to EVENTUAL. For more information about global tables consistency modes, see  Consistency modes in DynamoDB developer guide.
         public let multiRegionConsistency: MultiRegionConsistency?
         /// Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public let onDemandThroughput: OnDemandThroughput?
         /// The new provisioned throughput settings for the specified table or index.
         public let provisionedThroughput: ProvisionedThroughput?
-        /// A list of replica update actions (create, delete, or update) for the table.  For global tables, this property only applies to global tables using Version 2019.11.21 (Current version).
+        /// A list of replica update actions (create, delete, or update) for the table.
         public let replicaUpdates: [ReplicationGroupUpdate]?
         /// The new server-side encryption settings for the specified table.
         public let sseSpecification: SSESpecification?
@@ -6526,11 +6607,12 @@ extension DynamoDB {
         public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, warmThroughput: WarmThroughput? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+            self.globalTableWitnessUpdates = globalTableWitnessUpdates
             self.multiRegionConsistency = multiRegionConsistency
             self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
@@ -6549,6 +6631,8 @@ extension DynamoDB {
             try self.globalSecondaryIndexUpdates?.forEach {
                 try $0.validate(name: "\(name).globalSecondaryIndexUpdates[]")
             }
+            try self.validate(self.globalTableWitnessUpdates, name: "globalTableWitnessUpdates", parent: name, max: 1)
+            try self.validate(self.globalTableWitnessUpdates, name: "globalTableWitnessUpdates", parent: name, min: 1)
             try self.provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
             try self.replicaUpdates?.forEach {
                 try $0.validate(name: "\(name).replicaUpdates[]")
@@ -6563,6 +6647,7 @@ extension DynamoDB {
             case billingMode = "BillingMode"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
             case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+            case globalTableWitnessUpdates = "GlobalTableWitnessUpdates"
             case multiRegionConsistency = "MultiRegionConsistency"
             case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
@@ -6801,7 +6886,7 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var globalTableNotFoundException: Self { .init(.globalTableNotFoundException) }
     /// DynamoDB rejected the request because you retried a request with a different payload but with an idempotent token that was already used.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
-    ///  There was a conflict when importing from the specified S3 source.  This can occur when the current import conflicts with a previous import request  that had the same client token.
+    ///  There was a conflict when importing from the specified S3 source. This can occur when the current import conflicts with a previous import request that had the same client token.
     public static var importConflictException: Self { .init(.importConflictException) }
     ///  The specified import was not found.
     public static var importNotFoundException: Self { .init(.importNotFoundException) }
@@ -6842,11 +6927,11 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var tableInUseException: Self { .init(.tableInUseException) }
     /// A source table with the name TableName does not currently exist within the subscriber's account or the subscriber is operating in the wrong Amazon Web Services Region.
     public static var tableNotFoundException: Self { .init(.tableNotFoundException) }
-    /// The entire transaction request was canceled. DynamoDB cancels a TransactWriteItems request under the following circumstances:   A condition in one of the condition expressions is not met.   A table in the TransactWriteItems request is in a different account or region.   More than one action in the TransactWriteItems operation targets the same item.   There is insufficient provisioned capacity for the transaction to be completed.   An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.   There is a user error, such as an invalid data format.    There is an ongoing TransactWriteItems operation that conflicts with a concurrent  TransactWriteItems request. In this case the TransactWriteItems operation  fails with a TransactionCanceledException.    DynamoDB cancels a TransactGetItems request under the following circumstances:   There is an ongoing TransactGetItems operation that conflicts with a concurrent PutItem, UpdateItem, DeleteItem or TransactWriteItems request. In this case the TransactGetItems operation fails with a TransactionCanceledException.   A table in the TransactGetItems request is in a different account or region.   There is insufficient provisioned capacity for the transaction to be completed.   There is a user error, such as an invalid data format.    If using Java, DynamoDB lists the cancellation reasons on the CancellationReasons property. This property is not set for other languages. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message.  Cancellation reason codes and possible error messages:   No Errors:   Code: None    Message: null      Conditional Check Failed:   Code: ConditionalCheckFailed    Message: The conditional request failed.      Item Collection Size Limit Exceeded:   Code: ItemCollectionSizeLimitExceeded    Message: Collection size exceeded.     Transaction Conflict:   Code: TransactionConflict    Message: Transaction is ongoing for the item.     Provisioned Throughput Exceeded:   Code: ProvisionedThroughputExceeded    Messages:   The level of configured provisioned throughput for the table was exceeded. Consider increasing your provisioning level with the UpdateTable API.  This Message is received when provisioned throughput is exceeded is on a provisioned DynamoDB table.    The level of configured provisioned throughput for one or more global secondary indexes of the table was exceeded. Consider increasing your provisioning level for the under-provisioned global secondary indexes with the UpdateTable API.  This message is returned when provisioned throughput is exceeded is on a provisioned GSI.        Throttling Error:   Code: ThrottlingError    Messages:    Throughput exceeds the current capacity of your table or index. DynamoDB is automatically scaling your table or index so please try again shortly. If exceptions persist, check if you have a hot key: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html.  This message is returned when writes get throttled on an On-Demand table as DynamoDB is automatically scaling the table.    Throughput exceeds the current capacity for one or more global secondary indexes. DynamoDB is automatically scaling your index so please try again shortly.  This message is returned when writes get throttled on an On-Demand GSI as DynamoDB is automatically scaling the GSI.        Validation Error:   Code: ValidationError    Messages:    One or more parameter values were invalid.   The update expression attempted to update the secondary index key beyond allowed size limits.   The update expression attempted to update the secondary index key to unsupported type.   An operand in the update expression has an incorrect data type.   Item size to update has exceeded the maximum allowed size.   Number overflow. Attempting to store a number with magnitude larger than supported range.   Type mismatch for attribute to update.   Nesting Levels have exceeded supported limits.   The document path provided in the update expression is invalid for update.   The provided expression refers to an attribute that does not exist in the item.
+    /// The entire transaction request was canceled. DynamoDB cancels a TransactWriteItems request under the following circumstances:   A condition in one of the condition expressions is not met.   A table in the TransactWriteItems request is in a different account or region.   More than one action in the TransactWriteItems operation targets the same item.   There is insufficient provisioned capacity for the transaction to be completed.   An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.   There is a user error, such as an invalid data format.   There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.    DynamoDB cancels a TransactGetItems request under the following circumstances:   There is an ongoing TransactGetItems operation that conflicts with a concurrent PutItem, UpdateItem, DeleteItem or TransactWriteItems request. In this case the TransactGetItems operation fails with a TransactionCanceledException.   A table in the TransactGetItems request is in a different account or region.   There is insufficient provisioned capacity for the transaction to be completed.   There is a user error, such as an invalid data format.    If using Java, DynamoDB lists the cancellation reasons on the CancellationReasons property. This property is not set for other languages. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message.  Cancellation reason codes and possible error messages:   No Errors:   Code: None    Message: null      Conditional Check Failed:   Code: ConditionalCheckFailed    Message: The conditional request failed.      Item Collection Size Limit Exceeded:   Code: ItemCollectionSizeLimitExceeded    Message: Collection size exceeded.     Transaction Conflict:   Code: TransactionConflict    Message: Transaction is ongoing for the item.     Provisioned Throughput Exceeded:   Code: ProvisionedThroughputExceeded    Messages:   The level of configured provisioned throughput for the table was exceeded. Consider increasing your provisioning level with the UpdateTable API.  This Message is received when provisioned throughput is exceeded is on a provisioned DynamoDB table.    The level of configured provisioned throughput for one or more global secondary indexes of the table was exceeded. Consider increasing your provisioning level for the under-provisioned global secondary indexes with the UpdateTable API.  This message is returned when provisioned throughput is exceeded is on a provisioned GSI.        Throttling Error:   Code: ThrottlingError    Messages:    Throughput exceeds the current capacity of your table or index. DynamoDB is automatically scaling your table or index so please try again shortly. If exceptions persist, check if you have a hot key: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html.  This message is returned when writes get throttled on an On-Demand table as DynamoDB is automatically scaling the table.    Throughput exceeds the current capacity for one or more global secondary indexes. DynamoDB is automatically scaling your index so please try again shortly.  This message is returned when writes get throttled on an On-Demand GSI as DynamoDB is automatically scaling the GSI.        Validation Error:   Code: ValidationError    Messages:    One or more parameter values were invalid.   The update expression attempted to update the secondary index key beyond allowed size limits.   The update expression attempted to update the secondary index key to unsupported type.   An operand in the update expression has an incorrect data type.   Item size to update has exceeded the maximum allowed size.   Number overflow. Attempting to store a number with magnitude larger than supported range.   Type mismatch for attribute to update.   Nesting Levels have exceeded supported limits.   The document path provided in the update expression is invalid for update.   The provided expression refers to an attribute that does not exist in the item.
     public static var transactionCanceledException: Self { .init(.transactionCanceledException) }
     /// Operation was rejected because there is an ongoing transaction for the item.
     public static var transactionConflictException: Self { .init(.transactionConflictException) }
-    /// The transaction with the given request token is already in progress.  Recommended Settings                This is a general recommendation for handling the TransactionInProgressException. These settings help  ensure that the client retries will trigger completion of the ongoing TransactWriteItems request.      Set clientExecutionTimeout to a value that allows at least one retry to be processed after 5  seconds have elapsed since the first attempt for the TransactWriteItems operation.     Set socketTimeout to a value a little lower than the requestTimeout setting.     requestTimeout should be set based on the time taken for the individual retries of a single  HTTP request for your use case, but setting it to 1 second or higher should work well to reduce chances of  retries and TransactionInProgressException errors.     Use exponential backoff when retrying and tune backoff if needed.     Assuming default retry policy,  example timeout settings based on the guidelines above are as follows:              Example timeline:   0-1000 first attempt   1000-1500 first sleep/delay (default retry policy uses 500 ms as base delay for 4xx errors)   1500-2500 second attempt   2500-3500 second sleep/delay (500 * 2, exponential backoff)   3500-4500 third attempt   4500-6500 third sleep/delay (500 * 2^2)   6500-7500 fourth attempt (this can trigger inline recovery since 5 seconds have elapsed since the first attempt reached TC)
+    /// The transaction with the given request token is already in progress. Recommended Settings   This is a general recommendation for handling the TransactionInProgressException. These settings help ensure that the client retries will trigger completion of the ongoing TransactWriteItems request.     Set clientExecutionTimeout to a value that allows at least one retry to be processed after 5 seconds have elapsed since the first attempt for the TransactWriteItems operation.    Set socketTimeout to a value a little lower than the requestTimeout setting.     requestTimeout should be set based on the time taken for the individual retries of a single HTTP request for your use case, but setting it to 1 second or higher should work well to reduce chances of retries and TransactionInProgressException errors.    Use exponential backoff when retrying and tune backoff if needed.    Assuming default retry policy, example timeout settings based on the guidelines above are as follows:  Example timeline:   0-1000 first attempt   1000-1500 first sleep/delay (default retry policy uses 500 ms as base delay for 4xx errors)   1500-2500 second attempt   2500-3500 second sleep/delay (500 * 2, exponential backoff)   3500-4500 third attempt   4500-6500 third sleep/delay (500 * 2^2)   6500-7500 fourth attempt (this can trigger inline recovery since 5 seconds have elapsed since the first attempt reached TC)
     public static var transactionInProgressException: Self { .init(.transactionInProgressException) }
 }
 

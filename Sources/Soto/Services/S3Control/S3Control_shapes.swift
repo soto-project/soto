@@ -456,6 +456,10 @@ extension S3Control {
         public let bucket: String
         /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
         public let bucketAccountId: String?
+        /// A unique identifier for the data source of the access point.
+        public let dataSourceId: String?
+        /// The type of the data source that the access point is attached to.
+        public let dataSourceType: String?
         /// The name of this access point.
         public let name: String
         /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
@@ -464,11 +468,13 @@ extension S3Control {
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
-        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String, bucketAccountId: String? = nil, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String, bucketAccountId: String? = nil, dataSourceId: String? = nil, dataSourceType: String? = nil, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
+            self.dataSourceId = dataSourceId
+            self.dataSourceType = dataSourceType
             self.name = name
             self.networkOrigin = networkOrigin
             self.vpcConfiguration = vpcConfiguration
@@ -479,6 +485,8 @@ extension S3Control {
             case alias = "Alias"
             case bucket = "Bucket"
             case bucketAccountId = "BucketAccountId"
+            case dataSourceId = "DataSourceId"
+            case dataSourceType = "DataSourceType"
             case name = "Name"
             case networkOrigin = "NetworkOrigin"
             case vpcConfiguration = "VpcConfiguration"
@@ -1135,7 +1143,7 @@ extension S3Control {
         public let name: String
         ///  The PublicAccessBlock configuration that you want to apply to the access point.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is not supported for access points for general purpose buckets.
+        /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is only supported for access points attached to directory buckets.
         public let scope: Scope?
         /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
         public let vpcConfiguration: VpcConfiguration?
@@ -3122,6 +3130,10 @@ extension S3Control {
         public let bucketAccountId: String?
         /// The date and time when the specified access point was created.
         public let creationDate: Date?
+        /// The unique identifier for the data source of the access point.
+        public let dataSourceId: String?
+        /// The type of the data source that the access point is attached to.
+        public let dataSourceType: String?
         /// The VPC endpoint for the access point.
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var endpoints: [String: String]?
@@ -3134,12 +3146,14 @@ extension S3Control {
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
-        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String? = nil, bucketAccountId: String? = nil, creationDate: Date? = nil, endpoints: [String: String]? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String? = nil, bucketAccountId: String? = nil, creationDate: Date? = nil, dataSourceId: String? = nil, dataSourceType: String? = nil, endpoints: [String: String]? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
             self.creationDate = creationDate
+            self.dataSourceId = dataSourceId
+            self.dataSourceType = dataSourceType
             self.endpoints = endpoints
             self.name = name
             self.networkOrigin = networkOrigin
@@ -3153,6 +3167,8 @@ extension S3Control {
             case bucket = "Bucket"
             case bucketAccountId = "BucketAccountId"
             case creationDate = "CreationDate"
+            case dataSourceId = "DataSourceId"
+            case dataSourceType = "DataSourceType"
             case endpoints = "Endpoints"
             case name = "Name"
             case networkOrigin = "NetworkOrigin"
@@ -5114,15 +5130,21 @@ extension S3Control {
         public let accountId: String
         /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String?
+        /// The unique identifier for the data source of the access point.
+        public let dataSourceId: String?
+        /// The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
+        public let dataSourceType: String?
         /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
         public let maxResults: Int?
         /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
-        public init(accountId: String, bucket: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String, bucket: String? = nil, dataSourceId: String? = nil, dataSourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.bucket = bucket
+            self.dataSourceId = dataSourceId
+            self.dataSourceType = dataSourceType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5133,6 +5155,8 @@ extension S3Control {
             request.encodeHeader(self.accountId, key: "x-amz-account-id")
             request.encodeHostPrefix(self.accountId, key: "AccountId")
             request.encodeQuery(self.bucket, key: "bucket")
+            request.encodeQuery(self.dataSourceId, key: "dataSourceId")
+            request.encodeQuery(self.dataSourceType, key: "dataSourceType")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -5142,6 +5166,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 191)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -5582,7 +5607,7 @@ extension S3Control {
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID of the resource owner.
         public let accountId: String
-        /// The Amazon Resource Name (ARN) of the S3 resource that you want to list the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+        /// The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
 
         @inlinable
@@ -5603,7 +5628,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3:[^:]")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3(express)?:[^:]")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6176,7 +6201,7 @@ extension S3Control {
         public let accountId: String
         /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
-        /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory bucekts with access points in the Amazon S3 User Guide.
+        /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
         public let policy: String
 
         @inlinable
@@ -8101,7 +8126,7 @@ extension S3Control {
 
         /// The Amazon Web Services account ID that created the S3 resource that you're trying to add tags to or the requester's account ID.
         public let accountId: String
-        /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to add tags to. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+        /// The Amazon Resource Name (ARN) of the S3 resource that you're applying tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
         /// The Amazon Web Services resource tags that you want to add to the specified S3 resource.
         @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -8127,7 +8152,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3:[^:]")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3(express)?:[^:]")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -8189,7 +8214,7 @@ extension S3Control {
     public struct UntagResourceRequest: AWSEncodableShape {
         ///  The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from.
         public let accountId: String
-        ///  The Amazon Resource Name (ARN) of the S3 resource that you're trying to remove the tags from.
+        /// The Amazon Resource Name (ARN) of the S3 resource that you're removing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
         ///  The array of tag key-value pairs that you're trying to remove from of the S3 resource.
         public let tagKeys: [String]
@@ -8214,7 +8239,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3:[^:]")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]+:s3(express)?:[^:]")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

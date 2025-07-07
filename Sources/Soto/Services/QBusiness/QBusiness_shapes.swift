@@ -103,6 +103,14 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum ChatResponseConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case html = "HTML"
@@ -122,6 +130,12 @@ extension QBusiness {
     public enum CreatorModeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataAccessorAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsIamIdcAuthCode = "AWS_IAM_IDC_AUTH_CODE"
+        case awsIamIdcTti = "AWS_IAM_IDC_TTI"
         public var description: String { return self.rawValue }
     }
 
@@ -151,6 +165,8 @@ extension QBusiness {
         case low = "LOW"
         case medium = "MEDIUM"
         case none = "NONE"
+        case one = "ONE"
+        case two = "TWO"
         case veryHigh = "VERY_HIGH"
         public var description: String { return self.rawValue }
     }
@@ -292,6 +308,11 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum PermissionConditionOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case stringEquals = "StringEquals"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PersonalizationControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -357,6 +378,11 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResponseConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResponseScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enterpriseContentOnly = "ENTERPRISE_CONTENT_ONLY"
         case extendedKnowledgeEnabled = "EXTENDED_KNOWLEDGE_ENABLED"
@@ -398,9 +424,14 @@ extension QBusiness {
     }
 
     public enum StringAttributeValueBoostingLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case five = "FIVE"
+        case four = "FOUR"
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
+        case one = "ONE"
+        case three = "THREE"
+        case two = "TWO"
         case veryHigh = "VERY_HIGH"
         public var description: String { return self.rawValue }
     }
@@ -608,13 +639,13 @@ extension QBusiness {
     }
 
     public enum DocumentAttributeBoostingConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// Provides information on boosting DATE type document attributes.
+        /// Provides information on boosting DATE type document attributes. Version 2 assigns priority tiers to DATE attributes, establishing clear hierarchical relationships with other boosted attributes.
         case dateConfiguration(DateAttributeBoostingConfiguration)
-        /// Provides information on boosting NUMBER type document attributes.
+        /// Provides information on boosting NUMBER type document attributes.  NUMBER attributes are not supported when using NativeIndexConfiguration version 2, which focuses on DATE attributes for recency and STRING attributes for source prioritization.
         case numberConfiguration(NumberAttributeBoostingConfiguration)
-        /// Provides information on boosting STRING type document attributes.
+        /// Provides information on boosting STRING type document attributes. Version 2 assigns priority tiers to STRING attributes, establishing clear hierarchical relationships with other boosted attributes.
         case stringConfiguration(StringAttributeBoostingConfiguration)
-        /// Provides information on boosting STRING_LIST type document attributes.
+        /// Provides information on boosting STRING_LIST type document attributes.  STRING_LIST attributes are not supported when using NativeIndexConfiguration version 2, which focuses on DATE attributes for recency and STRING attributes for source prioritization.
         case stringListConfiguration(StringListAttributeBoostingConfiguration)
 
         public init(from decoder: Decoder) throws {
@@ -1525,15 +1556,18 @@ extension QBusiness {
         public let actions: [String]
         /// The unique identifier of the Amazon Q Business application.
         public let applicationId: String
+        /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific attributes of the request.
+        public let conditions: [PermissionCondition]?
         /// The Amazon Resource Name of the IAM role for the ISV that is being granted permission.
         public let principal: String
         /// A unique identifier for the policy statement.
         public let statementId: String
 
         @inlinable
-        public init(actions: [String], applicationId: String, principal: String, statementId: String) {
+        public init(actions: [String], applicationId: String, conditions: [PermissionCondition]? = nil, principal: String, statementId: String) {
             self.actions = actions
             self.applicationId = applicationId
+            self.conditions = conditions
             self.principal = principal
             self.statementId = statementId
         }
@@ -1543,6 +1577,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.actions, forKey: .actions)
             request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.conditions, forKey: .conditions)
             try container.encode(self.principal, forKey: .principal)
             try container.encode(self.statementId, forKey: .statementId)
         }
@@ -1556,6 +1591,11 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.conditions?.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 10)
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
             try self.validate(self.principal, name: "principal", parent: name, max: 1284)
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
             try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
@@ -1566,6 +1606,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
+            case conditions = "conditions"
             case principal = "principal"
             case statementId = "statementId"
         }
@@ -2325,6 +2366,73 @@ extension QBusiness {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ChatResponseConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the chat response configuration, which uniquely identifies the resource across all Amazon Web Services services and accounts.
+        public let chatResponseConfigurationArn: String
+        /// A unique identifier for your chat response configuration settings, used to reference and manage the configuration within the Amazon Q Business service.
+        public let chatResponseConfigurationId: String
+        /// The timestamp indicating when the chat response configuration was initially created, useful for tracking the lifecycle of configuration resources.
+        public let createdAt: Date?
+        /// A human-readable name for the chat response configuration, making it easier to identify and manage multiple configurations within an organization.
+        public let displayName: String
+        /// A summary of the response configuration settings, providing a concise overview of the key parameters that define how responses are generated and formatted.
+        public let responseConfigurationSummary: String?
+        /// The current status of the chat response configuration, indicating whether it is active, pending, or in another state that affects its availability for use in chat interactions.
+        public let status: ChatResponseConfigurationStatus
+        /// The timestamp indicating when the chat response configuration was last modified, helping administrators track changes and maintain version awareness.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(chatResponseConfigurationArn: String, chatResponseConfigurationId: String, createdAt: Date? = nil, displayName: String, responseConfigurationSummary: String? = nil, status: ChatResponseConfigurationStatus, updatedAt: Date? = nil) {
+            self.chatResponseConfigurationArn = chatResponseConfigurationArn
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+            self.createdAt = createdAt
+            self.displayName = displayName
+            self.responseConfigurationSummary = responseConfigurationSummary
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chatResponseConfigurationArn = "chatResponseConfigurationArn"
+            case chatResponseConfigurationId = "chatResponseConfigurationId"
+            case createdAt = "createdAt"
+            case displayName = "displayName"
+            case responseConfigurationSummary = "responseConfigurationSummary"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct ChatResponseConfigurationDetail: AWSDecodableShape {
+        public let error: ErrorDetail?
+        /// A collection of specific response configuration settings that collectively define how responses are generated, formatted, and presented to users in chat interactions.
+        public let responseConfigurations: [ResponseConfigurationType: ResponseConfiguration]?
+        /// A summary of the response configuration details, providing a concise overview of the key parameters and settings that define the response generation behavior.
+        public let responseConfigurationSummary: String?
+        /// The current status of the chat response configuration, indicating whether it is active, pending, or in another state that affects its availability for use.
+        public let status: ChatResponseConfigurationStatus?
+        /// The timestamp indicating when the detailed chat response configuration was last modified, helping administrators track changes and maintain version awareness.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(error: ErrorDetail? = nil, responseConfigurations: [ResponseConfigurationType: ResponseConfiguration]? = nil, responseConfigurationSummary: String? = nil, status: ChatResponseConfigurationStatus? = nil, updatedAt: Date? = nil) {
+            self.error = error
+            self.responseConfigurations = responseConfigurations
+            self.responseConfigurationSummary = responseConfigurationSummary
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case responseConfigurations = "responseConfigurations"
+            case responseConfigurationSummary = "responseConfigurationSummary"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct ChatSyncInput: AWSEncodableShape {
         /// A request from an end user to perform an Amazon Q Business plugin action.
         public let actionExecution: ActionExecution?
@@ -2850,11 +2958,89 @@ extension QBusiness {
         }
     }
 
+    public struct CreateChatResponseConfigurationRequest: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application for which to create the new chat response configuration.
+        public let applicationId: String
+        /// A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same configuration from being created multiple times if retries occur.
+        public let clientToken: String?
+        /// A human-readable name for the new chat response configuration, making it easier to identify and manage among multiple configurations.
+        public let displayName: String
+        /// A collection of response configuration settings that define how Amazon Q Business will generate and format responses to user queries in chat interactions.
+        public let responseConfigurations: [ResponseConfigurationType: ResponseConfiguration]
+        /// A list of key-value pairs to apply as tags to the new chat response configuration, enabling categorization and management of resources across Amazon Web Services services.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(applicationId: String, clientToken: String? = CreateChatResponseConfigurationRequest.idempotencyToken(), displayName: String, responseConfigurations: [ResponseConfigurationType: ResponseConfiguration], tags: [Tag]? = nil) {
+            self.applicationId = applicationId
+            self.clientToken = clientToken
+            self.displayName = displayName
+            self.responseConfigurations = responseConfigurations
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.displayName, forKey: .displayName)
+            try container.encode(self.responseConfigurations, forKey: .responseConfigurations)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.responseConfigurations.forEach {
+                try $0.value.validate(name: "\(name).responseConfigurations[\"\($0.key)\"]")
+            }
+            try self.validate(self.responseConfigurations, name: "responseConfigurations", parent: name, max: 1)
+            try self.validate(self.responseConfigurations, name: "responseConfigurations", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case displayName = "displayName"
+            case responseConfigurations = "responseConfigurations"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateChatResponseConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the newly created chat response configuration, which uniquely identifies the resource across all Amazon Web Services services.
+        public let chatResponseConfigurationArn: String
+        /// The unique identifier assigned to a newly created chat response configuration, used for subsequent operations on this resource.
+        public let chatResponseConfigurationId: String
+
+        @inlinable
+        public init(chatResponseConfigurationArn: String, chatResponseConfigurationId: String) {
+            self.chatResponseConfigurationArn = chatResponseConfigurationArn
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chatResponseConfigurationArn = "chatResponseConfigurationArn"
+            case chatResponseConfigurationId = "chatResponseConfigurationId"
+        }
+    }
+
     public struct CreateDataAccessorRequest: AWSEncodableShape {
         /// A list of action configurations specifying the allowed actions and any associated filters.
         public let actionConfigurations: [ActionConfiguration]
         /// The unique identifier of the Amazon Q Business application.
         public let applicationId: String
+        /// The authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// A unique, case-sensitive identifier you provide to ensure idempotency of the request.
         public let clientToken: String?
         /// A friendly name for the data accessor.
@@ -2865,9 +3051,10 @@ extension QBusiness {
         public let tags: [Tag]?
 
         @inlinable
-        public init(actionConfigurations: [ActionConfiguration], applicationId: String, clientToken: String? = CreateDataAccessorRequest.idempotencyToken(), displayName: String, principal: String, tags: [Tag]? = nil) {
+        public init(actionConfigurations: [ActionConfiguration], applicationId: String, authenticationDetail: DataAccessorAuthenticationDetail? = nil, clientToken: String? = CreateDataAccessorRequest.idempotencyToken(), displayName: String, principal: String, tags: [Tag]? = nil) {
             self.actionConfigurations = actionConfigurations
             self.applicationId = applicationId
+            self.authenticationDetail = authenticationDetail
             self.clientToken = clientToken
             self.displayName = displayName
             self.principal = principal
@@ -2879,6 +3066,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.actionConfigurations, forKey: .actionConfigurations)
             request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.authenticationDetail, forKey: .authenticationDetail)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.displayName, forKey: .displayName)
             try container.encode(self.principal, forKey: .principal)
@@ -2894,6 +3082,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.authenticationDetail?.validate(name: "\(name).authenticationDetail")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
@@ -2910,6 +3099,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case actionConfigurations = "actionConfigurations"
+            case authenticationDetail = "authenticationDetail"
             case clientToken = "clientToken"
             case displayName = "displayName"
             case principal = "principal"
@@ -3575,21 +3765,21 @@ extension QBusiness {
 
     public struct CustomPluginConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema.
-        public let apiSchema: APISchema
+        public let apiSchema: APISchema?
         /// The type of OpenAPI schema to use.
         public let apiSchemaType: APISchemaType
         /// A description for your custom plugin configuration.
         public let description: String
 
         @inlinable
-        public init(apiSchema: APISchema, apiSchemaType: APISchemaType, description: String) {
+        public init(apiSchema: APISchema? = nil, apiSchemaType: APISchemaType, description: String) {
             self.apiSchema = apiSchema
             self.apiSchemaType = apiSchemaType
             self.description = description
         }
 
         public func validate(name: String) throws {
-            try self.apiSchema.validate(name: "\(name).apiSchema")
+            try self.apiSchema?.validate(name: "\(name).apiSchema")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
         }
@@ -3639,6 +3829,8 @@ extension QBusiness {
     }
 
     public struct DataAccessor: AWSDecodableShape {
+        /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// The timestamp when the data accessor was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the data accessor.
@@ -3655,7 +3847,8 @@ extension QBusiness {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+        public init(authenticationDetail: DataAccessorAuthenticationDetail? = nil, createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+            self.authenticationDetail = authenticationDetail
             self.createdAt = createdAt
             self.dataAccessorArn = dataAccessorArn
             self.dataAccessorId = dataAccessorId
@@ -3666,6 +3859,7 @@ extension QBusiness {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationDetail = "authenticationDetail"
             case createdAt = "createdAt"
             case dataAccessorArn = "dataAccessorArn"
             case dataAccessorId = "dataAccessorId"
@@ -3673,6 +3867,58 @@ extension QBusiness {
             case idcApplicationArn = "idcApplicationArn"
             case principal = "principal"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DataAccessorAuthenticationDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The specific authentication configuration based on the authentication type.
+        public let authenticationConfiguration: DataAccessorAuthenticationConfiguration?
+        /// The type of authentication to use for the data accessor. This determines how the ISV authenticates when accessing data. You can use one of two authentication types:    AWS_IAM_IDC_TTI - Authentication using IAM Identity Center Trusted Token Issuer (TTI). This authentication type allows the ISV to use a trusted token issuer to generate tokens for accessing the data.    AWS_IAM_IDC_AUTH_CODE - Authentication using IAM Identity Center authorization code flow. This authentication type uses the standard OAuth 2.0 authorization code flow for authentication.
+        public let authenticationType: DataAccessorAuthenticationType
+        /// A list of external identifiers associated with this authentication configuration. These are used to correlate the data accessor with external systems.
+        public let externalIds: [String]?
+
+        @inlinable
+        public init(authenticationConfiguration: DataAccessorAuthenticationConfiguration? = nil, authenticationType: DataAccessorAuthenticationType, externalIds: [String]? = nil) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.authenticationType = authenticationType
+            self.externalIds = externalIds
+        }
+
+        public func validate(name: String) throws {
+            try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
+            try self.externalIds?.forEach {
+                try validate($0, name: "externalIds[]", parent: name, max: 1000)
+                try validate($0, name: "externalIds[]", parent: name, min: 1)
+                try validate($0, name: "externalIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.externalIds, name: "externalIds", parent: name, max: 1)
+            try self.validate(self.externalIds, name: "externalIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "authenticationConfiguration"
+            case authenticationType = "authenticationType"
+            case externalIds = "externalIds"
+        }
+    }
+
+    public struct DataAccessorIdcTrustedTokenIssuerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center Trusted Token Issuer that will be used for authentication.
+        public let idcTrustedTokenIssuerArn: String
+
+        @inlinable
+        public init(idcTrustedTokenIssuerArn: String) {
+            self.idcTrustedTokenIssuerArn = idcTrustedTokenIssuerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idcTrustedTokenIssuerArn, name: "idcTrustedTokenIssuerArn", parent: name, max: 1284)
+            try self.validate(self.idcTrustedTokenIssuerArn, name: "idcTrustedTokenIssuerArn", parent: name, pattern: "^arn:aws:sso::[0-9]{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcTrustedTokenIssuerArn = "idcTrustedTokenIssuerArn"
         }
     }
 
@@ -3814,7 +4060,7 @@ extension QBusiness {
     public struct DateAttributeBoostingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the duration, in seconds, of a boost applies to a DATE type document attribute.
         public let boostingDurationInSeconds: Int64?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority tier ranking of boosting applied to document attributes. For version 2, this parameter indicates the relative ranking between boosted fields (ONE being highest priority, TWO being second highest, etc.) and determines the order in which attributes influence document ranking in search results. For version 1, this parameter specifies the boosting intensity. For version 2, boosting intensity (VERY HIGH, HIGH, MEDIUM, LOW, NONE) are not supported. Note that in version 2, you are not allowed to boost on only one field and make this value TWO.
         public let boostingLevel: DocumentAttributeBoostingLevel
 
         @inlinable
@@ -3934,6 +4180,41 @@ extension QBusiness {
     }
 
     public struct DeleteChatControlsConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteChatResponseConfigurationRequest: AWSEncodableShape {
+        /// The unique identifier of theAmazon Q Business application from which to delete the chat response configuration.
+        public let applicationId: String
+        /// The unique identifier of the chat response configuration to delete from the specified application.
+        public let chatResponseConfigurationId: String
+
+        @inlinable
+        public init(applicationId: String, chatResponseConfigurationId: String) {
+            self.applicationId = applicationId
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.chatResponseConfigurationId, key: "chatResponseConfigurationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, max: 36)
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, min: 36)
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteChatResponseConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -4953,6 +5234,71 @@ extension QBusiness {
         }
     }
 
+    public struct GetChatResponseConfigurationRequest: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application containing the chat response configuration to retrieve.
+        public let applicationId: String
+        /// The unique identifier of the chat response configuration to retrieve from the specified application.
+        public let chatResponseConfigurationId: String
+
+        @inlinable
+        public init(applicationId: String, chatResponseConfigurationId: String) {
+            self.applicationId = applicationId
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.chatResponseConfigurationId, key: "chatResponseConfigurationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, max: 36)
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, min: 36)
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChatResponseConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the retrieved chat response configuration, which uniquely identifies the resource across all Amazon Web Services services.
+        public let chatResponseConfigurationArn: String?
+        /// The unique identifier of the retrieved chat response configuration.
+        public let chatResponseConfigurationId: String?
+        /// The timestamp indicating when the chat response configuration was initially created.
+        public let createdAt: Date?
+        /// The human-readable name of the retrieved chat response configuration, making it easier to identify among multiple configurations.
+        public let displayName: String?
+        /// The currently active configuration settings that are being used to generate responses in the Amazon Q Business application.
+        public let inUseConfiguration: ChatResponseConfigurationDetail?
+        /// Information about the most recent update to the configuration, including timestamp and modification details.
+        public let lastUpdateConfiguration: ChatResponseConfigurationDetail?
+
+        @inlinable
+        public init(chatResponseConfigurationArn: String? = nil, chatResponseConfigurationId: String? = nil, createdAt: Date? = nil, displayName: String? = nil, inUseConfiguration: ChatResponseConfigurationDetail? = nil, lastUpdateConfiguration: ChatResponseConfigurationDetail? = nil) {
+            self.chatResponseConfigurationArn = chatResponseConfigurationArn
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+            self.createdAt = createdAt
+            self.displayName = displayName
+            self.inUseConfiguration = inUseConfiguration
+            self.lastUpdateConfiguration = lastUpdateConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chatResponseConfigurationArn = "chatResponseConfigurationArn"
+            case chatResponseConfigurationId = "chatResponseConfigurationId"
+            case createdAt = "createdAt"
+            case displayName = "displayName"
+            case inUseConfiguration = "inUseConfiguration"
+            case lastUpdateConfiguration = "lastUpdateConfiguration"
+        }
+    }
+
     public struct GetDataAccessorRequest: AWSEncodableShape {
         /// The unique identifier of the Amazon Q Business application.
         public let applicationId: String
@@ -4989,6 +5335,8 @@ extension QBusiness {
         public let actionConfigurations: [ActionConfiguration]?
         /// The unique identifier of the Amazon Q Business application associated with this data accessor.
         public let applicationId: String?
+        /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// The timestamp when the data accessor was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the data accessor.
@@ -5005,9 +5353,10 @@ extension QBusiness {
         public let updatedAt: Date?
 
         @inlinable
-        public init(actionConfigurations: [ActionConfiguration]? = nil, applicationId: String? = nil, createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+        public init(actionConfigurations: [ActionConfiguration]? = nil, applicationId: String? = nil, authenticationDetail: DataAccessorAuthenticationDetail? = nil, createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
             self.actionConfigurations = actionConfigurations
             self.applicationId = applicationId
+            self.authenticationDetail = authenticationDetail
             self.createdAt = createdAt
             self.dataAccessorArn = dataAccessorArn
             self.dataAccessorId = dataAccessorId
@@ -5020,6 +5369,7 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case actionConfigurations = "actionConfigurations"
             case applicationId = "applicationId"
+            case authenticationDetail = "authenticationDetail"
             case createdAt = "createdAt"
             case dataAccessorArn = "dataAccessorArn"
             case dataAccessorId = "dataAccessorId"
@@ -5834,7 +6184,7 @@ extension QBusiness {
     public struct HookConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public let invocationCondition: DocumentAttributeCondition?
-        /// The Amazon Resource Name (ARN) of the Lambda function sduring ingestion. For more information, see Using Lambda functions for Amazon Q Business document enrichment.
+        /// The Amazon Resource Name (ARN) of the Lambda function during ingestion. For more information, see Using Lambda functions for Amazon Q Business document enrichment.
         public let lambdaArn: String?
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process.
         public let roleArn: String?
@@ -6014,6 +6364,75 @@ extension QBusiness {
         }
     }
 
+    public struct InstructionCollection: AWSEncodableShape & AWSDecodableShape {
+        /// Allows administrators to provide specific, custom instructions that guide how Amazon Q Business should respond in particular scenarios or to certain types of queries, enabling fine-grained control over response generation.
+        public let customInstructions: String?
+        /// Provides sample responses or templates that Amazon Q Business can reference when generating responses, helping to establish consistent patterns and formats for different types of user queries.
+        public let examples: String?
+        /// Defines the persona or identity that Amazon Q Business should adopt when responding to users, allowing for customization of the assistant's character, role, or representation within an organization.
+        public let identity: String?
+        /// Specifies the formatting and structural style of responses, such as bullet points, paragraphs, step-by-step instructions, or other organizational formats that enhance readability and comprehension.
+        public let outputStyle: String?
+        /// Determines the point of view or perspective from which Amazon Q Business generates responses, such as first-person, second-person, or third-person perspective, affecting how information is presented to users.
+        public let perspective: String?
+        /// Specifies the desired length of responses generated by Amazon Q Business. This parameter allows administrators to control whether responses are concise and brief or more detailed and comprehensive.
+        public let responseLength: String?
+        /// Defines the intended audience for the responses, allowing Amazon Q Business to tailor its language, terminology, and explanations appropriately. This could range from technical experts to general users with varying levels of domain knowledge.
+        public let targetAudience: String?
+        /// Controls the emotional tone and communication style of responses, such as formal, casual, technical, friendly, or professional, to align with organizational communication standards and user expectations.
+        public let tone: String?
+
+        @inlinable
+        public init(customInstructions: String? = nil, examples: String? = nil, identity: String? = nil, outputStyle: String? = nil, perspective: String? = nil, responseLength: String? = nil, targetAudience: String? = nil, tone: String? = nil) {
+            self.customInstructions = customInstructions
+            self.examples = examples
+            self.identity = identity
+            self.outputStyle = outputStyle
+            self.perspective = perspective
+            self.responseLength = responseLength
+            self.targetAudience = targetAudience
+            self.tone = tone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, max: 1000)
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, min: 5)
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.examples, name: "examples", parent: name, max: 1000)
+            try self.validate(self.examples, name: "examples", parent: name, min: 5)
+            try self.validate(self.examples, name: "examples", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.identity, name: "identity", parent: name, max: 1000)
+            try self.validate(self.identity, name: "identity", parent: name, min: 5)
+            try self.validate(self.identity, name: "identity", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.outputStyle, name: "outputStyle", parent: name, max: 1000)
+            try self.validate(self.outputStyle, name: "outputStyle", parent: name, min: 5)
+            try self.validate(self.outputStyle, name: "outputStyle", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.perspective, name: "perspective", parent: name, max: 1000)
+            try self.validate(self.perspective, name: "perspective", parent: name, min: 5)
+            try self.validate(self.perspective, name: "perspective", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.responseLength, name: "responseLength", parent: name, max: 1000)
+            try self.validate(self.responseLength, name: "responseLength", parent: name, min: 5)
+            try self.validate(self.responseLength, name: "responseLength", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.targetAudience, name: "targetAudience", parent: name, max: 1000)
+            try self.validate(self.targetAudience, name: "targetAudience", parent: name, min: 5)
+            try self.validate(self.targetAudience, name: "targetAudience", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.tone, name: "tone", parent: name, max: 1000)
+            try self.validate(self.tone, name: "tone", parent: name, min: 5)
+            try self.validate(self.tone, name: "tone", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customInstructions = "customInstructions"
+            case examples = "examples"
+            case identity = "identity"
+            case outputStyle = "outputStyle"
+            case perspective = "perspective"
+            case responseLength = "responseLength"
+            case targetAudience = "targetAudience"
+            case tone = "tone"
+        }
+    }
+
     public struct KendraIndexConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the Amazon Kendra index.
         public let indexId: String
@@ -6145,6 +6564,58 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case attachments = "attachments"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListChatResponseConfigurationsRequest: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application for which to list available chat response configurations.
+        public let applicationId: String
+        /// The maximum number of chat response configurations to return in a single response. This parameter helps control pagination of results when many configurations exist.
+        public let maxResults: Int?
+        /// A pagination token used to retrieve the next set of results when the number of configurations exceeds the specified maxResults value.
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChatResponseConfigurationsResponse: AWSDecodableShape {
+        /// A list of chat response configuration summaries, each containing key information about an available configuration in the specified application.
+        public let chatResponseConfigurations: [ChatResponseConfiguration]?
+        /// A pagination token that can be used in a subsequent request to retrieve additional chat response configurations if the results were truncated due to the maxResults parameter.
+        public let nextToken: String?
+
+        @inlinable
+        public init(chatResponseConfigurations: [ChatResponseConfiguration]? = nil, nextToken: String? = nil) {
+            self.chatResponseConfigurations = chatResponseConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chatResponseConfigurations = "chatResponseConfigurations"
             case nextToken = "nextToken"
         }
     }
@@ -7259,11 +7730,14 @@ extension QBusiness {
         public let boostingOverride: [String: DocumentAttributeBoostingConfiguration]?
         /// The identifier for the Amazon Q Business index.
         public let indexId: String
+        /// A read-only field that specifies the version of the NativeIndexConfiguration. Amazon Q Business introduces enhanced document retrieval capabilities in version 2 of NativeIndexConfiguration, focusing on streamlined metadata boosting that prioritizes recency and source relevance to deliver more accurate responses to your queries. Version 2 has the following differences from version 1:   Version 2 supports a single Date field (created_at OR last_updated_at) for recency boosting   Version 2 supports a single String field with an ordered list of up to 5 values   Version 2 introduces number-based boost levels (ONE, TWO) alongside the text-based levels   Version 2 allows specifying prioritization between Date and String fields   Version 2 maintains backward compatibility with existing configurations
+        public let version: Int64?
 
         @inlinable
-        public init(boostingOverride: [String: DocumentAttributeBoostingConfiguration]? = nil, indexId: String) {
+        public init(boostingOverride: [String: DocumentAttributeBoostingConfiguration]? = nil, indexId: String, version: Int64? = nil) {
             self.boostingOverride = boostingOverride
             self.indexId = indexId
+            self.version = version
         }
 
         public func validate(name: String) throws {
@@ -7282,6 +7756,7 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case boostingOverride = "boostingOverride"
             case indexId = "indexId"
+            case version = "version"
         }
     }
 
@@ -7290,9 +7765,9 @@ extension QBusiness {
     }
 
     public struct NumberAttributeBoostingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the duration, in seconds, of a boost applies to a NUMBER type document attribute.
+        /// Specifies the priority of boosted document attributes in relation to other boosted attributes. This parameter determines how strongly the attribute influences document ranking in search results. NUMBER attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2.
         public let boostingLevel: DocumentAttributeBoostingLevel
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies whether higher or lower numeric values should be prioritized when boosting. Valid values are ASCENDING (higher numbers are more important) and DESCENDING (lower numbers are more important).
         public let boostingType: NumberAttributeBoostingType?
 
         @inlinable
@@ -7382,6 +7857,39 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case control = "control"
+        }
+    }
+
+    public struct PermissionCondition: AWSEncodableShape {
+        /// The key for the condition. This identifies the attribute that the condition applies to.
+        public let conditionKey: String
+        /// The operator to use for the condition evaluation. This determines how the condition values are compared.
+        public let conditionOperator: PermissionConditionOperator
+        /// The values to compare against using the specified condition operator.
+        public let conditionValues: [String]
+
+        @inlinable
+        public init(conditionKey: String, conditionOperator: PermissionConditionOperator, conditionValues: [String]) {
+            self.conditionKey = conditionKey
+            self.conditionOperator = conditionOperator
+            self.conditionValues = conditionValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conditionKey, name: "conditionKey", parent: name, pattern: "^aws:PrincipalTag/qbusiness-dataaccessor:[a-zA-Z]+")
+            try self.conditionValues.forEach {
+                try validate($0, name: "conditionValues[]", parent: name, max: 1000)
+                try validate($0, name: "conditionValues[]", parent: name, min: 1)
+                try validate($0, name: "conditionValues[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.conditionValues, name: "conditionValues", parent: name, max: 1)
+            try self.validate(self.conditionValues, name: "conditionValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionKey = "conditionKey"
+            case conditionOperator = "conditionOperator"
+            case conditionValues = "conditionValues"
         }
     }
 
@@ -7752,6 +8260,24 @@ extension QBusiness {
             case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
+        }
+    }
+
+    public struct ResponseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A collection of instructions that guide how Amazon Q Business generates responses, including parameters for response length, target audience, perspective, output style, identity, tone, and custom instructions.
+        public let instructionCollection: InstructionCollection?
+
+        @inlinable
+        public init(instructionCollection: InstructionCollection? = nil) {
+            self.instructionCollection = instructionCollection
+        }
+
+        public func validate(name: String) throws {
+            try self.instructionCollection?.validate(name: "\(name).instructionCollection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instructionCollection = "instructionCollection"
         }
     }
 
@@ -8171,9 +8697,9 @@ extension QBusiness {
     }
 
     public struct StringAttributeBoostingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies specific values of a STRING type document attribute being boosted.
+        /// Specifies specific values of a STRING type document attribute being boosted. When using NativeIndexConfiguration version 2, you can specify up to five values in order of priority.
         public let attributeValueBoosting: [String: StringAttributeValueBoostingLevel]?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority tier ranking of boosting applied to document attributes. For version 2, this parameter indicates the relative ranking between boosted fields (ONE being highest priority, TWO being second highest, etc.) and determines the order in which attributes influence document ranking in search results. For version 1, this parameter specifies the boosting intensity. For version 2, boosting intensity (VERY HIGH, HIGH, MEDIUM, LOW, NONE) are not supported. Note that in version 2, you are not allowed to boost on only one field and make this value TWO.
         public let boostingLevel: DocumentAttributeBoostingLevel
 
         @inlinable
@@ -8198,7 +8724,7 @@ extension QBusiness {
     }
 
     public struct StringListAttributeBoostingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority of boosted document attributes in relation to other boosted attributes. This parameter determines how strongly the attribute influences document ranking in search results. STRING_LIST attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2.
         public let boostingLevel: DocumentAttributeBoostingLevel
 
         @inlinable
@@ -8661,20 +9187,83 @@ extension QBusiness {
         public init() {}
     }
 
+    public struct UpdateChatResponseConfigurationRequest: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application containing the chat response configuration to update.
+        public let applicationId: String
+        /// The unique identifier of the chat response configuration to update within the specified application.
+        public let chatResponseConfigurationId: String
+        /// A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same update from being processed multiple times if retries occur.
+        public let clientToken: String?
+        /// The new human-readable name to assign to the chat response configuration, making it easier to identify among multiple configurations.
+        public let displayName: String?
+        /// The updated collection of response configuration settings that define how Amazon Q Business generates and formats responses to user queries.
+        public let responseConfigurations: [ResponseConfigurationType: ResponseConfiguration]
+
+        @inlinable
+        public init(applicationId: String, chatResponseConfigurationId: String, clientToken: String? = UpdateChatResponseConfigurationRequest.idempotencyToken(), displayName: String? = nil, responseConfigurations: [ResponseConfigurationType: ResponseConfiguration]) {
+            self.applicationId = applicationId
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+            self.clientToken = clientToken
+            self.displayName = displayName
+            self.responseConfigurations = responseConfigurations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.chatResponseConfigurationId, key: "chatResponseConfigurationId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encode(self.responseConfigurations, forKey: .responseConfigurations)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, max: 36)
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, min: 36)
+            try self.validate(self.chatResponseConfigurationId, name: "chatResponseConfigurationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.responseConfigurations.forEach {
+                try $0.value.validate(name: "\(name).responseConfigurations[\"\($0.key)\"]")
+            }
+            try self.validate(self.responseConfigurations, name: "responseConfigurations", parent: name, max: 1)
+            try self.validate(self.responseConfigurations, name: "responseConfigurations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case displayName = "displayName"
+            case responseConfigurations = "responseConfigurations"
+        }
+    }
+
+    public struct UpdateChatResponseConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateDataAccessorRequest: AWSEncodableShape {
         /// The updated list of action configurations specifying the allowed actions and any associated filters.
         public let actionConfigurations: [ActionConfiguration]
         /// The unique identifier of the Amazon Q Business application.
         public let applicationId: String
+        /// The updated authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+        public let authenticationDetail: DataAccessorAuthenticationDetail?
         /// The unique identifier of the data accessor to update.
         public let dataAccessorId: String
         /// The updated friendly name for the data accessor.
         public let displayName: String?
 
         @inlinable
-        public init(actionConfigurations: [ActionConfiguration], applicationId: String, dataAccessorId: String, displayName: String? = nil) {
+        public init(actionConfigurations: [ActionConfiguration], applicationId: String, authenticationDetail: DataAccessorAuthenticationDetail? = nil, dataAccessorId: String, displayName: String? = nil) {
             self.actionConfigurations = actionConfigurations
             self.applicationId = applicationId
+            self.authenticationDetail = authenticationDetail
             self.dataAccessorId = dataAccessorId
             self.displayName = displayName
         }
@@ -8684,6 +9273,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.actionConfigurations, forKey: .actionConfigurations)
             request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.authenticationDetail, forKey: .authenticationDetail)
             request.encodePath(self.dataAccessorId, key: "dataAccessorId")
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
         }
@@ -8697,6 +9287,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.authenticationDetail?.validate(name: "\(name).authenticationDetail")
             try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, max: 36)
             try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, min: 36)
             try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
@@ -8707,6 +9298,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case actionConfigurations = "actionConfigurations"
+            case authenticationDetail = "authenticationDetail"
             case displayName = "displayName"
         }
     }
@@ -9471,6 +10063,24 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case conversation = "conversation"
+        }
+    }
+
+    public struct DataAccessorAuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for IAM Identity Center Trusted Token Issuer (TTI) authentication used when the authentication type is AWS_IAM_IDC_TTI.
+        public let idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration?
+
+        @inlinable
+        public init(idcTrustedTokenIssuerConfiguration: DataAccessorIdcTrustedTokenIssuerConfiguration? = nil) {
+            self.idcTrustedTokenIssuerConfiguration = idcTrustedTokenIssuerConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.idcTrustedTokenIssuerConfiguration?.validate(name: "\(name).idcTrustedTokenIssuerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcTrustedTokenIssuerConfiguration = "idcTrustedTokenIssuerConfiguration"
         }
     }
 

@@ -5079,7 +5079,7 @@ extension ECS {
         /// 						Amazon Web Services Region by using the defaultLogDriverMode account setting.
         /// 						If you don't specify the mode option or
         /// 						configure the account setting, Amazon ECS will default to the
-        /// 							blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  On June 25, 2025, Amazon ECS is changing the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.     max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used, the
+        /// 							non-blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.     max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used, the
         /// 							max-buffer-size log option controls the size of the buffer
         /// 						that's used for intermediate message storage. Make sure to specify an
         /// 						adequate buffer size based on your application. When the buffer fills up,
@@ -5644,7 +5644,7 @@ extension ECS {
         /// 						blocking and non-blocking. If you don't specify a
         /// 					delivery mode in your container definition's logConfiguration, the
         /// 					mode you specify using this account setting will be used as the default. For
-        /// 					more information about log delivery modes, see LogConfiguration.  On June 25, 2025, Amazon ECS is changing the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.       guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
+        /// 					more information about log delivery modes, see LogConfiguration.  On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.       guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
         /// 			Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your
         /// 			Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring.
         public let name: SettingName
@@ -5744,7 +5744,7 @@ extension ECS {
         /// 					delivery mode in your container definition's logConfiguration, the
         /// 					mode you specify using this account setting will be used as the default. For
         /// 					more information about log delivery modes, see LogConfiguration.
-        /// 				  On June 25, 2025, Amazon ECS is changing the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.       guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
+        /// 				  On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.       guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether
         /// 			Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your
         /// 			Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring.
         public let name: SettingName

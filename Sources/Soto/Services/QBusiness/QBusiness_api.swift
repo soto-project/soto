@@ -179,6 +179,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - actions: The list of Amazon Q Business actions that the ISV is allowed to perform.
     ///   - applicationId: The unique identifier of the Amazon Q Business application.
+    ///   - conditions: The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific attributes of the request.
     ///   - principal: The Amazon Resource Name of the IAM role for the ISV that is being granted permission.
     ///   - statementId: A unique identifier for the policy statement.
     ///   - logger: Logger use during operation
@@ -186,6 +187,7 @@ public struct QBusiness: AWSService {
     public func associatePermission(
         actions: [String],
         applicationId: String,
+        conditions: [PermissionCondition]? = nil,
         principal: String,
         statementId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -193,6 +195,7 @@ public struct QBusiness: AWSService {
         let input = AssociatePermissionRequest(
             actions: actions, 
             applicationId: applicationId, 
+            conditions: conditions, 
             principal: principal, 
             statementId: statementId
         )
@@ -566,6 +569,47 @@ public struct QBusiness: AWSService {
         return try await self.createApplication(input, logger: logger)
     }
 
+    /// Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
+    @Sendable
+    @inlinable
+    public func createChatResponseConfiguration(_ input: CreateChatResponseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChatResponseConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateChatResponseConfiguration", 
+            path: "/applications/{applicationId}/chatresponseconfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the Amazon Q Business application for which to create the new chat response configuration.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same configuration from being created multiple times if retries occur.
+    ///   - displayName: A human-readable name for the new chat response configuration, making it easier to identify and manage among multiple configurations.
+    ///   - responseConfigurations: A collection of response configuration settings that define how Amazon Q Business will generate and format responses to user queries in chat interactions.
+    ///   - tags: A list of key-value pairs to apply as tags to the new chat response configuration, enabling categorization and management of resources across Amazon Web Services services.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createChatResponseConfiguration(
+        applicationId: String,
+        clientToken: String? = CreateChatResponseConfigurationRequest.idempotencyToken(),
+        displayName: String,
+        responseConfigurations: [ResponseConfigurationType: ResponseConfiguration],
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateChatResponseConfigurationResponse {
+        let input = CreateChatResponseConfigurationRequest(
+            applicationId: applicationId, 
+            clientToken: clientToken, 
+            displayName: displayName, 
+            responseConfigurations: responseConfigurations, 
+            tags: tags
+        )
+        return try await self.createChatResponseConfiguration(input, logger: logger)
+    }
+
     /// Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Amazon Q Business application.
     @Sendable
     @inlinable
@@ -584,6 +628,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - actionConfigurations: A list of action configurations specifying the allowed actions and any associated filters.
     ///   - applicationId: The unique identifier of the Amazon Q Business application.
+    ///   - authenticationDetail: The authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
     ///   - clientToken: A unique, case-sensitive identifier you provide to ensure idempotency of the request.
     ///   - displayName: A friendly name for the data accessor.
     ///   - principal: The Amazon Resource Name (ARN) of the IAM role for the ISV that will be accessing the data.
@@ -593,6 +638,7 @@ public struct QBusiness: AWSService {
     public func createDataAccessor(
         actionConfigurations: [ActionConfiguration],
         applicationId: String,
+        authenticationDetail: DataAccessorAuthenticationDetail? = nil,
         clientToken: String? = CreateDataAccessorRequest.idempotencyToken(),
         displayName: String,
         principal: String,
@@ -602,6 +648,7 @@ public struct QBusiness: AWSService {
         let input = CreateDataAccessorRequest(
             actionConfigurations: actionConfigurations, 
             applicationId: applicationId, 
+            authenticationDetail: authenticationDetail, 
             clientToken: clientToken, 
             displayName: displayName, 
             principal: principal, 
@@ -1050,6 +1097,38 @@ public struct QBusiness: AWSService {
         return try await self.deleteChatControlsConfiguration(input, logger: logger)
     }
 
+    /// Deletes a specified chat response configuration from an Amazon Q Business application.
+    @Sendable
+    @inlinable
+    public func deleteChatResponseConfiguration(_ input: DeleteChatResponseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChatResponseConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteChatResponseConfiguration", 
+            path: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a specified chat response configuration from an Amazon Q Business application.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of theAmazon Q Business application from which to delete the chat response configuration.
+    ///   - chatResponseConfigurationId: The unique identifier of the chat response configuration to delete from the specified application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteChatResponseConfiguration(
+        applicationId: String,
+        chatResponseConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteChatResponseConfigurationResponse {
+        let input = DeleteChatResponseConfigurationRequest(
+            applicationId: applicationId, 
+            chatResponseConfigurationId: chatResponseConfigurationId
+        )
+        return try await self.deleteChatResponseConfiguration(input, logger: logger)
+    }
+
     /// Deletes an Amazon Q Business web experience conversation.
     @Sendable
     @inlinable
@@ -1444,6 +1523,38 @@ public struct QBusiness: AWSService {
             nextToken: nextToken
         )
         return try await self.getChatControlsConfiguration(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
+    @Sendable
+    @inlinable
+    public func getChatResponseConfiguration(_ input: GetChatResponseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChatResponseConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetChatResponseConfiguration", 
+            path: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the Amazon Q Business application containing the chat response configuration to retrieve.
+    ///   - chatResponseConfigurationId: The unique identifier of the chat response configuration to retrieve from the specified application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getChatResponseConfiguration(
+        applicationId: String,
+        chatResponseConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetChatResponseConfigurationResponse {
+        let input = GetChatResponseConfigurationRequest(
+            applicationId: applicationId, 
+            chatResponseConfigurationId: chatResponseConfigurationId
+        )
+        return try await self.getChatResponseConfiguration(input, logger: logger)
     }
 
     /// Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
@@ -1849,6 +1960,41 @@ public struct QBusiness: AWSService {
             userId: userId
         )
         return try await self.listAttachments(input, logger: logger)
+    }
+
+    /// Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
+    @Sendable
+    @inlinable
+    public func listChatResponseConfigurations(_ input: ListChatResponseConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChatResponseConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListChatResponseConfigurations", 
+            path: "/applications/{applicationId}/chatresponseconfigurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the Amazon Q Business application for which to list available chat response configurations.
+    ///   - maxResults: The maximum number of chat response configurations to return in a single response. This parameter helps control pagination of results when many configurations exist.
+    ///   - nextToken: A pagination token used to retrieve the next set of results when the number of configurations exceeds the specified maxResults value.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listChatResponseConfigurations(
+        applicationId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListChatResponseConfigurationsResponse {
+        let input = ListChatResponseConfigurationsRequest(
+            applicationId: applicationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listChatResponseConfigurations(input, logger: logger)
     }
 
     /// Lists one or more Amazon Q Business conversations.
@@ -2822,6 +2968,47 @@ public struct QBusiness: AWSService {
         return try await self.updateChatControlsConfiguration(input, logger: logger)
     }
 
+    /// Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
+    @Sendable
+    @inlinable
+    public func updateChatResponseConfiguration(_ input: UpdateChatResponseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChatResponseConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateChatResponseConfiguration", 
+            path: "/applications/{applicationId}/chatresponseconfigurations/{chatResponseConfigurationId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the Amazon Q Business application containing the chat response configuration to update.
+    ///   - chatResponseConfigurationId: The unique identifier of the chat response configuration to update within the specified application.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same update from being processed multiple times if retries occur.
+    ///   - displayName: The new human-readable name to assign to the chat response configuration, making it easier to identify among multiple configurations.
+    ///   - responseConfigurations: The updated collection of response configuration settings that define how Amazon Q Business generates and formats responses to user queries.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateChatResponseConfiguration(
+        applicationId: String,
+        chatResponseConfigurationId: String,
+        clientToken: String? = UpdateChatResponseConfigurationRequest.idempotencyToken(),
+        displayName: String? = nil,
+        responseConfigurations: [ResponseConfigurationType: ResponseConfiguration],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateChatResponseConfigurationResponse {
+        let input = UpdateChatResponseConfigurationRequest(
+            applicationId: applicationId, 
+            chatResponseConfigurationId: chatResponseConfigurationId, 
+            clientToken: clientToken, 
+            displayName: displayName, 
+            responseConfigurations: responseConfigurations
+        )
+        return try await self.updateChatResponseConfiguration(input, logger: logger)
+    }
+
     /// Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
     @Sendable
     @inlinable
@@ -2840,6 +3027,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - actionConfigurations: The updated list of action configurations specifying the allowed actions and any associated filters.
     ///   - applicationId: The unique identifier of the Amazon Q Business application.
+    ///   - authenticationDetail: The updated authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
     ///   - dataAccessorId: The unique identifier of the data accessor to update.
     ///   - displayName: The updated friendly name for the data accessor.
     ///   - logger: Logger use during operation
@@ -2847,6 +3035,7 @@ public struct QBusiness: AWSService {
     public func updateDataAccessor(
         actionConfigurations: [ActionConfiguration],
         applicationId: String,
+        authenticationDetail: DataAccessorAuthenticationDetail? = nil,
         dataAccessorId: String,
         displayName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2854,6 +3043,7 @@ public struct QBusiness: AWSService {
         let input = UpdateDataAccessorRequest(
             actionConfigurations: actionConfigurations, 
             applicationId: applicationId, 
+            authenticationDetail: authenticationDetail, 
             dataAccessorId: dataAccessorId, 
             displayName: displayName
         )
@@ -3309,6 +3499,43 @@ extension QBusiness {
             userId: userId
         )
         return self.listAttachmentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listChatResponseConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChatResponseConfigurationsPaginator(
+        _ input: ListChatResponseConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChatResponseConfigurationsRequest, ListChatResponseConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listChatResponseConfigurations,
+            inputKey: \ListChatResponseConfigurationsRequest.nextToken,
+            outputKey: \ListChatResponseConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listChatResponseConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationId: The unique identifier of the Amazon Q Business application for which to list available chat response configurations.
+    ///   - maxResults: The maximum number of chat response configurations to return in a single response. This parameter helps control pagination of results when many configurations exist.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChatResponseConfigurationsPaginator(
+        applicationId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListChatResponseConfigurationsRequest, ListChatResponseConfigurationsResponse> {
+        let input = ListChatResponseConfigurationsRequest(
+            applicationId: applicationId, 
+            maxResults: maxResults
+        )
+        return self.listChatResponseConfigurationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listConversations(_:logger:)``.
@@ -3985,6 +4212,17 @@ extension QBusiness.ListAttachmentsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             userId: self.userId
+        )
+    }
+}
+
+extension QBusiness.ListChatResponseConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QBusiness.ListChatResponseConfigurationsRequest {
+        return .init(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -309,6 +309,12 @@ extension CleanRoomsML {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3DataDistributionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fullyReplicated = "FullyReplicated"
+        case shardedByS3Key = "ShardedByS3Key"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SharedAudienceMetrics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case none = "NONE"
@@ -318,6 +324,11 @@ extension CleanRoomsML {
     public enum TagOnCreatePolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fromParentResource = "FROM_PARENT_RESOURCE"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainedModelArtifactMaxSizeUnitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gb = "GB"
         public var description: String { return self.rawValue }
     }
 
@@ -374,6 +385,13 @@ extension CleanRoomsML {
 
     public enum TrainingDatasetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingInputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fastFile = "FastFile"
+        case file = "File"
+        case pipe = "Pipe"
         public var description: String { return self.rawValue }
     }
 
@@ -657,7 +675,7 @@ extension CleanRoomsML {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, max: 2048)
             try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, min: 20)
-            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model-inference-job/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model-inference-job/[-a-zA-Z0-9_/.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -668,11 +686,14 @@ extension CleanRoomsML {
         public let membershipIdentifier: String
         /// The Amazon Resource Name (ARN) of the trained model job that you want to cancel.
         public let trainedModelArn: String
+        /// The version identifier of the trained model to cancel. This parameter allows you to specify which version of the trained model you want to cancel when multiple versions exist. If versionIdentifier is not specified, the base model will be cancelled.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(membershipIdentifier: String, trainedModelArn: String) {
+        public init(membershipIdentifier: String, trainedModelArn: String, versionIdentifier: String? = nil) {
             self.membershipIdentifier = membershipIdentifier
             self.trainedModelArn = trainedModelArn
+            self.versionIdentifier = versionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -680,6 +701,7 @@ extension CleanRoomsML {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+            request.encodeQuery(self.versionIdentifier, key: "versionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -688,7 +710,10 @@ extension CleanRoomsML {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, max: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, min: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -809,11 +834,13 @@ extension CleanRoomsML {
         public let statusDetails: StatusDetails?
         /// The Amazon Resource Name (ARN) of the trained model that is being exported.
         public let trainedModelArn: String
+        /// The version identifier of the trained model that was exported in this job.
+        public let trainedModelVersionIdentifier: String?
         /// The most recent time at which the trained model export job was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: TrainedModelExportOutputConfiguration, status: TrainedModelExportJobStatus, statusDetails: StatusDetails? = nil, trainedModelArn: String, updateTime: Date) {
+        public init(collaborationIdentifier: String, createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: TrainedModelExportOutputConfiguration, status: TrainedModelExportJobStatus, statusDetails: StatusDetails? = nil, trainedModelArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
@@ -824,6 +851,7 @@ extension CleanRoomsML {
             self.status = status
             self.statusDetails = statusDetails
             self.trainedModelArn = trainedModelArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
             self.updateTime = updateTime
         }
 
@@ -838,6 +866,7 @@ extension CleanRoomsML {
             case status = "status"
             case statusDetails = "statusDetails"
             case trainedModelArn = "trainedModelArn"
+            case trainedModelVersionIdentifier = "trainedModelVersionIdentifier"
             case updateTime = "updateTime"
         }
     }
@@ -873,11 +902,13 @@ extension CleanRoomsML {
         public let trainedModelArn: String
         /// The Amazon Resource Name (ARN) of the trained model inference job.
         public let trainedModelInferenceJobArn: String
+        /// The version identifier of the trained model that was used for inference in this job.
+        public let trainedModelVersionIdentifier: String?
         /// The most recent time at which the trained model inference job was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, creatorAccountId: String, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, creatorAccountId: String, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -893,6 +924,7 @@ extension CleanRoomsML {
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
             self.updateTime = updateTime
         }
 
@@ -912,6 +944,7 @@ extension CleanRoomsML {
             case status = "status"
             case trainedModelArn = "trainedModelArn"
             case trainedModelInferenceJobArn = "trainedModelInferenceJobArn"
+            case trainedModelVersionIdentifier = "trainedModelVersionIdentifier"
             case updateTime = "updateTime"
         }
     }
@@ -927,6 +960,8 @@ extension CleanRoomsML {
         public let creatorAccountId: String
         /// The description of the trained model.
         public let description: String?
+        /// Information about the incremental training data channels used to create this version of the trained model.
+        public let incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]?
         /// The membership ID of the member that created the trained model.
         public let membershipIdentifier: String
         /// The name of the trained model.
@@ -937,19 +972,23 @@ extension CleanRoomsML {
         public let trainedModelArn: String
         /// The most recent time at which the trained model was updated.
         public let updateTime: Date
+        /// The version identifier of this trained model version.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.description = description
+            self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.updateTime = updateTime
+            self.versionIdentifier = versionIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -958,11 +997,13 @@ extension CleanRoomsML {
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
             case description = "description"
+            case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case membershipIdentifier = "membershipIdentifier"
             case name = "name"
             case status = "status"
             case trainedModelArn = "trainedModelArn"
             case updateTime = "updateTime"
+            case versionIdentifier = "versionIdentifier"
         }
     }
 
@@ -1135,7 +1176,7 @@ extension CleanRoomsML {
         public let arguments: [String]?
         /// The entrypoint script for a Docker container used to run a training job. This script takes precedence over the default train processing instructions. See How Amazon SageMaker Runs Your Training Image for additional information. For more information, see How Sagemaker runs your training image.
         public let entrypoint: [String]?
-        /// The registry path of the docker image that contains the algorithm. Clean Rooms ML supports both registry/repository[:tag] and registry/repositry[@digest] image path formats. For more information about using images in Clean Rooms ML, see the Sagemaker API reference.
+        /// The registry path of the docker image that contains the algorithm. Clean Rooms ML currently only supports the registry/repository[:tag] image path format. For more information about using images in Clean Rooms ML, see the Sagemaker API reference.
         public let imageUri: String
         /// A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. Amazon Web Services Clean Rooms ML publishes each metric to all members' Amazon CloudWatch using IAM role configured in PutMLConfiguration.
         public let metricDefinitions: [MetricDefinition]?
@@ -1535,7 +1576,7 @@ extension CleanRoomsML {
             try self.configuredModelAlgorithmAssociations.forEach {
                 try validate($0, name: "configuredModelAlgorithmAssociations[]", parent: name, max: 2048)
                 try validate($0, name: "configuredModelAlgorithmAssociations[]", parent: name, min: 20)
-                try validate($0, name: "configuredModelAlgorithmAssociations[]", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+                try validate($0, name: "configuredModelAlgorithmAssociations[]", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
             }
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
@@ -1585,7 +1626,7 @@ extension CleanRoomsML {
     public struct CreateTrainedModelRequest: AWSEncodableShape {
         /// The associated configured model algorithm used to train this model.
         public let configuredModelAlgorithmAssociationArn: String
-        /// Defines the data channels that are used as input for the trained model request.
+        /// Defines the data channels that are used as input for the trained model request. Limit: Maximum of 20 channels total (including both dataChannels and incrementalTrainingDataChannels).
         public let dataChannels: [ModelTrainingDataChannel]
         /// The description of the trained model.
         public let description: String?
@@ -1593,6 +1634,8 @@ extension CleanRoomsML {
         public let environment: [String: String]?
         /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process.
         public let hyperparameters: [String: String]?
+        /// Specifies the incremental training data channels for the trained model.  Incremental training allows you to create a new trained model with updates without retraining from scratch. You can specify up to one incremental training data channel that references a previously trained model and its version. Limit: Maximum of 20 channels total (including both incrementalTrainingDataChannels and dataChannels).
+        public let incrementalTrainingDataChannels: [IncrementalTrainingDataChannel]?
         /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data.
         public let kmsKeyArn: String?
         /// The membership ID of the member that is creating the trained model.
@@ -1605,20 +1648,24 @@ extension CleanRoomsML {
         public let stoppingCondition: StoppingCondition?
         /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [String: String]?
+        /// The input mode for accessing the training data. This parameter determines how the training data is made available to the training algorithm. Valid values are:    File - The training data is downloaded to the training instance and made available as files.    FastFile - The training data is streamed directly from Amazon S3 to the training algorithm, providing faster access for large datasets.    Pipe - The training data is streamed to the training algorithm using named pipes, which can improve performance for certain algorithms.
+        public let trainingInputMode: TrainingInputMode?
 
         @inlinable
-        public init(configuredModelAlgorithmAssociationArn: String, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, resourceConfig: ResourceConfig, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil) {
+        public init(configuredModelAlgorithmAssociationArn: String, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannel]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, resourceConfig: ResourceConfig, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainingInputMode: TrainingInputMode? = nil) {
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.dataChannels = dataChannels
             self.description = description
             self.environment = environment
             self.hyperparameters = hyperparameters
+            self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.kmsKeyArn = kmsKeyArn
             self.membershipIdentifier = membershipIdentifier
             self.name = name
             self.resourceConfig = resourceConfig
             self.stoppingCondition = stoppingCondition
             self.tags = tags
+            self.trainingInputMode = trainingInputMode
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1629,18 +1676,20 @@ extension CleanRoomsML {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.environment, forKey: .environment)
             try container.encodeIfPresent(self.hyperparameters, forKey: .hyperparameters)
+            try container.encodeIfPresent(self.incrementalTrainingDataChannels, forKey: .incrementalTrainingDataChannels)
             try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encode(self.name, forKey: .name)
             try container.encode(self.resourceConfig, forKey: .resourceConfig)
             try container.encodeIfPresent(self.stoppingCondition, forKey: .stoppingCondition)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.trainingInputMode, forKey: .trainingInputMode)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
-            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
             try self.dataChannels.forEach {
                 try $0.validate(name: "\(name).dataChannels[]")
             }
@@ -1650,6 +1699,11 @@ extension CleanRoomsML {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
             try self.validate(self.environment, name: "environment", parent: name, max: 100)
             try self.validate(self.hyperparameters, name: "hyperparameters", parent: name, max: 100)
+            try self.incrementalTrainingDataChannels?.forEach {
+                try $0.validate(name: "\(name).incrementalTrainingDataChannels[]")
+            }
+            try self.validate(self.incrementalTrainingDataChannels, name: "incrementalTrainingDataChannels", parent: name, max: 1)
+            try self.validate(self.incrementalTrainingDataChannels, name: "incrementalTrainingDataChannels", parent: name, min: 1)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/.+$")
@@ -1673,25 +1727,31 @@ extension CleanRoomsML {
             case description = "description"
             case environment = "environment"
             case hyperparameters = "hyperparameters"
+            case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case kmsKeyArn = "kmsKeyArn"
             case name = "name"
             case resourceConfig = "resourceConfig"
             case stoppingCondition = "stoppingCondition"
             case tags = "tags"
+            case trainingInputMode = "trainingInputMode"
         }
     }
 
     public struct CreateTrainedModelResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the trained model.
         public let trainedModelArn: String
+        /// The unique version identifier assigned to the newly created trained model. This identifier can be used to reference this specific version of the trained model in subsequent operations such as inference jobs or incremental training. The initial version identifier for the base version of the trained model is "NULL".
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(trainedModelArn: String) {
+        public init(trainedModelArn: String, versionIdentifier: String? = nil) {
             self.trainedModelArn = trainedModelArn
+            self.versionIdentifier = versionIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
             case trainedModelArn = "trainedModelArn"
+            case versionIdentifier = "versionIdentifier"
         }
     }
 
@@ -1942,7 +2002,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
-            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2035,11 +2095,14 @@ extension CleanRoomsML {
         public let membershipIdentifier: String
         /// The Amazon Resource Name (ARN) of the trained model whose output you want to delete.
         public let trainedModelArn: String
+        /// The version identifier of the trained model to delete. If not specified, the operation will delete the base version of the trained model. When specified, only the particular version will be deleted.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(membershipIdentifier: String, trainedModelArn: String) {
+        public init(membershipIdentifier: String, trainedModelArn: String, versionIdentifier: String? = nil) {
             self.membershipIdentifier = membershipIdentifier
             self.trainedModelArn = trainedModelArn
+            self.versionIdentifier = versionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2047,6 +2110,7 @@ extension CleanRoomsML {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+            request.encodeQuery(self.versionIdentifier, key: "versionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2055,7 +2119,10 @@ extension CleanRoomsML {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, max: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, min: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2303,7 +2370,7 @@ extension CleanRoomsML {
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
-            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2455,11 +2522,14 @@ extension CleanRoomsML {
         public let collaborationIdentifier: String
         /// The Amazon Resource Name (ARN) of the trained model that you want to return information about.
         public let trainedModelArn: String
+        /// The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest version of the trained model.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, trainedModelArn: String) {
+        public init(collaborationIdentifier: String, trainedModelArn: String, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.trainedModelArn = trainedModelArn
+            self.versionIdentifier = versionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2467,6 +2537,7 @@ extension CleanRoomsML {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
             request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+            request.encodeQuery(self.versionIdentifier, key: "versionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -2475,7 +2546,10 @@ extension CleanRoomsML {
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, max: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, min: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2492,6 +2566,8 @@ extension CleanRoomsML {
         public let creatorAccountId: String
         /// The description of the trained model.
         public let description: String?
+        /// Information about the incremental training data channels used to create this version of the trained model. This includes details about the base model that was used for incremental training and the channel configuration.
+        public let incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]?
         /// Status information for the logs.
         public let logsStatus: LogsStatus?
         /// Details about the status information for the logs.
@@ -2515,16 +2591,21 @@ extension CleanRoomsML {
         public let trainedModelArn: String
         /// Information about the training container image.
         public let trainingContainerImageDigest: String?
+        /// The input mode that was used for accessing the training data when this trained model was created. This indicates how the training data was made available to the training algorithm.
+        public let trainingInputMode: TrainingInputMode?
         /// The most recent time at which the trained model was updated.
         public let updateTime: Date
+        /// The version identifier of the trained model. This unique identifier distinguishes this version from other versions of the same trained model.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, trainingInputMode: TrainingInputMode? = nil, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.description = description
+            self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.logsStatus = logsStatus
             self.logsStatusDetails = logsStatusDetails
             self.membershipIdentifier = membershipIdentifier
@@ -2537,7 +2618,9 @@ extension CleanRoomsML {
             self.stoppingCondition = stoppingCondition
             self.trainedModelArn = trainedModelArn
             self.trainingContainerImageDigest = trainingContainerImageDigest
+            self.trainingInputMode = trainingInputMode
             self.updateTime = updateTime
+            self.versionIdentifier = versionIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2546,6 +2629,7 @@ extension CleanRoomsML {
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
             case description = "description"
+            case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case logsStatus = "logsStatus"
             case logsStatusDetails = "logsStatusDetails"
             case membershipIdentifier = "membershipIdentifier"
@@ -2558,7 +2642,9 @@ extension CleanRoomsML {
             case stoppingCondition = "stoppingCondition"
             case trainedModelArn = "trainedModelArn"
             case trainingContainerImageDigest = "trainingContainerImageDigest"
+            case trainingInputMode = "trainingInputMode"
             case updateTime = "updateTime"
+            case versionIdentifier = "versionIdentifier"
         }
     }
 
@@ -2716,7 +2802,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
-            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3036,7 +3122,7 @@ extension CleanRoomsML {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, max: 2048)
             try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, min: 20)
-            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model-inference-job/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model-inference-job/[-a-zA-Z0-9_/.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3084,11 +3170,13 @@ extension CleanRoomsML {
         public let trainedModelArn: String
         /// The Amazon Resource Name (ARN) of the trained model inference job.
         public let trainedModelInferenceJobArn: String
+        /// The version identifier of the trained model used for this inference job. This identifies the specific version of the trained model that was used to generate the inference results.
+        public let trainedModelVersionIdentifier: String?
         /// The most recent time at which the trained model inference job was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, createTime: Date, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, inferenceContainerImageDigest: String? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, status: TrainedModelInferenceJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainedModelInferenceJobArn: String, updateTime: Date) {
+        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, createTime: Date, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, inferenceContainerImageDigest: String? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, status: TrainedModelInferenceJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.containerExecutionParameters = containerExecutionParameters
             self.createTime = createTime
@@ -3110,6 +3198,7 @@ extension CleanRoomsML {
             self.tags = tags
             self.trainedModelArn = trainedModelArn
             self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
             self.updateTime = updateTime
         }
 
@@ -3135,6 +3224,7 @@ extension CleanRoomsML {
             case tags = "tags"
             case trainedModelArn = "trainedModelArn"
             case trainedModelInferenceJobArn = "trainedModelInferenceJobArn"
+            case trainedModelVersionIdentifier = "trainedModelVersionIdentifier"
             case updateTime = "updateTime"
         }
     }
@@ -3144,11 +3234,14 @@ extension CleanRoomsML {
         public let membershipIdentifier: String
         /// The Amazon Resource Name (ARN) of the trained model that you are interested in.
         public let trainedModelArn: String
+        /// The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest version of the trained model.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(membershipIdentifier: String, trainedModelArn: String) {
+        public init(membershipIdentifier: String, trainedModelArn: String, versionIdentifier: String? = nil) {
             self.membershipIdentifier = membershipIdentifier
             self.trainedModelArn = trainedModelArn
+            self.versionIdentifier = versionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3156,6 +3249,7 @@ extension CleanRoomsML {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+            request.encodeQuery(self.versionIdentifier, key: "versionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -3164,7 +3258,10 @@ extension CleanRoomsML {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, max: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, min: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3185,6 +3282,8 @@ extension CleanRoomsML {
         public let environment: [String: String]?
         /// The hyperparameters that were used to create the trained model.
         public let hyperparameters: [String: String]?
+        /// Information about the incremental training data channels used to create this version of the trained model. This includes details about the base model that was used for incremental training and the channel configuration.
+        public let incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]?
         /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and associated data.
         public let kmsKeyArn: String?
         /// The logs status for the trained model.
@@ -3212,11 +3311,15 @@ extension CleanRoomsML {
         public let trainedModelArn: String
         /// Information about the training image container.
         public let trainingContainerImageDigest: String?
+        /// The input mode that was used for accessing the training data when this trained model was created. This indicates how the training data was made available to the training algorithm.
+        public let trainingInputMode: TrainingInputMode?
         /// The most recent time at which the trained model was updated.
         public let updateTime: Date
+        /// The version identifier of the trained model. This unique identifier distinguishes this version from other versions of the same trained model.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, trainingInputMode: TrainingInputMode? = nil, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -3224,6 +3327,7 @@ extension CleanRoomsML {
             self.description = description
             self.environment = environment
             self.hyperparameters = hyperparameters
+            self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.kmsKeyArn = kmsKeyArn
             self.logsStatus = logsStatus
             self.logsStatusDetails = logsStatusDetails
@@ -3238,7 +3342,9 @@ extension CleanRoomsML {
             self.tags = tags
             self.trainedModelArn = trainedModelArn
             self.trainingContainerImageDigest = trainingContainerImageDigest
+            self.trainingInputMode = trainingInputMode
             self.updateTime = updateTime
+            self.versionIdentifier = versionIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3249,6 +3355,7 @@ extension CleanRoomsML {
             case description = "description"
             case environment = "environment"
             case hyperparameters = "hyperparameters"
+            case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case kmsKeyArn = "kmsKeyArn"
             case logsStatus = "logsStatus"
             case logsStatusDetails = "logsStatusDetails"
@@ -3263,7 +3370,9 @@ extension CleanRoomsML {
             case tags = "tags"
             case trainedModelArn = "trainedModelArn"
             case trainingContainerImageDigest = "trainingContainerImageDigest"
+            case trainingInputMode = "trainingInputMode"
             case updateTime = "updateTime"
+            case versionIdentifier = "versionIdentifier"
         }
     }
 
@@ -3371,8 +3480,64 @@ extension CleanRoomsML {
         }
     }
 
+    public struct IncrementalTrainingDataChannel: AWSEncodableShape {
+        /// The name of the incremental training data channel. This name is used to identify the channel during the training process and must be unique within the training job.
+        public let channelName: String
+        /// The Amazon Resource Name (ARN) of the base trained model to use for incremental training. This model serves as the starting point for the incremental training process.
+        public let trainedModelArn: String
+        /// The version identifier of the base trained model to use for incremental training. If not specified, the latest version of the trained model is used.
+        public let versionIdentifier: String?
+
+        @inlinable
+        public init(channelName: String, trainedModelArn: String, versionIdentifier: String? = nil) {
+            self.channelName = channelName
+            self.trainedModelArn = trainedModelArn
+            self.versionIdentifier = versionIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 64)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[A-Za-z0-9\\.\\-_]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, max: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, min: 36)
+            try self.validate(self.versionIdentifier, name: "versionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+            case trainedModelArn = "trainedModelArn"
+            case versionIdentifier = "versionIdentifier"
+        }
+    }
+
+    public struct IncrementalTrainingDataChannelOutput: AWSDecodableShape {
+        /// The name of the incremental training data channel that was used.
+        public let channelName: String
+        /// The name of the base trained model that was used for incremental training.
+        public let modelName: String
+        /// The version identifier of the trained model that was used for incremental training.
+        public let versionIdentifier: String?
+
+        @inlinable
+        public init(channelName: String, modelName: String, versionIdentifier: String? = nil) {
+            self.channelName = channelName
+            self.modelName = modelName
+            self.versionIdentifier = versionIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+            case modelName = "modelName"
+            case versionIdentifier = "versionIdentifier"
+        }
+    }
+
     public struct InferenceContainerConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The registry path of the docker image that contains the inference algorithm. Clean Rooms ML supports both registry/repository[:tag] and registry/repositry[@digest] image path formats. For more information about using images in Clean Rooms ML, see the Sagemaker API reference.
+        /// The registry path of the docker image that contains the inference algorithm. Clean Rooms ML currently only supports the registry/repository[:tag] image path format. For more information about using images in Clean Rooms ML, see the Sagemaker API reference.
         public let imageUri: String
 
         @inlinable
@@ -3472,7 +3637,7 @@ extension CleanRoomsML {
     public struct InputChannel: AWSEncodableShape & AWSDecodableShape {
         /// The data source that is used to create the ML input channel.
         public let dataSource: InputChannelDataSource
-        /// The ARN of the IAM role that Clean Rooms ML can assume to read the data referred to in the dataSource field the input channel. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedException error.
+        /// The Amazon Resource Name (ARN) of the role used to run the query specified in the dataSource field of the input channel. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedException error.
         public let roleArn: String
 
         @inlinable
@@ -3773,13 +3938,16 @@ extension CleanRoomsML {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the trained model that was used to create the export jobs that you are interested in.
         public let trainedModelArn: String
+        /// The version identifier of the trained model to filter export jobs by. When specified, only export jobs for this specific version of the trained model are returned.
+        public let trainedModelVersionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, trainedModelArn: String) {
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, trainedModelArn: String, trainedModelVersionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.trainedModelArn = trainedModelArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3789,6 +3957,7 @@ extension CleanRoomsML {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+            request.encodeQuery(self.trainedModelVersionIdentifier, key: "trainedModelVersionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -3801,7 +3970,10 @@ extension CleanRoomsML {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, max: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, min: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3834,13 +4006,16 @@ extension CleanRoomsML {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the trained model that was used to create the trained model inference jobs that you are interested in.
         public let trainedModelArn: String?
+        /// The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
+        public let trainedModelVersionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, trainedModelArn: String? = nil) {
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, trainedModelArn: String? = nil, trainedModelVersionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.trainedModelArn = trainedModelArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3850,6 +4025,7 @@ extension CleanRoomsML {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.trainedModelArn, key: "trainedModelArn")
+            request.encodeQuery(self.trainedModelVersionIdentifier, key: "trainedModelVersionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -3862,7 +4038,10 @@ extension CleanRoomsML {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, max: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, min: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4160,7 +4339,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel)|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm|configured-model-algorithm-association|trained-model|trained-model-inference-job)/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:((membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel))|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm)/[-a-zA-Z0-9_/.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4189,13 +4368,16 @@ extension CleanRoomsML {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of a trained model that was used to create the trained model inference jobs that you are interested in.
         public let trainedModelArn: String?
+        /// The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
+        public let trainedModelVersionIdentifier: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, trainedModelArn: String? = nil) {
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, trainedModelArn: String? = nil, trainedModelVersionIdentifier: String? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
             self.nextToken = nextToken
             self.trainedModelArn = trainedModelArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4205,6 +4387,7 @@ extension CleanRoomsML {
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.trainedModelArn, key: "trainedModelArn")
+            request.encodeQuery(self.trainedModelVersionIdentifier, key: "trainedModelVersionIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -4217,7 +4400,10 @@ extension CleanRoomsML {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, max: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, min: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4238,6 +4424,71 @@ extension CleanRoomsML {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case trainedModelInferenceJobs = "trainedModelInferenceJobs"
+        }
+    }
+
+    public struct ListTrainedModelVersionsRequest: AWSEncodableShape {
+        /// The maximum number of trained model versions to return in a single page. The default value is 10, and the maximum value is 100.
+        public let maxResults: Int?
+        /// The membership identifier for the collaboration that contains the trained model.
+        public let membershipIdentifier: String
+        /// The pagination token from a previous ListTrainedModelVersions request. Use this token to retrieve the next page of results.
+        public let nextToken: String?
+        /// Filter the results to only include trained model versions with the specified status. Valid values include CREATE_PENDING, CREATE_IN_PROGRESS, ACTIVE, CREATE_FAILED, and others.
+        public let status: TrainedModelStatus?
+        /// The Amazon Resource Name (ARN) of the trained model for which to list versions.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, status: TrainedModelStatus? = nil, trainedModelArn: String) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+            self.status = status
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+            request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTrainedModelVersionsResponse: AWSDecodableShape {
+        /// The pagination token to use in a subsequent ListTrainedModelVersions request to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// A list of trained model versions that match the specified criteria. Each entry contains summary information about a trained model version, including its version identifier, status, and creation details.
+        public let trainedModels: [TrainedModelSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, trainedModels: [TrainedModelSummary]) {
+            self.nextToken = nextToken
+            self.trainedModels = trainedModels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case trainedModels = "trainedModels"
         }
     }
 
@@ -4506,11 +4757,14 @@ extension CleanRoomsML {
         public let channelName: String
         /// The Amazon Resource Name (ARN) of the ML input channel for this model training data channel.
         public let mlInputChannelArn: String
+        /// Specifies how the training data stored in Amazon S3 should be distributed to training instances. This parameter controls the data distribution strategy for the training job:    FullyReplicated - The entire dataset is replicated on each training instance. This is suitable for smaller datasets and algorithms that require access to the complete dataset.    ShardedByS3Key - The dataset is distributed across training instances based on Amazon S3 key names. This is suitable for larger datasets and distributed training scenarios where each instance processes a subset of the data.
+        public let s3DataDistributionType: S3DataDistributionType?
 
         @inlinable
-        public init(channelName: String, mlInputChannelArn: String) {
+        public init(channelName: String, mlInputChannelArn: String, s3DataDistributionType: S3DataDistributionType? = nil) {
             self.channelName = channelName
             self.mlInputChannelArn = mlInputChannelArn
+            self.s3DataDistributionType = s3DataDistributionType
         }
 
         public func validate(name: String) throws {
@@ -4525,6 +4779,7 @@ extension CleanRoomsML {
         private enum CodingKeys: String, CodingKey {
             case channelName = "channelName"
             case mlInputChannelArn = "mlInputChannelArn"
+            case s3DataDistributionType = "s3DataDistributionType"
         }
     }
 
@@ -4781,6 +5036,27 @@ extension CleanRoomsML {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The name of the service quota limit that was exceeded
+        public let quotaName: String?
+        /// The current limit on the service quota that was exceeded
+        public let quotaValue: Double?
+
+        @inlinable
+        public init(message: String, quotaName: String? = nil, quotaValue: Double? = nil) {
+            self.message = message
+            self.quotaName = quotaName
+            self.quotaValue = quotaValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaName = "quotaName"
+            case quotaValue = "quotaValue"
+        }
+    }
+
     public struct StartAudienceExportJobRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the audience generation job that you want to export.
         public let audienceGenerationJobArn: String
@@ -4902,14 +5178,17 @@ extension CleanRoomsML {
         public let outputConfiguration: TrainedModelExportOutputConfiguration
         /// The Amazon Resource Name (ARN) of the trained model that you want to export.
         public let trainedModelArn: String
+        /// The version identifier of the trained model to export. This specifies which version of the trained model should be exported to the specified destination.
+        public let trainedModelVersionIdentifier: String?
 
         @inlinable
-        public init(description: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: TrainedModelExportOutputConfiguration, trainedModelArn: String) {
+        public init(description: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: TrainedModelExportOutputConfiguration, trainedModelArn: String, trainedModelVersionIdentifier: String? = nil) {
             self.description = description
             self.membershipIdentifier = membershipIdentifier
             self.name = name
             self.outputConfiguration = outputConfiguration
             self.trainedModelArn = trainedModelArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4920,6 +5199,7 @@ extension CleanRoomsML {
             try container.encode(self.name, forKey: .name)
             try container.encode(self.outputConfiguration, forKey: .outputConfiguration)
             request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+            try container.encodeIfPresent(self.trainedModelVersionIdentifier, forKey: .trainedModelVersionIdentifier)
         }
 
         public func validate(name: String) throws {
@@ -4934,13 +5214,17 @@ extension CleanRoomsML {
             try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, max: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, min: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
             case outputConfiguration = "outputConfiguration"
+            case trainedModelVersionIdentifier = "trainedModelVersionIdentifier"
         }
     }
 
@@ -4969,9 +5253,11 @@ extension CleanRoomsML {
         public let tags: [String: String]?
         /// The Amazon Resource Name (ARN) of the trained model that is used for this trained model inference job.
         public let trainedModelArn: String
+        /// The version identifier of the trained model to use for inference. This specifies which version of the trained model should be used to generate predictions on the input data.
+        public let trainedModelVersionIdentifier: String?
 
         @inlinable
-        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, tags: [String: String]? = nil, trainedModelArn: String) {
+        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, tags: [String: String]? = nil, trainedModelArn: String, trainedModelVersionIdentifier: String? = nil) {
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.containerExecutionParameters = containerExecutionParameters
             self.dataSource = dataSource
@@ -4984,6 +5270,7 @@ extension CleanRoomsML {
             self.resourceConfig = resourceConfig
             self.tags = tags
             self.trainedModelArn = trainedModelArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5001,12 +5288,13 @@ extension CleanRoomsML {
             try container.encode(self.resourceConfig, forKey: .resourceConfig)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encode(self.trainedModelArn, forKey: .trainedModelArn)
+            try container.encodeIfPresent(self.trainedModelVersionIdentifier, forKey: .trainedModelVersionIdentifier)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
             try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
-            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
             try self.dataSource.validate(name: "\(name).dataSource")
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
@@ -5029,7 +5317,10 @@ extension CleanRoomsML {
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
             try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
-            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, max: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, min: 36)
+            try self.validate(self.trainedModelVersionIdentifier, name: "trainedModelVersionIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5044,6 +5335,7 @@ extension CleanRoomsML {
             case resourceConfig = "resourceConfig"
             case tags = "tags"
             case trainedModelArn = "trainedModelArn"
+            case trainedModelVersionIdentifier = "trainedModelVersionIdentifier"
         }
     }
 
@@ -5115,7 +5407,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel)|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm|configured-model-algorithm-association|trained-model|trained-model-inference-job)/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:((membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel))|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm)/[-a-zA-Z0-9_/.]+$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -5131,6 +5423,29 @@ extension CleanRoomsML {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TrainedModelArtifactMaxSize: AWSEncodableShape & AWSDecodableShape {
+        /// The unit of measurement for the maximum artifact size. Valid values include common storage units such as bytes, kilobytes, megabytes, gigabytes, and terabytes.
+        public let unit: TrainedModelArtifactMaxSizeUnitType
+        /// The numerical value for the maximum artifact size limit. This value is interpreted according to the specified unit.
+        public let value: Double
+
+        @inlinable
+        public init(unit: TrainedModelArtifactMaxSizeUnitType, value: Double) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 10.0)
+            try self.validate(self.value, name: "value", parent: name, min: 0.01)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
+        }
     }
 
     public struct TrainedModelExportOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -5251,11 +5566,13 @@ extension CleanRoomsML {
         public let trainedModelArn: String
         /// The Amazon Resource Name (ARN) of the trained model inference job.
         public let trainedModelInferenceJobArn: String
+        /// The version identifier of the trained model that was used for inference in this job.
+        public let trainedModelVersionIdentifier: String?
         /// The most recent time at which the trained model inference job was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -5270,6 +5587,7 @@ extension CleanRoomsML {
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
             self.updateTime = updateTime
         }
 
@@ -5288,6 +5606,7 @@ extension CleanRoomsML {
             case status = "status"
             case trainedModelArn = "trainedModelArn"
             case trainedModelInferenceJobArn = "trainedModelInferenceJobArn"
+            case trainedModelVersionIdentifier = "trainedModelVersionIdentifier"
             case updateTime = "updateTime"
         }
     }
@@ -5332,7 +5651,7 @@ extension CleanRoomsML {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, max: 10.0)
+            try self.validate(self.value, name: "value", parent: name, max: 50.0)
             try self.validate(self.value, name: "value", parent: name, min: 0.01)
         }
 
@@ -5351,6 +5670,8 @@ extension CleanRoomsML {
         public let createTime: Date
         /// The description of the trained model.
         public let description: String?
+        /// Information about the incremental training data channels used to create this version of the trained model.
+        public let incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]?
         /// The membership ID of the member that created the trained model.
         public let membershipIdentifier: String
         /// The name of the trained model.
@@ -5361,18 +5682,22 @@ extension CleanRoomsML {
         public let trainedModelArn: String
         /// The most recent time at which the trained model was updated.
         public let updateTime: Date
+        /// The version identifier of this trained model version.
+        public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, description: String? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
             self.description = description
+            self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.updateTime = updateTime
+            self.versionIdentifier = versionIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5380,11 +5705,13 @@ extension CleanRoomsML {
             case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
             case createTime = "createTime"
             case description = "description"
+            case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case membershipIdentifier = "membershipIdentifier"
             case name = "name"
             case status = "status"
             case trainedModelArn = "trainedModelArn"
             case updateTime = "updateTime"
+            case versionIdentifier = "versionIdentifier"
         }
     }
 
@@ -5393,11 +5720,14 @@ extension CleanRoomsML {
         public let containerLogs: [LogsConfigurationPolicy]?
         /// The container for the metrics of the trained model.
         public let containerMetrics: MetricsConfigurationPolicy?
+        /// The maximum size limit for trained model artifacts as defined in the configuration policy. This setting helps enforce consistent size limits across trained models in the collaboration.
+        public let maxArtifactSize: TrainedModelArtifactMaxSize?
 
         @inlinable
-        public init(containerLogs: [LogsConfigurationPolicy]? = nil, containerMetrics: MetricsConfigurationPolicy? = nil) {
+        public init(containerLogs: [LogsConfigurationPolicy]? = nil, containerMetrics: MetricsConfigurationPolicy? = nil, maxArtifactSize: TrainedModelArtifactMaxSize? = nil) {
             self.containerLogs = containerLogs
             self.containerMetrics = containerMetrics
+            self.maxArtifactSize = maxArtifactSize
         }
 
         public func validate(name: String) throws {
@@ -5406,11 +5736,13 @@ extension CleanRoomsML {
             }
             try self.validate(self.containerLogs, name: "containerLogs", parent: name, max: 5)
             try self.validate(self.containerLogs, name: "containerLogs", parent: name, min: 1)
+            try self.maxArtifactSize?.validate(name: "\(name).maxArtifactSize")
         }
 
         private enum CodingKeys: String, CodingKey {
             case containerLogs = "containerLogs"
             case containerMetrics = "containerMetrics"
+            case maxArtifactSize = "maxArtifactSize"
         }
     }
 
@@ -5470,7 +5802,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel)|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm|configured-model-algorithm-association|trained-model|trained-model-inference-job)/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:((membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel))|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm)/[-a-zA-Z0-9_/.]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -5622,8 +5954,10 @@ public struct CleanRoomsMLErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case internalServiceException = "InternalServiceException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
 
@@ -5649,12 +5983,22 @@ public struct CleanRoomsMLErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// You can't complete this action because another resource depends on this resource.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An internal service error occurred. Retry your request. If the problem persists, contact AWS Support.
+    public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The resource you are requesting does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You have exceeded your service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request was denied due to request throttling.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The request parameters for this request are incorrect.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension CleanRoomsMLErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ServiceQuotaExceededException": CleanRoomsML.ServiceQuotaExceededException.self
+    ]
 }
 
 extension CleanRoomsMLErrorType: Equatable {

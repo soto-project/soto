@@ -1231,7 +1231,7 @@ public struct EC2: AWSService {
         return try await self.associateRouteTable(input, logger: logger)
     }
 
-    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.    The VPC you want to associate the security group with must be in the same Region.   You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.   You must own the security group and the VPC that it was created in.   You cannot use this feature with default security groups.   You cannot use this feature with the default VPC.
+    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.    The VPC you want to associate the security group with must be in the same Region.   You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.   You must own the security group.   You cannot use this feature with default security groups.   You cannot use this feature with the default VPC.
     @Sendable
     @inlinable
     public func associateSecurityGroupVpc(_ input: AssociateSecurityGroupVpcRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSecurityGroupVpcResult {
@@ -1244,7 +1244,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.    The VPC you want to associate the security group with must be in the same Region.   You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.   You must own the security group and the VPC that it was created in.   You cannot use this feature with default security groups.   You cannot use this feature with the default VPC.
+    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.    The VPC you want to associate the security group with must be in the same Region.   You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.   You must own the security group.   You cannot use this feature with default security groups.   You cannot use this feature with the default VPC.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -3015,7 +3015,7 @@ public struct EC2: AWSService {
     ///   - certificateArn: The Amazon Resource Name (ARN) for the customer gateway certificate.
     ///   - deviceName: A name for the customer gateway device. Length Constraints: Up to 255 characters.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - ipAddress: IPv4 address for the customer gateway device's outside interface. The address must be static. If OutsideIpAddressType in your VPN connection options is set to PrivateIpv4, you can use an RFC6598 or RFC1918 private IPv4 address. If OutsideIpAddressType is set to PublicIpv4, you can use a public IPv4 address.
+    ///   - ipAddress: The IP address for the customer gateway device's outside interface. The address must be static. If OutsideIpAddressType in your VPN connection options is set to PrivateIpv4, you can use an RFC6598 or RFC1918 private IPv4 address. If OutsideIpAddressType is set to Ipv6, you can use an IPv6 address.
     ///   - publicIp:  This member has been deprecated. The Internet-routable IP address for the customer gateway's outside interface. The address must be static.
     ///   - tagSpecifications: The tags to apply to the customer gateway.
     ///   - type: The type of VPN connection that this customer gateway supports (ipsec.1).
@@ -4993,6 +4993,7 @@ public struct EC2: AWSService {
     ///   - localGatewayId: The ID of the local gateway.
     ///   - natGatewayId: [IPv4 traffic only] The ID of a NAT gateway.
     ///   - networkInterfaceId: The ID of a network interface.
+    ///   - odbNetworkArn: The Amazon Resource Name (ARN) of the ODB network.
     ///   - routeTableId: The ID of the route table for the route.
     ///   - transitGatewayId: The ID of a transit gateway.
     ///   - vpcEndpointId: The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
@@ -5012,6 +5013,7 @@ public struct EC2: AWSService {
         localGatewayId: String? = nil,
         natGatewayId: String? = nil,
         networkInterfaceId: String? = nil,
+        odbNetworkArn: String? = nil,
         routeTableId: String? = nil,
         transitGatewayId: String? = nil,
         vpcEndpointId: String? = nil,
@@ -5031,6 +5033,7 @@ public struct EC2: AWSService {
             localGatewayId: localGatewayId, 
             natGatewayId: natGatewayId, 
             networkInterfaceId: networkInterfaceId, 
+            odbNetworkArn: odbNetworkArn, 
             routeTableId: routeTableId, 
             transitGatewayId: transitGatewayId, 
             vpcEndpointId: vpcEndpointId, 
@@ -9793,7 +9796,7 @@ public struct EC2: AWSService {
     /// Deprovision a CIDR from a public IPv4 pool.
     ///
     /// Parameters:
-    ///   - cidr: The CIDR you want to deprovision from the pool. Enter the CIDR you want to deprovision with a netmask of /32. You must rerun this command for each IP address in the CIDR range. If your CIDR is a /24, you will have to run this command to deprovision each of the 256 IP addresses in the /24 CIDR.
+    ///   - cidr: The CIDR you want to deprovision from the pool.
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - poolId: The ID of the pool that you want to deprovision the CIDR from.
     ///   - logger: Logger use during operation
@@ -14503,7 +14506,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    group-owner-id: The group owner ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - logger: Logger use during operation
@@ -19759,6 +19762,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - architectureTypes: The processor architecture type.
+    ///   - context: Reserved.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - instanceRequirements: The attributes required for the instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
@@ -19768,6 +19772,7 @@ public struct EC2: AWSService {
     @inlinable
     public func getInstanceTypesFromInstanceRequirements(
         architectureTypes: [ArchitectureType]? = nil,
+        context: String? = nil,
         dryRun: Bool? = nil,
         instanceRequirements: InstanceRequirementsRequest? = nil,
         maxResults: Int? = nil,
@@ -19777,6 +19782,7 @@ public struct EC2: AWSService {
     ) async throws -> GetInstanceTypesFromInstanceRequirementsResult {
         let input = GetInstanceTypesFromInstanceRequirementsRequest(
             architectureTypes: architectureTypes, 
+            context: context, 
             dryRun: dryRun, 
             instanceRequirements: instanceRequirements, 
             maxResults: maxResults, 
@@ -26022,6 +26028,7 @@ public struct EC2: AWSService {
     ///   - localTarget: Specifies whether to reset the local route to its default target (local).
     ///   - natGatewayId: [IPv4 traffic only] The ID of a NAT gateway.
     ///   - networkInterfaceId: The ID of a network interface.
+    ///   - odbNetworkArn: The Amazon Resource Name (ARN) of the ODB network.
     ///   - routeTableId: The ID of the route table.
     ///   - transitGatewayId: The ID of a transit gateway.
     ///   - vpcEndpointId: The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
@@ -26042,6 +26049,7 @@ public struct EC2: AWSService {
         localTarget: Bool? = nil,
         natGatewayId: String? = nil,
         networkInterfaceId: String? = nil,
+        odbNetworkArn: String? = nil,
         routeTableId: String? = nil,
         transitGatewayId: String? = nil,
         vpcEndpointId: String? = nil,
@@ -26062,6 +26070,7 @@ public struct EC2: AWSService {
             localTarget: localTarget, 
             natGatewayId: natGatewayId, 
             networkInterfaceId: networkInterfaceId, 
+            odbNetworkArn: odbNetworkArn, 
             routeTableId: routeTableId, 
             transitGatewayId: transitGatewayId, 
             vpcEndpointId: vpcEndpointId, 
@@ -31481,7 +31490,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    group-owner-id: The group owner ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - logger: Logger used for logging
     @inlinable
@@ -33376,6 +33385,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - architectureTypes: The processor architecture type.
+    ///   - context: Reserved.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - instanceRequirements: The attributes required for the instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
@@ -33384,6 +33394,7 @@ extension EC2 {
     @inlinable
     public func getInstanceTypesFromInstanceRequirementsPaginator(
         architectureTypes: [ArchitectureType]? = nil,
+        context: String? = nil,
         dryRun: Bool? = nil,
         instanceRequirements: InstanceRequirementsRequest? = nil,
         maxResults: Int? = nil,
@@ -33392,6 +33403,7 @@ extension EC2 {
     ) -> AWSClient.PaginatorSequence<GetInstanceTypesFromInstanceRequirementsRequest, GetInstanceTypesFromInstanceRequirementsResult> {
         let input = GetInstanceTypesFromInstanceRequirementsRequest(
             architectureTypes: architectureTypes, 
+            context: context, 
             dryRun: dryRun, 
             instanceRequirements: instanceRequirements, 
             maxResults: maxResults, 
@@ -36044,6 +36056,7 @@ extension EC2.GetInstanceTypesFromInstanceRequirementsRequest: AWSPaginateToken 
     public func usingPaginationToken(_ token: String) -> EC2.GetInstanceTypesFromInstanceRequirementsRequest {
         return .init(
             architectureTypes: self.architectureTypes,
+            context: self.context,
             dryRun: self.dryRun,
             instanceRequirements: self.instanceRequirements,
             maxResults: self.maxResults,
@@ -37348,6 +37361,101 @@ extension EC2 {
             nextToken: nextToken
         )
         try await self.waitUntilSecurityGroupExists(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeSecurityGroupVpcAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSecurityGroupVpcAssociationAssociated(
+        _ input: DescribeSecurityGroupVpcAssociationsRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeSecurityGroupVpcAssociationsRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("securityGroupVpcAssociations[].state", expected: "associated")),
+                .init(state: .retry, matcher: try! JMESAnyPathMatcher("securityGroupVpcAssociations[].state", expected: "associating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("securityGroupVpcAssociations[].state", expected: "association-failed")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.describeSecurityGroupVpcAssociations
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeSecurityGroupVpcAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    group-owner-id: The group owner ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - maxResults: The maximum number of items to return for this request.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSecurityGroupVpcAssociationAssociated(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeSecurityGroupVpcAssociationsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        try await self.waitUntilSecurityGroupVpcAssociationAssociated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeSecurityGroupVpcAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSecurityGroupVpcAssociationDisassociated(
+        _ input: DescribeSecurityGroupVpcAssociationsRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeSecurityGroupVpcAssociationsRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("securityGroupVpcAssociations[].state", expected: "disassociated")),
+                .init(state: .retry, matcher: try! JMESAnyPathMatcher("securityGroupVpcAssociations[].state", expected: "disassociating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("securityGroupVpcAssociations[].state", expected: "disassociation-failed")),
+                .init(state: .success, matcher: try! JMESPathMatcher("length(securityGroupVpcAssociations[]) == `0`", expected: "true")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.describeSecurityGroupVpcAssociations
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeSecurityGroupVpcAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    group-owner-id: The group owner ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - maxResults: The maximum number of items to return for this request.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSecurityGroupVpcAssociationDisassociated(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeSecurityGroupVpcAssociationsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        try await self.waitUntilSecurityGroupVpcAssociationDisassociated(input, logger: logger)
     }
 
     /// Waiter for operation ``describeSnapshots(_:logger:)``.

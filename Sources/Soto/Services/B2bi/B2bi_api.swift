@@ -220,7 +220,7 @@ public struct B2bi: AWSService {
         return try await self.createProfile(input, logger: logger)
     }
 
-    /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI. If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the templateDetails parameter.  Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
+    /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI. If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the templateDetails parameter.   Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
     @Sendable
     @inlinable
     public func createStarterMappingTemplate(_ input: CreateStarterMappingTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStarterMappingTemplateResponse {
@@ -233,7 +233,7 @@ public struct B2bi: AWSService {
             logger: logger
         )
     }
-    /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI. If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the templateDetails parameter.  Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
+    /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI. If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the templateDetails parameter.   Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
     ///
     /// Parameters:
     ///   - mappingType: Specify the format for the mapping template: either JSONATA or XSLT.
@@ -255,7 +255,7 @@ public struct B2bi: AWSService {
         return try await self.createStarterMappingTemplate(input, logger: logger)
     }
 
-    /// Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:    Inbound EDI: the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange  converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires.    Outbound EDI: the Amazon Web Services customer has a JSON or XML file containing data that they wish to use in an EDI file. A mapping template, provided by the customer (in either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in the service-defined structure. This file is then converted to an EDI file.    The following fields are provided for backwards compatibility only: fileFormat, mappingTemplate, ediType, and sampleDocument.   Use the mapping data type in place of mappingTemplate and fileFormat    Use the sampleDocuments data type in place of sampleDocument    Use either the inputConversion or outputConversion in place of ediType
+    /// Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:    Inbound EDI: the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires.    Outbound EDI: the Amazon Web Services customer has a JSON or XML file containing data that they wish to use in an EDI file. A mapping template, provided by the customer (in either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in the service-defined structure. This file is then converted to an EDI file.    The following fields are provided for backwards compatibility only: fileFormat, mappingTemplate, ediType, and sampleDocument.   Use the mapping data type in place of mappingTemplate and fileFormat    Use the sampleDocuments data type in place of sampleDocument    Use either the inputConversion or outputConversion in place of ediType
     @Sendable
     @inlinable
     public func createTransformer(_ input: CreateTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransformerResponse {
@@ -268,11 +268,11 @@ public struct B2bi: AWSService {
             logger: logger
         )
     }
-    /// Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:    Inbound EDI: the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange  converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires.    Outbound EDI: the Amazon Web Services customer has a JSON or XML file containing data that they wish to use in an EDI file. A mapping template, provided by the customer (in either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in the service-defined structure. This file is then converted to an EDI file.    The following fields are provided for backwards compatibility only: fileFormat, mappingTemplate, ediType, and sampleDocument.   Use the mapping data type in place of mappingTemplate and fileFormat    Use the sampleDocuments data type in place of sampleDocument    Use either the inputConversion or outputConversion in place of ediType
+    /// Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:    Inbound EDI: the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires.    Outbound EDI: the Amazon Web Services customer has a JSON or XML file containing data that they wish to use in an EDI file. A mapping template, provided by the customer (in either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in the service-defined structure. This file is then converted to an EDI file.    The following fields are provided for backwards compatibility only: fileFormat, mappingTemplate, ediType, and sampleDocument.   Use the mapping data type in place of mappingTemplate and fileFormat    Use the sampleDocuments data type in place of sampleDocument    Use either the inputConversion or outputConversion in place of ediType
     ///
     /// Parameters:
     ///   - clientToken: Reserved for future use.
-    ///   - inputConversion: Specify  the InputConversion object, which contains the format options for the inbound transformation.
+    ///   - inputConversion: Specify the InputConversion object, which contains the format options for the inbound transformation.
     ///   - mapping: Specify the structure that contains the mapping template and its language (either XSLT or JSONATA).
     ///   - name: Specifies the name of the transformer, used to identify it.
     ///   - outputConversion: A structure that contains the OutputConversion object, which contains the format options for the outbound transformation.
@@ -418,7 +418,7 @@ public struct B2bi: AWSService {
         return try await self.deleteTransformer(input, logger: logger)
     }
 
-    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs.  Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide.
+    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs.  Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide.  To generate a mapping, perform the following steps:   Start with an X12 EDI document to use as the input.   Call TestMapping using your EDI document.   Use the output from the TestMapping operation as either input or output for your GenerateMapping call, along with your sample file.
     @Sendable
     @inlinable
     public func generateMapping(_ input: GenerateMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateMappingResponse {
@@ -431,12 +431,12 @@ public struct B2bi: AWSService {
             logger: logger
         )
     }
-    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs.  Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide.
+    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs.  Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide.  To generate a mapping, perform the following steps:   Start with an X12 EDI document to use as the input.   Call TestMapping using your EDI document.   Use the output from the TestMapping operation as either input or output for your GenerateMapping call, along with your sample file.
     ///
     /// Parameters:
-    ///   - inputFileContent: Provide the contents of a sample X12 EDI file (for inbound EDI) or JSON/XML file (for outbound EDI) to use as a starting point for the mapping.
+    ///   - inputFileContent: Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping.
     ///   - mappingType: Specify the mapping type: either JSONATA or XSLT.
-    ///   - outputFileContent: Provide the contents of a sample X12 EDI file (for outbound EDI) or JSON/XML file (for inbound EDI) to use as a target for the mapping.
+    ///   - outputFileContent: Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping.
     ///   - logger: Logger use during operation
     @inlinable
     public func generateMapping(
@@ -569,7 +569,7 @@ public struct B2bi: AWSService {
         return try await self.getTransformer(input, logger: logger)
     }
 
-    /// Returns the details of the transformer run, based on the Transformer job ID.
+    /// Returns the details of the transformer run, based on the Transformer job ID.  If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run GetTransformerJob and supply a transformerId and transformerJobId for a job that was started more than 30 days previously, you receive a 404 response.
     @Sendable
     @inlinable
     public func getTransformerJob(_ input: GetTransformerJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransformerJobResponse {
@@ -582,7 +582,7 @@ public struct B2bi: AWSService {
             logger: logger
         )
     }
-    /// Returns the details of the transformer run, based on the Transformer job ID.
+    /// Returns the details of the transformer run, based on the Transformer job ID.  If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run GetTransformerJob and supply a transformerId and transformerJobId for a job that was started more than 30 days previously, you receive a 404 response.
     ///
     /// Parameters:
     ///   - transformerId: Specifies the system-assigned unique identifier for the transformer.
@@ -761,7 +761,7 @@ public struct B2bi: AWSService {
         return try await self.listTransformers(input, logger: logger)
     }
 
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.  The system stores transformer jobs for 30 days. During that period, you can run GetTransformerJob and supply its transformerId and transformerJobId to return details of the job.
     @Sendable
     @inlinable
     public func startTransformerJob(_ input: StartTransformerJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTransformerJobResponse {
@@ -774,7 +774,7 @@ public struct B2bi: AWSService {
             logger: logger
         )
     }
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.  The system stores transformer jobs for 30 days. During that period, you can run GetTransformerJob and supply its transformerId and transformerJobId to return details of the job.
     ///
     /// Parameters:
     ///   - clientToken: Reserved for future use.
@@ -914,18 +914,21 @@ public struct B2bi: AWSService {
     /// Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
     ///
     /// Parameters:
+    ///   - advancedOptions: Specifies advanced options for parsing the input EDI file. These options allow for more granular control over the parsing process, including split options for X12 files.
     ///   - ediType: Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     ///   - fileFormat: Specifies that the currently supported file formats for EDI transformations are JSON and XML.
     ///   - inputFile: Specifies an S3Location object, which contains the Amazon S3 bucket and prefix for the location of the input file.
     ///   - logger: Logger use during operation
     @inlinable
     public func testParsing(
+        advancedOptions: AdvancedOptions? = nil,
         ediType: EdiType,
         fileFormat: FileFormat,
         inputFile: S3Location,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TestParsingResponse {
         let input = TestParsingRequest(
+            advancedOptions: advancedOptions, 
             ediType: ediType, 
             fileFormat: fileFormat, 
             inputFile: inputFile
@@ -1321,5 +1324,50 @@ extension B2bi.ListTransformersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension B2bi {
+    /// Waiter for operation ``getTransformerJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilTransformerJobSucceeded(
+        _ input: GetTransformerJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetTransformerJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "succeeded")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "failed")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.getTransformerJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getTransformerJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - transformerId: Specifies the system-assigned unique identifier for the transformer.
+    ///   - transformerJobId: Specifies the unique, system-generated identifier for a transformer run.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilTransformerJobSucceeded(
+        transformerId: String,
+        transformerJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetTransformerJobRequest(
+            transformerId: transformerId, 
+            transformerJobId: transformerJobId
+        )
+        try await self.waitUntilTransformerJobSucceeded(input, logger: logger)
     }
 }

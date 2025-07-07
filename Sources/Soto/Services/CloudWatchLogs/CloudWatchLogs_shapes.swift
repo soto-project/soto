@@ -1406,6 +1406,7 @@ extension CloudWatchLogs {
 
         public func validate(name: String) throws {
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
+            try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3316,6 +3317,7 @@ extension CloudWatchLogs {
 
         public func validate(name: String) throws {
             try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3673,6 +3675,7 @@ extension CloudWatchLogs {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 50)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5540,6 +5543,7 @@ extension CloudWatchLogs {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
+            try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, min: 1)
             try self.validate(self.queryString, name: "queryString", parent: name, max: 10000)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
@@ -6262,6 +6266,7 @@ extension CloudWatchLogs {
 
         public func validate(name: String) throws {
             try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -1536,6 +1536,39 @@ extension ConnectCases {
         }
     }
 
+    public struct DeleteCaseRequest: AWSEncodableShape {
+        /// A unique identifier of the case.
+        public let caseId: String
+        /// A unique identifier of the Cases domain.
+        public let domainId: String
+
+        @inlinable
+        public init(caseId: String, domainId: String) {
+            self.caseId = caseId
+            self.domainId = domainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            request.encodePath(self.domainId, key: "domainId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
+            try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCaseResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteCaseRuleRequest: AWSEncodableShape {
         /// Unique identifier of a case rule.
         public let caseRuleId: String
@@ -1659,6 +1692,45 @@ extension ConnectCases {
     }
 
     public struct DeleteLayoutResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRelatedItemRequest: AWSEncodableShape {
+        /// A unique identifier of the case.
+        public let caseId: String
+        /// A unique identifier of the Cases domain.
+        public let domainId: String
+        /// A unique identifier of a related item.
+        public let relatedItemId: String
+
+        @inlinable
+        public init(caseId: String, domainId: String, relatedItemId: String) {
+            self.caseId = caseId
+            self.domainId = domainId
+            self.relatedItemId = relatedItemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.relatedItemId, key: "relatedItemId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
+            try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.validate(self.relatedItemId, name: "relatedItemId", parent: name, max: 500)
+            try self.validate(self.relatedItemId, name: "relatedItemId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRelatedItemResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2100,8 +2172,7 @@ extension ConnectCases {
         public let domainId: String
         /// A list of unique field identifiers.
         public let fields: [FieldIdentifier]
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -2573,8 +2644,7 @@ extension ConnectCases {
         public let domainId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -2628,8 +2698,7 @@ extension ConnectCases {
         public let domainId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -2685,8 +2754,7 @@ extension ConnectCases {
     public struct ListDomainsRequest: AWSEncodableShape {
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -2736,8 +2804,7 @@ extension ConnectCases {
         public let fieldId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// A list of FieldOption values to filter on for ListFieldOptions.
         public let values: [String]?
@@ -2801,8 +2868,7 @@ extension ConnectCases {
         public let domainId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -2854,8 +2920,7 @@ extension ConnectCases {
         public let domainId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -2944,8 +3009,7 @@ extension ConnectCases {
         public let domainId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// A list of status values to filter on.
         public let status: [TemplateStatus]?
@@ -3120,8 +3184,7 @@ extension ConnectCases {
         public let filter: CaseFilter?
         /// The maximum number of cases to return. The current maximum supported value is 25. This is also the default value when no other value is provided.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// A word or phrase used to perform a quick search.
         public let searchTerm: String?
@@ -3227,8 +3290,7 @@ extension ConnectCases {
         public let filters: [RelatedItemTypeFilter]?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous
-        /// response in the next request to retrieve the next set of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -3404,7 +3466,7 @@ extension ConnectCases {
         public let fieldId: String?
         /// Name of an SLA.
         public let name: String
-        /// Represents a list of target field values for the fieldId specified in SlaInputConfiguration.  The SLA is considered met if any one of these target field values matches the actual field value.
+        /// Represents a list of target field values for the fieldId specified in SlaInputConfiguration. The SLA is considered met if any one of these target field values matches the actual field value.
         public let targetFieldValues: [FieldValueUnion]?
         /// Target duration in minutes within which an SLA should be completed.
         public let targetSlaMinutes: Int64

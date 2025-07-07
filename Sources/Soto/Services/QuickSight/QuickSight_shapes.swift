@@ -1528,6 +1528,7 @@ extension QuickSight {
     }
 
     public enum ServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case athena = "ATHENA"
         case qbusiness = "QBUSINESS"
         case redshift = "REDSHIFT"
         public var description: String { return self.rawValue }
@@ -4917,13 +4918,16 @@ extension QuickSight {
     }
 
     public struct AthenaParameters: AWSEncodableShape & AWSDecodableShape {
+        /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your workgroup. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
+        public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
         public let roleArn: String?
         /// The workgroup that Amazon Athena uses.
         public let workGroup: String?
 
         @inlinable
-        public init(roleArn: String? = nil, workGroup: String? = nil) {
+        public init(identityCenterConfiguration: IdentityCenterConfiguration? = nil, roleArn: String? = nil, workGroup: String? = nil) {
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.roleArn = roleArn
             self.workGroup = workGroup
         }
@@ -4936,6 +4940,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identityCenterConfiguration = "IdentityCenterConfiguration"
             case roleArn = "RoleArn"
             case workGroup = "WorkGroup"
         }
@@ -6609,10 +6614,22 @@ extension QuickSight {
         public let createSharedFolders: CapabilityState?
         /// The ability to create a SPICE dataset.
         public let createSPICEDataset: CapabilityState?
-        /// The ability to export to CSV files.
+        /// The ability to export to CSV files from the UI.
         public let exportToCsv: CapabilityState?
-        /// The ability to export to Excel files.
+        /// The ability to export to CSV files in scheduled email reports.
+        public let exportToCsvInScheduledReports: CapabilityState?
+        /// The ability to export to Excel files from the UI.
         public let exportToExcel: CapabilityState?
+        /// The ability to export to Excel files in scheduled email reports.
+        public let exportToExcelInScheduledReports: CapabilityState?
+        /// The ability to export to PDF files from the UI.
+        public let exportToPdf: CapabilityState?
+        /// The ability to export to PDF files in scheduled email reports.
+        public let exportToPdfInScheduledReports: CapabilityState?
+        /// The ability to include content in scheduled email reports.
+        public let includeContentInScheduledReportsEmail: CapabilityState?
+        /// The ability to print reports.
+        public let printReports: CapabilityState?
         /// The ability to rename shared folders.
         public let renameSharedFolders: CapabilityState?
         /// The ability to share analyses.
@@ -6629,7 +6646,7 @@ extension QuickSight {
         public let viewAccountSPICECapacity: CapabilityState?
 
         @inlinable
-        public init(addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil) {
+        public init(addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, printReports: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil) {
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDatasets = createAndUpdateDatasets
@@ -6639,7 +6656,13 @@ extension QuickSight {
             self.createSharedFolders = createSharedFolders
             self.createSPICEDataset = createSPICEDataset
             self.exportToCsv = exportToCsv
+            self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
             self.exportToExcel = exportToExcel
+            self.exportToExcelInScheduledReports = exportToExcelInScheduledReports
+            self.exportToPdf = exportToPdf
+            self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
+            self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
+            self.printReports = printReports
             self.renameSharedFolders = renameSharedFolders
             self.shareAnalyses = shareAnalyses
             self.shareDashboards = shareDashboards
@@ -6659,7 +6682,13 @@ extension QuickSight {
             case createSharedFolders = "CreateSharedFolders"
             case createSPICEDataset = "CreateSPICEDataset"
             case exportToCsv = "ExportToCsv"
+            case exportToCsvInScheduledReports = "ExportToCsvInScheduledReports"
             case exportToExcel = "ExportToExcel"
+            case exportToExcelInScheduledReports = "ExportToExcelInScheduledReports"
+            case exportToPdf = "ExportToPdf"
+            case exportToPdfInScheduledReports = "ExportToPdfInScheduledReports"
+            case includeContentInScheduledReportsEmail = "IncludeContentInScheduledReportsEmail"
+            case printReports = "PrintReports"
             case renameSharedFolders = "RenameSharedFolders"
             case shareAnalyses = "ShareAnalyses"
             case shareDashboards = "ShareDashboards"
@@ -12084,7 +12113,7 @@ extension QuickSight {
         public let consumedSpiceCapacityInBytes: Int64?
         /// The time that this dataset was created.
         public let createdTime: Date?
-        /// The ID of the dataset.
+        /// The ID of the dataset. Limited to 96 characters.
         public let dataSetId: String?
         /// The parameters that are declared in a dataset.
         public let datasetParameters: [DatasetParameter]?
@@ -35420,12 +35449,15 @@ extension QuickSight {
     public struct SheetTextBox: AWSEncodableShape & AWSDecodableShape {
         /// The content that is displayed in the text box.
         public let content: String?
+        /// The general textbox interactions setup for a textbox.
+        public let interactions: TextBoxInteractionOptions?
         /// The unique identifier for a text box. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have text boxes that share identifiers.
         public let sheetTextBoxId: String
 
         @inlinable
-        public init(content: String? = nil, sheetTextBoxId: String) {
+        public init(content: String? = nil, interactions: TextBoxInteractionOptions? = nil, sheetTextBoxId: String) {
             self.content = content
+            self.interactions = interactions
             self.sheetTextBoxId = sheetTextBoxId
         }
 
@@ -35438,6 +35470,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
+            case interactions = "Interactions"
             case sheetTextBoxId = "SheetTextBoxId"
         }
     }
@@ -38140,6 +38173,34 @@ extension QuickSight {
             case infoIconLabelOptions = "InfoIconLabelOptions"
             case placeholderOptions = "PlaceholderOptions"
             case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct TextBoxInteractionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The menu options for the textbox.
+        public let textBoxMenuOption: TextBoxMenuOption?
+
+        @inlinable
+        public init(textBoxMenuOption: TextBoxMenuOption? = nil) {
+            self.textBoxMenuOption = textBoxMenuOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textBoxMenuOption = "TextBoxMenuOption"
+        }
+    }
+
+    public struct TextBoxMenuOption: AWSEncodableShape & AWSDecodableShape {
+        /// The availability status of the textbox menu. If the value of this property is set to ENABLED, dashboard readers can interact with the textbox menu.
+        public let availabilityStatus: DashboardBehavior?
+
+        @inlinable
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
         }
     }
 

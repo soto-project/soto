@@ -86,7 +86,7 @@ public struct ConnectCases: AWSService {
 
     // MARK: API Calls
 
-    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func batchGetCaseRule(_ input: BatchGetCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCaseRuleResponse {
@@ -99,7 +99,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - caseRules: List of case rule identifiers.
@@ -226,7 +226,7 @@ public struct ConnectCases: AWSService {
         return try await self.createCase(input, logger: logger)
     }
 
-    /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func createCaseRule(_ input: CreateCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseRuleResponse {
@@ -239,7 +239,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - description: The description of a case rule.
@@ -407,7 +407,7 @@ public struct ConnectCases: AWSService {
         return try await self.createRelatedItem(input, logger: logger)
     }
 
-    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other template APIs are:     DeleteTemplate     GetTemplate     ListTemplates     UpdateTemplate
+    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.  Other template APIs are:     DeleteTemplate     GetTemplate     ListTemplates     UpdateTemplate
     @Sendable
     @inlinable
     public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateResponse {
@@ -420,7 +420,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other template APIs are:     DeleteTemplate     GetTemplate     ListTemplates     UpdateTemplate
+    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.  Other template APIs are:     DeleteTemplate     GetTemplate     ListTemplates     UpdateTemplate
     ///
     /// Parameters:
     ///   - description: A brief description of the template.
@@ -454,7 +454,39 @@ public struct ConnectCases: AWSService {
         return try await self.createTemplate(input, logger: logger)
     }
 
-    /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    ///  The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot:   Retrieve related items   Access audit history   Perform any operations that require the CaseID    This action is irreversible. Once you delete a case, you cannot recover its data.
+    @Sendable
+    @inlinable
+    public func deleteCase(_ input: DeleteCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCaseResponse {
+        try await self.client.execute(
+            operation: "DeleteCase", 
+            path: "/domains/{domainId}/cases/{caseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot:   Retrieve related items   Access audit history   Perform any operations that require the CaseID    This action is irreversible. Once you delete a case, you cannot recover its data.
+    ///
+    /// Parameters:
+    ///   - caseId: A unique identifier of the case.
+    ///   - domainId: A unique identifier of the Cases domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCase(
+        caseId: String,
+        domainId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCaseResponse {
+        let input = DeleteCaseRequest(
+            caseId: caseId, 
+            domainId: domainId
+        )
+        return try await self.deleteCase(input, logger: logger)
+    }
+
+    /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func deleteCaseRule(_ input: DeleteCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCaseRuleResponse {
@@ -467,7 +499,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - caseRuleId: Unique identifier of a case rule.
@@ -579,6 +611,41 @@ public struct ConnectCases: AWSService {
         return try await self.deleteLayout(input, logger: logger)
     }
 
+    /// Deletes the related item resource under a case.  This API cannot be used on a FILE type related attachment. To delete this type of file, use the DeleteAttachedFile API
+    @Sendable
+    @inlinable
+    public func deleteRelatedItem(_ input: DeleteRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRelatedItemResponse {
+        try await self.client.execute(
+            operation: "DeleteRelatedItem", 
+            path: "/domains/{domainId}/cases/{caseId}/related-items/{relatedItemId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the related item resource under a case.  This API cannot be used on a FILE type related attachment. To delete this type of file, use the DeleteAttachedFile API
+    ///
+    /// Parameters:
+    ///   - caseId: A unique identifier of the case.
+    ///   - domainId: A unique identifier of the Cases domain.
+    ///   - relatedItemId: A unique identifier of a related item.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRelatedItem(
+        caseId: String,
+        domainId: String,
+        relatedItemId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRelatedItemResponse {
+        let input = DeleteRelatedItemRequest(
+            caseId: caseId, 
+            domainId: domainId, 
+            relatedItemId: relatedItemId
+        )
+        return try await self.deleteRelatedItem(input, logger: logger)
+    }
+
     /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
     @Sendable
     @inlinable
@@ -630,7 +697,7 @@ public struct ConnectCases: AWSService {
     ///   - caseId: A unique identifier of the case.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - fields: A list of unique field identifiers.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCase(
@@ -809,7 +876,7 @@ public struct ConnectCases: AWSService {
         return try await self.getTemplate(input, logger: logger)
     }
 
-    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func listCaseRules(_ input: ListCaseRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCaseRulesResponse {
@@ -822,12 +889,12 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - domainId: Unique identifier of a Cases domain.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCaseRules(
@@ -863,7 +930,7 @@ public struct ConnectCases: AWSService {
     ///   - contactArn: A unique identifier of a contact in Amazon Connect.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCasesForContact(
@@ -899,7 +966,7 @@ public struct ConnectCases: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDomains(
@@ -933,7 +1000,7 @@ public struct ConnectCases: AWSService {
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - fieldId: The unique identifier of a field.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - values: A list of FieldOption values to filter on for ListFieldOptions.
     ///   - logger: Logger use during operation
     @inlinable
@@ -973,7 +1040,7 @@ public struct ConnectCases: AWSService {
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFields(
@@ -1008,7 +1075,7 @@ public struct ConnectCases: AWSService {
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listLayouts(
@@ -1054,7 +1121,7 @@ public struct ConnectCases: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.  Other template APIs are:     CreateTemplate     DeleteTemplate     GetTemplate     UpdateTemplate
+    /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.   Other template APIs are:     CreateTemplate     DeleteTemplate     GetTemplate     UpdateTemplate
     @Sendable
     @inlinable
     public func listTemplates(_ input: ListTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplatesResponse {
@@ -1067,12 +1134,12 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.  Other template APIs are:     CreateTemplate     DeleteTemplate     GetTemplate     UpdateTemplate
+    /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.   Other template APIs are:     CreateTemplate     DeleteTemplate     GetTemplate     UpdateTemplate
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - status: A list of status values to filter on.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1144,7 +1211,7 @@ public struct ConnectCases: AWSService {
     ///   - fields: The list of field identifiers to be returned as part of the response.
     ///   - filter: A list of filter objects.
     ///   - maxResults: The maximum number of cases to return. The current maximum supported value is 25. This is also the default value when no other value is provided.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchTerm: A word or phrase used to perform a quick search.
     ///   - sorts: A list of sorts where each sort specifies a field and their sort order to be applied to the results.
     ///   - logger: Logger use during operation
@@ -1191,7 +1258,7 @@ public struct ConnectCases: AWSService {
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - filters: The list of types of related items and their parameters to use for filtering.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func searchRelatedItems(
@@ -1314,7 +1381,7 @@ public struct ConnectCases: AWSService {
         return try await self.updateCase(input, logger: logger)
     }
 
-    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func updateCaseRule(_ input: UpdateCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCaseRuleResponse {
@@ -1327,7 +1394,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions.  For more information about case field conditions, see Add case field conditions to a case template.
+    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - caseRuleId: Unique identifier of a case rule.

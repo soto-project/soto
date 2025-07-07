@@ -38,10 +38,32 @@ extension IoTManagedIntegrations {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associationDeleting = "ASSOCIATION_DELETING"
+        case associationFailed = "ASSOCIATION_FAILED"
+        case associationInProgress = "ASSOCIATION_IN_PROGRESS"
+        case associationSucceeded = "ASSOCIATION_SUCCEEDED"
+        case refreshTokenExpired = "REFRESH_TOKEN_EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthMaterialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customProtocolQrBarCode = "CUSTOM_PROTOCOL_QR_BAR_CODE"
+        case discoveredDevice = "DISCOVERED_DEVICE"
         case wifiSetupQrBarCode = "WIFI_SETUP_QR_BAR_CODE"
         case zigbeeQrBarCode = "ZIGBEE_QR_BAR_CODE"
         case zwaveQrBarCode = "ZWAVE_QR_BAR_CODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oauth = "OAUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case listed = "LISTED"
+        case unlisted = "UNLISTED"
         public var description: String { return self.rawValue }
     }
 
@@ -49,6 +71,14 @@ extension IoTManagedIntegrations {
         case enabled = "ENABLED"
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorEventOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deviceCommandRequest = "DEVICE_COMMAND_REQUEST"
+        case deviceCommandResponse = "DEVICE_COMMAND_RESPONSE"
+        case deviceDiscovery = "DEVICE_DISCOVERY"
+        case deviceEvent = "DEVICE_EVENT"
         public var description: String { return self.rawValue }
     }
 
@@ -88,8 +118,16 @@ extension IoTManagedIntegrations {
         public var description: String { return self.rawValue }
     }
 
+    public enum DiscoveryModification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case discovered = "DISCOVERED"
+        case noChange = "NO_CHANGE"
+        case updated = "UPDATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DiscoveryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloud = "CLOUD"
+        case custom = "CUSTOM"
         case zigbee = "ZIGBEE"
         case zwave = "ZWAVE"
         public var description: String { return self.rawValue }
@@ -101,11 +139,18 @@ extension IoTManagedIntegrations {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lambda = "LAMBDA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountAssociation = "ACCOUNT_ASSOCIATION"
         case connectorAssociation = "CONNECTOR_ASSOCIATION"
         case connectorErrorReport = "CONNECTOR_ERROR_REPORT"
         case deviceCommand = "DEVICE_COMMAND"
         case deviceCommandRequest = "DEVICE_COMMAND_REQUEST"
+        case deviceDiscoveryStatus = "DEVICE_DISCOVERY_STATUS"
         case deviceEvent = "DEVICE_EVENT"
         case deviceLifeCycle = "DEVICE_LIFE_CYCLE"
         case deviceOta = "DEVICE_OTA"
@@ -221,6 +266,12 @@ extension IoTManagedIntegrations {
         public var description: String { return self.rawValue }
     }
 
+    public enum TokenEndpointAuthenticationScheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case httpBasic = "HTTP_BASIC"
+        case requestBodyCredentials = "REQUEST_BODY_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AbortConfigCriteria: AWSEncodableShape & AWSDecodableShape {
@@ -252,6 +303,76 @@ extension IoTManagedIntegrations {
             case failureType = "FailureType"
             case minNumberOfExecutedThings = "MinNumberOfExecutedThings"
             case thresholdPercentage = "ThresholdPercentage"
+        }
+    }
+
+    public struct AccountAssociationItem: AWSDecodableShape {
+        /// The unique identifier of the account association.
+        public let accountAssociationId: String
+        /// The Amazon Resource Name (ARN) of the account association.
+        public let arn: String?
+        /// The current state of the account association, indicating its status in the association lifecycle.
+        public let associationState: AssociationState
+        /// The identifier of the connector destination associated with this account association.
+        public let connectorDestinationId: String?
+        /// A description of the account association.
+        public let description: String?
+        /// The error message explaining any issues with the account association, if applicable.
+        public let errorMessage: String?
+        /// The name of the account association.
+        public let name: String?
+
+        @inlinable
+        public init(accountAssociationId: String, arn: String? = nil, associationState: AssociationState, connectorDestinationId: String? = nil, description: String? = nil, errorMessage: String? = nil, name: String? = nil) {
+            self.accountAssociationId = accountAssociationId
+            self.arn = arn
+            self.associationState = associationState
+            self.connectorDestinationId = connectorDestinationId
+            self.description = description
+            self.errorMessage = errorMessage
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
+            case arn = "Arn"
+            case associationState = "AssociationState"
+            case connectorDestinationId = "ConnectorDestinationId"
+            case description = "Description"
+            case errorMessage = "ErrorMessage"
+            case name = "Name"
+        }
+    }
+
+    public struct AuthConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The OAuth configuration settings used for authentication with the third-party service.
+        public let oAuth: OAuthConfig?
+
+        @inlinable
+        public init(oAuth: OAuthConfig? = nil) {
+            self.oAuth = oAuth
+        }
+
+        public func validate(name: String) throws {
+            try self.oAuth?.validate(name: "\(name).oAuth")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuth = "oAuth"
+        }
+    }
+
+    public struct AuthConfigUpdate: AWSEncodableShape {
+        /// The updated OAuth configuration settings for the authentication configuration.
+        public let oAuthUpdate: OAuthUpdate?
+
+        @inlinable
+        public init(oAuthUpdate: OAuthUpdate? = nil) {
+            self.oAuthUpdate = oAuthUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuthUpdate = "oAuthUpdate"
         }
     }
 
@@ -308,7 +429,7 @@ extension IoTManagedIntegrations {
             try self.endpoints.forEach {
                 try $0.validate(name: "\(name).endpoints[]")
             }
-            try self.validate(self.endpoints, name: "endpoints", parent: name, max: 50)
+            try self.validate(self.endpoints, name: "endpoints", parent: name, max: 40)
             try self.validate(self.nodeId, name: "nodeId", parent: name, max: 64)
             try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
             try self.validate(self.nodeId, name: "nodeId", parent: name, pattern: "^[a-zA-Z0-9=_.,@\\+\\-/]+$")
@@ -362,8 +483,8 @@ extension IoTManagedIntegrations {
             }
             try self.validate(self.events, name: "events", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, max: 128)
-            try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9.\\/]+(@(\\d+\\.\\d+|\\$latest))?$")
+            try self.validate(self.id, name: "id", parent: name, min: 7)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
@@ -407,7 +528,7 @@ extension IoTManagedIntegrations {
             try self.capabilities.forEach {
                 try $0.validate(name: "\(name).capabilities[]")
             }
-            try self.validate(self.capabilities, name: "capabilities", parent: name, max: 50)
+            try self.validate(self.capabilities, name: "capabilities", parent: name, max: 40)
             try self.deviceTypes.forEach {
                 try validate($0, name: "deviceTypes[]", parent: name, max: 256)
                 try validate($0, name: "deviceTypes[]", parent: name, pattern: "^[a-zA-Z0-9=_. ,@\\+\\-/]+$")
@@ -422,6 +543,47 @@ extension IoTManagedIntegrations {
             case capabilities = "capabilities"
             case deviceTypes = "deviceTypes"
             case id = "id"
+        }
+    }
+
+    public struct CapabilitySchemaItem: AWSEncodableShape {
+        /// The unique identifier of the capability defined in the schema.
+        public let capabilityId: String
+        /// The external identifier for the capability, used when referencing the capability outside of the AWS ecosystem.
+        public let extrinsicId: String
+        /// The version of the external capability definition, used to track compatibility with external systems.
+        public let extrinsicVersion: Int
+        /// The format of the capability schema, which defines how the schema is structured and interpreted.
+        public let format: SchemaVersionFormat
+        /// The actual schema definition that describes the capability's properties, actions, and events.
+        public let schema: AWSDocument
+
+        @inlinable
+        public init(capabilityId: String, extrinsicId: String, extrinsicVersion: Int, format: SchemaVersionFormat, schema: AWSDocument) {
+            self.capabilityId = capabilityId
+            self.extrinsicId = extrinsicId
+            self.extrinsicVersion = extrinsicVersion
+            self.format = format
+            self.schema = schema
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capabilityId, name: "capabilityId", parent: name, max: 128)
+            try self.validate(self.capabilityId, name: "capabilityId", parent: name, min: 7)
+            try self.validate(self.capabilityId, name: "capabilityId", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
+            try self.validate(self.extrinsicId, name: "extrinsicId", parent: name, max: 10)
+            try self.validate(self.extrinsicId, name: "extrinsicId", parent: name, min: 1)
+            try self.validate(self.extrinsicId, name: "extrinsicId", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            try self.validate(self.extrinsicVersion, name: "extrinsicVersion", parent: name, max: 10)
+            try self.validate(self.extrinsicVersion, name: "extrinsicVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilityId = "CapabilityId"
+            case extrinsicId = "ExtrinsicId"
+            case extrinsicVersion = "ExtrinsicVersion"
+            case format = "Format"
+            case schema = "Schema"
         }
     }
 
@@ -450,8 +612,8 @@ extension IoTManagedIntegrations {
             try self.validate(self.actions, name: "actions", parent: name, max: 5)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 128)
-            try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9.\\/]+(@(\\d+\\.\\d+|\\$latest))?$")
+            try self.validate(self.id, name: "id", parent: name, min: 7)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
@@ -533,6 +695,270 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct ConnectorDestinationSummary: AWSDecodableShape {
+        /// The identifier of the cloud connector associated with this connector destination.
+        public let cloudConnectorId: String?
+        /// A description of the connector destination.
+        public let description: String?
+        /// The unique identifier of the connector destination.
+        public let id: String?
+        /// The display name of the connector destination.
+        public let name: String?
+
+        @inlinable
+        public init(cloudConnectorId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct ConnectorItem: AWSDecodableShape {
+        /// A description of the C2C connector.
+        public let description: String?
+        /// The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements.
+        public let endpointConfig: EndpointConfig
+        /// The type of endpoint used for the C2C connector.
+        public let endpointType: EndpointType?
+        /// The identifier of the C2C connector.
+        public let id: String?
+        /// The display name of the C2C connector.
+        public let name: String
+        /// The type of cloud connector created.
+        public let type: CloudConnectorType?
+
+        @inlinable
+        public init(description: String? = nil, endpointConfig: EndpointConfig, endpointType: EndpointType? = nil, id: String? = nil, name: String, type: CloudConnectorType? = nil) {
+            self.description = description
+            self.endpointConfig = endpointConfig
+            self.endpointType = endpointType
+            self.id = id
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endpointConfig = "EndpointConfig"
+            case endpointType = "EndpointType"
+            case id = "Id"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateAccountAssociationRequest: AWSEncodableShape {
+        /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+        public let clientToken: String?
+        /// The identifier of the connector destination.
+        public let connectorDestinationId: String
+        /// A description of the account association request.
+        public let description: String?
+        /// The name of the destination for the new account association.
+        public let name: String?
+        /// A set of key/value pairs that are used to manage the account association.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateAccountAssociationRequest.idempotencyToken(), connectorDestinationId: String, description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.connectorDestinationId = connectorDestinationId
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+            try self.validate(self.connectorDestinationId, name: "connectorDestinationId", parent: name, max: 64)
+            try self.validate(self.connectorDestinationId, name: "connectorDestinationId", parent: name, min: 1)
+            try self.validate(self.connectorDestinationId, name: "connectorDestinationId", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case connectorDestinationId = "ConnectorDestinationId"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAccountAssociationResponse: AWSDecodableShape {
+        /// The identifier for the account association request.
+        public let accountAssociationId: String
+        /// The Amazon Resource Name (ARN) of the account association.
+        public let arn: String?
+        /// The current state of the account association request.
+        public let associationState: AssociationState
+        /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+        public let oAuthAuthorizationUrl: String
+
+        @inlinable
+        public init(accountAssociationId: String, arn: String? = nil, associationState: AssociationState, oAuthAuthorizationUrl: String) {
+            self.accountAssociationId = accountAssociationId
+            self.arn = arn
+            self.associationState = associationState
+            self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
+            case arn = "Arn"
+            case associationState = "AssociationState"
+            case oAuthAuthorizationUrl = "OAuthAuthorizationUrl"
+        }
+    }
+
+    public struct CreateCloudConnectorRequest: AWSEncodableShape {
+        /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+        public let clientToken: String?
+        /// A description of the C2C connector.
+        public let description: String?
+        /// The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements.
+        public let endpointConfig: EndpointConfig
+        /// The type of endpoint used for the cloud connector, which defines how the connector communicates with external services.
+        public let endpointType: EndpointType?
+        /// The display name of the C2C connector.
+        public let name: String
+
+        @inlinable
+        public init(clientToken: String? = CreateCloudConnectorRequest.idempotencyToken(), description: String? = nil, endpointConfig: EndpointConfig, endpointType: EndpointType? = nil, name: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.endpointConfig = endpointConfig
+            self.endpointType = endpointType
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9A-Za-z_\\- ]+$")
+            try self.endpointConfig.validate(name: "\(name).endpointConfig")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case endpointConfig = "EndpointConfig"
+            case endpointType = "EndpointType"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateCloudConnectorResponse: AWSDecodableShape {
+        /// The unique identifier assigned to the newly created cloud connector.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct CreateConnectorDestinationRequest: AWSEncodableShape {
+        /// The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
+        public let authConfig: AuthConfig
+        /// The authentication type used for the connector destination, which determines how credentials and access are managed.
+        public let authType: AuthType
+        /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+        public let clientToken: String?
+        /// The identifier of the C2C connector.
+        public let cloudConnectorId: String
+        /// A description of the connector destination.
+        public let description: String?
+        /// The display name of the connector destination.
+        public let name: String?
+        /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
+        public let secretsManager: SecretsManager
+
+        @inlinable
+        public init(authConfig: AuthConfig, authType: AuthType, clientToken: String? = CreateConnectorDestinationRequest.idempotencyToken(), cloudConnectorId: String, description: String? = nil, name: String? = nil, secretsManager: SecretsManager) {
+            self.authConfig = authConfig
+            self.authType = authType
+            self.clientToken = clientToken
+            self.cloudConnectorId = cloudConnectorId
+            self.description = description
+            self.name = name
+            self.secretsManager = secretsManager
+        }
+
+        public func validate(name: String) throws {
+            try self.authConfig.validate(name: "\(name).authConfig")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, max: 64)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, min: 1)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9A-Za-z_\\- ]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+            try self.secretsManager.validate(name: "\(name).secretsManager")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authConfig = "AuthConfig"
+            case authType = "AuthType"
+            case clientToken = "ClientToken"
+            case cloudConnectorId = "CloudConnectorId"
+            case description = "Description"
+            case name = "Name"
+            case secretsManager = "SecretsManager"
+        }
+    }
+
+    public struct CreateConnectorDestinationResponse: AWSDecodableShape {
+        /// The identifier of the C2C connector destination creation request.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct CreateCredentialLockerRequest: AWSEncodableShape {
         /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
         public let clientToken: String?
@@ -609,6 +1035,18 @@ extension IoTManagedIntegrations {
         /// A set of key/value pairs that are used to manage the destination.
         public let tags: [String: String]?
 
+        @inlinable
+        public init(clientToken: String? = CreateDestinationRequest.idempotencyToken(), deliveryDestinationArn: String, deliveryDestinationType: DeliveryDestinationType, description: String? = nil, name: String, roleArn: String) {
+            self.clientToken = clientToken
+            self.deliveryDestinationArn = deliveryDestinationArn
+            self.deliveryDestinationType = deliveryDestinationType
+            self.description = description
+            self.name = name
+            self.roleArn = roleArn
+            self.tags = nil
+        }
+
+        @available(*, deprecated, message: "Members tags have been deprecated")
         @inlinable
         public init(clientToken: String? = CreateDestinationRequest.idempotencyToken(), deliveryDestinationArn: String, deliveryDestinationType: DeliveryDestinationType, description: String? = nil, name: String, roleArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
@@ -692,7 +1130,7 @@ extension IoTManagedIntegrations {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 200)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9+*]*$")
-            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[*]$|^(managed-thing|credential-locker|provisioning-profile|ota-task)$")
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[*]$|^(managed-thing|credential-locker|provisioning-profile|ota-task|account-association)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -728,13 +1166,15 @@ extension IoTManagedIntegrations {
         public let capabilities: String?
         /// A report of the capabilities for the managed thing.
         public let capabilityReport: CapabilityReport?
+        /// The capability schemas that define the functionality and features supported by the managed thing, including device capabilities and their associated properties.
+        public let capabilitySchemas: [CapabilitySchemaItem]?
         /// The classification of the managed thing such as light bulb or thermostat.
         public let classification: String?
         /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
         public let clientToken: String?
         /// The identifier of the credential for the managed thing.
         public let credentialLockerId: String?
-        /// The metadata for the managed thing.
+        /// The metadata for the managed thing.  The managedThing metadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation.
         public let metaData: [String: String]?
         /// The model of the device.
         public let model: String?
@@ -750,12 +1190,13 @@ extension IoTManagedIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(authenticationMaterial: String, authenticationMaterialType: AuthMaterialType, brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, classification: String? = nil, clientToken: String? = CreateManagedThingRequest.idempotencyToken(), credentialLockerId: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, role: Role, serialNumber: String? = nil, tags: [String: String]? = nil) {
+        public init(authenticationMaterial: String, authenticationMaterialType: AuthMaterialType, brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, clientToken: String? = CreateManagedThingRequest.idempotencyToken(), credentialLockerId: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, role: Role, serialNumber: String? = nil, tags: [String: String]? = nil) {
             self.authenticationMaterial = authenticationMaterial
             self.authenticationMaterialType = authenticationMaterialType
             self.brand = brand
             self.capabilities = capabilities
             self.capabilityReport = capabilityReport
+            self.capabilitySchemas = capabilitySchemas
             self.classification = classification
             self.clientToken = clientToken
             self.credentialLockerId = credentialLockerId
@@ -771,7 +1212,7 @@ extension IoTManagedIntegrations {
         public func validate(name: String) throws {
             try self.validate(self.authenticationMaterial, name: "authenticationMaterial", parent: name, max: 512)
             try self.validate(self.authenticationMaterial, name: "authenticationMaterial", parent: name, min: 1)
-            try self.validate(self.authenticationMaterial, name: "authenticationMaterial", parent: name, pattern: "^[0-9A-Za-z!#$%&()*\\+\\-;<=>?@^_`{|}~\\/: ]+$")
+            try self.validate(self.authenticationMaterial, name: "authenticationMaterial", parent: name, pattern: "^[0-9A-Za-z!#$%&()*\\+\\-;<=>?@^_`{|}~\\/: {},\\\\\"]+$")
             try self.validate(self.brand, name: "brand", parent: name, max: 128)
             try self.validate(self.brand, name: "brand", parent: name, min: 1)
             try self.validate(self.brand, name: "brand", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
@@ -779,6 +1220,10 @@ extension IoTManagedIntegrations {
             try self.validate(self.capabilities, name: "capabilities", parent: name, min: 1)
             try self.validate(self.capabilities, name: "capabilities", parent: name, pattern: "^[a-zA-Z0-9\\s'\\x{0022},.:\\\\\\/{$}\\[\\]=_\\-\\+]+$")
             try self.capabilityReport?.validate(name: "\(name).capabilityReport")
+            try self.capabilitySchemas?.forEach {
+                try $0.validate(name: "\(name).capabilitySchemas[]")
+            }
+            try self.validate(self.capabilitySchemas, name: "capabilitySchemas", parent: name, max: 40)
             try self.validate(self.classification, name: "classification", parent: name, max: 64)
             try self.validate(self.classification, name: "classification", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
@@ -822,6 +1267,7 @@ extension IoTManagedIntegrations {
             case brand = "Brand"
             case capabilities = "Capabilities"
             case capabilityReport = "CapabilityReport"
+            case capabilitySchemas = "CapabilitySchemas"
             case classification = "Classification"
             case clientToken = "ClientToken"
             case credentialLockerId = "CredentialLockerId"
@@ -867,6 +1313,15 @@ extension IoTManagedIntegrations {
         /// A set of key/value pairs that are used to manage the notification configuration.
         public let tags: [String: String]?
 
+        @inlinable
+        public init(clientToken: String? = CreateNotificationConfigurationRequest.idempotencyToken(), destinationName: String, eventType: EventType) {
+            self.clientToken = clientToken
+            self.destinationName = destinationName
+            self.eventType = eventType
+            self.tags = nil
+        }
+
+        @available(*, deprecated, message: "Members tags have been deprecated")
         @inlinable
         public init(clientToken: String? = CreateNotificationConfigurationRequest.idempotencyToken(), destinationName: String, eventType: EventType, tags: [String: String]? = nil) {
             self.clientToken = clientToken
@@ -1174,6 +1629,78 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct DeleteAccountAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the account association to be deleted.
+        public let accountAssociationId: String
+
+        @inlinable
+        public init(accountAssociationId: String) {
+            self.accountAssociationId = accountAssociationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountAssociationId, key: "AccountAssociationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCloudConnectorRequest: AWSEncodableShape {
+        /// The identifier of the cloud connector.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConnectorDestinationRequest: AWSEncodableShape {
+        /// The identifier of the connector destination.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteCredentialLockerRequest: AWSEncodableShape {
         /// The identifier of the credential locker.
         public let identifier: String
@@ -1364,6 +1891,33 @@ extension IoTManagedIntegrations {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeregisterAccountAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the account association to be deregistered.
+        public let accountAssociationId: String
+        /// The identifier of the managed thing to be deregistered from the account association.
+        public let managedThingId: String
+
+        @inlinable
+        public init(accountAssociationId: String, managedThingId: String) {
+            self.accountAssociationId = accountAssociationId
+            self.managedThingId = managedThingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, max: 64)
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, min: 1)
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, pattern: "^[a-zA-Z0-9:_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
+            case managedThingId = "ManagedThingId"
+        }
+    }
+
     public struct DestinationSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the customer-managed destination.
         public let deliveryDestinationArn: String?
@@ -1391,6 +1945,136 @@ extension IoTManagedIntegrations {
             case description = "Description"
             case name = "Name"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct Device: AWSEncodableShape {
+        /// The capability report for the device.
+        public let capabilityReport: MatterCapabilityReport
+        /// Report of all capabilities supported by the device.
+        public let capabilitySchemas: [CapabilitySchemaItem]?
+        /// The device id as defined by the connector.  This parameter is used for cloud-to-cloud devices only.
+        public let connectorDeviceId: String
+        /// The name of the device as defined by the connector.
+        public let connectorDeviceName: String?
+        /// The metadata attributes for a device.
+        public let deviceMetadata: AWSDocument?
+
+        @inlinable
+        public init(capabilityReport: MatterCapabilityReport, capabilitySchemas: [CapabilitySchemaItem]? = nil, connectorDeviceId: String, connectorDeviceName: String? = nil, deviceMetadata: AWSDocument? = nil) {
+            self.capabilityReport = capabilityReport
+            self.capabilitySchemas = capabilitySchemas
+            self.connectorDeviceId = connectorDeviceId
+            self.connectorDeviceName = connectorDeviceName
+            self.deviceMetadata = deviceMetadata
+        }
+
+        public func validate(name: String) throws {
+            try self.capabilityReport.validate(name: "\(name).capabilityReport")
+            try self.capabilitySchemas?.forEach {
+                try $0.validate(name: "\(name).capabilitySchemas[]")
+            }
+            try self.validate(self.capabilitySchemas, name: "capabilitySchemas", parent: name, max: 40)
+            try self.validate(self.connectorDeviceId, name: "connectorDeviceId", parent: name, max: 256)
+            try self.validate(self.connectorDeviceId, name: "connectorDeviceId", parent: name, min: 1)
+            try self.validate(self.connectorDeviceId, name: "connectorDeviceId", parent: name, pattern: "^[a-zA-Z0-9_.,@-]+$")
+            try self.validate(self.connectorDeviceName, name: "connectorDeviceName", parent: name, max: 256)
+            try self.validate(self.connectorDeviceName, name: "connectorDeviceName", parent: name, min: 1)
+            try self.validate(self.connectorDeviceName, name: "connectorDeviceName", parent: name, pattern: "^[\\p{L}\\p{N} ._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilityReport = "CapabilityReport"
+            case capabilitySchemas = "CapabilitySchemas"
+            case connectorDeviceId = "ConnectorDeviceId"
+            case connectorDeviceName = "ConnectorDeviceName"
+            case deviceMetadata = "DeviceMetadata"
+        }
+    }
+
+    public struct DeviceDiscoverySummary: AWSDecodableShape {
+        /// The type of discovery process used to find devices.
+        public let discoveryType: DiscoveryType?
+        /// The unique identifier of the device discovery job.
+        public let id: String?
+        /// The current status of the device discovery job.
+        public let status: DeviceDiscoveryStatus?
+
+        @inlinable
+        public init(discoveryType: DiscoveryType? = nil, id: String? = nil, status: DeviceDiscoveryStatus? = nil) {
+            self.discoveryType = discoveryType
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discoveryType = "DiscoveryType"
+            case id = "Id"
+            case status = "Status"
+        }
+    }
+
+    public struct DiscoveredDeviceSummary: AWSDecodableShape {
+        /// The authentication material required for connecting to the discovered device, such as credentials or tokens.
+        public let authenticationMaterial: String?
+        /// The brand of the discovered device.
+        public let brand: String?
+        /// The third-party device identifier as defined by the connector. This identifier must not contain personal identifiable information (PII).
+        public let connectorDeviceId: String?
+        /// The name of the device as defined by the connector or third-party system.
+        public let connectorDeviceName: String?
+        /// The list of device types or categories that the discovered device belongs to.
+        public let deviceTypes: [String]?
+        /// The timestamp indicating when the device was discovered.
+        public let discoveredAt: Date?
+        /// The identifier of the managed thing created for this discovered device, if one exists.
+        public let managedThingId: String?
+        /// The model of the discovered device.
+        public let model: String?
+        /// The status of the discovered device, indicating whether it has been added, removed, or modified since the last discovery.
+        public let modification: DiscoveryModification?
+
+        @inlinable
+        public init(authenticationMaterial: String? = nil, brand: String? = nil, connectorDeviceId: String? = nil, connectorDeviceName: String? = nil, deviceTypes: [String]? = nil, discoveredAt: Date? = nil, managedThingId: String? = nil, model: String? = nil, modification: DiscoveryModification? = nil) {
+            self.authenticationMaterial = authenticationMaterial
+            self.brand = brand
+            self.connectorDeviceId = connectorDeviceId
+            self.connectorDeviceName = connectorDeviceName
+            self.deviceTypes = deviceTypes
+            self.discoveredAt = discoveredAt
+            self.managedThingId = managedThingId
+            self.model = model
+            self.modification = modification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMaterial = "AuthenticationMaterial"
+            case brand = "Brand"
+            case connectorDeviceId = "ConnectorDeviceId"
+            case connectorDeviceName = "ConnectorDeviceName"
+            case deviceTypes = "DeviceTypes"
+            case discoveredAt = "DiscoveredAt"
+            case managedThingId = "ManagedThingId"
+            case model = "Model"
+            case modification = "Modification"
+        }
+    }
+
+    public struct EndpointConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function.
+        public let lambda: LambdaConfig?
+
+        @inlinable
+        public init(lambda: LambdaConfig? = nil) {
+            self.lambda = lambda
+        }
+
+        public func validate(name: String) throws {
+            try self.lambda?.validate(name: "\(name).lambda")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambda = "lambda"
         }
     }
 
@@ -1447,6 +2131,200 @@ extension IoTManagedIntegrations {
             case baseRatePerMinute = "BaseRatePerMinute"
             case incrementFactor = "IncrementFactor"
             case rateIncreaseCriteria = "RateIncreaseCriteria"
+        }
+    }
+
+    public struct GetAccountAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the account association to retrieve.
+        public let accountAssociationId: String
+
+        @inlinable
+        public init(accountAssociationId: String) {
+            self.accountAssociationId = accountAssociationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountAssociationId, key: "AccountAssociationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccountAssociationResponse: AWSDecodableShape {
+        /// The unique identifier of the retrieved account association.
+        public let accountAssociationId: String
+        /// The Amazon Resource Name (ARN) of the account association.
+        public let arn: String?
+        /// The current status state for the account association.
+        public let associationState: AssociationState
+        /// The identifier of the connector destination associated with this account association.
+        public let connectorDestinationId: String?
+        /// The description of the account association.
+        public let description: String?
+        /// The error message explaining the current account association error.
+        public let errorMessage: String?
+        /// The name of the account association.
+        public let name: String?
+        /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+        public let oAuthAuthorizationUrl: String
+        /// A set of key/value pairs that are used to manage the account association.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(accountAssociationId: String, arn: String? = nil, associationState: AssociationState, connectorDestinationId: String? = nil, description: String? = nil, errorMessage: String? = nil, name: String? = nil, oAuthAuthorizationUrl: String, tags: [String: String]? = nil) {
+            self.accountAssociationId = accountAssociationId
+            self.arn = arn
+            self.associationState = associationState
+            self.connectorDestinationId = connectorDestinationId
+            self.description = description
+            self.errorMessage = errorMessage
+            self.name = name
+            self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
+            case arn = "Arn"
+            case associationState = "AssociationState"
+            case connectorDestinationId = "ConnectorDestinationId"
+            case description = "Description"
+            case errorMessage = "ErrorMessage"
+            case name = "Name"
+            case oAuthAuthorizationUrl = "OAuthAuthorizationUrl"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GetCloudConnectorRequest: AWSEncodableShape {
+        /// The identifier of the C2C connector.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCloudConnectorResponse: AWSDecodableShape {
+        /// A description of the C2C connector.
+        public let description: String?
+        /// The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements.
+        public let endpointConfig: EndpointConfig
+        /// The type of endpoint used for the cloud connector, which defines how the connector communicates with external services.
+        public let endpointType: EndpointType?
+        /// The unique identifier of the cloud connector.
+        public let id: String?
+        /// The display name of the C2C connector.
+        public let name: String
+        /// The type of cloud connector created.
+        public let type: CloudConnectorType?
+
+        @inlinable
+        public init(description: String? = nil, endpointConfig: EndpointConfig, endpointType: EndpointType? = nil, id: String? = nil, name: String, type: CloudConnectorType? = nil) {
+            self.description = description
+            self.endpointConfig = endpointConfig
+            self.endpointType = endpointType
+            self.id = id
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endpointConfig = "EndpointConfig"
+            case endpointType = "EndpointType"
+            case id = "Id"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct GetConnectorDestinationRequest: AWSEncodableShape {
+        /// The identifier of the C2C connector destination.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectorDestinationResponse: AWSDecodableShape {
+        /// The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
+        public let authConfig: AuthConfig?
+        /// The authentication type used for the connector destination, which determines how credentials and access are managed.
+        public let authType: AuthType?
+        /// The identifier of the C2C connector.
+        public let cloudConnectorId: String?
+        /// A description of the connector destination.
+        public let description: String?
+        /// The unique identifier of the connector destination.
+        public let id: String?
+        /// The display name of the connector destination.
+        public let name: String?
+        /// The URL where users are redirected after completing the OAuth authorization process for the connector destination.
+        public let oAuthCompleteRedirectUrl: String?
+        /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
+        public let secretsManager: SecretsManager?
+
+        @inlinable
+        public init(authConfig: AuthConfig? = nil, authType: AuthType? = nil, cloudConnectorId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, oAuthCompleteRedirectUrl: String? = nil, secretsManager: SecretsManager? = nil) {
+            self.authConfig = authConfig
+            self.authType = authType
+            self.cloudConnectorId = cloudConnectorId
+            self.description = description
+            self.id = id
+            self.name = name
+            self.oAuthCompleteRedirectUrl = oAuthCompleteRedirectUrl
+            self.secretsManager = secretsManager
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authConfig = "AuthConfig"
+            case authType = "AuthType"
+            case cloudConnectorId = "CloudConnectorId"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case oAuthCompleteRedirectUrl = "OAuthCompleteRedirectUrl"
+            case secretsManager = "SecretsManager"
         }
     }
 
@@ -1591,6 +2469,19 @@ extension IoTManagedIntegrations {
         public let updatedAt: Date?
 
         @inlinable
+        public init(createdAt: Date? = nil, deliveryDestinationArn: String? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, description: String? = nil, name: String? = nil, roleArn: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.deliveryDestinationArn = deliveryDestinationArn
+            self.deliveryDestinationType = deliveryDestinationType
+            self.description = description
+            self.name = name
+            self.roleArn = roleArn
+            self.tags = nil
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members tags have been deprecated")
+        @inlinable
         public init(createdAt: Date? = nil, deliveryDestinationArn: String? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, description: String? = nil, name: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.deliveryDestinationArn = deliveryDestinationArn
@@ -1639,6 +2530,8 @@ extension IoTManagedIntegrations {
     }
 
     public struct GetDeviceDiscoveryResponse: AWSDecodableShape {
+        /// The identifier of the account association used for the device discovery.
+        public let accountAssociationId: String?
         /// The Amazon Resource Name (ARN) of the device discovery job request.
         public let arn: String
         /// The ID tracking the current discovery process for one connector association.
@@ -1659,7 +2552,23 @@ extension IoTManagedIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, connectorAssociationId: String? = nil, controllerId: String? = nil, discoveryType: DiscoveryType, finishedAt: Date? = nil, id: String, startedAt: Date, status: DeviceDiscoveryStatus, tags: [String: String]? = nil) {
+        public init(accountAssociationId: String? = nil, arn: String, controllerId: String? = nil, discoveryType: DiscoveryType, finishedAt: Date? = nil, id: String, startedAt: Date, status: DeviceDiscoveryStatus) {
+            self.accountAssociationId = accountAssociationId
+            self.arn = arn
+            self.connectorAssociationId = nil
+            self.controllerId = controllerId
+            self.discoveryType = discoveryType
+            self.finishedAt = finishedAt
+            self.id = id
+            self.startedAt = startedAt
+            self.status = status
+            self.tags = nil
+        }
+
+        @available(*, deprecated, message: "Members connectorAssociationId, tags have been deprecated")
+        @inlinable
+        public init(accountAssociationId: String? = nil, arn: String, connectorAssociationId: String? = nil, controllerId: String? = nil, discoveryType: DiscoveryType, finishedAt: Date? = nil, id: String, startedAt: Date, status: DeviceDiscoveryStatus, tags: [String: String]? = nil) {
+            self.accountAssociationId = accountAssociationId
             self.arn = arn
             self.connectorAssociationId = connectorAssociationId
             self.controllerId = controllerId
@@ -1672,6 +2581,7 @@ extension IoTManagedIntegrations {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
             case arn = "Arn"
             case connectorAssociationId = "ConnectorAssociationId"
             case controllerId = "ControllerId"
@@ -1929,6 +2839,8 @@ extension IoTManagedIntegrations {
         public let brand: String?
         /// The classification of the managed thing such as light bulb or thermostat.
         public let classification: String?
+        /// The identifier of the connector destination associated with this managed thing.
+        public let connectorDestinationId: String?
         /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII).  This parameter is used for cloud-to-cloud devices only.
         public let connectorDeviceId: String?
         /// The id of the connector policy.  This parameter is used for cloud-to-cloud devices only.
@@ -1971,12 +2883,44 @@ extension IoTManagedIntegrations {
         public let updatedAt: Date?
 
         @inlinable
-        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDeviceId: String? = nil, connectorPolicyId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, deviceSpecificKey: String? = nil, hubNetworkMode: HubNetworkMode? = nil, id: String? = nil, internationalArticleNumber: String? = nil, macAddress: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, universalProductCode: String? = nil, updatedAt: Date? = nil) {
+        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, deviceSpecificKey: String? = nil, hubNetworkMode: HubNetworkMode? = nil, id: String? = nil, internationalArticleNumber: String? = nil, macAddress: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, universalProductCode: String? = nil, updatedAt: Date? = nil) {
             self.activatedAt = activatedAt
             self.advertisedProductId = advertisedProductId
             self.arn = arn
             self.brand = brand
             self.classification = classification
+            self.connectorDestinationId = connectorDestinationId
+            self.connectorDeviceId = connectorDeviceId
+            self.connectorPolicyId = nil
+            self.createdAt = createdAt
+            self.credentialLockerId = credentialLockerId
+            self.deviceSpecificKey = deviceSpecificKey
+            self.hubNetworkMode = hubNetworkMode
+            self.id = id
+            self.internationalArticleNumber = internationalArticleNumber
+            self.macAddress = macAddress
+            self.metaData = metaData
+            self.model = model
+            self.name = name
+            self.owner = owner
+            self.parentControllerId = parentControllerId
+            self.provisioningStatus = provisioningStatus
+            self.role = role
+            self.serialNumber = serialNumber
+            self.tags = tags
+            self.universalProductCode = universalProductCode
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members connectorPolicyId have been deprecated")
+        @inlinable
+        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, connectorPolicyId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, deviceSpecificKey: String? = nil, hubNetworkMode: HubNetworkMode? = nil, id: String? = nil, internationalArticleNumber: String? = nil, macAddress: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, universalProductCode: String? = nil, updatedAt: Date? = nil) {
+            self.activatedAt = activatedAt
+            self.advertisedProductId = advertisedProductId
+            self.arn = arn
+            self.brand = brand
+            self.classification = classification
+            self.connectorDestinationId = connectorDestinationId
             self.connectorDeviceId = connectorDeviceId
             self.connectorPolicyId = connectorPolicyId
             self.createdAt = createdAt
@@ -2005,6 +2949,7 @@ extension IoTManagedIntegrations {
             case arn = "Arn"
             case brand = "Brand"
             case classification = "Classification"
+            case connectorDestinationId = "ConnectorDestinationId"
             case connectorDeviceId = "ConnectorDeviceId"
             case connectorPolicyId = "ConnectorPolicyId"
             case createdAt = "CreatedAt"
@@ -2096,6 +3041,16 @@ extension IoTManagedIntegrations {
         /// The timestamp value of when the notification configuration was last updated.
         public let updatedAt: Date?
 
+        @inlinable
+        public init(createdAt: Date? = nil, destinationName: String? = nil, eventType: EventType? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.destinationName = destinationName
+            self.eventType = eventType
+            self.tags = nil
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members tags have been deprecated")
         @inlinable
         public init(createdAt: Date? = nil, destinationName: String? = nil, eventType: EventType? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
@@ -2213,6 +3168,8 @@ extension IoTManagedIntegrations {
         public let s3Url: String?
         /// The status of the over-the-air (OTA) task.
         public let status: OtaStatus?
+        /// A set of key/value pairs that are used to manage the over-the-air (OTA) task.
+        public let tags: [String: String]?
         /// The device targeted for the over-the-air (OTA) task.
         public let target: [String]?
         /// The Amazon Resource Name (ARN) of the over-the-air (OTA) task
@@ -2225,7 +3182,7 @@ extension IoTManagedIntegrations {
         public let taskProcessingDetails: TaskProcessingDetails?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String? = nil, lastUpdatedAt: Date? = nil, otaMechanism: OtaMechanism? = nil, otaSchedulingConfig: OtaTaskSchedulingConfig? = nil, otaTargetQueryString: String? = nil, otaTaskExecutionRetryConfig: OtaTaskExecutionRetryConfig? = nil, otaType: OtaType? = nil, protocol: OtaProtocol? = nil, s3Url: String? = nil, status: OtaStatus? = nil, target: [String]? = nil, taskArn: String? = nil, taskConfigurationId: String? = nil, taskId: String? = nil, taskProcessingDetails: TaskProcessingDetails? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, lastUpdatedAt: Date? = nil, otaMechanism: OtaMechanism? = nil, otaSchedulingConfig: OtaTaskSchedulingConfig? = nil, otaTargetQueryString: String? = nil, otaTaskExecutionRetryConfig: OtaTaskExecutionRetryConfig? = nil, otaType: OtaType? = nil, protocol: OtaProtocol? = nil, s3Url: String? = nil, status: OtaStatus? = nil, tags: [String: String]? = nil, target: [String]? = nil, taskArn: String? = nil, taskConfigurationId: String? = nil, taskId: String? = nil, taskProcessingDetails: TaskProcessingDetails? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
@@ -2237,6 +3194,7 @@ extension IoTManagedIntegrations {
             self.`protocol` = `protocol`
             self.s3Url = s3Url
             self.status = status
+            self.tags = tags
             self.target = target
             self.taskArn = taskArn
             self.taskConfigurationId = taskConfigurationId
@@ -2256,6 +3214,7 @@ extension IoTManagedIntegrations {
             case `protocol` = "Protocol"
             case s3Url = "S3Url"
             case status = "Status"
+            case tags = "Tags"
             case target = "Target"
             case taskArn = "TaskArn"
             case taskConfigurationId = "TaskConfigurationId"
@@ -2389,8 +3348,8 @@ extension IoTManagedIntegrations {
 
         public func validate(name: String) throws {
             try self.validate(self.schemaVersionedId, name: "schemaVersionedId", parent: name, max: 128)
-            try self.validate(self.schemaVersionedId, name: "schemaVersionedId", parent: name, min: 1)
-            try self.validate(self.schemaVersionedId, name: "schemaVersionedId", parent: name, pattern: "^[a-zA-Z0-9.\\/]+(@(\\d+\\.\\d+|\\$latest))?$")
+            try self.validate(self.schemaVersionedId, name: "schemaVersionedId", parent: name, min: 7)
+            try self.validate(self.schemaVersionedId, name: "schemaVersionedId", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2431,6 +3390,191 @@ extension IoTManagedIntegrations {
             case semanticVersion = "SemanticVersion"
             case type = "Type"
             case visibility = "Visibility"
+        }
+    }
+
+    public struct LambdaConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda function used as an endpoint.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:function:)?([a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct ListAccountAssociationsRequest: AWSEncodableShape {
+        /// The identifier of the connector destination to filter account associations by.
+        public let connectorDestinationId: String?
+        /// The maximum number of account associations to return in a single response.
+        public let maxResults: Int?
+        /// A token used for pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectorDestinationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.connectorDestinationId = connectorDestinationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectorDestinationId, key: "ConnectorDestinationId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorDestinationId, name: "connectorDestinationId", parent: name, max: 64)
+            try self.validate(self.connectorDestinationId, name: "connectorDestinationId", parent: name, min: 1)
+            try self.validate(self.connectorDestinationId, name: "connectorDestinationId", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccountAssociationsResponse: AWSDecodableShape {
+        /// The list of account associations that match the specified criteria.
+        public let items: [AccountAssociationItem]?
+        /// A token used for pagination of results when there are more account associations than can be returned in a single response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AccountAssociationItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCloudConnectorsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda function to filter cloud connectors by.
+        public let lambdaArn: String?
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// A token that can be used to retrieve the next set of results.
+        public let nextToken: String?
+        /// The type of cloud connectors to filter by when listing available connectors.
+        public let type: CloudConnectorType?
+
+        @inlinable
+        public init(lambdaArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, type: CloudConnectorType? = nil) {
+            self.lambdaArn = lambdaArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.lambdaArn, key: "LambdaArn")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.type, key: "Type")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^(arn:aws:lambda:[0-9a-zA-Z-]+:[0-9]+:function:)?([a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCloudConnectorsResponse: AWSDecodableShape {
+        /// The list of connectors.
+        public let items: [ConnectorItem]?
+        /// A token that can be used to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ConnectorItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorDestinationsRequest: AWSEncodableShape {
+        /// The identifier of the cloud connector to filter connector destinations by.
+        public let cloudConnectorId: String?
+        /// The maximum number of connector destinations to return in a single response.
+        public let maxResults: Int?
+        /// A token used for pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(cloudConnectorId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.cloudConnectorId, key: "CloudConnectorId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, max: 64)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, min: 1)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConnectorDestinationsResponse: AWSDecodableShape {
+        /// The list of connector destinations that match the specified criteria.
+        public let connectorDestinationList: [ConnectorDestinationSummary]?
+        /// A token used for pagination of results when there are more connector destinations than can be returned in a single response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectorDestinationList: [ConnectorDestinationSummary]? = nil, nextToken: String? = nil) {
+            self.connectorDestinationList = connectorDestinationList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorDestinationList = "ConnectorDestinationList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2530,6 +3674,117 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct ListDeviceDiscoveriesRequest: AWSEncodableShape {
+        /// The maximum number of device discovery jobs to return in a single response.
+        public let maxResults: Int?
+        /// A token used for pagination of results.
+        public let nextToken: String?
+        /// The status to filter device discovery jobs by.
+        public let statusFilter: DeviceDiscoveryStatus?
+        /// The discovery type to filter device discovery jobs by.
+        public let typeFilter: DiscoveryType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, statusFilter: DeviceDiscoveryStatus? = nil, typeFilter: DiscoveryType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.statusFilter = statusFilter
+            self.typeFilter = typeFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.statusFilter, key: "StatusFilter")
+            request.encodeQuery(self.typeFilter, key: "TypeFilter")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDeviceDiscoveriesResponse: AWSDecodableShape {
+        /// The list of device discovery jobs that match the specified criteria.
+        public let items: [DeviceDiscoverySummary]?
+        /// A token used for pagination of results when there are more device discovery jobs than can be returned in a single response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DeviceDiscoverySummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDiscoveredDevicesRequest: AWSEncodableShape {
+        /// The identifier of the device discovery job to list discovered devices for.
+        public let identifier: String
+        /// The maximum number of discovered devices to return in a single response.
+        public let maxResults: Int?
+        /// A token used for pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(identifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.identifier = identifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 200)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[A-Za-z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDiscoveredDevicesResponse: AWSDecodableShape {
+        /// The list of discovered devices that match the specified criteria.
+        public let items: [DiscoveredDeviceSummary]?
+        /// A token used for pagination of results when there are more discovered devices than can be returned in a single response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DiscoveredDeviceSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEventLogConfigurationsRequest: AWSEncodableShape {
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
@@ -2574,6 +3829,68 @@ extension IoTManagedIntegrations {
 
         private enum CodingKeys: String, CodingKey {
             case eventLogConfigurationList = "EventLogConfigurationList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListManagedThingAccountAssociationsRequest: AWSEncodableShape {
+        /// The identifier of the account association to filter results by. When specified, only associations with this account association ID will be returned.
+        public let accountAssociationId: String?
+        /// The identifier of the managed thing to list account associations for.
+        public let managedThingId: String?
+        /// The maximum number of account associations to return in a single response.
+        public let maxResults: Int?
+        /// A token used for pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(accountAssociationId: String? = nil, managedThingId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountAssociationId = accountAssociationId
+            self.managedThingId = managedThingId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountAssociationId, key: "AccountAssociationId")
+            request.encodeQuery(self.managedThingId, key: "ManagedThingId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, max: 64)
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, min: 1)
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, pattern: "^[a-zA-Z0-9:_-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListManagedThingAccountAssociationsResponse: AWSDecodableShape {
+        /// The list of managed thing associations that match the specified criteria, including the managed thing ID and account association ID for each association.
+        public let items: [ManagedThingAssociation]?
+        /// A token used for pagination of results when there are more account associations than can be returned in a single response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ManagedThingAssociation]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
             case nextToken = "NextToken"
         }
     }
@@ -2648,6 +3965,10 @@ extension IoTManagedIntegrations {
     }
 
     public struct ListManagedThingsRequest: AWSEncodableShape {
+        /// Filter managed things by the connector destination ID they are associated with.
+        public let connectorDestinationIdFilter: String?
+        /// Filter managed things by the connector device ID they are associated with. When specified, only managed things with this connector device ID will be returned.
+        public let connectorDeviceIdFilter: String?
         /// Filter on a connector policy id for a managed thing.
         public let connectorPolicyIdFilter: String?
         /// Filter on a credential locker for a managed thing.
@@ -2668,7 +3989,25 @@ extension IoTManagedIntegrations {
         public let serialNumberFilter: String?
 
         @inlinable
-        public init(connectorPolicyIdFilter: String? = nil, credentialLockerFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerFilter: String? = nil, parentControllerIdentifierFilter: String? = nil, provisioningStatusFilter: ProvisioningStatus? = nil, roleFilter: Role? = nil, serialNumberFilter: String? = nil) {
+        public init(connectorDestinationIdFilter: String? = nil, connectorDeviceIdFilter: String? = nil, credentialLockerFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerFilter: String? = nil, parentControllerIdentifierFilter: String? = nil, provisioningStatusFilter: ProvisioningStatus? = nil, roleFilter: Role? = nil, serialNumberFilter: String? = nil) {
+            self.connectorDestinationIdFilter = connectorDestinationIdFilter
+            self.connectorDeviceIdFilter = connectorDeviceIdFilter
+            self.connectorPolicyIdFilter = nil
+            self.credentialLockerFilter = credentialLockerFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.ownerFilter = ownerFilter
+            self.parentControllerIdentifierFilter = parentControllerIdentifierFilter
+            self.provisioningStatusFilter = provisioningStatusFilter
+            self.roleFilter = roleFilter
+            self.serialNumberFilter = serialNumberFilter
+        }
+
+        @available(*, deprecated, message: "Members connectorPolicyIdFilter have been deprecated")
+        @inlinable
+        public init(connectorDestinationIdFilter: String? = nil, connectorDeviceIdFilter: String? = nil, connectorPolicyIdFilter: String? = nil, credentialLockerFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerFilter: String? = nil, parentControllerIdentifierFilter: String? = nil, provisioningStatusFilter: ProvisioningStatus? = nil, roleFilter: Role? = nil, serialNumberFilter: String? = nil) {
+            self.connectorDestinationIdFilter = connectorDestinationIdFilter
+            self.connectorDeviceIdFilter = connectorDeviceIdFilter
             self.connectorPolicyIdFilter = connectorPolicyIdFilter
             self.credentialLockerFilter = credentialLockerFilter
             self.maxResults = maxResults
@@ -2683,6 +4022,8 @@ extension IoTManagedIntegrations {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectorDestinationIdFilter, key: "ConnectorDestinationIdFilter")
+            request.encodeQuery(self.connectorDeviceIdFilter, key: "ConnectorDeviceIdFilter")
             request.encodeQuery(self.connectorPolicyIdFilter, key: "ConnectorPolicyIdFilter")
             request.encodeQuery(self.credentialLockerFilter, key: "CredentialLockerFilter")
             request.encodeQuery(self.maxResults, key: "MaxResults")
@@ -2695,6 +4036,12 @@ extension IoTManagedIntegrations {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.connectorDestinationIdFilter, name: "connectorDestinationIdFilter", parent: name, max: 64)
+            try self.validate(self.connectorDestinationIdFilter, name: "connectorDestinationIdFilter", parent: name, min: 1)
+            try self.validate(self.connectorDestinationIdFilter, name: "connectorDestinationIdFilter", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.connectorDeviceIdFilter, name: "connectorDeviceIdFilter", parent: name, max: 256)
+            try self.validate(self.connectorDeviceIdFilter, name: "connectorDeviceIdFilter", parent: name, min: 1)
+            try self.validate(self.connectorDeviceIdFilter, name: "connectorDeviceIdFilter", parent: name, pattern: "^[a-zA-Z0-9_.,@-]+$")
             try self.validate(self.connectorPolicyIdFilter, name: "connectorPolicyIdFilter", parent: name, max: 64)
             try self.validate(self.connectorPolicyIdFilter, name: "connectorPolicyIdFilter", parent: name, min: 1)
             try self.validate(self.connectorPolicyIdFilter, name: "connectorPolicyIdFilter", parent: name, pattern: "^[A-Za-z0-9-_]+$")
@@ -3027,18 +4374,18 @@ extension IoTManagedIntegrations {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, max: 256)
-            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 12)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 3)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=_-]+$")
             try self.validate(self.schemaId, name: "schemaId", parent: name, max: 128)
-            try self.validate(self.schemaId, name: "schemaId", parent: name, min: 1)
-            try self.validate(self.schemaId, name: "schemaId", parent: name, pattern: "^[a-zA-Z0-9./]+$")
-            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, max: 256)
-            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, min: 1)
-            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^(\\d+\\.\\d+|\\$latest)$")
+            try self.validate(self.schemaId, name: "schemaId", parent: name, min: 3)
+            try self.validate(self.schemaId, name: "schemaId", parent: name, pattern: "^[a-zA-Z0-9.]+$")
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, max: 12)
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, min: 3)
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3059,6 +4406,62 @@ extension IoTManagedIntegrations {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The ARN of the resource for which to list tags.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(managed-thing|provisioning-profile|ota-task|credential-locker|account-association)/[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A set of key/value pairs that are used to manage the resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct ManagedThingAssociation: AWSDecodableShape {
+        /// The identifier of the account association in the association.
+        public let accountAssociationId: String?
+        /// The identifier of the managed thing in the association.
+        public let managedThingId: String?
+
+        @inlinable
+        public init(accountAssociationId: String? = nil, managedThingId: String? = nil) {
+            self.accountAssociationId = accountAssociationId
+            self.managedThingId = managedThingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
+            case managedThingId = "ManagedThingId"
         }
     }
 
@@ -3095,6 +4498,8 @@ extension IoTManagedIntegrations {
         public let brand: String?
         /// The classification of the managed thing such as light bulb or thermostat.
         public let classification: String?
+        /// The identifier of the connector destination associated with this managed thing, if applicable.
+        public let connectorDestinationId: String?
         /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII).  This parameter is used for cloud-to-cloud devices only.
         public let connectorDeviceId: String?
         /// The id of the connector policy.  This parameter is used for cloud-to-cloud devices only.
@@ -3123,12 +4528,37 @@ extension IoTManagedIntegrations {
         public let updatedAt: Date?
 
         @inlinable
-        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDeviceId: String? = nil, connectorPolicyId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, id: String? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, updatedAt: Date? = nil) {
+        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, id: String? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, updatedAt: Date? = nil) {
             self.activatedAt = activatedAt
             self.advertisedProductId = advertisedProductId
             self.arn = arn
             self.brand = brand
             self.classification = classification
+            self.connectorDestinationId = connectorDestinationId
+            self.connectorDeviceId = connectorDeviceId
+            self.connectorPolicyId = nil
+            self.createdAt = createdAt
+            self.credentialLockerId = credentialLockerId
+            self.id = id
+            self.model = model
+            self.name = name
+            self.owner = owner
+            self.parentControllerId = parentControllerId
+            self.provisioningStatus = provisioningStatus
+            self.role = role
+            self.serialNumber = serialNumber
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members connectorPolicyId have been deprecated")
+        @inlinable
+        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, connectorPolicyId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, id: String? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, updatedAt: Date? = nil) {
+            self.activatedAt = activatedAt
+            self.advertisedProductId = advertisedProductId
+            self.arn = arn
+            self.brand = brand
+            self.classification = classification
+            self.connectorDestinationId = connectorDestinationId
             self.connectorDeviceId = connectorDeviceId
             self.connectorPolicyId = connectorPolicyId
             self.createdAt = createdAt
@@ -3150,6 +4580,7 @@ extension IoTManagedIntegrations {
             case arn = "Arn"
             case brand = "Brand"
             case classification = "Classification"
+            case connectorDestinationId = "ConnectorDestinationId"
             case connectorDeviceId = "ConnectorDeviceId"
             case connectorPolicyId = "ConnectorPolicyId"
             case createdAt = "CreatedAt"
@@ -3163,6 +4594,311 @@ extension IoTManagedIntegrations {
             case role = "Role"
             case serialNumber = "SerialNumber"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct MatterCapabilityReport: AWSEncodableShape {
+        /// The endpoints used in the capability report.
+        public let endpoints: [MatterCapabilityReportEndpoint]
+        /// The numeric identifier of the node.
+        public let nodeId: String?
+        /// The version of the capability report.
+        public let version: String
+
+        @inlinable
+        public init(endpoints: [MatterCapabilityReportEndpoint], nodeId: String? = nil, version: String) {
+            self.endpoints = endpoints
+            self.nodeId = nodeId
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.endpoints.forEach {
+                try $0.validate(name: "\(name).endpoints[]")
+            }
+            try self.validate(self.endpoints, name: "endpoints", parent: name, max: 50)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, max: 64)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, pattern: "^[a-zA-Z0-9=_.,@\\+\\-/]+$")
+            try self.validate(self.version, name: "version", parent: name, max: 10)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^1\\.0\\.0$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "endpoints"
+            case nodeId = "nodeId"
+            case version = "version"
+        }
+    }
+
+    public struct MatterCapabilityReportAttribute: AWSEncodableShape {
+        /// The id of the Matter attribute.
+        public let id: String?
+        /// Name for the Amazon Web Services Matter capability report attribute.
+        public let name: String?
+        /// Value for the Amazon Web Services Matter capability report attribute.
+        public let value: AWSDocument?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil, value: AWSDocument? = nil) {
+            self.id = id
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 24)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct MatterCapabilityReportCluster: AWSEncodableShape {
+        /// The attributes of the Amazon Web Services Matter capability report.
+        public let attributes: [MatterCapabilityReportAttribute]?
+        /// The commands used with the Amazon Web Services Matter capability report.
+        public let commands: [String]?
+        /// The events used with the Amazon Web Services Matter capability report.
+        public let events: [String]?
+        /// The fabric index for the Amazon Web Services Matter capability report.
+        public let fabricIndex: Int?
+        /// 32 bit-map used to indicate which features a cluster supports.
+        public let featureMap: Int64?
+        /// Matter clusters used in capability report.
+        public let generatedCommands: [String]?
+        /// The id of the Amazon Web Services Matter capability report cluster.
+        public let id: String
+        /// The capability name used in the Amazon Web Services Matter capability report.
+        public let name: String?
+        /// The id of the schema version.
+        public let publicId: String?
+        /// The id of the revision for the Amazon Web Services Matter capability report.
+        public let revision: Int
+        /// The spec version used in the Amazon Web Services Matter capability report.
+        public let specVersion: String?
+
+        @inlinable
+        public init(attributes: [MatterCapabilityReportAttribute]? = nil, commands: [String]? = nil, events: [String]? = nil, fabricIndex: Int? = nil, featureMap: Int64? = nil, generatedCommands: [String]? = nil, id: String, name: String? = nil, publicId: String? = nil, revision: Int, specVersion: String? = nil) {
+            self.attributes = attributes
+            self.commands = commands
+            self.events = events
+            self.fabricIndex = fabricIndex
+            self.featureMap = featureMap
+            self.generatedCommands = generatedCommands
+            self.id = id
+            self.name = name
+            self.publicId = publicId
+            self.revision = revision
+            self.specVersion = specVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 100)
+            try self.commands?.forEach {
+                try validate($0, name: "commands[]", parent: name, max: 24)
+                try validate($0, name: "commands[]", parent: name, min: 1)
+                try validate($0, name: "commands[]", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            }
+            try self.validate(self.commands, name: "commands", parent: name, max: 100)
+            try self.events?.forEach {
+                try validate($0, name: "events[]", parent: name, max: 24)
+                try validate($0, name: "events[]", parent: name, min: 1)
+                try validate($0, name: "events[]", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            }
+            try self.validate(self.events, name: "events", parent: name, max: 100)
+            try self.validate(self.fabricIndex, name: "fabricIndex", parent: name, max: 4096)
+            try self.validate(self.fabricIndex, name: "fabricIndex", parent: name, min: 0)
+            try self.validate(self.featureMap, name: "featureMap", parent: name, max: 4294967295)
+            try self.validate(self.featureMap, name: "featureMap", parent: name, min: 0)
+            try self.generatedCommands?.forEach {
+                try validate($0, name: "generatedCommands[]", parent: name, max: 24)
+                try validate($0, name: "generatedCommands[]", parent: name, min: 1)
+                try validate($0, name: "generatedCommands[]", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            }
+            try self.validate(self.generatedCommands, name: "generatedCommands", parent: name, max: 50)
+            try self.validate(self.id, name: "id", parent: name, max: 24)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+            try self.validate(self.publicId, name: "publicId", parent: name, max: 128)
+            try self.validate(self.publicId, name: "publicId", parent: name, min: 7)
+            try self.validate(self.publicId, name: "publicId", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
+            try self.validate(self.revision, name: "revision", parent: name, max: 10)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+            try self.validate(self.specVersion, name: "specVersion", parent: name, max: 64)
+            try self.validate(self.specVersion, name: "specVersion", parent: name, min: 1)
+            try self.validate(self.specVersion, name: "specVersion", parent: name, pattern: "^\\d+\\.\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case commands = "commands"
+            case events = "events"
+            case fabricIndex = "fabricIndex"
+            case featureMap = "featureMap"
+            case generatedCommands = "generatedCommands"
+            case id = "id"
+            case name = "name"
+            case publicId = "publicId"
+            case revision = "revision"
+            case specVersion = "specVersion"
+        }
+    }
+
+    public struct MatterCapabilityReportEndpoint: AWSEncodableShape {
+        /// Semantic information related to endpoint.
+        public let clientClusters: [String]?
+        /// Matter clusters used in capability report.
+        public let clusters: [MatterCapabilityReportCluster]
+        /// The type of device.
+        public let deviceTypes: [String]
+        /// The id of the Amazon Web Services Matter capability report endpoint.
+        public let id: String
+        /// Heirachy of child endpoints contained in the given endpoint.
+        public let parts: [String]?
+        /// Semantic information related to endpoint.
+        public let semanticTags: [String]?
+
+        @inlinable
+        public init(clientClusters: [String]? = nil, clusters: [MatterCapabilityReportCluster], deviceTypes: [String], id: String, parts: [String]? = nil, semanticTags: [String]? = nil) {
+            self.clientClusters = clientClusters
+            self.clusters = clusters
+            self.deviceTypes = deviceTypes
+            self.id = id
+            self.parts = parts
+            self.semanticTags = semanticTags
+        }
+
+        public func validate(name: String) throws {
+            try self.clientClusters?.forEach {
+                try validate($0, name: "clientClusters[]", parent: name, max: 24)
+                try validate($0, name: "clientClusters[]", parent: name, min: 1)
+                try validate($0, name: "clientClusters[]", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            }
+            try self.validate(self.clientClusters, name: "clientClusters", parent: name, max: 32)
+            try self.clusters.forEach {
+                try $0.validate(name: "\(name).clusters[]")
+            }
+            try self.validate(self.clusters, name: "clusters", parent: name, max: 50)
+            try self.deviceTypes.forEach {
+                try validate($0, name: "deviceTypes[]", parent: name, max: 256)
+                try validate($0, name: "deviceTypes[]", parent: name, pattern: "^[a-zA-Z0-9=_. ,@\\+\\-/]+$")
+            }
+            try self.validate(self.deviceTypes, name: "deviceTypes", parent: name, max: 50)
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.parts?.forEach {
+                try validate($0, name: "parts[]", parent: name, max: 64)
+                try validate($0, name: "parts[]", parent: name, min: 1)
+                try validate($0, name: "parts[]", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            }
+            try self.validate(self.parts, name: "parts", parent: name, max: 32)
+            try self.semanticTags?.forEach {
+                try validate($0, name: "semanticTags[]", parent: name, max: 128)
+                try validate($0, name: "semanticTags[]", parent: name, min: 1)
+                try validate($0, name: "semanticTags[]", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            }
+            try self.validate(self.semanticTags, name: "semanticTags", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientClusters = "clientClusters"
+            case clusters = "clusters"
+            case deviceTypes = "deviceTypes"
+            case id = "id"
+            case parts = "parts"
+            case semanticTags = "semanticTags"
+        }
+    }
+
+    public struct MatterCluster: AWSEncodableShape {
+        /// The Matter attributes.
+        public let attributes: AWSDocument?
+        /// Describe the Matter commands with the Matter command identifier mapped to the command fields.
+        public let commands: [String: AWSDocument]?
+        /// Describe the Matter events with the Matter event identifier mapped to the event fields.
+        public let events: [String: AWSDocument]?
+        /// The cluster id.
+        public let id: String?
+
+        @inlinable
+        public init(attributes: AWSDocument? = nil, commands: [String: AWSDocument]? = nil, events: [String: AWSDocument]? = nil, id: String? = nil) {
+            self.attributes = attributes
+            self.commands = commands
+            self.events = events
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.commands?.forEach {
+                try validate($0.key, name: "commands.key", parent: name, max: 24)
+                try validate($0.key, name: "commands.key", parent: name, min: 1)
+                try validate($0.key, name: "commands.key", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            }
+            try self.validate(self.commands, name: "commands", parent: name, max: 5)
+            try self.validate(self.commands, name: "commands", parent: name, min: 1)
+            try self.events?.forEach {
+                try validate($0.key, name: "events.key", parent: name, max: 24)
+                try validate($0.key, name: "events.key", parent: name, min: 1)
+                try validate($0.key, name: "events.key", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+            }
+            try self.validate(self.events, name: "events", parent: name, max: 5)
+            try self.validate(self.events, name: "events", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 24)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case commands = "commands"
+            case events = "events"
+            case id = "id"
+        }
+    }
+
+    public struct MatterEndpoint: AWSEncodableShape {
+        /// A list of Matter clusters for a managed thing.
+        public let clusters: [MatterCluster]?
+        /// The Matter endpoint id.
+        public let id: String?
+
+        @inlinable
+        public init(clusters: [MatterCluster]? = nil, id: String? = nil) {
+            self.clusters = clusters
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.clusters?.forEach {
+                try $0.validate(name: "\(name).clusters[]")
+            }
+            try self.validate(self.clusters, name: "clusters", parent: name, max: 5)
+            try self.validate(self.clusters, name: "clusters", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusters = "clusters"
+            case id = "id"
         }
     }
 
@@ -3181,6 +4917,67 @@ extension IoTManagedIntegrations {
         private enum CodingKeys: String, CodingKey {
             case destinationName = "DestinationName"
             case eventType = "EventType"
+        }
+    }
+
+    public struct OAuthConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization URL for the OAuth service, where users are directed to authenticate and authorize access.
+        public let authUrl: String
+        /// The URL where users are redirected after completing the OAuth authorization process.
+        public let oAuthCompleteRedirectUrl: String?
+        /// Configuration for proactively refreshing OAuth tokens before they expire.
+        public let proactiveRefreshTokenRenewal: ProactiveRefreshTokenRenewal?
+        /// The OAuth scopes requested during authorization, which define the permissions granted to the application.
+        public let scope: String?
+        /// The authentication scheme used when requesting tokens from the token endpoint.
+        public let tokenEndpointAuthenticationScheme: TokenEndpointAuthenticationScheme
+        /// The token URL for the OAuth service, where authorization codes are exchanged for access tokens.
+        public let tokenUrl: String
+
+        @inlinable
+        public init(authUrl: String, oAuthCompleteRedirectUrl: String? = nil, proactiveRefreshTokenRenewal: ProactiveRefreshTokenRenewal? = nil, scope: String? = nil, tokenEndpointAuthenticationScheme: TokenEndpointAuthenticationScheme, tokenUrl: String) {
+            self.authUrl = authUrl
+            self.oAuthCompleteRedirectUrl = oAuthCompleteRedirectUrl
+            self.proactiveRefreshTokenRenewal = proactiveRefreshTokenRenewal
+            self.scope = scope
+            self.tokenEndpointAuthenticationScheme = tokenEndpointAuthenticationScheme
+            self.tokenUrl = tokenUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authUrl, name: "authUrl", parent: name, max: 1024)
+            try self.validate(self.authUrl, name: "authUrl", parent: name, min: 1)
+            try self.validate(self.authUrl, name: "authUrl", parent: name, pattern: "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$")
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, max: 1024)
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, min: 1)
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, pattern: "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authUrl = "authUrl"
+            case oAuthCompleteRedirectUrl = "oAuthCompleteRedirectUrl"
+            case proactiveRefreshTokenRenewal = "proactiveRefreshTokenRenewal"
+            case scope = "scope"
+            case tokenEndpointAuthenticationScheme = "tokenEndpointAuthenticationScheme"
+            case tokenUrl = "tokenUrl"
+        }
+    }
+
+    public struct OAuthUpdate: AWSEncodableShape {
+        /// The updated URL where users are redirected after completing the OAuth authorization process.
+        public let oAuthCompleteRedirectUrl: String?
+        /// Updated configuration for proactively refreshing OAuth tokens before they expire.
+        public let proactiveRefreshTokenRenewal: ProactiveRefreshTokenRenewal?
+
+        @inlinable
+        public init(oAuthCompleteRedirectUrl: String? = nil, proactiveRefreshTokenRenewal: ProactiveRefreshTokenRenewal? = nil) {
+            self.oAuthCompleteRedirectUrl = oAuthCompleteRedirectUrl
+            self.proactiveRefreshTokenRenewal = proactiveRefreshTokenRenewal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuthCompleteRedirectUrl = "oAuthCompleteRedirectUrl"
+            case proactiveRefreshTokenRenewal = "proactiveRefreshTokenRenewal"
         }
     }
 
@@ -3406,6 +5203,24 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct ProactiveRefreshTokenRenewal: AWSEncodableShape & AWSDecodableShape {
+        /// The days before token expiration when the system should attempt to renew the token, specified in days.
+        public let daysBeforeRenewal: Int?
+        /// Indicates whether proactive refresh token renewal is enabled.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(daysBeforeRenewal: Int? = nil, enabled: Bool? = nil) {
+            self.daysBeforeRenewal = daysBeforeRenewal
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daysBeforeRenewal = "DaysBeforeRenewal"
+            case enabled = "enabled"
+        }
+    }
+
     public struct ProvisioningProfileSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the provisioning template used in the provisioning profile.
         public let arn: String?
@@ -3568,6 +5383,62 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct RegisterAccountAssociationRequest: AWSEncodableShape {
+        /// The identifier of the account association to register with the managed thing.
+        public let accountAssociationId: String
+        /// The identifier of the device discovery job associated with this registration.
+        public let deviceDiscoveryId: String
+        /// The identifier of the managed thing to register with the account association.
+        public let managedThingId: String
+
+        @inlinable
+        public init(accountAssociationId: String, deviceDiscoveryId: String, managedThingId: String) {
+            self.accountAssociationId = accountAssociationId
+            self.deviceDiscoveryId = deviceDiscoveryId
+            self.managedThingId = managedThingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.deviceDiscoveryId, name: "deviceDiscoveryId", parent: name, max: 200)
+            try self.validate(self.deviceDiscoveryId, name: "deviceDiscoveryId", parent: name, min: 1)
+            try self.validate(self.deviceDiscoveryId, name: "deviceDiscoveryId", parent: name, pattern: "^[A-Za-z0-9]+$")
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, max: 64)
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, min: 1)
+            try self.validate(self.managedThingId, name: "managedThingId", parent: name, pattern: "^[a-zA-Z0-9:_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
+            case deviceDiscoveryId = "DeviceDiscoveryId"
+            case managedThingId = "ManagedThingId"
+        }
+    }
+
+    public struct RegisterAccountAssociationResponse: AWSDecodableShape {
+        /// The identifier of the account association that was registered.
+        public let accountAssociationId: String?
+        /// The identifier of the device discovery job associated with this registration.
+        public let deviceDiscoveryId: String?
+        /// The identifier of the managed thing that was registered with the account association.
+        public let managedThingId: String?
+
+        @inlinable
+        public init(accountAssociationId: String? = nil, deviceDiscoveryId: String? = nil, managedThingId: String? = nil) {
+            self.accountAssociationId = accountAssociationId
+            self.deviceDiscoveryId = deviceDiscoveryId
+            self.managedThingId = managedThingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
+            case deviceDiscoveryId = "DeviceDiscoveryId"
+            case managedThingId = "ManagedThingId"
+        }
+    }
+
     public struct RegisterCustomEndpointRequest: AWSEncodableShape {
         public init() {}
     }
@@ -3608,6 +5479,27 @@ extension IoTManagedIntegrations {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// Id of the affected resource
+        public let resourceId: String?
+        /// Type of the affected resource
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
     }
 
     public struct RetryConfigCriteria: AWSEncodableShape & AWSDecodableShape {
@@ -3757,7 +5649,149 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct SecretsManager: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret.
+        public let arn: String
+        /// The version ID of the AWS Secrets Manager secret.
+        public let versionId: String
+
+        @inlinable
+        public init(arn: String, versionId: String) {
+            self.arn = arn
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:secretsmanager:[0-9a-zA-Z-]{1,32}:\\d{12}:secret:[A-Za-z0-9/_+=.@-]{8,520}$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 64)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 32)
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct SendConnectorEventRequest: AWSEncodableShape {
+        /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII).  This parameter is used for cloud-to-cloud devices only.
+        public let connectorDeviceId: String?
+        /// The id of the connector between the third-party cloud provider and IoT managed integrations.
+        public let connectorId: String
+        /// The id for the device discovery job.
+        public let deviceDiscoveryId: String?
+        /// The list of devices.
+        public let devices: [Device]?
+        /// The device endpoint.
+        public let matterEndpoint: MatterEndpoint?
+        /// The device state change event payload. This parameter will include the following three fields:    uri: schema auc://&lt;PARTNER-DEVICE-ID&gt;/ResourcePath (The Resourcepath corresponds to an OCF resource.)    op: For device state changes, this field must populate as n+d.    cn: The content depends on the OCF resource referenced in ResourcePath.
+        public let message: String?
+        /// The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing.  The field op can have a value of "I" or "U". The field "cn" will contain the capability types.
+        public let operation: ConnectorEventOperation
+        /// The Open Connectivity Foundation (OCF) security specification version for the operation being requested on the managed thing. For more information, see OCF Security Specification.
+        public let operationVersion: String?
+        /// The status code of the Open Connectivity Foundation (OCF) operation being performed on the managed thing.
+        public let statusCode: Int?
+        /// The trace request identifier used to correlate a command request and response. This is specified by the device owner, but will be generated by IoT managed integrations if not provided by the device owner.
+        public let traceId: String?
+        /// The id of the third-party cloud provider.
+        public let userId: String?
+
+        @inlinable
+        public init(connectorDeviceId: String? = nil, connectorId: String, deviceDiscoveryId: String? = nil, devices: [Device]? = nil, matterEndpoint: MatterEndpoint? = nil, message: String? = nil, operation: ConnectorEventOperation, operationVersion: String? = nil, statusCode: Int? = nil, traceId: String? = nil, userId: String? = nil) {
+            self.connectorDeviceId = connectorDeviceId
+            self.connectorId = connectorId
+            self.deviceDiscoveryId = deviceDiscoveryId
+            self.devices = devices
+            self.matterEndpoint = matterEndpoint
+            self.message = message
+            self.operation = operation
+            self.operationVersion = operationVersion
+            self.statusCode = statusCode
+            self.traceId = traceId
+            self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.connectorDeviceId, forKey: .connectorDeviceId)
+            request.encodePath(self.connectorId, key: "ConnectorId")
+            try container.encodeIfPresent(self.deviceDiscoveryId, forKey: .deviceDiscoveryId)
+            try container.encodeIfPresent(self.devices, forKey: .devices)
+            try container.encodeIfPresent(self.matterEndpoint, forKey: .matterEndpoint)
+            try container.encodeIfPresent(self.message, forKey: .message)
+            try container.encode(self.operation, forKey: .operation)
+            try container.encodeIfPresent(self.operationVersion, forKey: .operationVersion)
+            try container.encodeIfPresent(self.statusCode, forKey: .statusCode)
+            try container.encodeIfPresent(self.traceId, forKey: .traceId)
+            try container.encodeIfPresent(self.userId, forKey: .userId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorDeviceId, name: "connectorDeviceId", parent: name, max: 256)
+            try self.validate(self.connectorDeviceId, name: "connectorDeviceId", parent: name, min: 1)
+            try self.validate(self.connectorDeviceId, name: "connectorDeviceId", parent: name, pattern: "^[a-zA-Z0-9_.,@-]+$")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 64)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 1)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.deviceDiscoveryId, name: "deviceDiscoveryId", parent: name, max: 200)
+            try self.validate(self.deviceDiscoveryId, name: "deviceDiscoveryId", parent: name, min: 1)
+            try self.validate(self.deviceDiscoveryId, name: "deviceDiscoveryId", parent: name, pattern: "^[A-Za-z0-9]+$")
+            try self.devices?.forEach {
+                try $0.validate(name: "\(name).devices[]")
+            }
+            try self.matterEndpoint?.validate(name: "\(name).matterEndpoint")
+            try self.validate(self.message, name: "message", parent: name, max: 256)
+            try self.validate(self.message, name: "message", parent: name, min: 1)
+            try self.validate(self.message, name: "message", parent: name, pattern: "^[\\sa-zA-Z0-9_.,@-]+$")
+            try self.validate(self.operationVersion, name: "operationVersion", parent: name, max: 6)
+            try self.validate(self.operationVersion, name: "operationVersion", parent: name, min: 1)
+            try self.validate(self.operationVersion, name: "operationVersion", parent: name, pattern: "^[0-9.]+$")
+            try self.validate(self.statusCode, name: "statusCode", parent: name, max: 550)
+            try self.validate(self.statusCode, name: "statusCode", parent: name, min: 100)
+            try self.validate(self.traceId, name: "traceId", parent: name, max: 128)
+            try self.validate(self.traceId, name: "traceId", parent: name, min: 1)
+            try self.validate(self.traceId, name: "traceId", parent: name, pattern: "^[a-zA-Z0-9:=_-]+$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 64)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.,@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorDeviceId = "ConnectorDeviceId"
+            case deviceDiscoveryId = "DeviceDiscoveryId"
+            case devices = "Devices"
+            case matterEndpoint = "MatterEndpoint"
+            case message = "Message"
+            case operation = "Operation"
+            case operationVersion = "OperationVersion"
+            case statusCode = "StatusCode"
+            case traceId = "TraceId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct SendConnectorEventResponse: AWSDecodableShape {
+        /// The id of the connector between the third-party cloud provider and IoT managed integrations.
+        public let connectorId: String
+
+        @inlinable
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+        }
+    }
+
     public struct SendManagedThingCommandRequest: AWSEncodableShape {
+        /// The identifier of the account association to use when sending a command to a managed thing.
+        public let accountAssociationId: String?
         /// The ID tracking the current discovery process for one connector association.
         public let connectorAssociationId: String?
         /// The device endpoint.
@@ -3766,7 +5800,17 @@ extension IoTManagedIntegrations {
         public let managedThingId: String
 
         @inlinable
-        public init(connectorAssociationId: String? = nil, endpoints: [CommandEndpoint], managedThingId: String) {
+        public init(accountAssociationId: String? = nil, endpoints: [CommandEndpoint], managedThingId: String) {
+            self.accountAssociationId = accountAssociationId
+            self.connectorAssociationId = nil
+            self.endpoints = endpoints
+            self.managedThingId = managedThingId
+        }
+
+        @available(*, deprecated, message: "Members connectorAssociationId have been deprecated")
+        @inlinable
+        public init(accountAssociationId: String? = nil, connectorAssociationId: String? = nil, endpoints: [CommandEndpoint], managedThingId: String) {
+            self.accountAssociationId = accountAssociationId
             self.connectorAssociationId = connectorAssociationId
             self.endpoints = endpoints
             self.managedThingId = managedThingId
@@ -3775,12 +5819,16 @@ extension IoTManagedIntegrations {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountAssociationId, forKey: .accountAssociationId)
             try container.encodeIfPresent(self.connectorAssociationId, forKey: .connectorAssociationId)
             try container.encode(self.endpoints, forKey: .endpoints)
             request.encodePath(self.managedThingId, key: "ManagedThingId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.connectorAssociationId, name: "connectorAssociationId", parent: name, max: 64)
             try self.validate(self.connectorAssociationId, name: "connectorAssociationId", parent: name, min: 1)
             try self.validate(self.connectorAssociationId, name: "connectorAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -3795,6 +5843,7 @@ extension IoTManagedIntegrations {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
             case connectorAssociationId = "ConnectorAssociationId"
             case endpoints = "Endpoints"
         }
@@ -3814,7 +5863,47 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct StartAccountAssociationRefreshRequest: AWSEncodableShape {
+        /// The unique identifier of the account association to refresh.
+        public let accountAssociationId: String
+
+        @inlinable
+        public init(accountAssociationId: String) {
+            self.accountAssociationId = accountAssociationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountAssociationId, key: "AccountAssociationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartAccountAssociationRefreshResponse: AWSDecodableShape {
+        /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process.
+        public let oAuthAuthorizationUrl: String
+
+        @inlinable
+        public init(oAuthAuthorizationUrl: String) {
+            self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuthAuthorizationUrl = "OAuthAuthorizationUrl"
+        }
+    }
+
     public struct StartDeviceDiscoveryRequest: AWSEncodableShape {
+        /// The identifier of the cloud-to-cloud account association to use for discovery of third-party devices.
+        public let accountAssociationId: String?
         /// The authentication material required to start the local device discovery job request.
         public let authenticationMaterial: String?
         /// The type of authentication material used for device discovery jobs.
@@ -3825,23 +5914,44 @@ extension IoTManagedIntegrations {
         public let connectorAssociationIdentifier: String?
         /// The id of the end-user's IoT hub.
         public let controllerIdentifier: String?
-        /// The discovery type supporting the type of device to be discovered in the device discovery job request.
+        /// Additional protocol-specific details required for device discovery, which vary based on the discovery type.  For a DiscoveryType of CUSTOM, the string-to-string map must have a key value of Name set to a non-empty-string.
+        public let customProtocolDetail: [String: String]?
+        /// The discovery type supporting the type of device to be discovered in the device discovery task request.
         public let discoveryType: DiscoveryType
         /// A set of key/value pairs that are used to manage the device discovery request.
         public let tags: [String: String]?
 
         @inlinable
-        public init(authenticationMaterial: String? = nil, authenticationMaterialType: DiscoveryAuthMaterialType? = nil, clientToken: String? = nil, connectorAssociationIdentifier: String? = nil, controllerIdentifier: String? = nil, discoveryType: DiscoveryType, tags: [String: String]? = nil) {
+        public init(accountAssociationId: String? = nil, authenticationMaterial: String? = nil, authenticationMaterialType: DiscoveryAuthMaterialType? = nil, clientToken: String? = nil, controllerIdentifier: String? = nil, customProtocolDetail: [String: String]? = nil, discoveryType: DiscoveryType) {
+            self.accountAssociationId = accountAssociationId
+            self.authenticationMaterial = authenticationMaterial
+            self.authenticationMaterialType = authenticationMaterialType
+            self.clientToken = clientToken
+            self.connectorAssociationIdentifier = nil
+            self.controllerIdentifier = controllerIdentifier
+            self.customProtocolDetail = customProtocolDetail
+            self.discoveryType = discoveryType
+            self.tags = nil
+        }
+
+        @available(*, deprecated, message: "Members connectorAssociationIdentifier, tags have been deprecated")
+        @inlinable
+        public init(accountAssociationId: String? = nil, authenticationMaterial: String? = nil, authenticationMaterialType: DiscoveryAuthMaterialType? = nil, clientToken: String? = nil, connectorAssociationIdentifier: String? = nil, controllerIdentifier: String? = nil, customProtocolDetail: [String: String]? = nil, discoveryType: DiscoveryType, tags: [String: String]? = nil) {
+            self.accountAssociationId = accountAssociationId
             self.authenticationMaterial = authenticationMaterial
             self.authenticationMaterialType = authenticationMaterialType
             self.clientToken = clientToken
             self.connectorAssociationIdentifier = connectorAssociationIdentifier
             self.controllerIdentifier = controllerIdentifier
+            self.customProtocolDetail = customProtocolDetail
             self.discoveryType = discoveryType
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.authenticationMaterial, name: "authenticationMaterial", parent: name, max: 64)
             try self.validate(self.authenticationMaterial, name: "authenticationMaterial", parent: name, min: 1)
             try self.validate(self.authenticationMaterial, name: "authenticationMaterial", parent: name, pattern: "^[0-9A-Za-z_\\-\\+=\\/:; ]+$")
@@ -3854,6 +5964,15 @@ extension IoTManagedIntegrations {
             try self.validate(self.controllerIdentifier, name: "controllerIdentifier", parent: name, max: 64)
             try self.validate(self.controllerIdentifier, name: "controllerIdentifier", parent: name, min: 1)
             try self.validate(self.controllerIdentifier, name: "controllerIdentifier", parent: name, pattern: "^[a-zA-Z0-9:_-]*$")
+            try self.customProtocolDetail?.forEach {
+                try validate($0.key, name: "customProtocolDetail.key", parent: name, max: 256)
+                try validate($0.key, name: "customProtocolDetail.key", parent: name, min: 1)
+                try validate($0.key, name: "customProtocolDetail.key", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
+                try validate($0.value, name: "customProtocolDetail[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "customProtocolDetail[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "customProtocolDetail[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9 _.{}:\"-]+$")
+            }
+            try self.validate(self.customProtocolDetail, name: "customProtocolDetail", parent: name, max: 50)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3864,11 +5983,13 @@ extension IoTManagedIntegrations {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountAssociationId = "AccountAssociationId"
             case authenticationMaterial = "AuthenticationMaterial"
             case authenticationMaterialType = "AuthenticationMaterialType"
             case clientToken = "ClientToken"
             case connectorAssociationIdentifier = "ConnectorAssociationIdentifier"
             case controllerIdentifier = "ControllerIdentifier"
+            case customProtocolDetail = "CustomProtocolDetail"
             case discoveryType = "DiscoveryType"
             case tags = "Tags"
         }
@@ -3936,6 +6057,47 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The ARN of the resource to which to add tags.
+        public let resourceArn: String
+        /// A set of key/value pairs that are used to manage the resource
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(managed-thing|provisioning-profile|ota-task|credential-locker|account-association)/[0-9a-zA-Z]+$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TaskProcessingDetails: AWSDecodableShape {
         /// The number of canceled things in an over-the-air (OTA) task.
         public let numberOfCanceledThings: Int?
@@ -3979,6 +6141,182 @@ extension IoTManagedIntegrations {
             case numberOfSucceededThings = "numberOfSucceededThings"
             case numberOfTimedOutThings = "numberOfTimedOutThings"
             case processingTargets = "processingTargets"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The ARN of the resource to which to add tags.
+        public let resourceArn: String
+        /// A list of tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:iotmanagedintegrations:[0-9a-zA-Z-]+:[0-9]+:(managed-thing|provisioning-profile|ota-task|credential-locker|account-association)/[0-9a-zA-Z]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateAccountAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the account association to update.
+        public let accountAssociationId: String
+        /// The new description to assign to the account association.
+        public let description: String?
+        /// The new name to assign to the account association.
+        public let name: String?
+
+        @inlinable
+        public init(accountAssociationId: String, description: String? = nil, name: String? = nil) {
+            self.accountAssociationId = accountAssociationId
+            self.description = description
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accountAssociationId, key: "AccountAssociationId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, max: 64)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, min: 1)
+            try self.validate(self.accountAssociationId, name: "accountAssociationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateCloudConnectorRequest: AWSEncodableShape {
+        /// The new description to assign to the cloud connector.
+        public let description: String?
+        /// The unique identifier of the cloud connector to update.
+        public let identifier: String
+        /// The new display name to assign to the cloud connector.
+        public let name: String?
+
+        @inlinable
+        public init(description: String? = nil, identifier: String, name: String? = nil) {
+            self.description = description
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9A-Za-z_\\- ]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateConnectorDestinationRequest: AWSEncodableShape {
+        /// The updated authentication configuration details for the connector destination.
+        public let authConfig: AuthConfigUpdate?
+        /// The new authentication type to use for the connector destination.
+        public let authType: AuthType?
+        /// The new description to assign to the connector destination.
+        public let description: String?
+        /// The unique identifier of the connector destination to update.
+        public let identifier: String
+        /// The new display name to assign to the connector destination.
+        public let name: String?
+        /// The updated AWS Secrets Manager configuration for the connector destination.
+        public let secretsManager: SecretsManager?
+
+        @inlinable
+        public init(authConfig: AuthConfigUpdate? = nil, authType: AuthType? = nil, description: String? = nil, identifier: String, name: String? = nil, secretsManager: SecretsManager? = nil) {
+            self.authConfig = authConfig
+            self.authType = authType
+            self.description = description
+            self.identifier = identifier
+            self.name = name
+            self.secretsManager = secretsManager
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authConfig, forKey: .authConfig)
+            try container.encodeIfPresent(self.authType, forKey: .authType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.secretsManager, forKey: .secretsManager)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9A-Za-z_\\- ]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+            try self.secretsManager?.validate(name: "\(name).secretsManager")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authConfig = "AuthConfig"
+            case authType = "AuthType"
+            case description = "Description"
+            case name = "Name"
+            case secretsManager = "SecretsManager"
         }
     }
 
@@ -4070,6 +6408,8 @@ extension IoTManagedIntegrations {
         public let capabilities: String?
         /// A report of the capabilities for the managed thing.
         public let capabilityReport: CapabilityReport?
+        /// The updated capability schemas that define the functionality and features supported by the managed thing.
+        public let capabilitySchemas: [CapabilitySchemaItem]?
         /// The classification of the managed thing such as light bulb or thermostat.
         public let classification: String?
         /// The identifier of the credential for the managed thing.
@@ -4090,10 +6430,11 @@ extension IoTManagedIntegrations {
         public let serialNumber: String?
 
         @inlinable
-        public init(brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, classification: String? = nil, credentialLockerId: String? = nil, hubNetworkMode: HubNetworkMode? = nil, identifier: String, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, serialNumber: String? = nil) {
+        public init(brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, credentialLockerId: String? = nil, hubNetworkMode: HubNetworkMode? = nil, identifier: String, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, serialNumber: String? = nil) {
             self.brand = brand
             self.capabilities = capabilities
             self.capabilityReport = capabilityReport
+            self.capabilitySchemas = capabilitySchemas
             self.classification = classification
             self.credentialLockerId = credentialLockerId
             self.hubNetworkMode = hubNetworkMode
@@ -4111,6 +6452,7 @@ extension IoTManagedIntegrations {
             try container.encodeIfPresent(self.brand, forKey: .brand)
             try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
             try container.encodeIfPresent(self.capabilityReport, forKey: .capabilityReport)
+            try container.encodeIfPresent(self.capabilitySchemas, forKey: .capabilitySchemas)
             try container.encodeIfPresent(self.classification, forKey: .classification)
             try container.encodeIfPresent(self.credentialLockerId, forKey: .credentialLockerId)
             try container.encodeIfPresent(self.hubNetworkMode, forKey: .hubNetworkMode)
@@ -4130,6 +6472,10 @@ extension IoTManagedIntegrations {
             try self.validate(self.capabilities, name: "capabilities", parent: name, min: 1)
             try self.validate(self.capabilities, name: "capabilities", parent: name, pattern: "^[a-zA-Z0-9\\s'\\x{0022},.:\\\\\\/{$}\\[\\]=_\\-\\+]+$")
             try self.capabilityReport?.validate(name: "\(name).capabilityReport")
+            try self.capabilitySchemas?.forEach {
+                try $0.validate(name: "\(name).capabilitySchemas[]")
+            }
+            try self.validate(self.capabilitySchemas, name: "capabilitySchemas", parent: name, max: 40)
             try self.validate(self.classification, name: "classification", parent: name, max: 64)
             try self.validate(self.classification, name: "classification", parent: name, min: 1)
             try self.validate(self.credentialLockerId, name: "credentialLockerId", parent: name, max: 64)
@@ -4164,6 +6510,7 @@ extension IoTManagedIntegrations {
             case brand = "Brand"
             case capabilities = "Capabilities"
             case capabilityReport = "CapabilityReport"
+            case capabilitySchemas = "CapabilitySchemas"
             case classification = "Classification"
             case credentialLockerId = "CredentialLockerId"
             case hubNetworkMode = "HubNetworkMode"
@@ -4256,6 +6603,8 @@ public struct IoTManagedIntegrationsErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case internalFailureException = "InternalFailureException"
         case internalServerException = "InternalServerException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
@@ -4290,6 +6639,10 @@ public struct IoTManagedIntegrationsErrorType: AWSErrorType {
     public static var internalFailureException: Self { .init(.internalFailureException) }
     /// Internal error from the service that indicates an unexpected error or that the service is unavailable.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request is not valid.
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The request exceeds a service limit or quota. Adjust your request parameters and try again.
+    public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service quota has been exceeded for this request.
@@ -4302,6 +6655,12 @@ public struct IoTManagedIntegrationsErrorType: AWSErrorType {
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// A validation error occurred when performing the API request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension IoTManagedIntegrationsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": IoTManagedIntegrations.ResourceNotFoundException.self
+    ]
 }
 
 extension IoTManagedIntegrationsErrorType: Equatable {

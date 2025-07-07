@@ -5215,7 +5215,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case containerUids = "containerUids"
-            case kubernetesResourcesTypes = "kubernetesResourcesTypes"
+            case kubernetesResourcesTypes = "type"
             case namespace = "namespace"
         }
     }

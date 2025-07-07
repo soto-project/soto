@@ -10791,7 +10791,7 @@ extension EC2 {
         public let deviceName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// IPv4 address for the customer gateway device's outside interface. The address must be static. If OutsideIpAddressType in your VPN connection options is set to PrivateIpv4, you can use an RFC6598 or RFC1918 private IPv4 address. If OutsideIpAddressType is set to PublicIpv4, you can use a public IPv4 address.
+        /// The IP address for the customer gateway device's outside interface. The address must be static. If OutsideIpAddressType in your VPN connection options is set to PrivateIpv4, you can use an RFC6598 or RFC1918 private IPv4 address. If OutsideIpAddressType is set to Ipv6, you can use an IPv6 address.
         public let ipAddress: String?
         ///  This member has been deprecated. The Internet-routable IP address for the customer gateway's outside interface. The address must be static.
         public let publicIp: String?
@@ -13260,6 +13260,8 @@ extension EC2 {
         public let natGatewayId: String?
         /// The ID of a network interface.
         public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the ODB network.
+        public let odbNetworkArn: String?
         /// The ID of the route table for the route.
         public let routeTableId: String?
         /// The ID of a transit gateway.
@@ -13270,7 +13272,7 @@ extension EC2 {
         public let vpcPeeringConnectionId: String?
 
         @inlinable
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, odbNetworkArn: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -13283,6 +13285,7 @@ extension EC2 {
             self.localGatewayId = localGatewayId
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
+            self.odbNetworkArn = odbNetworkArn
             self.routeTableId = routeTableId
             self.transitGatewayId = transitGatewayId
             self.vpcEndpointId = vpcEndpointId
@@ -13302,6 +13305,7 @@ extension EC2 {
             case localGatewayId = "LocalGatewayId"
             case natGatewayId = "natGatewayId"
             case networkInterfaceId = "networkInterfaceId"
+            case odbNetworkArn = "OdbNetworkArn"
             case routeTableId = "routeTableId"
             case transitGatewayId = "TransitGatewayId"
             case vpcEndpointId = "VpcEndpointId"
@@ -16014,7 +16018,7 @@ extension EC2 {
         public let customerGatewayId: String?
         /// The name of customer gateway device.
         public let deviceName: String?
-        ///  IPv4 address for the customer gateway device's outside interface. The address must be static. If OutsideIpAddressType in your VPN connection options is set to PrivateIpv4, you can use an RFC6598 or RFC1918 private IPv4 address. If OutsideIpAddressType is set to PublicIpv4, you can use a public IPv4 address.
+        ///  The IP address for the customer gateway device's outside interface. The address must be static. If OutsideIpAddressType in your VPN connection options is set to PrivateIpv4, you can use an RFC6598 or RFC1918 private IPv4 address. If  OutsideIpAddressType is set to PublicIpv4, you can use a public IPv4 address. If OutsideIpAddressType is set to Ipv6, you can use a public IPv6 address.
         public let ipAddress: String?
         /// The current state of the customer gateway (pending | available | deleting | deleted).
         public let state: String?
@@ -18952,7 +18956,7 @@ extension EC2 {
     }
 
     public struct DeprovisionPublicIpv4PoolCidrRequest: AWSEncodableShape {
-        /// The CIDR you want to deprovision from the pool. Enter the CIDR you want to deprovision with a netmask of /32. You must rerun this command for each IP address in the CIDR range. If your CIDR is a /24, you will have to run this command to deprovision each of the 256 IP addresses in the /24 CIDR.
+        /// The CIDR you want to deprovision from the pool.
         public let cidr: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -25818,7 +25822,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Security group VPC association filters.    group-id: The security group ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// Security group VPC association filters.    group-id: The security group ID.    group-owner-id: The group owner ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request.
@@ -35093,6 +35097,8 @@ extension EC2 {
         /// The processor architecture type.
         @OptionalCustomCoding<EC2ArrayCoder<_ArchitectureTypesEncoding, ArchitectureType>>
         public var architectureTypes: [ArchitectureType]?
+        /// Reserved.
+        public let context: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The attributes required for the instance types.
@@ -35107,8 +35113,9 @@ extension EC2 {
         public var virtualizationTypes: [VirtualizationType]?
 
         @inlinable
-        public init(architectureTypes: [ArchitectureType]? = nil, dryRun: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualizationTypes: [VirtualizationType]? = nil) {
+        public init(architectureTypes: [ArchitectureType]? = nil, context: String? = nil, dryRun: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualizationTypes: [VirtualizationType]? = nil) {
             self.architectureTypes = architectureTypes
+            self.context = context
             self.dryRun = dryRun
             self.instanceRequirements = instanceRequirements
             self.maxResults = maxResults
@@ -35124,6 +35131,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case architectureTypes = "ArchitectureType"
+            case context = "Context"
             case dryRun = "DryRun"
             case instanceRequirements = "InstanceRequirements"
             case maxResults = "MaxResults"
@@ -53179,6 +53187,8 @@ extension EC2 {
         public let natGatewayId: String?
         /// The ID of a network interface.
         public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the ODB network.
+        public let odbNetworkArn: String?
         /// The ID of the route table.
         public let routeTableId: String?
         /// The ID of a transit gateway.
@@ -53189,7 +53199,7 @@ extension EC2 {
         public let vpcPeeringConnectionId: String?
 
         @inlinable
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, odbNetworkArn: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -53203,6 +53213,7 @@ extension EC2 {
             self.localTarget = localTarget
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
+            self.odbNetworkArn = odbNetworkArn
             self.routeTableId = routeTableId
             self.transitGatewayId = transitGatewayId
             self.vpcEndpointId = vpcEndpointId
@@ -53223,6 +53234,7 @@ extension EC2 {
             case localTarget = "LocalTarget"
             case natGatewayId = "natGatewayId"
             case networkInterfaceId = "networkInterfaceId"
+            case odbNetworkArn = "OdbNetworkArn"
             case routeTableId = "routeTableId"
             case transitGatewayId = "TransitGatewayId"
             case vpcEndpointId = "VpcEndpointId"
@@ -55257,6 +55269,8 @@ extension EC2 {
         public let natGatewayId: String?
         /// The ID of the network interface.
         public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the ODB network.
+        public let odbNetworkArn: String?
         /// Describes how the route was created.    CreateRouteTable - The route was automatically created when the route table was created.    CreateRoute - The route was manually added to the route table.    EnableVgwRoutePropagation - The route was propagated by route propagation.
         public let origin: RouteOrigin?
         /// The state of the route. The blackhole state indicates that the
@@ -55269,7 +55283,7 @@ extension EC2 {
         public let vpcPeeringConnectionId: String?
 
         @inlinable
-        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: RouteOrigin? = nil, state: RouteState? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, odbNetworkArn: String? = nil, origin: RouteOrigin? = nil, state: RouteState? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
             self.destinationCidrBlock = destinationCidrBlock
@@ -55282,6 +55296,7 @@ extension EC2 {
             self.localGatewayId = localGatewayId
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
+            self.odbNetworkArn = odbNetworkArn
             self.origin = origin
             self.state = state
             self.transitGatewayId = transitGatewayId
@@ -55301,6 +55316,7 @@ extension EC2 {
             case localGatewayId = "localGatewayId"
             case natGatewayId = "natGatewayId"
             case networkInterfaceId = "networkInterfaceId"
+            case odbNetworkArn = "odbNetworkArn"
             case origin = "origin"
             case state = "state"
             case transitGatewayId = "transitGatewayId"
@@ -57056,6 +57072,8 @@ extension EC2 {
     public struct SecurityGroupVpcAssociation: AWSDecodableShape {
         /// The association's security group ID.
         public let groupId: String?
+        /// The Amazon Web Services account ID of the owner of the security group.
+        public let groupOwnerId: String?
         /// The association's state.
         public let state: SecurityGroupVpcAssociationState?
         /// The association's state reason.
@@ -57066,8 +57084,9 @@ extension EC2 {
         public let vpcOwnerId: String?
 
         @inlinable
-        public init(groupId: String? = nil, state: SecurityGroupVpcAssociationState? = nil, stateReason: String? = nil, vpcId: String? = nil, vpcOwnerId: String? = nil) {
+        public init(groupId: String? = nil, groupOwnerId: String? = nil, state: SecurityGroupVpcAssociationState? = nil, stateReason: String? = nil, vpcId: String? = nil, vpcOwnerId: String? = nil) {
             self.groupId = groupId
+            self.groupOwnerId = groupOwnerId
             self.state = state
             self.stateReason = stateReason
             self.vpcId = vpcId
@@ -57076,6 +57095,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "groupId"
+            case groupOwnerId = "groupOwnerId"
             case state = "state"
             case stateReason = "stateReason"
             case vpcId = "vpcId"
@@ -64119,7 +64139,7 @@ extension EC2 {
         public let localIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
         public let localIpv6NetworkCidr: String?
-        /// The type of IPv4 address assigned to the outside interface of the customer gateway. Valid values: PrivateIpv4 | PublicIpv4  Default: PublicIpv4
+        /// The type of IPv4 address assigned to the outside interface of the customer gateway. Valid values: PrivateIpv4 | PublicIpv4 | Ipv6  Default: PublicIpv4
         public let outsideIpAddressType: String?
         /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
         public let remoteIpv4NetworkCidr: String?
@@ -64170,7 +64190,7 @@ extension EC2 {
         public let localIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0
         public let localIpv6NetworkCidr: String?
-        /// The type of IPv4 address assigned to the outside interface of the customer gateway device. Valid values: PrivateIpv4 | PublicIpv4  Default: PublicIpv4
+        /// The type of IP address assigned to the outside interface of the customer gateway device. Valid values: PrivateIpv4 | PublicIpv4  | Ipv6  Default: PublicIpv4
         public let outsideIpAddressType: String?
         /// The IPv4 CIDR on the Amazon Web Services side of the VPN connection. Default: 0.0.0.0/0
         public let remoteIpv4NetworkCidr: String?

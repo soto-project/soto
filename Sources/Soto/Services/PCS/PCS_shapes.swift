@@ -580,7 +580,7 @@ extension PCS {
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, max: 25)
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, min: 3)
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, pattern: "^(?!pcs_)^[A-Za-z][A-Za-z0-9-]+$")
-            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/[\\w+=,.@-]{1,128}$")
+            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/[/\\w+=,.@-]{1,128}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1606,7 +1606,7 @@ extension PCS {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
-            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/[\\w+=,.@-]{1,128}$")
+            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/[/\\w+=,.@-]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
