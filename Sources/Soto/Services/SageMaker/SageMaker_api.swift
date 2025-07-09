@@ -1456,6 +1456,53 @@ public struct SageMaker: AWSService {
         return try await self.createHub(input, logger: logger)
     }
 
+    /// Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance.
+    @Sendable
+    @inlinable
+    public func createHubContentPresignedUrls(_ input: CreateHubContentPresignedUrlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHubContentPresignedUrlsResponse {
+        try await self.client.execute(
+            operation: "CreateHubContentPresignedUrls", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance.
+    ///
+    /// Parameters:
+    ///   - accessConfig: Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation.
+    ///   - hubContentName: The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub.
+    ///   - hubContentType: The type of hub content to access. Valid values include Model, Notebook, and ModelReference.
+    ///   - hubContentVersion: The version of the hub content. If not specified, the latest version is used.
+    ///   - hubName: The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub.
+    ///   - maxResults: The maximum number of presigned URLs to return in the response. Default value is 100. Large models may contain hundreds of files, requiring pagination to retrieve all URLs.
+    ///   - nextToken:  A token for pagination. Use this token to retrieve the next set of presigned URLs when the response is truncated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createHubContentPresignedUrls(
+        accessConfig: PresignedUrlAccessConfig? = nil,
+        hubContentName: String? = nil,
+        hubContentType: HubContentType? = nil,
+        hubContentVersion: String? = nil,
+        hubName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateHubContentPresignedUrlsResponse {
+        let input = CreateHubContentPresignedUrlsRequest(
+            accessConfig: accessConfig, 
+            hubContentName: hubContentName, 
+            hubContentType: hubContentType, 
+            hubContentVersion: hubContentVersion, 
+            hubName: hubName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.createHubContentPresignedUrls(input, logger: logger)
+    }
+
     /// Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
     @Sendable
     @inlinable
@@ -8043,7 +8090,7 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - creationTimeAfter: Set a start time for the time range during which you want to list SageMaker HyperPod clusters. Timestamps are formatted according to the ISO 8601 standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in seconds, for example, 1412195400. This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.   For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
     ///   - creationTimeBefore: Set an end time for the time range during which you want to list SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
-    ///   - maxResults: Set the maximum number of SageMaker HyperPod clusters to list.
+    ///   - maxResults: Specifies the maximum number of clusters to evaluate for the operation (not necessarily the number of matching items). After SageMaker processes the number of clusters up to MaxResults, it stops the operation and returns the matching clusters up to that point. If all the matching clusters are desired, SageMaker will go through all the clusters until NextToken is empty.
     ///   - nameContains: Set the maximum number of instances to print in the list.
     ///   - nextToken: Set the next token to retrieve the list of SageMaker HyperPod clusters.
     ///   - sortBy: The field by which to sort results. The default value is CREATION_TIME.
@@ -12053,6 +12100,35 @@ public struct SageMaker: AWSService {
         return try await self.startPipelineExecution(input, logger: logger)
     }
 
+    /// Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space.
+    @Sendable
+    @inlinable
+    public func startSession(_ input: StartSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSessionResponse {
+        try await self.client.execute(
+            operation: "StartSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space.
+    ///
+    /// Parameters:
+    ///   - resourceIdentifier: The Amazon Resource Name (ARN) of the resource to which the remote connection will be established. For example, this identifies the specific ARN space application you want to connect to from your local IDE.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startSession(
+        resourceIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartSessionResponse {
+        let input = StartSessionRequest(
+            resourceIdentifier: resourceIdentifier
+        )
+        return try await self.startSession(input, logger: logger)
+    }
+
     /// A method for forcing a running job to shut down.
     @Sendable
     @inlinable
@@ -14315,6 +14391,55 @@ extension SageMaker {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SageMaker {
+    /// Return PaginatorSequence for operation ``createHubContentPresignedUrls(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func createHubContentPresignedUrlsPaginator(
+        _ input: CreateHubContentPresignedUrlsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<CreateHubContentPresignedUrlsRequest, CreateHubContentPresignedUrlsResponse> {
+        return .init(
+            input: input,
+            command: self.createHubContentPresignedUrls,
+            inputKey: \CreateHubContentPresignedUrlsRequest.nextToken,
+            outputKey: \CreateHubContentPresignedUrlsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``createHubContentPresignedUrls(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accessConfig: Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation.
+    ///   - hubContentName: The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub.
+    ///   - hubContentType: The type of hub content to access. Valid values include Model, Notebook, and ModelReference.
+    ///   - hubContentVersion: The version of the hub content. If not specified, the latest version is used.
+    ///   - hubName: The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub.
+    ///   - maxResults: The maximum number of presigned URLs to return in the response. Default value is 100. Large models may contain hundreds of files, requiring pagination to retrieve all URLs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func createHubContentPresignedUrlsPaginator(
+        accessConfig: PresignedUrlAccessConfig? = nil,
+        hubContentName: String? = nil,
+        hubContentType: HubContentType? = nil,
+        hubContentVersion: String? = nil,
+        hubName: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<CreateHubContentPresignedUrlsRequest, CreateHubContentPresignedUrlsResponse> {
+        let input = CreateHubContentPresignedUrlsRequest(
+            accessConfig: accessConfig, 
+            hubContentName: hubContentName, 
+            hubContentType: hubContentType, 
+            hubContentVersion: hubContentVersion, 
+            hubName: hubName, 
+            maxResults: maxResults
+        )
+        return self.createHubContentPresignedUrlsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listActions(_:logger:)``.
     ///
     /// - Parameters:
@@ -14913,7 +15038,7 @@ extension SageMaker {
     /// - Parameters:
     ///   - creationTimeAfter: Set a start time for the time range during which you want to list SageMaker HyperPod clusters. Timestamps are formatted according to the ISO 8601 standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in seconds, for example, 1412195400. This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.   For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
     ///   - creationTimeBefore: Set an end time for the time range during which you want to list SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
-    ///   - maxResults: Set the maximum number of SageMaker HyperPod clusters to list.
+    ///   - maxResults: Specifies the maximum number of clusters to evaluate for the operation (not necessarily the number of matching items). After SageMaker processes the number of clusters up to MaxResults, it stops the operation and returns the matching clusters up to that point. If all the matching clusters are desired, SageMaker will go through all the clusters until NextToken is empty.
     ///   - nameContains: Set the maximum number of instances to print in the list.
     ///   - sortBy: The field by which to sort results. The default value is CREATION_TIME.
     ///   - sortOrder: The sort order for results. The default value is Ascending.
@@ -18437,6 +18562,21 @@ extension SageMaker {
             visibilityConditions: visibilityConditions
         )
         return self.searchPaginator(input, logger: logger)
+    }
+}
+
+extension SageMaker.CreateHubContentPresignedUrlsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.CreateHubContentPresignedUrlsRequest {
+        return .init(
+            accessConfig: self.accessConfig,
+            hubContentName: self.hubContentName,
+            hubContentType: self.hubContentType,
+            hubContentVersion: self.hubContentVersion,
+            hubName: self.hubName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

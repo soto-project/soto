@@ -567,7 +567,7 @@ extension StorageGateway {
         public let diskId: String?
         /// The Amazon Resource Name (ARN) of the gateway that you want to attach the volume to.
         public let gatewayARN: String
-        /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
+        /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
         public let networkInterfaceId: String
         /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
         public let targetName: String?
@@ -588,7 +588,6 @@ extension StorageGateway {
             try self.validate(self.diskId, name: "diskId", parent: name, min: 1)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$")
             try self.validate(self.targetName, name: "targetName", parent: name, max: 200)
             try self.validate(self.targetName, name: "targetName", parent: name, min: 1)
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
@@ -1039,7 +1038,7 @@ extension StorageGateway {
         public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kmsKey: String?
-        /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
+        /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
         public let networkInterfaceId: String
         /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new cached volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
         public let snapshotId: String?
@@ -1074,7 +1073,6 @@ extension StorageGateway {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
-            try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$")
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, max: 500)
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, min: 50)
@@ -1126,7 +1124,7 @@ extension StorageGateway {
         public let bucketRegion: String?
         /// Specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
-        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
         public let clientList: [String]?
         /// A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation.
         public let clientToken: String
@@ -1223,7 +1221,7 @@ extension StorageGateway {
             try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, max: 25)
             try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, min: 1)
             try self.clientList?.forEach {
-                try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
+                try validate($0, name: "clientList[]", parent: name, pattern: "^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(?:\\/(?:[0-9]|[1-2][0-9]|3[0-2]))?$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})(?:\\/(?:12[0-8]|1[01][0-9]|[1-9]?[0-9]))?$")
             }
             try self.validate(self.clientList, name: "clientList", parent: name, max: 100)
             try self.validate(self.clientList, name: "clientList", parent: name, min: 1)
@@ -1623,7 +1621,7 @@ extension StorageGateway {
         public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kmsKey: String?
-        /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
+        /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
         public let networkInterfaceId: String
         /// Set to true if you want to preserve the data on the local disk. Otherwise, set to false to create an empty volume. Valid Values: true | false
         public let preserveExistingData: Bool
@@ -1655,7 +1653,6 @@ extension StorageGateway {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
-            try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -3736,7 +3733,7 @@ extension StorageGateway {
     }
 
     public struct JoinDomainInput: AWSEncodableShape {
-        /// List of IPv4 addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (“:”). For example, mydc.mydomain.com:389.
+        /// List of IP addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (“:”). For example, mydc.mydomain.com:389.  S3 File Gateway supports IPv6 addresses in addition to IPv4 and other existing formats. FSx File Gateway does not support IPv6.
         public let domainControllers: [String]?
         /// The name of the domain that you want the gateway to join.
         public let domainName: String
@@ -3765,8 +3762,8 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.domainControllers?.forEach {
                 try validate($0, name: "domainControllers[]", parent: name, max: 1024)
-                try validate($0, name: "domainControllers[]", parent: name, min: 6)
-                try validate($0, name: "domainControllers[]", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$")
+                try validate($0, name: "domainControllers[]", parent: name, min: 2)
+                try validate($0, name: "domainControllers[]", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$|^(?:\\[(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})\\]:\\d+$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})$)$")
             }
             try self.validate(self.domainName, name: "domainName", parent: name, max: 1024)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
@@ -4503,7 +4500,7 @@ extension StorageGateway {
     public struct NetworkInterface: AWSDecodableShape {
         /// The Internet Protocol version 4 (IPv4) address of the interface.
         public let ipv4Address: String?
-        /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
+        /// The Internet Protocol version 6 (IPv6) address of the interface.  This element returns IPv6 addresses for all gateway types except FSx File Gateway.
         public let ipv6Address: String?
         /// The Media Access Control (MAC) address of the interface.  This is currently unsupported and will not be returned in output.
         public let macAddress: String?
@@ -5940,7 +5937,7 @@ extension StorageGateway {
         public let auditDestinationARN: String?
         /// Specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
-        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
@@ -6013,7 +6010,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
             try self.clientList?.forEach {
-                try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
+                try validate($0, name: "clientList[]", parent: name, pattern: "^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(?:\\/(?:[0-9]|[1-2][0-9]|3[0-2]))?$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})(?:\\/(?:12[0-8]|1[01][0-9]|[1-9]?[0-9]))?$")
             }
             try self.validate(self.clientList, name: "clientList", parent: name, max: 100)
             try self.validate(self.clientList, name: "clientList", parent: name, min: 1)

@@ -233,6 +233,7 @@ let package = Package(
         .library(name: "SotoKendra", targets: ["SotoKendra"]),
         .library(name: "SotoKendraRanking", targets: ["SotoKendraRanking"]),
         .library(name: "SotoKeyspaces", targets: ["SotoKeyspaces"]),
+        .library(name: "SotoKeyspacesStreams", targets: ["SotoKeyspacesStreams"]),
         .library(name: "SotoKinesis", targets: ["SotoKinesis"]),
         .library(name: "SotoKinesisAnalytics", targets: ["SotoKinesisAnalytics"]),
         .library(name: "SotoKinesisAnalyticsV2", targets: ["SotoKinesisAnalyticsV2"]),
@@ -302,6 +303,7 @@ let package = Package(
         .library(name: "SotoOAM", targets: ["SotoOAM"]),
         .library(name: "SotoOSIS", targets: ["SotoOSIS"]),
         .library(name: "SotoObservabilityAdmin", targets: ["SotoObservabilityAdmin"]),
+        .library(name: "SotoOdb", targets: ["SotoOdb"]),
         .library(name: "SotoOmics", targets: ["SotoOmics"]),
         .library(name: "SotoOpenSearch", targets: ["SotoOpenSearch"]),
         .library(name: "SotoOpenSearchServerless", targets: ["SotoOpenSearchServerless"]),
@@ -1672,6 +1674,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoKeyspacesStreams",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/KeyspacesStreams",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoKinesis",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Kinesis",
@@ -2083,6 +2091,12 @@ let package = Package(
             name: "SotoObservabilityAdmin",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/ObservabilityAdmin",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoOdb",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/Odb",
             swiftSettings: swiftSettings
         ),
         .target(

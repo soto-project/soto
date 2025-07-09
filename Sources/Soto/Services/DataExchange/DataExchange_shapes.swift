@@ -378,6 +378,10 @@ extension DataExchange {
             self.key = key
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assetId = "AssetId"
             case bucket = "Bucket"
@@ -536,6 +540,10 @@ extension DataExchange {
             request.encodePath(self.jobId, key: "JobId")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -593,6 +601,7 @@ extension DataExchange {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.receiverPrincipal, name: "receiverPrincipal", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.sourceDataSetId, name: "sourceDataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -777,6 +786,10 @@ extension DataExchange {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.event.validate(name: "\(name).event")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case event = "Event"
@@ -915,6 +928,7 @@ extension DataExchange {
 
         public func validate(name: String) throws {
             try self.validate(self.comment, name: "comment", parent: name, max: 16384)
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1001,6 +1015,8 @@ extension DataExchange {
 
         public func validate(name: String) throws {
             try self.assetSource.validate(name: "\(name).assetSource")
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1216,6 +1232,12 @@ extension DataExchange {
             request.encodePath(self.revisionId, key: "RevisionId")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1256,6 +1278,10 @@ extension DataExchange {
             request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1294,6 +1320,11 @@ extension DataExchange {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.dataSetId, key: "DataSetId")
             request.encodePath(self.revisionId, key: "RevisionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1339,6 +1370,10 @@ extension DataExchange {
         @inlinable
         public init(revisionPublished: RevisionPublished? = nil) {
             self.revisionPublished = revisionPublished
+        }
+
+        public func validate(name: String) throws {
+            try self.revisionPublished?.validate(name: "\(name).revisionPublished")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1397,6 +1432,12 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assetId = "AssetId"
             case dataSetId = "DataSetId"
@@ -1453,6 +1494,14 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
+        public func validate(name: String) throws {
+            try self.assetDestinations.forEach {
+                try $0.validate(name: "\(name).assetDestinations[]")
+            }
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assetDestinations = "AssetDestinations"
             case dataSetId = "DataSetId"
@@ -1500,6 +1549,13 @@ extension DataExchange {
             self.dataSetId = dataSetId
             self.encryption = encryption
             self.revisionDestinations = revisionDestinations
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.revisionDestinations.forEach {
+                try $0.validate(name: "\(name).revisionDestinations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1574,6 +1630,12 @@ extension DataExchange {
             request.encodePath(self.assetId, key: "AssetId")
             request.encodePath(self.dataSetId, key: "DataSetId")
             request.encodePath(self.revisionId, key: "RevisionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1742,6 +1804,10 @@ extension DataExchange {
             request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1872,6 +1938,10 @@ extension DataExchange {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2028,6 +2098,11 @@ extension DataExchange {
             request.encodePath(self.revisionId, key: "RevisionId")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -2129,6 +2204,8 @@ extension DataExchange {
             try self.validate(self.apiSpecificationMd5Hash, name: "apiSpecificationMd5Hash", parent: name, max: 24)
             try self.validate(self.apiSpecificationMd5Hash, name: "apiSpecificationMd5Hash", parent: name, min: 24)
             try self.validate(self.apiSpecificationMd5Hash, name: "apiSpecificationMd5Hash", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2232,9 +2309,11 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, max: 24)
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, min: 24)
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2308,6 +2387,8 @@ extension DataExchange {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 12)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 12)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "/^[\\d]{12}$/")
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::(\\d{12}):role\\/.+$")
         }
 
@@ -2370,6 +2451,11 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assetSources = "AssetSources"
             case dataSetId = "DataSetId"
@@ -2412,6 +2498,11 @@ extension DataExchange {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
             self.revisionId = revisionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2729,6 +2820,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2982,8 +3074,10 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3234,9 +3328,14 @@ extension DataExchange {
 
         public func validate(name: String) throws {
             try self.createS3DataAccessFromS3Bucket?.validate(name: "\(name).createS3DataAccessFromS3Bucket")
+            try self.exportAssetsToS3?.validate(name: "\(name).exportAssetsToS3")
+            try self.exportAssetToSignedUrl?.validate(name: "\(name).exportAssetToSignedUrl")
+            try self.exportRevisionsToS3?.validate(name: "\(name).exportRevisionsToS3")
             try self.importAssetFromApiGatewayApi?.validate(name: "\(name).importAssetFromApiGatewayApi")
             try self.importAssetFromSignedUrl?.validate(name: "\(name).importAssetFromSignedUrl")
             try self.importAssetsFromLakeFormationTagPolicy?.validate(name: "\(name).importAssetsFromLakeFormationTagPolicy")
+            try self.importAssetsFromRedshiftDataShares?.validate(name: "\(name).importAssetsFromRedshiftDataShares")
+            try self.importAssetsFromS3?.validate(name: "\(name).importAssetsFromS3")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3335,6 +3434,10 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case keyPattern = "KeyPattern"
@@ -3408,6 +3511,10 @@ extension DataExchange {
             self.dataSetId = dataSetId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSetId = "DataSetId"
         }
@@ -3437,6 +3544,8 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
             try self.validate(self.revocationComment, name: "revocationComment", parent: name, max: 512)
             try self.validate(self.revocationComment, name: "revocationComment", parent: name, min: 10)
         }
@@ -3774,6 +3883,7 @@ extension DataExchange {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
             try self.validate(self.comment, name: "comment", parent: name, max: 4096)
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3824,6 +3934,10 @@ extension DataExchange {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3938,6 +4052,12 @@ extension DataExchange {
             request.encodePath(self.revisionId, key: "RevisionId")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -4016,6 +4136,10 @@ extension DataExchange {
             request.encodePath(self.dataSetId, key: "DataSetId")
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4165,6 +4289,8 @@ extension DataExchange {
 
         public func validate(name: String) throws {
             try self.validate(self.comment, name: "comment", parent: name, max: 16384)
+            try self.validate(self.dataSetId, name: "dataSetId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -19980,6 +19980,8 @@ extension DataZone {
         public let description: String?
         /// The ID of the Amazon DataZone domain where a project is being updated.
         public let domainIdentifier: String
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
         /// The environment deployment details of the project.
         public let environmentDeploymentDetails: EnvironmentDeploymentDetails?
         /// The glossary terms to be updated as part of the UpdateProject action.
@@ -19994,9 +19996,10 @@ extension DataZone {
         public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil, projectProfileVersion: String? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
+        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil, projectProfileVersion: String? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
+            self.domainUnitId = domainUnitId
             self.environmentDeploymentDetails = environmentDeploymentDetails
             self.glossaryTerms = glossaryTerms
             self.identifier = identifier
@@ -20010,6 +20013,7 @@ extension DataZone {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.domainUnitId, forKey: .domainUnitId)
             try container.encodeIfPresent(self.environmentDeploymentDetails, forKey: .environmentDeploymentDetails)
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             request.encodePath(self.identifier, key: "identifier")
@@ -20021,6 +20025,9 @@ extension DataZone {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, max: 256)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, min: 1)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, pattern: "^[a-z0-9_\\-]+$")
             try self.glossaryTerms?.forEach {
                 try validate($0, name: "glossaryTerms[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             }
@@ -20037,6 +20044,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case domainUnitId = "domainUnitId"
             case environmentDeploymentDetails = "environmentDeploymentDetails"
             case glossaryTerms = "glossaryTerms"
             case name = "name"

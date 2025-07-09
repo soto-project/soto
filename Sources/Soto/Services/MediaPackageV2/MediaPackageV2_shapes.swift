@@ -52,6 +52,7 @@ extension MediaPackageV2 {
 
     public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmaf = "CMAF"
+        case ism = "ISM"
         case ts = "TS"
         public var description: String { return self.rawValue }
     }
@@ -133,6 +134,17 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IsmEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cenc = "CENC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MssManifestLayout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compact = "COMPACT"
+        case full = "FULL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetAudio1 = "PRESET_AUDIO_1"
         case presetAudio2 = "PRESET_AUDIO_2"
@@ -186,6 +198,8 @@ extension MediaPackageV2 {
     public enum ValidationExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cencIvIncompatible = "CENC_IV_INCOMPATIBLE"
         case clipStartTimeWithStartOrEnd = "CLIP_START_TIME_WITH_START_OR_END"
+        case cmafContainerTypeWithMssManifest = "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
+        case cmafExcludeSegmentDrmMetadataIncompatibleContainerType = "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
         case containerTypeImmutable = "CONTAINER_TYPE_IMMUTABLE"
         case dashDvbAttributesWithoutDvbDashProfile = "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
         case directModeWithTimingSource = "DIRECT_MODE_WITH_TIMING_SOURCE"
@@ -193,6 +207,7 @@ extension MediaPackageV2 {
         case drmSystemsEncryptionMethodIncompatible = "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
         case encryptionContractShared = "ENCRYPTION_CONTRACT_SHARED"
         case encryptionContractUnencrypted = "ENCRYPTION_CONTRACT_UNENCRYPTED"
+        case encryptionContractWithIsmContainerIncompatible = "ENCRYPTION_CONTRACT_WITH_ISM_CONTAINER_INCOMPATIBLE"
         case encryptionContractWithoutAudioRenditionIncompatible = "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
         case encryptionMethodContainerTypeMismatch = "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
         case endTimeEarlierThanStartTime = "END_TIME_EARLIER_THAN_START_TIME"
@@ -212,6 +227,11 @@ extension MediaPackageV2 {
         case invalidPolicy = "INVALID_POLICY"
         case invalidRoleArn = "INVALID_ROLE_ARN"
         case invalidTimeDelaySeconds = "INVALID_TIME_DELAY_SECONDS"
+        case ismContainerTypeWithDashManifest = "ISM_CONTAINER_TYPE_WITH_DASH_MANIFEST"
+        case ismContainerTypeWithHlsManifest = "ISM_CONTAINER_TYPE_WITH_HLS_MANIFEST"
+        case ismContainerTypeWithLlHlsManifest = "ISM_CONTAINER_TYPE_WITH_LL_HLS_MANIFEST"
+        case ismContainerTypeWithScte = "ISM_CONTAINER_TYPE_WITH_SCTE"
+        case ismContainerWithKeyRotation = "ISM_CONTAINER_WITH_KEY_ROTATION"
         case manifestDrmSystemsIncompatible = "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE"
         case manifestNameCollision = "MANIFEST_NAME_COLLISION"
         case memberDoesNotMatchPattern = "MEMBER_DOES_NOT_MATCH_PATTERN"
@@ -237,6 +257,7 @@ extension MediaPackageV2 {
         case timingSourceMissing = "TIMING_SOURCE_MISSING"
         case tooManyInProgressHarvestJobs = "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
         case tsContainerTypeWithDashManifest = "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
+        case tsContainerTypeWithMssManifest = "TS_CONTAINER_TYPE_WITH_MSS_MANIFEST"
         case updatePeriodSmallerThanSegmentDuration = "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
         case urlInvalid = "URL_INVALID"
         case urlLinkLocalAddress = "URL_LINK_LOCAL_ADDRESS"
@@ -937,6 +958,37 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct CreateMssManifestConfiguration: AWSEncodableShape {
+        public let filterConfiguration: FilterConfiguration?
+        /// Determines the layout format of the MSS manifest. This controls how the manifest is structured and presented to client players, affecting compatibility with different MSS-compatible devices and applications.
+        public let manifestLayout: MssManifestLayout?
+        /// A short string that's appended to the endpoint URL to create a unique path to this MSS manifest. The manifest name must be unique within the origin endpoint and can contain letters, numbers, hyphens, and underscores.
+        public let manifestName: String
+        /// The total duration (in seconds) of the manifest window. This determines how much content is available in the manifest at any given time. The manifest window slides forward as new segments become available, maintaining a consistent duration of content. The minimum value is 30 seconds.
+        public let manifestWindowSeconds: Int?
+
+        @inlinable
+        public init(filterConfiguration: FilterConfiguration? = nil, manifestLayout: MssManifestLayout? = nil, manifestName: String, manifestWindowSeconds: Int? = nil) {
+            self.filterConfiguration = filterConfiguration
+            self.manifestLayout = manifestLayout
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterConfiguration = "FilterConfiguration"
+            case manifestLayout = "ManifestLayout"
+            case manifestName = "ManifestName"
+            case manifestWindowSeconds = "ManifestWindowSeconds"
+        }
+    }
+
     public struct CreateOriginEndpointRequest: AWSEncodableShape {
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
@@ -956,6 +1008,8 @@ extension MediaPackageV2 {
         public let hlsManifests: [CreateHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
         public let lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]?
+        /// A list of Microsoft Smooth Streaming (MSS) manifest configurations for the origin endpoint. You can configure multiple MSS manifests to provide different streaming experiences or to support different client requirements.
+        public let mssManifests: [CreateMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and must be unique for your account in the AWS Region and channel. You can't use spaces in the name. You can't change the name after you create the endpoint.
         public let originEndpointName: String
         /// The segment configuration, including the segment name, duration, and other configuration values.
@@ -966,7 +1020,7 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
@@ -976,6 +1030,7 @@ extension MediaPackageV2 {
             self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
+            self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
@@ -994,6 +1049,7 @@ extension MediaPackageV2 {
             try container.encodeIfPresent(self.forceEndpointErrorConfiguration, forKey: .forceEndpointErrorConfiguration)
             try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
             try container.encodeIfPresent(self.lowLatencyHlsManifests, forKey: .lowLatencyHlsManifests)
+            try container.encodeIfPresent(self.mssManifests, forKey: .mssManifests)
             try container.encode(self.originEndpointName, forKey: .originEndpointName)
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
@@ -1020,6 +1076,9 @@ extension MediaPackageV2 {
             try self.lowLatencyHlsManifests?.forEach {
                 try $0.validate(name: "\(name).lowLatencyHlsManifests[]")
             }
+            try self.mssManifests?.forEach {
+                try $0.validate(name: "\(name).mssManifests[]")
+            }
             try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, max: 256)
             try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, min: 1)
             try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -1033,6 +1092,7 @@ extension MediaPackageV2 {
             case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
+            case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
@@ -1065,6 +1125,8 @@ extension MediaPackageV2 {
         public let lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]?
         /// The date and time the origin endpoint was modified.
         public let modifiedAt: Date
+        /// The Microsoft Smooth Streaming (MSS) manifest configurations that were created for this origin endpoint.
+        public let mssManifests: [GetMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
         /// The segment configuration, including the segment name, duration, and other configuration values.
@@ -1075,7 +1137,7 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1088,6 +1150,7 @@ extension MediaPackageV2 {
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
+            self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
@@ -1107,6 +1170,7 @@ extension MediaPackageV2 {
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
+            case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
@@ -1479,6 +1543,8 @@ extension MediaPackageV2 {
     }
 
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
+        /// Excludes SEIG and SGPD boxes from segment metadata in CMAF containers. When set to true, MediaPackage omits these DRM metadata boxes from CMAF segments, which can improve compatibility with certain devices and players that don't support these boxes. Important considerations:   This setting only affects CMAF container formats   Key rotation can still be handled through media playlist signaling   PSSH and TENC boxes remain unaffected   Default behavior is preserved when this setting is disabled   Valid values: true | false  Default: false
+        public let cmafExcludeSegmentDrmMetadata: Bool?
         /// A 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting content. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public let constantInitializationVector: String?
         /// The encryption method to use.
@@ -1489,7 +1555,8 @@ extension MediaPackageV2 {
         public let spekeKeyProvider: SpekeKeyProvider
 
         @inlinable
-        public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(cmafExcludeSegmentDrmMetadata: Bool? = nil, constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
+            self.cmafExcludeSegmentDrmMetadata = cmafExcludeSegmentDrmMetadata
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -1497,6 +1564,7 @@ extension MediaPackageV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cmafExcludeSegmentDrmMetadata = "CmafExcludeSegmentDrmMetadata"
             case constantInitializationVector = "ConstantInitializationVector"
             case encryptionMethod = "EncryptionMethod"
             case keyRotationIntervalSeconds = "KeyRotationIntervalSeconds"
@@ -1525,17 +1593,21 @@ extension MediaPackageV2 {
     public struct EncryptionMethod: AWSEncodableShape & AWSDecodableShape {
         /// The encryption method to use.
         public let cmafEncryptionMethod: CmafEncryptionMethod?
+        /// The encryption method used for Microsoft Smooth Streaming (MSS) content. This specifies how the MSS segments are encrypted to protect the content during delivery to client players.
+        public let ismEncryptionMethod: IsmEncryptionMethod?
         /// The encryption method to use.
         public let tsEncryptionMethod: TsEncryptionMethod?
 
         @inlinable
-        public init(cmafEncryptionMethod: CmafEncryptionMethod? = nil, tsEncryptionMethod: TsEncryptionMethod? = nil) {
+        public init(cmafEncryptionMethod: CmafEncryptionMethod? = nil, ismEncryptionMethod: IsmEncryptionMethod? = nil, tsEncryptionMethod: TsEncryptionMethod? = nil) {
             self.cmafEncryptionMethod = cmafEncryptionMethod
+            self.ismEncryptionMethod = ismEncryptionMethod
             self.tsEncryptionMethod = tsEncryptionMethod
         }
 
         private enum CodingKeys: String, CodingKey {
             case cmafEncryptionMethod = "CmafEncryptionMethod"
+            case ismEncryptionMethod = "IsmEncryptionMethod"
             case tsEncryptionMethod = "TsEncryptionMethod"
         }
     }
@@ -2077,6 +2149,35 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct GetMssManifestConfiguration: AWSDecodableShape {
+        public let filterConfiguration: FilterConfiguration?
+        /// The layout format of the MSS manifest, which determines how the manifest is structured for client compatibility.
+        public let manifestLayout: MssManifestLayout?
+        /// The name of the MSS manifest. This name is appended to the origin endpoint URL to create the unique path for accessing this specific MSS manifest.
+        public let manifestName: String
+        /// The duration (in seconds) of the manifest window. This represents the total amount of content available in the manifest at any given time.
+        public let manifestWindowSeconds: Int?
+        /// The complete URL for accessing the MSS manifest. Client players use this URL to retrieve the manifest and begin streaming the Microsoft Smooth Streaming content.
+        public let url: String
+
+        @inlinable
+        public init(filterConfiguration: FilterConfiguration? = nil, manifestLayout: MssManifestLayout? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, url: String) {
+            self.filterConfiguration = filterConfiguration
+            self.manifestLayout = manifestLayout
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterConfiguration = "FilterConfiguration"
+            case manifestLayout = "ManifestLayout"
+            case manifestName = "ManifestName"
+            case manifestWindowSeconds = "ManifestWindowSeconds"
+            case url = "Url"
+        }
+    }
+
     public struct GetOriginEndpointPolicyRequest: AWSEncodableShape {
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
@@ -2204,6 +2305,8 @@ extension MediaPackageV2 {
         public let lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]?
         /// The date and time the origin endpoint was modified.
         public let modifiedAt: Date
+        /// The Microsoft Smooth Streaming (MSS) manifest configurations associated with this origin endpoint.
+        public let mssManifests: [GetMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
         /// The time that the origin endpoint was last reset.
@@ -2215,7 +2318,7 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2228,6 +2331,7 @@ extension MediaPackageV2 {
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
+            self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
             self.resetAt = resetAt
             self.segment = segment
@@ -2248,6 +2352,7 @@ extension MediaPackageV2 {
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
+            case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
             case resetAt = "ResetAt"
             case segment = "Segment"
@@ -2695,6 +2800,24 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct ListMssManifestConfiguration: AWSDecodableShape {
+        /// The name of the MSS manifest configuration.
+        public let manifestName: String
+        /// The URL for accessing the MSS manifest.
+        public let url: String?
+
+        @inlinable
+        public init(manifestName: String, url: String? = nil) {
+            self.manifestName = manifestName
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestName = "ManifestName"
+            case url = "Url"
+        }
+    }
+
     public struct ListOriginEndpointsRequest: AWSEncodableShape {
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
@@ -2809,11 +2932,13 @@ extension MediaPackageV2 {
         public let lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]?
         /// The date and time the origin endpoint was modified.
         public let modifiedAt: Date?
+        /// A list of Microsoft Smooth Streaming (MSS) manifest configurations associated with the origin endpoint. Each configuration represents a different MSS streaming option available from this endpoint.
+        public let mssManifests: [ListMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, originEndpointName: String) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, mssManifests: [ListMssManifestConfiguration]? = nil, originEndpointName: String) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2825,6 +2950,7 @@ extension MediaPackageV2 {
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
+            self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
         }
 
@@ -2840,6 +2966,7 @@ extension MediaPackageV2 {
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
+            case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
         }
     }
@@ -3509,6 +3636,8 @@ extension MediaPackageV2 {
         public let hlsManifests: [CreateHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
         public let lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]?
+        /// A list of Microsoft Smooth Streaming (MSS) manifest configurations to update for the origin endpoint. This replaces the existing MSS manifest configurations.
+        public let mssManifests: [CreateMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
         /// The segment configuration, including the segment name, duration, and other configuration values.
@@ -3517,7 +3646,7 @@ extension MediaPackageV2 {
         public let startoverWindowSeconds: Int?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
+        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
@@ -3527,6 +3656,7 @@ extension MediaPackageV2 {
             self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
+            self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
@@ -3544,6 +3674,7 @@ extension MediaPackageV2 {
             try container.encodeIfPresent(self.forceEndpointErrorConfiguration, forKey: .forceEndpointErrorConfiguration)
             try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
             try container.encodeIfPresent(self.lowLatencyHlsManifests, forKey: .lowLatencyHlsManifests)
+            try container.encodeIfPresent(self.mssManifests, forKey: .mssManifests)
             request.encodePath(self.originEndpointName, key: "OriginEndpointName")
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
@@ -3569,6 +3700,9 @@ extension MediaPackageV2 {
             try self.lowLatencyHlsManifests?.forEach {
                 try $0.validate(name: "\(name).lowLatencyHlsManifests[]")
             }
+            try self.mssManifests?.forEach {
+                try $0.validate(name: "\(name).mssManifests[]")
+            }
             try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, max: 256)
             try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, min: 1)
             try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -3582,6 +3716,7 @@ extension MediaPackageV2 {
             case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
+            case mssManifests = "MssManifests"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
         }
@@ -3612,6 +3747,8 @@ extension MediaPackageV2 {
         public let lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]?
         /// The date and time the origin endpoint was modified.
         public let modifiedAt: Date
+        /// The updated Microsoft Smooth Streaming (MSS) manifest configurations for this origin endpoint.
+        public let mssManifests: [GetMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
         /// The segment configuration, including the segment name, duration, and other configuration values.
@@ -3622,7 +3759,7 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3635,6 +3772,7 @@ extension MediaPackageV2 {
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
+            self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
@@ -3654,6 +3792,7 @@ extension MediaPackageV2 {
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
+            case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"

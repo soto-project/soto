@@ -34,6 +34,12 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case justintime = "JustInTime"
+        case standard = "Standard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssociationComplianceSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case critical = "CRITICAL"
         case high = "HIGH"
@@ -827,6 +833,7 @@ extension SSM {
     }
 
     public enum SessionFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessType = "AccessType"
         case invokedAfter = "InvokedAfter"
         case invokedBefore = "InvokedBefore"
         case owner = "Owner"
@@ -4552,7 +4559,7 @@ extension SSM {
     }
 
     public struct DescribeDocumentPermissionResponse: AWSDecodableShape {
-        /// The account IDs that have permission to use this document. The ID can be either an Amazon Web Services account or All.
+        /// The account IDs that have permission to use this document. The ID can be either an Amazon Web Services account number or all.
         public let accountIds: [String]?
         /// A list of Amazon Web Services accounts where the current document is shared and the version shared with each account.
         public let accountSharingInfoList: [AccountSharingInfo]?
@@ -4576,7 +4583,7 @@ extension SSM {
     public struct DescribeDocumentRequest: AWSEncodableShape {
         /// The document version for which you want information. Can be a specific version or the default version.
         public let documentVersion: String?
-        /// The name of the SSM document.
+        /// The name of the SSM document.  If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document.
         public let name: String
         /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
         public let versionName: String?
@@ -8428,7 +8435,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}    Valid values for the AssociationStatus filter key: Success | Pending | Failed   Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)   Valid values for the PlatformType filter key: Windows | Linux | MacOS   Valid values for the ResourceType filter key: EC2Instance | ManagedInstance   Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing   Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
+        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformType | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}    Valid values for the AssociationStatus filter key: Success | Pending | Failed   Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)   Valid values for the PlatformType filter key: Windows | Linux | MacOS   Valid values for the ResourceType filter key: EC2Instance | ManagedInstance   Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing   Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -13781,6 +13788,8 @@ extension SSM {
     }
 
     public struct Session: AWSDecodableShape {
+        ///  Standard access type is the default for Session Manager sessions. JustInTime is the access type for Just-in-time node access.
+        public let accessType: AccessType?
         /// Reserved for future use.
         public let details: String?
         /// The name of the Session Manager SSM document used to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell.
@@ -13805,7 +13814,8 @@ extension SSM {
         public let target: String?
 
         @inlinable
-        public init(details: String? = nil, documentName: String? = nil, endDate: Date? = nil, maxSessionDuration: String? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, reason: String? = nil, sessionId: String? = nil, startDate: Date? = nil, status: SessionStatus? = nil, target: String? = nil) {
+        public init(accessType: AccessType? = nil, details: String? = nil, documentName: String? = nil, endDate: Date? = nil, maxSessionDuration: String? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, reason: String? = nil, sessionId: String? = nil, startDate: Date? = nil, status: SessionStatus? = nil, target: String? = nil) {
+            self.accessType = accessType
             self.details = details
             self.documentName = documentName
             self.endDate = endDate
@@ -13820,6 +13830,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessType = "AccessType"
             case details = "Details"
             case documentName = "DocumentName"
             case endDate = "EndDate"

@@ -39,6 +39,14 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum AttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "BOOLEAN"
+        case number = "NUMBER"
+        case string = "STRING"
+        case stringList = "STRING_LIST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthorizationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authorized = "AUTHORIZED"
         case notAuthorized = "NOT_AUTHORIZED"
@@ -366,6 +374,12 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum RerankingMetadataSelectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case selective = "SELECTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RetrieveAndGenerateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case externalSources = "EXTERNAL_SOURCES"
         case knowledgeBase = "KNOWLEDGE_BASE"
@@ -407,6 +421,11 @@ extension Bedrock {
     public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case incompatibleEndpoint = "INCOMPATIBLE_ENDPOINT"
         case registered = "REGISTERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VectorSearchRerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
         public var description: String { return self.rawValue }
     }
 
@@ -836,6 +855,58 @@ extension Bedrock {
             case equals = "equals"
             case notEquals = "notEquals"
             case orAll = "orAll"
+        }
+    }
+
+    public enum RerankingMetadataSelectiveModeConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A list of metadata field names to explicitly exclude from the reranking process. All metadata fields except these will be considered when reordering search results. This parameter cannot be used together with fieldsToInclude.
+        case fieldsToExclude([FieldForReranking])
+        /// A list of metadata field names to explicitly include in the reranking process. Only these fields will be considered when reordering search results. This parameter cannot be used together with fieldsToExclude.
+        case fieldsToInclude([FieldForReranking])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .fieldsToExclude:
+                let value = try container.decode([FieldForReranking].self, forKey: .fieldsToExclude)
+                self = .fieldsToExclude(value)
+            case .fieldsToInclude:
+                let value = try container.decode([FieldForReranking].self, forKey: .fieldsToInclude)
+                self = .fieldsToInclude(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .fieldsToExclude(let value):
+                try container.encode(value, forKey: .fieldsToExclude)
+            case .fieldsToInclude(let value):
+                try container.encode(value, forKey: .fieldsToInclude)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .fieldsToExclude(let value):
+                try self.validate(value, name: "fieldsToExclude", parent: name, max: 100)
+                try self.validate(value, name: "fieldsToExclude", parent: name, min: 1)
+            case .fieldsToInclude(let value):
+                try self.validate(value, name: "fieldsToInclude", parent: name, max: 100)
+                try self.validate(value, name: "fieldsToInclude", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldsToExclude = "fieldsToExclude"
+            case fieldsToInclude = "fieldsToInclude"
         }
     }
 
@@ -3076,6 +3147,20 @@ extension Bedrock {
             case generationConfiguration = "generationConfiguration"
             case modelArn = "modelArn"
             case sources = "sources"
+        }
+    }
+
+    public struct FieldForReranking: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the metadata field to be used during the reranking process.
+        public let fieldName: String
+
+        @inlinable
+        public init(fieldName: String) {
+            self.fieldName = fieldName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
         }
     }
 
@@ -5404,6 +5489,32 @@ extension Bedrock {
         }
     }
 
+    public struct ImplicitFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of metadata attribute schemas that define the structure and properties of metadata fields used for implicit filtering. Each attribute defines a key, type, and optional description.
+        public let metadataAttributes: [MetadataAttributeSchema]
+        /// The Amazon Resource Name (ARN) of the foundation model used for implicit filtering. This model processes the query to extract relevant filtering criteria.
+        public let modelArn: String
+
+        @inlinable
+        public init(metadataAttributes: [MetadataAttributeSchema], modelArn: String) {
+            self.metadataAttributes = metadataAttributes
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataAttributes, name: "metadataAttributes", parent: name, max: 25)
+            try self.validate(self.metadataAttributes, name: "metadataAttributes", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataAttributes = "metadataAttributes"
+            case modelArn = "modelArn"
+        }
+    }
+
     public struct ImportedModelSummary: AWSDecodableShape {
         /// Creation time of the imported model.
         @CustomCoding<ISO8601DateCoder>
@@ -5603,26 +5714,36 @@ extension Bedrock {
     public struct KnowledgeBaseVectorSearchConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the filters to use on the metadata fields in the knowledge base data sources before returning results.
         public let filter: RetrievalFilter?
+        /// Configuration for implicit filtering in Knowledge Base vector searches. This allows the system to automatically apply filters based on the query context without requiring explicit filter expressions.
+        public let implicitFilterConfiguration: ImplicitFilterConfiguration?
         /// The number of text chunks to retrieve; the number of results to return.
         public let numberOfResults: Int?
         /// By default, Amazon Bedrock decides a search strategy for you. If you're using an Amazon OpenSearch Serverless vector store that contains a filterable text field, you can specify whether to query the knowledge base with a HYBRID search using both vector embeddings and raw text, or SEMANTIC search using only vector embeddings. For other vector store configurations, only SEMANTIC search is available.
         public let overrideSearchType: SearchType?
+        /// Configuration for reranking search results in Knowledge Base vector searches. Reranking improves search relevance by reordering initial vector search results using more sophisticated relevance models.
+        public let rerankingConfiguration: VectorSearchRerankingConfiguration?
 
         @inlinable
-        public init(filter: RetrievalFilter? = nil, numberOfResults: Int? = nil, overrideSearchType: SearchType? = nil) {
+        public init(filter: RetrievalFilter? = nil, implicitFilterConfiguration: ImplicitFilterConfiguration? = nil, numberOfResults: Int? = nil, overrideSearchType: SearchType? = nil, rerankingConfiguration: VectorSearchRerankingConfiguration? = nil) {
             self.filter = filter
+            self.implicitFilterConfiguration = implicitFilterConfiguration
             self.numberOfResults = numberOfResults
             self.overrideSearchType = overrideSearchType
+            self.rerankingConfiguration = rerankingConfiguration
         }
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.implicitFilterConfiguration?.validate(name: "\(name).implicitFilterConfiguration")
+            try self.rerankingConfiguration?.validate(name: "\(name).rerankingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
+            case implicitFilterConfiguration = "implicitFilterConfiguration"
             case numberOfResults = "numberOfResults"
             case overrideSearchType = "overrideSearchType"
+            case rerankingConfiguration = "rerankingConfiguration"
         }
     }
 
@@ -6750,6 +6871,50 @@ extension Bedrock {
             case status = "status"
             case statusMessage = "statusMessage"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct MetadataAttributeSchema: AWSEncodableShape & AWSDecodableShape {
+        /// An optional description of the metadata attribute that provides additional context about its purpose and usage.
+        public let description: String
+        /// The unique identifier for the metadata attribute. This key is used to reference the attribute in filter expressions and reranking configurations.
+        public let key: String
+        /// The data type of the metadata attribute. The type determines how the attribute can be used in filter expressions and reranking.
+        public let type: AttributeType
+
+        @inlinable
+        public init(description: String, key: String, type: AttributeType) {
+            self.description = description
+            self.key = key
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case key = "key"
+            case type = "type"
+        }
+    }
+
+    public struct MetadataConfigurationForReranking: AWSEncodableShape & AWSDecodableShape {
+        /// The mode for selecting which metadata fields to include in the reranking process. Valid values are ALL (use all available metadata fields) or SELECTIVE (use only specified fields).
+        public let selectionMode: RerankingMetadataSelectionMode
+        /// Configuration for selective mode, which allows you to explicitly include or exclude specific metadata fields during reranking. This is only used when selectionMode is set to SELECTIVE.
+        public let selectiveModeConfiguration: RerankingMetadataSelectiveModeConfiguration?
+
+        @inlinable
+        public init(selectionMode: RerankingMetadataSelectionMode, selectiveModeConfiguration: RerankingMetadataSelectiveModeConfiguration? = nil) {
+            self.selectionMode = selectionMode
+            self.selectiveModeConfiguration = selectiveModeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.selectiveModeConfiguration?.validate(name: "\(name).selectiveModeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectionMode = "selectionMode"
+            case selectiveModeConfiguration = "selectiveModeConfiguration"
         }
     }
 
@@ -8283,6 +8448,83 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case agreementDuration = "agreementDuration"
+        }
+    }
+
+    public struct VectorSearchBedrockRerankingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for how document metadata should be used during the reranking process. This determines which metadata fields are included when reordering search results.
+        public let metadataConfiguration: MetadataConfigurationForReranking?
+        /// Configuration for the Amazon Bedrock foundation model used for reranking. This includes the model ARN and any additional request fields required by the model.
+        public let modelConfiguration: VectorSearchBedrockRerankingModelConfiguration
+        /// The maximum number of results to rerank. This limits how many of the initial vector search results will be processed by the reranking model. A smaller number improves performance but may exclude potentially relevant results.
+        public let numberOfRerankedResults: Int?
+
+        @inlinable
+        public init(metadataConfiguration: MetadataConfigurationForReranking? = nil, modelConfiguration: VectorSearchBedrockRerankingModelConfiguration, numberOfRerankedResults: Int? = nil) {
+            self.metadataConfiguration = metadataConfiguration
+            self.modelConfiguration = modelConfiguration
+            self.numberOfRerankedResults = numberOfRerankedResults
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataConfiguration = "metadataConfiguration"
+            case modelConfiguration = "modelConfiguration"
+            case numberOfRerankedResults = "numberOfRerankedResults"
+        }
+    }
+
+    public struct VectorSearchBedrockRerankingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of additional fields to include in the model request during reranking. These fields provide extra context or configuration options specific to the selected foundation model.
+        public let additionalModelRequestFields: [String: AWSDocument]?
+        /// The Amazon Resource Name (ARN) of the foundation model to use for reranking. This model processes the query and search results to determine a more relevant ordering.
+        public let modelArn: String
+
+        @inlinable
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, modelArn: String) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/(.*))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case modelArn = "modelArn"
+        }
+    }
+
+    public struct VectorSearchRerankingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for using Amazon Bedrock foundation models to rerank search results. This is required when the reranking type is set to BEDROCK.
+        public let bedrockRerankingConfiguration: VectorSearchBedrockRerankingConfiguration?
+        /// The type of reranking to apply to vector search results. Currently, the only supported value is BEDROCK, which uses Amazon Bedrock foundation models for reranking.
+        public let type: VectorSearchRerankingConfigurationType
+
+        @inlinable
+        public init(bedrockRerankingConfiguration: VectorSearchBedrockRerankingConfiguration? = nil, type: VectorSearchRerankingConfigurationType) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockRerankingConfiguration?.validate(name: "\(name).bedrockRerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
+            case type = "type"
         }
     }
 

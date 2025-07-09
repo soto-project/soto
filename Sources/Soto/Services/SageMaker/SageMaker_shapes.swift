@@ -4914,6 +4914,24 @@ extension SageMaker {
         }
     }
 
+    public struct AuthorizedUrl: AWSDecodableShape {
+        /// The recommended local file path where the downloaded file should be stored to maintain proper directory structure and file organization.
+        public let localPath: String?
+        /// The presigned S3 URL that provides temporary, secure access to download the file. URLs expire within 15 minutes for security purposes.
+        public let url: String?
+
+        @inlinable
+        public init(localPath: String? = nil, url: String? = nil) {
+            self.localPath = localPath
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localPath = "LocalPath"
+            case url = "Url"
+        }
+    }
+
     public struct AutoMLAlgorithmConfig: AWSEncodableShape & AWSDecodableShape {
         /// The selection of algorithms trained on your dataset to generate the model candidates for an Autopilot job.    For the tabular problem type TabularJobConfig:   Selected algorithms must belong to the list corresponding to the training mode set in AutoMLJobConfig.Mode (ENSEMBLING or HYPERPARAMETER_TUNING). Choose a minimum of 1 algorithm.    In ENSEMBLING mode:   "catboost"   "extra-trees"   "fastai"   "lightgbm"   "linear-learner"   "nn-torch"   "randomforest"   "xgboost"     In HYPERPARAMETER_TUNING mode:   "linear-learner"   "mlp"   "xgboost"        For the time-series forecasting problem type TimeSeriesForecastingJobConfig:    Choose your algorithms from this list.   "cnn-qr"   "deepar"   "prophet"   "arima"   "npts"   "ets"
         public let autoMLAlgorithms: [AutoMLAlgorithm]?
@@ -9535,6 +9553,76 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case flowDefinitionArn = "FlowDefinitionArn"
+        }
+    }
+
+    public struct CreateHubContentPresignedUrlsRequest: AWSEncodableShape {
+        /// Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation.
+        public let accessConfig: PresignedUrlAccessConfig?
+        /// The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub.
+        public let hubContentName: String?
+        /// The type of hub content to access. Valid values include Model, Notebook, and ModelReference.
+        public let hubContentType: HubContentType?
+        /// The version of the hub content. If not specified, the latest version is used.
+        public let hubContentVersion: String?
+        /// The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub.
+        public let hubName: String?
+        /// The maximum number of presigned URLs to return in the response. Default value is 100. Large models may contain hundreds of files, requiring pagination to retrieve all URLs.
+        public let maxResults: Int?
+        ///  A token for pagination. Use this token to retrieve the next set of presigned URLs when the response is truncated.
+        public let nextToken: String?
+
+        @inlinable
+        public init(accessConfig: PresignedUrlAccessConfig? = nil, hubContentName: String? = nil, hubContentType: HubContentType? = nil, hubContentVersion: String? = nil, hubName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accessConfig = accessConfig
+            self.hubContentName = hubContentName
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+            self.hubName = hubName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.accessConfig?.validate(name: "\(name).accessConfig")
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, max: 14)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, min: 5)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^(arn:[a-z0-9-\\.]{1,63}:sagemaker:\\w+(?:-\\w+)+:(\\d{12}|aws):hub\\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfig = "AccessConfig"
+            case hubContentName = "HubContentName"
+            case hubContentType = "HubContentType"
+            case hubContentVersion = "HubContentVersion"
+            case hubName = "HubName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateHubContentPresignedUrlsResponse: AWSDecodableShape {
+        /// An array of authorized URL configurations, each containing a presigned URL and its corresponding local file path for proper file organization during download.
+        public let authorizedUrlConfigs: [AuthorizedUrl]?
+        /// A token for pagination. If present, indicates that more presigned URLs are available. Use this token in a subsequent request to retrieve additional URLs.
+        public let nextToken: String?
+
+        @inlinable
+        public init(authorizedUrlConfigs: [AuthorizedUrl]? = nil, nextToken: String? = nil) {
+            self.authorizedUrlConfigs = authorizedUrlConfigs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedUrlConfigs = "AuthorizedUrlConfigs"
+            case nextToken = "NextToken"
         }
     }
 
@@ -26562,7 +26650,7 @@ extension SageMaker {
         public let creationTimeAfter: Date?
         /// Set an end time for the time range during which you want to list SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
         public let creationTimeBefore: Date?
-        /// Set the maximum number of SageMaker HyperPod clusters to list.
+        /// Specifies the maximum number of clusters to evaluate for the operation (not necessarily the number of matching items). After SageMaker processes the number of clusters up to MaxResults, it stops the operation and returns the matching clusters up to that point. If all the matching clusters are desired, SageMaker will go through all the clusters until NextToken is empty.
         public let maxResults: Int?
         /// Set the maximum number of instances to print in the list.
         public let nameContains: String?
@@ -35709,6 +35797,29 @@ extension SageMaker {
         }
     }
 
+    public struct PresignedUrlAccessConfig: AWSEncodableShape {
+        /// Indicates acceptance of the End User License Agreement (EULA) for gated models. Set to true to acknowledge acceptance of the license terms required for accessing gated content.
+        public let acceptEula: Bool?
+        /// The expected S3 URL prefix for validation purposes. This parameter helps ensure consistency between the resolved S3 URIs and the deployment configuration, reducing potential compatibility issues.
+        public let expectedS3Url: String?
+
+        @inlinable
+        public init(acceptEula: Bool? = nil, expectedS3Url: String? = nil) {
+            self.acceptEula = acceptEula
+            self.expectedS3Url = expectedS3Url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedS3Url, name: "expectedS3Url", parent: name, max: 1024)
+            try self.validate(self.expectedS3Url, name: "expectedS3Url", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptEula = "AcceptEula"
+            case expectedS3Url = "ExpectedS3Url"
+        }
+    }
+
     public struct PriorityClass: AWSEncodableShape & AWSDecodableShape {
         /// Name of the priority class.
         public let name: String?
@@ -39340,19 +39451,22 @@ extension SageMaker {
         public let jupyterLabAppSettings: SpaceJupyterLabAppSettings?
         public let jupyterServerAppSettings: JupyterServerAppSettings?
         public let kernelGatewayAppSettings: KernelGatewayAppSettings?
+        /// A setting that enables or disables remote access for a SageMaker space. When enabled, this allows you to connect to the remote space from your local IDE.
+        public let remoteAccess: FeatureStatus?
         /// If you enable this option, SageMaker AI creates the following resources on your behalf when you create the space:   The user profile that possesses the space.   The app that the space contains.
         public let spaceManagedResources: FeatureStatus?
         /// The storage settings for a space.
         public let spaceStorageSettings: SpaceStorageSettings?
 
         @inlinable
-        public init(appType: AppType? = nil, codeEditorAppSettings: SpaceCodeEditorAppSettings? = nil, customFileSystems: [CustomFileSystem]? = nil, jupyterLabAppSettings: SpaceJupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, spaceManagedResources: FeatureStatus? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
+        public init(appType: AppType? = nil, codeEditorAppSettings: SpaceCodeEditorAppSettings? = nil, customFileSystems: [CustomFileSystem]? = nil, jupyterLabAppSettings: SpaceJupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, remoteAccess: FeatureStatus? = nil, spaceManagedResources: FeatureStatus? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
             self.appType = appType
             self.codeEditorAppSettings = codeEditorAppSettings
             self.customFileSystems = customFileSystems
             self.jupyterLabAppSettings = jupyterLabAppSettings
             self.jupyterServerAppSettings = jupyterServerAppSettings
             self.kernelGatewayAppSettings = kernelGatewayAppSettings
+            self.remoteAccess = remoteAccess
             self.spaceManagedResources = spaceManagedResources
             self.spaceStorageSettings = spaceStorageSettings
         }
@@ -39376,6 +39490,7 @@ extension SageMaker {
             case jupyterLabAppSettings = "JupyterLabAppSettings"
             case jupyterServerAppSettings = "JupyterServerAppSettings"
             case kernelGatewayAppSettings = "KernelGatewayAppSettings"
+            case remoteAccess = "RemoteAccess"
             case spaceManagedResources = "SpaceManagedResources"
             case spaceStorageSettings = "SpaceStorageSettings"
         }
@@ -39384,17 +39499,21 @@ extension SageMaker {
     public struct SpaceSettingsSummary: AWSDecodableShape {
         /// The type of app created within the space.
         public let appType: AppType?
+        /// A setting that enables or disables remote access for a SageMaker space. When enabled, this allows you to connect to the remote space from your local IDE.
+        public let remoteAccess: FeatureStatus?
         /// The storage settings for a space.
         public let spaceStorageSettings: SpaceStorageSettings?
 
         @inlinable
-        public init(appType: AppType? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
+        public init(appType: AppType? = nil, remoteAccess: FeatureStatus? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
             self.appType = appType
+            self.remoteAccess = remoteAccess
             self.spaceStorageSettings = spaceStorageSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case appType = "AppType"
+            case remoteAccess = "RemoteAccess"
             case spaceStorageSettings = "SpaceStorageSettings"
         }
     }
@@ -39676,6 +39795,48 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct StartSessionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource to which the remote connection will be established. For example, this identifies the specific ARN space application you want to connect to from your local IDE.
+        public let resourceIdentifier: String?
+
+        @inlinable
+        public init(resourceIdentifier: String? = nil) {
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 256)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 1)
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:.*\\/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdentifier = "ResourceIdentifier"
+        }
+    }
+
+    public struct StartSessionResponse: AWSDecodableShape {
+        /// A unique identifier for the established remote connection session.
+        public let sessionId: String?
+        /// A WebSocket URL used to establish a SSH connection between the local IDE and remote SageMaker space.
+        public let streamUrl: String?
+        /// An encrypted token value containing session and caller information.
+        public let tokenValue: String?
+
+        @inlinable
+        public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
+            self.sessionId = sessionId
+            self.streamUrl = streamUrl
+            self.tokenValue = tokenValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+            case streamUrl = "StreamUrl"
+            case tokenValue = "TokenValue"
         }
     }
 

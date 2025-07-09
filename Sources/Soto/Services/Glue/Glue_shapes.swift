@@ -517,6 +517,23 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum IcebergNullOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case nullsFirst = "nulls-first"
+        case nullsLast = "nulls-last"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IcebergSortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "asc"
+        case desc = "desc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IcebergStructTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `struct` = "struct"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IcebergTargetCompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "gzip"
         case lzo = "lzo"
@@ -6220,6 +6237,43 @@ extension Glue {
         }
     }
 
+    public struct CreateIcebergTableInput: AWSEncodableShape {
+        /// The S3 location where the Iceberg table data will be stored.
+        public let location: String
+        /// The partitioning specification that defines how the Iceberg table data will be organized and partitioned for optimal query performance.
+        public let partitionSpec: IcebergPartitionSpec?
+        /// Key-value pairs of additional table properties and configuration settings for the Iceberg table.
+        public let properties: [String: String]?
+        /// The schema definition that specifies the structure, field types, and metadata for the Iceberg table.
+        public let schema: IcebergSchema
+        /// The sort order specification that defines how data should be ordered within each partition to optimize query performance.
+        public let writeOrder: IcebergSortOrder?
+
+        @inlinable
+        public init(location: String, partitionSpec: IcebergPartitionSpec? = nil, properties: [String: String]? = nil, schema: IcebergSchema, writeOrder: IcebergSortOrder? = nil) {
+            self.location = location
+            self.partitionSpec = partitionSpec
+            self.properties = properties
+            self.schema = schema
+            self.writeOrder = writeOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.location, name: "location", parent: name, max: 2056)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.partitionSpec?.validate(name: "\(name).partitionSpec")
+            try self.schema.validate(name: "\(name).schema")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case partitionSpec = "PartitionSpec"
+            case properties = "Properties"
+            case schema = "Schema"
+            case writeOrder = "WriteOrder"
+        }
+    }
+
     public struct CreateIntegrationRequest: AWSEncodableShape {
         /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided.
         public let additionalEncryptionContext: [String: String]?
@@ -7281,6 +7335,8 @@ extension Glue {
         public let catalogId: String?
         /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
+        /// The unique identifier for the table within the specified database that will be  created in the Glue Data Catalog.
+        public let name: String?
         /// Specifies an OpenTableFormatInput structure when creating an open format table.
         public let openTableFormatInput: OpenTableFormatInput?
         /// A list of partition indexes, PartitionIndex structures, to create in the table.
@@ -7291,9 +7347,10 @@ extension Glue {
         public let transactionId: String?
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, openTableFormatInput: OpenTableFormatInput? = nil, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput, transactionId: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, name: String? = nil, openTableFormatInput: OpenTableFormatInput? = nil, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.name = name
             self.openTableFormatInput = openTableFormatInput
             self.partitionIndexes = partitionIndexes
             self.tableInput = tableInput
@@ -7307,6 +7364,9 @@ extension Glue {
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.openTableFormatInput?.validate(name: "\(name).openTableFormatInput")
             try self.partitionIndexes?.forEach {
                 try $0.validate(name: "\(name).partitionIndexes[]")
@@ -7321,6 +7381,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case name = "Name"
             case openTableFormatInput = "OpenTableFormatInput"
             case partitionIndexes = "PartitionIndexes"
             case tableInput = "TableInput"
@@ -11003,12 +11064,15 @@ extension Glue {
     public struct FederatedCatalog: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to an external data source, for example a Redshift-federated catalog.
         public let connectionName: String?
+        /// The type of connection used to access the federated catalog, specifying the protocol or method for connection to the  external data source.
+        public let connectionType: String?
         /// A unique identifier for the federated catalog.
         public let identifier: String?
 
         @inlinable
-        public init(connectionName: String? = nil, identifier: String? = nil) {
+        public init(connectionName: String? = nil, connectionType: String? = nil, identifier: String? = nil) {
             self.connectionName = connectionName
+            self.connectionType = connectionType
             self.identifier = identifier
         }
 
@@ -11016,6 +11080,9 @@ extension Glue {
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 255)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
             try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, max: 255)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, min: 1)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -11023,6 +11090,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case connectionType = "ConnectionType"
             case identifier = "Identifier"
         }
     }
@@ -11030,12 +11098,15 @@ extension Glue {
     public struct FederatedDatabase: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to the external metastore.
         public let connectionName: String?
+        /// The type of connection used to access the federated database, such as JDBC, ODBC, or other supported connection protocols.
+        public let connectionType: String?
         /// A unique identifier for the federated database.
         public let identifier: String?
 
         @inlinable
-        public init(connectionName: String? = nil, identifier: String? = nil) {
+        public init(connectionName: String? = nil, connectionType: String? = nil, identifier: String? = nil) {
             self.connectionName = connectionName
+            self.connectionType = connectionType
             self.identifier = identifier
         }
 
@@ -11043,6 +11114,9 @@ extension Glue {
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 255)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
             try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, max: 255)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, min: 1)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -11050,6 +11124,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case connectionType = "ConnectionType"
             case identifier = "Identifier"
         }
     }
@@ -11075,20 +11150,24 @@ extension Glue {
     public struct FederatedTable: AWSDecodableShape {
         /// The name of the connection to the external metastore.
         public let connectionName: String?
+        /// The type of connection used to access the federated table, specifying the protocol or method for connecting to the external data source.
+        public let connectionType: String?
         /// A unique identifier for the federated database.
         public let databaseIdentifier: String?
         /// A unique identifier for the federated table.
         public let identifier: String?
 
         @inlinable
-        public init(connectionName: String? = nil, databaseIdentifier: String? = nil, identifier: String? = nil) {
+        public init(connectionName: String? = nil, connectionType: String? = nil, databaseIdentifier: String? = nil, identifier: String? = nil) {
             self.connectionName = connectionName
+            self.connectionType = connectionType
             self.databaseIdentifier = databaseIdentifier
             self.identifier = identifier
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case connectionType = "ConnectionType"
             case databaseIdentifier = "DatabaseIdentifier"
             case identifier = "Identifier"
         }
@@ -15899,24 +15978,29 @@ extension Glue {
     }
 
     public struct IcebergInput: AWSEncodableShape {
+        /// The configuration parameters required to create a new Iceberg table in the Glue Data Catalog, including table properties  and metadata specifications.
+        public let createIcebergTableInput: CreateIcebergTableInput?
         /// A required metadata operation. Can only be set to CREATE.
         public let metadataOperation: MetadataOperation
         /// The table version for the Iceberg table. Defaults to 2.
         public let version: String?
 
         @inlinable
-        public init(metadataOperation: MetadataOperation, version: String? = nil) {
+        public init(createIcebergTableInput: CreateIcebergTableInput? = nil, metadataOperation: MetadataOperation, version: String? = nil) {
+            self.createIcebergTableInput = createIcebergTableInput
             self.metadataOperation = metadataOperation
             self.version = version
         }
 
         public func validate(name: String) throws {
+            try self.createIcebergTableInput?.validate(name: "\(name).createIcebergTableInput")
             try self.validate(self.version, name: "version", parent: name, max: 255)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createIcebergTableInput = "CreateIcebergTableInput"
             case metadataOperation = "MetadataOperation"
             case version = "Version"
         }
@@ -15963,6 +16047,62 @@ extension Glue {
             case jobDurationInHour = "JobDurationInHour"
             case numberOfDpus = "NumberOfDpus"
             case numberOfOrphanFilesDeleted = "NumberOfOrphanFilesDeleted"
+        }
+    }
+
+    public struct IcebergPartitionField: AWSEncodableShape {
+        /// The unique identifier assigned to this partition field within the Iceberg table's partition specification.
+        public let fieldId: Int?
+        /// The name of the partition field as it will appear in the partitioned table structure.
+        public let name: String
+        /// The identifier of the source field from the table schema that this partition field is based on.
+        public let sourceId: Int
+        /// The transformation function applied to the source field to create the partition, such as identity, bucket, truncate, year, month, day, or hour.
+        public let transform: String
+
+        @inlinable
+        public init(fieldId: Int? = nil, name: String, sourceId: Int = 0, transform: String) {
+            self.fieldId = fieldId
+            self.name = name
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case name = "Name"
+            case sourceId = "SourceId"
+            case transform = "Transform"
+        }
+    }
+
+    public struct IcebergPartitionSpec: AWSEncodableShape {
+        /// The list of partition fields that define how the table data should be partitioned, including source fields and their transformations.
+        public let fields: [IcebergPartitionField]
+        /// The unique identifier for this partition specification within the Iceberg table's metadata history.
+        public let specId: Int?
+
+        @inlinable
+        public init(fields: [IcebergPartitionField], specId: Int? = nil) {
+            self.fields = fields
+            self.specId = specId
+        }
+
+        public func validate(name: String) throws {
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case specId = "SpecId"
         }
     }
 
@@ -16019,6 +16159,157 @@ extension Glue {
             case numberOfDpus = "NumberOfDpus"
             case numberOfManifestFilesDeleted = "NumberOfManifestFilesDeleted"
             case numberOfManifestListsDeleted = "NumberOfManifestListsDeleted"
+        }
+    }
+
+    public struct IcebergSchema: AWSEncodableShape {
+        /// The list of field definitions that make up the table schema, including field names, types, and metadata.
+        public let fields: [IcebergStructField]
+        /// The list of field identifiers that uniquely identify records in the table, used for row-level operations and deduplication.
+        public let identifierFieldIds: [Int]?
+        /// The unique identifier for this schema version within the Iceberg table's schema evolution history.
+        public let schemaId: Int?
+        /// The root type of the schema structure, typically "struct" for Iceberg table schemas.
+        public let type: IcebergStructTypeEnum?
+
+        @inlinable
+        public init(fields: [IcebergStructField], identifierFieldIds: [Int]? = nil, schemaId: Int? = nil, type: IcebergStructTypeEnum? = nil) {
+            self.fields = fields
+            self.identifierFieldIds = identifierFieldIds
+            self.schemaId = schemaId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case identifierFieldIds = "IdentifierFieldIds"
+            case schemaId = "SchemaId"
+            case type = "Type"
+        }
+    }
+
+    public struct IcebergSortField: AWSEncodableShape {
+        /// The sort direction for this field, either ascending or descending.
+        public let direction: IcebergSortDirection
+        /// The ordering behavior for null values in this field, specifying whether nulls should appear first or last in the sort order.
+        public let nullOrder: IcebergNullOrder
+        /// The identifier of the source field from the table schema that this sort field is based on.
+        public let sourceId: Int
+        /// The transformation function applied to the source field before sorting, such as identity, bucket, or truncate.
+        public let transform: String
+
+        @inlinable
+        public init(direction: IcebergSortDirection, nullOrder: IcebergNullOrder, sourceId: Int = 0, transform: String) {
+            self.direction = direction
+            self.nullOrder = nullOrder
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case direction = "Direction"
+            case nullOrder = "NullOrder"
+            case sourceId = "SourceId"
+            case transform = "Transform"
+        }
+    }
+
+    public struct IcebergSortOrder: AWSEncodableShape {
+        /// The list of fields and their sort directions that define the ordering criteria for the Iceberg table data.
+        public let fields: [IcebergSortField]
+        /// The unique identifier for this sort order specification within the Iceberg table's metadata.
+        public let orderId: Int
+
+        @inlinable
+        public init(fields: [IcebergSortField], orderId: Int = 0) {
+            self.fields = fields
+            self.orderId = orderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case orderId = "OrderId"
+        }
+    }
+
+    public struct IcebergStructField: AWSEncodableShape {
+        /// Optional documentation or description text that provides additional context about the purpose and usage of this field.
+        public let doc: String?
+        /// The unique identifier assigned to this field within the Iceberg table schema, used for schema evolution and field tracking.
+        public let id: Int
+        /// The name of the field as it appears in the table schema and query operations.
+        public let name: String
+        /// Indicates whether this field is required (non-nullable) or optional (nullable) in the table schema.
+        public let required: Bool
+        /// The data type definition for this field, specifying the structure and format of the data it contains.
+        public let type: AWSDocument
+
+        @inlinable
+        public init(doc: String? = nil, id: Int = 0, name: String, required: Bool = false, type: AWSDocument) {
+            self.doc = doc
+            self.id = id
+            self.name = name
+            self.required = required
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.doc, name: "doc", parent: name, max: 255)
+            try self.validate(self.doc, name: "doc", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case doc = "Doc"
+            case id = "Id"
+            case name = "Name"
+            case required = "Required"
+            case type = "Type"
+        }
+    }
+
+    public struct IcebergTableUpdate: AWSEncodableShape {
+        /// The updated S3 location where the Iceberg table data will be stored.
+        public let location: String
+        /// The updated partitioning specification that defines how the table data should be reorganized and partitioned.
+        public let partitionSpec: IcebergPartitionSpec?
+        /// Updated key-value pairs of table properties and configuration settings for the Iceberg table.
+        public let properties: [String: String]?
+        /// The updated schema definition for the Iceberg table, specifying any changes to field structure, data types, or schema metadata.
+        public let schema: IcebergSchema
+        /// The updated sort order specification that defines how data should be ordered within partitions for optimal query performance.
+        public let sortOrder: IcebergSortOrder?
+
+        @inlinable
+        public init(location: String, partitionSpec: IcebergPartitionSpec? = nil, properties: [String: String]? = nil, schema: IcebergSchema, sortOrder: IcebergSortOrder? = nil) {
+            self.location = location
+            self.partitionSpec = partitionSpec
+            self.properties = properties
+            self.schema = schema
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.location, name: "location", parent: name, max: 2056)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.partitionSpec?.validate(name: "\(name).partitionSpec")
+            try self.schema.validate(name: "\(name).schema")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case partitionSpec = "PartitionSpec"
+            case properties = "Properties"
+            case schema = "Schema"
+            case sortOrder = "SortOrder"
         }
     }
 
@@ -16193,10 +16484,13 @@ extension Glue {
     public struct IntegrationConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align  the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from   15 minutes to 8640 minutes (six days). Currently supports creation of RefreshInterval only.
         public let refreshInterval: String?
+        ///  A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that  can be used to customize the behavior of the ODB source during data integration operations.
+        public let sourceProperties: [String: String]?
 
         @inlinable
-        public init(refreshInterval: String? = nil) {
+        public init(refreshInterval: String? = nil, sourceProperties: [String: String]? = nil) {
             self.refreshInterval = refreshInterval
+            self.sourceProperties = sourceProperties
         }
 
         public func validate(name: String) throws {
@@ -16206,6 +16500,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case refreshInterval = "RefreshInterval"
+            case sourceProperties = "SourceProperties"
         }
     }
 
@@ -26901,6 +27196,44 @@ extension Glue {
         }
     }
 
+    public struct UpdateIcebergInput: AWSEncodableShape {
+        /// The specific update operations to be applied to the Iceberg table, containing a  list of updates that define the new state of the table including schema,  partitions, and properties.
+        public let updateIcebergTableInput: UpdateIcebergTableInput
+
+        @inlinable
+        public init(updateIcebergTableInput: UpdateIcebergTableInput) {
+            self.updateIcebergTableInput = updateIcebergTableInput
+        }
+
+        public func validate(name: String) throws {
+            try self.updateIcebergTableInput.validate(name: "\(name).updateIcebergTableInput")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateIcebergTableInput = "UpdateIcebergTableInput"
+        }
+    }
+
+    public struct UpdateIcebergTableInput: AWSEncodableShape {
+        /// The list of table update operations that specify the changes to be made to the Iceberg table, including schema modifications, partition  specifications, and table properties.
+        public let updates: [IcebergTableUpdate]
+
+        @inlinable
+        public init(updates: [IcebergTableUpdate]) {
+            self.updates = updates
+        }
+
+        public func validate(name: String) throws {
+            try self.updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updates = "Updates"
+        }
+    }
+
     public struct UpdateIntegrationResourcePropertyRequest: AWSEncodableShape {
         /// The connection ARN of the source, or the database ARN of the target.
         public let resourceArn: String
@@ -27222,6 +27555,24 @@ extension Glue {
         }
     }
 
+    public struct UpdateOpenTableFormatInput: AWSEncodableShape {
+        /// Apache Iceberg-specific update parameters that define the table modifications to  be applied, including schema changes, partition specifications, and table  properties.
+        public let updateIcebergInput: UpdateIcebergInput?
+
+        @inlinable
+        public init(updateIcebergInput: UpdateIcebergInput? = nil) {
+            self.updateIcebergInput = updateIcebergInput
+        }
+
+        public func validate(name: String) throws {
+            try self.updateIcebergInput?.validate(name: "\(name).updateIcebergInput")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateIcebergInput = "UpdateIcebergInput"
+        }
+    }
+
     public struct UpdatePartitionRequest: AWSEncodableShape {
         /// The ID of the Data Catalog where the partition to be updated resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -27509,25 +27860,30 @@ extension Glue {
         public let databaseName: String
         /// A flag that can be set to true to ignore matching storage descriptor and subobject matching requirements.
         public let force: Bool?
+        /// The unique identifier for the table within the specified database that will be  created in the Glue Data Catalog.
+        public let name: String?
         /// By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
         public let skipArchive: Bool?
         /// An updated TableInput object to define the metadata table in the catalog.
-        public let tableInput: TableInput
+        public let tableInput: TableInput?
         /// The transaction ID at which to update the table contents.
         public let transactionId: String?
+        public let updateOpenTableFormatInput: UpdateOpenTableFormatInput?
         /// The version ID at which to update the table contents.
         public let versionId: String?
         /// The operation to be performed when updating the view.
         public let viewUpdateAction: ViewUpdateAction?
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, force: Bool? = nil, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil, versionId: String? = nil, viewUpdateAction: ViewUpdateAction? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, force: Bool? = nil, name: String? = nil, skipArchive: Bool? = nil, tableInput: TableInput? = nil, transactionId: String? = nil, updateOpenTableFormatInput: UpdateOpenTableFormatInput? = nil, versionId: String? = nil, viewUpdateAction: ViewUpdateAction? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.force = force
+            self.name = name
             self.skipArchive = skipArchive
             self.tableInput = tableInput
             self.transactionId = transactionId
+            self.updateOpenTableFormatInput = updateOpenTableFormatInput
             self.versionId = versionId
             self.viewUpdateAction = viewUpdateAction
         }
@@ -27539,10 +27895,14 @@ extension Glue {
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-            try self.tableInput.validate(name: "\(name).tableInput")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.tableInput?.validate(name: "\(name).tableInput")
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+            try self.updateOpenTableFormatInput?.validate(name: "\(name).updateOpenTableFormatInput")
             try self.validate(self.versionId, name: "versionId", parent: name, max: 255)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -27552,9 +27912,11 @@ extension Glue {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case force = "Force"
+            case name = "Name"
             case skipArchive = "SkipArchive"
             case tableInput = "TableInput"
             case transactionId = "TransactionId"
+            case updateOpenTableFormatInput = "UpdateOpenTableFormatInput"
             case versionId = "VersionId"
             case viewUpdateAction = "ViewUpdateAction"
         }

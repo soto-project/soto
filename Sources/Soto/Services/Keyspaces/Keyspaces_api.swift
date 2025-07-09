@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Keyspaces service.
 ///
-/// Amazon Keyspaces (for Apache Cassandra) is a scalable, highly available, and managed Apache Cassandra-compatible database service. Amazon Keyspaces makes it easy to migrate, run, and scale Cassandra workloads in the Amazon Web Services Cloud. With just a few clicks on the Amazon Web Services Management Console or a few lines of code,  you can create keyspaces and tables in Amazon Keyspaces, without deploying any infrastructure or installing software.  In addition to supporting Cassandra Query Language (CQL) requests via open-source Cassandra drivers,  Amazon Keyspaces supports data definition language (DDL) operations to manage keyspaces and tables using the Amazon Web Services SDK and CLI, as well as infrastructure as code (IaC) services and tools such as CloudFormation and Terraform. This API reference describes the supported DDL operations in detail. For the list of all supported CQL APIs, see Supported Cassandra APIs, operations, and data types  in Amazon Keyspaces in the Amazon Keyspaces Developer Guide. To learn how Amazon Keyspaces API actions are recorded with CloudTrail, see Amazon Keyspaces information in CloudTrail in the Amazon Keyspaces Developer Guide. For more information about Amazon Web Services APIs, for example how to implement retry logic or how to sign Amazon Web Services API requests, see Amazon Web Services APIs in the General Reference.
+/// Amazon Keyspaces (for Apache Cassandra) is a scalable, highly available, and managed Apache Cassandra-compatible database service. Amazon Keyspaces makes it easy to migrate, run, and scale Cassandra workloads in the Amazon Web Services Cloud. With just a few clicks on the Amazon Web Services Management Console or a few lines of code, you can create keyspaces and tables in Amazon Keyspaces, without deploying any infrastructure or installing software.  In addition to supporting Cassandra Query Language (CQL) requests via open-source Cassandra drivers, Amazon Keyspaces supports data definition language (DDL) operations to manage keyspaces and tables using the Amazon Web Services SDK and CLI, as well as infrastructure as code (IaC) services and tools such as CloudFormation and Terraform. This API reference describes the supported DDL operations in detail. For the list of all supported CQL APIs, see Supported Cassandra APIs, operations, and data types in Amazon Keyspaces in the Amazon Keyspaces Developer Guide. To learn how Amazon Keyspaces API actions are recorded with CloudTrail, see Amazon Keyspaces information in CloudTrail in the Amazon Keyspaces Developer Guide. For more information about Amazon Web Services APIs, for example how to implement retry logic or how to sign Amazon Web Services API requests, see Amazon Web Services APIs in the General Reference.
 public struct Keyspaces: AWSService {
     // MARK: Member variables
 
@@ -95,7 +95,7 @@ public struct Keyspaces: AWSService {
 
     // MARK: API Calls
 
-    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace  by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide.
+    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func createKeyspace(_ input: CreateKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyspaceResponse {
@@ -108,11 +108,11 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace  by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide.
+    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace to be created.
-    ///   - replicationSpecification:  The replication specification of the keyspace includes:    replicationStrategy - the required value is SINGLE_REGION or  MULTI_REGION.    regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where  the keyspace is going to be replicated in.
+    ///   - replicationSpecification:  The replication specification of the keyspace includes:    replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.    regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in.
     ///   - tags: A list of key-value pair tags to be attached to the keyspace. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
@@ -130,7 +130,7 @@ public struct Keyspaces: AWSService {
         return try await self.createKeyspace(input, logger: logger)
     }
 
-    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable  operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Create a table in the Amazon Keyspaces Developer Guide.
+    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Create a table in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
@@ -143,19 +143,20 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable  operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Create a table in the Amazon Keyspaces Developer Guide.
+    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Create a table in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
-    ///   - autoScalingSpecification: The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity  automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
+    ///   - autoScalingSpecification: The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
     ///   - capacitySpecification: Specifies the read/write throughput capacity mode for the table. The options are:    throughputMode:PAY_PER_REQUEST and     throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
-    ///   - clientSideTimestamps:  Enables client-side timestamps for the table. By default, the setting is disabled. You can enable  client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
+    ///   - cdcSpecification: The CDC stream settings of the table.
+    ///   - clientSideTimestamps:  Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
     ///   - comment: This parameter allows to enter a description of the table.
     ///   - defaultTimeToLive: The default Time to Live setting in seconds for the table. For more information, see Setting the default TTL value for a table in the Amazon Keyspaces Developer Guide.
-    ///   - encryptionSpecification: Specifies how the encryption key for encryption at rest is managed for the table.   You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.   The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
+    ///   - encryptionSpecification: Specifies how the encryption key for encryption at rest is managed for the table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.   The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
     ///   - keyspaceName: The name of the keyspace that the table is going to be created in.
-    ///   - pointInTimeRecovery: Specifies if pointInTimeRecovery is enabled or disabled for the table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the  default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
-    ///   - replicaSpecifications: The optional Amazon Web Services Region specific settings of a multi-Region table. These settings overwrite the general settings of the table for the specified Region.  For a multi-Region table in provisioned capacity mode, you can configure the table's read capacity differently for each Region's replica. The write capacity, however,  remains synchronized between all replicas to ensure that there's enough capacity to replicate writes across all Regions. To define the read capacity for a table  replica in a specific Region, you can do so by configuring the following parameters.    region: The Region where these settings are applied. (Required)    readCapacityUnits: The provisioned read capacity units. (Optional)    readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
-    ///   - schemaDefinition: The schemaDefinition consists of the following parameters. For each column to be created:    name  -  The name of the column.    type  -  An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.   The primary key of the table consists of the following columns:    partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The partition key portion of the primary key is required and determines how Amazon Keyspaces stores your data.    name - The name of each partition key column.    clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition.    name - The name of the clustering column.     orderBy - Sets the ascendant (ASC) or descendant (DESC) order modifier. To define a column as static use staticColumns  -  Static columns store values that are shared by all rows in the same partition:    name  -  The name of the column.    type  -  An Amazon Keyspaces data type.
+    ///   - pointInTimeRecovery: Specifies if pointInTimeRecovery is enabled or disabled for the table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
+    ///   - replicaSpecifications: The optional Amazon Web Services Region specific settings of a multi-Region table. These settings overwrite the general settings of the table for the specified Region.  For a multi-Region table in provisioned capacity mode, you can configure the table's read capacity differently for each Region's replica. The write capacity, however, remains synchronized between all replicas to ensure that there's enough capacity to replicate writes across all Regions. To define the read capacity for a table replica in a specific Region, you can do so by configuring the following parameters.    region: The Region where these settings are applied. (Required)    readCapacityUnits: The provisioned read capacity units. (Optional)    readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
+    ///   - schemaDefinition: The schemaDefinition consists of the following parameters. For each column to be created:    name - The name of the column.    type - An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.   The primary key of the table consists of the following columns:    partitionKeys - The partition key can be a single column, or it can be a compound value composed of two or more columns. The partition key portion of the primary key is required and determines how Amazon Keyspaces stores your data.    name - The name of each partition key column.    clusteringKeys - The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition.    name - The name of the clustering column.     orderBy - Sets the ascendant (ASC) or descendant (DESC) order modifier. To define a column as static use staticColumns - Static columns store values that are shared by all rows in the same partition:    name - The name of the column.    type - An Amazon Keyspaces data type.
     ///   - tableName: The name of the table.
     ///   - tags: A list of key-value pair tags to be attached to the resource.  For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide.
     ///   - ttl: Enables Time to Live custom settings for the table. The options are:    status:enabled     status:disabled    The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see Expiring data by using Amazon Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
@@ -164,6 +165,7 @@ public struct Keyspaces: AWSService {
     public func createTable(
         autoScalingSpecification: AutoScalingSpecification? = nil,
         capacitySpecification: CapacitySpecification? = nil,
+        cdcSpecification: CdcSpecification? = nil,
         clientSideTimestamps: ClientSideTimestamps? = nil,
         comment: Comment? = nil,
         defaultTimeToLive: Int? = nil,
@@ -180,6 +182,7 @@ public struct Keyspaces: AWSService {
         let input = CreateTableRequest(
             autoScalingSpecification: autoScalingSpecification, 
             capacitySpecification: capacitySpecification, 
+            cdcSpecification: cdcSpecification, 
             clientSideTimestamps: clientSideTimestamps, 
             comment: comment, 
             defaultTimeToLive: defaultTimeToLive, 
@@ -213,7 +216,7 @@ public struct Keyspaces: AWSService {
     /// Parameters:
     ///   - fieldDefinitions:  The field definitions, consisting of names and types, that define this type.
     ///   - keyspaceName:  The name of the keyspace.
-    ///   - typeName:  The name of the user-defined type.  UDT names must contain 48 characters or less, must begin with an alphabetic character, and  can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters.  Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the  name when you create the UDT, but you must escape each double quote character with an additional  double quote character.
+    ///   - typeName:  The name of the user-defined type.  UDT names must contain 48 characters or less, must begin with an alphabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters.  Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an additional double quote character.
     ///   - logger: Logger use during operation
     @inlinable
     public func createType(
@@ -259,7 +262,7 @@ public struct Keyspaces: AWSService {
         return try await self.deleteKeyspace(input, logger: logger)
     }
 
-    /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received,  the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table  is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then  Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
+    /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
     @Sendable
     @inlinable
     public func deleteTable(_ input: DeleteTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTableResponse {
@@ -272,7 +275,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received,  the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table  is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then  Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
+    /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace of the to be deleted table.
@@ -323,7 +326,7 @@ public struct Keyspaces: AWSService {
         return try await self.deleteType(input, logger: logger)
     }
 
-    /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of  a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
+    /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
     @Sendable
     @inlinable
     public func getKeyspace(_ input: GetKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyspaceResponse {
@@ -336,7 +339,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of  a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
+    /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace.
@@ -352,7 +355,7 @@ public struct Keyspaces: AWSService {
         return try await self.getKeyspace(input, logger: logger)
     }
 
-    /// Returns information about the table, including the table's name and current status, the keyspace name,  configuration settings, and metadata. To read table metadata using GetTable, the  IAM principal needs Select action  permissions for the table and the system keyspace.
+    /// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata. To read table metadata using GetTable, the IAM principal needs Select action permissions for the table and the system keyspace.
     @Sendable
     @inlinable
     public func getTable(_ input: GetTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableResponse {
@@ -365,7 +368,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns information about the table, including the table's name and current status, the keyspace name,  configuration settings, and metadata. To read table metadata using GetTable, the  IAM principal needs Select action  permissions for the table and the system keyspace.
+    /// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata. To read table metadata using GetTable, the IAM principal needs Select action permissions for the table and the system keyspace.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace that the table is stored in.
@@ -384,7 +387,7 @@ public struct Keyspaces: AWSService {
         return try await self.getTable(input, logger: logger)
     }
 
-    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the  Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.   GetTableAutoScalingSettings can't be used as an action in an IAM policy.  To define permissions for GetTableAutoScalingSettings, you must allow the following two actions in the IAM policy statement's  Action element:    application-autoscaling:DescribeScalableTargets     application-autoscaling:DescribeScalingPolicies
+    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.   GetTableAutoScalingSettings can't be used as an action in an IAM policy.  To define permissions for GetTableAutoScalingSettings, you must allow the following two actions in the IAM policy statement's Action element:    application-autoscaling:DescribeScalableTargets     application-autoscaling:DescribeScalingPolicies
     @Sendable
     @inlinable
     public func getTableAutoScalingSettings(_ input: GetTableAutoScalingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableAutoScalingSettingsResponse {
@@ -397,7 +400,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the  Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.   GetTableAutoScalingSettings can't be used as an action in an IAM policy.  To define permissions for GetTableAutoScalingSettings, you must allow the following two actions in the IAM policy statement's  Action element:    application-autoscaling:DescribeScalableTargets     application-autoscaling:DescribeScalingPolicies
+    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.   GetTableAutoScalingSettings can't be used as an action in an IAM policy.  To define permissions for GetTableAutoScalingSettings, you must allow the following two actions in the IAM policy statement's Action element:    application-autoscaling:DescribeScalableTargets     application-autoscaling:DescribeScalingPolicies
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace.
@@ -416,7 +419,7 @@ public struct Keyspaces: AWSService {
         return try await self.getTableAutoScalingSettings(input, logger: logger)
     }
 
-    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
+    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func getType(_ input: GetTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTypeResponse {
@@ -429,7 +432,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
+    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - keyspaceName:  The name of the keyspace that contains this type.
@@ -464,7 +467,7 @@ public struct Keyspaces: AWSService {
     /// The ListKeyspaces operation returns a list of keyspaces.
     ///
     /// Parameters:
-    ///   - maxResults: The total number of keyspaces to return in the output. If the total number of keyspaces available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+    ///   - maxResults: The total number of keyspaces to return in the output. If the total number of keyspaces available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - nextToken: The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -480,7 +483,7 @@ public struct Keyspaces: AWSService {
         return try await self.listKeyspaces(input, logger: logger)
     }
 
-    /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the  IAM principal needs Select action  permissions for the system keyspace.
+    /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the IAM principal needs Select action permissions for the system keyspace.
     @Sendable
     @inlinable
     public func listTables(_ input: ListTablesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTablesResponse {
@@ -493,11 +496,11 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the  IAM principal needs Select action  permissions for the system keyspace.
+    /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the IAM principal needs Select action permissions for the system keyspace.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace.
-    ///   - maxResults: The total number of tables to return in the output. If the total number of tables available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+    ///   - maxResults: The total number of tables to return in the output. If the total number of tables available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - nextToken: The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -515,7 +518,7 @@ public struct Keyspaces: AWSService {
         return try await self.listTables(input, logger: logger)
     }
 
-    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the  IAM principal needs Select action  permissions for the specified resource and the system keyspace.
+    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the IAM principal needs Select action permissions for the specified resource and the system keyspace.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -528,10 +531,10 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the  IAM principal needs Select action  permissions for the specified resource and the system keyspace.
+    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the IAM principal needs Select action permissions for the specified resource and the system keyspace.
     ///
     /// Parameters:
-    ///   - maxResults: The total number of tags to return in the output. If the total number of tags available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+    ///   - maxResults: The total number of tags to return in the output. If the total number of tags available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - nextToken: The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon Keyspaces resource.
     ///   - logger: Logger use during operation
@@ -550,7 +553,7 @@ public struct Keyspaces: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
+    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func listTypes(_ input: ListTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTypesResponse {
@@ -563,11 +566,11 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
+    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - keyspaceName:  The name of the keyspace that contains the listed types.
-    ///   - maxResults:  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an  argument of a subsequent API invocation.
+    ///   - maxResults:  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - nextToken:  The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -585,7 +588,7 @@ public struct Keyspaces: AWSService {
         return try await self.listTypes(input, logger: logger)
     }
 
-    /// Restores the table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see   Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state  based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, auto scaling settings, encryption settings, and point-in-time recovery settings from the source table.  Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp,  these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity units   Auto scaling settings   Point-in-time (PITR) settings   Tags   For more  information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
+    /// Restores the table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see  Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, auto scaling settings, encryption settings, and point-in-time recovery settings from the source table. Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp, these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity units   Auto scaling settings   Point-in-time (PITR) settings   Tags   For more information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
     @Sendable
     @inlinable
     public func restoreTable(_ input: RestoreTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreTableResponse {
@@ -598,12 +601,12 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Restores the table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see   Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state  based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, auto scaling settings, encryption settings, and point-in-time recovery settings from the source table.  Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp,  these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity units   Auto scaling settings   Point-in-time (PITR) settings   Tags   For more  information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
+    /// Restores the table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see  Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, auto scaling settings, encryption settings, and point-in-time recovery settings from the source table. Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp, these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity units   Auto scaling settings   Point-in-time (PITR) settings   Tags   For more information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
     ///
     /// Parameters:
-    ///   - autoScalingSpecification: The optional auto scaling settings for the restored table in provisioned capacity mode.  Specifies if the service can manage throughput capacity of a provisioned table  automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
+    ///   - autoScalingSpecification: The optional auto scaling settings for the restored table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
     ///   - capacitySpecificationOverride: Specifies the read/write throughput capacity mode for the target table. The options are:    throughputMode:PAY_PER_REQUEST     throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
-    ///   - encryptionSpecificationOverride: Specifies the encryption settings for the target table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
+    ///   - encryptionSpecificationOverride: Specifies the encryption settings for the target table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
     ///   - pointInTimeRecoveryOverride: Specifies the pointInTimeRecovery settings for the target table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
     ///   - replicaSpecifications: The optional Region specific settings of a multi-Regional table.
     ///   - restoreTimestamp: The restore timestamp in ISO 8601 format.
@@ -644,7 +647,7 @@ public struct Keyspaces: AWSService {
         return try await self.restoreTable(input, logger: logger)
     }
 
-    /// Associates a set of tags with a Amazon Keyspaces resource. You can then  activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags,  see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer Guide.
+    /// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -657,7 +660,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Associates a set of tags with a Amazon Keyspaces resource. You can then  activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags,  see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer Guide.
+    /// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon Keyspaces resource to which to add tags.
@@ -708,7 +711,7 @@ public struct Keyspaces: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    ///  Adds a new Amazon Web Services Region to the keyspace.  You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to replicate all tables in the keyspace to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolution. To enable client-side timestamps, specify clientSideTimestamps.status = enabled when invoking the API. For more information about client-side timestamps, see Client-side timestamps in Amazon Keyspaces in the Amazon Keyspaces Developer Guide. To add a Region to a keyspace using the UpdateKeyspace API, the IAM principal needs permissions for the following IAM actions:    cassandra:Alter     cassandra:AlterMultiRegionResource     cassandra:Create     cassandra:CreateMultiRegionResource     cassandra:Select     cassandra:SelectMultiRegionResource     cassandra:Modify     cassandra:ModifyMultiRegionResource    If the keyspace contains a table that is configured in provisioned mode with auto scaling enabled,  the following additional IAM actions need to be allowed.    application-autoscaling:RegisterScalableTarget     application-autoscaling:DeregisterScalableTarget     application-autoscaling:DescribeScalableTargets     application-autoscaling:PutScalingPolicy     application-autoscaling:DescribeScalingPolicies    To use the UpdateKeyspace API, the IAM principal also needs permissions to create a service-linked role with the following elements:    iam:CreateServiceLinkedRole - The action the principal can perform.    arn:aws:iam::*:role/aws-service-role/replication.cassandra.amazonaws.com/AWSServiceRoleForKeyspacesReplication - The resource that the action can be performed on.     iam:AWSServiceName: replication.cassandra.amazonaws.com - The only Amazon Web Services service that this role can be attached to is Amazon Keyspaces.   For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the Amazon Keyspaces Developer Guide.
+    ///  Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to replicate all tables in the keyspace to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolution. To enable client-side timestamps, specify clientSideTimestamps.status = enabled when invoking the API. For more information about client-side timestamps, see Client-side timestamps in Amazon Keyspaces in the Amazon Keyspaces Developer Guide. To add a Region to a keyspace using the UpdateKeyspace API, the IAM principal needs permissions for the following IAM actions:    cassandra:Alter     cassandra:AlterMultiRegionResource     cassandra:Create     cassandra:CreateMultiRegionResource     cassandra:Select     cassandra:SelectMultiRegionResource     cassandra:Modify     cassandra:ModifyMultiRegionResource    If the keyspace contains a table that is configured in provisioned mode with auto scaling enabled, the following additional IAM actions need to be allowed.    application-autoscaling:RegisterScalableTarget     application-autoscaling:DeregisterScalableTarget     application-autoscaling:DescribeScalableTargets     application-autoscaling:PutScalingPolicy     application-autoscaling:DescribeScalingPolicies    To use the UpdateKeyspace API, the IAM principal also needs permissions to create a service-linked role with the following elements:    iam:CreateServiceLinkedRole - The action the principal can perform.    arn:aws:iam::*:role/aws-service-role/replication.cassandra.amazonaws.com/AWSServiceRoleForKeyspacesReplication - The resource that the action can be performed on.     iam:AWSServiceName: replication.cassandra.amazonaws.com - The only Amazon Web Services service that this role can be attached to is Amazon Keyspaces.   For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func updateKeyspace(_ input: UpdateKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyspaceResponse {
@@ -721,7 +724,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    ///  Adds a new Amazon Web Services Region to the keyspace.  You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to replicate all tables in the keyspace to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolution. To enable client-side timestamps, specify clientSideTimestamps.status = enabled when invoking the API. For more information about client-side timestamps, see Client-side timestamps in Amazon Keyspaces in the Amazon Keyspaces Developer Guide. To add a Region to a keyspace using the UpdateKeyspace API, the IAM principal needs permissions for the following IAM actions:    cassandra:Alter     cassandra:AlterMultiRegionResource     cassandra:Create     cassandra:CreateMultiRegionResource     cassandra:Select     cassandra:SelectMultiRegionResource     cassandra:Modify     cassandra:ModifyMultiRegionResource    If the keyspace contains a table that is configured in provisioned mode with auto scaling enabled,  the following additional IAM actions need to be allowed.    application-autoscaling:RegisterScalableTarget     application-autoscaling:DeregisterScalableTarget     application-autoscaling:DescribeScalableTargets     application-autoscaling:PutScalingPolicy     application-autoscaling:DescribeScalingPolicies    To use the UpdateKeyspace API, the IAM principal also needs permissions to create a service-linked role with the following elements:    iam:CreateServiceLinkedRole - The action the principal can perform.    arn:aws:iam::*:role/aws-service-role/replication.cassandra.amazonaws.com/AWSServiceRoleForKeyspacesReplication - The resource that the action can be performed on.     iam:AWSServiceName: replication.cassandra.amazonaws.com - The only Amazon Web Services service that this role can be attached to is Amazon Keyspaces.   For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the Amazon Keyspaces Developer Guide.
+    ///  Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to replicate all tables in the keyspace to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolution. To enable client-side timestamps, specify clientSideTimestamps.status = enabled when invoking the API. For more information about client-side timestamps, see Client-side timestamps in Amazon Keyspaces in the Amazon Keyspaces Developer Guide. To add a Region to a keyspace using the UpdateKeyspace API, the IAM principal needs permissions for the following IAM actions:    cassandra:Alter     cassandra:AlterMultiRegionResource     cassandra:Create     cassandra:CreateMultiRegionResource     cassandra:Select     cassandra:SelectMultiRegionResource     cassandra:Modify     cassandra:ModifyMultiRegionResource    If the keyspace contains a table that is configured in provisioned mode with auto scaling enabled, the following additional IAM actions need to be allowed.    application-autoscaling:RegisterScalableTarget     application-autoscaling:DeregisterScalableTarget     application-autoscaling:DescribeScalableTargets     application-autoscaling:PutScalingPolicy     application-autoscaling:DescribeScalingPolicies    To use the UpdateKeyspace API, the IAM principal also needs permissions to create a service-linked role with the following elements:    iam:CreateServiceLinkedRole - The action the principal can perform.    arn:aws:iam::*:role/aws-service-role/replication.cassandra.amazonaws.com/AWSServiceRoleForKeyspacesReplication - The resource that the action can be performed on.     iam:AWSServiceName: replication.cassandra.amazonaws.com - The only Amazon Web Services service that this role can be attached to is Amazon Keyspaces.   For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - clientSideTimestamps: 
@@ -759,12 +762,13 @@ public struct Keyspaces: AWSService {
     /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
     ///
     /// Parameters:
-    ///   - addColumns: For each column to be added to the specified table:    name  -  The name of the column.    type  -  An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.
-    ///   - autoScalingSpecification: The optional auto scaling settings to update for a table in provisioned capacity mode.  Specifies if the service can manage throughput capacity of a provisioned table  automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. If auto scaling is already enabled for the table, you can use UpdateTable to update the minimum and maximum values or the  auto scaling policy settings independently. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
+    ///   - addColumns: For each column to be added to the specified table:    name - The name of the column.    type - An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.
+    ///   - autoScalingSpecification: The optional auto scaling settings to update for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. If auto scaling is already enabled for the table, you can use UpdateTable to update the minimum and maximum values or the auto scaling policy settings independently. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
     ///   - capacitySpecification: Modifies the read/write throughput capacity mode for the table. The options are:    throughputMode:PAY_PER_REQUEST and     throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
-    ///   - clientSideTimestamps: Enables client-side timestamps for the table. By default, the setting is disabled. You can enable  client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
+    ///   - cdcSpecification: The CDC stream settings of the table.
+    ///   - clientSideTimestamps: Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:    status: "enabled"    Once client-side timestamps are enabled for a table, this setting cannot be disabled.
     ///   - defaultTimeToLive: The default Time to Live setting in seconds for the table. For more information, see Setting the default TTL value for a table in the Amazon Keyspaces Developer Guide.
-    ///   - encryptionSpecification: Modifies the encryption settings of the table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
+    ///   - encryptionSpecification: Modifies the encryption settings of the table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
     ///   - keyspaceName: The name of the keyspace the specified table is stored in.
     ///   - pointInTimeRecovery: Modifies the pointInTimeRecovery settings of the table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
     ///   - replicaSpecifications: The Region specific settings of a multi-Regional table.
@@ -776,6 +780,7 @@ public struct Keyspaces: AWSService {
         addColumns: [ColumnDefinition]? = nil,
         autoScalingSpecification: AutoScalingSpecification? = nil,
         capacitySpecification: CapacitySpecification? = nil,
+        cdcSpecification: CdcSpecification? = nil,
         clientSideTimestamps: ClientSideTimestamps? = nil,
         defaultTimeToLive: Int? = nil,
         encryptionSpecification: EncryptionSpecification? = nil,
@@ -790,6 +795,7 @@ public struct Keyspaces: AWSService {
             addColumns: addColumns, 
             autoScalingSpecification: autoScalingSpecification, 
             capacitySpecification: capacitySpecification, 
+            cdcSpecification: cdcSpecification, 
             clientSideTimestamps: clientSideTimestamps, 
             defaultTimeToLive: defaultTimeToLive, 
             encryptionSpecification: encryptionSpecification, 
@@ -837,7 +843,7 @@ extension Keyspaces {
     /// Return PaginatorSequence for operation ``listKeyspaces(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The total number of keyspaces to return in the output. If the total number of keyspaces available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+    ///   - maxResults: The total number of keyspaces to return in the output. If the total number of keyspaces available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - logger: Logger used for logging
     @inlinable
     public func listKeyspacesPaginator(
@@ -872,7 +878,7 @@ extension Keyspaces {
     ///
     /// - Parameters:
     ///   - keyspaceName: The name of the keyspace.
-    ///   - maxResults: The total number of tables to return in the output. If the total number of tables available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+    ///   - maxResults: The total number of tables to return in the output. If the total number of tables available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTablesPaginator(
@@ -908,7 +914,7 @@ extension Keyspaces {
     /// Return PaginatorSequence for operation ``listTagsForResource(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The total number of tags to return in the output. If the total number of tags available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
+    ///   - maxResults: The total number of tags to return in the output. If the total number of tags available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon Keyspaces resource.
     ///   - logger: Logger used for logging
     @inlinable
@@ -946,7 +952,7 @@ extension Keyspaces {
     ///
     /// - Parameters:
     ///   - keyspaceName:  The name of the keyspace that contains the listed types.
-    ///   - maxResults:  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an  argument of a subsequent API invocation.
+    ///   - maxResults:  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTypesPaginator(

@@ -299,6 +299,7 @@ public struct MediaPackageV2: AWSService {
     ///   - forceEndpointErrorConfiguration: The failover settings for the endpoint.
     ///   - hlsManifests: An HTTP live streaming (HLS) manifest configuration.
     ///   - lowLatencyHlsManifests: A low-latency HLS manifest configuration.
+    ///   - mssManifests: A list of Microsoft Smooth Streaming (MSS) manifest configurations for the origin endpoint. You can configure multiple MSS manifests to provide different streaming experiences or to support different client requirements.
     ///   - originEndpointName: The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and must be unique for your account in the AWS Region and channel. You can't use spaces in the name. You can't change the name after you create the endpoint.
     ///   - segment: The segment configuration, including the segment name, duration, and other configuration values.
     ///   - startoverWindowSeconds: The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
@@ -315,6 +316,7 @@ public struct MediaPackageV2: AWSService {
         forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil,
+        mssManifests: [CreateMssManifestConfiguration]? = nil,
         originEndpointName: String,
         segment: Segment? = nil,
         startoverWindowSeconds: Int? = nil,
@@ -331,6 +333,7 @@ public struct MediaPackageV2: AWSService {
             forceEndpointErrorConfiguration: forceEndpointErrorConfiguration, 
             hlsManifests: hlsManifests, 
             lowLatencyHlsManifests: lowLatencyHlsManifests, 
+            mssManifests: mssManifests, 
             originEndpointName: originEndpointName, 
             segment: segment, 
             startoverWindowSeconds: startoverWindowSeconds, 
@@ -1189,6 +1192,7 @@ public struct MediaPackageV2: AWSService {
     ///   - forceEndpointErrorConfiguration: The failover settings for the endpoint.
     ///   - hlsManifests: An HTTP live streaming (HLS) manifest configuration.
     ///   - lowLatencyHlsManifests: A low-latency HLS manifest configuration.
+    ///   - mssManifests: A list of Microsoft Smooth Streaming (MSS) manifest configurations to update for the origin endpoint. This replaces the existing MSS manifest configurations.
     ///   - originEndpointName: The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     ///   - segment: The segment configuration, including the segment name, duration, and other configuration values.
     ///   - startoverWindowSeconds: The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
@@ -1204,6 +1208,7 @@ public struct MediaPackageV2: AWSService {
         forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil,
+        mssManifests: [CreateMssManifestConfiguration]? = nil,
         originEndpointName: String,
         segment: Segment? = nil,
         startoverWindowSeconds: Int? = nil,
@@ -1219,6 +1224,7 @@ public struct MediaPackageV2: AWSService {
             forceEndpointErrorConfiguration: forceEndpointErrorConfiguration, 
             hlsManifests: hlsManifests, 
             lowLatencyHlsManifests: lowLatencyHlsManifests, 
+            mssManifests: mssManifests, 
             originEndpointName: originEndpointName, 
             segment: segment, 
             startoverWindowSeconds: startoverWindowSeconds

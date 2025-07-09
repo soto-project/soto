@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS MedicalImaging service.
 ///
-/// This is the AWS HealthImaging API Reference. AWS HealthImaging is a HIPAA eligible service that empowers healthcare providers, life science organizations, and their software partners to store, analyze, and share medical images in the cloud at petabyte scale. For an introduction to the service, see the  AWS HealthImaging Developer Guide .  We recommend using one of the AWS Software Development Kits (SDKs) for your programming language, as they take care of request authentication, serialization, and connection management. For more information, see Tools to build on AWS.  The following sections list AWS HealthImaging API actions categorized according to functionality. Links are  provided to actions within this Reference, along with links back to corresponding sections in the  AWS HealthImaging Developer Guide where you can view tested code examples.  Data store actions     CreateDatastore – See  Creating a data store.    GetDatastore – See  Getting data store properties.    ListDatastores – See  Listing data stores.    DeleteDatastore – See  Deleting a data store.    Import job actions     StartDICOMImportJob – See  Starting an import job.    GetDICOMImportJob – See  Getting import job properties.    ListDICOMImportJobs – See  Listing import jobs.    Image set access actions     SearchImageSets – See  Searching image sets.    GetImageSet – See  Getting image set properties.    GetImageSetMetadata – See  Getting image set metadata.    GetImageFrame – See  Getting image set pixel data.    Image set modification actions     ListImageSetVersions – See  Listing image set versions.    UpdateImageSetMetadata – See  Updating image set metadata.    CopyImageSet – See  Copying an image set.    DeleteImageSet – See  Deleting an image set.    Tagging actions     TagResource – See Tagging a resource.    ListTagsForResource – See Listing tags for a resource.    UntagResource – See Untagging a resource.
+/// This is the AWS HealthImaging API Reference. For an introduction to the service, see What is AWS HealthImaging? in the AWS HealthImaging Developer Guide.
 public struct MedicalImaging: AWSService {
     // MARK: Member variables
 
@@ -97,7 +97,8 @@ public struct MedicalImaging: AWSService {
     /// Parameters:
     ///   - copyImageSetInformation: Copy image set information.
     ///   - datastoreId: The data store identifier.
-    ///   - force: Setting this flag will force the CopyImageSet operation, even if Patient, Study, or Series level metadata are mismatched across the sourceImageSet and destinationImageSet.
+    ///   - force: Providing this parameter will force completion of the CopyImageSet operation, even if there are inconsistent Patient, Study, and/or Series level metadata elements between the sourceImageSet and destinationImageSet.
+    ///   - promoteToPrimary: Providing this parameter will configure the CopyImageSet operation to promote the given image set to the primary DICOM hierarchy. If successful, a new primary image set ID will be returned as the destination image set.
     ///   - sourceImageSetId: The source image set identifier.
     ///   - logger: Logger use during operation
     @inlinable
@@ -105,6 +106,7 @@ public struct MedicalImaging: AWSService {
         copyImageSetInformation: CopyImageSetInformation,
         datastoreId: String,
         force: Bool? = nil,
+        promoteToPrimary: Bool? = nil,
         sourceImageSetId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CopyImageSetResponse {
@@ -112,6 +114,7 @@ public struct MedicalImaging: AWSService {
             copyImageSetInformation: copyImageSetInformation, 
             datastoreId: datastoreId, 
             force: force, 
+            promoteToPrimary: promoteToPrimary, 
             sourceImageSetId: sourceImageSetId
         )
         return try await self.copyImageSet(input, logger: logger)
@@ -527,7 +530,7 @@ public struct MedicalImaging: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting  in descending order from newest to oldest.
+    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest.
     @Sendable
     @inlinable
     public func searchImageSets(_ input: SearchImageSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchImageSetsResponse {
@@ -541,7 +544,7 @@ public struct MedicalImaging: AWSService {
             logger: logger
         )
     }
-    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting  in descending order from newest to oldest.
+    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest.
     ///
     /// Parameters:
     ///   - datastoreId: The identifier of the data store where the image sets reside.

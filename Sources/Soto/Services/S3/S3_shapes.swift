@@ -355,6 +355,7 @@ extension S3 {
     public enum ObjectStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepArchive = "DEEP_ARCHIVE"
         case expressOnezone = "EXPRESS_ONEZONE"
+        case fsxOpenzfs = "FSX_OPENZFS"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
@@ -453,6 +454,7 @@ extension S3 {
 
     public enum ServerSideEncryption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
+        case awsFsx = "aws:fsx"
         case awsKms = "aws:kms"
         case awsKmsDsse = "aws:kms:dsse"
         public var description: String { return self.rawValue }
@@ -473,6 +475,7 @@ extension S3 {
     public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepArchive = "DEEP_ARCHIVE"
         case expressOnezone = "EXPRESS_ONEZONE"
+        case fsxOpenzfs = "FSX_OPENZFS"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
@@ -924,6 +927,8 @@ extension S3 {
     }
 
     public struct Bucket: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services.  This parameter is only supported for S3 directory buckets. For more information, see Using tags with directory buckets.
+        public let bucketArn: String?
         ///  BucketRegion indicates the Amazon Web Services region where the bucket is located. If the request contains at least one valid parameter, it is included in the response.
         public let bucketRegion: String?
         /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
@@ -932,13 +937,15 @@ extension S3 {
         public let name: String?
 
         @inlinable
-        public init(bucketRegion: String? = nil, creationDate: Date? = nil, name: String? = nil) {
+        public init(bucketArn: String? = nil, bucketRegion: String? = nil, creationDate: Date? = nil, name: String? = nil) {
+            self.bucketArn = bucketArn
             self.bucketRegion = bucketRegion
             self.creationDate = creationDate
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketArn = "BucketArn"
             case bucketRegion = "BucketRegion"
             case creationDate = "CreationDate"
             case name = "Name"
@@ -1186,7 +1193,7 @@ extension S3 {
         /// The URI that identifies the newly created object.
         public let location: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If present, indicates the ID of the KMS key that was used for object encryption.
         public let ssekmsKeyId: String?
@@ -1422,7 +1429,7 @@ extension S3 {
         /// If the object expiration is configured, the response includes this header.  Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
         public let expiration: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used.  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -1536,7 +1543,7 @@ extension S3 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3. Unrecognized or unsupported values won’t write a destination object and will receive a 400 Bad Request response.  Amazon S3 automatically encrypts all new objects that are copied to an S3 bucket. When copying an object, if you don't specify encryption information in your copy request, the encryption setting of the target object is set to the default encryption configuration of the destination bucket. By default, all buckets have a base level of encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the destination bucket has a different default encryption configuration, Amazon S3 uses the corresponding encryption key to encrypt the target object copy. With server-side encryption, Amazon S3 encrypts your data as it writes your data to disks in its data centers and decrypts the data when you access it. For more information about server-side encryption, see Using Server-Side Encryption in the Amazon S3 User Guide.  General purpose buckets     For general purpose buckets, there are the following supported options for server-side encryption: server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), and server-side encryption with customer-provided encryption keys (SSE-C). Amazon S3 uses the corresponding KMS key, or a customer-provided key to encrypt the target object copy.   When you perform a CopyObject operation, if you want to use a different type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence.     Directory buckets     For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your  CreateSession requests or PUT object requests. Then, new objects  are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads.   To encrypt new object copies to a directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a customer managed key). The Amazon Web Services managed key (aws/s3) isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket. After you specify a customer managed key for SSE-KMS, you can't override the customer managed key for the bucket's SSE-KMS configuration. Then, when you perform a CopyObject operation and want to specify server-side encryption settings for new object copies with SSE-KMS in the encryption-related request headers, you must ensure the encryption key is the same customer managed key that you specified for the directory bucket's default encryption configuration.
+        /// The server-side encryption algorithm used when storing this object in Amazon S3. Unrecognized or unsupported values won’t write a destination object and will receive a 400 Bad Request response.  Amazon S3 automatically encrypts all new objects that are copied to an S3 bucket. When copying an object, if you don't specify encryption information in your copy request, the encryption setting of the target object is set to the default encryption configuration of the destination bucket. By default, all buckets have a base level of encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the destination bucket has a different default encryption configuration, Amazon S3 uses the corresponding encryption key to encrypt the target object copy. With server-side encryption, Amazon S3 encrypts your data as it writes your data to disks in its data centers and decrypts the data when you access it. For more information about server-side encryption, see Using Server-Side Encryption in the Amazon S3 User Guide.  General purpose buckets     For general purpose buckets, there are the following supported options for server-side encryption: server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), and server-side encryption with customer-provided encryption keys (SSE-C). Amazon S3 uses the corresponding KMS key, or a customer-provided key to encrypt the target object copy.   When you perform a CopyObject operation, if you want to use a different type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence.     Directory buckets     For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your  CreateSession requests or PUT object requests. Then, new objects  are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads.   To encrypt new object copies to a directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a customer managed key). The Amazon Web Services managed key (aws/s3) isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket. After you specify a customer managed key for SSE-KMS, you can't override the customer managed key for the bucket's SSE-KMS configuration. Then, when you perform a CopyObject operation and want to specify server-side encryption settings for new object copies with SSE-KMS in the encryption-related request headers, you must ensure the encryption key is the same customer managed key that you specified for the directory bucket's default encryption configuration.     S3 access points for Amazon FSx  - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use when encrypting the object (for example, AES256). When you perform a CopyObject operation, if you want to use a different type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence.   This functionality is not supported when the destination bucket is a directory bucket.
         public let sseCustomerAlgorithm: String?
@@ -1743,24 +1750,37 @@ extension S3 {
     }
 
     public struct CreateBucketConfiguration: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// Specifies the information about the bucket that will be created.  This functionality is only supported by directory buckets.
         public let bucket: BucketInfo?
         /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  To use the Local Zone location type, your account must be  enabled for Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the  error code AccessDenied. To learn more, see Enable accounts for Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
         public let location: LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see Regions and Endpoints.  This functionality is not supported for directory buckets.
         public let locationConstraint: BucketLocationConstraint?
+        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access.   This parameter is only supported for S3 directory buckets. For more information, see Using tags with directory buckets.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         @inlinable
-        public init(bucket: BucketInfo? = nil, location: LocationInfo? = nil, locationConstraint: BucketLocationConstraint? = nil) {
+        public init(bucket: BucketInfo? = nil, location: LocationInfo? = nil, locationConstraint: BucketLocationConstraint? = nil, tags: [Tag]? = nil) {
             self.bucket = bucket
             self.location = location
             self.locationConstraint = locationConstraint
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case location = "Location"
             case locationConstraint = "LocationConstraint"
+            case tags = "Tags"
         }
     }
 
@@ -1801,16 +1821,20 @@ extension S3 {
     }
 
     public struct CreateBucketOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services.  This parameter is only supported for S3 directory buckets. For more information, see Using tags with directory buckets.
+        public let bucketArn: String?
         /// A forward slash followed by the name of the bucket.
         public let location: String?
 
         @inlinable
-        public init(location: String? = nil) {
+        public init(bucketArn: String? = nil, location: String? = nil) {
+            self.bucketArn = bucketArn
             self.location = location
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.bucketArn = try response.decodeHeaderIfPresent(String.self, key: "x-amz-bucket-arn")
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
@@ -1868,6 +1892,10 @@ extension S3 {
             request.encodeHeader(self.objectOwnership, key: "x-amz-object-ownership")
         }
 
+        public func validate(name: String) throws {
+            try self.createBucketConfiguration?.validate(name: "\(name).createBucketConfiguration")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1888,7 +1916,7 @@ extension S3 {
         /// Object key for which the multipart upload was initiated.
         public let key: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used.  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -1992,8 +2020,8 @@ extension S3 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).    Directory buckets  - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your  CreateSession requests or PUT object requests. Then, new objects  are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads.  In the Zonal endpoint API calls (except CopyObject and UploadPartCopy) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request.  You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request.  You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and    Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket.    When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the  CreateSession request. It's not supported to override the encryption settings values in the CreateSession request.  So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy),  the encryption request headers must match the default encryption configuration of the directory bucket.
-        ///
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.    Directory buckets  - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your  CreateSession requests or PUT object requests. Then, new objects  are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads.  In the Zonal endpoint API calls (except CopyObject and UploadPartCopy) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request.  You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request.  You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and    Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket.    When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the  CreateSession request. It's not supported to override the encryption settings values in the CreateSession request.  So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy),  the encryption request headers must match the default encryption configuration of the directory bucket.
+        ///      S3 access points for Amazon FSx  - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use when encrypting the object (for example, AES256).  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -2098,7 +2126,7 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// The established temporary security credentials for the created session.
         public let credentials: SessionCredentials
-        /// The server-side encryption algorithm used when you store objects in the directory bucket.
+        /// The server-side encryption algorithm used when you store objects in the directory bucket.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject  operations on this object.
         public let ssekmsEncryptionContext: String?
@@ -2135,7 +2163,7 @@ extension S3 {
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using KMS keys (SSE-KMS). S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets
         /// to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject, UploadPartCopy, the Copy operation in Batch Operations, or  the import jobs. In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
         public let bucketKeyEnabled: Bool?
-        /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default, Amazon S3 encrypts data with SSE-S3.  For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide.
+        /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default, Amazon S3 encrypts data with SSE-S3.  For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide.  S3 access points for Amazon FSx  - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the mode of the session that will be created, either ReadWrite or ReadOnly. By default, a ReadWrite session is created. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject, HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
         public let sessionMode: SessionMode?
@@ -2855,7 +2883,7 @@ extension S3 {
         public let metrics: Metrics?
         ///  A container specifying S3 Replication Time Control (S3 RTC), including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block.
         public let replicationTime: ReplicationTime?
-        ///  The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica.  For valid values, see the StorageClass element of the PUT Bucket replication action in the Amazon S3 API Reference.
+        ///  The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica.  For valid values, see the StorageClass element of the PUT Bucket replication action in the Amazon S3 API Reference.  FSX_OPENZFS is not an accepted value when replicating objects.
         public let storageClass: StorageClass?
 
         @inlinable
@@ -4264,7 +4292,7 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// Provides information about object restoration action and expiration time of the restored object copy.  This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
         public let restore: String?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3.
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used.  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -4751,6 +4779,8 @@ extension S3 {
     public struct HeadBucketOutput: AWSDecodableShape {
         /// Indicates whether the bucket name used in the request is an access point alias.  For directory buckets, the value of this field is false.
         public let accessPointAlias: Bool?
+        /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services.  This parameter is only supported for S3 directory buckets. For more information, see Using tags with directory buckets.
+        public let bucketArn: String?
         /// The name of the location where the bucket will be created. For directory buckets, the Zone ID of the Availability Zone or the Local Zone where the bucket is created. An example Zone ID value for an Availability Zone is usw2-az1.  This functionality is only supported by directory buckets.
         public let bucketLocationName: String?
         /// The type of location where the bucket is created.  This functionality is only supported by directory buckets.
@@ -4759,8 +4789,9 @@ extension S3 {
         public let bucketRegion: String?
 
         @inlinable
-        public init(accessPointAlias: Bool? = nil, bucketLocationName: String? = nil, bucketLocationType: LocationType? = nil, bucketRegion: String? = nil) {
+        public init(accessPointAlias: Bool? = nil, bucketArn: String? = nil, bucketLocationName: String? = nil, bucketLocationType: LocationType? = nil, bucketRegion: String? = nil) {
             self.accessPointAlias = accessPointAlias
+            self.bucketArn = bucketArn
             self.bucketLocationName = bucketLocationName
             self.bucketLocationType = bucketLocationType
             self.bucketRegion = bucketRegion
@@ -4769,6 +4800,7 @@ extension S3 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             self.accessPointAlias = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-access-point-alias")
+            self.bucketArn = try response.decodeHeaderIfPresent(String.self, key: "x-amz-bucket-arn")
             self.bucketLocationName = try response.decodeHeaderIfPresent(String.self, key: "x-amz-bucket-location-name")
             self.bucketLocationType = try response.decodeHeaderIfPresent(LocationType.self, key: "x-amz-bucket-location-type")
             self.bucketRegion = try response.decodeHeaderIfPresent(String.self, key: "x-amz-bucket-region")
@@ -4864,7 +4896,7 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see RestoreObject or an archive copy is already restored. If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example:  x-amz-restore: ongoing-request="false", expiry-date="Fri, 21 Dec 2012 00:00:00 GMT"  If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see Transitioning Objects: General Considerations.  This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
         public let restore: String?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used.  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -5436,7 +5468,7 @@ extension S3 {
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public let expiration: LifecycleExpiration?
-        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element.   Tag filters are not supported for directory buckets.
+        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element. For more information about Tag filters, see Adding filters to Lifecycle rules in the Amazon S3 User Guide.   Tag filters are not supported for directory buckets.
         public let filter: LifecycleRuleFilter
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
@@ -5962,7 +5994,7 @@ extension S3 {
     public struct ListMultipartUploadsRequest: AWSEncodableShape {
         /// The name of the bucket to which the multipart upload was initiated.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
-        /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.   Directory buckets - For directory buckets, / is the only supported delimiter.
+        /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.  CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker.   Directory buckets - For directory buckets, / is the only supported delimiter.
         public let delimiter: String?
         public let encodingType: EncodingType?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -6093,7 +6125,7 @@ extension S3 {
     public struct ListObjectVersionsRequest: AWSEncodableShape {
         /// The bucket name that contains the objects.
         public let bucket: String
-        /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
+        /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.  CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker.
         public let delimiter: String?
         public let encodingType: EncodingType?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -6213,7 +6245,7 @@ extension S3 {
     public struct ListObjectsRequest: AWSEncodableShape {
         /// The name of the bucket containing the objects.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
-        /// A delimiter is a character that you use to group keys.
+        /// A delimiter is a character that you use to group keys.  CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker.
         public let delimiter: String?
         public let encodingType: EncodingType?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -6342,7 +6374,7 @@ extension S3 {
         public let bucket: String
         ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
         public let continuationToken: String?
-        /// A delimiter is a character that you use to group keys.     Directory buckets - For directory buckets, / is the only supported delimiter.    Directory buckets  - When you query ListObjectsV2 with a delimiter during in-progress multipart uploads, the CommonPrefixes response parameter contains the prefixes that are associated with the in-progress multipart uploads. For more information about multipart uploads, see Multipart Upload Overview in the Amazon S3 User Guide.
+        /// A delimiter is a character that you use to group keys.  CommonPrefixes is filtered out from results if it is not lexicographically greater than the StartAfter value.     Directory buckets - For directory buckets, / is the only supported delimiter.    Directory buckets  - When you query ListObjectsV2 with a delimiter during in-progress multipart uploads, the CommonPrefixes response parameter contains the prefixes that are associated with the in-progress multipart uploads. For more information about multipart uploads, see Multipart Upload Overview in the Amazon S3 User Guide.
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode the object keys in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see Object key naming guidelines.  When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
         public let encodingType: EncodingType?
@@ -8224,7 +8256,7 @@ extension S3 {
         /// If the expiration is configured for the object (see PutBucketLifecycleConfiguration) in the Amazon S3 User Guide, the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL-encoded.  Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
         public let expiration: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3.
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         ///  The size of the object in bytes. This value is only be present if you append to an object.   This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
         public let size: Int64?
@@ -8351,8 +8383,8 @@ extension S3 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
-        /// The server-side encryption algorithm that was used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).    General purpose buckets  - You have four mutually exclusive options to protect data using server-side encryption in Amazon S3, depending on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS or DSSE-KMS), and customer-provided keys (SSE-C). Amazon S3 encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side encryption with other key options. For more information, see Using Server-Side Encryption in the Amazon S3 User Guide.    Directory buckets  - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your  CreateSession requests or PUT object requests. Then, new objects  are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads.  In the Zonal endpoint API calls (except CopyObject and UploadPartCopy) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request.  You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request.  You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and    Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket.    When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the  CreateSession request. It's not supported to override the encryption settings values in the CreateSession request.  So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy),  the encryption request headers must match the default encryption configuration of the directory bucket.
-        ///
+        /// The server-side encryption algorithm that was used when you store this object in Amazon S3 or Amazon FSx.    General purpose buckets  - You have four mutually exclusive options to protect data using server-side encryption in Amazon S3, depending on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS or DSSE-KMS), and customer-provided keys (SSE-C). Amazon S3 encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side encryption with other key options. For more information, see Using Server-Side Encryption in the Amazon S3 User Guide.    Directory buckets  - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your  CreateSession requests or PUT object requests. Then, new objects  are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads.  In the Zonal endpoint API calls (except CopyObject and UploadPartCopy) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request.  You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request.  You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and    Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket.    When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the  CreateSession request. It's not supported to override the encryption settings values in the CreateSession request.  So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy),  the encryption request headers must match the default encryption configuration of the directory bucket.
+        ///      S3 access points for Amazon FSx  - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use when encrypting the object (for example, AES256).  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -8746,7 +8778,7 @@ extension S3 {
     public struct RenameObjectRequest: AWSEncodableShape {
         /// The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket-base-name--zone-id--x-s3  (for example, amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.
         public let bucket: String
-        ///  A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126. RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
+        ///  A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126.   RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
         public let clientToken: String?
         /// Renames the object only if the ETag (entity tag) value provided during the operation matches the ETag of the object in S3. The If-Match header field makes the request method conditional on ETags. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string.
         public let destinationIfMatch: String?
@@ -9768,7 +9800,7 @@ extension S3 {
         /// The version of the source object that was copied, if you have enabled versioning on the source bucket.  This functionality is not supported when the source object is in a directory bucket.
         public let copySourceVersionId: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used.  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -9917,7 +9949,7 @@ extension S3 {
         /// Entity tag for the uploaded object.
         public let eTag: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used.  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
@@ -10174,7 +10206,7 @@ extension S3 {
         public let requestToken: String
         /// Provides information about object restoration operation and expiration time of the restored object copy.
         public let restore: String?
-        ///  The server-side encryption algorithm used when storing requested object in Amazon S3 (for example, AES256, aws:kms).
+        ///  The server-side encryption algorithm used when storing requested object in Amazon S3 or Amazon FSx.  When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
         public let serverSideEncryption: ServerSideEncryption?
         /// Encryption algorithm used if server-side encryption with a customer-provided encryption key was specified for object stored in Amazon S3.
         public let sseCustomerAlgorithm: String?

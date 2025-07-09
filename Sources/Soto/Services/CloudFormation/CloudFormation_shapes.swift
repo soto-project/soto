@@ -505,6 +505,7 @@ extension CloudFormation {
         case inSync = "IN_SYNC"
         case modified = "MODIFIED"
         case notChecked = "NOT_CHECKED"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -1086,7 +1087,7 @@ extension CloudFormation {
         public let clientToken: String?
         /// A description to help you identify this change set.
         public let description: String?
-        /// Indicates if the change set imports resources that already exist.  This parameter can only import resources that have custom names in templates. For more information, see name type in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the resource import feature instead. For more information, see Import Amazon Web Services resources into a CloudFormation stack with a resource import in the CloudFormation User Guide.
+        /// Indicates if the change set auto-imports resources that already exist. For more information, see Import Amazon Web Services resources into a CloudFormation stack automatically in the CloudFormation User Guide.  This parameter can only import resources that have custom names in templates. For more information, see name type in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
         public let importExistingResources: Bool?
         /// Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
         public let includeNestedStacks: Bool?
@@ -1115,7 +1116,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
         public let templateBody: String?
-        /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only TemplateBody or TemplateURL.
+        /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only TemplateBody or TemplateURL.
         public let templateURL: String?
         /// Whether to reuse the template that's associated with the stack to create the change set.
         public let usePreviousTemplate: Bool?
@@ -1295,16 +1296,16 @@ extension CloudFormation {
         public let rollbackConfiguration: RollbackConfiguration?
         /// The name that's associated with the stack. The name must be unique in the Region in which you are creating the stack.  A stack name can contain only alphanumeric characters (case sensitive) and hyphens. It must start with an alphabetical character and can't be longer than 128 characters.
         public let stackName: String?
-        /// Structure containing the stack policy body. For more information, see Prevent updates to stack resources in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+        /// Structure that contains the stack policy body. For more information, see Prevent updates to stack resources in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
         public let stackPolicyBody: String?
-        /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+        /// Location of a file that contains the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
         public let stackPolicyURL: String?
         /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to the resources created in the stack. A maximum number of 50 tags can be specified.
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
-        /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either TemplateBody or TemplateURL, but not both.
         public let templateBody: String?
-        /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
         /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
         public let timeoutInMinutes: Int?
@@ -1548,7 +1549,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateBody: String?
-        /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. S3 static website URLs are not supported. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
 
         @inlinable
@@ -2418,7 +2419,7 @@ extension CloudFormation {
         public let driftedStackResourceCount: Int?
         /// The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of reports CloudFormation retains for any given stack, and for how long, may vary.
         public let stackDriftDetectionId: String?
-        /// Status of the stack's actual configuration compared to its expected configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.
+        /// Status of the stack's actual configuration compared to its expected configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: CloudFormation could not run drift detection for a resource in the stack. See the DetectionStatusReason for details.
         public let stackDriftStatus: StackDriftStatus?
         /// The ID of the stack.
         public let stackId: String?
@@ -2594,7 +2595,7 @@ extension CloudFormation {
         public let nextToken: String?
         /// The name of the stack for which you want drift information.
         public let stackName: String?
-        /// The resource drift status values to use as filters for the resource drift results returned.    DELETED: The resource differs from its expected template configuration in that the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected template values.    IN_SYNC: The resource's actual configuration matches its expected template configuration.    NOT_CHECKED: CloudFormation doesn't currently return this value.
+        /// The resource drift status values to use as filters for the resource drift results returned.    DELETED: The resource differs from its expected template configuration in that the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected template values.    IN_SYNC: The resource's actual configuration matches its expected template configuration.    NOT_CHECKED: CloudFormation doesn't currently return this value.    UNKNOWN: CloudFormation could not run drift detection for the resource.
         @OptionalCustomCoding<StandardArrayCoder<StackResourceDriftStatus>>
         public var stackResourceDriftStatusFilters: [StackResourceDriftStatus]?
 
@@ -2663,7 +2664,7 @@ extension CloudFormation {
     }
 
     public struct DescribeStackResourceOutput: AWSDecodableShape {
-        /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
+        /// A StackResourceDetail structure that contains the description of the specified resource in the specified stack.
         public let stackResourceDetail: StackResourceDetail?
 
         @inlinable
@@ -3173,9 +3174,9 @@ extension CloudFormation {
         /// A list of Parameter structures that specify input parameters.
         @OptionalCustomCoding<StandardArrayCoder<Parameter>>
         public var parameters: [Parameter]?
-        /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
+        /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
         public let templateBody: String?
-        /// The URL of a file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+        /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
         @inlinable
@@ -3349,7 +3350,7 @@ extension CloudFormation {
     }
 
     public struct GetStackPolicyOutput: AWSDecodableShape {
-        /// Structure containing the stack policy body. (For more information, see Prevent updates to stack resources in the CloudFormation User Guide.)
+        /// Structure that contains the stack policy body. (For more information, see Prevent updates to stack resources in the CloudFormation User Guide.)
         public let stackPolicyBody: String?
 
         @inlinable
@@ -3394,7 +3395,7 @@ extension CloudFormation {
         /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After CloudFormation finishes creating the change set, the Processed template becomes available.
         @OptionalCustomCoding<StandardArrayCoder<TemplateStage>>
         public var stagesAvailable: [TemplateStage]?
-        /// Structure containing the template body. CloudFormation returns the same template that was used when the stack was created.
+        /// Structure that contains the template body. CloudFormation returns the same template that was used when the stack was created.
         public let templateBody: String?
 
         @inlinable
@@ -3416,11 +3417,11 @@ extension CloudFormation {
         public let stackName: String?
         /// The name or unique ID of the stack set from which the stack was created. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let stackSetName: String?
-        /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+        /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateBody: String?
         /// Specifies options for the GetTemplateSummary API action.
         public let templateSummaryConfig: TemplateSummaryConfig?
-        /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+        /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateURL: String?
 
         @inlinable
@@ -3476,7 +3477,7 @@ extension CloudFormation {
         public var resourceTypes: [String]?
         /// The Amazon Web Services template format version, which identifies the capabilities of the template.
         public let version: String?
-        /// An object containing any warnings returned.
+        /// An object that contains any warnings returned.
         public let warnings: Warnings?
 
         @inlinable
@@ -4545,7 +4546,7 @@ extension CloudFormation {
     public struct ListStacksOutput: AWSDecodableShape {
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
-        /// A list of StackSummary structures containing information about the specified stacks.
+        /// A list of StackSummary structures that contains information about the specified stacks.
         @OptionalCustomCoding<StandardArrayCoder<StackSummary>>
         public var stackSummaries: [StackSummary]?
 
@@ -4805,9 +4806,9 @@ extension CloudFormation {
     }
 
     public struct ModuleInfo: AWSDecodableShape {
-        /// A concatenated list of the logical IDs of the module or modules containing the resource. Modules are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module, moduleA, that's nested inside a parent module, moduleB.  moduleA/moduleB  For more information, see Reference module resources in CloudFormation templates in the CloudFormation User Guide.
+        /// A concatenated list of the logical IDs of the module or modules that contains the resource. Modules are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module, moduleA, that's nested inside a parent module, moduleB.  moduleA/moduleB  For more information, see Reference module resources in CloudFormation templates in the CloudFormation User Guide.
         public let logicalIdHierarchy: String?
-        /// A concatenated list of the module type or types containing the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that's nested inside a parent module of type AWS::Second::Example::MODULE.  AWS::First::Example::MODULE/AWS::Second::Example::MODULE
+        /// A concatenated list of the module type or types that contains the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that's nested inside a parent module of type AWS::Second::Example::MODULE.  AWS::First::Example::MODULE/AWS::Second::Example::MODULE
         public let typeHierarchy: String?
 
         @inlinable
@@ -5139,7 +5140,7 @@ extension CloudFormation {
         public let executionRoleArn: String?
         /// Specifies logging configuration information for an extension.
         public let loggingConfig: LoggingConfig?
-        /// A URL to the S3 bucket containing the extension project package that contains the necessary files for the extension you want to register. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide.  The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Amazon S3 in the Identity and Access Management User Guide.
+        /// A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to register. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide.  The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Amazon S3 in the Identity and Access Management User Guide.
         public let schemaHandlerPackage: String?
         /// The kind of extension.
         public let type: RegistryType?
@@ -5225,9 +5226,9 @@ extension CloudFormation {
     public struct ResourceChange: AWSDecodableShape {
         /// The action that CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), Remove (deletes a resource), Import (imports a resource), or Dynamic (exact action for the resource can't be determined).
         public let action: ChangeAction?
-        /// An encoded JSON string containing the context of the resource after the change is executed.
+        /// An encoded JSON string that contains the context of the resource after the change is executed.
         public let afterContext: String?
-        /// An encoded JSON string containing the context of the resource before the change is executed.
+        /// An encoded JSON string that contains the context of the resource before the change is executed.
         public let beforeContext: String?
         /// The change set ID of the nested change set.
         public let changeSetId: String?
@@ -5718,9 +5719,9 @@ extension CloudFormation {
     public struct SetStackPolicyInput: AWSEncodableShape {
         /// The name or unique stack ID that you want to associate a policy with.
         public let stackName: String?
-        /// Structure containing the stack policy body. For more information, see Prevent updates to stack resources in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+        /// Structure that contains the stack policy body. For more information, see Prevent updates to stack resources in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
         public let stackPolicyBody: String?
-        /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+        /// Location of a file that contains the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
         public let stackPolicyURL: String?
 
         @inlinable
@@ -5909,7 +5910,7 @@ extension CloudFormation {
         /// A list of Parameter structures.
         @OptionalCustomCoding<StandardArrayCoder<Parameter>>
         public var parameters: [Parameter]?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see Embed stacks within other stacks using nested stacks in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see Nested stacks in the CloudFormation User Guide.
         public let parentId: String?
         /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
         public let retainExceptOnCreate: Bool?
@@ -5917,7 +5918,7 @@ extension CloudFormation {
         public let roleARN: String?
         /// The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
         public let rollbackConfiguration: RollbackConfiguration?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see Embed stacks within other stacks using nested stacks in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see Nested stacks in the CloudFormation User Guide.
         public let rootId: String?
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -6022,7 +6023,7 @@ extension CloudFormation {
     public struct StackDriftInformation: AWSDecodableShape {
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: Date?
-        /// Status of the stack's actual configuration compared to its expected template configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.
+        /// Status of the stack's actual configuration compared to its expected template configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: CloudFormation could not run drift detection for a resource in the stack.
         public let stackDriftStatus: StackDriftStatus?
 
         @inlinable
@@ -6040,7 +6041,7 @@ extension CloudFormation {
     public struct StackDriftInformationSummary: AWSDecodableShape {
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: Date?
-        /// Status of the stack's actual configuration compared to its expected template configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.
+        /// Status of the stack's actual configuration compared to its expected template configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: CloudFormation could not run drift detection for a resource in the stack.
         public let stackDriftStatus: StackDriftStatus?
 
         @inlinable
@@ -6058,7 +6059,7 @@ extension CloudFormation {
     public struct StackEvent: AWSDecodableShape {
         /// The token passed to the operation that generated this event. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
         public let clientRequestToken: String?
-        /// An optional field containing information about the detailed status of the stack event.    CONFIGURATION_COMPLETE - all of the resources in the stack have reached that event. For more information, see Understand CloudFormation stack creation events in the CloudFormation User Guide.      VALIDATION_FAILED - template validation failed because of invalid properties in the template. The ResourceStatusReason field shows what properties are defined incorrectly.
+        /// An optional field that contains information about the detailed status of the stack event.    CONFIGURATION_COMPLETE - all of the resources in the stack have reached that event. For more information, see Understand CloudFormation stack creation events in the CloudFormation User Guide.      VALIDATION_FAILED - template validation failed because of invalid properties in the template. The ResourceStatusReason field shows what properties are defined incorrectly.
         public let detailedStatus: DetailedStatus?
         /// The unique ID of this event.
         public let eventId: String?
@@ -6527,9 +6528,11 @@ extension CloudFormation {
     }
 
     public struct StackResourceDrift: AWSDecodableShape {
-        /// A JSON structure containing the actual property values of the stack resource. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
+        /// A JSON structure that contains the actual property values of the stack resource. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
         public let actualProperties: String?
-        /// A JSON structure containing the expected property values of the stack resource, as defined in the stack template and any values specified as template parameters. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
+        /// The reason for the drift status.
+        public let driftStatusReason: String?
+        /// A JSON structure that contains the expected property values of the stack resource, as defined in the stack template and any values specified as template parameters. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
         public let expectedProperties: String?
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String?
@@ -6547,14 +6550,15 @@ extension CloudFormation {
         public let resourceType: String?
         /// The ID of the stack.
         public let stackId: String?
-        /// Status of the resource's actual configuration compared to its expected configuration.    DELETED: The resource differs from its expected template configuration because the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected values (as defined in the stack template and any values specified as template parameters).    IN_SYNC: The resource's actual configuration matches its expected template configuration.    NOT_CHECKED: CloudFormation does not currently return this value.
+        /// Status of the resource's actual configuration compared to its expected configuration.    DELETED: The resource differs from its expected template configuration because the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected values (as defined in the stack template and any values specified as template parameters).    IN_SYNC: The resource's actual configuration matches its expected template configuration.    NOT_CHECKED: CloudFormation does not currently return this value.    UNKNOWN: CloudFormation could not run drift detection for the resource. See the DriftStatusReason for details.
         public let stackResourceDriftStatus: StackResourceDriftStatus?
         /// Time at which CloudFormation performed drift detection on the stack resource.
         public let timestamp: Date?
 
         @inlinable
-        public init(actualProperties: String? = nil, expectedProperties: String? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String? = nil, stackId: String? = nil, stackResourceDriftStatus: StackResourceDriftStatus? = nil, timestamp: Date? = nil) {
+        public init(actualProperties: String? = nil, driftStatusReason: String? = nil, expectedProperties: String? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String? = nil, stackId: String? = nil, stackResourceDriftStatus: StackResourceDriftStatus? = nil, timestamp: Date? = nil) {
             self.actualProperties = actualProperties
+            self.driftStatusReason = driftStatusReason
             self.expectedProperties = expectedProperties
             self.logicalResourceId = logicalResourceId
             self.moduleInfo = moduleInfo
@@ -6569,6 +6573,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case actualProperties = "ActualProperties"
+            case driftStatusReason = "DriftStatusReason"
             case expectedProperties = "ExpectedProperties"
             case logicalResourceId = "LogicalResourceId"
             case moduleInfo = "ModuleInfo"
@@ -6873,13 +6878,13 @@ extension CloudFormation {
     public struct StackSetOperationPreferences: AWSEncodableShape & AWSDecodableShape {
         /// Specifies how the concurrency level behaves during the operation execution.    STRICT_FAILURE_TOLERANCE: This option dynamically lowers the concurrency level to ensure the number of failed accounts never exceeds the value of FailureToleranceCount +1. The initial actual concurrency is set to the lower of either the value of the MaxConcurrentCount, or the value of FailureToleranceCount +1. The actual concurrency is then reduced proportionally by the number of failures. This is the default behavior. If failure tolerance or Maximum concurrent accounts are set to percentages, the behavior is similar.    SOFT_FAILURE_TOLERANCE: This option decouples FailureToleranceCount from the actual concurrency. This allows stack set operations to run at the concurrency level set by the MaxConcurrentCount value, or MaxConcurrentPercentage, regardless of the number of failures.
         public let concurrencyMode: ConcurrencyMode?
-        /// The number of accounts, per Region, for which this operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both). By default, 0 is specified.
+        /// The number of accounts, per Region, for which this operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public let failureToleranceCount: Int?
-        /// The percentage of accounts, per Region, for which this stack operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
+        /// The percentage of accounts, per Region, for which this stack operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public let failureTolerancePercentage: Int?
-        /// The maximum number of accounts in which to perform this operation at one time. This can depend on the value of FailureToleranceCount depending on your ConcurrencyMode. MaxConcurrentCount is at most one more than the FailureToleranceCount if you're using STRICT_FAILURE_TOLERANCE. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
+        /// The maximum number of accounts in which to perform this operation at one time. This can depend on the value of FailureToleranceCount depending on your ConcurrencyMode. MaxConcurrentCount is at most one more than the FailureToleranceCount if you're using STRICT_FAILURE_TOLERANCE. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public let maxConcurrentCount: Int?
-        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
+        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public let maxConcurrentPercentage: Int?
         /// The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time.
         public let regionConcurrencyType: RegionConcurrencyType?
@@ -7066,9 +7071,9 @@ extension CloudFormation {
         public let driftInformation: StackDriftInformationSummary?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
         public let lastUpdatedTime: Date?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see Embed stacks within other stacks using nested stacks in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see Nested stacks in the CloudFormation User Guide.
         public let parentId: String?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see Embed stacks within other stacks using nested stacks in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see Nested stacks in the CloudFormation User Guide.
         public let rootId: String?
         /// Unique stack identifier.
         public let stackId: String?
@@ -7190,7 +7195,7 @@ extension CloudFormation {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services have the reserved prefix: aws:.
         public let key: String?
-        ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
+        ///  Required. A string that contains the value for this tag. You can specify a maximum of 256 characters for a tag value.
         public let value: String?
 
         @inlinable
@@ -7697,20 +7702,20 @@ extension CloudFormation {
         public let rollbackConfiguration: RollbackConfiguration?
         /// The name or unique stack ID of the stack to update.
         public let stackName: String?
-        /// Structure containing a new stack policy body. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
+        /// Structure that contains a new stack policy body. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
         public let stackPolicyBody: String?
-        /// Structure containing the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
+        /// Structure that contains the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
         public let stackPolicyDuringUpdateBody: String?
-        /// Location of a file containing the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
+        /// Location of a file that contains the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
         public let stackPolicyDuringUpdateURL: String?
-        /// Location of a file containing the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
+        /// Location of a file that contains the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
         public let stackPolicyURL: String?
         /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to supported resources in the stack. You can specify a maximum number of 50 tags. If you don't specify this parameter, CloudFormation doesn't modify the stack's tags. If you specify an empty value, CloudFormation removes all associated tags.
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
-        /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+        /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateBody: String?
-        /// The URL of a file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+        /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateURL: String?
         /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
@@ -7916,7 +7921,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let templateBody: String?
-        /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
+        /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. S3 static website URLs are not supported. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let templateURL: String?
         /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
@@ -8047,9 +8052,9 @@ extension CloudFormation {
     }
 
     public struct ValidateTemplateInput: AWSEncodableShape {
-        /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+        /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateBody: String?
-        /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+        /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
         @inlinable

@@ -473,7 +473,7 @@ public struct DynamoDB: AWSService {
         return try await self.deleteResourcePolicy(input, logger: logger)
     }
 
-    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned.   For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).    DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see TableStatus.  When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
+    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned.   DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see TableStatus.  When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
     @Sendable
     @inlinable
     public func deleteTable(_ input: DeleteTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTableOutput {
@@ -488,7 +488,7 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned.   For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).    DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see TableStatus.  When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
+    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned.   DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see TableStatus.  When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
     ///
     /// Parameters:
     ///   - tableName: The name of the table to delete. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
@@ -803,7 +803,7 @@ public struct DynamoDB: AWSService {
         return try await self.describeLimits(input, logger: logger)
     }
 
-    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).    If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
+    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.  If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
     @Sendable
     @inlinable
     public func describeTable(_ input: DescribeTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTableOutput {
@@ -818,7 +818,7 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).    If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
+    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.  If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
     ///
     /// Parameters:
     ///   - tableName: The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
@@ -834,7 +834,7 @@ public struct DynamoDB: AWSService {
         return try await self.describeTable(input, logger: logger)
     }
 
-    /// Describes auto scaling settings across replicas of the global table at once.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
+    /// Describes auto scaling settings across replicas of the global table at once.
     @Sendable
     @inlinable
     public func describeTableReplicaAutoScaling(_ input: DescribeTableReplicaAutoScalingInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTableReplicaAutoScalingOutput {
@@ -847,7 +847,7 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Describes auto scaling settings across replicas of the global table at once.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
+    /// Describes auto scaling settings across replicas of the global table at once.
     ///
     /// Parameters:
     ///   - tableName: The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
@@ -2069,7 +2069,7 @@ public struct DynamoDB: AWSService {
         return try await self.updateContributorInsights(input, logger: logger)
     }
 
-    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units.  This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.   For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). If you are using global tables Version 2019.11.21 you can use UpdateTable instead.  Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas.   If global secondary indexes are specified, then the following conditions must also be met:    The global secondary indexes must have the same name.    The global secondary indexes must have the same hash key and sort key (if present).    The global secondary indexes must have the same provisioned and maximum write capacity units.
+    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units.  This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.   If you are using global tables Version 2019.11.21 (Current) you can use UpdateTable instead.  Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas.   If global secondary indexes are specified, then the following conditions must also be met:    The global secondary indexes must have the same name.    The global secondary indexes must have the same hash key and sort key (if present).    The global secondary indexes must have the same provisioned and maximum write capacity units.
     @Sendable
     @inlinable
     public func updateGlobalTable(_ input: UpdateGlobalTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlobalTableOutput {
@@ -2084,7 +2084,7 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units.  This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.   For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). If you are using global tables Version 2019.11.21 you can use UpdateTable instead.  Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas.   If global secondary indexes are specified, then the following conditions must also be met:    The global secondary indexes must have the same name.    The global secondary indexes must have the same hash key and sort key (if present).    The global secondary indexes must have the same provisioned and maximum write capacity units.
+    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units.  This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.   If you are using global tables Version 2019.11.21 (Current) you can use UpdateTable instead.  Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas.   If global secondary indexes are specified, then the following conditions must also be met:    The global secondary indexes must have the same name.    The global secondary indexes must have the same hash key and sort key (if present).    The global secondary indexes must have the same provisioned and maximum write capacity units.
     ///
     /// Parameters:
     ///   - globalTableName: The global table name.
@@ -2253,7 +2253,7 @@ public struct DynamoDB: AWSService {
         return try await self.updateKinesisStreamingDestination(input, logger: logger)
     }
 
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).   You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
+    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
     @Sendable
     @inlinable
     public func updateTable(_ input: UpdateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableOutput {
@@ -2268,17 +2268,18 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).   You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
+    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
     ///
     /// Parameters:
     ///   - attributeDefinitions: An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
     ///   - billingMode: Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode.     PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to Provisioned capacity mode.
     ///   - deletionProtectionEnabled: Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     ///   - globalSecondaryIndexUpdates: An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
-    ///   - multiRegionConsistency: Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency. This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (preview).  Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see Global tables multi-Region strong consistency.    If you don't specify this parameter, the global table consistency mode defaults to EVENTUAL.
+    ///   - globalTableWitnessUpdates: A list of witness updates for a  MRSC global table. A witness provides a cost-effective alternative to a full replica in a MRSC global table by maintaining replicated change data written to global table replicas. You cannot perform read or write operations on a witness. For each witness, you can request one action:    Create - add a new witness to the global table.    Delete - remove a witness from the global table.   You can create or delete only one witness per UpdateTable operation. For more information, see Multi-Region strong consistency (MRSC) in the Amazon DynamoDB Developer Guide
+    ///   - multiRegionConsistency: Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency (MREC). This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (MRSC).   If you don't specify this field, the global table consistency mode defaults to EVENTUAL. For more information about global tables consistency modes, see  Consistency modes in DynamoDB developer guide.
     ///   - onDemandThroughput: Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
     ///   - provisionedThroughput: The new provisioned throughput settings for the specified table or index.
-    ///   - replicaUpdates: A list of replica update actions (create, delete, or update) for the table.  For global tables, this property only applies to global tables using Version 2019.11.21 (Current version).
+    ///   - replicaUpdates: A list of replica update actions (create, delete, or update) for the table.
     ///   - sseSpecification: The new server-side encryption settings for the specified table.
     ///   - streamSpecification: Represents the DynamoDB Streams configuration for the table.  You receive a ValidationException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream.
     ///   - tableClass: The table class of the table to be updated. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
@@ -2291,6 +2292,7 @@ public struct DynamoDB: AWSService {
         billingMode: BillingMode? = nil,
         deletionProtectionEnabled: Bool? = nil,
         globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil,
+        globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil,
         multiRegionConsistency: MultiRegionConsistency? = nil,
         onDemandThroughput: OnDemandThroughput? = nil,
         provisionedThroughput: ProvisionedThroughput? = nil,
@@ -2307,6 +2309,7 @@ public struct DynamoDB: AWSService {
             billingMode: billingMode, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
             globalSecondaryIndexUpdates: globalSecondaryIndexUpdates, 
+            globalTableWitnessUpdates: globalTableWitnessUpdates, 
             multiRegionConsistency: multiRegionConsistency, 
             onDemandThroughput: onDemandThroughput, 
             provisionedThroughput: provisionedThroughput, 
@@ -2320,7 +2323,7 @@ public struct DynamoDB: AWSService {
         return try await self.updateTable(input, logger: logger)
     }
 
-    /// Updates auto scaling settings on your global tables at once.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
+    /// Updates auto scaling settings on your global tables at once.
     @Sendable
     @inlinable
     public func updateTableReplicaAutoScaling(_ input: UpdateTableReplicaAutoScalingInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableReplicaAutoScalingOutput {
@@ -2333,7 +2336,7 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Updates auto scaling settings on your global tables at once.  For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
+    /// Updates auto scaling settings on your global tables at once.
     ///
     /// Parameters:
     ///   - globalSecondaryIndexUpdates: Represents the auto scaling settings of the global secondary indexes of the replica to be updated.

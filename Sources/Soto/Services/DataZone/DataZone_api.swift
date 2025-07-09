@@ -6236,6 +6236,7 @@ public struct DataZone: AWSService {
     /// Parameters:
     ///   - description: The description to be updated as part of the UpdateProject action.
     ///   - domainIdentifier: The ID of the Amazon DataZone domain where a project is being updated.
+    ///   - domainUnitId: The ID of the domain unit.
     ///   - environmentDeploymentDetails: The environment deployment details of the project.
     ///   - glossaryTerms: The glossary terms to be updated as part of the UpdateProject action.
     ///   - identifier: The identifier of the project that is to be updated.
@@ -6247,6 +6248,7 @@ public struct DataZone: AWSService {
     public func updateProject(
         description: String? = nil,
         domainIdentifier: String,
+        domainUnitId: String? = nil,
         environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil,
         glossaryTerms: [String]? = nil,
         identifier: String,
@@ -6258,6 +6260,7 @@ public struct DataZone: AWSService {
         let input = UpdateProjectInput(
             description: description, 
             domainIdentifier: domainIdentifier, 
+            domainUnitId: domainUnitId, 
             environmentDeploymentDetails: environmentDeploymentDetails, 
             glossaryTerms: glossaryTerms, 
             identifier: identifier, 

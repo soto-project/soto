@@ -698,6 +698,47 @@ public struct CustomerProfiles: AWSService {
         return try await self.createSegmentSnapshot(input, logger: logger)
     }
 
+    /// Creates an Upload job to ingest data for segment imports. The metadata is created for the job with the provided field mapping and unique key.
+    @Sendable
+    @inlinable
+    public func createUploadJob(_ input: CreateUploadJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUploadJobResponse {
+        try await self.client.execute(
+            operation: "CreateUploadJob", 
+            path: "/domains/{DomainName}/upload-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Upload job to ingest data for segment imports. The metadata is created for the job with the provided field mapping and unique key.
+    ///
+    /// Parameters:
+    ///   - dataExpiry: The expiry duration for the profiles ingested with the job. If not provided, the system default of 2 weeks is used.
+    ///   - displayName: The unique name of the upload job. Could be a file name to identify the upload job.
+    ///   - domainName: The unique name of the domain. Domain should be exists for the upload job to be created.
+    ///   - fields: The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field.
+    ///   - uniqueKey: The unique key columns for de-duping the profiles used to map data to the profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createUploadJob(
+        dataExpiry: Int? = nil,
+        displayName: String,
+        domainName: String,
+        fields: [String: ObjectTypeField],
+        uniqueKey: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateUploadJobResponse {
+        let input = CreateUploadJobRequest(
+            dataExpiry: dataExpiry, 
+            displayName: displayName, 
+            domainName: domainName, 
+            fields: fields, 
+            uniqueKey: uniqueKey
+        )
+        return try await self.createUploadJob(input, logger: logger)
+    }
+
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     @Sendable
     @inlinable
@@ -1701,6 +1742,70 @@ public struct CustomerProfiles: AWSService {
         return try await self.getSimilarProfiles(input, logger: logger)
     }
 
+    /// This API retrieves the details of a specific upload job.
+    @Sendable
+    @inlinable
+    public func getUploadJob(_ input: GetUploadJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUploadJobResponse {
+        try await self.client.execute(
+            operation: "GetUploadJob", 
+            path: "/domains/{DomainName}/upload-jobs/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API retrieves the details of a specific upload job.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain containing the upload job.
+    ///   - jobId: The unique identifier of the upload job to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getUploadJob(
+        domainName: String,
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetUploadJobResponse {
+        let input = GetUploadJobRequest(
+            domainName: domainName, 
+            jobId: jobId
+        )
+        return try await self.getUploadJob(input, logger: logger)
+    }
+
+    /// This API retrieves the pre-signed URL and client token for uploading the file associated with the upload job.
+    @Sendable
+    @inlinable
+    public func getUploadJobPath(_ input: GetUploadJobPathRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUploadJobPathResponse {
+        try await self.client.execute(
+            operation: "GetUploadJobPath", 
+            path: "/domains/{DomainName}/upload-jobs/{JobId}/path", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API retrieves the pre-signed URL and client token for uploading the file associated with the upload job.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain containing the upload job.
+    ///   - jobId: The unique identifier of the upload job to retrieve the upload path for. This is generated from the CreateUploadJob API.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getUploadJobPath(
+        domainName: String,
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetUploadJobPathResponse {
+        let input = GetUploadJobPathRequest(
+            domainName: domainName, 
+            jobId: jobId
+        )
+        return try await self.getUploadJobPath(input, logger: logger)
+    }
+
     /// Get details of specified workflow.
     @Sendable
     @inlinable
@@ -2372,6 +2477,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// This API retrieves a list of upload jobs for the specified domain.
+    @Sendable
+    @inlinable
+    public func listUploadJobs(_ input: ListUploadJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUploadJobsResponse {
+        try await self.client.execute(
+            operation: "ListUploadJobs", 
+            path: "/domains/{DomainName}/upload-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API retrieves a list of upload jobs for the specified domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain to list upload jobs for.
+    ///   - maxResults: The maximum number of upload jobs to return per page.
+    ///   - nextToken: The pagination token from the previous call to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listUploadJobs(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListUploadJobsResponse {
+        let input = ListUploadJobsRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listUploadJobs(input, logger: logger)
+    }
+
     /// Query to list all workflows.
     @Sendable
     @inlinable
@@ -2649,6 +2789,70 @@ public struct CustomerProfiles: AWSService {
             values: values
         )
         return try await self.searchProfiles(input, logger: logger)
+    }
+
+    /// This API starts the processing of an upload job to ingest profile data.
+    @Sendable
+    @inlinable
+    public func startUploadJob(_ input: StartUploadJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartUploadJobResponse {
+        try await self.client.execute(
+            operation: "StartUploadJob", 
+            path: "/domains/{DomainName}/upload-jobs/{JobId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API starts the processing of an upload job to ingest profile data.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain containing the upload job to start.
+    ///   - jobId: The unique identifier of the upload job to start.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startUploadJob(
+        domainName: String,
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartUploadJobResponse {
+        let input = StartUploadJobRequest(
+            domainName: domainName, 
+            jobId: jobId
+        )
+        return try await self.startUploadJob(input, logger: logger)
+    }
+
+    /// This API stops the processing of an upload job.
+    @Sendable
+    @inlinable
+    public func stopUploadJob(_ input: StopUploadJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopUploadJobResponse {
+        try await self.client.execute(
+            operation: "StopUploadJob", 
+            path: "/domains/{DomainName}/upload-jobs/{JobId}/stop", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API stops the processing of an upload job.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain containing the upload job to stop.
+    ///   - jobId: The unique identifier of the upload job to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopUploadJob(
+        domainName: String,
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopUploadJobResponse {
+        let input = StopUploadJobRequest(
+            domainName: domainName, 
+            jobId: jobId
+        )
+        return try await self.stopUploadJob(input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
@@ -3282,6 +3486,43 @@ extension CustomerProfiles {
         )
         return self.listSegmentDefinitionsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listUploadJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listUploadJobsPaginator(
+        _ input: ListUploadJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUploadJobsRequest, ListUploadJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listUploadJobs,
+            inputKey: \ListUploadJobsRequest.nextToken,
+            outputKey: \ListUploadJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listUploadJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain to list upload jobs for.
+    ///   - maxResults: The maximum number of upload jobs to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listUploadJobsPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListUploadJobsRequest, ListUploadJobsResponse> {
+        let input = ListUploadJobsRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listUploadJobsPaginator(input, logger: logger)
+    }
 }
 
 extension CustomerProfiles.GetSimilarProfilesRequest: AWSPaginateToken {
@@ -3357,6 +3598,17 @@ extension CustomerProfiles.ListRuleBasedMatchesRequest: AWSPaginateToken {
 extension CustomerProfiles.ListSegmentDefinitionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListSegmentDefinitionsRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CustomerProfiles.ListUploadJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListUploadJobsRequest {
         return .init(
             domainName: self.domainName,
             maxResults: self.maxResults,
