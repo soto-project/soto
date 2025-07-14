@@ -10371,8 +10371,8 @@ public struct EC2: AWSService {
         return try await self.describeCapacityBlockExtensionOfferings(input, logger: logger)
     }
 
-    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can
+    /// 			purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
     /// 			and instance count.
     @Sendable
     @inlinable
@@ -10386,8 +10386,8 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can
+    /// 			purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
     /// 			and instance count.
     ///
     /// Parameters:
@@ -10399,6 +10399,8 @@ public struct EC2: AWSService {
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - nextToken: The token to use to retrieve the next page of results.
     ///   - startDateRange: The earliest start date for the Capacity Block offering.
+    ///   - ultraserverCount: The number of EC2 UltraServers in the offerings.
+    ///   - ultraserverType: The EC2 UltraServer type of the Capacity Block offerings.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeCapacityBlockOfferings(
@@ -10410,6 +10412,8 @@ public struct EC2: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         startDateRange: Date? = nil,
+        ultraserverCount: Int? = nil,
+        ultraserverType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeCapacityBlockOfferingsResult {
         let input = DescribeCapacityBlockOfferingsRequest(
@@ -10420,9 +10424,93 @@ public struct EC2: AWSService {
             instanceType: instanceType, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            startDateRange: startDateRange
+            startDateRange: startDateRange, 
+            ultraserverCount: ultraserverCount, 
+            ultraserverType: ultraserverType
         )
         return try await self.describeCapacityBlockOfferings(input, logger: logger)
+    }
+
+    /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
+    @Sendable
+    @inlinable
+    public func describeCapacityBlockStatus(_ input: DescribeCapacityBlockStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockStatusResult {
+        try await self.client.execute(
+            operation: "DescribeCapacityBlockStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
+    ///
+    /// Parameters:
+    ///   - capacityBlockIds: The ID of the Capacity Block.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.     interconnect-status - The status of the interconnect for the Capacity Block (ok | impaired | insufficient-data).
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - nextToken: The token to use to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCapacityBlockStatus(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCapacityBlockStatusResult {
+        let input = DescribeCapacityBlockStatusRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeCapacityBlockStatus(input, logger: logger)
+    }
+
+    /// Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
+    @Sendable
+    @inlinable
+    public func describeCapacityBlocks(_ input: DescribeCapacityBlocksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlocksResult {
+        try await self.client.execute(
+            operation: "DescribeCapacityBlocks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
+    ///
+    /// Parameters:
+    ///   - capacityBlockIds: The IDs of the Capacity Blocks.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters:  One or more filters.     capacity-block-id - The ID of the Capacity Block.    ultraserver-type - The Capacity Block type. The type can be
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - nextToken: The token to use to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCapacityBlocks(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCapacityBlocksResult {
+        let input = DescribeCapacityBlocksRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeCapacityBlocks(input, logger: logger)
     }
 
     /// Describes a request to assign the billing of the unused capacity of a Capacity
@@ -12193,7 +12281,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceStatus(input, logger: logger)
     }
 
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types   Returns 3 network nodes in the response    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      Returns 4 network nodes in the response    p6-b200.48xlarge        For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information,  see  Prerequisites for Amazon EC2 instance topology in the Amazon EC2 User Guide.  The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func describeInstanceTopology(_ input: DescribeInstanceTopologyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTopologyResult {
@@ -12206,7 +12294,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types   Returns 3 network nodes in the response    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      Returns 4 network nodes in the response    p6-b200.48xlarge        For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information,  see  Prerequisites for Amazon EC2 instance topology in the Amazon EC2 User Guide.  The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16890,7 +16978,7 @@ public struct EC2: AWSService {
         return try await self.detachVerifiedAccessTrustProvider(input, logger: logger)
     }
 
-    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon ECS or  Fargate tasks. Attempting to do this results in the UnsupportedOperationException  exception with the Unable to detach volume attached to ECS tasks error message. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon Web Services-managed resources.  Attempting to do this results in the UnsupportedOperationException  exception. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
     @Sendable
     @inlinable
     public func detachVolume(_ input: DetachVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VolumeAttachment {
@@ -16903,7 +16991,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon ECS or  Fargate tasks. Attempting to do this results in the UnsupportedOperationException  exception with the Unable to detach volume attached to ECS tasks error message. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon Web Services-managed resources.  Attempting to do this results in the UnsupportedOperationException  exception. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
     ///
     /// Parameters:
     ///   - device: The device name.
@@ -22237,7 +22325,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - attribute: The name of the attribute to modify.  When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired instance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the ModifyInstanceNetworkPerformanceOptions operation.   You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
-    ///   - blockDeviceMappings: Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Fargate tasks. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
+    ///   - blockDeviceMappings: Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Amazon Web Services-managed resources. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
     ///   - disableApiStop: Indicates whether an instance is enabled for stop protection. For more information, see Enable stop protection for your instance.
     ///   - disableApiTermination: Enable or disable termination protection for the instance. If the value is true,  you can't terminate the instance using the Amazon EC2 console, command line interface, or API.  You can't enable termination protection for Spot Instances.
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28138,6 +28226,8 @@ extension EC2 {
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - startDateRange: The earliest start date for the Capacity Block offering.
+    ///   - ultraserverCount: The number of EC2 UltraServers in the offerings.
+    ///   - ultraserverType: The EC2 UltraServer type of the Capacity Block offerings.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeCapacityBlockOfferingsPaginator(
@@ -28148,6 +28238,8 @@ extension EC2 {
         instanceType: String? = nil,
         maxResults: Int? = nil,
         startDateRange: Date? = nil,
+        ultraserverCount: Int? = nil,
+        ultraserverType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeCapacityBlockOfferingsRequest, DescribeCapacityBlockOfferingsResult> {
         let input = DescribeCapacityBlockOfferingsRequest(
@@ -28157,9 +28249,97 @@ extension EC2 {
             instanceCount: instanceCount, 
             instanceType: instanceType, 
             maxResults: maxResults, 
-            startDateRange: startDateRange
+            startDateRange: startDateRange, 
+            ultraserverCount: ultraserverCount, 
+            ultraserverType: ultraserverType
         )
         return self.describeCapacityBlockOfferingsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeCapacityBlockStatus(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlockStatusPaginator(
+        _ input: DescribeCapacityBlockStatusRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlockStatusRequest, DescribeCapacityBlockStatusResult> {
+        return .init(
+            input: input,
+            command: self.describeCapacityBlockStatus,
+            inputKey: \DescribeCapacityBlockStatusRequest.nextToken,
+            outputKey: \DescribeCapacityBlockStatusResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeCapacityBlockStatus(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - capacityBlockIds: The ID of the Capacity Block.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.     interconnect-status - The status of the interconnect for the Capacity Block (ok | impaired | insufficient-data).
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlockStatusPaginator(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlockStatusRequest, DescribeCapacityBlockStatusResult> {
+        let input = DescribeCapacityBlockStatusRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.describeCapacityBlockStatusPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeCapacityBlocks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlocksPaginator(
+        _ input: DescribeCapacityBlocksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlocksRequest, DescribeCapacityBlocksResult> {
+        return .init(
+            input: input,
+            command: self.describeCapacityBlocks,
+            inputKey: \DescribeCapacityBlocksRequest.nextToken,
+            outputKey: \DescribeCapacityBlocksResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeCapacityBlocks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - capacityBlockIds: The IDs of the Capacity Blocks.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters:  One or more filters.     capacity-block-id - The ID of the Capacity Block.    ultraserver-type - The Capacity Block type. The type can be
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlocksPaginator(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlocksRequest, DescribeCapacityBlocksResult> {
+        let input = DescribeCapacityBlocksRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.describeCapacityBlocksPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeCapacityReservationBillingRequests(_:logger:)``.
@@ -34471,7 +34651,35 @@ extension EC2.DescribeCapacityBlockOfferingsRequest: AWSPaginateToken {
             instanceType: self.instanceType,
             maxResults: self.maxResults,
             nextToken: token,
-            startDateRange: self.startDateRange
+            startDateRange: self.startDateRange,
+            ultraserverCount: self.ultraserverCount,
+            ultraserverType: self.ultraserverType
+        )
+    }
+}
+
+extension EC2.DescribeCapacityBlockStatusRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityBlockStatusRequest {
+        return .init(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeCapacityBlocksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityBlocksRequest {
+        return .init(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -25,6 +25,32 @@ import Foundation
 extension FreeTier {
     // MARK: Enums
 
+    public enum AccountPlanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccountPlanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case free = "FREE"
+        case paid = "PAID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActivityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case expiring = "EXPIRING"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case usd = "USD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case description = "DESCRIPTION"
         case freeTierType = "FREE_TIER_TYPE"
@@ -33,6 +59,23 @@ extension FreeTier {
         case service = "SERVICE"
         case usagePercentage = "USAGE_PERCENTAGE"
         case usageType = "USAGE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deDe = "de-DE"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case esEs = "es-ES"
+        case frFr = "fr-FR"
+        case idId = "id-ID"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
+        case ptPt = "pt-PT"
+        case trTr = "tr-TR"
+        case zhCn = "zh-CN"
+        case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
 
@@ -46,6 +89,32 @@ extension FreeTier {
     }
 
     // MARK: Shapes
+
+    public struct ActivitySummary: AWSDecodableShape {
+        ///  A unique identifier that identifies the activity.
+        public let activityId: String
+        ///  The reward for the activity.
+        public let reward: ActivityReward
+        ///  The current status of the activity.
+        public let status: ActivityStatus
+        ///  The title of the activity.
+        public let title: String
+
+        @inlinable
+        public init(activityId: String, reward: ActivityReward, status: ActivityStatus, title: String) {
+            self.activityId = activityId
+            self.reward = reward
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityId = "activityId"
+            case reward = "reward"
+            case status = "status"
+            case title = "title"
+        }
+    }
 
     public struct DimensionValues: AWSEncodableShape {
         /// The name of the dimension that you want to filter on.
@@ -79,13 +148,13 @@ extension FreeTier {
     }
 
     public final class Expression: AWSEncodableShape {
-        /// Return results that match all Expressions  that you specified in the array.
+        /// Return results that match all Expressions that you specified in the array.
         public let and: [Expression]?
         /// The specific dimension, values, and match type to filter objects with.
         public let dimensions: DimensionValues?
         /// Return results that don’t match the Expression that you specified.
         public let not: Expression?
-        /// Return results that match any of the Expressions  that you specified. in the array.
+        /// Return results that match any of the Expressions that you specified. in the array.
         public let or: [Expression]?
 
         @inlinable
@@ -122,15 +191,15 @@ extension FreeTier {
         public let description: String?
         /// Describes the forecasted usage by the month that you're expected to use.
         public let forecastedUsageAmount: Double?
-        /// Describes the type of the Free Tier offer. For example, the offer can be "12 Months Free",  "Always Free", and "Free Trial".
+        /// Describes the type of the Free Tier offer. For example, the offer can be "12 Months Free", "Always Free", and "Free Trial".
         public let freeTierType: String?
         /// Describes the maximum usage allowed in Free Tier.
         public let limit: Double?
-        /// Describes usageType more granularly with the specific Amazon Web Service API operation. For example, this can be the RunInstances API operation for Amazon Elastic Compute Cloud.
+        /// Describes usageType more granularly with the specific Amazon Web Services service API operation. For example, this can be the RunInstances API operation for Amazon Elastic Compute Cloud.
         public let operation: String?
         /// Describes the Amazon Web Services Region for which this offer is applicable
         public let region: String?
-        /// The name of the Amazon Web Service providing the Free Tier offer. For example, this can be Amazon Elastic Compute Cloud.
+        /// The name of the Amazon Web Services service providing the Free Tier offer. For example, this can be Amazon Elastic Compute Cloud.
         public let service: String?
         /// Describes the unit of the usageType, such as Hrs.
         public let unit: String?
@@ -162,6 +231,114 @@ extension FreeTier {
             case service = "service"
             case unit = "unit"
             case usageType = "usageType"
+        }
+    }
+
+    public struct GetAccountActivityRequest: AWSEncodableShape {
+        ///  A unique identifier that identifies the activity.
+        public let activityId: String
+        ///  The language code used to return translated title and description fields.
+        public let languageCode: LanguageCode?
+
+        @inlinable
+        public init(activityId: String, languageCode: LanguageCode? = nil) {
+            self.activityId = activityId
+            self.languageCode = languageCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.activityId, name: "activityId", parent: name, max: 32)
+            try self.validate(self.activityId, name: "activityId", parent: name, min: 32)
+            try self.validate(self.activityId, name: "activityId", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityId = "activityId"
+            case languageCode = "languageCode"
+        }
+    }
+
+    public struct GetAccountActivityResponse: AWSDecodableShape {
+        ///  A unique identifier that identifies the activity.
+        public let activityId: String
+        ///  The timestamp when the activity is completed. This field appears only for activities in the COMPLETED state.
+        public let completedAt: Date?
+        ///  Provides detailed information about the activity and its expected outcomes.
+        public let description: String
+        ///  The estimated time to complete the activity. This is the duration in minutes.
+        public let estimatedTimeToCompleteInMinutes: Int?
+        ///  The time by which the activity must be completed to receive a reward.
+        public let expiresAt: Date?
+        ///  The URL resource that provides guidance on activity requirements and completion.
+        public let instructionsUrl: String
+        ///  A reward granted upon activity completion.
+        public let reward: ActivityReward
+        ///  The timestamp when the activity started. This field appears only for activities in the IN_PROGRESS or COMPLETED states.
+        public let startedAt: Date?
+        ///  The current activity status.
+        public let status: ActivityStatus
+        ///  A short activity title.
+        public let title: String
+
+        @inlinable
+        public init(activityId: String, completedAt: Date? = nil, description: String, estimatedTimeToCompleteInMinutes: Int? = nil, expiresAt: Date? = nil, instructionsUrl: String, reward: ActivityReward, startedAt: Date? = nil, status: ActivityStatus, title: String) {
+            self.activityId = activityId
+            self.completedAt = completedAt
+            self.description = description
+            self.estimatedTimeToCompleteInMinutes = estimatedTimeToCompleteInMinutes
+            self.expiresAt = expiresAt
+            self.instructionsUrl = instructionsUrl
+            self.reward = reward
+            self.startedAt = startedAt
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityId = "activityId"
+            case completedAt = "completedAt"
+            case description = "description"
+            case estimatedTimeToCompleteInMinutes = "estimatedTimeToCompleteInMinutes"
+            case expiresAt = "expiresAt"
+            case instructionsUrl = "instructionsUrl"
+            case reward = "reward"
+            case startedAt = "startedAt"
+            case status = "status"
+            case title = "title"
+        }
+    }
+
+    public struct GetAccountPlanStateRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetAccountPlanStateResponse: AWSDecodableShape {
+        ///  A unique identifier that identifies the account.
+        public let accountId: String
+        ///  The timestamp for when the current account plan expires.
+        public let accountPlanExpirationDate: Date?
+        ///  The amount of credits remaining for the account.
+        public let accountPlanRemainingCredits: MonetaryAmount?
+        ///  The current status for the account plan.
+        public let accountPlanStatus: AccountPlanStatus
+        ///  The plan type for the account.
+        public let accountPlanType: AccountPlanType
+
+        @inlinable
+        public init(accountId: String, accountPlanExpirationDate: Date? = nil, accountPlanRemainingCredits: MonetaryAmount? = nil, accountPlanStatus: AccountPlanStatus, accountPlanType: AccountPlanType) {
+            self.accountId = accountId
+            self.accountPlanExpirationDate = accountPlanExpirationDate
+            self.accountPlanRemainingCredits = accountPlanRemainingCredits
+            self.accountPlanStatus = accountPlanStatus
+            self.accountPlanType = accountPlanType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case accountPlanExpirationDate = "accountPlanExpirationDate"
+            case accountPlanRemainingCredits = "accountPlanRemainingCredits"
+            case accountPlanStatus = "accountPlanStatus"
+            case accountPlanType = "accountPlanType"
         }
     }
 
@@ -213,6 +390,126 @@ extension FreeTier {
             case nextToken = "nextToken"
         }
     }
+
+    public struct ListAccountActivitiesRequest: AWSEncodableShape {
+        ///  The activity status filter. This field can be used to filter the response by activities status.
+        public let filterActivityStatuses: [ActivityStatus]?
+        ///  The language code used to return translated titles.
+        public let languageCode: LanguageCode?
+        ///  The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        ///  A token from a previous paginated response. If this is specified, the response includes records beginning from this token (inclusive), up to the number specified by maxResults.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filterActivityStatuses: [ActivityStatus]? = nil, languageCode: LanguageCode? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterActivityStatuses = filterActivityStatuses
+            self.languageCode = languageCode
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterActivityStatuses = "filterActivityStatuses"
+            case languageCode = "languageCode"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAccountActivitiesResponse: AWSDecodableShape {
+        ///  A brief information about the activities.
+        public let activities: [ActivitySummary]
+        ///  The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(activities: [ActivitySummary], nextToken: String? = nil) {
+            self.activities = activities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activities = "activities"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct MonetaryAmount: AWSDecodableShape {
+        ///  The aggregated monetary amount of credits earned.
+        public let amount: Double
+        ///  The unit that the monetary amount is given in.
+        public let unit: CurrencyCode
+
+        @inlinable
+        public init(amount: Double, unit: CurrencyCode) {
+            self.amount = amount
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case unit = "unit"
+        }
+    }
+
+    public struct UpgradeAccountPlanRequest: AWSEncodableShape {
+        ///  The target account plan type. This makes it explicit about the change and latest value of the accountPlanType.
+        public let accountPlanType: AccountPlanType
+
+        @inlinable
+        public init(accountPlanType: AccountPlanType) {
+            self.accountPlanType = accountPlanType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountPlanType = "accountPlanType"
+        }
+    }
+
+    public struct UpgradeAccountPlanResponse: AWSDecodableShape {
+        ///  A unique identifier that identifies the account.
+        public let accountId: String
+        ///  This indicates the latest state of the account plan within its lifecycle.
+        public let accountPlanStatus: AccountPlanStatus
+        ///  The type of plan for the account.
+        public let accountPlanType: AccountPlanType
+
+        @inlinable
+        public init(accountId: String, accountPlanStatus: AccountPlanStatus, accountPlanType: AccountPlanType) {
+            self.accountId = accountId
+            self.accountPlanStatus = accountPlanStatus
+            self.accountPlanType = accountPlanType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case accountPlanStatus = "accountPlanStatus"
+            case accountPlanType = "accountPlanType"
+        }
+    }
+
+    public struct ActivityReward: AWSDecodableShape {
+        ///  The credits gained by activity rewards.
+        public let credit: MonetaryAmount?
+
+        @inlinable
+        public init(credit: MonetaryAmount? = nil) {
+            self.credit = credit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credit = "credit"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -220,7 +517,9 @@ extension FreeTier {
 /// Error enum for FreeTier
 public struct FreeTierErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -243,11 +542,15 @@ public struct FreeTierErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  You don't have sufficient access to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An unexpected error occurred during the processing of your request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    ///  This exception is thrown when the requested resource cannot be found.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an Amazon Web Service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 
