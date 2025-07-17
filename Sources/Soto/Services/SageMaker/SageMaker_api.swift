@@ -84,6 +84,7 @@ public struct SageMaker: AWSService {
         [.fips]: .init(endpoints: [
             "af-south-1": "api-fips.sagemaker.af-south-1.amazonaws.com",
             "ap-east-1": "api-fips.sagemaker.ap-east-1.amazonaws.com",
+            "ap-east-2": "api-fips.sagemaker.ap-east-2.amazonaws.com",
             "ap-northeast-1": "api-fips.sagemaker.ap-northeast-1.amazonaws.com",
             "ap-northeast-2": "api-fips.sagemaker.ap-northeast-2.amazonaws.com",
             "ap-northeast-3": "api-fips.sagemaker.ap-northeast-3.amazonaws.com",
