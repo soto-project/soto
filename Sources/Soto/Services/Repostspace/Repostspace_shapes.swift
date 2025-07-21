@@ -25,9 +25,40 @@ import Foundation
 extension Repostspace {
     // MARK: Enums
 
+    public enum ChannelRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asker = "ASKER"
+        case expert = "EXPERT"
+        case moderator = "MODERATOR"
+        case supportrequestor = "SUPPORTREQUESTOR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case created = "CREATED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configured = "CONFIGURED"
         case unconfigured = "UNCONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureEnableParameter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureEnableStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case notAllowed = "NOT_ALLOWED"
         public var description: String { return self.rawValue }
     }
 
@@ -61,6 +92,63 @@ extension Repostspace {
     }
 
     // MARK: Shapes
+
+    public struct BatchAddChannelRoleToAccessorsInput: AWSEncodableShape {
+        /// The user or group identifiers to add the role to.
+        public let accessorIds: [String]
+        /// The unique ID of the private re:Post channel.
+        public let channelId: String
+        /// The channel role to add to the users or groups.
+        public let channelRole: ChannelRole
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(accessorIds: [String], channelId: String, channelRole: ChannelRole, spaceId: String) {
+            self.accessorIds = accessorIds
+            self.channelId = channelId
+            self.channelRole = channelRole
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accessorIds, forKey: .accessorIds)
+            request.encodePath(self.channelId, key: "channelId")
+            try container.encode(self.channelRole, forKey: .channelRole)
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessorIds, name: "accessorIds", parent: name, max: 1000)
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 24)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 24)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessorIds = "accessorIds"
+            case channelRole = "channelRole"
+        }
+    }
+
+    public struct BatchAddChannelRoleToAccessorsOutput: AWSDecodableShape {
+        /// An array of successfully updated identifiers.
+        public let addedAccessorIds: [String]
+        /// An array of errors that occurred when roles were added.
+        public let errors: [BatchError]
+
+        @inlinable
+        public init(addedAccessorIds: [String], errors: [BatchError]) {
+            self.addedAccessorIds = addedAccessorIds
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addedAccessorIds = "addedAccessorIds"
+            case errors = "errors"
+        }
+    }
 
     public struct BatchAddRoleInput: AWSEncodableShape {
         /// The user or group accessor identifiers to add the role to.
@@ -135,6 +223,63 @@ extension Repostspace {
         }
     }
 
+    public struct BatchRemoveChannelRoleFromAccessorsInput: AWSEncodableShape {
+        /// The users or groups identifiers to remove the role from.
+        public let accessorIds: [String]
+        /// The unique ID of the private re:Post channel.
+        public let channelId: String
+        /// The channel role to remove from the users or groups.
+        public let channelRole: ChannelRole
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(accessorIds: [String], channelId: String, channelRole: ChannelRole, spaceId: String) {
+            self.accessorIds = accessorIds
+            self.channelId = channelId
+            self.channelRole = channelRole
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accessorIds, forKey: .accessorIds)
+            request.encodePath(self.channelId, key: "channelId")
+            try container.encode(self.channelRole, forKey: .channelRole)
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessorIds, name: "accessorIds", parent: name, max: 1000)
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 24)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 24)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessorIds = "accessorIds"
+            case channelRole = "channelRole"
+        }
+    }
+
+    public struct BatchRemoveChannelRoleFromAccessorsOutput: AWSDecodableShape {
+        /// An array of errors that occurred when roles were removed.
+        public let errors: [BatchError]
+        /// An array of successfully updated identifiers.
+        public let removedAccessorIds: [String]
+
+        @inlinable
+        public init(errors: [BatchError], removedAccessorIds: [String]) {
+            self.errors = errors
+            self.removedAccessorIds = removedAccessorIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case removedAccessorIds = "removedAccessorIds"
+        }
+    }
+
     public struct BatchRemoveRoleInput: AWSEncodableShape {
         /// The user or group accessor identifiers to remove the role from.
         public let accessorIds: [String]
@@ -186,6 +331,52 @@ extension Repostspace {
         }
     }
 
+    public struct ChannelData: AWSDecodableShape {
+        /// A description for the channel. This is used only to help you identify this channel.
+        public let channelDescription: String?
+        /// The unique ID of the private re:Post channel.
+        public let channelId: String
+        /// The name for the channel. This must be unique per private re:Post.
+        public let channelName: String
+        /// The status pf the channel.
+        public let channelStatus: ChannelStatus
+        /// The date when the channel was created.
+        public let createDateTime: Date
+        /// The date when the channel was deleted.
+        public let deleteDateTime: Date?
+        /// The number of groups that are part of the channel.
+        public let groupCount: Int
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+        /// The number of users that are part of the channel.
+        public let userCount: Int
+
+        @inlinable
+        public init(channelDescription: String? = nil, channelId: String, channelName: String, channelStatus: ChannelStatus, createDateTime: Date, deleteDateTime: Date? = nil, groupCount: Int, spaceId: String, userCount: Int) {
+            self.channelDescription = channelDescription
+            self.channelId = channelId
+            self.channelName = channelName
+            self.channelStatus = channelStatus
+            self.createDateTime = createDateTime
+            self.deleteDateTime = deleteDateTime
+            self.groupCount = groupCount
+            self.spaceId = spaceId
+            self.userCount = userCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDescription = "channelDescription"
+            case channelId = "channelId"
+            case channelName = "channelName"
+            case channelStatus = "channelStatus"
+            case createDateTime = "createDateTime"
+            case deleteDateTime = "deleteDateTime"
+            case groupCount = "groupCount"
+            case spaceId = "spaceId"
+            case userCount = "userCount"
+        }
+    }
+
     public struct ConflictException: AWSErrorShape {
         public let message: String
         /// The ID of the resource.
@@ -207,6 +398,56 @@ extension Repostspace {
         }
     }
 
+    public struct CreateChannelInput: AWSEncodableShape {
+        /// A description for the channel. This is used only to help you identify this channel.
+        public let channelDescription: String?
+        /// The name for the channel. This must be unique per private re:Post.
+        public let channelName: String
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(channelDescription: String? = nil, channelName: String, spaceId: String) {
+            self.channelDescription = channelDescription
+            self.channelName = channelName
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.channelDescription, forKey: .channelDescription)
+            try container.encode(self.channelName, forKey: .channelName)
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelDescription, name: "channelDescription", parent: name, max: 255)
+            try self.validate(self.channelDescription, name: "channelDescription", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 64)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDescription = "channelDescription"
+            case channelName = "channelName"
+        }
+    }
+
+    public struct CreateChannelOutput: AWSDecodableShape {
+        /// The unique ID of the private re:Post channel.
+        public let channelId: String
+
+        @inlinable
+        public init(channelId: String) {
+            self.channelId = channelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+        }
+    }
+
     public struct CreateSpaceInput: AWSEncodableShape {
         /// A description for the private re:Post. This is used only to help you identify this private re:Post.
         public let description: String?
@@ -216,6 +457,7 @@ extension Repostspace {
         public let roleArn: String?
         /// The subdomain that you use to access your AWS re:Post Private private re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use.
         public let subdomain: String
+        public let supportedEmailDomains: SupportedEmailDomainsParameters?
         /// The list of tags associated with the private re:Post.
         public let tags: [String: String]?
         /// The pricing tier for the private re:Post.
@@ -224,11 +466,12 @@ extension Repostspace {
         public let userKMSKey: String?
 
         @inlinable
-        public init(description: String? = nil, name: String, roleArn: String? = nil, subdomain: String, tags: [String: String]? = nil, tier: TierLevel, userKMSKey: String? = nil) {
+        public init(description: String? = nil, name: String, roleArn: String? = nil, subdomain: String, supportedEmailDomains: SupportedEmailDomainsParameters? = nil, tags: [String: String]? = nil, tier: TierLevel, userKMSKey: String? = nil) {
             self.description = description
             self.name = name
             self.roleArn = roleArn
             self.subdomain = subdomain
+            self.supportedEmailDomains = supportedEmailDomains
             self.tags = tags
             self.tier = tier
             self.userKMSKey = userKMSKey
@@ -243,6 +486,7 @@ extension Repostspace {
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.subdomain, name: "subdomain", parent: name, max: 63)
             try self.validate(self.subdomain, name: "subdomain", parent: name, min: 1)
+            try self.supportedEmailDomains?.validate(name: "\(name).supportedEmailDomains")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -257,6 +501,7 @@ extension Repostspace {
             case name = "name"
             case roleArn = "roleArn"
             case subdomain = "subdomain"
+            case supportedEmailDomains = "supportedEmailDomains"
             case tags = "tags"
             case tier = "tier"
             case userKMSKey = "userKMSKey"
@@ -317,6 +562,75 @@ extension Repostspace {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetChannelInput: AWSEncodableShape {
+        /// The unique ID of the private re:Post channel.
+        public let channelId: String
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(channelId: String, spaceId: String) {
+            self.channelId = channelId
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "channelId")
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 24)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 24)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChannelOutput: AWSDecodableShape {
+        /// A description for the channel. This is used only to help you identify this channel.
+        public let channelDescription: String?
+        /// The unique ID of the private re:Post channel.
+        public let channelId: String
+        /// The name for the channel. This must be unique per private re:Post.
+        public let channelName: String
+        /// The channel roles associated to the users and groups of the channel.
+        public let channelRoles: [String: [ChannelRole]]?
+        /// The status pf the channel.
+        public let channelStatus: ChannelStatus
+        /// The date when the channel was created.
+        public let createDateTime: Date
+        /// The date when the channel was deleted.
+        public let deleteDateTime: Date?
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(channelDescription: String? = nil, channelId: String, channelName: String, channelRoles: [String: [ChannelRole]]? = nil, channelStatus: ChannelStatus, createDateTime: Date, deleteDateTime: Date? = nil, spaceId: String) {
+            self.channelDescription = channelDescription
+            self.channelId = channelId
+            self.channelName = channelName
+            self.channelRoles = channelRoles
+            self.channelStatus = channelStatus
+            self.createDateTime = createDateTime
+            self.deleteDateTime = deleteDateTime
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDescription = "channelDescription"
+            case channelId = "channelId"
+            case channelName = "channelName"
+            case channelRoles = "channelRoles"
+            case channelStatus = "channelStatus"
+            case createDateTime = "createDateTime"
+            case deleteDateTime = "deleteDateTime"
+            case spaceId = "spaceId"
+        }
+    }
+
     public struct GetSpaceInput: AWSEncodableShape {
         /// The ID of the private re:Post.
         public let spaceId: String
@@ -336,6 +650,7 @@ extension Repostspace {
     }
 
     public struct GetSpaceOutput: AWSDecodableShape {
+        public let applicationArn: String?
         /// The ARN of the private re:Post.
         public let arn: String
         /// The Identity Center identifier for the Application Instance.
@@ -354,6 +669,7 @@ extension Repostspace {
         public let description: String?
         /// The list of groups that are administrators of the private re:Post.
         public let groupAdmins: [String]?
+        public let identityStoreId: String?
         /// The name of the private re:Post.
         public let name: String
         /// The AWS generated subdomain of the private re:Post
@@ -366,6 +682,7 @@ extension Repostspace {
         public let status: String
         /// The storage limit of the private re:Post.
         public let storageLimit: Int64
+        public let supportedEmailDomains: SupportedEmailDomainsStatus?
         /// The pricing tier of the private re:Post.
         public let tier: TierLevel
         /// The list of users that are administrators of the private re:Post.
@@ -380,7 +697,8 @@ extension Repostspace {
         public let vanityDomainStatus: VanityDomainStatus
 
         @inlinable
-        public init(arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, name: String, randomDomain: String, roles: [String: [Role]]? = nil, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
+        public init(applicationArn: String? = nil, arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, identityStoreId: String? = nil, name: String, randomDomain: String, roles: [String: [Role]]? = nil, spaceId: String, status: String, storageLimit: Int64, supportedEmailDomains: SupportedEmailDomainsStatus? = nil, tier: TierLevel, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
+            self.applicationArn = applicationArn
             self.arn = arn
             self.clientId = clientId
             self.configurationStatus = configurationStatus
@@ -390,12 +708,14 @@ extension Repostspace {
             self.deleteDateTime = deleteDateTime
             self.description = description
             self.groupAdmins = nil
+            self.identityStoreId = identityStoreId
             self.name = name
             self.randomDomain = randomDomain
             self.roles = roles
             self.spaceId = spaceId
             self.status = status
             self.storageLimit = storageLimit
+            self.supportedEmailDomains = supportedEmailDomains
             self.tier = tier
             self.userAdmins = nil
             self.userCount = userCount
@@ -406,7 +726,8 @@ extension Repostspace {
 
         @available(*, deprecated, message: "Members groupAdmins, userAdmins have been deprecated")
         @inlinable
-        public init(arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, groupAdmins: [String]? = nil, name: String, randomDomain: String, roles: [String: [Role]]? = nil, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userAdmins: [String]? = nil, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
+        public init(applicationArn: String? = nil, arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, groupAdmins: [String]? = nil, identityStoreId: String? = nil, name: String, randomDomain: String, roles: [String: [Role]]? = nil, spaceId: String, status: String, storageLimit: Int64, supportedEmailDomains: SupportedEmailDomainsStatus? = nil, tier: TierLevel, userAdmins: [String]? = nil, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
+            self.applicationArn = applicationArn
             self.arn = arn
             self.clientId = clientId
             self.configurationStatus = configurationStatus
@@ -416,12 +737,14 @@ extension Repostspace {
             self.deleteDateTime = deleteDateTime
             self.description = description
             self.groupAdmins = groupAdmins
+            self.identityStoreId = identityStoreId
             self.name = name
             self.randomDomain = randomDomain
             self.roles = roles
             self.spaceId = spaceId
             self.status = status
             self.storageLimit = storageLimit
+            self.supportedEmailDomains = supportedEmailDomains
             self.tier = tier
             self.userAdmins = userAdmins
             self.userCount = userCount
@@ -431,6 +754,7 @@ extension Repostspace {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationArn = "applicationArn"
             case arn = "arn"
             case clientId = "clientId"
             case configurationStatus = "configurationStatus"
@@ -440,12 +764,14 @@ extension Repostspace {
             case deleteDateTime = "deleteDateTime"
             case description = "description"
             case groupAdmins = "groupAdmins"
+            case identityStoreId = "identityStoreId"
             case name = "name"
             case randomDomain = "randomDomain"
             case roles = "roles"
             case spaceId = "spaceId"
             case status = "status"
             case storageLimit = "storageLimit"
+            case supportedEmailDomains = "supportedEmailDomains"
             case tier = "tier"
             case userAdmins = "userAdmins"
             case userCount = "userCount"
@@ -475,6 +801,55 @@ extension Repostspace {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct ListChannelsInput: AWSEncodableShape {
+        /// The maximum number of channels to include in the results.
+        public let maxResults: Int?
+        /// The token for the next set of channel to return. You receive this token from a previous ListChannels operation.
+        public let nextToken: String?
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, spaceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChannelsOutput: AWSDecodableShape {
+        /// An array of structures that contain some information about the channels in the private re:Post.
+        public let channels: [ChannelData]
+        /// The token that you use when you request the next set of channels.
+        public let nextToken: String?
+
+        @inlinable
+        public init(channels: [ChannelData], nextToken: String? = nil) {
+            self.channels = channels
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case nextToken = "nextToken"
         }
     }
 
@@ -697,6 +1072,7 @@ extension Repostspace {
         public let status: String
         /// The storage limit of the private re:Post.
         public let storageLimit: Int64
+        public let supportedEmailDomains: SupportedEmailDomainsStatus?
         /// The pricing tier of the private re:Post.
         public let tier: TierLevel
         /// The number of onboarded users to the private re:Post.
@@ -709,7 +1085,7 @@ extension Repostspace {
         public let vanityDomainStatus: VanityDomainStatus
 
         @inlinable
-        public init(arn: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, deleteDateTime: Date? = nil, description: String? = nil, name: String, randomDomain: String, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
+        public init(arn: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, deleteDateTime: Date? = nil, description: String? = nil, name: String, randomDomain: String, spaceId: String, status: String, storageLimit: Int64, supportedEmailDomains: SupportedEmailDomainsStatus? = nil, tier: TierLevel, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
             self.arn = arn
             self.configurationStatus = configurationStatus
             self.contentSize = contentSize
@@ -721,6 +1097,7 @@ extension Repostspace {
             self.spaceId = spaceId
             self.status = status
             self.storageLimit = storageLimit
+            self.supportedEmailDomains = supportedEmailDomains
             self.tier = tier
             self.userCount = userCount
             self.userKMSKey = userKMSKey
@@ -740,11 +1117,53 @@ extension Repostspace {
             case spaceId = "spaceId"
             case status = "status"
             case storageLimit = "storageLimit"
+            case supportedEmailDomains = "supportedEmailDomains"
             case tier = "tier"
             case userCount = "userCount"
             case userKMSKey = "userKMSKey"
             case vanityDomain = "vanityDomain"
             case vanityDomainStatus = "vanityDomainStatus"
+        }
+    }
+
+    public struct SupportedEmailDomainsParameters: AWSEncodableShape {
+        public let allowedDomains: [String]?
+        public let enabled: FeatureEnableParameter?
+
+        @inlinable
+        public init(allowedDomains: [String]? = nil, enabled: FeatureEnableParameter? = nil) {
+            self.allowedDomains = allowedDomains
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedDomains?.forEach {
+                try validate($0, name: "allowedDomains[]", parent: name, max: 255)
+                try validate($0, name: "allowedDomains[]", parent: name, min: 1)
+            }
+            try self.validate(self.allowedDomains, name: "allowedDomains", parent: name, max: 10)
+            try self.validate(self.allowedDomains, name: "allowedDomains", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedDomains = "allowedDomains"
+            case enabled = "enabled"
+        }
+    }
+
+    public struct SupportedEmailDomainsStatus: AWSDecodableShape {
+        public let allowedDomains: [String]?
+        public let enabled: FeatureEnableStatus?
+
+        @inlinable
+        public init(allowedDomains: [String]? = nil, enabled: FeatureEnableStatus? = nil) {
+            self.allowedDomains = allowedDomains
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedDomains = "allowedDomains"
+            case enabled = "enabled"
         }
     }
 
@@ -859,6 +1278,52 @@ extension Repostspace {
         public init() {}
     }
 
+    public struct UpdateChannelInput: AWSEncodableShape {
+        /// A description for the channel. This is used only to help you identify this channel.
+        public let channelDescription: String?
+        /// The unique ID of the private re:Post channel.
+        public let channelId: String
+        /// The name for the channel. This must be unique per private re:Post.
+        public let channelName: String
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(channelDescription: String? = nil, channelId: String, channelName: String, spaceId: String) {
+            self.channelDescription = channelDescription
+            self.channelId = channelId
+            self.channelName = channelName
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.channelDescription, forKey: .channelDescription)
+            request.encodePath(self.channelId, key: "channelId")
+            try container.encode(self.channelName, forKey: .channelName)
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelDescription, name: "channelDescription", parent: name, max: 255)
+            try self.validate(self.channelDescription, name: "channelDescription", parent: name, min: 1)
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 24)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 24)
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 64)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDescription = "channelDescription"
+            case channelName = "channelName"
+        }
+    }
+
+    public struct UpdateChannelOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateSpaceInput: AWSEncodableShape {
         /// A description for the private re:Post. This is used only to help you identify this private re:Post.
         public let description: String?
@@ -866,14 +1331,16 @@ extension Repostspace {
         public let roleArn: String?
         /// The unique ID of this private re:Post.
         public let spaceId: String
+        public let supportedEmailDomains: SupportedEmailDomainsParameters?
         /// The pricing tier of this private re:Post.
         public let tier: TierLevel?
 
         @inlinable
-        public init(description: String? = nil, roleArn: String? = nil, spaceId: String, tier: TierLevel? = nil) {
+        public init(description: String? = nil, roleArn: String? = nil, spaceId: String, supportedEmailDomains: SupportedEmailDomainsParameters? = nil, tier: TierLevel? = nil) {
             self.description = description
             self.roleArn = roleArn
             self.spaceId = spaceId
+            self.supportedEmailDomains = supportedEmailDomains
             self.tier = tier
         }
 
@@ -883,6 +1350,7 @@ extension Repostspace {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             request.encodePath(self.spaceId, key: "spaceId")
+            try container.encodeIfPresent(self.supportedEmailDomains, forKey: .supportedEmailDomains)
             try container.encodeIfPresent(self.tier, forKey: .tier)
         }
 
@@ -891,11 +1359,13 @@ extension Repostspace {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.supportedEmailDomains?.validate(name: "\(name).supportedEmailDomains")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case roleArn = "roleArn"
+            case supportedEmailDomains = "supportedEmailDomains"
             case tier = "tier"
         }
     }

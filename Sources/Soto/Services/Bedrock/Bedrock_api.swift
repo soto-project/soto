@@ -213,6 +213,47 @@ public struct Bedrock: AWSService {
         return try await self.createCustomModel(input, logger: logger)
     }
 
+    /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and generate responses with model inference.  For more information about setting up on-demand inference for custom models, see Set up inference for a custom model.  The following actions are related to the CreateCustomModelDeployment operation:    GetCustomModelDeployment     ListCustomModelDeployments     DeleteCustomModelDeployment
+    @Sendable
+    @inlinable
+    public func createCustomModelDeployment(_ input: CreateCustomModelDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomModelDeploymentResponse {
+        try await self.client.execute(
+            operation: "CreateCustomModelDeployment", 
+            path: "/model-customization/custom-model-deployments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and generate responses with model inference.  For more information about setting up on-demand inference for custom models, see Set up inference for a custom model.  The following actions are related to the CreateCustomModelDeployment operation:    GetCustomModelDeployment     ListCustomModelDeployments     DeleteCustomModelDeployment
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - description: A description for the custom model deployment to help you identify its purpose.
+    ///   - modelArn: The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state.
+    ///   - modelDeploymentName: The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region.
+    ///   - tags: Tags to assign to the custom model deployment. You can use tags to organize and track your Amazon Web Services resources for cost allocation and management purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCustomModelDeployment(
+        clientRequestToken: String? = CreateCustomModelDeploymentRequest.idempotencyToken(),
+        description: String? = nil,
+        modelArn: String,
+        modelDeploymentName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCustomModelDeploymentResponse {
+        let input = CreateCustomModelDeploymentRequest(
+            clientRequestToken: clientRequestToken, 
+            description: description, 
+            modelArn: modelArn, 
+            modelDeploymentName: modelDeploymentName, 
+            tags: tags
+        )
+        return try await self.createCustomModelDeployment(input, logger: logger)
+    }
+
     /// Creates an evaluation job.
     @Sendable
     @inlinable
@@ -824,6 +865,35 @@ public struct Bedrock: AWSService {
         return try await self.deleteCustomModel(input, logger: logger)
     }
 
+    /// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation:    CreateCustomModelDeployment     GetCustomModelDeployment     ListCustomModelDeployments
+    @Sendable
+    @inlinable
+    public func deleteCustomModelDeployment(_ input: DeleteCustomModelDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomModelDeploymentResponse {
+        try await self.client.execute(
+            operation: "DeleteCustomModelDeployment", 
+            path: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation:    CreateCustomModelDeployment     GetCustomModelDeployment     ListCustomModelDeployments
+    ///
+    /// Parameters:
+    ///   - customModelDeploymentIdentifier: The Amazon Resource Name (ARN) or name of the custom model deployment to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCustomModelDeployment(
+        customModelDeploymentIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCustomModelDeploymentResponse {
+        let input = DeleteCustomModelDeploymentRequest(
+            customModelDeploymentIdentifier: customModelDeploymentIdentifier
+        )
+        return try await self.deleteCustomModelDeployment(input, logger: logger)
+    }
+
     /// Delete the model access agreement for the specified model.
     @Sendable
     @inlinable
@@ -1112,6 +1182,35 @@ public struct Bedrock: AWSService {
             modelIdentifier: modelIdentifier
         )
         return try await self.getCustomModel(input, logger: logger)
+    }
+
+    /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment operation:    CreateCustomModelDeployment     ListCustomModelDeployments     DeleteCustomModelDeployment
+    @Sendable
+    @inlinable
+    public func getCustomModelDeployment(_ input: GetCustomModelDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomModelDeploymentResponse {
+        try await self.client.execute(
+            operation: "GetCustomModelDeployment", 
+            path: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment operation:    CreateCustomModelDeployment     ListCustomModelDeployments     DeleteCustomModelDeployment
+    ///
+    /// Parameters:
+    ///   - customModelDeploymentIdentifier: The Amazon Resource Name (ARN) or name of the custom model deployment to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCustomModelDeployment(
+        customModelDeploymentIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCustomModelDeploymentResponse {
+        let input = GetCustomModelDeploymentRequest(
+            customModelDeploymentIdentifier: customModelDeploymentIdentifier
+        )
+        return try await self.getCustomModelDeployment(input, logger: logger)
     }
 
     /// Gets information about an evaluation job, such as the status of the job.
@@ -1544,6 +1643,59 @@ public struct Bedrock: AWSService {
         let input = GetUseCaseForModelAccessRequest(
         )
         return try await self.getUseCaseForModelAccess(input, logger: logger)
+    }
+
+    /// Lists custom model deployments in your account. You can filter the results by creation time, name, status, and associated model. Use this operation to manage and monitor your custom model deployments. We recommend using pagination to ensure that the operation returns quickly and successfully. The following actions are related to the ListCustomModelDeployments operation:    CreateCustomModelDeployment     GetCustomModelDeployment     DeleteCustomModelDeployment
+    @Sendable
+    @inlinable
+    public func listCustomModelDeployments(_ input: ListCustomModelDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomModelDeploymentsResponse {
+        try await self.client.execute(
+            operation: "ListCustomModelDeployments", 
+            path: "/model-customization/custom-model-deployments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists custom model deployments in your account. You can filter the results by creation time, name, status, and associated model. Use this operation to manage and monitor your custom model deployments. We recommend using pagination to ensure that the operation returns quickly and successfully. The following actions are related to the ListCustomModelDeployments operation:    CreateCustomModelDeployment     GetCustomModelDeployment     DeleteCustomModelDeployment
+    ///
+    /// Parameters:
+    ///   - createdAfter: Filters deployments created after the specified date and time.
+    ///   - createdBefore: Filters deployments created before the specified date and time.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - modelArnEquals: Filters deployments by the Amazon Resource Name (ARN) of the associated custom model.
+    ///   - nameContains: Filters deployments whose names contain the specified string.
+    ///   - nextToken: The token for the next set of results. Use this token to retrieve additional results when the response is truncated.
+    ///   - sortBy: The field to sort the results by. The only supported value is CreationTime.
+    ///   - sortOrder: The sort order for the results. Valid values are Ascending and Descending. Default is Descending.
+    ///   - statusEquals: Filters deployments by status. Valid values are CREATING, ACTIVE, and FAILED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCustomModelDeployments(
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        modelArnEquals: String? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        sortBy: SortModelsBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: CustomModelDeploymentStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCustomModelDeploymentsResponse {
+        let input = ListCustomModelDeploymentsRequest(
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            modelArnEquals: modelArnEquals, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return try await self.listCustomModelDeployments(input, logger: logger)
     }
 
     /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide.
@@ -2590,6 +2742,61 @@ extension Bedrock {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Bedrock {
+    /// Return PaginatorSequence for operation ``listCustomModelDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomModelDeploymentsPaginator(
+        _ input: ListCustomModelDeploymentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCustomModelDeploymentsRequest, ListCustomModelDeploymentsResponse> {
+        return .init(
+            input: input,
+            command: self.listCustomModelDeployments,
+            inputKey: \ListCustomModelDeploymentsRequest.nextToken,
+            outputKey: \ListCustomModelDeploymentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCustomModelDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - createdAfter: Filters deployments created after the specified date and time.
+    ///   - createdBefore: Filters deployments created before the specified date and time.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - modelArnEquals: Filters deployments by the Amazon Resource Name (ARN) of the associated custom model.
+    ///   - nameContains: Filters deployments whose names contain the specified string.
+    ///   - sortBy: The field to sort the results by. The only supported value is CreationTime.
+    ///   - sortOrder: The sort order for the results. Valid values are Ascending and Descending. Default is Descending.
+    ///   - statusEquals: Filters deployments by status. Valid values are CREATING, ACTIVE, and FAILED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomModelDeploymentsPaginator(
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        modelArnEquals: String? = nil,
+        nameContains: String? = nil,
+        sortBy: SortModelsBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: CustomModelDeploymentStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCustomModelDeploymentsRequest, ListCustomModelDeploymentsResponse> {
+        let input = ListCustomModelDeploymentsRequest(
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            modelArnEquals: modelArnEquals, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return self.listCustomModelDeploymentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCustomModels(_:logger:)``.
     ///
     /// - Parameters:
@@ -3170,6 +3377,23 @@ extension Bedrock {
             statusEquals: statusEquals
         )
         return self.listProvisionedModelThroughputsPaginator(input, logger: logger)
+    }
+}
+
+extension Bedrock.ListCustomModelDeploymentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListCustomModelDeploymentsRequest {
+        return .init(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            modelArnEquals: self.modelArnEquals,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
     }
 }
 

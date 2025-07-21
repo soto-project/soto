@@ -74,7 +74,7 @@ extension OpsWorksCM {
     public struct AccountAttribute: AWSDecodableShape {
         ///  The maximum allowed value.
         public let maximum: Int?
-        ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default, you can have a maximum  of 50 manual backups saved.
+        ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a  maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default,  you can have a maximum  of 50 manual backups saved.
         public let name: String?
         ///  The current usage, such as the current number of servers that are associated with the account.
         public let used: Int?
@@ -94,7 +94,7 @@ extension OpsWorksCM {
     }
 
     public struct AssociateNodeRequest: AWSEncodableShape {
-        /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.     Attributes accepted in a AssociateNode request for Puppet     PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR) that is created by the node.
+        /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_AUTOMATE_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.     Attributes accepted in a AssociateNode request for Puppet     PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR) that is created by the node.
         public let engineAttributes: [EngineAttribute]
         /// The name of the node.
         public let nodeName: String
@@ -185,9 +185,9 @@ extension OpsWorksCM {
         public let statusDescription: String?
         ///  The subnet IDs that are obtained from the server when the backup is created.
         public let subnetIds: [String]?
-        ///  The version of AWS OpsWorks CM-specific tools that is obtained from the server when the backup is created.
+        ///  The version of OpsWorks CM-specific tools that is obtained from the server when the backup is created.
         public let toolsVersion: String?
-        ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups.
+        ///  The user ARN of the requester for manual backups. This field is empty for automated backups.
         public let userArn: String?
 
         @inlinable
@@ -280,7 +280,7 @@ extension OpsWorksCM {
         public let description: String?
         /// The name of the server that you want to back up.
         public let serverName: String
-        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
+        /// A map that contains tag keys and tag values to attach to an OpsWorks CM server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the  following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the  following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for tag-supported OpsWorks CM resources.
         public let tags: [Tag]?
 
         @inlinable
@@ -326,9 +326,9 @@ extension OpsWorksCM {
     public struct CreateServerRequest: AWSEncodableShape {
         ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true.
         public let associatePublicIpAddress: Bool?
-        ///  If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId.
+        ///  If you specify this field, OpsWorks CM creates the server by using the backup represented by BackupId.
         public let backupId: String?
-        ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1.
+        ///  The number of automated backups that you want to keep. Whenever a new backup is created, OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1.
         public let backupRetentionCount: Int?
         /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate, or a certificate chain. If you specify a  custom certificate, you must also specify values for CustomDomain and CustomPrivateKey. The following are requirements for the CustomCertificate value:   You can provide either a self-signed, custom certificate, or the full certificate chain.   The certificate must be a valid X509 certificate, or a certificate chain in PEM format.   The certificate must be valid at the time of upload. A certificate can't be used before its validity period begins (the certificate's NotBefore date), or after it expires  (the certificate's NotAfter date).   The certificate’s common name or subject alternative names (SANs), if present, must match the value of CustomDomain.   The certificate must match the value of CustomPrivateKey.
         public let customCertificate: String?
@@ -346,25 +346,25 @@ extension OpsWorksCM {
         public let engineModel: String?
         ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion  is currently 2. For a Puppet server, valid values are 2019 or 2017.
         public let engineVersion: String?
-        ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need.
+        ///  The ARN of the instance profile that your Amazon EC2 instances use. The OpsWorks console typically creates the instance profile for you
         public let instanceProfileArn: String
         ///  The Amazon EC2 instance type to use. For example, m5.large.
         public let instanceType: String
         ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH.
         public let keyPair: String?
-        ///  The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups    MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example:  08:00, which represents a daily start time of 08:00 UTC.  Example:  Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
+        ///  The start time for a one-hour period during which OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups    MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
         public let preferredBackupWindow: String?
-        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
+        ///  The start time for a one-hour period each week during which OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
         public let preferredMaintenanceWindow: String?
-        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
+        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
         public let securityGroupIds: [String]?
-        ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters.
+        ///  The name of the server. The server name must be unique within your Amazon Web Services account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters.
         public let serverName: String
-        ///  The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need.
+        ///  The service role that the OpsWorks CM service backend uses to work with your account.
         public let serviceRoleArn: String
-        ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
+        ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that  is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
         public let subnetIds: [String]?
-        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.
+        /// A map that contains tag keys and tag values to attach to an OpsWorks for Chef Automate or OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    Leading and trailing spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any OpsWorks CM server.
         public let tags: [Tag]?
 
         @inlinable
@@ -675,7 +675,7 @@ extension OpsWorksCM {
     }
 
     public struct DescribeNodeAssociationStatusResponse: AWSDecodableShape {
-        /// Attributes specific to the node association.  In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
+        /// Attributes specific to the node association.  In Puppet, the attribute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
         public let engineAttributes: [EngineAttribute]?
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.
         public let nodeAssociationStatus: NodeAssociationStatus?
@@ -726,7 +726,7 @@ extension OpsWorksCM {
     public struct DescribeServersResponse: AWSDecodableShape {
         /// This is not currently implemented for DescribeServers requests.
         public let nextToken: String?
-        /// Contains the response to a DescribeServers request.  For Chef Automate servers:  If DescribeServersResponse$Servers$EngineAttributes includes  CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running  Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019.  For Puppet servers:   DescribeServersResponse$Servers$EngineAttributes contains the following two responses:    PUPPET_API_CA_CERT, the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140.  The CA certificate is also used to sign node certificates.    PUPPET_API_CRL, a certificate revocation list. The certificate revocation list is for internal  maintenance purposes only. For more information about the Puppet certificate revocation list, see  Man Page: puppet certificate_revocation_list in the Puppet documentation.
+        /// Contains the response to a DescribeServers request.  For Chef Automate servers:  If DescribeServersResponse$Servers$EngineAttributes includes  CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running  Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019.  For Puppet servers: DescribeServersResponse$Servers$EngineAttributes contains the following two responses:    PUPPET_API_CA_CERT, the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140.  The CA certificate is also used to sign node certificates.    PUPPET_API_CRL, a certificate revocation list. The certificate revocation list is for internal  maintenance purposes only. For more information about the Puppet certificate revocation list, see  Man Page: puppet certificate_revocation_list in the Puppet documentation.
         public let servers: [Server]?
 
         @inlinable
@@ -816,7 +816,7 @@ extension OpsWorksCM {
     public struct ExportServerEngineAttributeRequest: AWSEncodableShape {
         /// The name of the export attribute. Currently, the supported export attribute is Userdata.  This exports a user data script that includes parameters and values provided in the InputAttributes list.
         public let exportAttributeName: String
-        /// The list of engine attributes. The list type is EngineAttribute. An EngineAttribute list item  is a pair that includes an attribute name and its value. For the Userdata ExportAttributeName, the following are  supported engine attribute names.    RunList In Chef, a list of roles or recipes that are run in the specified order.  In Puppet, this parameter is ignored.    OrganizationName In Chef, an organization name. AWS OpsWorks for Chef Automate  always creates the organization default. In Puppet, this parameter is ignored.    NodeEnvironment In Chef, a node environment (for example, development, staging, or one-box).  In Puppet, this parameter is ignored.    NodeClientVersion In Chef, the version of the Chef engine (three numbers separated  by dots, such as 13.8.5). If this attribute is empty, OpsWorks for Chef Automate uses the most current version. In Puppet,  this parameter is ignored.
+        /// The list of engine attributes. The list type is EngineAttribute. An EngineAttribute list item  is a pair that includes an attribute name and its value. For the Userdata ExportAttributeName, the following are  supported engine attribute names.    RunList In Chef, a list of roles or recipes that are run in the specified order.  In Puppet, this parameter is ignored.    OrganizationName In Chef, an organization name. OpsWorks for Chef Automate  always creates the organization default. In Puppet, this parameter is ignored.    NodeEnvironment In Chef, a node environment (for example, development, staging, or one-box).  In Puppet, this parameter is ignored.    NodeClientVersion In Chef, the version of the Chef engine (three numbers separated  by dots, such as 13.8.5). If this attribute is empty, OpsWorks for Chef Automate uses the most current version. In Puppet,  this parameter is ignored.
         public let inputAttributes: [EngineAttribute]?
         /// The name of the server from which you are exporting the attribute.
         public let serverName: String
@@ -869,7 +869,7 @@ extension OpsWorksCM {
         public let maxResults: Int?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call ListTagsForResource again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
         public let nextToken: String?
-        /// The Amazon Resource Number (ARN) of an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server for which you want to show applied tags. For example,  arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
+        /// The Amazon Resource Number (ARN) of an OpsWorks for Chef Automate or OpsWorks for Puppet Enterprise server for which you want to show applied tags. For example,  arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
         public let resourceArn: String
 
         @inlinable
@@ -979,7 +979,7 @@ extension OpsWorksCM {
         public let endpoint: String?
         /// The engine type of the server. Valid values in this release include ChefAutomate and Puppet.
         public let engine: String?
-        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks CM; they are returned only as part of the result of createServer().   Attributes returned in a createServer response for Chef     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.    Attributes returned in a createServer response for Puppet     PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Puppet starter kit, including a README and a required private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents.    PUPPET_ADMIN_PASSWORD: An administrator password that you can use to sign in to the Puppet Enterprise console after the server is online.
+        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by OpsWorks CM; they are returned only as part of the result of createServer().   Attributes returned in a createServer response for Chef     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.    Attributes returned in a createServer response for Puppet     PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Puppet starter kit, including a README and a required private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents.    PUPPET_ADMIN_PASSWORD: An administrator password that you can use to sign in to the  Puppet Enterprise console after the server is online.
         public let engineAttributes: [EngineAttribute]?
         /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef.
         public let engineModel: String?
@@ -987,7 +987,7 @@ extension OpsWorksCM {
         public let engineVersion: String?
         /// The instance profile ARN of the server.
         public let instanceProfileArn: String?
-        ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type that is shown in the EC2 console.
+        ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type  that is shown in the EC2 console.
         public let instanceType: String?
         /// The key pair associated with the server.
         public let keyPair: String?
@@ -1095,7 +1095,7 @@ extension OpsWorksCM {
     }
 
     public struct StartMaintenanceRequest: AWSEncodableShape {
-        /// Engine attributes that are specific to the server on which you want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef     CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2,  add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see  Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2.
+        /// Engine attributes that are specific to the server on which you want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef     CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2,  add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see  Upgrade an OpsWorks for Chef Automate Server to Chef Automate 2.
         public let engineAttributes: [EngineAttribute]?
         /// The name of the server on which to run maintenance.
         public let serverName: String
@@ -1164,7 +1164,7 @@ extension OpsWorksCM {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of a resource to which you want to apply tags. For example,  arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
         public let resourceArn: String
-        /// A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers or backups.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.
+        /// A map that contains tag keys and tag values to attach to OpsWorks CM servers or backups.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any OpsWorks CM server or backup.
         public let tags: [Tag]
 
         @inlinable
@@ -1273,7 +1273,7 @@ extension OpsWorksCM {
     public struct UpdateServerRequest: AWSEncodableShape {
         /// Sets the number of automated backups that you want to keep.
         public let backupRetentionCount: Int?
-        /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default.
+        /// Setting DisableAutomatedBackup to true disables automated or scheduled backups.  Automated backups are enabled by default.
         public let disableAutomatedBackup: Bool?
         public let preferredBackupWindow: String?
         public let preferredMaintenanceWindow: String?

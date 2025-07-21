@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS FreeTier service.
 ///
-/// You can use the Amazon Web Services Free Tier API to query programmatically your Free Tier usage data. Free Tier tracks your monthly usage data for all free tier offers that are associated with your Amazon Web Services account. You can use the Free Tier API to filter and show only the data that you want. Service endpoint The Free Tier API provides the following endpoint:   https://freetier.us-east-1.api.aws   For more information, see Using the Amazon Web Services Free Tier in the Billing User Guide.
+/// You can use the Amazon Web Services Free Tier API to query programmatically your Free Tier usage data. Free Tier tracks your monthly usage data for all free tier offers that are associated with your Amazon Web Services account. You can use the Free Tier API to filter and show only the data that you want. Service endpoint The Free Tier API provides the following endpoint:  For more information, see Using the Amazon Web Services Free Tier in the Billing User Guide.
 public struct FreeTier: AWSService {
     // MARK: Member variables
 
@@ -79,6 +79,64 @@ public struct FreeTier: AWSService {
 
     // MARK: API Calls
 
+    ///  Returns a specific activity record that is available to the customer.
+    @Sendable
+    @inlinable
+    public func getAccountActivity(_ input: GetAccountActivityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountActivityResponse {
+        try await self.client.execute(
+            operation: "GetAccountActivity", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns a specific activity record that is available to the customer.
+    ///
+    /// Parameters:
+    ///   - activityId:  A unique identifier that identifies the activity.
+    ///   - languageCode:  The language code used to return translated title and description fields.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountActivity(
+        activityId: String,
+        languageCode: LanguageCode? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountActivityResponse {
+        let input = GetAccountActivityRequest(
+            activityId: activityId, 
+            languageCode: languageCode
+        )
+        return try await self.getAccountActivity(input, logger: logger)
+    }
+
+    ///  This returns all of the information related to the state of the account plan related to Free Tier.
+    @Sendable
+    @inlinable
+    public func getAccountPlanState(_ input: GetAccountPlanStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPlanStateResponse {
+        try await self.client.execute(
+            operation: "GetAccountPlanState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  This returns all of the information related to the state of the account plan related to Free Tier.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountPlanState(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountPlanStateResponse {
+        let input = GetAccountPlanStateRequest(
+        )
+        return try await self.getAccountPlanState(input, logger: logger)
+    }
+
     /// Returns a list of all Free Tier usage objects that match your filters.
     @Sendable
     @inlinable
@@ -112,6 +170,73 @@ public struct FreeTier: AWSService {
             nextToken: nextToken
         )
         return try await self.getFreeTierUsage(input, logger: logger)
+    }
+
+    ///  Returns a list of activities that are available. This operation supports pagination and filtering by status.
+    @Sendable
+    @inlinable
+    public func listAccountActivities(_ input: ListAccountActivitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountActivitiesResponse {
+        try await self.client.execute(
+            operation: "ListAccountActivities", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns a list of activities that are available. This operation supports pagination and filtering by status.
+    ///
+    /// Parameters:
+    ///   - filterActivityStatuses:  The activity status filter. This field can be used to filter the response by activities status.
+    ///   - languageCode:  The language code used to return translated titles.
+    ///   - maxResults:  The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken:  A token from a previous paginated response. If this is specified, the response includes records beginning from this token (inclusive), up to the number specified by maxResults.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAccountActivities(
+        filterActivityStatuses: [ActivityStatus]? = nil,
+        languageCode: LanguageCode? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAccountActivitiesResponse {
+        let input = ListAccountActivitiesRequest(
+            filterActivityStatuses: filterActivityStatuses, 
+            languageCode: languageCode, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAccountActivities(input, logger: logger)
+    }
+
+    ///  The account plan type for the Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func upgradeAccountPlan(_ input: UpgradeAccountPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpgradeAccountPlanResponse {
+        try await self.client.execute(
+            operation: "UpgradeAccountPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  The account plan type for the Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - accountPlanType:  The target account plan type. This makes it explicit about the change and latest value of the accountPlanType.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func upgradeAccountPlan(
+        accountPlanType: AccountPlanType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpgradeAccountPlanResponse {
+        let input = UpgradeAccountPlanRequest(
+            accountPlanType: accountPlanType
+        )
+        return try await self.upgradeAccountPlan(input, logger: logger)
     }
 }
 
@@ -164,6 +289,46 @@ extension FreeTier {
         )
         return self.getFreeTierUsagePaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listAccountActivities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountActivitiesPaginator(
+        _ input: ListAccountActivitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccountActivitiesRequest, ListAccountActivitiesResponse> {
+        return .init(
+            input: input,
+            command: self.listAccountActivities,
+            inputKey: \ListAccountActivitiesRequest.nextToken,
+            outputKey: \ListAccountActivitiesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAccountActivities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterActivityStatuses:  The activity status filter. This field can be used to filter the response by activities status.
+    ///   - languageCode:  The language code used to return translated titles.
+    ///   - maxResults:  The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountActivitiesPaginator(
+        filterActivityStatuses: [ActivityStatus]? = nil,
+        languageCode: LanguageCode? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAccountActivitiesRequest, ListAccountActivitiesResponse> {
+        let input = ListAccountActivitiesRequest(
+            filterActivityStatuses: filterActivityStatuses, 
+            languageCode: languageCode, 
+            maxResults: maxResults
+        )
+        return self.listAccountActivitiesPaginator(input, logger: logger)
+    }
 }
 
 extension FreeTier.GetFreeTierUsageRequest: AWSPaginateToken {
@@ -171,6 +336,18 @@ extension FreeTier.GetFreeTierUsageRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FreeTier.GetFreeTierUsageRequest {
         return .init(
             filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension FreeTier.ListAccountActivitiesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> FreeTier.ListAccountActivitiesRequest {
+        return .init(
+            filterActivityStatuses: self.filterActivityStatuses,
+            languageCode: self.languageCode,
             maxResults: self.maxResults,
             nextToken: token
         )

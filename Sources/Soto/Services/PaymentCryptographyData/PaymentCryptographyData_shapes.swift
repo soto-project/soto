@@ -75,6 +75,7 @@ extension PaymentCryptographyData {
         case ansiX924 = "ANSI_X9_24"
         case cmac = "CMAC"
         case hmac = "HMAC"
+        case sha1 = "SHA_1"
         public var description: String { return self.rawValue }
     }
 
@@ -93,6 +94,7 @@ extension PaymentCryptographyData {
 
     public enum MacAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmac = "CMAC"
+        case hmac = "HMAC"
         case hmacSha224 = "HMAC_SHA224"
         case hmacSha256 = "HMAC_SHA256"
         case hmacSha384 = "HMAC_SHA384"
@@ -1783,7 +1785,7 @@ extension PaymentCryptographyData {
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.macLength, name: "macLength", parent: name, max: 16)
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
-            try self.validate(self.messageData, name: "messageData", parent: name, max: 4096)
+            try self.validate(self.messageData, name: "messageData", parent: name, max: 8192)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)
             try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
         }
@@ -2813,7 +2815,7 @@ extension PaymentCryptographyData {
             try self.validate(self.mac, name: "mac", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.validate(self.macLength, name: "macLength", parent: name, max: 16)
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
-            try self.validate(self.messageData, name: "messageData", parent: name, max: 4096)
+            try self.validate(self.messageData, name: "messageData", parent: name, max: 8192)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)
             try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.verificationAttributes.validate(name: "\(name).verificationAttributes")

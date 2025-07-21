@@ -63,6 +63,12 @@ extension S3Tables {
         public var description: String { return self.rawValue }
     }
 
+    public enum TableBucketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "aws"
+        case customer = "customer"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TableMaintenanceJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case icebergCompaction = "icebergCompaction"
         case icebergSnapshotManagement = "icebergSnapshotManagement"
@@ -693,14 +699,17 @@ extension S3Tables {
         public let ownerAccountId: String
         /// The unique identifier of the table bucket.
         public let tableBucketId: String?
+        /// The type of the table bucket.
+        public let type: TableBucketType?
 
         @inlinable
-        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String, tableBucketId: String? = nil) {
+        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String, tableBucketId: String? = nil, type: TableBucketType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
             self.ownerAccountId = ownerAccountId
             self.tableBucketId = tableBucketId
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -709,6 +718,7 @@ extension S3Tables {
             case name = "name"
             case ownerAccountId = "ownerAccountId"
             case tableBucketId = "tableBucketId"
+            case type = "type"
         }
     }
 
@@ -1259,12 +1269,15 @@ extension S3Tables {
         public let maxBuckets: Int?
         /// The prefix of the table buckets.
         public let prefix: String?
+        /// The type of table buckets to filter by in the list.
+        public let type: TableBucketType?
 
         @inlinable
-        public init(continuationToken: String? = nil, maxBuckets: Int? = nil, prefix: String? = nil) {
+        public init(continuationToken: String? = nil, maxBuckets: Int? = nil, prefix: String? = nil, type: TableBucketType? = nil) {
             self.continuationToken = continuationToken
             self.maxBuckets = maxBuckets
             self.prefix = prefix
+            self.type = type
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1273,6 +1286,7 @@ extension S3Tables {
             request.encodeQuery(self.continuationToken, key: "continuationToken")
             request.encodeQuery(self.maxBuckets, key: "maxBuckets")
             request.encodeQuery(self.prefix, key: "prefix")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -1697,14 +1711,17 @@ extension S3Tables {
         public let ownerAccountId: String
         /// The system-assigned unique identifier for the table bucket.
         public let tableBucketId: String?
+        /// The type of the table bucket.
+        public let type: TableBucketType?
 
         @inlinable
-        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String, tableBucketId: String? = nil) {
+        public init(arn: String, createdAt: Date, name: String, ownerAccountId: String, tableBucketId: String? = nil, type: TableBucketType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
             self.ownerAccountId = ownerAccountId
             self.tableBucketId = tableBucketId
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1713,6 +1730,7 @@ extension S3Tables {
             case name = "name"
             case ownerAccountId = "ownerAccountId"
             case tableBucketId = "tableBucketId"
+            case type = "type"
         }
     }
 

@@ -24,17 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS NetworkFlowMonitor service.
 ///
-/// Network Flow Monitor is a feature of Amazon CloudWatch Network Monitoring that provides visibility into the performance of
-/// 	  		network flows for your Amazon Web Services workloads, between instances in subnets, as well as to and
-/// 	  		from Amazon Web Services. Lightweight agents that you install on the instances capture performance metrics
-/// 	  		for your network flows, such as packet loss and latency, and send them to the Network Flow Monitor backend. Then, you can
-/// 	  		view and analyze metrics from the top contributors for each metric type, to help troubleshoot issues. In addition, when you create a monitor, Network Flow Monitor provides a network health indicator (NHI)
-/// 	  		that informs you whether there were Amazon Web Services network issues for one or more of the network flows
-/// 	  		tracked by a monitor, during a time period that you choose. By using this value, you can independently determine
-/// 	  		if the Amazon Web Services network is impacting your workload during a specific time frame, to help you focus
-/// 	  		troubleshooting efforts. To learn more about Network Flow Monitor, see the
-/// 	  		Network Flow Monitor User Guide
-/// 				in the Amazon CloudWatch User Guide.
+/// Network Flow Monitor is a feature of Amazon CloudWatch Network Monitoring that provides visibility into the performance of network flows for your Amazon Web Services workloads, between instances in subnets, as well as to and from Amazon Web Services. Lightweight agents that you install on the instances capture performance metrics for your network flows, such as packet loss and latency, and send them to the Network Flow Monitor backend. Then, you can view and analyze metrics from the top contributors for each metric type, to help troubleshoot issues. In addition, when you create a monitor, Network Flow Monitor provides a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose. By using this value, you can independently determine if the Amazon Web Services network is impacting your workload during a specific time frame, to help you focus troubleshooting efforts. To learn more about Network Flow Monitor, see the Network Flow Monitor User Guide in the Amazon CloudWatch User Guide.
 public struct NetworkFlowMonitor: AWSService {
     // MARK: Member variables
 
@@ -88,11 +78,7 @@ public struct NetworkFlowMonitor: AWSService {
 
     // MARK: API Calls
 
-    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor
-    /// 			network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed
-    /// 			end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were
-    /// 			Amazon Web Services  network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
-    ///
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
     @Sendable
     @inlinable
     public func createMonitor(_ input: CreateMonitorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMonitorOutput {
@@ -105,17 +91,13 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor
-    /// 			network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed
-    /// 			end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were
-    /// 			Amazon Web Services  network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
-    ///
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for 		other API requests.
-    ///   - localResources: The local resources to monitor. A local resource, in a bi-directional flow of a workload,  		is the host where the agent is installed. For example, if a workload consists of an interaction  		between a web service and a backend database (for example, Amazon Relational Database Service (RDS)),  		the EC2 instance hosting the web service, which also runs the agent, is the local resource.
+    ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
+    ///   - localResources: The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Relational Database Service (RDS)), the EC2 instance hosting the web service, which also runs the agent, is the local resource.
     ///   - monitorName: The name of the monitor.
-    ///   - remoteResources: The remote resources to monitor. A remote resource is the other endpoint in the bi-directional  		flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource.
+    ///   - remoteResources: The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource.
     ///   - scopeArn: The Amazon Resource Name (ARN) of the scope for the monitor.
     ///   - tags: The tags for a monitor. You can add a maximum of 200 tags.
     ///   - logger: Logger use during operation
@@ -140,7 +122,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.createMonitor(input, logger: logger)
     }
 
-    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, 		when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. 		This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the 		resources for the Amazon Web Services that enables the feature.
+    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the resources for the Amazon Web Services that enables the feature.
     @Sendable
     @inlinable
     public func createScope(_ input: CreateScopeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScopeOutput {
@@ -153,10 +135,10 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, 		when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. 		This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the 		resources for the Amazon Web Services that enables the feature.
+    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the resources for the Amazon Web Services that enables the feature.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent  		API request. Don't reuse the same client token for other API requests.
+    ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     ///   - tags: The tags for a scope. You can add a maximum of 200 tags.
     ///   - targets: The targets to define the scope to be monitored. Currently, a target is an Amazon Web Services account.
     ///   - logger: Logger use during operation
@@ -220,7 +202,7 @@ public struct NetworkFlowMonitor: AWSService {
     /// Deletes a scope that has been defined.
     ///
     /// Parameters:
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteScope(
@@ -233,7 +215,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.deleteScope(input, logger: logger)
     }
 
-    /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes  		the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
+    /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     @Sendable
     @inlinable
     public func getMonitor(_ input: GetMonitorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMonitorOutput {
@@ -246,7 +228,7 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes  		the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
+    /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     ///
     /// Parameters:
     ///   - monitorName: The name of the monitor.
@@ -262,7 +244,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getMonitor(input, logger: logger)
     }
 
-    /// Return the data for a query with the Network Flow Monitor query interface.  		You specify the query that you want to return results for by providing a query ID  		and a monitor name. This query returns the top contributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query,  		StartQueryMonitorTopContributors. Use the scope ID that was returned 		for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func getQueryResultsMonitorTopContributors(_ input: GetQueryResultsMonitorTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsMonitorTopContributorsOutput {
@@ -275,13 +257,13 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Return the data for a query with the Network Flow Monitor query interface.  		You specify the query that you want to return results for by providing a query ID  		and a monitor name. This query returns the top contributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query,  		StartQueryMonitorTopContributors. Use the scope ID that was returned 		for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
     ///   - maxResults: The number of query results that you want to return with this call.
     ///   - monitorName: The name of the monitor.
     ///   - nextToken: The token for the next set of results. You receive this token from a previous call.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQueryResultsMonitorTopContributors(
@@ -300,7 +282,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getQueryResultsMonitorTopContributors(input, logger: logger)
     }
 
-    /// Return the data for a query with the Network Flow Monitor query interface.  		You specify the query that you want to return results for by providing a query ID  		and a monitor name. This query returns the top contributors for a scope for workload insights. Workload  		insights provide a high level view of network flow performance data collected by agents. 		To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData. Create a query ID for this call by calling the corresponding API call to start the query,  		StartQueryWorkloadInsightsTopContributors. Use the scope ID that was returned 		for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a scope for workload insights. Workload insights provide a high level view of network flow performance data collected by agents. To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func getQueryResultsWorkloadInsightsTopContributors(_ input: GetQueryResultsWorkloadInsightsTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsWorkloadInsightsTopContributorsOutput {
@@ -313,13 +295,13 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Return the data for a query with the Network Flow Monitor query interface.  		You specify the query that you want to return results for by providing a query ID  		and a monitor name. This query returns the top contributors for a scope for workload insights. Workload  		insights provide a high level view of network flow performance data collected by agents. 		To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData. Create a query ID for this call by calling the corresponding API call to start the query,  		StartQueryWorkloadInsightsTopContributors. Use the scope ID that was returned 		for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a scope for workload insights. Workload insights provide a high level view of network flow performance data collected by agents. To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
     ///   - maxResults: The number of query results that you want to return with this call.
     ///   - nextToken: The token for the next set of results. You receive this token from a previous call.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQueryResultsWorkloadInsightsTopContributors(
@@ -338,7 +320,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getQueryResultsWorkloadInsightsTopContributors(input, logger: logger)
     }
 
-    /// Return the data for a query with the Network Flow Monitor query interface.  		Specify the query that you want to return results for by providing a query ID  		and a scope ID. This query returns the data for top contributors for workload insights for a specific scope.  		Workload insights provide a high level view of network flow performance data collected by agents  		for a scope. To return just the top contributors, see GetQueryResultsWorkloadInsightsTopContributors. Create a query ID for this call by calling the corresponding API call to start the query,  		StartQueryWorkloadInsightsTopContributorsData. Use the scope ID that was returned 		for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned. The top contributor network flows overall are for a specific metric type, for example, the  		number of retransmissions.
+    /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a scope ID. This query returns the data for top contributors for workload insights for a specific scope. Workload insights provide a high level view of network flow performance data collected by agents for a scope. To return just the top contributors, see GetQueryResultsWorkloadInsightsTopContributors. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     @Sendable
     @inlinable
     public func getQueryResultsWorkloadInsightsTopContributorsData(_ input: GetQueryResultsWorkloadInsightsTopContributorsDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsWorkloadInsightsTopContributorsDataOutput {
@@ -351,13 +333,13 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Return the data for a query with the Network Flow Monitor query interface.  		Specify the query that you want to return results for by providing a query ID  		and a scope ID. This query returns the data for top contributors for workload insights for a specific scope.  		Workload insights provide a high level view of network flow performance data collected by agents  		for a scope. To return just the top contributors, see GetQueryResultsWorkloadInsightsTopContributors. Create a query ID for this call by calling the corresponding API call to start the query,  		StartQueryWorkloadInsightsTopContributorsData. Use the scope ID that was returned 		for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned. The top contributor network flows overall are for a specific metric type, for example, the  		number of retransmissions.
+    /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a scope ID. This query returns the data for top contributors for workload insights for a specific scope. Workload insights provide a high level view of network flow performance data collected by agents for a scope. To return just the top contributors, see GetQueryResultsWorkloadInsightsTopContributors. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     ///
     /// Parameters:
     ///   - maxResults: The number of query results that you want to return with this call.
     ///   - nextToken: The token for the next set of results. You receive this token from a previous call.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQueryResultsWorkloadInsightsTopContributorsData(
@@ -376,7 +358,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getQueryResultsWorkloadInsightsTopContributorsData(input, logger: logger)
     }
 
-    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor.  		This call returns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has  		has SUCCEEDED before you review the results. Use the same query ID that you used for  		the corresponding API call to start (create) the query, StartQueryMonitorTopContributors. When you run a query, use this call to check the status of the query to make sure that the query  		has SUCCEEDED before you review the results.
+    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, StartQueryMonitorTopContributors. When you run a query, use this call to check the status of the query to make sure that the query has SUCCEEDED before you review the results.
     @Sendable
     @inlinable
     public func getQueryStatusMonitorTopContributors(_ input: GetQueryStatusMonitorTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryStatusMonitorTopContributorsOutput {
@@ -389,11 +371,11 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor.  		This call returns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has  		has SUCCEEDED before you review the results. Use the same query ID that you used for  		the corresponding API call to start (create) the query, StartQueryMonitorTopContributors. When you run a query, use this call to check the status of the query to make sure that the query  		has SUCCEEDED before you review the results.
+    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, StartQueryMonitorTopContributors. When you run a query, use this call to check the status of the query to make sure that the query has SUCCEEDED before you review the results.
     ///
     /// Parameters:
     ///   - monitorName: The name of the monitor.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQueryStatusMonitorTopContributors(
@@ -408,7 +390,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getQueryStatusMonitorTopContributors(input, logger: logger)
     }
 
-    /// Return the data for a query with the Network Flow Monitor query interface.  		Specify the query that you want to return results for by providing a query ID  		and a monitor name. This query returns the top contributors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has  		has SUCCEEDED before you review the results. Use the same query ID that you used for  		the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func getQueryStatusWorkloadInsightsTopContributors(_ input: GetQueryStatusWorkloadInsightsTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryStatusWorkloadInsightsTopContributorsOutput {
@@ -421,11 +403,11 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Return the data for a query with the Network Flow Monitor query interface.  		Specify the query that you want to return results for by providing a query ID  		and a monitor name. This query returns the top contributors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has  		has SUCCEEDED before you review the results. Use the same query ID that you used for  		the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQueryStatusWorkloadInsightsTopContributors(
@@ -440,7 +422,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getQueryStatusWorkloadInsightsTopContributors(input, logger: logger)
     }
 
-    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor.  		This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has  		has SUCCEEDED before you review the results. Use the same query ID that you used for  		the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned. The top contributor network flows overall are for a specific metric type, for example, the  		number of retransmissions.
+    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     @Sendable
     @inlinable
     public func getQueryStatusWorkloadInsightsTopContributorsData(_ input: GetQueryStatusWorkloadInsightsTopContributorsDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryStatusWorkloadInsightsTopContributorsDataOutput {
@@ -453,11 +435,11 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor.  		This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has  		has SUCCEEDED before you review the results. Use the same query ID that you used for  		the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned. The top contributor network flows overall are for a specific metric type, for example, the  		number of retransmissions.
+    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     ///
     /// Parameters:
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account. A scope ID is returned from a CreateScope API call.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQueryStatusWorkloadInsightsTopContributorsData(
@@ -472,7 +454,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getQueryStatusWorkloadInsightsTopContributorsData(input, logger: logger)
     }
 
-    /// Gets information about a scope, including the name, status, tags, and target details.  		The scope in Network Flow Monitor is an account.
+    /// Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account.
     @Sendable
     @inlinable
     public func getScope(_ input: GetScopeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScopeOutput {
@@ -485,10 +467,10 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a scope, including the name, status, tags, and target details.  		The scope in Network Flow Monitor is an account.
+    /// Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account.
     ///
     /// Parameters:
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account. A scope ID is returned from a CreateScope API call.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     ///   - logger: Logger use during operation
     @inlinable
     public func getScope(
@@ -501,7 +483,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.getScope(input, logger: logger)
     }
 
-    /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by 		using the STATUS parameter.
+    /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the STATUS parameter.
     @Sendable
     @inlinable
     public func listMonitors(_ input: ListMonitorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMonitorsOutput {
@@ -514,7 +496,7 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by 		using the STATUS parameter.
+    /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the STATUS parameter.
     ///
     /// Parameters:
     ///   - maxResults: The number of query results that you want to return with this call.
@@ -597,7 +579,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Create a query that you can use with the Network Flow Monitor query interface to return the top  		contributors for a monitor. Specify the monitor that you want to create the query for.  The call returns a query ID that you can use with  		 			GetQueryResultsMonitorTopContributors 		to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable APIs for the top contributors that you want to be 		returned.
+    /// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for.  The call returns a query ID that you can use with  GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func startQueryMonitorTopContributors(_ input: StartQueryMonitorTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryMonitorTopContributorsOutput {
@@ -610,15 +592,15 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Create a query that you can use with the Network Flow Monitor query interface to return the top  		contributors for a monitor. Specify the monitor that you want to create the query for.  The call returns a query ID that you can use with  		 			GetQueryResultsMonitorTopContributors 		to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable APIs for the top contributors that you want to be 		returned.
+    /// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for.  The call returns a query ID that you can use with  GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
     /// Parameters:
-    ///   - destinationCategory: The category that you want to query top contributors for, for a specific monitor. Destination 		categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
-    ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve  		results for with your query.
+    ///   - destinationCategory: The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+    ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
     ///   - limit: The maximum number of top contributors to return.
-    ///   - metricName: The metric that you want to query top contributors for. That is, you can specify a metric  		with this call and return the top contributor network flows, for that type of metric, for a monitor  		and (optionally) within a specific category, such as network flows between Availability Zones.
+    ///   - metricName: The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     ///   - monitorName: The name of the monitor.
-    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve  		results for with your query.
+    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
     ///   - logger: Logger use during operation
     @inlinable
     public func startQueryMonitorTopContributors(
@@ -641,7 +623,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.startQueryMonitorTopContributors(input, logger: logger)
     }
 
-    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. 		Specify the scope that you want to create a query for. The call returns a query ID that you can use with  		 			GetQueryResultsWorkloadInsightsTopContributors 		to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable APIs for the top contributors that you want to be 		returned.
+    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  GetQueryResultsWorkloadInsightsTopContributors to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func startQueryWorkloadInsightsTopContributors(_ input: StartQueryWorkloadInsightsTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryWorkloadInsightsTopContributorsOutput {
@@ -654,15 +636,15 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. 		Specify the scope that you want to create a query for. The call returns a query ID that you can use with  		 			GetQueryResultsWorkloadInsightsTopContributors 		to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable APIs for the top contributors that you want to be 		returned.
+    /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  GetQueryResultsWorkloadInsightsTopContributors to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
     /// Parameters:
     ///   - destinationCategory: The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
-    ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve  		results for with your query.
+    ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
     ///   - limit: The maximum number of top contributors to return.
-    ///   - metricName: The metric that you want to query top contributors for. That is, you can specify this metric to  		return the top contributor network flows, for this type of metric, for a monitor and (optionally)  		within a specific category, such as network flows between Availability Zones.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account. A scope ID is returned from a CreateScope API call.
-    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve  		results for with your query.
+    ///   - metricName: The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
+    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
     ///   - logger: Logger use during operation
     @inlinable
     public func startQueryWorkloadInsightsTopContributors(
@@ -685,7 +667,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.startQueryWorkloadInsightsTopContributors(input, logger: logger)
     }
 
-    /// Create a query with the Network Flow Monitor query interface that you can run to return data for 		workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  		 			GetQueryResultsWorkloadInsightsTopContributorsData 		to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Create a query with the Network Flow Monitor query interface that you can run to return data for workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  GetQueryResultsWorkloadInsightsTopContributorsData to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func startQueryWorkloadInsightsTopContributorsData(_ input: StartQueryWorkloadInsightsTopContributorsDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryWorkloadInsightsTopContributorsDataOutput {
@@ -698,14 +680,14 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Create a query with the Network Flow Monitor query interface that you can run to return data for 		workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  		 			GetQueryResultsWorkloadInsightsTopContributorsData 		to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Create a query with the Network Flow Monitor query interface that you can run to return data for workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  GetQueryResultsWorkloadInsightsTopContributorsData to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
     ///   - destinationCategory: The destination category for a top contributors. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
-    ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve  		results for with your query.
-    ///   - metricName: The metric that you want to query top contributors for. That is, you can specify this metric to  		return the top contributor network flows, for this type of metric, for a monitor and (optionally)  		within a specific category, such as network flows between Availability Zones.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
-    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve  		results for with your query.
+    ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
+    ///   - metricName: The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
+    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
     ///   - logger: Logger use during operation
     @inlinable
     public func startQueryWorkloadInsightsTopContributorsData(
@@ -726,7 +708,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.startQueryWorkloadInsightsTopContributorsData(input, logger: logger)
     }
 
-    /// Stop a top contributors query for a monitor.  		Specify the query that you want to stop by providing a query ID  		and a monitor name.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func stopQueryMonitorTopContributors(_ input: StopQueryMonitorTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopQueryMonitorTopContributorsOutput {
@@ -739,11 +721,11 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Stop a top contributors query for a monitor.  		Specify the query that you want to stop by providing a query ID  		and a monitor name.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
     ///   - monitorName: The name of the monitor.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopQueryMonitorTopContributors(
@@ -758,7 +740,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.stopQueryMonitorTopContributors(input, logger: logger)
     }
 
-    /// Stop a top contributors query for workload insights.  		Specify the query that you want to stop by providing a query ID  		and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func stopQueryWorkloadInsightsTopContributors(_ input: StopQueryWorkloadInsightsTopContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopQueryWorkloadInsightsTopContributorsOutput {
@@ -771,11 +753,11 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Stop a top contributors query for workload insights.  		Specify the query that you want to stop by providing a query ID  		and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopQueryWorkloadInsightsTopContributors(
@@ -790,7 +772,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.stopQueryWorkloadInsightsTopContributors(input, logger: logger)
     }
 
-    /// Stop a top contributors data query for workload insights.  		Specify the query that you want to stop by providing a query ID  		and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     @Sendable
     @inlinable
     public func stopQueryWorkloadInsightsTopContributorsData(_ input: StopQueryWorkloadInsightsTopContributorsDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopQueryWorkloadInsightsTopContributorsDataOutput {
@@ -803,11 +785,11 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Stop a top contributors data query for workload insights.  		Specify the query that you want to stop by providing a query ID  		and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific  		metric type. Top contributors can be across all workload insights, for a given scope, or for  		a specific monitor. Use the applicable call for the top contributors that you want to be 		returned.
+    /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID.  Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopQueryWorkloadInsightsTopContributorsData(
@@ -902,7 +884,7 @@ public struct NetworkFlowMonitor: AWSService {
     /// Update a monitor to add or remove local or remote resources.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for 		other API requests.
+    ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     ///   - localResourcesToAdd: The local resources to add, as an array of resources with identifiers and types.
     ///   - localResourcesToRemove: The local resources to remove, as an array of resources with identifiers and types.
     ///   - monitorName: The name of the monitor.
@@ -930,7 +912,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.updateMonitor(input, logger: logger)
     }
 
-    /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, 		when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
+    /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
     @Sendable
     @inlinable
     public func updateScope(_ input: UpdateScopeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScopeOutput {
@@ -943,12 +925,12 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, 		when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
+    /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
     ///
     /// Parameters:
     ///   - resourcesToAdd: A list of resources to add to a scope.
     ///   - resourcesToDelete: A list of resources to delete from a scope.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateScope(
@@ -1002,7 +984,7 @@ extension NetworkFlowMonitor {
     /// - Parameters:
     ///   - maxResults: The number of query results that you want to return with this call.
     ///   - monitorName: The name of the monitor.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     ///   - logger: Logger used for logging
     @inlinable
     public func getQueryResultsMonitorTopContributorsPaginator(
@@ -1041,8 +1023,8 @@ extension NetworkFlowMonitor {
     ///
     /// - Parameters:
     ///   - maxResults: The number of query results that you want to return with this call.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger used for logging
     @inlinable
     public func getQueryResultsWorkloadInsightsTopContributorsPaginator(
@@ -1081,8 +1063,8 @@ extension NetworkFlowMonitor {
     ///
     /// - Parameters:
     ///   - maxResults: The number of query results that you want to return with this call.
-    ///   - queryId: The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
-    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+    ///   - queryId: The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
+    ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     ///   - logger: Logger used for logging
     @inlinable
     public func getQueryResultsWorkloadInsightsTopContributorsDataPaginator(

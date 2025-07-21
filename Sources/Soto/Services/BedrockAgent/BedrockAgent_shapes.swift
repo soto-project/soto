@@ -360,6 +360,7 @@ extension BedrockAgent {
         case pinecone = "PINECONE"
         case rds = "RDS"
         case redisEnterpriseCloud = "REDIS_ENTERPRISE_CLOUD"
+        case s3Vectors = "S3_VECTORS"
         public var description: String { return self.rawValue }
     }
 
@@ -2339,7 +2340,7 @@ extension BedrockAgent {
     public struct BedrockEmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public let dimensions: Int?
-        /// The data type for the vectors when using a model to convert text into vector  embeddings. The model must support the specified data type for vector embeddings.  Floating-point (float32) is the default data type, and is supported by most models  for vector embeddings. See Supported embeddings  models for information on the available models and their vector data types.
+        /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See Supported embeddings models for information on the available models and their vector data types.
         public let embeddingDataType: EmbeddingDataType?
 
         @inlinable
@@ -2543,7 +2544,7 @@ extension BedrockAgent {
     }
 
     public struct ConfluenceCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of filtering the Confluence content. For example, configuring  regular expression patterns to include or exclude certain content.
+        /// The configuration of filtering the Confluence content. For example, configuring regular expression patterns to include or exclude certain content.
         public let filterConfiguration: CrawlFilterConfiguration?
 
         @inlinable
@@ -2561,7 +2562,7 @@ extension BedrockAgent {
     }
 
     public struct ConfluenceDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of the Confluence content. For example, configuring  specific types of Confluence content.
+        /// The configuration of the Confluence content. For example, configuring specific types of Confluence content.
         public let crawlerConfiguration: ConfluenceCrawlerConfiguration?
         /// The endpoint information to connect to your Confluence data source.
         public let sourceConfiguration: ConfluenceSourceConfiguration
@@ -2584,9 +2585,9 @@ extension BedrockAgent {
     }
 
     public struct ConfluenceSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The supported authentication type to authenticate and connect to your  Confluence instance.
+        /// The supported authentication type to authenticate and connect to your Confluence instance.
         public let authType: ConfluenceAuthType
-        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your Confluence instance URL.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Confluence connection configuration.
+        /// The Amazon Resource Name of an Secrets Manager secret that stores your authentication credentials for your Confluence instance URL. For more information on the key-value pairs that must be included in your secret, depending on your authentication type, see Confluence connection configuration.
         public let credentialsSecretArn: String
         /// The supported host type, whether online/cloud or server/on-premises.
         public let hostType: ConfluenceHostType
@@ -2639,7 +2640,7 @@ extension BedrockAgent {
     public struct CrawlFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of filtering certain objects or content types of the data source.
         public let patternObjectFilter: PatternObjectFilterConfiguration?
-        /// The type of filtering that you want to apply to certain objects or content of the  data source. For example, the PATTERN type is regular expression patterns  you can apply to filter your content.
+        /// The type of filtering that you want to apply to certain objects or content of the data source. For example, the PATTERN type is regular expression patterns you can apply to filter your content.
         public let type: CrawlFilterConfigurationType
 
         @inlinable
@@ -2677,7 +2678,7 @@ extension BedrockAgent {
         public let description: String?
         /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public let functionSchema: FunctionSchema?
-        /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
+        /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
         public let parentActionGroupSignature: ActionGroupSignature?
         /// The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
         public let parentActionGroupSignatureParams: [String: String]?
@@ -2954,7 +2955,7 @@ extension BedrockAgent {
     public struct CreateDataSourceRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
-        /// The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all data from your data source that’s converted  into vector embeddings upon deletion of a knowledge base or data source resource.  Note that the vector store itself is not deleted,  only the data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source that’s converted  into vector embeddings upon deletion of a knowledge base or data source resource.  Note that the vector store itself is not deleted  if you delete a knowledge base or data source resource.
+        /// The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted if you delete a knowledge base or data source resource.
         public let dataDeletionPolicy: DataDeletionPolicy?
         /// The connection configuration for the data source.
         public let dataSourceConfiguration: DataSourceConfiguration
@@ -3871,7 +3872,7 @@ extension BedrockAgent {
         public let sharePointConfiguration: SharePointDataSourceConfiguration?
         /// The type of data source.
         public let type: DataSourceType
-        /// The configuration of web URLs to crawl for your data source.  You should be authorized to crawl the URLs.  Crawling web URLs as your data source is in preview release  and is subject to change.
+        /// The configuration of web URLs to crawl for your data source. You should be authorized to crawl the URLs.  Crawling web URLs as your data source is in preview release and is subject to change.
         public let webConfiguration: WebDataSourceConfiguration?
 
         @inlinable
@@ -5578,7 +5579,7 @@ extension BedrockAgent {
         public let definition: FlowDefinition?
         /// The description of the flow.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow.  For more information, see Create a service row for flows in the Amazon Bedrock User Guide.
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see Create a service row for flows in the Amazon Bedrock User Guide.
         public let executionRoleArn: String
         /// The unique identifier of the flow.
         public let id: String
@@ -8340,9 +8341,9 @@ extension BedrockAgent {
     }
 
     public struct PatternObjectFilter: AWSEncodableShape & AWSDecodableShape {
-        /// A list of one or more exclusion regular expression patterns to exclude certain  object types that adhere to the pattern. If you specify an inclusion and exclusion  filter/pattern and both match a document, the exclusion filter takes precedence  and the document isn’t crawled.
+        /// A list of one or more exclusion regular expression patterns to exclude certain object types that adhere to the pattern. If you specify an inclusion and exclusion filter/pattern and both match a document, the exclusion filter takes precedence and the document isn’t crawled.
         public let exclusionFilters: [String]?
-        /// A list of one or more inclusion regular expression patterns to include certain  object types that adhere to the pattern. If you specify an inclusion and exclusion  filter/pattern and both match a document, the exclusion filter takes precedence  and the document isn’t crawled.
+        /// A list of one or more inclusion regular expression patterns to include certain object types that adhere to the pattern. If you specify an inclusion and exclusion filter/pattern and both match a document, the exclusion filter takes precedence and the document isn’t crawled.
         public let inclusionFilters: [String]?
         /// The supported object type or content type of the data source.
         public let objectType: String
@@ -8379,7 +8380,7 @@ extension BedrockAgent {
     }
 
     public struct PatternObjectFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of specific filters applied to your data source content. You can  filter out or include certain content.
+        /// The configuration of specific filters applied to your data source content. You can filter out or include certain content.
         public let filters: [PatternObjectFilter]
 
         @inlinable
@@ -9072,7 +9073,7 @@ extension BedrockAgent {
     }
 
     public struct RdsFieldMapping: AWSEncodableShape & AWSDecodableShape {
-        /// Provide a name for the universal metadata field where Amazon Bedrock will store any custom metadata from  your data source.
+        /// Provide a name for the universal metadata field where Amazon Bedrock will store any custom metadata from your data source.
         public let customMetadataField: String?
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         public let metadataField: String
@@ -9465,7 +9466,7 @@ extension BedrockAgent {
         public let bucketArn: String
         /// The account ID for the owner of the S3 bucket.
         public let bucketOwnerAccountId: String?
-        /// A list of S3 prefixes to include certain files or content. For more information,  see Organizing objects using prefixes.
+        /// A list of S3 prefixes to include certain files or content. For more information, see Organizing objects using prefixes.
         public let inclusionPrefixes: [String]?
 
         @inlinable
@@ -9544,8 +9545,35 @@ extension BedrockAgent {
         }
     }
 
+    public struct S3VectorsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the vector index used for the knowledge base. This ARN identifies the specific vector index resource within Amazon Bedrock.
+        public let indexArn: String?
+        /// The name of the vector index used for the knowledge base. This name identifies the vector index within the Amazon Bedrock service.
+        public let indexName: String?
+        /// The Amazon Resource Name (ARN) of the S3 bucket where vector embeddings are stored. This bucket contains the vector data used by the knowledge base.
+        public let vectorBucketArn: String?
+
+        @inlinable
+        public init(indexArn: String? = nil, indexName: String? = nil, vectorBucketArn: String? = nil) {
+            self.indexArn = indexArn
+            self.indexName = indexName
+            self.vectorBucketArn = vectorBucketArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexArn = "indexArn"
+            case indexName = "indexName"
+            case vectorBucketArn = "vectorBucketArn"
+        }
+    }
+
     public struct SalesforceCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of filtering the Salesforce content. For example,  configuring regular expression patterns to include or exclude certain  content.
+        /// The configuration of filtering the Salesforce content. For example, configuring regular expression patterns to include or exclude certain content.
         public let filterConfiguration: CrawlFilterConfiguration?
 
         @inlinable
@@ -9563,7 +9591,7 @@ extension BedrockAgent {
     }
 
     public struct SalesforceDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of the Salesforce content. For example, configuring  specific types of Salesforce content.
+        /// The configuration of the Salesforce content. For example, configuring specific types of Salesforce content.
         public let crawlerConfiguration: SalesforceCrawlerConfiguration?
         /// The endpoint information to connect to your Salesforce data source.
         public let sourceConfiguration: SalesforceSourceConfiguration
@@ -9586,9 +9614,9 @@ extension BedrockAgent {
     }
 
     public struct SalesforceSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The supported authentication type to authenticate and connect to your  Salesforce instance.
+        /// The supported authentication type to authenticate and connect to your Salesforce instance.
         public let authType: SalesforceAuthType
-        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your Salesforce instance URL.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Salesforce connection configuration.
+        /// The Amazon Resource Name of an Secrets Manager secret that stores your authentication credentials for your Salesforce instance URL. For more information on the key-value pairs that must be included in your secret, depending on your authentication type, see Salesforce connection configuration.
         public let credentialsSecretArn: String
         /// The Salesforce host URL or instance URL.
         public let hostUrl: String
@@ -9691,7 +9719,7 @@ extension BedrockAgent {
     }
 
     public struct SharePointCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of filtering the SharePoint content. For example,  configuring regular expression patterns to include or exclude certain content.
+        /// The configuration of filtering the SharePoint content. For example, configuring regular expression patterns to include or exclude certain content.
         public let filterConfiguration: CrawlFilterConfiguration?
 
         @inlinable
@@ -9709,7 +9737,7 @@ extension BedrockAgent {
     }
 
     public struct SharePointDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of the SharePoint content. For example, configuring  specific types of SharePoint content.
+        /// The configuration of the SharePoint content. For example, configuring specific types of SharePoint content.
         public let crawlerConfiguration: SharePointCrawlerConfiguration?
         /// The endpoint information to connect to your SharePoint data source.
         public let sourceConfiguration: SharePointSourceConfiguration
@@ -9732,9 +9760,9 @@ extension BedrockAgent {
     }
 
     public struct SharePointSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The supported authentication type to authenticate and connect  to your SharePoint site/sites.
+        /// The supported authentication type to authenticate and connect to your SharePoint site/sites.
         public let authType: SharePointAuthType
-        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your SharePoint site/sites.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  SharePoint connection configuration.
+        /// The Amazon Resource Name of an Secrets Manager secret that stores your authentication credentials for your SharePoint site/sites. For more information on the key-value pairs that must be included in your secret, depending on your authentication type, see SharePoint connection configuration.
         public let credentialsSecretArn: String
         /// The domain of your SharePoint instance or site URL/URLs.
         public let domain: String
@@ -9927,9 +9955,9 @@ extension BedrockAgent {
     public struct StorageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains the storage configuration of the knowledge base in MongoDB Atlas.
         public let mongoDbAtlasConfiguration: MongoDbAtlasConfiguration?
-        /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information,  see Create a vector index in Amazon Neptune Analytics..
+        /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information, see Create a vector index in Amazon Neptune Analytics..
         public let neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration?
-        /// Contains details about the storage configuration of the knowledge base in OpenSearch Managed Cluster. For more information, see Create  a vector index in Amazon OpenSearch Service.
+        /// Contains details about the storage configuration of the knowledge base in OpenSearch Managed Cluster. For more information, see Create a vector index in Amazon OpenSearch Service.
         public let opensearchManagedClusterConfiguration: OpenSearchManagedClusterConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public let opensearchServerlessConfiguration: OpenSearchServerlessConfiguration?
@@ -9939,11 +9967,13 @@ extension BedrockAgent {
         public let rdsConfiguration: RdsConfiguration?
         /// Contains the storage configuration of the knowledge base in Redis Enterprise Cloud.
         public let redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration?
+        /// The configuration settings for storing knowledge base data using S3 vectors. This includes vector index information and S3 bucket details for vector storage.
+        public let s3VectorsConfiguration: S3VectorsConfiguration?
         /// The vector store service in which the knowledge base is stored.
         public let type: KnowledgeBaseStorageType
 
         @inlinable
-        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration? = nil, opensearchManagedClusterConfiguration: OpenSearchManagedClusterConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
+        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration? = nil, opensearchManagedClusterConfiguration: OpenSearchManagedClusterConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, s3VectorsConfiguration: S3VectorsConfiguration? = nil, type: KnowledgeBaseStorageType) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
             self.neptuneAnalyticsConfiguration = neptuneAnalyticsConfiguration
             self.opensearchManagedClusterConfiguration = opensearchManagedClusterConfiguration
@@ -9951,6 +9981,7 @@ extension BedrockAgent {
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
             self.redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfiguration
+            self.s3VectorsConfiguration = s3VectorsConfiguration
             self.type = type
         }
 
@@ -9962,6 +9993,7 @@ extension BedrockAgent {
             try self.pineconeConfiguration?.validate(name: "\(name).pineconeConfiguration")
             try self.rdsConfiguration?.validate(name: "\(name).rdsConfiguration")
             try self.redisEnterpriseCloudConfiguration?.validate(name: "\(name).redisEnterpriseCloudConfiguration")
+            try self.s3VectorsConfiguration?.validate(name: "\(name).s3VectorsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9972,6 +10004,7 @@ extension BedrockAgent {
             case pineconeConfiguration = "pineconeConfiguration"
             case rdsConfiguration = "rdsConfiguration"
             case redisEnterpriseCloudConfiguration = "redisEnterpriseCloudConfiguration"
+            case s3VectorsConfiguration = "s3VectorsConfiguration"
             case type = "type"
         }
     }
@@ -10474,7 +10507,7 @@ extension BedrockAgent {
         public let description: String?
         /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public let functionSchema: FunctionSchema?
-        /// Update the built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.     During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+        /// Update the built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.     During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
         public let parentActionGroupSignature: ActionGroupSignature?
         /// The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
         public let parentActionGroupSignatureParams: [String: String]?
@@ -11583,15 +11616,15 @@ extension BedrockAgent {
     public struct WebCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of crawl limits for the web URLs.
         public let crawlerLimits: WebCrawlerLimits?
-        /// A list of one or more exclusion regular expression patterns to exclude  certain URLs. If you specify an inclusion and exclusion filter/pattern  and both match a URL, the exclusion filter takes precedence and the web  content of the URL isn’t crawled.
+        /// A list of one or more exclusion regular expression patterns to exclude certain URLs. If you specify an inclusion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isn’t crawled.
         public let exclusionFilters: [String]?
-        /// A list of one or more inclusion regular expression patterns to include  certain URLs. If you specify an inclusion and exclusion filter/pattern  and both match a URL, the exclusion filter takes precedence and the web  content of the URL isn’t crawled.
+        /// A list of one or more inclusion regular expression patterns to include certain URLs. If you specify an inclusion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isn’t crawled.
         public let inclusionFilters: [String]?
-        /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary  domain. For example, only web pages that contain the seed URL  "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other domains.  You can choose to include sub domains in addition to the host or primary domain.  For example, web pages that contain "aws.amazon.com" can also include sub domain  "docs.aws.amazon.com".
+        /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary domain. For example, only web pages that contain the seed URL "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other domains. You can choose to include sub domains in addition to the host or primary domain. For example, web pages that contain "aws.amazon.com" can also include sub domain "docs.aws.amazon.com".
         public let scope: WebScopeType?
         /// Returns the user agent suffix for your web crawler.
         public let userAgent: String?
-        /// A string used for identifying the crawler or bot when it accesses a web server. The user agent header value consists of the bedrockbot, UUID, and a user agent suffix for your crawler (if one is provided). By default, it is set to bedrockbot_UUID. You can optionally append a custom  suffix to bedrockbot_UUID to allowlist a specific user agent permitted to access your source URLs.
+        /// A string used for identifying the crawler or bot when it accesses a web server. The user agent header value consists of the bedrockbot, UUID, and a user agent suffix for your crawler (if one is provided). By default, it is set to bedrockbot_UUID. You can optionally append a custom suffix to bedrockbot_UUID to allowlist a specific user agent permitted to access your source URLs.
         public let userAgentHeader: String?
 
         @inlinable
@@ -11634,7 +11667,7 @@ extension BedrockAgent {
     }
 
     public struct WebCrawlerLimits: AWSEncodableShape & AWSDecodableShape {
-        ///  The max number of web pages crawled from your source URLs, up to 25,000 pages.  If  the web pages exceed this limit, the data source sync will fail and no web pages will be ingested.
+        ///  The max number of web pages crawled from your source URLs, up to 25,000 pages. If the web pages exceed this limit, the data source sync will fail and no web pages will be ingested.
         public let maxPages: Int?
         /// The max rate at which pages are crawled, up to 300 per minute per host.
         public let rateLimit: Int?

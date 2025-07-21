@@ -477,7 +477,7 @@ public struct Outposts: AWSService {
     /// Gets information about the specified Outpost.
     ///
     /// Parameters:
-    ///   - outpostId:  The ID or ARN of the Outpost.
+    ///   - outpostId: The ID or ARN of the Outpost.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOutpost(
@@ -488,6 +488,41 @@ public struct Outposts: AWSService {
             outpostId: outpostId
         )
         return try await self.getOutpost(input, logger: logger)
+    }
+
+    /// Gets current and historical billing information about the specified Outpost.
+    @Sendable
+    @inlinable
+    public func getOutpostBillingInformation(_ input: GetOutpostBillingInformationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOutpostBillingInformationOutput {
+        try await self.client.execute(
+            operation: "GetOutpostBillingInformation", 
+            path: "/outpost/{OutpostIdentifier}/billing-information", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets current and historical billing information about the specified Outpost.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - outpostIdentifier: The ID or ARN of the Outpost.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getOutpostBillingInformation(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        outpostIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetOutpostBillingInformationOutput {
+        let input = GetOutpostBillingInformationInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            outpostIdentifier: outpostIdentifier
+        )
+        return try await self.getOutpostBillingInformation(input, logger: logger)
     }
 
     /// Gets the instance types for the specified Outpost.
@@ -1308,6 +1343,43 @@ extension Outposts {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Outposts {
+    /// Return PaginatorSequence for operation ``getOutpostBillingInformation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getOutpostBillingInformationPaginator(
+        _ input: GetOutpostBillingInformationInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput> {
+        return .init(
+            input: input,
+            command: self.getOutpostBillingInformation,
+            inputKey: \GetOutpostBillingInformationInput.nextToken,
+            outputKey: \GetOutpostBillingInformationOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getOutpostBillingInformation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - outpostIdentifier: The ID or ARN of the Outpost.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getOutpostBillingInformationPaginator(
+        maxResults: Int? = nil,
+        outpostIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput> {
+        let input = GetOutpostBillingInformationInput(
+            maxResults: maxResults, 
+            outpostIdentifier: outpostIdentifier
+        )
+        return self.getOutpostBillingInformationPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getOutpostInstanceTypes(_:logger:)``.
     ///
     /// - Parameters:
@@ -1724,6 +1796,17 @@ extension Outposts {
             operatingAddressStateOrRegionFilter: operatingAddressStateOrRegionFilter
         )
         return self.listSitesPaginator(input, logger: logger)
+    }
+}
+
+extension Outposts.GetOutpostBillingInformationInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Outposts.GetOutpostBillingInformationInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostIdentifier: self.outpostIdentifier
+        )
     }
 }
 

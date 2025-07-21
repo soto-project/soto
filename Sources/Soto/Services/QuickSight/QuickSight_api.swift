@@ -1238,6 +1238,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that you want to create a topic in.
+    ///   - customInstructions: Custom instructions for the topic.
     ///   - folderArns: The Folder ARN of the folder that you want the topic to reside in.
     ///   - tags: Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
     ///   - topic: The definition of a topic to create.
@@ -1246,6 +1247,7 @@ public struct QuickSight: AWSService {
     @inlinable
     public func createTopic(
         awsAccountId: String,
+        customInstructions: CustomInstructions? = nil,
         folderArns: [String]? = nil,
         tags: [Tag]? = nil,
         topic: TopicDetails,
@@ -1254,6 +1256,7 @@ public struct QuickSight: AWSService {
     ) async throws -> CreateTopicResponse {
         let input = CreateTopicRequest(
             awsAccountId: awsAccountId, 
+            customInstructions: customInstructions, 
             folderArns: folderArns, 
             tags: tags, 
             topic: topic, 
@@ -4994,7 +4997,7 @@ public struct QuickSight: AWSService {
         return try await self.listIdentityPropagationConfigs(input, logger: logger)
     }
 
-    /// Lists the history of SPICE ingestions for a dataset.
+    /// Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
     @Sendable
     @inlinable
     public func listIngestions(_ input: ListIngestionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionsResponse {
@@ -5007,7 +5010,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists the history of SPICE ingestions for a dataset.
+    /// Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -7809,18 +7812,21 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to update.
+    ///   - customInstructions: Custom instructions for the topic.
     ///   - topic: The definition of the topic that you want to update.
     ///   - topicId: The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTopic(
         awsAccountId: String,
+        customInstructions: CustomInstructions? = nil,
         topic: TopicDetails,
         topicId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateTopicResponse {
         let input = UpdateTopicRequest(
             awsAccountId: awsAccountId, 
+            customInstructions: customInstructions, 
             topic: topic, 
             topicId: topicId
         )

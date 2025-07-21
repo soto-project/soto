@@ -196,21 +196,26 @@ extension MediaPackageV2 {
     }
 
     public enum ValidationExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case batchGetSecretValueDenied = "BATCH_GET_SECRET_VALUE_DENIED"
         case cencIvIncompatible = "CENC_IV_INCOMPATIBLE"
         case clipStartTimeWithStartOrEnd = "CLIP_START_TIME_WITH_START_OR_END"
         case cmafContainerTypeWithMssManifest = "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType = "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
         case containerTypeImmutable = "CONTAINER_TYPE_IMMUTABLE"
         case dashDvbAttributesWithoutDvbDashProfile = "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
+        case decryptSecretFailed = "DECRYPT_SECRET_FAILED"
+        case describeSecretDenied = "DESCRIBE_SECRET_DENIED"
         case directModeWithTimingSource = "DIRECT_MODE_WITH_TIMING_SOURCE"
         case drmSignalingMismatchSegmentEncryptionStatus = "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
         case drmSystemsEncryptionMethodIncompatible = "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
+        case duplicatedSecret = "DUPLICATED_SECRET"
         case encryptionContractShared = "ENCRYPTION_CONTRACT_SHARED"
         case encryptionContractUnencrypted = "ENCRYPTION_CONTRACT_UNENCRYPTED"
         case encryptionContractWithIsmContainerIncompatible = "ENCRYPTION_CONTRACT_WITH_ISM_CONTAINER_INCOMPATIBLE"
         case encryptionContractWithoutAudioRenditionIncompatible = "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
         case encryptionMethodContainerTypeMismatch = "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
         case endTimeEarlierThanStartTime = "END_TIME_EARLIER_THAN_START_TIME"
+        case getSecretValueDenied = "GET_SECRET_VALUE_DENIED"
         case harvestJobCustomerEndpointReadAccessDenied = "HARVEST_JOB_CUSTOMER_ENDPOINT_READ_ACCESS_DENIED"
         case harvestJobIneligibleForCancellation = "HARVEST_JOB_INELIGIBLE_FOR_CANCELLATION"
         case harvestJobS3DestinationMissingOrIncomplete = "HARVEST_JOB_S3_DESTINATION_MISSING_OR_INCOMPLETE"
@@ -226,12 +231,17 @@ extension MediaPackageV2 {
         case invalidPaginationToken = "INVALID_PAGINATION_TOKEN"
         case invalidPolicy = "INVALID_POLICY"
         case invalidRoleArn = "INVALID_ROLE_ARN"
+        case invalidSecret = "INVALID_SECRET"
+        case invalidSecretFormat = "INVALID_SECRET_FORMAT"
+        case invalidSecretKey = "INVALID_SECRET_KEY"
+        case invalidSecretValue = "INVALID_SECRET_VALUE"
         case invalidTimeDelaySeconds = "INVALID_TIME_DELAY_SECONDS"
         case ismContainerTypeWithDashManifest = "ISM_CONTAINER_TYPE_WITH_DASH_MANIFEST"
         case ismContainerTypeWithHlsManifest = "ISM_CONTAINER_TYPE_WITH_HLS_MANIFEST"
         case ismContainerTypeWithLlHlsManifest = "ISM_CONTAINER_TYPE_WITH_LL_HLS_MANIFEST"
         case ismContainerTypeWithScte = "ISM_CONTAINER_TYPE_WITH_SCTE"
         case ismContainerWithKeyRotation = "ISM_CONTAINER_WITH_KEY_ROTATION"
+        case malformedSecretArn = "MALFORMED_SECRET_ARN"
         case manifestDrmSystemsIncompatible = "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE"
         case manifestNameCollision = "MANIFEST_NAME_COLLISION"
         case memberDoesNotMatchPattern = "MEMBER_DOES_NOT_MATCH_PATTERN"
@@ -252,10 +262,15 @@ extension MediaPackageV2 {
         case roleArnInvalidFormat = "ROLE_ARN_INVALID_FORMAT"
         case roleArnLengthOutOfRange = "ROLE_ARN_LENGTH_OUT_OF_RANGE"
         case roleArnNotAssumable = "ROLE_ARN_NOT_ASSUMABLE"
+        case secretArnResourceNotFound = "SECRET_ARN_RESOURCE_NOT_FOUND"
+        case secretFromDifferentAccount = "SECRET_FROM_DIFFERENT_ACCOUNT"
+        case secretFromDifferentRegion = "SECRET_FROM_DIFFERENT_REGION"
+        case secretIsNotOneKeyValuePair = "SECRET_IS_NOT_ONE_KEY_VALUE_PAIR"
         case sourceDisruptionsEnabledIncorrectly = "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
         case startTagTimeOffsetInvalid = "START_TAG_TIME_OFFSET_INVALID"
         case timingSourceMissing = "TIMING_SOURCE_MISSING"
         case tooManyInProgressHarvestJobs = "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
+        case tooManySecrets = "TOO_MANY_SECRETS"
         case tsContainerTypeWithDashManifest = "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
         case tsContainerTypeWithMssManifest = "TS_CONTAINER_TYPE_WITH_MSS_MANIFEST"
         case updatePeriodSmallerThanSegmentDuration = "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
@@ -327,6 +342,33 @@ extension MediaPackageV2 {
 
     public struct CancelHarvestJobResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CdnAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN for the secret in Secrets Manager that your CDN uses for authorization to access the endpoint.
+        public let cdnIdentifierSecretArns: [String]
+        /// The ARN for the IAM role that gives MediaPackage read access to Secrets Manager and KMS for CDN authorization.
+        public let secretsRoleArn: String
+
+        @inlinable
+        public init(cdnIdentifierSecretArns: [String], secretsRoleArn: String) {
+            self.cdnIdentifierSecretArns = cdnIdentifierSecretArns
+            self.secretsRoleArn = secretsRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.cdnIdentifierSecretArns.forEach {
+                try validate($0, name: "cdnIdentifierSecretArns[]", parent: name, max: 2048)
+                try validate($0, name: "cdnIdentifierSecretArns[]", parent: name, min: 20)
+            }
+            try self.validate(self.cdnIdentifierSecretArns, name: "cdnIdentifierSecretArns", parent: name, max: 100)
+            try self.validate(self.cdnIdentifierSecretArns, name: "cdnIdentifierSecretArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdnIdentifierSecretArns = "CdnIdentifierSecretArns"
+            case secretsRoleArn = "SecretsRoleArn"
+        }
     }
 
     public struct ChannelGroupListConfiguration: AWSDecodableShape {
@@ -2217,6 +2259,8 @@ extension MediaPackageV2 {
     }
 
     public struct GetOriginEndpointPolicyResponse: AWSDecodableShape {
+        /// The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage  in the MediaPackage user guide.
+        public let cdnAuthConfiguration: CdnAuthConfiguration?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -2227,7 +2271,8 @@ extension MediaPackageV2 {
         public let policy: String
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, originEndpointName: String, policy: String) {
+        public init(cdnAuthConfiguration: CdnAuthConfiguration? = nil, channelGroupName: String, channelName: String, originEndpointName: String, policy: String) {
+            self.cdnAuthConfiguration = cdnAuthConfiguration
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.originEndpointName = originEndpointName
@@ -2235,6 +2280,7 @@ extension MediaPackageV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cdnAuthConfiguration = "CdnAuthConfiguration"
             case channelGroupName = "ChannelGroupName"
             case channelName = "ChannelName"
             case originEndpointName = "OriginEndpointName"
@@ -3028,6 +3074,8 @@ extension MediaPackageV2 {
     }
 
     public struct PutOriginEndpointPolicyRequest: AWSEncodableShape {
+        /// The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage  in the MediaPackage user guide.
+        public let cdnAuthConfiguration: CdnAuthConfiguration?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -3038,7 +3086,8 @@ extension MediaPackageV2 {
         public let policy: String
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, originEndpointName: String, policy: String) {
+        public init(cdnAuthConfiguration: CdnAuthConfiguration? = nil, channelGroupName: String, channelName: String, originEndpointName: String, policy: String) {
+            self.cdnAuthConfiguration = cdnAuthConfiguration
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.originEndpointName = originEndpointName
@@ -3048,6 +3097,7 @@ extension MediaPackageV2 {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cdnAuthConfiguration, forKey: .cdnAuthConfiguration)
             request.encodePath(self.channelGroupName, key: "ChannelGroupName")
             request.encodePath(self.channelName, key: "ChannelName")
             request.encodePath(self.originEndpointName, key: "OriginEndpointName")
@@ -3055,6 +3105,7 @@ extension MediaPackageV2 {
         }
 
         public func validate(name: String) throws {
+            try self.cdnAuthConfiguration?.validate(name: "\(name).cdnAuthConfiguration")
             try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, max: 256)
             try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, min: 1)
             try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -3068,6 +3119,7 @@ extension MediaPackageV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cdnAuthConfiguration = "CdnAuthConfiguration"
             case policy = "Policy"
         }
     }
@@ -3850,7 +3902,7 @@ public struct MediaPackageV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least  one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Updating or deleting this resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }

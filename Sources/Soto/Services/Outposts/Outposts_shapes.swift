@@ -216,6 +216,20 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case cancelled = "CANCELLED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityIncrease = "CAPACITY_INCREASE"
+        case original = "ORIGINAL"
+        case renewal = "RENEWAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SupportedHardwareType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rack = "RACK"
         case server = "SERVER"
@@ -1187,8 +1201,64 @@ extension Outposts {
         }
     }
 
+    public struct GetOutpostBillingInformationInput: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ID or ARN of the Outpost.
+        public let outpostIdentifier: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifier: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.outpostIdentifier = outpostIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetOutpostBillingInformationOutput: AWSDecodableShape {
+        /// The date the current contract term ends for the specified Outpost. You must start the renewal or decommission process at least 5 business days before the current term for your Amazon Web Services Outposts ends. Failing to complete these steps at least 5 business days before the current term ends might result in unanticipated charges.
+        public let contractEndDate: String?
+        public let nextToken: String?
+        /// The subscription details for the specified Outpost.
+        public let subscriptions: [Subscription]?
+
+        @inlinable
+        public init(contractEndDate: String? = nil, nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
+            self.contractEndDate = contractEndDate
+            self.nextToken = nextToken
+            self.subscriptions = subscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractEndDate = "ContractEndDate"
+            case nextToken = "NextToken"
+            case subscriptions = "Subscriptions"
+        }
+    }
+
     public struct GetOutpostInput: AWSEncodableShape {
-        ///  The ID or ARN of the Outpost.
+        /// The ID or ARN of the Outpost.
         public let outpostId: String
 
         @inlinable
@@ -2588,6 +2658,48 @@ extension Outposts {
         private enum CodingKeys: String, CodingKey {
             case connectionId = "ConnectionId"
             case underlayIpAddress = "UnderlayIpAddress"
+        }
+    }
+
+    public struct Subscription: AWSDecodableShape {
+        /// The date your subscription starts.
+        public let beginDate: Date?
+        /// The date your subscription ends.
+        public let endDate: Date?
+        /// The amount you are billed each month in the subscription period.
+        public let monthlyRecurringPrice: Double?
+        /// The order ID for your subscription.
+        public let orderIds: [String]?
+        /// The ID of the subscription that appears on the Amazon Web Services Billing Center console.
+        public let subscriptionId: String?
+        /// The status of subscription which can be one of the following:    INACTIVE - Subscription requests that are inactive.    ACTIVE - Subscription requests that are in progress and have an end date in the future.    CANCELLED - Subscription requests that are cancelled.
+        public let subscriptionStatus: SubscriptionStatus?
+        /// The type of subscription which can be one of the following:    ORIGINAL - The first order on the Amazon Web Services Outposts.    RENEWAL - Renewal requests, both month to month and longer term.    CAPACITY_INCREASE - Capacity scaling orders.
+        public let subscriptionType: SubscriptionType?
+        /// The amount billed when the subscription is created. This is a one-time charge.
+        public let upfrontPrice: Double?
+
+        @inlinable
+        public init(beginDate: Date? = nil, endDate: Date? = nil, monthlyRecurringPrice: Double? = nil, orderIds: [String]? = nil, subscriptionId: String? = nil, subscriptionStatus: SubscriptionStatus? = nil, subscriptionType: SubscriptionType? = nil, upfrontPrice: Double? = nil) {
+            self.beginDate = beginDate
+            self.endDate = endDate
+            self.monthlyRecurringPrice = monthlyRecurringPrice
+            self.orderIds = orderIds
+            self.subscriptionId = subscriptionId
+            self.subscriptionStatus = subscriptionStatus
+            self.subscriptionType = subscriptionType
+            self.upfrontPrice = upfrontPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginDate = "BeginDate"
+            case endDate = "EndDate"
+            case monthlyRecurringPrice = "MonthlyRecurringPrice"
+            case orderIds = "OrderIds"
+            case subscriptionId = "SubscriptionId"
+            case subscriptionStatus = "SubscriptionStatus"
+            case subscriptionType = "SubscriptionType"
+            case upfrontPrice = "UpfrontPrice"
         }
     }
 

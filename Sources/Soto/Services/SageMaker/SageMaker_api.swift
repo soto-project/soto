@@ -84,6 +84,7 @@ public struct SageMaker: AWSService {
         [.fips]: .init(endpoints: [
             "af-south-1": "api-fips.sagemaker.af-south-1.amazonaws.com",
             "ap-east-1": "api-fips.sagemaker.ap-east-1.amazonaws.com",
+            "ap-east-2": "api-fips.sagemaker.ap-east-2.amazonaws.com",
             "ap-northeast-1": "api-fips.sagemaker.ap-northeast-1.amazonaws.com",
             "ap-northeast-2": "api-fips.sagemaker.ap-northeast-2.amazonaws.com",
             "ap-northeast-3": "api-fips.sagemaker.ap-northeast-3.amazonaws.com",
@@ -648,6 +649,7 @@ public struct SageMaker: AWSService {
     ///   - instanceGroups: The instance groups to be created in the SageMaker HyperPod cluster.
     ///   - nodeRecovery: The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
     ///   - orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
+    ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     ///   - tags: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
     ///   - vpcConfig: Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see Give SageMaker access to resources in your Amazon VPC.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
     ///   - logger: Logger use during operation
@@ -657,6 +659,7 @@ public struct SageMaker: AWSService {
         instanceGroups: [ClusterInstanceGroupSpecification]? = nil,
         nodeRecovery: ClusterNodeRecovery? = nil,
         orchestrator: ClusterOrchestrator? = nil,
+        restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
         tags: [Tag]? = nil,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -666,6 +669,7 @@ public struct SageMaker: AWSService {
             instanceGroups: instanceGroups, 
             nodeRecovery: nodeRecovery, 
             orchestrator: orchestrator, 
+            restrictedInstanceGroups: restrictedInstanceGroups, 
             tags: tags, 
             vpcConfig: vpcConfig
         )
@@ -6734,14 +6738,17 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - pipelineName: The name or Amazon Resource Name (ARN) of the pipeline to describe.
+    ///   - pipelineVersionId: The ID of the pipeline version to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describePipeline(
         pipelineName: String? = nil,
+        pipelineVersionId: Int64? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribePipelineResponse {
         let input = DescribePipelineRequest(
-            pipelineName: pipelineName
+            pipelineName: pipelineName, 
+            pipelineVersionId: pipelineVersionId
         )
         return try await self.describePipeline(input, logger: logger)
     }
@@ -10708,6 +10715,50 @@ public struct SageMaker: AWSService {
         return try await self.listPipelineParametersForExecution(input, logger: logger)
     }
 
+    /// Gets a list of all versions of the pipeline.
+    @Sendable
+    @inlinable
+    public func listPipelineVersions(_ input: ListPipelineVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineVersionsResponse {
+        try await self.client.execute(
+            operation: "ListPipelineVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a list of all versions of the pipeline.
+    ///
+    /// Parameters:
+    ///   - createdAfter: A filter that returns the pipeline versions that were created after a specified time.
+    ///   - createdBefore: A filter that returns the pipeline versions that were created before a specified time.
+    ///   - maxResults: The maximum number of pipeline versions to return in the response.
+    ///   - nextToken: If the result of the previous ListPipelineVersions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline versions, use this token in your next request.
+    ///   - pipelineName: The Amazon Resource Name (ARN) of the pipeline.
+    ///   - sortOrder: The sort order for the results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPipelineVersions(
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        pipelineName: String? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPipelineVersionsResponse {
+        let input = ListPipelineVersionsRequest(
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            pipelineName: pipelineName, 
+            sortOrder: sortOrder
+        )
+        return try await self.listPipelineVersions(input, logger: logger)
+    }
+
     /// Gets a list of pipelines.
     @Sendable
     @inlinable
@@ -12075,6 +12126,7 @@ public struct SageMaker: AWSService {
     ///   - pipelineExecutionDisplayName: The display name of the pipeline execution.
     ///   - pipelineName: The name or Amazon Resource Name (ARN) of the pipeline.
     ///   - pipelineParameters: Contains a list of pipeline parameters. This list can be empty.
+    ///   - pipelineVersionId: The ID of the pipeline version to start execution from.
     ///   - selectiveExecutionConfig: The selective execution configuration applied to the pipeline run.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12085,6 +12137,7 @@ public struct SageMaker: AWSService {
         pipelineExecutionDisplayName: String? = nil,
         pipelineName: String? = nil,
         pipelineParameters: [Parameter]? = nil,
+        pipelineVersionId: Int64? = nil,
         selectiveExecutionConfig: SelectiveExecutionConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartPipelineExecutionResponse {
@@ -12095,6 +12148,7 @@ public struct SageMaker: AWSService {
             pipelineExecutionDisplayName: pipelineExecutionDisplayName, 
             pipelineName: pipelineName, 
             pipelineParameters: pipelineParameters, 
+            pipelineVersionId: pipelineVersionId, 
             selectiveExecutionConfig: selectiveExecutionConfig
         )
         return try await self.startPipelineExecution(input, logger: logger)
@@ -12748,6 +12802,7 @@ public struct SageMaker: AWSService {
     ///   - instanceGroups: Specify the instance groups to update.
     ///   - instanceGroupsToDelete: Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
     ///   - nodeRecovery: The node recovery mode to be applied to the SageMaker HyperPod cluster.
+    ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCluster(
@@ -12755,13 +12810,15 @@ public struct SageMaker: AWSService {
         instanceGroups: [ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [String]? = nil,
         nodeRecovery: ClusterNodeRecovery? = nil,
+        restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterResponse {
         let input = UpdateClusterRequest(
             clusterName: clusterName, 
             instanceGroups: instanceGroups, 
             instanceGroupsToDelete: instanceGroupsToDelete, 
-            nodeRecovery: nodeRecovery
+            nodeRecovery: nodeRecovery, 
+            restrictedInstanceGroups: restrictedInstanceGroups
         )
         return try await self.updateCluster(input, logger: logger)
     }
@@ -14050,6 +14107,44 @@ public struct SageMaker: AWSService {
             pipelineExecutionDisplayName: pipelineExecutionDisplayName
         )
         return try await self.updatePipelineExecution(input, logger: logger)
+    }
+
+    /// Updates a pipeline version.
+    @Sendable
+    @inlinable
+    public func updatePipelineVersion(_ input: UpdatePipelineVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePipelineVersionResponse {
+        try await self.client.execute(
+            operation: "UpdatePipelineVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a pipeline version.
+    ///
+    /// Parameters:
+    ///   - pipelineArn: The Amazon Resource Name (ARN) of the pipeline.
+    ///   - pipelineVersionDescription: The description of the pipeline version.
+    ///   - pipelineVersionDisplayName: The display name of the pipeline version.
+    ///   - pipelineVersionId: The pipeline version ID to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePipelineVersion(
+        pipelineArn: String? = nil,
+        pipelineVersionDescription: String? = nil,
+        pipelineVersionDisplayName: String? = nil,
+        pipelineVersionId: Int64? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePipelineVersionResponse {
+        let input = UpdatePipelineVersionRequest(
+            pipelineArn: pipelineArn, 
+            pipelineVersionDescription: pipelineVersionDescription, 
+            pipelineVersionDisplayName: pipelineVersionDisplayName, 
+            pipelineVersionId: pipelineVersionId
+        )
+        return try await self.updatePipelineVersion(input, logger: logger)
     }
 
     /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model.  You must not update a project that is in use. If you update the ServiceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project.
@@ -17581,6 +17676,52 @@ extension SageMaker {
         return self.listPipelineParametersForExecutionPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPipelineVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineVersionsPaginator(
+        _ input: ListPipelineVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPipelineVersionsRequest, ListPipelineVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listPipelineVersions,
+            inputKey: \ListPipelineVersionsRequest.nextToken,
+            outputKey: \ListPipelineVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPipelineVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - createdAfter: A filter that returns the pipeline versions that were created after a specified time.
+    ///   - createdBefore: A filter that returns the pipeline versions that were created before a specified time.
+    ///   - maxResults: The maximum number of pipeline versions to return in the response.
+    ///   - pipelineName: The Amazon Resource Name (ARN) of the pipeline.
+    ///   - sortOrder: The sort order for the results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineVersionsPaginator(
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        pipelineName: String? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPipelineVersionsRequest, ListPipelineVersionsResponse> {
+        let input = ListPipelineVersionsRequest(
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            pipelineName: pipelineName, 
+            sortOrder: sortOrder
+        )
+        return self.listPipelineVersionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPipelines(_:logger:)``.
     ///
     /// - Parameters:
@@ -19543,6 +19684,20 @@ extension SageMaker.ListPipelineParametersForExecutionRequest: AWSPaginateToken 
             maxResults: self.maxResults,
             nextToken: token,
             pipelineExecutionArn: self.pipelineExecutionArn
+        )
+    }
+}
+
+extension SageMaker.ListPipelineVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListPipelineVersionsRequest {
+        return .init(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName,
+            sortOrder: self.sortOrder
         )
     }
 }

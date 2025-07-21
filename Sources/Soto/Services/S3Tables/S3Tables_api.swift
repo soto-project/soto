@@ -796,18 +796,21 @@ public struct S3Tables: AWSService {
     ///   - continuationToken:  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
     ///   - maxBuckets: The maximum number of table buckets to return in the list.
     ///   - prefix: The prefix of the table buckets.
+    ///   - type: The type of table buckets to filter by in the list.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTableBuckets(
         continuationToken: String? = nil,
         maxBuckets: Int? = nil,
         prefix: String? = nil,
+        type: TableBucketType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListTableBucketsResponse {
         let input = ListTableBucketsRequest(
             continuationToken: continuationToken, 
             maxBuckets: maxBuckets, 
-            prefix: prefix
+            prefix: prefix, 
+            type: type
         )
         return try await self.listTableBuckets(input, logger: logger)
     }
@@ -1193,16 +1196,19 @@ extension S3Tables {
     /// - Parameters:
     ///   - maxBuckets: The maximum number of table buckets to return in the list.
     ///   - prefix: The prefix of the table buckets.
+    ///   - type: The type of table buckets to filter by in the list.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTableBucketsPaginator(
         maxBuckets: Int? = nil,
         prefix: String? = nil,
+        type: TableBucketType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListTableBucketsRequest, ListTableBucketsResponse> {
         let input = ListTableBucketsRequest(
             maxBuckets: maxBuckets, 
-            prefix: prefix
+            prefix: prefix, 
+            type: type
         )
         return self.listTableBucketsPaginator(input, logger: logger)
     }
@@ -1269,7 +1275,8 @@ extension S3Tables.ListTableBucketsRequest: AWSPaginateToken {
         return .init(
             continuationToken: token,
             maxBuckets: self.maxBuckets,
-            prefix: self.prefix
+            prefix: self.prefix,
+            type: self.type
         )
     }
 }

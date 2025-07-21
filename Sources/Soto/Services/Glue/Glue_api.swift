@@ -1965,7 +1965,7 @@ public struct Glue: AWSService {
         name: String? = nil,
         openTableFormatInput: OpenTableFormatInput? = nil,
         partitionIndexes: [PartitionIndex]? = nil,
-        tableInput: TableInput,
+        tableInput: TableInput? = nil,
         transactionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTableResponse {

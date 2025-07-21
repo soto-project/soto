@@ -108,6 +108,8 @@ extension NetworkFlowMonitor {
     }
 
     public enum ScopeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deactivated = "DEACTIVATED"
+        case deactivating = "DEACTIVATING"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
@@ -129,13 +131,13 @@ extension NetworkFlowMonitor {
     // MARK: Shapes
 
     public struct CreateMonitorInput: AWSEncodableShape {
-        /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for 		other API requests.
+        /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
         public let clientToken: String?
-        /// The local resources to monitor. A local resource, in a bi-directional flow of a workload,  		is the host where the agent is installed. For example, if a workload consists of an interaction  		between a web service and a backend database (for example, Amazon Relational Database Service (RDS)),  		the EC2 instance hosting the web service, which also runs the agent, is the local resource.
+        /// The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Relational Database Service (RDS)), the EC2 instance hosting the web service, which also runs the agent, is the local resource.
         public let localResources: [MonitorLocalResource]
         /// The name of the monitor.
         public let monitorName: String
-        /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional  		flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource.
+        /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource.
         public let remoteResources: [MonitorRemoteResource]?
         /// The Amazon Resource Name (ARN) of the scope for the monitor.
         public let scopeArn: String
@@ -183,7 +185,7 @@ extension NetworkFlowMonitor {
     public struct CreateMonitorOutput: AWSDecodableShape {
         /// The date and time when the monitor was created.
         public let createdAt: Date
-        /// The local resources to monitor. A local resource, in a bi-directional flow of a workload,  	is the host where the agent is installed.
+        /// The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed.
         public let localResources: [MonitorLocalResource]
         /// The last date and time that the monitor was modified.
         public let modifiedAt: Date
@@ -193,7 +195,7 @@ extension NetworkFlowMonitor {
         public let monitorName: String
         /// The status of a monitor. The status can be one of the following    PENDING: The monitor is in the process of being created.    ACTIVE: The monitor is active.    INACTIVE: The monitor is inactive.    ERROR: Monitor creation failed due to an error.    DELETING: The monitor is in the process of being deleted.
         public let monitorStatus: MonitorStatus
-        /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional  		flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can  		be a remote resource. The remote resource is identified by its ARN or an identifier.
+        /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource. The remote resource is identified by its ARN or an identifier.
         public let remoteResources: [MonitorRemoteResource]
         /// The tags for a monitor.
         public let tags: [String: String]?
@@ -223,7 +225,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct CreateScopeInput: AWSEncodableShape {
-        /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent  		API request. Don't reuse the same client token for other API requests.
+        /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
         public let clientToken: String?
         /// The tags for a scope. You can add a maximum of 200 tags.
         public let tags: [String: String]?
@@ -262,9 +264,9 @@ extension NetworkFlowMonitor {
     public struct CreateScopeOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scope.
         public let scopeArn: String
-        /// The identifier for the scope that includes the resources you want to get metrics for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get metrics for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
-        /// The status for a call to create a scope. The status can be one of the following:  		SUCCEEDED, IN_PROGRESS, or FAILED.
+        /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         public let status: ScopeStatus
         /// The tags for a scope.
         public let tags: [String: String]?
@@ -314,7 +316,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct DeleteScopeInput: AWSEncodableShape {
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
 
         @inlinable
@@ -408,7 +410,7 @@ extension NetworkFlowMonitor {
         public let monitorName: String
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
         public let queryId: String
 
         @inlinable
@@ -440,7 +442,7 @@ extension NetworkFlowMonitor {
     public struct GetQueryResultsMonitorTopContributorsOutput: AWSDecodableShape {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The top contributor network flows overall for a specific metric type, for example, the  		number of retransmissions.
+        /// The top contributor network flows overall for a specific metric type, for example, the number of retransmissions.
         public let topContributors: [MonitorTopContributorsRow]?
         /// The units for a metric returned by the query.
         public let unit: MetricUnit?
@@ -464,9 +466,9 @@ extension NetworkFlowMonitor {
         public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
         public let queryId: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
 
         @inlinable
@@ -516,9 +518,9 @@ extension NetworkFlowMonitor {
         public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
         public let queryId: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
 
         @inlinable
@@ -544,7 +546,7 @@ extension NetworkFlowMonitor {
     public struct GetQueryResultsWorkloadInsightsTopContributorsOutput: AWSDecodableShape {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        /// The top contributor network flows overall for a specific metric type, for example, the  		number of retransmissions.
+        /// The top contributor network flows overall for a specific metric type, for example, the number of retransmissions.
         public let topContributors: [WorkloadInsightsTopContributorsRow]?
 
         @inlinable
@@ -562,7 +564,7 @@ extension NetworkFlowMonitor {
     public struct GetQueryStatusMonitorTopContributorsInput: AWSEncodableShape {
         /// The name of the monitor.
         public let monitorName: String
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
         public let queryId: String
 
         @inlinable
@@ -588,7 +590,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct GetQueryStatusMonitorTopContributorsOutput: AWSDecodableShape {
-        /// When you run a query, use this call to check the status of the query to make sure that the query  		has SUCCEEDED before you review the results.    QUEUED: The query is scheduled to run.    RUNNING: The query is in progress but not complete.    SUCCEEDED: The query completed sucessfully.    FAILED: The query failed due to an error.    CANCELED: The query was canceled.
+        /// When you run a query, use this call to check the status of the query to make sure that the query has SUCCEEDED before you review the results.    QUEUED: The query is scheduled to run.    RUNNING: The query is in progress but not complete.    SUCCEEDED: The query completed sucessfully.    FAILED: The query failed due to an error.    CANCELED: The query was canceled.
         public let status: QueryStatus
 
         @inlinable
@@ -602,9 +604,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct GetQueryStatusWorkloadInsightsTopContributorsDataInput: AWSEncodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
         public let queryId: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account. A scope ID is returned from a CreateScope API call.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
         public let scopeId: String
 
         @inlinable
@@ -638,9 +640,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct GetQueryStatusWorkloadInsightsTopContributorsInput: AWSEncodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
         public let queryId: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
 
         @inlinable
@@ -660,7 +662,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct GetQueryStatusWorkloadInsightsTopContributorsOutput: AWSDecodableShape {
-        /// When you run a query, use this call to check the status of the query to make sure that the query  		has SUCCEEDED before you review the results.    QUEUED: The query is scheduled to run.    RUNNING: The query is in progress but not complete.    SUCCEEDED: The query completed sucessfully.    FAILED: The query failed due to an error.    CANCELED: The query was canceled.
+        /// When you run a query, use this call to check the status of the query to make sure that the query has SUCCEEDED before you review the results.    QUEUED: The query is scheduled to run.    RUNNING: The query is in progress but not complete.    SUCCEEDED: The query completed sucessfully.    FAILED: The query failed due to an error.    CANCELED: The query was canceled.
         public let status: QueryStatus
 
         @inlinable
@@ -674,7 +676,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct GetScopeInput: AWSEncodableShape {
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account. A scope ID is returned from a CreateScope API call.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
         public let scopeId: String
 
         @inlinable
@@ -694,9 +696,9 @@ extension NetworkFlowMonitor {
     public struct GetScopeOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scope.
         public let scopeArn: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account. A scope ID is returned from a CreateScope API call.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
         public let scopeId: String
-        /// The status of a scope. The status can be one of the following:  		SUCCEEDED, IN_PROGRESS, or FAILED.
+        /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         public let status: ScopeStatus
         /// The tags for a scope.
         public let tags: [String: String]?
@@ -908,7 +910,7 @@ extension NetworkFlowMonitor {
     public struct MonitorRemoteResource: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the remote resource, such as an ARN.
         public let identifier: String
-        /// The type of the remote resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone, AWS::EC2::Subnet, or 		AWS::AWSService.
+        /// The type of the remote resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone, AWS::EC2::Subnet, or AWS::AWSService.
         public let type: MonitorRemoteResourceType
 
         @inlinable
@@ -1058,9 +1060,9 @@ extension NetworkFlowMonitor {
     public struct ScopeSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scope.
         public let scopeArn: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
-        /// The status of a scope. The status can be one of the following, depending on the 		state of scope creation: SUCCEEDED, IN_PROGRESS, or FAILED.
+        /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         public let status: ScopeStatus
 
         @inlinable
@@ -1078,17 +1080,17 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryMonitorTopContributorsInput: AWSEncodableShape {
-        /// The category that you want to query top contributors for, for a specific monitor. Destination 		categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+        /// The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory
-        /// The timestamp that is the date and time end of the period that you want to retrieve  		results for with your query.
+        /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
         public let endTime: Date
         /// The maximum number of top contributors to return.
         public let limit: Int?
-        /// The metric that you want to query top contributors for. That is, you can specify a metric  		with this call and return the top contributor network flows, for that type of metric, for a monitor  		and (optionally) within a specific category, such as network flows between Availability Zones.
+        /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
         public let metricName: MonitorMetric
         /// The name of the monitor.
         public let monitorName: String
-        /// The timestamp that is the date and time beginning of the period that you want to retrieve  		results for with your query.
+        /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
         public let startTime: Date
 
         @inlinable
@@ -1130,7 +1132,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryMonitorTopContributorsOutput: AWSDecodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
         public let queryId: String
 
         @inlinable
@@ -1146,13 +1148,13 @@ extension NetworkFlowMonitor {
     public struct StartQueryWorkloadInsightsTopContributorsDataInput: AWSEncodableShape {
         /// The destination category for a top contributors. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory
-        /// The timestamp that is the date and time end of the period that you want to retrieve  		results for with your query.
+        /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
         public let endTime: Date
-        /// The metric that you want to query top contributors for. That is, you can specify this metric to  		return the top contributor network flows, for this type of metric, for a monitor and (optionally)  		within a specific category, such as network flows between Availability Zones.
+        /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
         public let metricName: WorkloadInsightsMetric
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
-        /// The timestamp that is the date and time beginning of the period that you want to retrieve  		results for with your query.
+        /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
         public let startTime: Date
 
         @inlinable
@@ -1183,7 +1185,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryWorkloadInsightsTopContributorsDataOutput: AWSDecodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
         public let queryId: String
 
         @inlinable
@@ -1199,15 +1201,15 @@ extension NetworkFlowMonitor {
     public struct StartQueryWorkloadInsightsTopContributorsInput: AWSEncodableShape {
         /// The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory
-        /// The timestamp that is the date and time end of the period that you want to retrieve  		results for with your query.
+        /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
         public let endTime: Date
         /// The maximum number of top contributors to return.
         public let limit: Int?
-        /// The metric that you want to query top contributors for. That is, you can specify this metric to  		return the top contributor network flows, for this type of metric, for a monitor and (optionally)  		within a specific category, such as network flows between Availability Zones.
+        /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
         public let metricName: WorkloadInsightsMetric
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account. A scope ID is returned from a CreateScope API call.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
         public let scopeId: String
-        /// The timestamp that is the date and time beginning of the period that you want to retrieve  		results for with your query.
+        /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
         public let startTime: Date
 
         @inlinable
@@ -1246,7 +1248,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryWorkloadInsightsTopContributorsOutput: AWSDecodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to start a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
         public let queryId: String
 
         @inlinable
@@ -1262,7 +1264,7 @@ extension NetworkFlowMonitor {
     public struct StopQueryMonitorTopContributorsInput: AWSEncodableShape {
         /// The name of the monitor.
         public let monitorName: String
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
         public let queryId: String
 
         @inlinable
@@ -1292,9 +1294,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct StopQueryWorkloadInsightsTopContributorsDataInput: AWSEncodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
         public let queryId: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
 
         @inlinable
@@ -1318,9 +1320,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct StopQueryWorkloadInsightsTopContributorsInput: AWSEncodableShape {
-        /// The identifier for the query. A query ID is an internally-generated  		identifier for a specific query returned from an API call to create a query.
+        /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
         public let queryId: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
 
         @inlinable
@@ -1386,7 +1388,7 @@ extension NetworkFlowMonitor {
     public struct TargetIdentifier: AWSEncodableShape & AWSDecodableShape {
         /// The identifier for a target.
         public let targetId: TargetId
-        /// The type of a target. A target type is currently always ACCOUNT 		because a target is currently a single Amazon Web Services account.
+        /// The type of a target. A target type is currently always ACCOUNT because a target is currently a single Amazon Web Services account.
         public let targetType: TargetType
 
         @inlinable
@@ -1408,7 +1410,7 @@ extension NetworkFlowMonitor {
     public struct TargetResource: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Web Services Region where the target resource is located.
         public let region: String
-        /// A target identifier is a pair of identifying information for a resource that 		is included in a target. A target identifier includes the target ID and  		the target type.
+        /// A target identifier is a pair of identifying information for a resource that is included in a target. A target identifier includes the target ID and the target type.
         public let targetIdentifier: TargetIdentifier
 
         @inlinable
@@ -1491,7 +1493,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct UpdateMonitorInput: AWSEncodableShape {
-        /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for 		other API requests.
+        /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
         public let clientToken: String?
         /// The local resources to add, as an array of resources with identifiers and types.
         public let localResourcesToAdd: [MonitorLocalResource]?
@@ -1590,7 +1592,7 @@ extension NetworkFlowMonitor {
         public let resourcesToAdd: [TargetResource]?
         /// A list of resources to delete from a scope.
         public let resourcesToDelete: [TargetResource]?
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
 
         @inlinable
@@ -1626,9 +1628,9 @@ extension NetworkFlowMonitor {
     public struct UpdateScopeOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scope.
         public let scopeArn: String
-        /// The identifier for the scope that includes the resources you want to get data results for. 		A scope ID is an internally-generated identifier that includes all the resources  		for a specific root account.
+        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
-        /// The status for a call to update a scope. The status can be one of the following:  		SUCCEEDED, IN_PROGRESS, or FAILED.
+        /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         public let status: ScopeStatus
         /// The tags for a scope.
         public let tags: [String: String]?

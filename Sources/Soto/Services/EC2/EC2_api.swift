@@ -3478,7 +3478,7 @@ public struct EC2: AWSService {
         return try await self.createImage(input, logger: logger)
     }
 
-    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 address. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createInstanceConnectEndpoint(_ input: CreateInstanceConnectEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstanceConnectEndpointResult {
@@ -3491,12 +3491,13 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 address. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - preserveClientIp: Indicates whether the client IP address is preserved as the source. The following are the possible values.    true - Use the client IP address as the source.    false - Use the network interface IP address as the source.   Default: false
+    ///   - ipAddressType: The IP address type of the endpoint. If no value is specified, the default value is determined by the IP address type of the subnet:    dualstack - If the subnet has both IPv4 and IPv6 CIDRs    ipv4 - If the subnet has only IPv4 CIDRs    ipv6 - If the subnet has only IPv6 CIDRs     PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp, the value for IpAddressType must be ipv4.
+    ///   - preserveClientIp: Indicates whether the client IP address is preserved as the source. The following are the possible values.    true - Use the client IP address as the source.    false - Use the network interface IP address as the source.     PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp, the value for IpAddressType must be ipv4.  Default: false
     ///   - securityGroupIds: One or more security groups to associate with the endpoint. If you don't specify a security group,  the default security group for your VPC will be associated with the endpoint.
     ///   - subnetId: The ID of the subnet in which to create the EC2 Instance Connect Endpoint.
     ///   - tagSpecifications: The tags to apply to the EC2 Instance Connect Endpoint during creation.
@@ -3505,6 +3506,7 @@ public struct EC2: AWSService {
     public func createInstanceConnectEndpoint(
         clientToken: String? = CreateInstanceConnectEndpointRequest.idempotencyToken(),
         dryRun: Bool? = nil,
+        ipAddressType: IpAddressType? = nil,
         preserveClientIp: Bool? = nil,
         securityGroupIds: [String]? = nil,
         subnetId: String? = nil,
@@ -3514,6 +3516,7 @@ public struct EC2: AWSService {
         let input = CreateInstanceConnectEndpointRequest(
             clientToken: clientToken, 
             dryRun: dryRun, 
+            ipAddressType: ipAddressType, 
             preserveClientIp: preserveClientIp, 
             securityGroupIds: securityGroupIds, 
             subnetId: subnetId, 
@@ -10371,8 +10374,8 @@ public struct EC2: AWSService {
         return try await self.describeCapacityBlockExtensionOfferings(input, logger: logger)
     }
 
-    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can
+    /// 			purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
     /// 			and instance count.
     @Sendable
     @inlinable
@@ -10386,8 +10389,8 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can
+    /// 			purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration
     /// 			and instance count.
     ///
     /// Parameters:
@@ -10399,6 +10402,8 @@ public struct EC2: AWSService {
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - nextToken: The token to use to retrieve the next page of results.
     ///   - startDateRange: The earliest start date for the Capacity Block offering.
+    ///   - ultraserverCount: The number of EC2 UltraServers in the offerings.
+    ///   - ultraserverType: The EC2 UltraServer type of the Capacity Block offerings.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeCapacityBlockOfferings(
@@ -10410,6 +10415,8 @@ public struct EC2: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         startDateRange: Date? = nil,
+        ultraserverCount: Int? = nil,
+        ultraserverType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeCapacityBlockOfferingsResult {
         let input = DescribeCapacityBlockOfferingsRequest(
@@ -10420,9 +10427,93 @@ public struct EC2: AWSService {
             instanceType: instanceType, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            startDateRange: startDateRange
+            startDateRange: startDateRange, 
+            ultraserverCount: ultraserverCount, 
+            ultraserverType: ultraserverType
         )
         return try await self.describeCapacityBlockOfferings(input, logger: logger)
+    }
+
+    /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
+    @Sendable
+    @inlinable
+    public func describeCapacityBlockStatus(_ input: DescribeCapacityBlockStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockStatusResult {
+        try await self.client.execute(
+            operation: "DescribeCapacityBlockStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
+    ///
+    /// Parameters:
+    ///   - capacityBlockIds: The ID of the Capacity Block.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.     interconnect-status - The status of the interconnect for the Capacity Block (ok | impaired | insufficient-data).
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - nextToken: The token to use to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCapacityBlockStatus(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCapacityBlockStatusResult {
+        let input = DescribeCapacityBlockStatusRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeCapacityBlockStatus(input, logger: logger)
+    }
+
+    /// Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
+    @Sendable
+    @inlinable
+    public func describeCapacityBlocks(_ input: DescribeCapacityBlocksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlocksResult {
+        try await self.client.execute(
+            operation: "DescribeCapacityBlocks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
+    ///
+    /// Parameters:
+    ///   - capacityBlockIds: The IDs of the Capacity Blocks.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters:  One or more filters.     capacity-block-id - The ID of the Capacity Block.    ultraserver-type - The Capacity Block type. The type can be
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - nextToken: The token to use to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCapacityBlocks(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCapacityBlocksResult {
+        let input = DescribeCapacityBlocksRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeCapacityBlocks(input, logger: logger)
     }
 
     /// Describes a request to assign the billing of the unused capacity of a Capacity
@@ -11804,7 +11895,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -12193,7 +12284,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceStatus(input, logger: logger)
     }
 
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types   Returns 3 network nodes in the response    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      Returns 4 network nodes in the response    p6-b200.48xlarge        For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information,  see  Prerequisites for Amazon EC2 instance topology in the Amazon EC2 User Guide.  The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func describeInstanceTopology(_ input: DescribeInstanceTopologyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTopologyResult {
@@ -12206,7 +12297,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types   Returns 3 network nodes in the response    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      Returns 4 network nodes in the response    p6-b200.48xlarge        For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information,  see  Prerequisites for Amazon EC2 instance topology in the Amazon EC2 User Guide.  The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16890,7 +16981,7 @@ public struct EC2: AWSService {
         return try await self.detachVerifiedAccessTrustProvider(input, logger: logger)
     }
 
-    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon ECS or  Fargate tasks. Attempting to do this results in the UnsupportedOperationException  exception with the Unable to detach volume attached to ECS tasks error message. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon Web Services-managed resources.  Attempting to do this results in the UnsupportedOperationException  exception. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
     @Sendable
     @inlinable
     public func detachVolume(_ input: DetachVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VolumeAttachment {
@@ -16903,7 +16994,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon ECS or  Fargate tasks. Attempting to do this results in the UnsupportedOperationException  exception with the Unable to detach volume attached to ECS tasks error message. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon Web Services-managed resources.  Attempting to do this results in the UnsupportedOperationException  exception. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
     ///
     /// Parameters:
     ///   - device: The device name.
@@ -22237,7 +22328,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - attribute: The name of the attribute to modify.  When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired instance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the ModifyInstanceNetworkPerformanceOptions operation.   You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
-    ///   - blockDeviceMappings: Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Fargate tasks. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
+    ///   - blockDeviceMappings: Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Amazon Web Services-managed resources. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
     ///   - disableApiStop: Indicates whether an instance is enabled for stop protection. For more information, see Enable stop protection for your instance.
     ///   - disableApiTermination: Enable or disable termination protection for the instance. If the value is true,  you can't terminate the instance using the Amazon EC2 console, command line interface, or API.  You can't enable termination protection for Spot Instances.
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28138,6 +28229,8 @@ extension EC2 {
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - startDateRange: The earliest start date for the Capacity Block offering.
+    ///   - ultraserverCount: The number of EC2 UltraServers in the offerings.
+    ///   - ultraserverType: The EC2 UltraServer type of the Capacity Block offerings.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeCapacityBlockOfferingsPaginator(
@@ -28148,6 +28241,8 @@ extension EC2 {
         instanceType: String? = nil,
         maxResults: Int? = nil,
         startDateRange: Date? = nil,
+        ultraserverCount: Int? = nil,
+        ultraserverType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeCapacityBlockOfferingsRequest, DescribeCapacityBlockOfferingsResult> {
         let input = DescribeCapacityBlockOfferingsRequest(
@@ -28157,9 +28252,97 @@ extension EC2 {
             instanceCount: instanceCount, 
             instanceType: instanceType, 
             maxResults: maxResults, 
-            startDateRange: startDateRange
+            startDateRange: startDateRange, 
+            ultraserverCount: ultraserverCount, 
+            ultraserverType: ultraserverType
         )
         return self.describeCapacityBlockOfferingsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeCapacityBlockStatus(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlockStatusPaginator(
+        _ input: DescribeCapacityBlockStatusRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlockStatusRequest, DescribeCapacityBlockStatusResult> {
+        return .init(
+            input: input,
+            command: self.describeCapacityBlockStatus,
+            inputKey: \DescribeCapacityBlockStatusRequest.nextToken,
+            outputKey: \DescribeCapacityBlockStatusResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeCapacityBlockStatus(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - capacityBlockIds: The ID of the Capacity Block.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters.     interconnect-status - The status of the interconnect for the Capacity Block (ok | impaired | insufficient-data).
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlockStatusPaginator(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlockStatusRequest, DescribeCapacityBlockStatusResult> {
+        let input = DescribeCapacityBlockStatusRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.describeCapacityBlockStatusPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeCapacityBlocks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlocksPaginator(
+        _ input: DescribeCapacityBlocksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlocksRequest, DescribeCapacityBlocksResult> {
+        return .init(
+            input: input,
+            command: self.describeCapacityBlocks,
+            inputKey: \DescribeCapacityBlocksRequest.nextToken,
+            outputKey: \DescribeCapacityBlocksResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeCapacityBlocks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - capacityBlockIds: The IDs of the Capacity Blocks.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters:  One or more filters.     capacity-block-id - The ID of the Capacity Block.    ultraserver-type - The Capacity Block type. The type can be
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeCapacityBlocksPaginator(
+        capacityBlockIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeCapacityBlocksRequest, DescribeCapacityBlocksResult> {
+        let input = DescribeCapacityBlocksRequest(
+            capacityBlockIds: capacityBlockIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.describeCapacityBlocksPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeCapacityReservationBillingRequests(_:logger:)``.
@@ -29174,7 +29357,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -34471,7 +34654,35 @@ extension EC2.DescribeCapacityBlockOfferingsRequest: AWSPaginateToken {
             instanceType: self.instanceType,
             maxResults: self.maxResults,
             nextToken: token,
-            startDateRange: self.startDateRange
+            startDateRange: self.startDateRange,
+            ultraserverCount: self.ultraserverCount,
+            ultraserverType: self.ultraserverType
+        )
+    }
+}
+
+extension EC2.DescribeCapacityBlockStatusRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityBlockStatusRequest {
+        return .init(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeCapacityBlocksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityBlocksRequest {
+        return .init(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -36675,7 +36886,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -36736,7 +36947,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.

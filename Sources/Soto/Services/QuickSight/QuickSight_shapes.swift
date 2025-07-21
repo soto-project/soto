@@ -10405,6 +10405,8 @@ extension QuickSight {
     public struct CreateTopicRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that you want to create a topic in.
         public let awsAccountId: String
+        /// Custom instructions for the topic.
+        public let customInstructions: CustomInstructions?
         /// The Folder ARN of the folder that you want the topic to reside in.
         public let folderArns: [String]?
         /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
@@ -10415,8 +10417,9 @@ extension QuickSight {
         public let topicId: String
 
         @inlinable
-        public init(awsAccountId: String, folderArns: [String]? = nil, tags: [Tag]? = nil, topic: TopicDetails, topicId: String) {
+        public init(awsAccountId: String, customInstructions: CustomInstructions? = nil, folderArns: [String]? = nil, tags: [Tag]? = nil, topic: TopicDetails, topicId: String) {
             self.awsAccountId = awsAccountId
+            self.customInstructions = customInstructions
             self.folderArns = folderArns
             self.tags = tags
             self.topic = topic
@@ -10427,6 +10430,7 @@ extension QuickSight {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.customInstructions, forKey: .customInstructions)
             try container.encodeIfPresent(self.folderArns, forKey: .folderArns)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encode(self.topic, forKey: .topic)
@@ -10437,6 +10441,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.customInstructions?.validate(name: "\(name).customInstructions")
             try self.validate(self.folderArns, name: "folderArns", parent: name, max: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -10449,6 +10454,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customInstructions = "CustomInstructions"
             case folderArns = "FolderArns"
             case tags = "Tags"
             case topic = "Topic"
@@ -11031,6 +11037,24 @@ extension QuickSight {
             case matchOperator = "MatchOperator"
             case nullOption = "NullOption"
             case selectAllOptions = "SelectAllOptions"
+        }
+    }
+
+    public struct CustomInstructions: AWSEncodableShape & AWSDecodableShape {
+        /// A text field for providing additional guidance or context for response generation.
+        public let customInstructionsString: String
+
+        @inlinable
+        public init(customInstructionsString: String) {
+            self.customInstructionsString = customInstructionsString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customInstructionsString, name: "customInstructionsString", parent: name, max: 5000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customInstructionsString = "CustomInstructionsString"
         }
     }
 
@@ -18932,6 +18956,8 @@ extension QuickSight {
     public struct DescribeTopicResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the topic.
         public let arn: String?
+        /// Custom instructions for the topic.
+        public let customInstructions: CustomInstructions?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -18942,8 +18968,9 @@ extension QuickSight {
         public let topicId: String?
 
         @inlinable
-        public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil, topic: TopicDetails? = nil, topicId: String? = nil) {
+        public init(arn: String? = nil, customInstructions: CustomInstructions? = nil, requestId: String? = nil, status: Int? = nil, topic: TopicDetails? = nil, topicId: String? = nil) {
             self.arn = arn
+            self.customInstructions = customInstructions
             self.requestId = requestId
             self.status = status
             self.topic = topic
@@ -18954,6 +18981,7 @@ extension QuickSight {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.customInstructions = try container.decodeIfPresent(CustomInstructions.self, forKey: .customInstructions)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.status = response.decodeStatus()
             self.topic = try container.decodeIfPresent(TopicDetails.self, forKey: .topic)
@@ -18962,6 +18990,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case customInstructions = "CustomInstructions"
             case requestId = "RequestId"
             case topic = "Topic"
             case topicId = "TopicId"
@@ -44021,14 +44050,17 @@ extension QuickSight {
     public struct UpdateTopicRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the topic that you want to update.
         public let awsAccountId: String
+        /// Custom instructions for the topic.
+        public let customInstructions: CustomInstructions?
         /// The definition of the topic that you want to update.
         public let topic: TopicDetails
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
         @inlinable
-        public init(awsAccountId: String, topic: TopicDetails, topicId: String) {
+        public init(awsAccountId: String, customInstructions: CustomInstructions? = nil, topic: TopicDetails, topicId: String) {
             self.awsAccountId = awsAccountId
+            self.customInstructions = customInstructions
             self.topic = topic
             self.topicId = topicId
         }
@@ -44037,6 +44069,7 @@ extension QuickSight {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.customInstructions, forKey: .customInstructions)
             try container.encode(self.topic, forKey: .topic)
             request.encodePath(self.topicId, key: "TopicId")
         }
@@ -44045,12 +44078,14 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.customInstructions?.validate(name: "\(name).customInstructions")
             try self.topic.validate(name: "\(name).topic")
             try self.validate(self.topicId, name: "topicId", parent: name, max: 256)
             try self.validate(self.topicId, name: "topicId", parent: name, pattern: "^[A-Za-z0-9-_.\\\\+]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customInstructions = "CustomInstructions"
             case topic = "Topic"
         }
     }

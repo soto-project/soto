@@ -935,6 +935,7 @@ public struct MediaPackageV2: AWSService {
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
     ///
     /// Parameters:
+    ///   - cdnAuthConfiguration: The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage  in the MediaPackage user guide.
     ///   - channelGroupName: The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     ///   - channelName: The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
     ///   - originEndpointName: The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
@@ -942,6 +943,7 @@ public struct MediaPackageV2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putOriginEndpointPolicy(
+        cdnAuthConfiguration: CdnAuthConfiguration? = nil,
         channelGroupName: String,
         channelName: String,
         originEndpointName: String,
@@ -949,6 +951,7 @@ public struct MediaPackageV2: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutOriginEndpointPolicyResponse {
         let input = PutOriginEndpointPolicyRequest(
+            cdnAuthConfiguration: cdnAuthConfiguration, 
             channelGroupName: channelGroupName, 
             channelName: channelName, 
             originEndpointName: originEndpointName, 

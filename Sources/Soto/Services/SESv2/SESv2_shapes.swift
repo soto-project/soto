@@ -377,6 +377,7 @@ extension SESv2 {
     public enum WarmupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case done = "DONE"
         case inProgress = "IN_PROGRESS"
+        case notApplicable = "NOT_APPLICABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -1462,9 +1463,9 @@ extension SESv2 {
         public let ip: String
         /// The name of the dedicated IP pool that the IP address is associated with.
         public let poolName: String?
-        /// Indicates how complete the dedicated IP warm-up process is. When this value equals 1, the address has completed the warm-up process and is ready for use.
+        /// Indicates the progress of your dedicated IP warm-up:    0-100 – For standard dedicated IP addresses, this shows the warm-up completion percentage. A value of 100 means the IP address is fully warmed up and ready for use.    -1 – Appears for IP addresses in managed dedicated pools where Amazon SES automatically handles the warm-up process, making the percentage not applicable.
         public let warmupPercentage: Int
-        /// The warm-up status of a dedicated IP address. The status can have one of the following values:    IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.    DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.
+        /// The warm-up status of a dedicated IP address. The status can have one of the following values:    IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.    DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.    NOT_APPLICABLE – The warm-up status doesn't apply to this IP address. This status is used for IP addresses in managed dedicated IP pools, where Amazon SES automatically handles the warm-up process.
         public let warmupStatus: WarmupStatus
 
         @inlinable

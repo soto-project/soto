@@ -966,7 +966,7 @@ public struct DataZone: AWSService {
         environmentAccountRegion: String? = nil,
         environmentBlueprintIdentifier: String? = nil,
         environmentConfigurationId: String? = nil,
-        environmentProfileIdentifier: String,
+        environmentProfileIdentifier: String? = nil,
         glossaryTerms: [String]? = nil,
         name: String,
         projectIdentifier: String,

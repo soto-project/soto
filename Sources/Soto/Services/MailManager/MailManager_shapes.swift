@@ -4155,7 +4155,7 @@ extension MailManager {
         public func validate(name: String) throws {
             try self.replaceWith?.forEach {
                 try validate($0, name: "replaceWith[]", parent: name, max: 254)
-                try validate($0, name: "replaceWith[]", parent: name, pattern: "^[0-9A-Za-z@+.-]+$")
+                try validate($0, name: "replaceWith[]", parent: name, pattern: "^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+$")
             }
             try self.validate(self.replaceWith, name: "replaceWith", parent: name, max: 100)
             try self.validate(self.replaceWith, name: "replaceWith", parent: name, min: 1)
