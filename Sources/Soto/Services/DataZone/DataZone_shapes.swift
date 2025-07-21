@@ -88,6 +88,7 @@ extension DataZone {
         case oracle = "ORACLE"
         case postgresql = "POSTGRESQL"
         case redshift = "REDSHIFT"
+        case s3 = "S3"
         case saphana = "SAPHANA"
         case snowflake = "SNOWFLAKE"
         case spark = "SPARK"
@@ -829,6 +830,8 @@ extension DataZone {
         case iamProperties(IamPropertiesInput)
         /// The Amazon Redshift properties of a connection.
         case redshiftProperties(RedshiftPropertiesInput)
+        /// The Amazon S3 properties of a connection.
+        case s3Properties(S3PropertiesInput)
         /// The Spark EMR properties of a connection.
         case sparkEmrProperties(SparkEmrPropertiesInput)
         /// The Spark Amazon Web Services Glue properties of a connection.
@@ -847,6 +850,8 @@ extension DataZone {
                 try container.encode(value, forKey: .iamProperties)
             case .redshiftProperties(let value):
                 try container.encode(value, forKey: .redshiftProperties)
+            case .s3Properties(let value):
+                try container.encode(value, forKey: .s3Properties)
             case .sparkEmrProperties(let value):
                 try container.encode(value, forKey: .sparkEmrProperties)
             case .sparkGlueProperties(let value):
@@ -860,6 +865,8 @@ extension DataZone {
                 try value.validate(name: "\(name).glueProperties")
             case .redshiftProperties(let value):
                 try value.validate(name: "\(name).redshiftProperties")
+            case .s3Properties(let value):
+                try value.validate(name: "\(name).s3Properties")
             default:
                 break
             }
@@ -871,6 +878,7 @@ extension DataZone {
             case hyperPodProperties = "hyperPodProperties"
             case iamProperties = "iamProperties"
             case redshiftProperties = "redshiftProperties"
+            case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
             case sparkGlueProperties = "sparkGlueProperties"
         }
@@ -887,6 +895,8 @@ extension DataZone {
         case iamProperties(IamPropertiesOutput)
         /// The Amazon Redshift properties of a connection.
         case redshiftProperties(RedshiftPropertiesOutput)
+        /// The Amazon S3 properties of a connection.
+        case s3Properties(S3PropertiesOutput)
         /// The Spark EMR properties of a connection.
         case sparkEmrProperties(SparkEmrPropertiesOutput)
         /// The Spark Amazon Web Services Glue properties of a connection.
@@ -917,6 +927,9 @@ extension DataZone {
             case .redshiftProperties:
                 let value = try container.decode(RedshiftPropertiesOutput.self, forKey: .redshiftProperties)
                 self = .redshiftProperties(value)
+            case .s3Properties:
+                let value = try container.decode(S3PropertiesOutput.self, forKey: .s3Properties)
+                self = .s3Properties(value)
             case .sparkEmrProperties:
                 let value = try container.decode(SparkEmrPropertiesOutput.self, forKey: .sparkEmrProperties)
                 self = .sparkEmrProperties(value)
@@ -932,6 +945,7 @@ extension DataZone {
             case hyperPodProperties = "hyperPodProperties"
             case iamProperties = "iamProperties"
             case redshiftProperties = "redshiftProperties"
+            case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
             case sparkGlueProperties = "sparkGlueProperties"
         }
@@ -946,6 +960,8 @@ extension DataZone {
         case iamProperties(IamPropertiesPatch)
         /// The Amazon Redshift properties of a connection properties patch.
         case redshiftProperties(RedshiftPropertiesPatch)
+        /// The Amazon S3 properties of a connection properties patch.
+        case s3Properties(S3PropertiesPatch)
         /// The Spark EMR properties of a connection properties patch.
         case sparkEmrProperties(SparkEmrPropertiesPatch)
 
@@ -960,6 +976,8 @@ extension DataZone {
                 try container.encode(value, forKey: .iamProperties)
             case .redshiftProperties(let value):
                 try container.encode(value, forKey: .redshiftProperties)
+            case .s3Properties(let value):
+                try container.encode(value, forKey: .s3Properties)
             case .sparkEmrProperties(let value):
                 try container.encode(value, forKey: .sparkEmrProperties)
             }
@@ -969,6 +987,8 @@ extension DataZone {
             switch self {
             case .redshiftProperties(let value):
                 try value.validate(name: "\(name).redshiftProperties")
+            case .s3Properties(let value):
+                try value.validate(name: "\(name).s3Properties")
             default:
                 break
             }
@@ -979,6 +999,7 @@ extension DataZone {
             case glueProperties = "glueProperties"
             case iamProperties = "iamProperties"
             case redshiftProperties = "redshiftProperties"
+            case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
         }
     }
@@ -4959,7 +4980,7 @@ extension DataZone {
         /// The configuration ID of the environment.
         public let environmentConfigurationId: String?
         /// The identifier of the environment profile that is used to create this Amazon DataZone environment.
-        public let environmentProfileIdentifier: String
+        public let environmentProfileIdentifier: String?
         /// The glossary terms that can be used in this Amazon DataZone environment.
         public let glossaryTerms: [String]?
         /// The name of the Amazon DataZone environment.
@@ -4970,7 +4991,7 @@ extension DataZone {
         public let userParameters: [EnvironmentParameter]?
 
         @inlinable
-        public init(deploymentOrder: Int? = nil, description: String? = nil, domainIdentifier: String, environmentAccountIdentifier: String? = nil, environmentAccountRegion: String? = nil, environmentBlueprintIdentifier: String? = nil, environmentConfigurationId: String? = nil, environmentProfileIdentifier: String, glossaryTerms: [String]? = nil, name: String, projectIdentifier: String, userParameters: [EnvironmentParameter]? = nil) {
+        public init(deploymentOrder: Int? = nil, description: String? = nil, domainIdentifier: String, environmentAccountIdentifier: String? = nil, environmentAccountRegion: String? = nil, environmentBlueprintIdentifier: String? = nil, environmentConfigurationId: String? = nil, environmentProfileIdentifier: String? = nil, glossaryTerms: [String]? = nil, name: String, projectIdentifier: String, userParameters: [EnvironmentParameter]? = nil) {
             self.deploymentOrder = deploymentOrder
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -4995,7 +5016,7 @@ extension DataZone {
             try container.encodeIfPresent(self.environmentAccountRegion, forKey: .environmentAccountRegion)
             try container.encodeIfPresent(self.environmentBlueprintIdentifier, forKey: .environmentBlueprintIdentifier)
             try container.encodeIfPresent(self.environmentConfigurationId, forKey: .environmentConfigurationId)
-            try container.encode(self.environmentProfileIdentifier, forKey: .environmentProfileIdentifier)
+            try container.encodeIfPresent(self.environmentProfileIdentifier, forKey: .environmentProfileIdentifier)
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.projectIdentifier, forKey: .projectIdentifier)
@@ -17048,6 +17069,82 @@ extension DataZone {
             case skipped = "skipped"
             case unchanged = "unchanged"
             case updated = "updated"
+        }
+    }
+
+    public struct S3PropertiesInput: AWSEncodableShape {
+        /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties of a connection.
+        public let s3AccessGrantLocationId: String?
+        /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
+        public let s3Uri: String
+
+        @inlinable
+        public init(s3AccessGrantLocationId: String? = nil, s3Uri: String) {
+            self.s3AccessGrantLocationId = s3AccessGrantLocationId
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3AccessGrantLocationId, name: "s3AccessGrantLocationId", parent: name, max: 64)
+            try self.validate(self.s3AccessGrantLocationId, name: "s3AccessGrantLocationId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 2048)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessGrantLocationId = "s3AccessGrantLocationId"
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct S3PropertiesOutput: AWSDecodableShape {
+        /// The error message that gets displayed.
+        public let errorMessage: String?
+        /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties of a connection.
+        public let s3AccessGrantLocationId: String?
+        /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
+        public let s3Uri: String
+        /// The status of the Amazon S3 connection.
+        public let status: ConnectionStatus?
+
+        @inlinable
+        public init(errorMessage: String? = nil, s3AccessGrantLocationId: String? = nil, s3Uri: String, status: ConnectionStatus? = nil) {
+            self.errorMessage = errorMessage
+            self.s3AccessGrantLocationId = s3AccessGrantLocationId
+            self.s3Uri = s3Uri
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case s3AccessGrantLocationId = "s3AccessGrantLocationId"
+            case s3Uri = "s3Uri"
+            case status = "status"
+        }
+    }
+
+    public struct S3PropertiesPatch: AWSEncodableShape {
+        /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties patch of a connection.
+        public let s3AccessGrantLocationId: String?
+        /// The Amazon S3 URI that's part of the Amazon S3 properties patch of a connection.
+        public let s3Uri: String
+
+        @inlinable
+        public init(s3AccessGrantLocationId: String? = nil, s3Uri: String) {
+            self.s3AccessGrantLocationId = s3AccessGrantLocationId
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3AccessGrantLocationId, name: "s3AccessGrantLocationId", parent: name, max: 64)
+            try self.validate(self.s3AccessGrantLocationId, name: "s3AccessGrantLocationId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 2048)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessGrantLocationId = "s3AccessGrantLocationId"
+            case s3Uri = "s3Uri"
         }
     }
 

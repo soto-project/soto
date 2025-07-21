@@ -230,7 +230,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: Date
-        /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
 
         @inlinable
@@ -413,7 +413,7 @@ extension SFN {
     public struct CreateActivityInput: AWSEncodableShape {
         /// Settings to configure server-side encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
@@ -518,7 +518,7 @@ extension SFN {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the Step Functions User Guide.
         public let loggingConfiguration: LoggingConfiguration?
-        /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// Set to true to publish the first version of the state machine during creation. The default is false.
         public let publish: Bool?
@@ -716,7 +716,7 @@ extension SFN {
         public let creationDate: Date
         /// Settings for configured server-side encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
 
         @inlinable
@@ -770,7 +770,7 @@ extension SFN {
         public let inputDetails: CloudWatchEventsExecutionDataDetails?
         /// The Amazon Resource Name (ARN) that identifies a Map Run, which dispatched this execution.
         public let mapRunArn: String?
-        /// The name of the execution. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the execution. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String?
         /// The JSON output data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.  This field is set only if the execution succeeds. If the execution fails, this field is null.
         public let output: String?
@@ -795,7 +795,7 @@ extension SFN {
         public let status: ExecutionStatus
         /// If the execution ended, the date the execution stopped.
         public let stopDate: Date?
-        /// The X-Ray trace header that was passed to the execution.
+        /// The X-Ray trace header that was passed to the execution.   For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
         public let traceHeader: String?
 
         @inlinable
@@ -1004,7 +1004,7 @@ extension SFN {
         public let definition: String
         /// Settings to configure server-side encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// A user-defined or an auto-generated string that identifies a Map state. This ﬁeld is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
+        /// A user-defined or an auto-generated string that identifies a Map state. This field is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
         public let label: String?
         public let loggingConfiguration: LoggingConfiguration?
         /// The Amazon Resource Name (ARN) of the Map Run that started the child workflow execution. This field is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
@@ -1091,7 +1091,7 @@ extension SFN {
         /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
         public let label: String?
         public let loggingConfiguration: LoggingConfiguration?
-        /// The name of the state machine. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the state machine. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The revision identifier for the state machine. Use the revisionId parameter to compare between versions of a state machine configuration used for executions without performing a diff of the properties, such as definition and roleArn.
         public let revisionId: String?
@@ -1242,7 +1242,7 @@ extension SFN {
         public let itemCount: Int?
         /// The Amazon Resource Name (ARN) of a Map Run. This field is returned only if mapRunArn was specified in the ListExecutions API action. If stateMachineArn was specified in ListExecutions, the mapRunArn isn't returned.
         public let mapRunArn: String?
-        /// The name of the execution. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the execution. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The number of times you've redriven an execution. If you have not yet redriven an execution, the redriveCount is 0. This count is only updated when you successfully redrive an execution.
         public let redriveCount: Int?
@@ -1946,7 +1946,7 @@ extension SFN {
         public let redriveFilter: ExecutionRedriveFilter?
         /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both. You can also return a list of executions associated with a specific alias or version, by specifying an alias ARN or a version ARN in the stateMachineArn parameter.
         public let stateMachineArn: String?
-        /// If specified, only list the executions whose current execution status matches the given filter.
+        /// If specified, only list the executions whose current execution status matches the given filter. If you provide a PENDING_REDRIVE statusFilter, you must specify mapRunArn.  For more information, see Child workflow execution redrive behaviour in the Step Functions Developer Guide.  If you provide a stateMachineArn and a PENDING_REDRIVE statusFilter, the API returns a validation exception.
         public let statusFilter: ExecutionStatus?
 
         @inlinable
@@ -2690,13 +2690,13 @@ extension SFN {
     }
 
     public struct StartExecutionInput: AWSEncodableShape {
-        /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        /// The string that contains the JSON input data for the execution, for example:  "{\"first_name\" : \"Alejandro\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
-        /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide. If you don't provide a name for the execution, Step Functions automatically generates a universally unique identifier (UUID) as the execution name. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide. If you don't provide a name for the execution, Step Functions automatically generates a universally unique identifier (UUID) as the execution name. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute. The stateMachineArn parameter accepts one of the following inputs:    An unqualified state machine ARN – Refers to a state machine ARN that isn't qualified with a version or alias ARN. The following is an example of an unqualified state machine ARN.  arn::states:::stateMachine:  Step Functions doesn't associate state machine executions that you start with an unqualified ARN with a version. This is true even if that version uses the same revision that the execution used.    A state machine version ARN – Refers to a version ARN, which is a combination of state machine ARN and the version number separated by a colon (:). The following is an example of the ARN for version 10.   arn::states:::stateMachine::10  Step Functions doesn't associate executions that you start with a version ARN with any aliases that point to that version.    A state machine alias ARN – Refers to an alias ARN, which is a combination of state machine ARN and the alias name separated by a colon (:). The following is an example of the ARN for an alias named PROD.  arn::states:::stateMachine:  Step Functions associates executions that you start with an alias ARN with that alias and the state machine version used for that execution.
         public let stateMachineArn: String
-        /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
+        /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.   For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
         public let traceHeader: String?
 
         @inlinable
@@ -2746,13 +2746,13 @@ extension SFN {
     public struct StartSyncExecutionInput: AWSEncodableShape {
         /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
         public let includedData: IncludedData?
-        /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        /// The string that contains the JSON input data for the execution, for example:  "{\"first_name\" : \"Alejandro\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// The name of the execution.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
-        /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
+        /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.   For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
         public let traceHeader: String?
 
         @inlinable
@@ -2808,7 +2808,7 @@ extension SFN {
         public let status: SyncExecutionStatus
         /// If the execution has already ended, the date the execution stopped.
         public let stopDate: Date
-        /// The X-Ray trace header that was passed to the execution.
+        /// The X-Ray trace header that was passed to the execution.   For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
         public let traceHeader: String?
 
         @inlinable
@@ -2874,7 +2874,7 @@ extension SFN {
         public let assignedVariables: [String: String]?
         /// Provides details about input or output in an execution history event.
         public let assignedVariablesDetails: AssignedVariablesDetails?
-        /// The name of the state. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the state. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The JSON output data of the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
@@ -2920,7 +2920,7 @@ extension SFN {
     public struct StateMachineListItem: AWSDecodableShape {
         /// The date the state machine is created.
         public let creationDate: Date
-        /// The name of the state machine. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the state machine. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)   surrogates (U+D800-DFFF)   invalid characters ( U+10FFFF)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
@@ -3333,7 +3333,7 @@ extension SFN {
         public let error: String?
         /// Returns additional details about the state's execution, including its input and output data processing flow, and HTTP request and response information. The inspectionLevel request parameter specifies which details are returned.
         public let inspectionData: InspectionData?
-        /// The name of the next state to transition to. If you haven't defined a next state in your definition or if the execution of the state fails, this ﬁeld doesn't contain a value.
+        /// The name of the next state to transition to. If you haven't defined a next state in your definition or if the execution of the state fails, this field doesn't contain a value.
         public let nextState: String?
         /// The JSON output data of the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?

@@ -192,6 +192,12 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExpirationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExpirationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -225,6 +231,12 @@ extension S3 {
     public enum IntelligentTieringStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InventoryConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -452,6 +464,12 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3TablesBucketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "aws"
+        case customer = "customer"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServerSideEncryption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case awsFsx = "aws:fsx"
@@ -491,6 +509,12 @@ extension S3 {
 
     public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v1 = "V_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableSseAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes256 = "AES256"
+        case awsKms = "aws:kms"
         public var description: String { return self.rawValue }
     }
 
@@ -750,7 +774,7 @@ extension S3 {
         public let bucket: String
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
-        /// If present, this header aborts an in progress multipart upload only if it was initiated on the provided timestamp. If the initiated timestamp of the multipart upload does not match the provided value, the operation returns a 412 Precondition Failed error.  If the initiated timestamp matches or if the multipart upload doesn’t exist, the operation returns a 204 Success (No Content) response.    This functionality is only supported for directory buckets.
+        /// If present, this header aborts an in progress multipart upload only if it was initiated on the provided timestamp. If the initiated timestamp of the multipart upload does not match the provided value, the operation returns a 412 Precondition Failed error. If the initiated timestamp matches or if the multipart upload doesn’t exist, the operation returns a 204 Success (No Content) response.   This functionality is only supported for directory buckets.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var ifMatchInitiatedTime: Date?
         /// Key of the object for which the multipart upload was initiated.
@@ -1479,7 +1503,7 @@ extension S3 {
     public struct CopyObjectRequest: AWSEncodableShape {
         /// The canned access control list (ACL) to apply to the object. When you copy an object, the ACL metadata is not preserved and is set to private by default. Only the owner has full access control. To override the default ACL setting, specify a new ACL when you generate a copy request. For more information, see Using ACLs.  If the destination bucket that you're copying objects to uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. Buckets that use this setting only accept PUT requests that don't specify an ACL or PUT requests that specify bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format. For more information, see Controlling ownership of objects and disabling ACLs in the Amazon S3 User Guide.    If your destination bucket uses the bucket owner enforced setting for Object Ownership, all objects written to the bucket by any account will be owned by the bucket owner.   This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
-        /// The name of the destination bucket.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must use the Outpost bucket access point ARN or the access point alias for the destination bucket.   You can only copy objects within the same Outpost bucket. It's not supported to copy objects across different Amazon Web Services Outposts, between buckets on the same Outposts, or between Outposts buckets and any other bucket types.  For more information about S3 on Outposts, see What is S3 on Outposts? in the S3 on Outposts guide.  When you use this action with S3 on Outposts through the REST API, you must direct requests to the S3 on Outposts hostname, in the format   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. The hostname isn't required when you use the Amazon Web Services CLI or SDKs.
+        /// The name of the destination bucket.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must use the Outpost bucket access point ARN or the access point alias for the destination bucket. You can only copy objects within the same Outpost bucket. It's not supported to copy objects across different Amazon Web Services Outposts, between buckets on the same Outposts, or between Outposts buckets and any other bucket types. For more information about S3 on Outposts, see What is S3 on Outposts? in the S3 on Outposts guide. When you use this action with S3 on Outposts through the REST API, you must direct requests to the S3 on Outposts hostname, in the format  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. The hostname isn't required when you use the Amazon Web Services CLI or SDKs.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If a target object uses SSE-KMS, you can enable an S3 Bucket Key for the object. Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key. For more information, see Amazon S3 Bucket Keys in the Amazon S3 User Guide.   Directory buckets - S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets
         /// to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject. In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
@@ -1754,7 +1778,7 @@ extension S3 {
 
         /// Specifies the information about the bucket that will be created.  This functionality is only supported by directory buckets.
         public let bucket: BucketInfo?
-        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  To use the Local Zone location type, your account must be  enabled for Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the  error code AccessDenied. To learn more, see Enable accounts for Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
+        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone. To use the Local Zone location type, your account must be  enabled for Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the error code AccessDenied. To learn more, see Enable accounts for Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
         public let location: LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see Regions and Endpoints.  This functionality is not supported for directory buckets.
         public let locationConstraint: BucketLocationConstraint?
@@ -1784,16 +1808,52 @@ extension S3 {
         }
     }
 
+    public struct CreateBucketMetadataConfigurationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
+        public static let _xmlRootNodeName: String? = "MetadataConfiguration"
+        ///  The general purpose bucket that you want to create the metadata configuration for.
+        public let bucket: String
+        ///  The checksum algorithm to use with your metadata configuration.
+        public let checksumAlgorithm: ChecksumAlgorithm?
+        ///  The Content-MD5 header for the metadata configuration.
+        public let contentMD5: String?
+        ///  The expected owner of the general purpose bucket that corresponds to your metadata configuration.
+        public let expectedBucketOwner: String?
+        ///  The contents of your metadata configuration.
+        public let metadataConfiguration: MetadataConfiguration
+
+        @inlinable
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, metadataConfiguration: MetadataConfiguration) {
+            self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
+            self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.metadataConfiguration = metadataConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.metadataConfiguration)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct CreateBucketMetadataTableConfigurationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static let _xmlRootNodeName: String? = "MetadataTableConfiguration"
-        ///  The general purpose bucket that you want to create the metadata table configuration in.
+        ///  The general purpose bucket that you want to create the metadata table configuration for.
         public let bucket: String
         ///  The checksum algorithm to use with your metadata table configuration.
         public let checksumAlgorithm: ChecksumAlgorithm?
         ///  The Content-MD5 header for the metadata table configuration.
         public let contentMD5: String?
-        ///  The expected owner of the general purpose bucket that contains your metadata table configuration.
+        ///  The expected owner of the general purpose bucket that corresponds to your metadata table configuration.
         public let expectedBucketOwner: String?
         ///  The contents of your metadata table configuration.
         public let metadataTableConfiguration: MetadataTableConfiguration
@@ -2388,10 +2448,32 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteBucketMetadataConfigurationRequest: AWSEncodableShape {
+        ///  The general purpose bucket that you want to remove the metadata configuration from.
+        public let bucket: String
+        ///  The expected bucket owner of the general purpose bucket that you want to remove the metadata table configuration from.
+        public let expectedBucketOwner: String?
+
+        @inlinable
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
+            self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteBucketMetadataTableConfigurationRequest: AWSEncodableShape {
         ///  The general purpose bucket that you want to remove the metadata table configuration from.
         public let bucket: String
-        ///  The expected bucket owner of the general purpose bucket that you want to remove the  metadata table configuration from.
+        ///  The expected bucket owner of the general purpose bucket that you want to remove the metadata table configuration from.
         public let expectedBucketOwner: String?
 
         @inlinable
@@ -2645,12 +2727,12 @@ extension S3 {
         public let bypassGovernanceRetention: Bool?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
-        /// The If-Match header field makes the request method conditional on ETags. If the ETag value does not match, the operation returns a 412 Precondition Failed error. If the ETag matches or if the object doesn't exist, the operation will return a 204 Success (No  Content) response. For more information about conditional requests, see RFC 7232.  This functionality is only supported for directory buckets.
+        /// The If-Match header field makes the request method conditional on ETags. If the ETag value does not match, the operation returns a 412 Precondition Failed error. If the ETag matches or if the object doesn't exist, the operation will return a 204 Success (No Content) response. For more information about conditional requests, see RFC 7232.  This functionality is only supported for directory buckets.
         public let ifMatch: String?
         /// If present, the object is deleted only if its modification times matches the provided Timestamp. If the Timestamp values do not match, the operation returns a 412 Precondition Failed error. If the Timestamp matches or if the object doesn’t exist, the operation returns a 204 Success (No Content) response.  This functionality is only supported for directory buckets.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var ifMatchLastModifiedTime: Date?
-        /// If present, the object is deleted only if its size matches the provided size in bytes. If the Size value does not match, the operation returns a 412 Precondition Failed error. If the Size matches or if the object doesn’t exist,  the operation returns a 204 Success (No Content) response.  This functionality is only supported for directory buckets.   You can use the If-Match, x-amz-if-match-last-modified-time and x-amz-if-match-size  conditional headers in conjunction with each-other or individually.
+        /// If present, the object is deleted only if its size matches the provided size in bytes. If the Size value does not match, the operation returns a 412 Precondition Failed error. If the Size matches or if the object doesn’t exist, the operation returns a 204 Success (No Content) response.  This functionality is only supported for directory buckets.   You can use the If-Match, x-amz-if-match-last-modified-time and x-amz-if-match-size conditional headers in conjunction with each-other or individually.
         public let ifMatchSize: Int64?
         /// Key name of the object to delete.
         public let key: String
@@ -2908,6 +2990,28 @@ extension S3 {
         }
     }
 
+    public struct DestinationResult: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the table bucket where the metadata configuration is stored.
+        public let tableBucketArn: String?
+        ///  The type of the table bucket where the metadata configuration is stored. The aws  value indicates an Amazon Web Services managed table bucket, and the customer value indicates a  customer-managed table bucket. V2 metadata configurations are stored in Amazon Web Services managed table  buckets, and V1 metadata configurations are stored in customer-managed table buckets.
+        public let tableBucketType: S3TablesBucketType?
+        ///  The namespace in the table bucket where the metadata tables for a metadata configuration are  stored.
+        public let tableNamespace: String?
+
+        @inlinable
+        public init(tableBucketArn: String? = nil, tableBucketType: S3TablesBucketType? = nil, tableNamespace: String? = nil) {
+            self.tableBucketArn = tableBucketArn
+            self.tableBucketType = tableBucketType
+            self.tableNamespace = tableNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableBucketArn = "TableBucketArn"
+            case tableBucketType = "TableBucketType"
+            case tableNamespace = "TableNamespace"
+        }
+    }
+
     public struct Encryption: AWSEncodableShape {
         /// The server-side encryption algorithm used when storing job results in Amazon S3 (for example, AES256, aws:kms).
         public let encryptionType: ServerSideEncryption
@@ -2975,9 +3079,9 @@ extension S3 {
     }
 
     public struct ErrorDetails: AWSDecodableShape {
-        ///  If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was  unable to create the table, this structure contains the error code. The possible error codes and  error messages are as follows:     AccessDeniedCreatingResources - You don't have sufficient permissions to  create the required resources. Make sure that you have s3tables:CreateNamespace,  s3tables:CreateTable, s3tables:GetTable and  s3tables:PutTablePolicy permissions, and then try again. To create a new metadata  table, you must delete the metadata configuration for this bucket, and then create a new  metadata configuration.     AccessDeniedWritingToTable - Unable to write to the metadata table because of  missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new  metadata table. To create a new metadata table, you must delete the metadata configuration for  this bucket, and then create a new metadata configuration.    DestinationTableNotFound - The destination table doesn't exist. To create a  new metadata table, you must delete the metadata configuration for this bucket, and then  create a new metadata configuration.    ServerInternalError - An internal error has occurred. To create a new metadata  table, you must delete the metadata configuration for this bucket, and then create a new  metadata configuration.    TableAlreadyExists - The table that you specified already exists in the table  bucket's namespace. Specify a different table name. To create a new metadata table, you must  delete the metadata configuration for this bucket, and then create a new metadata  configuration.    TableBucketNotFound - The table bucket that you specified doesn't exist in  this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new  metadata table, you must delete the metadata configuration for this bucket, and then create  a new metadata configuration.
+        ///  If the V1 CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:     AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable and s3tables:PutTablePolicy permissions, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.     AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    TableAlreadyExists - The table that you specified already exists in the table bucket's namespace. Specify a different table name. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    TableBucketNotFound - The table bucket that you specified doesn't exist in this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.   If the V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:     AccessDeniedCreatingResources - You don't have sufficient permissions to create  the required resources. Make sure that you have s3tables:CreateTableBucket,  s3tables:CreateNamespace, s3tables:CreateTable,  s3tables:GetTable, s3tables:PutTablePolicy,  kms:DescribeKey, and s3tables:PutTableEncryption permissions.  Additionally, ensure that the KMS key used to encrypt the table still exists, is active and  has a resource policy granting access to the S3 service principals  'maintenance.s3tables.amazonaws.com' and 'metadata.s3.amazonaws.com'.  To create a new metadata table, you must delete the metadata configuration for this bucket, and  then create a new metadata configuration.     AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    JournalTableAlreadyExists - A journal table already exists in the Amazon Web Services managed table bucket's  namespace. Delete the journal table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    InventoryTableAlreadyExists - An inventory table already exists in the Amazon Web Services managed table  bucket's namespace. Delete the inventory table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    JournalTableNotAvailable - The journal table that the inventory table relies on  has a FAILED status. An inventory table requires a journal table with an  ACTIVE status. To create a new journal or inventory table, you must delete the metadata  configuration for this bucket, along with any journal or inventory tables, and then create a new  metadata configuration.    NoSuchBucket - The specified general purpose bucket does not exist.
         public let errorCode: String?
-        ///  If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was  unable to create the table, this structure contains the error message. The possible error codes and  error messages are as follows:     AccessDeniedCreatingResources - You don't have sufficient permissions to  create the required resources. Make sure that you have s3tables:CreateNamespace,  s3tables:CreateTable, s3tables:GetTable and  s3tables:PutTablePolicy permissions, and then try again. To create a new metadata  table, you must delete the metadata configuration for this bucket, and then create a new  metadata configuration.     AccessDeniedWritingToTable - Unable to write to the metadata table because of  missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new  metadata table. To create a new metadata table, you must delete the metadata configuration for  this bucket, and then create a new metadata configuration.    DestinationTableNotFound - The destination table doesn't exist. To create a  new metadata table, you must delete the metadata configuration for this bucket, and then  create a new metadata configuration.    ServerInternalError - An internal error has occurred. To create a new metadata  table, you must delete the metadata configuration for this bucket, and then create a new  metadata configuration.    TableAlreadyExists - The table that you specified already exists in the table  bucket's namespace. Specify a different table name. To create a new metadata table, you must  delete the metadata configuration for this bucket, and then create a new metadata  configuration.    TableBucketNotFound - The table bucket that you specified doesn't exist in  this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new  metadata table, you must delete the metadata configuration for this bucket, and then create  a new metadata configuration.
+        ///  If the V1 CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error message. The possible error codes and error messages are as follows:     AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable and s3tables:PutTablePolicy permissions, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.     AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    TableAlreadyExists - The table that you specified already exists in the table bucket's namespace. Specify a different table name. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    TableBucketNotFound - The table bucket that you specified doesn't exist in this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.   If the V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:     AccessDeniedCreatingResources - You don't have sufficient permissions to create  the required resources. Make sure that you have s3tables:CreateTableBucket,  s3tables:CreateNamespace, s3tables:CreateTable,  s3tables:GetTable, s3tables:PutTablePolicy,  kms:DescribeKey, and s3tables:PutTableEncryption permissions.  Additionally, ensure that the KMS key used to encrypt the table still exists, is active and  has a resource policy granting access to the S3 service principals  'maintenance.s3tables.amazonaws.com' and 'metadata.s3.amazonaws.com'.  To create a new metadata table, you must delete the metadata configuration for this bucket, and  then create a new metadata configuration.     AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    JournalTableAlreadyExists - A journal table already exists in the Amazon Web Services managed table bucket's  namespace. Delete the journal table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    InventoryTableAlreadyExists - An inventory table already exists in the Amazon Web Services managed table  bucket's namespace. Delete the inventory table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.    JournalTableNotAvailable - The journal table that the inventory table relies on  has a FAILED status. An inventory table requires a journal table with an  ACTIVE status. To create a new journal or inventory table, you must delete the metadata  configuration for this bucket, along with any journal or inventory tables, and then create a new  metadata configuration.    NoSuchBucket - The specified general purpose bucket does not exist.
         public let errorMessage: String?
 
         @inlinable
@@ -3464,6 +3568,59 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetBucketMetadataConfigurationOutput: AWSDecodableShape {
+        ///  The metadata configuration for the general purpose bucket.
+        public let getBucketMetadataConfigurationResult: GetBucketMetadataConfigurationResult
+
+        @inlinable
+        public init(getBucketMetadataConfigurationResult: GetBucketMetadataConfigurationResult) {
+            self.getBucketMetadataConfigurationResult = getBucketMetadataConfigurationResult
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.getBucketMetadataConfigurationResult = try container.decode(GetBucketMetadataConfigurationResult.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketMetadataConfigurationRequest: AWSEncodableShape {
+        ///  The general purpose bucket that corresponds to the metadata configuration that you want to retrieve.
+        public let bucket: String
+        ///  The expected owner of the general purpose bucket that you want to retrieve the metadata table configuration for.
+        public let expectedBucketOwner: String?
+
+        @inlinable
+        public init(bucket: String, expectedBucketOwner: String? = nil) {
+            self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBucketMetadataConfigurationResult: AWSDecodableShape {
+        ///  The metadata configuration for a general purpose bucket.
+        public let metadataConfigurationResult: MetadataConfigurationResult
+
+        @inlinable
+        public init(metadataConfigurationResult: MetadataConfigurationResult) {
+            self.metadataConfigurationResult = metadataConfigurationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataConfigurationResult = "MetadataConfigurationResult"
+        }
+    }
+
     public struct GetBucketMetadataTableConfigurationOutput: AWSDecodableShape {
         ///  The metadata table configuration for the general purpose bucket.
         public let getBucketMetadataTableConfigurationResult: GetBucketMetadataTableConfigurationResult
@@ -3482,9 +3639,9 @@ extension S3 {
     }
 
     public struct GetBucketMetadataTableConfigurationRequest: AWSEncodableShape {
-        ///  The general purpose bucket that contains the metadata table configuration that you want to retrieve.
+        ///  The general purpose bucket that corresponds to the metadata table configuration that you want to retrieve.
         public let bucket: String
-        ///  The expected owner of the general purpose bucket that you want to retrieve the metadata table configuration from.
+        ///  The expected owner of the general purpose bucket that you want to retrieve the metadata table configuration for.
         public let expectedBucketOwner: String?
 
         @inlinable
@@ -3504,11 +3661,11 @@ extension S3 {
     }
 
     public struct GetBucketMetadataTableConfigurationResult: AWSDecodableShape {
-        ///  If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was  unable to create the table, this structure contains the error code and error message.
+        ///  If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message.
         public let error: ErrorDetails?
-        ///  The metadata table configuration for a general purpose bucket.
+        ///  The V1 S3 Metadata configuration for a general purpose bucket.
         public let metadataTableConfigurationResult: MetadataTableConfigurationResult
-        ///  The status of the metadata table. The status values are:     CREATING - The metadata table is in the process of being created in the  specified table bucket.    ACTIVE - The metadata table has been created successfully and records  are being delivered to the table.     FAILED - Amazon S3 is unable to create the metadata table, or Amazon S3 is unable to deliver  records. See ErrorDetails for details.
+        ///  The status of the metadata table. The status values are:     CREATING - The metadata table is in the process of being created in the specified table bucket.    ACTIVE - The metadata table has been created successfully, and records are being delivered to the table.     FAILED - Amazon S3 is unable to create the metadata table, or Amazon S3 is unable to deliver records. See ErrorDetails for details.
         public let status: String
 
         @inlinable
@@ -5389,6 +5546,71 @@ extension S3 {
         }
     }
 
+    public struct InventoryTableConfiguration: AWSEncodableShape {
+        ///  The configuration state of the inventory table, indicating whether the inventory table is enabled  or disabled.
+        public let configurationState: InventoryConfigurationState
+        ///  The encryption configuration for the inventory table.
+        public let encryptionConfiguration: MetadataTableEncryptionConfiguration?
+
+        @inlinable
+        public init(configurationState: InventoryConfigurationState, encryptionConfiguration: MetadataTableEncryptionConfiguration? = nil) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationState = "ConfigurationState"
+            case encryptionConfiguration = "EncryptionConfiguration"
+        }
+    }
+
+    public struct InventoryTableConfigurationResult: AWSDecodableShape {
+        ///  The configuration state of the inventory table, indicating whether the inventory table is enabled  or disabled.
+        public let configurationState: InventoryConfigurationState
+        public let error: ErrorDetails?
+        ///  The Amazon Resource Name (ARN) for the inventory table.
+        public let tableArn: String?
+        ///  The name of the inventory table.
+        public let tableName: String?
+        ///  The status of the inventory table. The status values are:     CREATING - The inventory table is in the process of being created in the specified Amazon Web Services managed table bucket.    BACKFILLING - The inventory table is in the process of being backfilled. When  you enable the inventory table for your metadata configuration, the table goes through a  process known as backfilling, during which Amazon S3 scans your general purpose bucket to retrieve  the initial metadata for all objects in the bucket. Depending on the number of objects in your  bucket, this process can take several hours. When the backfilling process is finished, the  status of your inventory table changes from BACKFILLING to ACTIVE.  After backfilling is completed, updates to your objects are reflected in the inventory table  within one hour.    ACTIVE - The inventory table has been created successfully, and records are being delivered to the table.     FAILED - Amazon S3 is unable to create the inventory table, or Amazon S3 is unable to deliver records.
+        public let tableStatus: String?
+
+        @inlinable
+        public init(configurationState: InventoryConfigurationState, error: ErrorDetails? = nil, tableArn: String? = nil, tableName: String? = nil, tableStatus: String? = nil) {
+            self.configurationState = configurationState
+            self.error = error
+            self.tableArn = tableArn
+            self.tableName = tableName
+            self.tableStatus = tableStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationState = "ConfigurationState"
+            case error = "Error"
+            case tableArn = "TableArn"
+            case tableName = "TableName"
+            case tableStatus = "TableStatus"
+        }
+    }
+
+    public struct InventoryTableConfigurationUpdates: AWSEncodableShape {
+        ///  The configuration state of the inventory table, indicating whether the inventory table is enabled  or disabled.
+        public let configurationState: InventoryConfigurationState
+        ///  The encryption configuration for the inventory table.
+        public let encryptionConfiguration: MetadataTableEncryptionConfiguration?
+
+        @inlinable
+        public init(configurationState: InventoryConfigurationState, encryptionConfiguration: MetadataTableEncryptionConfiguration? = nil) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationState = "ConfigurationState"
+            case encryptionConfiguration = "EncryptionConfiguration"
+        }
+    }
+
     public struct JSONInput: AWSEncodableShape {
         /// The type of JSON. Valid values: Document, Lines.
         public let type: JSONType?
@@ -5414,6 +5636,67 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case recordDelimiter = "RecordDelimiter"
+        }
+    }
+
+    public struct JournalTableConfiguration: AWSEncodableShape {
+        ///  The encryption configuration for the journal table.
+        public let encryptionConfiguration: MetadataTableEncryptionConfiguration?
+        ///  The journal table record expiration settings for the journal table.
+        public let recordExpiration: RecordExpiration
+
+        @inlinable
+        public init(encryptionConfiguration: MetadataTableEncryptionConfiguration? = nil, recordExpiration: RecordExpiration) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.recordExpiration = recordExpiration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case recordExpiration = "RecordExpiration"
+        }
+    }
+
+    public struct JournalTableConfigurationResult: AWSDecodableShape {
+        public let error: ErrorDetails?
+        ///  The journal table record expiration settings for the journal table.
+        public let recordExpiration: RecordExpiration
+        ///  The Amazon Resource Name (ARN) for the journal table.
+        public let tableArn: String?
+        ///  The name of the journal table.
+        public let tableName: String
+        ///  The status of the journal table. The status values are:     CREATING - The journal table is in the process of being created in the specified table bucket.    ACTIVE - The journal table has been created successfully, and records are being delivered to the table.     FAILED - Amazon S3 is unable to create the journal table, or Amazon S3 is unable to deliver records.
+        public let tableStatus: String
+
+        @inlinable
+        public init(error: ErrorDetails? = nil, recordExpiration: RecordExpiration, tableArn: String? = nil, tableName: String, tableStatus: String) {
+            self.error = error
+            self.recordExpiration = recordExpiration
+            self.tableArn = tableArn
+            self.tableName = tableName
+            self.tableStatus = tableStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case recordExpiration = "RecordExpiration"
+            case tableArn = "TableArn"
+            case tableName = "TableName"
+            case tableStatus = "TableStatus"
+        }
+    }
+
+    public struct JournalTableConfigurationUpdates: AWSEncodableShape {
+        ///  The journal table record expiration settings for the journal table.
+        public let recordExpiration: RecordExpiration
+
+        @inlinable
+        public init(recordExpiration: RecordExpiration) {
+            self.recordExpiration = recordExpiration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordExpiration = "RecordExpiration"
         }
     }
 
@@ -5832,7 +6115,7 @@ extension S3 {
     public struct ListBucketsRequest: AWSEncodableShape {
         /// Limits the response to buckets that are located in the specified Amazon Web Services Region. The Amazon Web Services Region must be expressed according to the Amazon Web Services Region code, such as us-west-2 for the US West (Oregon) Region. For a list of the valid values for all of the Amazon Web Services Regions, see Regions and Endpoints.  Requests made to a Regional endpoint that is different from the bucket-region parameter are not supported. For example, if you want to limit the response to your buckets in Region us-west-2, the request must be made to an endpoint in Region us-west-2.
         public let bucketRegion: String?
-        ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.  Length Constraints: Minimum length of 0. Maximum length of 1024. Required: No.  If you specify the bucket-region, prefix, or continuation-token  query parameters without using max-buckets to set the maximum number of buckets returned in the response,  Amazon S3 applies a default page size of 10,000 and provides a continuation token if there are more buckets.
+        ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.  Length Constraints: Minimum length of 0. Maximum length of 1024. Required: No.  If you specify the bucket-region, prefix, or continuation-token query parameters without using max-buckets to set the maximum number of buckets returned in the response, Amazon S3 applies a default page size of 10,000 and provides a continuation token if there are more buckets.
         public let continuationToken: String?
         /// Maximum number of buckets to be returned in response. When the number is more than the count of buckets that are owned by an Amazon Web Services account, return all the buckets in response.
         public let maxBuckets: Int?
@@ -6623,6 +6906,46 @@ extension S3 {
         }
     }
 
+    public struct MetadataConfiguration: AWSEncodableShape {
+        ///  The inventory table configuration for a metadata configuration.
+        public let inventoryTableConfiguration: InventoryTableConfiguration?
+        ///  The journal table configuration for a metadata configuration.
+        public let journalTableConfiguration: JournalTableConfiguration
+
+        @inlinable
+        public init(inventoryTableConfiguration: InventoryTableConfiguration? = nil, journalTableConfiguration: JournalTableConfiguration) {
+            self.inventoryTableConfiguration = inventoryTableConfiguration
+            self.journalTableConfiguration = journalTableConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inventoryTableConfiguration = "InventoryTableConfiguration"
+            case journalTableConfiguration = "JournalTableConfiguration"
+        }
+    }
+
+    public struct MetadataConfigurationResult: AWSDecodableShape {
+        ///  The destination settings for a metadata configuration.
+        public let destinationResult: DestinationResult
+        ///  The inventory table configuration for a metadata configuration.
+        public let inventoryTableConfigurationResult: InventoryTableConfigurationResult?
+        ///  The journal table configuration for a metadata configuration.
+        public let journalTableConfigurationResult: JournalTableConfigurationResult?
+
+        @inlinable
+        public init(destinationResult: DestinationResult, inventoryTableConfigurationResult: InventoryTableConfigurationResult? = nil, journalTableConfigurationResult: JournalTableConfigurationResult? = nil) {
+            self.destinationResult = destinationResult
+            self.inventoryTableConfigurationResult = inventoryTableConfigurationResult
+            self.journalTableConfigurationResult = journalTableConfigurationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationResult = "DestinationResult"
+            case inventoryTableConfigurationResult = "InventoryTableConfigurationResult"
+            case journalTableConfigurationResult = "JournalTableConfigurationResult"
+        }
+    }
+
     public struct MetadataEntry: AWSEncodableShape {
         /// Name of the object.
         public let name: String?
@@ -6642,7 +6965,7 @@ extension S3 {
     }
 
     public struct MetadataTableConfiguration: AWSEncodableShape {
-        ///  The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination  table bucket.
+        ///  The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         public let s3TablesDestination: S3TablesDestination
 
         @inlinable
@@ -6656,7 +6979,7 @@ extension S3 {
     }
 
     public struct MetadataTableConfigurationResult: AWSDecodableShape {
-        ///  The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination  table bucket.
+        ///  The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         public let s3TablesDestinationResult: S3TablesDestinationResult
 
         @inlinable
@@ -6666,6 +6989,24 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case s3TablesDestinationResult = "S3TablesDestinationResult"
+        }
+    }
+
+    public struct MetadataTableEncryptionConfiguration: AWSEncodableShape {
+        ///  If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key  that's located in the same Region as the general purpose bucket that corresponds to the metadata  table configuration.
+        public let kmsKeyArn: String?
+        ///  The encryption type specified for a metadata table. To specify server-side encryption with  Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side  encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value.
+        public let sseAlgorithm: TableSseAlgorithm
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, sseAlgorithm: TableSseAlgorithm) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case sseAlgorithm = "SseAlgorithm"
         }
     }
 
@@ -6909,7 +7250,7 @@ extension S3 {
         public let eTag: String?
         /// Key name of the object.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
         public let key: String
-        /// If present, the objects are deleted only if its modification times matches the provided Timestamp.    This functionality is only supported for directory buckets.
+        /// If present, the objects are deleted only if its modification times matches the provided Timestamp.   This functionality is only supported for directory buckets.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModifiedTime: Date?
         /// If present, the objects are deleted only if its size matches the provided size in bytes.   This functionality is only supported for directory buckets.
@@ -8405,7 +8746,7 @@ extension S3 {
         public let tagging: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata in the Amazon S3 User Guide. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects in the Amazon S3 User Guide.   This functionality is not supported for directory buckets.
         public let websiteRedirectLocation: String?
-        ///  Specifies the offset for appending data to existing objects in bytes.  The offset must be equal to the size of the existing object being appended to.  If no object exists, setting this header to 0 will create a new object.   This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
+        ///  Specifies the offset for appending data to existing objects in bytes. The offset must be equal to the size of the existing object being appended to. If no object exists, setting this header to 0 will create a new object.   This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
         public let writeOffsetBytes: Int64?
 
         @inlinable
@@ -8706,6 +9047,24 @@ extension S3 {
         }
     }
 
+    public struct RecordExpiration: AWSEncodableShape & AWSDecodableShape {
+        ///  If you enable journal table record expiration, you can set the number of days to retain your  journal table records. Journal table records must be retained for a minimum of 7 days. To set  this value, specify any whole number from 7 to 2147483647. For example,  to retain your journal table records for one year, set this value to 365.
+        public let days: Int?
+        ///  Specifies whether journal table record expiration is enabled or disabled.
+        public let expiration: ExpirationState
+
+        @inlinable
+        public init(days: Int? = nil, expiration: ExpirationState) {
+            self.days = days
+            self.expiration = expiration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "Days"
+            case expiration = "Expiration"
+        }
+    }
+
     public struct RecordsEvent: AWSDecodableShape {
         /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDKforJava) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
         public let payload: AWSEventPayload
@@ -8776,7 +9135,7 @@ extension S3 {
     }
 
     public struct RenameObjectRequest: AWSEncodableShape {
-        /// The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket-base-name--zone-id--x-s3  (for example, amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.
+        /// The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format bucket-base-name--zone-id--x-s3  (for example, amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.
         public let bucket: String
         ///  A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126.   RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
         public let clientToken: String?
@@ -9266,9 +9625,9 @@ extension S3 {
     }
 
     public struct S3TablesDestination: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) for the table bucket that's specified as the  destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket.
+        ///  The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket.
         public let tableBucketArn: String
-        ///  The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination  table bucket.
+        ///  The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         public let tableName: String
 
         @inlinable
@@ -9284,13 +9643,13 @@ extension S3 {
     }
 
     public struct S3TablesDestinationResult: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) for the metadata table in the metadata table configuration. The  specified metadata table name must be unique within the aws_s3_metadata namespace  in the destination table bucket.
+        ///  The Amazon Resource Name (ARN) for the metadata table in the metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         public let tableArn: String
-        ///  The Amazon Resource Name (ARN) for the table bucket that's specified as the  destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket.
+        ///  The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket.
         public let tableBucketArn: String
-        ///  The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination  table bucket.
+        ///  The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         public let tableName: String
-        ///  The table bucket namespace for the metadata table in your metadata table configuration. This value  is always aws_s3_metadata.
+        ///  The table bucket namespace for the metadata table in your metadata table configuration. This value is always aws_s3_metadata.
         public let tableNamespace: String
 
         @inlinable
@@ -9773,7 +10132,7 @@ extension S3 {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var date: Date?
-        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. If the specified storage class is INTELLIGENT_TIERING,  GLACIER_IR, GLACIER, or DEEP_ARCHIVE, valid values are  0 or positive integers. If the specified storage class is STANDARD_IA  or ONEZONE_IA, valid values are positive integers greater than 30. Be  aware that some storage classes have a minimum storage duration and that you're charged for  transitioning objects before their minimum storage duration. For more information, see   Constraints and considerations for transitions in the  Amazon S3 User Guide.
+        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. If the specified storage class is INTELLIGENT_TIERING, GLACIER_IR, GLACIER, or DEEP_ARCHIVE, valid values are 0 or positive integers. If the specified storage class is STANDARD_IA or ONEZONE_IA, valid values are positive integers greater than 30. Be aware that some storage classes have a minimum storage duration and that you're charged for transitioning objects before their minimum storage duration. For more information, see  Constraints and considerations for transitions in the Amazon S3 User Guide.
         public let days: Int?
         /// The storage class to which you want the object to transition.
         public let storageClass: TransitionStorageClass?
@@ -9790,6 +10149,78 @@ extension S3 {
             case days = "Days"
             case storageClass = "StorageClass"
         }
+    }
+
+    public struct UpdateBucketMetadataInventoryTableConfigurationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
+        public static let _xmlRootNodeName: String? = "InventoryTableConfiguration"
+        ///  The general purpose bucket that corresponds to the metadata configuration that you want to  enable or disable an inventory table for.
+        public let bucket: String
+        ///  The checksum algorithm to use with your inventory table configuration.
+        public let checksumAlgorithm: ChecksumAlgorithm?
+        ///  The Content-MD5 header for the inventory table configuration.
+        public let contentMD5: String?
+        ///  The expected owner of the general purpose bucket that corresponds to the metadata table  configuration that you want to enable or disable an inventory table for.
+        public let expectedBucketOwner: String?
+        ///  The contents of your inventory table configuration.
+        public let inventoryTableConfiguration: InventoryTableConfigurationUpdates
+
+        @inlinable
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, inventoryTableConfiguration: InventoryTableConfigurationUpdates) {
+            self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
+            self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.inventoryTableConfiguration = inventoryTableConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.inventoryTableConfiguration)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateBucketMetadataJournalTableConfigurationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
+        public static let _xmlRootNodeName: String? = "JournalTableConfiguration"
+        ///  The general purpose bucket that corresponds to the metadata configuration that you want to  enable or disable journal table record expiration for.
+        public let bucket: String
+        ///  The checksum algorithm to use with your journal table configuration.
+        public let checksumAlgorithm: ChecksumAlgorithm?
+        ///  The Content-MD5 header for the journal table configuration.
+        public let contentMD5: String?
+        ///  The expected owner of the general purpose bucket that corresponds to the metadata table  configuration that you want to enable or disable journal table record expiration for.
+        public let expectedBucketOwner: String?
+        ///  The contents of your journal table configuration.
+        public let journalTableConfiguration: JournalTableConfigurationUpdates
+
+        @inlinable
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, journalTableConfiguration: JournalTableConfigurationUpdates) {
+            self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
+            self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.journalTableConfiguration = journalTableConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            try container.encode(self.journalTableConfiguration)
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadPartCopyOutput: AWSDecodableShape {
@@ -9838,7 +10269,7 @@ extension S3 {
     }
 
     public struct UploadPartCopyRequest: AWSEncodableShape {
-        /// The bucket name.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL-encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:::accesspoint//object/. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.    Amazon S3 supports copy operations using Access points only when the source and destination buckets are in the same Amazon Web Services Region.   Access points are not supported by directory buckets.    Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:::outpost//object/. For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf. The value must be URL-encoded.     If your bucket has versioning enabled, you could have multiple versions of the same object. By default, x-amz-copy-source identifies the current version of the source object to copy. To copy a specific version of the source object to copy, append ?versionId= to the x-amz-copy-source request header (for example, x-amz-copy-source: /awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893).  If the current version is a delete marker and you don't specify a versionId in the x-amz-copy-source request header, Amazon S3 returns a 404 Not Found error, because the object does not exist. If you specify versionId in the x-amz-copy-source and the versionId is a delete marker, Amazon S3 returns an HTTP 400 Bad Request error, because you are not allowed to specify a delete marker as a version for the x-amz-copy-source.    Directory buckets - S3 Versioning isn't enabled and supported for directory buckets.
         public let copySource: String
@@ -10362,7 +10793,7 @@ public struct S3ErrorType: AWSErrorType {
     public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
     /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public static var bucketAlreadyOwnedByYou: Self { .init(.bucketAlreadyOwnedByYou) }
-    ///  The existing object was created with a different encryption type.  Subsequent write requests must include the appropriate encryption  parameters in the request or while creating the session.
+    ///  The existing object was created with a different encryption type. Subsequent write requests must include the appropriate encryption parameters in the request or while creating the session.
     public static var encryptionTypeMismatch: Self { .init(.encryptionTypeMismatch) }
     /// Parameters on this idempotent request are inconsistent with parameters used in previous request(s).  For a list of error codes and more information on Amazon S3 errors, see Error codes.  Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public static var idempotencyParameterMismatch: Self { .init(.idempotencyParameterMismatch) }
@@ -10384,7 +10815,7 @@ public struct S3ErrorType: AWSErrorType {
     public static var objectAlreadyInActiveTierError: Self { .init(.objectAlreadyInActiveTierError) }
     /// The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
     public static var objectNotInActiveTierError: Self { .init(.objectNotInActiveTierError) }
-    ///  You have attempted to add more parts than the maximum of 10000  that are allowed for this object. You can use the CopyObject operation  to copy this object to another and then add more data to the newly copied object.
+    ///  You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
     public static var tooManyParts: Self { .init(.tooManyParts) }
 }
 

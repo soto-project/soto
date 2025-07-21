@@ -309,6 +309,12 @@ extension CleanRoomsML {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResultFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "CSV"
+        case parquet = "PARQUET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3DataDistributionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullyReplicated = "FullyReplicated"
         case shardedByS3Key = "ShardedByS3Key"
@@ -4832,11 +4838,14 @@ extension CleanRoomsML {
     public struct ProtectedQueryInputParameters: AWSEncodableShape & AWSDecodableShape {
         /// Provides configuration information for the workers that will perform the protected query.
         public let computeConfiguration: ComputeConfiguration?
+        /// The format in which the query results should be returned. If not specified, defaults to CSV.
+        public let resultFormat: ResultFormat?
         public let sqlParameters: ProtectedQuerySQLParameters
 
         @inlinable
-        public init(computeConfiguration: ComputeConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters) {
+        public init(computeConfiguration: ComputeConfiguration? = nil, resultFormat: ResultFormat? = nil, sqlParameters: ProtectedQuerySQLParameters) {
             self.computeConfiguration = computeConfiguration
+            self.resultFormat = resultFormat
             self.sqlParameters = sqlParameters
         }
 
@@ -4846,6 +4855,7 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case computeConfiguration = "computeConfiguration"
+            case resultFormat = "resultFormat"
             case sqlParameters = "sqlParameters"
         }
     }

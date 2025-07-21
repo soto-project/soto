@@ -366,6 +366,25 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityBlockInterconnectStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case impaired = "impaired"
+        case insufficientData = "insufficient-data"
+        case ok = "ok"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityBlockResourceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case cancelled = "cancelled"
+        case expired = "expired"
+        case failed = "failed"
+        case paymentFailed = "payment-failed"
+        case paymentPending = "payment-pending"
+        case scheduled = "scheduled"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityReservationBillingRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "accepted"
         case cancelled = "cancelled"
@@ -435,6 +454,7 @@ extension EC2 {
         case paymentPending = "payment-pending"
         case pending = "pending"
         case scheduled = "scheduled"
+        case unavailable = "unavailable"
         case unsupported = "unsupported"
         public var description: String { return self.rawValue }
     }
@@ -1028,6 +1048,12 @@ extension EC2 {
 
     public enum ImdsSupportValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v20 = "v2.0"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InitializationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case provisionedRate = "provisioned-rate"
         public var description: String { return self.rawValue }
     }
 
@@ -2966,6 +2992,7 @@ extension EC2 {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityBlock = "capacity-block"
         case capacityReservation = "capacity-reservation"
         case capacityReservationFleet = "capacity-reservation-fleet"
         case carrierGateway = "carrier-gateway"
@@ -3801,6 +3828,7 @@ extension EC2 {
     }
 
     public enum VolumeStatusName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case initializationState = "initialization-state"
         case ioEnabled = "io-enabled"
         case ioPerformance = "io-performance"
         public var description: String { return self.rawValue }
@@ -7989,6 +8017,62 @@ extension EC2 {
         }
     }
 
+    public struct CapacityBlock: AWSDecodableShape {
+        public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Availability Zone of the Capacity Block.
+        public let availabilityZone: String?
+        /// The Availability Zone ID of the Capacity Block.
+        public let availabilityZoneId: String?
+        /// The ID of the Capacity Block.
+        public let capacityBlockId: String?
+        /// The ID of the Capacity Reservation.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityReservationIdsEncoding, String>>
+        public var capacityReservationIds: [String]?
+        /// The date and time at which the Capacity Block was created.
+        public let createDate: Date?
+        /// The date and time at which the Capacity Block expires. When a Capacity Block expires,
+        /// 			all instances in the Capacity Block are terminated.
+        public let endDate: Date?
+        /// The date and time at which the Capacity Block was started.
+        public let startDate: Date?
+        /// The state of the Capacity Block.
+        public let state: CapacityBlockResourceState?
+        /// The tags assigned to the Capacity Block.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The EC2 UltraServer type of the Capacity Block.
+        public let ultraserverType: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, capacityBlockId: String? = nil, capacityReservationIds: [String]? = nil, createDate: Date? = nil, endDate: Date? = nil, startDate: Date? = nil, state: CapacityBlockResourceState? = nil, tags: [Tag]? = nil, ultraserverType: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityBlockId = capacityBlockId
+            self.capacityReservationIds = capacityReservationIds
+            self.createDate = createDate
+            self.endDate = endDate
+            self.startDate = startDate
+            self.state = state
+            self.tags = tags
+            self.ultraserverType = ultraserverType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case capacityBlockId = "capacityBlockId"
+            case capacityReservationIds = "capacityReservationIdSet"
+            case createDate = "createDate"
+            case endDate = "endDate"
+            case startDate = "startDate"
+            case state = "state"
+            case tags = "tagSet"
+            case ultraserverType = "ultraserverType"
+        }
+    }
+
     public struct CapacityBlockExtension: AWSDecodableShape {
         /// The Availability Zone of the Capacity Block extension.
         public let availabilityZone: String?
@@ -8148,11 +8232,15 @@ extension EC2 {
         public let startDate: Date?
         /// The tenancy of the Capacity Block.
         public let tenancy: CapacityReservationTenancy?
+        /// The number of EC2 UltraServers in the offering.
+        public let ultraserverCount: Int?
+        /// The EC2 UltraServer type of the Capacity Block offering.
+        public let ultraserverType: String?
         /// The total price to be paid up front.
         public let upfrontFee: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, capacityBlockDurationHours: Int? = nil, capacityBlockDurationMinutes: Int? = nil, capacityBlockOfferingId: String? = nil, currencyCode: String? = nil, endDate: Date? = nil, instanceCount: Int? = nil, instanceType: String? = nil, startDate: Date? = nil, tenancy: CapacityReservationTenancy? = nil, upfrontFee: String? = nil) {
+        public init(availabilityZone: String? = nil, capacityBlockDurationHours: Int? = nil, capacityBlockDurationMinutes: Int? = nil, capacityBlockOfferingId: String? = nil, currencyCode: String? = nil, endDate: Date? = nil, instanceCount: Int? = nil, instanceType: String? = nil, startDate: Date? = nil, tenancy: CapacityReservationTenancy? = nil, ultraserverCount: Int? = nil, ultraserverType: String? = nil, upfrontFee: String? = nil) {
             self.availabilityZone = availabilityZone
             self.capacityBlockDurationHours = capacityBlockDurationHours
             self.capacityBlockDurationMinutes = capacityBlockDurationMinutes
@@ -8163,6 +8251,8 @@ extension EC2 {
             self.instanceType = instanceType
             self.startDate = startDate
             self.tenancy = tenancy
+            self.ultraserverCount = ultraserverCount
+            self.ultraserverType = ultraserverType
             self.upfrontFee = upfrontFee
         }
 
@@ -8177,7 +8267,47 @@ extension EC2 {
             case instanceType = "instanceType"
             case startDate = "startDate"
             case tenancy = "tenancy"
+            case ultraserverCount = "ultraserverCount"
+            case ultraserverType = "ultraserverType"
             case upfrontFee = "upfrontFee"
+        }
+    }
+
+    public struct CapacityBlockStatus: AWSDecodableShape {
+        public struct _CapacityReservationStatusesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The ID of the Capacity Block.
+        public let capacityBlockId: String?
+        /// The availability of capacity for the Capacity Block reservations.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityReservationStatusesEncoding, CapacityReservationStatus>>
+        public var capacityReservationStatuses: [CapacityReservationStatus]?
+        /// The status of the high-bandwidth accelerator interconnect. Possible states include:    ok the accelerator interconnect is healthy.    impaired - accelerator interconnect communication is impaired.    insufficient-data - insufficient data to determine accelerator interconnect status.
+        public let interconnectStatus: CapacityBlockInterconnectStatus?
+        /// The remaining capacity. Indicates the number of resources that can be launched into the Capacity Block.
+        public let totalAvailableCapacity: Int?
+        /// The combined amount of Available and Unavailable capacity in the Capacity Block.
+        public let totalCapacity: Int?
+        /// The unavailable capacity. Indicates the instance capacity that is unavailable for use
+        /// 			due to a system status check failure.
+        public let totalUnavailableCapacity: Int?
+
+        @inlinable
+        public init(capacityBlockId: String? = nil, capacityReservationStatuses: [CapacityReservationStatus]? = nil, interconnectStatus: CapacityBlockInterconnectStatus? = nil, totalAvailableCapacity: Int? = nil, totalCapacity: Int? = nil, totalUnavailableCapacity: Int? = nil) {
+            self.capacityBlockId = capacityBlockId
+            self.capacityReservationStatuses = capacityReservationStatuses
+            self.interconnectStatus = interconnectStatus
+            self.totalAvailableCapacity = totalAvailableCapacity
+            self.totalCapacity = totalCapacity
+            self.totalUnavailableCapacity = totalUnavailableCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityBlockId = "capacityBlockId"
+            case capacityReservationStatuses = "capacityReservationStatusSet"
+            case interconnectStatus = "interconnectStatus"
+            case totalAvailableCapacity = "totalAvailableCapacity"
+            case totalCapacity = "totalCapacity"
+            case totalUnavailableCapacity = "totalUnavailableCapacity"
         }
     }
 
@@ -8195,6 +8325,8 @@ extension EC2 {
         /// Information about instance capacity usage.
         @OptionalCustomCoding<EC2ArrayCoder<_CapacityAllocationsEncoding, CapacityAllocation>>
         public var capacityAllocations: [CapacityAllocation]?
+        /// The ID of the Capacity Block.
+        public let capacityBlockId: String?
         /// The Amazon Resource Name (ARN) of the Capacity Reservation.
         public let capacityReservationArn: String?
         /// The ID of the Capacity Reservation Fleet to which the Capacity Reservation belongs.
@@ -8290,11 +8422,12 @@ extension EC2 {
         public let unusedReservationBillingOwnerId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
             self.capacityAllocations = capacityAllocations
+            self.capacityBlockId = capacityBlockId
             self.capacityReservationArn = capacityReservationArn
             self.capacityReservationFleetId = capacityReservationFleetId
             self.capacityReservationId = capacityReservationId
@@ -8325,6 +8458,7 @@ extension EC2 {
             case availabilityZoneId = "availabilityZoneId"
             case availableInstanceCount = "availableInstanceCount"
             case capacityAllocations = "capacityAllocationSet"
+            case capacityBlockId = "capacityBlockId"
             case capacityReservationArn = "capacityReservationArn"
             case capacityReservationFleetId = "capacityReservationFleetId"
             case capacityReservationId = "capacityReservationId"
@@ -8637,6 +8771,32 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case capacityReservationPreference = "capacityReservationPreference"
             case capacityReservationTarget = "capacityReservationTarget"
+        }
+    }
+
+    public struct CapacityReservationStatus: AWSDecodableShape {
+        /// The ID of the Capacity Reservation.
+        public let capacityReservationId: String?
+        /// The remaining capacity. Indicates the amount of resources that can be launched into the Capacity Reservation.
+        public let totalAvailableCapacity: Int?
+        /// The combined amount of Available and Unavailable capacity in the Capacity Reservation.
+        public let totalCapacity: Int?
+        /// The used capacity. Indicates that the capacity is in use by resources that are running in the Capacity Reservation.
+        public let totalUnavailableCapacity: Int?
+
+        @inlinable
+        public init(capacityReservationId: String? = nil, totalAvailableCapacity: Int? = nil, totalCapacity: Int? = nil, totalUnavailableCapacity: Int? = nil) {
+            self.capacityReservationId = capacityReservationId
+            self.totalAvailableCapacity = totalAvailableCapacity
+            self.totalCapacity = totalCapacity
+            self.totalUnavailableCapacity = totalUnavailableCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationId = "capacityReservationId"
+            case totalAvailableCapacity = "totalAvailableCapacity"
+            case totalCapacity = "totalCapacity"
+            case totalUnavailableCapacity = "totalUnavailableCapacity"
         }
     }
 
@@ -11435,7 +11595,9 @@ extension EC2 {
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Indicates whether the client IP address is preserved as the source. The following are the possible values.    true - Use the client IP address as the source.    false - Use the network interface IP address as the source.   Default: false
+        /// The IP address type of the endpoint. If no value is specified, the default value is determined by the IP address type of the subnet:    dualstack - If the subnet has both IPv4 and IPv6 CIDRs    ipv4 - If the subnet has only IPv4 CIDRs    ipv6 - If the subnet has only IPv6 CIDRs     PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp, the value for IpAddressType must be ipv4.
+        public let ipAddressType: IpAddressType?
+        /// Indicates whether the client IP address is preserved as the source. The following are the possible values.    true - Use the client IP address as the source.    false - Use the network interface IP address as the source.     PreserveClientIp is only supported on IPv4 EC2 Instance Connect Endpoints. To use PreserveClientIp, the value for IpAddressType must be ipv4.  Default: false
         public let preserveClientIp: Bool?
         /// One or more security groups to associate with the endpoint. If you don't specify a security group,  the default security group for your VPC will be associated with the endpoint.
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupIdsEncoding, String>>
@@ -11447,9 +11609,10 @@ extension EC2 {
         public var tagSpecifications: [TagSpecification]?
 
         @inlinable
-        public init(clientToken: String? = CreateInstanceConnectEndpointRequest.idempotencyToken(), dryRun: Bool? = nil, preserveClientIp: Bool? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateInstanceConnectEndpointRequest.idempotencyToken(), dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, preserveClientIp: Bool? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
+            self.ipAddressType = ipAddressType
             self.preserveClientIp = preserveClientIp
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
@@ -11463,6 +11626,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case dryRun = "DryRun"
+            case ipAddressType = "IpAddressType"
             case preserveClientIp = "PreserveClientIp"
             case securityGroupIds = "SecurityGroupId"
             case subnetId = "SubnetId"
@@ -19767,9 +19931,13 @@ extension EC2 {
         public let nextToken: String?
         /// The earliest start date for the Capacity Block offering.
         public let startDateRange: Date?
+        /// The number of EC2 UltraServers in the offerings.
+        public let ultraserverCount: Int?
+        /// The EC2 UltraServer type of the Capacity Block offerings.
+        public let ultraserverType: String?
 
         @inlinable
-        public init(capacityDurationHours: Int? = nil, dryRun: Bool? = nil, endDateRange: Date? = nil, instanceCount: Int? = nil, instanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startDateRange: Date? = nil) {
+        public init(capacityDurationHours: Int? = nil, dryRun: Bool? = nil, endDateRange: Date? = nil, instanceCount: Int? = nil, instanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startDateRange: Date? = nil, ultraserverCount: Int? = nil, ultraserverType: String? = nil) {
             self.capacityDurationHours = capacityDurationHours
             self.dryRun = dryRun
             self.endDateRange = endDateRange
@@ -19778,6 +19946,8 @@ extension EC2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.startDateRange = startDateRange
+            self.ultraserverCount = ultraserverCount
+            self.ultraserverType = ultraserverType
         }
 
         public func validate(name: String) throws {
@@ -19794,6 +19964,8 @@ extension EC2 {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case startDateRange = "StartDateRange"
+            case ultraserverCount = "UltraserverCount"
+            case ultraserverType = "UltraserverType"
         }
     }
 
@@ -19814,6 +19986,137 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case capacityBlockOfferings = "capacityBlockOfferingSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeCapacityBlockStatusRequest: AWSEncodableShape {
+        public struct _CapacityBlockIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The ID of the Capacity Block.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityBlockIdsEncoding, String>>
+        public var capacityBlockIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters.     interconnect-status - The status of the interconnect for the Capacity Block (ok | impaired | insufficient-data).
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capacityBlockIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.capacityBlockIds = capacityBlockIds
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityBlockIds = "CapacityBlockId"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeCapacityBlockStatusResult: AWSDecodableShape {
+        public struct _CapacityBlockStatusesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The availability of capacity for a Capacity Block.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityBlockStatusesEncoding, CapacityBlockStatus>>
+        public var capacityBlockStatuses: [CapacityBlockStatus]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capacityBlockStatuses: [CapacityBlockStatus]? = nil, nextToken: String? = nil) {
+            self.capacityBlockStatuses = capacityBlockStatuses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityBlockStatuses = "capacityBlockStatusSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeCapacityBlocksRequest: AWSEncodableShape {
+        public struct _CapacityBlockIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The IDs of the Capacity Blocks.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityBlockIdsEncoding, String>>
+        public var capacityBlockIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        ///  One or more filters.     capacity-block-id - The ID of the Capacity Block.    ultraserver-type - The Capacity Block type. The type can be
+        /// 					instances or ultraservers.    availability-zone - The Availability Zone of the Capacity
+        /// 					Block.    start-date - The date and time at which the Capacity Block was
+        /// 					started.    end-date - The date and time at which the Capacity Block expires.
+        /// 					When a Capacity Block expires, all instances in the Capacity Block are
+        /// 					terminated.    create-date - The date and time at which the Capacity Block was
+        /// 					created.    state - The state of the Capacity Block (active |
+        /// 					expired | unavailable | cancelled |
+        /// 					failed | scheduled | payment-pending |
+        /// 					payment-failed).    tags - The tags assigned to the Capacity Block.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capacityBlockIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.capacityBlockIds = capacityBlockIds
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityBlockIds = "CapacityBlockId"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeCapacityBlocksResult: AWSDecodableShape {
+        public struct _CapacityBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Capacity Blocks.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityBlocksEncoding, CapacityBlock>>
+        public var capacityBlocks: [CapacityBlock]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capacityBlocks: [CapacityBlock]? = nil, nextToken: String? = nil) {
+            self.capacityBlocks = capacityBlocks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityBlocks = "capacityBlockSet"
             case nextToken = "nextToken"
         }
     }
@@ -21930,7 +22233,7 @@ extension EC2 {
         /// Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
         @OptionalCustomCoding<EC2ArrayCoder<_ExecutableUsersEncoding, String>>
         public var executableUsers: [String]?
-        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The image IDs. Default: Describes all images available to you.
@@ -30971,9 +31274,9 @@ extension EC2 {
     }
 
     public struct EbsBlockDevice: AWSEncodableShape & AWSDecodableShape {
-        /// The Availability Zone where the EBS volume will be created (for example, us-east-1a). Either AvailabilityZone or AvailabilityZoneId can be specified, but not both. If neither is specified, Amazon EC2 automatically selects an Availability Zone within the Region. This parameter is not supported when using CreateImage.
+        /// The Availability Zone where the EBS volume will be created (for example, us-east-1a). Either AvailabilityZone or AvailabilityZoneId can be specified, but not both. If neither is specified, Amazon EC2 automatically selects an Availability Zone within the Region. This parameter is not supported when using  CreateImage,  DescribeImages, and  RunInstances.
         public let availabilityZone: String?
-        /// The ID of the Availability Zone where the EBS volume will be created (for example, use1-az1). Either AvailabilityZone or AvailabilityZoneId can be specified, but not both. If neither is specified, Amazon EC2 automatically selects an Availability Zone within the Region. This parameter is not supported when using CreateImage.
+        /// The ID of the Availability Zone where the EBS volume will be created (for example, use1-az1). Either AvailabilityZone or AvailabilityZoneId can be specified, but not both. If neither is specified, Amazon EC2 automatically selects an Availability Zone within the Region. This parameter is not supported when using  CreateImage,  DescribeImages, and  RunInstances.
         public let availabilityZoneId: String?
         /// Indicates whether the EBS volume is deleted on instance termination. For more information, see Preserving Amazon EBS volumes on instance termination in the Amazon EC2 User Guide.
         public let deleteOnTermination: Bool?
@@ -31100,7 +31403,7 @@ extension EC2 {
     }
 
     public struct EbsInstanceBlockDevice: AWSDecodableShape {
-        /// The ARN of the Amazon ECS or Fargate task  to which the volume is attached.
+        /// The ARN of the Amazon Web Services-managed resource  to which the volume is attached.
         public let associatedResource: String?
         /// The time stamp when the attachment initiated.
         public let attachTime: Date?
@@ -31112,7 +31415,7 @@ extension EC2 {
         public let status: AttachmentStatus?
         /// The ID of the EBS volume.
         public let volumeId: String?
-        /// The ID of the Amazon Web Services account that owns the volume. This parameter is returned only for volumes that are attached to  Fargate tasks.
+        /// The ID of the Amazon Web Services account that owns the volume. This parameter is returned only for volumes that are attached to  Amazon Web Services-managed resources.
         public let volumeOwnerId: String?
 
         @inlinable
@@ -31243,11 +31546,14 @@ extension EC2 {
         public let createdAt: Date?
         /// The DNS name of the EC2 Instance Connect Endpoint.
         public let dnsName: String?
+        /// The Federal Information Processing Standards (FIPS) compliant DNS name of the EC2 Instance Connect Endpoint.
         public let fipsDnsName: String?
         /// The Amazon Resource Name (ARN) of the EC2 Instance Connect Endpoint.
         public let instanceConnectEndpointArn: String?
         /// The ID of the EC2 Instance Connect Endpoint.
         public let instanceConnectEndpointId: String?
+        /// The IP address type of the endpoint.
+        public let ipAddressType: IpAddressType?
         /// The ID of the elastic network interface that Amazon EC2 automatically created when creating the EC2 Instance Connect Endpoint.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfaceIdsEncoding, String>>
         public var networkInterfaceIds: [String]?
@@ -31271,13 +31577,14 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, createdAt: Date? = nil, dnsName: String? = nil, fipsDnsName: String? = nil, instanceConnectEndpointArn: String? = nil, instanceConnectEndpointId: String? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, preserveClientIp: Bool? = nil, securityGroupIds: [String]? = nil, state: Ec2InstanceConnectEndpointState? = nil, stateMessage: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(availabilityZone: String? = nil, createdAt: Date? = nil, dnsName: String? = nil, fipsDnsName: String? = nil, instanceConnectEndpointArn: String? = nil, instanceConnectEndpointId: String? = nil, ipAddressType: IpAddressType? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, preserveClientIp: Bool? = nil, securityGroupIds: [String]? = nil, state: Ec2InstanceConnectEndpointState? = nil, stateMessage: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.createdAt = createdAt
             self.dnsName = dnsName
             self.fipsDnsName = fipsDnsName
             self.instanceConnectEndpointArn = instanceConnectEndpointArn
             self.instanceConnectEndpointId = instanceConnectEndpointId
+            self.ipAddressType = ipAddressType
             self.networkInterfaceIds = networkInterfaceIds
             self.ownerId = ownerId
             self.preserveClientIp = preserveClientIp
@@ -31296,6 +31603,7 @@ extension EC2 {
             case fipsDnsName = "fipsDnsName"
             case instanceConnectEndpointArn = "instanceConnectEndpointArn"
             case instanceConnectEndpointId = "instanceConnectEndpointId"
+            case ipAddressType = "ipAddressType"
             case networkInterfaceIds = "networkInterfaceIdSet"
             case ownerId = "ownerId"
             case preserveClientIp = "preserveClientIp"
@@ -37673,6 +37981,8 @@ extension EC2 {
         public let description: String?
         /// Specifies whether enhanced networking with ENA is enabled.
         public let enaSupport: Bool?
+        /// Indicates whether the image is eligible for Amazon Web Services Free Tier.   If true, the AMI is eligible for Free Tier and can be used to launch instances under the Free Tier limits.   If false, the AMI is not eligible for Free Tier.
+        public let freeTierEligible: Bool?
         /// The hypervisor type of the image. Only xen is supported. ovm is not supported.
         public let hypervisor: HypervisorType?
         /// If true, the AMI satisfies the criteria for Allowed AMIs and can be discovered and used in the account. If false and Allowed AMIs is set to enabled, the AMI can't be discovered or used in the account. If false and Allowed AMIs is set to audit-mode, the AMI can be discovered and used in the account. For more information, see Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs in Amazon EC2 User Guide.
@@ -37733,7 +38043,7 @@ extension EC2 {
         public let virtualizationType: VirtualizationType?
 
         @inlinable
-        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, deregistrationProtection: String? = nil, description: String? = nil, enaSupport: Bool? = nil, hypervisor: HypervisorType? = nil, imageAllowed: Bool? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, imdsSupport: ImdsSupportValues? = nil, kernelId: String? = nil, lastLaunchedTime: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sourceImageId: String? = nil, sourceImageRegion: String? = nil, sourceInstanceId: String? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
+        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, deregistrationProtection: String? = nil, description: String? = nil, enaSupport: Bool? = nil, freeTierEligible: Bool? = nil, hypervisor: HypervisorType? = nil, imageAllowed: Bool? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, imdsSupport: ImdsSupportValues? = nil, kernelId: String? = nil, lastLaunchedTime: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sourceImageId: String? = nil, sourceImageRegion: String? = nil, sourceInstanceId: String? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
@@ -37742,6 +38052,7 @@ extension EC2 {
             self.deregistrationProtection = deregistrationProtection
             self.description = description
             self.enaSupport = enaSupport
+            self.freeTierEligible = freeTierEligible
             self.hypervisor = hypervisor
             self.imageAllowed = imageAllowed
             self.imageId = imageId
@@ -37781,6 +38092,7 @@ extension EC2 {
             case deregistrationProtection = "deregistrationProtection"
             case description = "description"
             case enaSupport = "enaSupport"
+            case freeTierEligible = "freeTierEligible"
             case hypervisor = "hypervisor"
             case imageAllowed = "imageAllowed"
             case imageId = "imageId"
@@ -38810,6 +39122,28 @@ extension EC2 {
         }
     }
 
+    public struct InitializationStatusDetails: AWSDecodableShape {
+        /// The estimated remaining time, in seconds, for volume initialization to complete. Returns  0 when volume initialization has completed. Only available for volumes created with Amazon EBS Provisioned Rate for Volume Initialization.
+        public let estimatedTimeToCompleteInSeconds: Int64?
+        /// The method used for volume initialization. Possible values include:    default - Volume initialized using the default volume initialization  rate or fast snapshot restore.    provisioned-rate - Volume initialized using an Amazon EBS Provisioned  Rate for Volume Initialization.
+        public let initializationType: InitializationType?
+        /// The current volume initialization progress as a percentage (0-100). Returns 100  when volume initialization has completed.
+        public let progress: Int64?
+
+        @inlinable
+        public init(estimatedTimeToCompleteInSeconds: Int64? = nil, initializationType: InitializationType? = nil, progress: Int64? = nil) {
+            self.estimatedTimeToCompleteInSeconds = estimatedTimeToCompleteInSeconds
+            self.initializationType = initializationType
+            self.progress = progress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedTimeToCompleteInSeconds = "estimatedTimeToCompleteInSeconds"
+            case initializationType = "initializationType"
+            case progress = "progress"
+        }
+    }
+
     public struct Instance: AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _ElasticGpuAssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -38829,6 +39163,8 @@ extension EC2 {
         public var blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// The boot mode that was specified by the AMI. If the value is uefi-preferred,  the AMI supports both UEFI and Legacy BIOS. The currentInstanceBootMode parameter  is the boot mode that is used to boot the instance at launch or start.  The operating system contained in the AMI must be configured to support the specified boot mode.  For more information, see Boot modes in the Amazon EC2 User Guide.
         public let bootMode: BootModeValues?
+        /// The ID of the Capacity Block.  For P5 instances, a Capacity Block ID refers to a group of instances. For Trn2u instances, a capacity block ID refers to an EC2 UltraServer.
+        public let capacityBlockId: String?
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
         /// Information about the Capacity Reservation targeting option.
@@ -38948,11 +39284,12 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, currentInstanceBootMode: InstanceBootModeValues? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, networkPerformanceOptions: InstanceNetworkPerformanceOptions? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
+        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityBlockId: String? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, currentInstanceBootMode: InstanceBootModeValues? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, networkPerformanceOptions: InstanceNetworkPerformanceOptions? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
+            self.capacityBlockId = capacityBlockId
             self.capacityReservationId = capacityReservationId
             self.capacityReservationSpecification = capacityReservationSpecification
             self.clientToken = clientToken
@@ -39015,6 +39352,7 @@ extension EC2 {
             case architecture = "architecture"
             case blockDeviceMappings = "blockDeviceMapping"
             case bootMode = "bootMode"
+            case capacityBlockId = "capacityBlockId"
             case capacityReservationId = "capacityReservationId"
             case capacityReservationSpecification = "capacityReservationSpecification"
             case clientToken = "clientToken"
@@ -40737,6 +41075,8 @@ extension EC2 {
 
         /// The name of the Availability Zone or Local Zone that the instance is in.
         public let availabilityZone: String?
+        /// The ID of the Capacity Block. This parameter is only supported for Ultraserver instances and identifies instances within the Ultraserver domain.
+        public let capacityBlockId: String?
         /// The name of the placement group that the instance is in.
         public let groupName: String?
         /// The instance ID.
@@ -40750,8 +41090,9 @@ extension EC2 {
         public let zoneId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, groupName: String? = nil, instanceId: String? = nil, instanceType: String? = nil, networkNodes: [String]? = nil, zoneId: String? = nil) {
+        public init(availabilityZone: String? = nil, capacityBlockId: String? = nil, groupName: String? = nil, instanceId: String? = nil, instanceType: String? = nil, networkNodes: [String]? = nil, zoneId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.capacityBlockId = capacityBlockId
             self.groupName = groupName
             self.instanceId = instanceId
             self.instanceType = instanceType
@@ -40761,6 +41102,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case capacityBlockId = "capacityBlockId"
             case groupName = "groupName"
             case instanceId = "instanceId"
             case instanceType = "instanceType"
@@ -45550,7 +45892,7 @@ extension EC2 {
 
         /// The name of the attribute to modify.  When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired instance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the ModifyInstanceNetworkPerformanceOptions operation.   You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
         public let attribute: InstanceAttributeName?
-        /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Fargate tasks. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
+        /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Amazon Web Services-managed resources. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMappingSpecification>>
         public var blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]?
         /// Indicates whether an instance is enabled for stop protection. For more information, see Enable stop protection for your instance.
@@ -52037,15 +52379,22 @@ extension EC2 {
     }
 
     public struct PurchaseCapacityBlockResult: AWSDecodableShape {
+        public struct _CapacityBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Capacity Block.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityBlocksEncoding, CapacityBlock>>
+        public var capacityBlocks: [CapacityBlock]?
         /// The Capacity Reservation.
         public let capacityReservation: CapacityReservation?
 
         @inlinable
-        public init(capacityReservation: CapacityReservation? = nil) {
+        public init(capacityBlocks: [CapacityBlock]? = nil, capacityReservation: CapacityReservation? = nil) {
+            self.capacityBlocks = capacityBlocks
             self.capacityReservation = capacityReservation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityBlocks = "capacityBlockSet"
             case capacityReservation = "capacityReservation"
         }
     }
@@ -63002,17 +63351,17 @@ extension EC2 {
     }
 
     public struct VolumeAttachment: AWSDecodableShape {
-        /// The ARN of the Amazon ECS or Fargate task  to which the volume is attached.
+        /// The ARN of the Amazon Web Services-managed resource  to which the volume is attached.
         public let associatedResource: String?
         /// The time stamp when the attachment initiated.
         public let attachTime: Date?
         /// Indicates whether the EBS volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
-        /// The device name. If the volume is attached to a Fargate task, this parameter  returns null.
+        /// The device name. If the volume is attached to an Amazon Web Services-managed resource, this parameter  returns null.
         public let device: String?
-        /// The ID of the instance. If the volume is attached to a Fargate task, this parameter  returns null.
+        /// The ID of the instance. If the volume is attached to an Amazon Web Services-managed resource, this parameter  returns null.
         public let instanceId: String?
-        /// The service principal of Amazon Web Services service that owns the underlying  instance to which the volume is attached. This parameter is returned only for volumes that are attached to  Fargate tasks.
+        /// The service principal of the Amazon Web Services service that owns the underlying  resource to which the volume is attached. This parameter is returned only for volumes that are attached to  Amazon Web Services-managed resources.
         public let instanceOwningService: String?
         /// The attachment state of the volume.
         public let state: VolumeAttachmentState?
@@ -63176,7 +63525,7 @@ extension EC2 {
     }
 
     public struct VolumeStatusDetails: AWSDecodableShape {
-        /// The name of the volume status.
+        /// The name of the volume status.    io-enabled - Indicates the volume I/O status. For more  information, see Amazon EBS volume  status checks.    io-performance - Indicates the volume performance status.  For more information, see Amazon EBS volume  status checks.    initialization-state - Indicates the status of the volume  initialization process. For more information, see Initialize Amazon EBS volumes.
         public let name: VolumeStatusName?
         /// The intended status of the volume status.
         public let status: String?
@@ -63266,6 +63615,8 @@ extension EC2 {
         /// A list of events associated with the volume.
         @OptionalCustomCoding<EC2ArrayCoder<_EventsEncoding, VolumeStatusEvent>>
         public var events: [VolumeStatusEvent]?
+        /// Information about the volume initialization. It can take up to 5 minutes  for the volume initialization information to be updated. Only available for volumes created from snapshots. Not available for empty  volumes created without a snapshot. For more information, see   Initialize Amazon EBS volumes.
+        public let initializationStatusDetails: InitializationStatusDetails?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
         /// The volume ID.
@@ -63274,12 +63625,13 @@ extension EC2 {
         public let volumeStatus: VolumeStatusInfo?
 
         @inlinable
-        public init(actions: [VolumeStatusAction]? = nil, attachmentStatuses: [VolumeStatusAttachmentStatus]? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, events: [VolumeStatusEvent]? = nil, outpostArn: String? = nil, volumeId: String? = nil, volumeStatus: VolumeStatusInfo? = nil) {
+        public init(actions: [VolumeStatusAction]? = nil, attachmentStatuses: [VolumeStatusAttachmentStatus]? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, events: [VolumeStatusEvent]? = nil, initializationStatusDetails: InitializationStatusDetails? = nil, outpostArn: String? = nil, volumeId: String? = nil, volumeStatus: VolumeStatusInfo? = nil) {
             self.actions = actions
             self.attachmentStatuses = attachmentStatuses
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.events = events
+            self.initializationStatusDetails = initializationStatusDetails
             self.outpostArn = outpostArn
             self.volumeId = volumeId
             self.volumeStatus = volumeStatus
@@ -63291,6 +63643,7 @@ extension EC2 {
             case availabilityZone = "availabilityZone"
             case availabilityZoneId = "availabilityZoneId"
             case events = "eventsSet"
+            case initializationStatusDetails = "initializationStatusDetails"
             case outpostArn = "outpostArn"
             case volumeId = "volumeId"
             case volumeStatus = "volumeStatus"

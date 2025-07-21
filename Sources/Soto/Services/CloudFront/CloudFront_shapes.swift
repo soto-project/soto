@@ -571,9 +571,9 @@ extension CloudFront {
     }
 
     public struct AssociateAliasRequest: AWSEncodableShape {
-        /// The alias (also known as a CNAME) to add to the target distribution.
+        /// The alias (also known as a CNAME) to add to the target standard distribution.
         public let alias: String
-        /// The ID of the distribution that you're associating the alias with.
+        /// The ID of the standard distribution that you're associating the alias with.
         public let targetDistributionId: String
 
         @inlinable
@@ -712,7 +712,7 @@ extension CloudFront {
         public let cachePolicyId: String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for this cache behavior.
         public let fieldLevelEncryptionId: String?
@@ -724,9 +724,9 @@ extension CloudFront {
         public let grpcConfig: GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let maxTTL: Int64?
-        /// This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see  Managing How Long Content Stays in an Edge Cache (Expiration) in the  Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see  Managing How Long Content Stays in an Edge Cache (Expiration) in the  Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64?
         /// The unique identifier of the origin request policy that is attached to this cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
         public let originRequestPolicyId: String?
@@ -736,13 +736,13 @@ extension CloudFront {
         public let realtimeLogConfigArn: String?
         /// The identifier for a response headers policy.
         public let responseHeadersPolicyId: String?
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they match this cache behavior.
         public let targetOriginId: String
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.   This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
@@ -1141,11 +1141,11 @@ extension CloudFront {
     }
 
     public struct ConflictingAlias: AWSDecodableShape {
-        /// The (partially hidden) ID of the Amazon Web Services account that owns the distribution that's associated with the alias.
+        /// The (partially hidden) ID of the Amazon Web Services account that owns the standard distribution that's associated with the alias.
         public let accountId: String?
         /// An alias (also called a CNAME).
         public let alias: String?
-        /// The (partially hidden) ID of the CloudFront distribution associated with the alias.
+        /// The (partially hidden) ID of the CloudFront standard distribution associated with the alias.
         public let distributionId: String?
 
         @inlinable
@@ -2816,11 +2816,11 @@ extension CloudFront {
         public let httpPort: Int
         /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         public let httpsPort: Int
-        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:    http-only – CloudFront always uses HTTP to connect to the origin.    match-viewer – CloudFront connects to the origin using the same protocol that the viewer used to connect to CloudFront.    https-only – CloudFront always uses HTTPS to connect to the origin.
         public let originProtocolPolicy: OriginProtocolPolicy
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
         /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see Minimum Origin SSL Protocol in the Amazon CloudFront Developer Guide.
         public let originSslProtocols: OriginSslProtocols?
@@ -2873,7 +2873,7 @@ extension CloudFront {
         public let cachePolicyId: String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for the default cache behavior.
         public let fieldLevelEncryptionId: String?
@@ -2885,9 +2885,9 @@ extension CloudFront {
         public let grpcConfig: GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let maxTTL: Int64?
-        /// This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64?
         /// The unique identifier of the origin request policy that is attached to the default cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
         public let originRequestPolicyId: String?
@@ -2895,13 +2895,13 @@ extension CloudFront {
         public let realtimeLogConfigArn: String?
         /// The identifier for a response headers policy.
         public let responseHeadersPolicyId: String?
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they use the default cache behavior.
         public let targetOriginId: String
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.   This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
@@ -3680,9 +3680,9 @@ extension CloudFront {
     }
 
     public struct DistributionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases?
-        /// ID of the Anycast static IP list that is associated with the distribution.
+        ///  To use this field for a multi-tenant distribution, use a connection group instead. For more information, see ConnectionGroup.  ID of the Anycast static IP list that is associated with the distribution.
         public let anycastIpListId: String?
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors?
@@ -3690,9 +3690,9 @@ extension CloudFront {
         public let callerReference: String
         /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         public let comment: String
-        /// The connection mode to filter distributions by.
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
         public let connectionMode: ConnectionMode?
-        /// The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
         public let continuousDeploymentPolicyId: String?
         /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
         public let customErrorResponses: CustomErrorResponses?
@@ -3704,7 +3704,7 @@ extension CloudFront {
         public let enabled: Bool
         /// (Optional) Specify the HTTP version(s) that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must support Server Name Indication (SNI). For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the viewer to switch networks without losing connection. For more information about connection migration, see Connection Migration at RFC 9000. For more information about supported TLSv1.3 ciphers, see Supported protocols and ciphers between viewers and CloudFront.
         public let httpVersion: HttpVersion?
-        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution. In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Route 53 Amazon Web Services Integration Developer Guide. If you created a CNAME resource record set, either with Route 53 Amazon Web Services Integration or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
+        ///  To use this field for a multi-tenant distribution, use a connection group instead. For more information, see ConnectionGroup.  If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution. In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Route 53 Amazon Web Services Integration Developer Guide. If you created a CNAME resource record set, either with Route 53 Amazon Web Services Integration or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
         public let isIPV6Enabled: Bool?
         /// A complex type that controls whether access logs are written for the distribution. For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide.
         public let logging: LoggingConfig?
@@ -3712,17 +3712,17 @@ extension CloudFront {
         public let originGroups: OriginGroups?
         /// A complex type that contains information about origins for this distribution.
         public let origins: Origins
-        /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing.
         public let priceClass: PriceClass?
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public let restrictions: Restrictions?
-        /// A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
         public let staging: Bool?
-        /// A distribution tenant configuration.
+        ///  This field only supports multi-tenant distributions. You can't specify this field for standard distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  A distribution tenant configuration.
         public let tenantConfig: TenantConfig?
         /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public let viewerCertificate: ViewerCertificate?
-        /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the WAF Developer Guide.
+        ///  Multi-tenant distributions only support WAF V2 web ACLs.  A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the WAF Developer Guide.
         public let webACLId: String?
 
         @inlinable
@@ -3916,7 +3916,7 @@ extension CloudFront {
         public let cacheBehaviors: CacheBehaviors
         /// The comment originally specified when this distribution was created.
         public let comment: String
-        /// The connection mode to filter distributions by.
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
         public let connectionMode: ConnectionMode?
         /// A complex type that contains zero or more CustomErrorResponses elements.
         public let customErrorResponses: CustomErrorResponses
@@ -3940,7 +3940,7 @@ extension CloudFront {
         public let originGroups: OriginGroups?
         /// A complex type that contains information about origins for this distribution.
         public let origins: Origins
-        /// A complex type that contains information about price class for this streaming distribution.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  A complex type that contains information about price class for this streaming distribution.
         public let priceClass: PriceClass
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public let restrictions: Restrictions
@@ -6757,7 +6757,7 @@ extension CloudFront {
     public struct ListConflictingAliasesRequest: AWSEncodableShape {
         /// The alias (also called a CNAME) to search for conflicting aliases.
         public let alias: String
-        /// The ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias.
+        /// The ID of a standard distribution in your account that has an attached TLS certificate that includes the provided alias.
         public let distributionId: String
         /// Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
         public let marker: String?
@@ -7064,7 +7064,7 @@ extension CloudFront {
     }
 
     public struct ListDistributionsByConnectionModeRequest: AWSEncodableShape {
-        /// The connection mode to filter distributions by.
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
         public let connectionMode: ConnectionMode
         ///  The marker for the next set of distributions to retrieve.
         public let marker: String?
@@ -7401,7 +7401,7 @@ extension CloudFront {
     public struct ListDomainConflictsRequest: AWSEncodableShape {
         /// The domain to check for conflicts.
         public let domain: String
-        /// The distribution resource identifier. This can be the distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
+        /// The distribution resource identifier. This can be the standard distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
         public let domainControlValidationResource: DistributionResourceId
         /// The marker for the next set of domain conflicts.
         public let marker: String?
@@ -10685,9 +10685,9 @@ extension CloudFront {
     public struct UpdateDomainAssociationRequest: AWSEncodableShape {
         /// The domain to update.
         public let domain: String
-        /// The value of the ETag identifier for the distribution or distribution tenant that will be associated with the domain.
+        /// The value of the ETag identifier for the standard distribution or distribution tenant that will be associated with the domain.
         public let ifMatch: String?
-        /// The target distribution resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
+        /// The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
         public let targetResource: DistributionResourceId
 
         @inlinable
@@ -10714,7 +10714,7 @@ extension CloudFront {
     public struct UpdateDomainAssociationResult: AWSDecodableShape {
         /// The domain that you're moving.
         public let domain: String?
-        /// The current version of the target distribution or distribution tenant that was associated with the domain.
+        /// The current version of the target standard distribution or distribution tenant that was associated with the domain.
         public let eTag: String?
         /// The intended destination for the domain.
         public let resourceId: String?
@@ -11417,7 +11417,7 @@ extension CloudFront {
         public let certificateSource: CertificateSource?
         /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, set this field to true. If the distribution uses Aliases (alternate domain names or CNAMEs), set this field to false and specify values for the following fields:    ACMCertificateArn or IAMCertificateId (specify a value for one, not both)    MinimumProtocolVersion     SSLSupportMethod
         public let cloudFrontDefaultCertificate: Bool?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in Identity and Access Management (IAM), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
+        ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in Identity and Access Management (IAM), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
         public let iamCertificateId: String?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you're using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public let minimumProtocolVersion: MinimumProtocolVersion?
@@ -11493,9 +11493,9 @@ extension CloudFront {
     }
 
     public struct VpcOriginConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
         /// The VPC origin ID.
         public let vpcOriginId: String

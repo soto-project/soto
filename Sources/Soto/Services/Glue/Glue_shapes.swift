@@ -7342,12 +7342,12 @@ extension Glue {
         /// A list of partition indexes, PartitionIndex structures, to create in the table.
         public let partitionIndexes: [PartitionIndex]?
         /// The TableInput object that defines the metadata table to create in the catalog.
-        public let tableInput: TableInput
+        public let tableInput: TableInput?
         /// The ID of the transaction.
         public let transactionId: String?
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, name: String? = nil, openTableFormatInput: OpenTableFormatInput? = nil, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput, transactionId: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, name: String? = nil, openTableFormatInput: OpenTableFormatInput? = nil, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput? = nil, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
@@ -7372,7 +7372,7 @@ extension Glue {
                 try $0.validate(name: "\(name).partitionIndexes[]")
             }
             try self.validate(self.partitionIndexes, name: "partitionIndexes", parent: name, max: 3)
-            try self.tableInput.validate(name: "\(name).tableInput")
+            try self.tableInput?.validate(name: "\(name).tableInput")
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")

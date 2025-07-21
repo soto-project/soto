@@ -112,18 +112,21 @@ public struct DynamoDBStreams: AWSService {
     /// Parameters:
     ///   - exclusiveStartShardId: The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation.
     ///   - limit: The maximum number of shard objects to return. The upper limit is 100.
+    ///   - shardFilter: This optional field contains the filter definition for the DescribeStream API.
     ///   - streamArn: The Amazon Resource Name (ARN) for the stream.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeStream(
         exclusiveStartShardId: String? = nil,
         limit: Int? = nil,
+        shardFilter: ShardFilter? = nil,
         streamArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeStreamOutput {
         let input = DescribeStreamInput(
             exclusiveStartShardId: exclusiveStartShardId, 
             limit: limit, 
+            shardFilter: shardFilter, 
             streamArn: streamArn
         )
         return try await self.describeStream(input, logger: logger)

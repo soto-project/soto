@@ -138,10 +138,27 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentLifecycleHookStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case postProductionTrafficShift = "POST_PRODUCTION_TRAFFIC_SHIFT"
+        case postScaleUp = "POST_SCALE_UP"
+        case postTestTrafficShift = "POST_TEST_TRAFFIC_SHIFT"
+        case preScaleUp = "PRE_SCALE_UP"
+        case productionTrafficShift = "PRODUCTION_TRAFFIC_SHIFT"
+        case reconcileService = "RECONCILE_SERVICE"
+        case testTrafficShift = "TEST_TRAFFIC_SHIFT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentRolloutState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blueGreen = "BLUE_GREEN"
+        case rolling = "ROLLING"
         public var description: String { return self.rawValue }
     }
 
@@ -344,6 +361,20 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceDeploymentLifecycleStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bakeTime = "BAKE_TIME"
+        case cleanUp = "CLEAN_UP"
+        case postProductionTrafficShift = "POST_PRODUCTION_TRAFFIC_SHIFT"
+        case postScaleUp = "POST_SCALE_UP"
+        case postTestTrafficShift = "POST_TEST_TRAFFIC_SHIFT"
+        case preScaleUp = "PRE_SCALE_UP"
+        case productionTrafficShift = "PRODUCTION_TRAFFIC_SHIFT"
+        case reconcileService = "RECONCILE_SERVICE"
+        case scaleUp = "SCALE_UP"
+        case testTrafficShift = "TEST_TRAFFIC_SHIFT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceDeploymentRollbackMonitorsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case monitoring = "MONITORING"
@@ -497,6 +528,32 @@ extension ECS {
     }
 
     // MARK: Shapes
+
+    public struct AdvancedConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the alternate target group for Amazon ECS blue/green deployments.
+        public let alternateTargetGroupArn: String?
+        /// The Amazon Resource Name (ARN) that that identifies the production listener rule (in the case of an Application Load Balancer) or listener (in the case for an Network Load Balancer) for routing production traffic.
+        public let productionListenerRule: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call the Elastic Load Balancing APIs for you.
+        public let roleArn: String?
+        /// The Amazon Resource Name (ARN) that identifies ) that identifies the test listener rule  (in the case of an Application Load Balancer) or listener (in the case for an Network Load Balancer) for routing test traffic.
+        public let testListenerRule: String?
+
+        @inlinable
+        public init(alternateTargetGroupArn: String? = nil, productionListenerRule: String? = nil, roleArn: String? = nil, testListenerRule: String? = nil) {
+            self.alternateTargetGroupArn = alternateTargetGroupArn
+            self.productionListenerRule = productionListenerRule
+            self.roleArn = roleArn
+            self.testListenerRule = testListenerRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternateTargetGroupArn = "alternateTargetGroupArn"
+            case productionListenerRule = "productionListenerRule"
+            case roleArn = "roleArn"
+            case testListenerRule = "testListenerRule"
+        }
+    }
 
     public struct Attachment: AWSDecodableShape {
         /// Details of the attachment. For elastic network interfaces, this includes the network interface ID, the MAC
@@ -2007,7 +2064,7 @@ extension ECS {
         public let desiredCount: Int?
         /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For
         /// 			more information, see Tagging your Amazon ECS
-        /// 				resources in the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags, you need to set the propagateTags
+        /// 				resources in the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags, you must set the propagateTags
         /// 			request parameter.
         public let enableECSManagedTags: Bool?
         /// Determines whether the execute command functionality is turned on for the service. If
@@ -2812,6 +2869,8 @@ extension ECS {
     public struct DeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Information about the CloudWatch alarms.
         public let alarms: DeploymentAlarms?
+        /// The time period when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
+        public let bakeTimeInMinutes: Int?
         ///  The deployment circuit breaker can only be used for services using the rolling
         /// 				update (ECS) deployment type.  The deployment circuit breaker determines whether a
         /// 			service deployment will fail if the service can't reach a steady state. If you use the
@@ -2822,6 +2881,8 @@ extension ECS {
         /// 				update in the Amazon Elastic Container Service Developer
         /// 				Guide
         public let deploymentCircuitBreaker: DeploymentCircuitBreaker?
+        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
+        public let lifecycleHooks: [DeploymentLifecycleHook]?
         /// If a service is using the rolling update (ECS) deployment type, the
         /// 				maximumPercent parameter represents an upper limit on the number of
         /// 			your service's tasks that are allowed in the RUNNING or
@@ -2894,36 +2955,70 @@ extension ECS {
         /// 			Fargate launch type, the minimum healthy percent value is not used,
         /// 			although it is returned when describing your service.
         public let minimumHealthyPercent: Int?
+        /// The deployment strategy for the service. Choose from these valid values:    ROLLING - When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration.    BLUE_GREEN - A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed.
+        public let strategy: DeploymentStrategy?
 
         @inlinable
-        public init(alarms: DeploymentAlarms? = nil, deploymentCircuitBreaker: DeploymentCircuitBreaker? = nil, maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil) {
+        public init(alarms: DeploymentAlarms? = nil, bakeTimeInMinutes: Int? = nil, deploymentCircuitBreaker: DeploymentCircuitBreaker? = nil, lifecycleHooks: [DeploymentLifecycleHook]? = nil, maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil, strategy: DeploymentStrategy? = nil) {
             self.alarms = alarms
+            self.bakeTimeInMinutes = bakeTimeInMinutes
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
+            self.lifecycleHooks = lifecycleHooks
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
+            self.strategy = strategy
         }
 
         private enum CodingKeys: String, CodingKey {
             case alarms = "alarms"
+            case bakeTimeInMinutes = "bakeTimeInMinutes"
             case deploymentCircuitBreaker = "deploymentCircuitBreaker"
+            case lifecycleHooks = "lifecycleHooks"
             case maximumPercent = "maximumPercent"
             case minimumHealthyPercent = "minimumHealthyPercent"
+            case strategy = "strategy"
         }
     }
 
     public struct DeploymentController: AWSEncodableShape & AWSDecodableShape {
-        /// The deployment controller type to use. There are three deployment controller types available:  ECS  The rolling update (ECS) deployment type involves replacing
-        /// 						the current running version of the container with the latest version. The
-        /// 						number of containers Amazon ECS adds or removes from the service during a rolling
-        /// 						update is controlled by adjusting the minimum and maximum number of healthy
-        /// 						tasks allowed during a service deployment, as specified in the DeploymentConfiguration. For more information about rolling deployments, see Deploy
-        /// 							Amazon ECS services by replacing tasks in the Amazon Elastic Container Service Developer Guide.  CODE_DEPLOY  The blue/green (CODE_DEPLOY) deployment type uses the
-        /// 						blue/green deployment model powered by CodeDeploy, which allows you to verify a
-        /// 						new deployment of a service before sending production traffic to it. For more information about blue/green deployments, see Validate the state of an Amazon ECS service before deployment  in
-        /// 						the Amazon Elastic Container Service Developer Guide.  EXTERNAL  The external (EXTERNAL) deployment type enables you to use
-        /// 						any third-party deployment controller for full control over the deployment
-        /// 						process for an Amazon ECS service. For more information about external deployments, see Deploy Amazon ECS services using a third-party controller  in the
-        /// 						Amazon Elastic Container Service Developer Guide.
+        /// The deployment controller type to use. The deployment controller is the mechanism that determines how tasks are deployed for
+        /// 			your service. The valid options are:   ECS When you create a service which uses the ECS deployment controller, you can choose between the following deployment strategies:    ROLLING: When you create a service which uses the rolling update
+        /// 							(ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the
+        /// 							currently running tasks with new tasks. The number of tasks that Amazon ECS adds or
+        /// 							removes from the service during a rolling update is controlled by the service
+        /// 							deployment configuration.  Rolling update deployments are best suited for the following scenarios:   Gradual service updates: You need to
+        /// 									update your service incrementally without taking the entire service
+        /// 									offline at once.   Limited resource requirements: You
+        /// 									want to avoid the additional resource costs of running two complete
+        /// 									environments simultaneously (as required by blue/green
+        /// 									deployments).   Acceptable deployment time: Your
+        /// 									application can tolerate a longer deployment process, as rolling updates
+        /// 									replace tasks one by one.   No need for instant roll back: Your
+        /// 									service can tolerate a rollback process that takes minutes rather than
+        /// 									seconds.   Simple deployment process: You prefer
+        /// 									a straightforward deployment approach without the complexity of managing
+        /// 									multiple environments, target groups, and listeners.   No load balancer requirement: Your
+        /// 									service doesn't use or require a load balancer, Application Load Balancer, Network Load Balancer, or Service Connect (which are required
+        /// 									for blue/green deployments).   Stateful applications: Your
+        /// 									application maintains state that makes it difficult to run two parallel
+        /// 									environments.   Cost sensitivity: You want to
+        /// 									minimize deployment costs by not running duplicate environments during
+        /// 									deployment.   Rolling updates are the default deployment strategy for services and provide a
+        /// 							balance between deployment safety and resource efficiency for many common
+        /// 							application scenarios.    BLUE_GREEN: A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and
+        /// 							risk by running two identical production environments called blue and green.
+        /// 							With Amazon ECS blue/green deployments, you can validate new service revisions before
+        /// 							directing production traffic to them. This approach provides a safer way to
+        /// 							deploy changes with the ability to quickly roll back if needed. Amazon ECS blue/green deployments are best suited for the following scenarios:   Service validation: When you need to
+        /// 									validate new service revisions before directing production traffic to
+        /// 									them   Zero downtime: When your service
+        /// 									requires zero-downtime deployments   Instant roll back: When you
+        /// 									need the ability to quickly roll back if issues are detected   Load balancer requirement: When your
+        /// 									service uses Application Load Balancer, Network Load Balancer, or Service Connect       External Use a third-party deployment controller.   Blue/green deployment (powered by CodeDeploy) CodeDeploy installs an updated version of the application as a new replacement task
+        /// 					set and reroutes production traffic from the original application task set to
+        /// 					the replacement task set. The original task set is terminated after a successful
+        /// 					deployment. Use this deployment controller to verify a new deployment of a service
+        /// 					before sending production traffic to it.
         public let type: DeploymentControllerType
 
         @inlinable
@@ -2948,6 +3043,28 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "kmsKeyId"
+        }
+    }
+
+    public struct DeploymentLifecycleHook: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
+        public let hookTargetArn: String?
+        /// The lifecycle stages at which to run the hook. Choose from these valid values:   RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.   PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic. You can use a lifecycle hook for this stage.   POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.   PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.   POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.   You must provide this parameter when configuring a deployment lifecycle hook.
+        public let lifecycleStages: [DeploymentLifecycleHookStage]?
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call Lambda functions on your behalf. For more information, see Permissions required for Lambda functions in Amazon ECS blue/green deployments in the  Amazon Elastic Container Service Developer Guide.
+        public let roleArn: String?
+
+        @inlinable
+        public init(hookTargetArn: String? = nil, lifecycleStages: [DeploymentLifecycleHookStage]? = nil, roleArn: String? = nil) {
+            self.hookTargetArn = hookTargetArn
+            self.lifecycleStages = lifecycleStages
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hookTargetArn = "hookTargetArn"
+            case lifecycleStages = "lifecycleStages"
+            case roleArn = "roleArn"
         }
     }
 
@@ -3388,7 +3505,7 @@ extension ECS {
 
     public struct DescribeTasksRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to
-        /// 			describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required. If you do not specify a
+        /// 			describe. If you do not specify a cluster, the default cluster is assumed. If you do not specify a
         /// 			value, the default cluster is used.
         public let cluster: String?
         /// Specifies whether you want to see the resource tags for the task. If TAGS
@@ -4968,6 +5085,8 @@ extension ECS {
     }
 
     public struct LoadBalancer: AWSEncodableShape & AWSDecodableShape {
+        /// The advanced settings for the load balancer used in blue/green deployments. Specify the alternate target group, listener rules, and IAM role required for traffic shifting during blue/green deployments.
+        public let advancedConfiguration: AdvancedConfiguration?
         /// The name of the container (as it appears in a container definition) to associate with
         /// 			the load balancer. You need to specify the container name when configuring the target group for an Amazon ECS
         /// 			load balancer.
@@ -4995,7 +5114,8 @@ extension ECS {
         public let targetGroupArn: String?
 
         @inlinable
-        public init(containerName: String? = nil, containerPort: Int? = nil, loadBalancerName: String? = nil, targetGroupArn: String? = nil) {
+        public init(advancedConfiguration: AdvancedConfiguration? = nil, containerName: String? = nil, containerPort: Int? = nil, loadBalancerName: String? = nil, targetGroupArn: String? = nil) {
+            self.advancedConfiguration = advancedConfiguration
             self.containerName = containerName
             self.containerPort = containerPort
             self.loadBalancerName = loadBalancerName
@@ -5003,6 +5123,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedConfiguration = "advancedConfiguration"
             case containerName = "containerName"
             case containerPort = "containerPort"
             case loadBalancerName = "loadBalancerName"
@@ -6125,6 +6246,20 @@ extension ECS {
         }
     }
 
+    public struct ResolvedConfiguration: AWSDecodableShape {
+        /// The resolved load balancer configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
+        public let loadBalancers: [ServiceRevisionLoadBalancer]?
+
+        @inlinable
+        public init(loadBalancers: [ServiceRevisionLoadBalancer]? = nil) {
+            self.loadBalancers = loadBalancers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancers = "loadBalancers"
+        }
+    }
+
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
         /// When the doubleValue type is set, the value of the resource must be a
         /// 			double precision floating-point type.
@@ -6647,11 +6782,14 @@ extension ECS {
         /// 			inside of all of the tasks within the same namespace. To avoid changing your applications in client Amazon ECS services, set this to the same
         /// 			port that the client application uses by default. For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
         public let port: Int
+        /// The configuration for test traffic routing rules used during blue/green deployments with Amazon ECS Service Connect. This allows you to route a portion of traffic to the new service revision of your service for testing before shifting all production traffic.
+        public let testTrafficRules: ServiceConnectTestTrafficRules?
 
         @inlinable
-        public init(dnsName: String? = nil, port: Int) {
+        public init(dnsName: String? = nil, port: Int, testTrafficRules: ServiceConnectTestTrafficRules? = nil) {
             self.dnsName = dnsName
             self.port = port
+            self.testTrafficRules = testTrafficRules
         }
 
         public func validate(name: String) throws {
@@ -6662,6 +6800,7 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case dnsName = "dnsName"
             case port = "port"
+            case testTrafficRules = "testTrafficRules"
         }
     }
 
@@ -6765,7 +6904,7 @@ extension ECS {
     }
 
     public struct ServiceConnectServiceResource: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the namespace in Cloud Map that matches the discovery name for this
+        /// The Amazon Resource Name (ARN) for the service in Cloud Map that matches the discovery name for this
         /// 			Service Connect resource. You can use this ARN in other integrations with Cloud Map.
         /// 			However, Service Connect can't ensure connectivity outside of Amazon ECS.
         public let discoveryArn: String?
@@ -6783,6 +6922,52 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case discoveryArn = "discoveryArn"
             case discoveryName = "discoveryName"
+        }
+    }
+
+    public struct ServiceConnectTestTrafficHeaderMatchRules: AWSEncodableShape & AWSDecodableShape {
+        /// The exact value that the HTTP header must match for the test traffic routing rule to apply. This provides precise control over which requests are routed to the new service revision during blue/green deployments.
+        public let exact: String
+
+        @inlinable
+        public init(exact: String) {
+            self.exact = exact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact = "exact"
+        }
+    }
+
+    public struct ServiceConnectTestTrafficHeaderRules: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the HTTP header to examine for test traffic routing. Common examples include custom headers like X-Test-Version or X-Canary-Request that can be used to identify test traffic.
+        public let name: String
+        /// The header value matching configuration that determines how the HTTP header value is evaluated for test traffic routing decisions.
+        public let value: ServiceConnectTestTrafficHeaderMatchRules?
+
+        @inlinable
+        public init(name: String, value: ServiceConnectTestTrafficHeaderMatchRules? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct ServiceConnectTestTrafficRules: AWSEncodableShape & AWSDecodableShape {
+        /// The HTTP header-based routing rules that determine which requests should be routed to the new service version during blue/green deployment testing. These rules provide fine-grained control over test traffic routing based on request headers.
+        public let header: ServiceConnectTestTrafficHeaderRules
+
+        @inlinable
+        public init(header: ServiceConnectTestTrafficHeaderRules) {
+            self.header = header
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case header = "header"
         }
     }
 
@@ -6836,6 +7021,8 @@ extension ECS {
         /// The time the service deployment finished. The format is yyyy-MM-dd
         /// 			HH:mm:ss.SSSSSS.
         public let finishedAt: Date?
+        /// The current lifecycle stage of the deployment. Possible values include:   RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state.   PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic.   SCALE_UP The stage when the green service revision scales up to 100% and launches new tasks. The green service revision is not serving any traffic at this point.   POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic.   TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic.   POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic.   PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic.   POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete.   BAKE_TIME The stage when both blue and green service revisions are running simultaneously after the production traffic has shifted.   CLEAN_UP The stage when the blue service revision has completely scaled down to 0 running tasks. The green service revision is now the production service revision after this stage.
+        public let lifecycleStage: ServiceDeploymentLifecycleStage?
         /// The rollback options the service deployment uses when the deployment fails.
         public let rollback: Rollback?
         /// The ARN of the service for this service deployment.
@@ -6863,13 +7050,14 @@ extension ECS {
         public let updatedAt: Date?
 
         @inlinable
-        public init(alarms: ServiceDeploymentAlarms? = nil, clusterArn: String? = nil, createdAt: Date? = nil, deploymentCircuitBreaker: ServiceDeploymentCircuitBreaker? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, finishedAt: Date? = nil, rollback: Rollback? = nil, serviceArn: String? = nil, serviceDeploymentArn: String? = nil, sourceServiceRevisions: [ServiceRevisionSummary]? = nil, startedAt: Date? = nil, status: ServiceDeploymentStatus? = nil, statusReason: String? = nil, stoppedAt: Date? = nil, targetServiceRevision: ServiceRevisionSummary? = nil, updatedAt: Date? = nil) {
+        public init(alarms: ServiceDeploymentAlarms? = nil, clusterArn: String? = nil, createdAt: Date? = nil, deploymentCircuitBreaker: ServiceDeploymentCircuitBreaker? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, finishedAt: Date? = nil, lifecycleStage: ServiceDeploymentLifecycleStage? = nil, rollback: Rollback? = nil, serviceArn: String? = nil, serviceDeploymentArn: String? = nil, sourceServiceRevisions: [ServiceRevisionSummary]? = nil, startedAt: Date? = nil, status: ServiceDeploymentStatus? = nil, statusReason: String? = nil, stoppedAt: Date? = nil, targetServiceRevision: ServiceRevisionSummary? = nil, updatedAt: Date? = nil) {
             self.alarms = alarms
             self.clusterArn = clusterArn
             self.createdAt = createdAt
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.deploymentConfiguration = deploymentConfiguration
             self.finishedAt = finishedAt
+            self.lifecycleStage = lifecycleStage
             self.rollback = rollback
             self.serviceArn = serviceArn
             self.serviceDeploymentArn = serviceDeploymentArn
@@ -6889,6 +7077,7 @@ extension ECS {
             case deploymentCircuitBreaker = "deploymentCircuitBreaker"
             case deploymentConfiguration = "deploymentConfiguration"
             case finishedAt = "finishedAt"
+            case lifecycleStage = "lifecycleStage"
             case rollback = "rollback"
             case serviceArn = "serviceArn"
             case serviceDeploymentArn = "serviceDeploymentArn"
@@ -7193,6 +7382,8 @@ extension ECS {
         public let platformFamily: String?
         /// For the Fargate launch type, the platform version the service revision uses.
         public let platformVersion: String?
+        /// The resolved configuration for the service revision which contains the actual resources your service revision uses, such as which target groups serve traffic.
+        public let resolvedConfiguration: ResolvedConfiguration?
         /// The ARN of the service for the service revision.
         public let serviceArn: String?
         public let serviceConnectConfiguration: ServiceConnectConfiguration?
@@ -7208,7 +7399,7 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, containerImages: [ContainerImage]? = nil, createdAt: Date? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, guardDutyEnabled: Bool? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, platformFamily: String? = nil, platformVersion: String? = nil, serviceArn: String? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, serviceRevisionArn: String? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, containerImages: [ContainerImage]? = nil, createdAt: Date? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, guardDutyEnabled: Bool? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, platformFamily: String? = nil, platformVersion: String? = nil, resolvedConfiguration: ResolvedConfiguration? = nil, serviceArn: String? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, serviceRevisionArn: String? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.containerImages = containerImages
@@ -7220,6 +7411,7 @@ extension ECS {
             self.networkConfiguration = networkConfiguration
             self.platformFamily = platformFamily
             self.platformVersion = platformVersion
+            self.resolvedConfiguration = resolvedConfiguration
             self.serviceArn = serviceArn
             self.serviceConnectConfiguration = serviceConnectConfiguration
             self.serviceRegistries = serviceRegistries
@@ -7241,6 +7433,7 @@ extension ECS {
             case networkConfiguration = "networkConfiguration"
             case platformFamily = "platformFamily"
             case platformVersion = "platformVersion"
+            case resolvedConfiguration = "resolvedConfiguration"
             case serviceArn = "serviceArn"
             case serviceConnectConfiguration = "serviceConnectConfiguration"
             case serviceRegistries = "serviceRegistries"
@@ -7248,6 +7441,24 @@ extension ECS {
             case taskDefinition = "taskDefinition"
             case volumeConfigurations = "volumeConfigurations"
             case vpcLatticeConfigurations = "vpcLatticeConfigurations"
+        }
+    }
+
+    public struct ServiceRevisionLoadBalancer: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.
+        public let productionListenerRule: String?
+        /// The Amazon Resource Name (ARN) of the target group associated with the service revision.
+        public let targetGroupArn: String?
+
+        @inlinable
+        public init(productionListenerRule: String? = nil, targetGroupArn: String? = nil) {
+            self.productionListenerRule = productionListenerRule
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productionListenerRule = "productionListenerRule"
+            case targetGroupArn = "targetGroupArn"
         }
     }
 
@@ -8894,6 +9105,7 @@ extension ECS {
         /// Optional deployment parameters that control how many tasks run during the deployment
         /// 			and the ordering of stopping and starting tasks.
         public let deploymentConfiguration: DeploymentConfiguration?
+        public let deploymentController: DeploymentController?
         /// The number of instantiations of the task to place and keep running in your
         /// 			service.
         public let desiredCount: Int?
@@ -8998,11 +9210,12 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.availabilityZoneRebalancing = availabilityZoneRebalancing
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
             self.deploymentConfiguration = deploymentConfiguration
+            self.deploymentController = deploymentController
             self.desiredCount = desiredCount
             self.enableECSManagedTags = enableECSManagedTags
             self.enableExecuteCommand = enableExecuteCommand
@@ -9037,6 +9250,7 @@ extension ECS {
             case capacityProviderStrategy = "capacityProviderStrategy"
             case cluster = "cluster"
             case deploymentConfiguration = "deploymentConfiguration"
+            case deploymentController = "deploymentController"
             case desiredCount = "desiredCount"
             case enableECSManagedTags = "enableECSManagedTags"
             case enableExecuteCommand = "enableExecuteCommand"

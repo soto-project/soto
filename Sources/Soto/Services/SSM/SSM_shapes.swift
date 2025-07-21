@@ -2503,7 +2503,7 @@ extension SSM {
     public struct ComplianceExecutionSummary: AWSEncodableShape & AWSDecodableShape {
         /// An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls.
         public let executionId: String?
-        /// The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
+        /// The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'   For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the DescribeAssociationExecutionTargets command or check the association execution history in the Systems Manager console.
         public let executionTime: Date
         /// The type of execution. For example, Command is a valid execution type.
         public let executionType: String?
@@ -2532,7 +2532,7 @@ extension SSM {
         public let complianceType: String?
         /// A "Key": "Value" tag combination for the compliance item.
         public let details: [String: String]?
-        /// A summary for the compliance item. The summary includes an execution ID, the execution type (for example, command), and the execution time.
+        /// A summary for the compliance item. The summary includes an execution ID, the execution type (for example, command), and the execution time.  For State Manager associations, the ExecutionTime value represents when the compliance status was captured and aggregated by the Systems Manager service, not necessarily when the underlying association was executed on the managed node. State Manager updates compliance status for all associations on an instance whenever any association executes, which means multiple associations may show the same execution time even if they were executed at different times.
         public let executionSummary: ComplianceExecutionSummary?
         /// An ID for the compliance item. For example, if the compliance item is a Windows patch, the ID could be the number of the KB article; for example: KB4010320.
         public let id: String?
@@ -8908,7 +8908,7 @@ extension SSM {
         public let key: String
         /// The type of filter.  The Exists filter must be used with aggregators. For more information, see Aggregating inventory data in the Amazon Web Services Systems Manager User Guide.
         public let type: InventoryQueryOperatorType?
-        /// Inventory filter values. Example: inventory filter where managed node IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal.
+        /// Inventory filter values.
         public let values: [String]
 
         @inlinable
@@ -12261,7 +12261,7 @@ extension SSM {
     }
 
     public struct PatchSource: AWSEncodableShape & AWSDecodableShape {
-        /// The value of the yum repo configuration. For example:  [main]   name=MyCustomRepository   baseurl=https://my-custom-repository   enabled=1   For information about other options available for your yum repository configuration, see dnf.conf(5).
+        /// The value of the repo configuration.  Example for yum repositories   [main]   name=MyCustomRepository   baseurl=https://my-custom-repository   enabled=1  For information about other options available for your yum repository configuration, see dnf.conf(5) on the man7.org website.  Examples for Ubuntu Server and Debian Server   deb http://security.ubuntu.com/ubuntu jammy main   deb https://site.example.com/debian distribution component1 component2 component3  Repo information for Ubuntu Server repositories must be specifed in a single line. For more examples and information, see jammy (5) sources.list.5.gz on the Ubuntu Server Manuals website and sources.list format on the Debian Wiki.
         public let configuration: String
         /// The name specified to identify the patch source.
         public let name: String
@@ -12454,7 +12454,7 @@ extension SSM {
         public let description: String?
         /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Use a custom key for better security. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account, which is not as secure as using a custom key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to create or update.  You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.  The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Amazon Web Services Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The reported maximum length of 2048 characters for a parameter name includes 1037 characters that are reserved for internal use by Systems Manager. The maximum length for a parameter name that you specify is 1011 characters. This count of 1011 characters includes the characters in the ARN that precede the name you specify. This ARN length will vary depending on your partition and Region. For example, the following 45 characters count toward the 1011 character maximum for a parameter created in the US East (Ohio) Region: arn:aws:ssm:us-east-2:111122223333:parameter/.
+        /// The fully qualified name of the parameter that you want to create or update.  You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.  The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Amazon Web Services Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The reported maximum length of 2048 characters for a parameter name includes 1037 characters that are reserved for internal use by Systems Manager. The maximum length for a parameter name that you specify is 1011 characters. This count of 1011 characters includes the characters in the ARN that precede the name you specify. This ARN length will vary depending on your partition and Region. For example, the following 45 characters count toward the 1011 character maximum for a parameter created in the US East (Ohio) Region: arn:aws:ssm:us-east-2:111122223333:parameter/.
         public let name: String
         /// Overwrite an existing parameter. The default value is false.
         public let overwrite: Bool?

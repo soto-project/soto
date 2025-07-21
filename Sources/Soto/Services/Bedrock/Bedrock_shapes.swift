@@ -59,6 +59,13 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum CustomModelDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case creating = "Creating"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomizationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case continuedPreTraining = "CONTINUED_PRE_TRAINING"
         case distillation = "DISTILLATION"
@@ -1316,6 +1323,69 @@ extension Bedrock {
         }
     }
 
+    public struct CreateCustomModelDeploymentRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// A description for the custom model deployment to help you identify its purpose.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state.
+        public let modelArn: String
+        /// The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region.
+        public let modelDeploymentName: String
+        /// Tags to assign to the custom model deployment. You can use tags to organize and track your Amazon Web Services resources for cost allocation and management purposes.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateCustomModelDeploymentRequest.idempotencyToken(), description: String? = nil, modelArn: String, modelDeploymentName: String, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.modelArn = modelArn
+            self.modelDeploymentName = modelDeploymentName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 1011)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 20)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}$")
+            try self.validate(self.modelDeploymentName, name: "modelDeploymentName", parent: name, max: 63)
+            try self.validate(self.modelDeploymentName, name: "modelDeploymentName", parent: name, min: 1)
+            try self.validate(self.modelDeploymentName, name: "modelDeploymentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case modelArn = "modelArn"
+            case modelDeploymentName = "modelDeploymentName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCustomModelDeploymentResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom model deployment. Use this ARN as the modelId parameter when invoking the model with the InvokeModel or Converse operations.
+        public let customModelDeploymentArn: String
+
+        @inlinable
+        public init(customModelDeploymentArn: String) {
+            self.customModelDeploymentArn = customModelDeploymentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customModelDeploymentArn = "customModelDeploymentArn"
+        }
+    }
+
     public struct CreateCustomModelRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientRequestToken: String?
@@ -2374,6 +2444,46 @@ extension Bedrock {
         }
     }
 
+    public struct CustomModelDeploymentSummary: AWSDecodableShape {
+        /// The date and time when the custom model deployment was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the custom model deployment.
+        public let customModelDeploymentArn: String
+        /// The name of the custom model deployment.
+        public let customModelDeploymentName: String
+        /// If the deployment status is FAILED, this field contains a message describing the failure reason.
+        public let failureMessage: String?
+        /// The date and time when the custom model deployment was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The Amazon Resource Name (ARN) of the custom model associated with this deployment.
+        public let modelArn: String
+        /// The status of the custom model deployment. Possible values are CREATING, ACTIVE, and FAILED.
+        public let status: CustomModelDeploymentStatus
+
+        @inlinable
+        public init(createdAt: Date, customModelDeploymentArn: String, customModelDeploymentName: String, failureMessage: String? = nil, lastUpdatedAt: Date? = nil, modelArn: String, status: CustomModelDeploymentStatus) {
+            self.createdAt = createdAt
+            self.customModelDeploymentArn = customModelDeploymentArn
+            self.customModelDeploymentName = customModelDeploymentName
+            self.failureMessage = failureMessage
+            self.lastUpdatedAt = lastUpdatedAt
+            self.modelArn = modelArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case customModelDeploymentArn = "customModelDeploymentArn"
+            case customModelDeploymentName = "customModelDeploymentName"
+            case failureMessage = "failureMessage"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case modelArn = "modelArn"
+            case status = "status"
+        }
+    }
+
     public struct CustomModelSummary: AWSDecodableShape {
         /// The base model Amazon Resource Name (ARN).
         public let baseModelArn: String
@@ -2457,6 +2567,34 @@ extension Bedrock {
             case lastModifiedTime = "lastModifiedTime"
             case status = "status"
         }
+    }
+
+    public struct DeleteCustomModelDeploymentRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) or name of the custom model deployment to delete.
+        public let customModelDeploymentIdentifier: String
+
+        @inlinable
+        public init(customModelDeploymentIdentifier: String) {
+            self.customModelDeploymentIdentifier = customModelDeploymentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.customModelDeploymentIdentifier, key: "customModelDeploymentIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customModelDeploymentIdentifier, name: "customModelDeploymentIdentifier", parent: name, max: 93)
+            try self.validate(self.customModelDeploymentIdentifier, name: "customModelDeploymentIdentifier", parent: name, min: 1)
+            try self.validate(self.customModelDeploymentIdentifier, name: "customModelDeploymentIdentifier", parent: name, pattern: "^(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomModelDeploymentResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteCustomModelRequest: AWSEncodableShape {
@@ -3333,6 +3471,74 @@ extension Bedrock {
             case guardrailConfiguration = "guardrailConfiguration"
             case kbInferenceConfig = "kbInferenceConfig"
             case promptTemplate = "promptTemplate"
+        }
+    }
+
+    public struct GetCustomModelDeploymentRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) or name of the custom model deployment to retrieve information about.
+        public let customModelDeploymentIdentifier: String
+
+        @inlinable
+        public init(customModelDeploymentIdentifier: String) {
+            self.customModelDeploymentIdentifier = customModelDeploymentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.customModelDeploymentIdentifier, key: "customModelDeploymentIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customModelDeploymentIdentifier, name: "customModelDeploymentIdentifier", parent: name, max: 93)
+            try self.validate(self.customModelDeploymentIdentifier, name: "customModelDeploymentIdentifier", parent: name, min: 1)
+            try self.validate(self.customModelDeploymentIdentifier, name: "customModelDeploymentIdentifier", parent: name, pattern: "^(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCustomModelDeploymentResponse: AWSDecodableShape {
+        /// The date and time when the custom model deployment was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the custom model deployment.
+        public let customModelDeploymentArn: String
+        /// The description of the custom model deployment.
+        public let description: String?
+        /// If the deployment status is FAILED, this field contains a message describing the failure reason.
+        public let failureMessage: String?
+        /// The date and time when the custom model deployment was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The Amazon Resource Name (ARN) of the custom model associated with this deployment.
+        public let modelArn: String
+        /// The name of the custom model deployment.
+        public let modelDeploymentName: String
+        /// The status of the custom model deployment. Possible values are:    CREATING - The deployment is being set up and prepared for inference.    ACTIVE - The deployment is ready and available for inference requests.    FAILED - The deployment failed to be created or became unavailable.
+        public let status: CustomModelDeploymentStatus
+
+        @inlinable
+        public init(createdAt: Date, customModelDeploymentArn: String, description: String? = nil, failureMessage: String? = nil, lastUpdatedAt: Date? = nil, modelArn: String, modelDeploymentName: String, status: CustomModelDeploymentStatus) {
+            self.createdAt = createdAt
+            self.customModelDeploymentArn = customModelDeploymentArn
+            self.description = description
+            self.failureMessage = failureMessage
+            self.lastUpdatedAt = lastUpdatedAt
+            self.modelArn = modelArn
+            self.modelDeploymentName = modelDeploymentName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case customModelDeploymentArn = "customModelDeploymentArn"
+            case description = "description"
+            case failureMessage = "failureMessage"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case modelArn = "modelArn"
+            case modelDeploymentName = "modelDeploymentName"
+            case status = "status"
         }
     }
 
@@ -5761,6 +5967,90 @@ extension Bedrock {
         }
     }
 
+    public struct ListCustomModelDeploymentsRequest: AWSEncodableShape {
+        /// Filters deployments created after the specified date and time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAfter: Date?
+        /// Filters deployments created before the specified date and time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdBefore: Date?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Filters deployments by the Amazon Resource Name (ARN) of the associated custom model.
+        public let modelArnEquals: String?
+        /// Filters deployments whose names contain the specified string.
+        public let nameContains: String?
+        /// The token for the next set of results. Use this token to retrieve additional results when the response is truncated.
+        public let nextToken: String?
+        /// The field to sort the results by. The only supported value is CreationTime.
+        public let sortBy: SortModelsBy?
+        /// The sort order for the results. Valid values are Ascending and Descending. Default is Descending.
+        public let sortOrder: SortOrder?
+        /// Filters deployments by status. Valid values are CREATING, ACTIVE, and FAILED.
+        public let statusEquals: CustomModelDeploymentStatus?
+
+        @inlinable
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, modelArnEquals: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: CustomModelDeploymentStatus? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.modelArnEquals = modelArnEquals
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._createdAfter, key: "createdAfter")
+            request.encodeQuery(self._createdBefore, key: "createdBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.modelArnEquals, key: "modelArnEquals")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.statusEquals, key: "statusEquals")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, max: 1011)
+            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, min: 20)
+            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}$")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCustomModelDeploymentsResponse: AWSDecodableShape {
+        /// A list of custom model deployment summaries.
+        public let modelDeploymentSummaries: [CustomModelDeploymentSummary]?
+        /// The token for the next set of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(modelDeploymentSummaries: [CustomModelDeploymentSummary]? = nil, nextToken: String? = nil) {
+            self.modelDeploymentSummaries = modelDeploymentSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelDeploymentSummaries = "modelDeploymentSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListCustomModelsRequest: AWSEncodableShape {
         /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
         public let baseModelArnEquals: String?
@@ -6729,7 +7019,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/([a-z0-9-]{1,63}[.][a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?|imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7926,7 +8216,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/([a-z0-9-]{1,63}[.][a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?|imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -8121,7 +8411,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/([a-z0-9-]{1,63}[.][a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?|imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported)/[a-z0-9]{12}$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router|custom-model-deployment)/[a-z0-9]{12}$)))")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

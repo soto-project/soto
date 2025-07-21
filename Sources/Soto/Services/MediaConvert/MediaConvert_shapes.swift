@@ -35,6 +35,7 @@ extension MediaConvert {
         case hev1 = "HEV1"
         case hev2 = "HEV2"
         case lc = "LC"
+        case xhe = "XHE"
         public var description: String { return self.rawValue }
     }
 
@@ -44,6 +45,12 @@ extension MediaConvert {
         case codingMode11 = "CODING_MODE_1_1"
         case codingMode20 = "CODING_MODE_2_0"
         case codingMode51 = "CODING_MODE_5_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AacLoudnessMeasurementMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anchor = "ANCHOR"
+        case program = "PROGRAM"
         public var description: String { return self.rawValue }
     }
 
@@ -761,6 +768,7 @@ extension MediaConvert {
         case eac3 = "EAC3"
         case flac = "FLAC"
         case hevc = "HEVC"
+        case jpeg2000 = "JPEG2000"
         case mjpeg = "MJPEG"
         case mp3 = "MP3"
         case mp4v = "MP4V"
@@ -1319,6 +1327,7 @@ extension MediaConvert {
     public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case matroska = "matroska"
         case mp4 = "mp4"
+        case mxf = "mxf"
         case quicktime = "quicktime"
         case webm = "webm"
         public var description: String { return self.rawValue }
@@ -2955,6 +2964,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum TamsGapHandling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fillWithBlack = "FILL_WITH_BLACK"
+        case holdLastFrame = "HOLD_LAST_FRAME"
+        case skipGaps = "SKIP_GAPS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TeletextPageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pageTypeAddlInfo = "PAGE_TYPE_ADDL_INFO"
         case pageTypeHearingImpairedSubtitle = "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
@@ -3421,6 +3437,10 @@ extension MediaConvert {
         public let codecProfile: AacCodecProfile?
         /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
         public let codingMode: AacCodingMode?
+        /// Choose the loudness measurement mode for your audio content. For music or advertisements: We recommend that you keep the default value, Program. For speech or other content: We recommend that you choose Anchor. When you do, MediaConvert optimizes the loudness of your output for clarify by applying speech gates.
+        public let loudnessMeasurementMode: AacLoudnessMeasurementMode?
+        /// Specify the RAP (Random Access Point) interval for your xHE-AAC audio output. A RAP allows a decoder to decode audio data mid-stream, without the need to reference previous audio frames, and perform adaptive audio bitrate switching. To specify the RAP interval: Enter an integer from 2000 to 30000, in milliseconds. Smaller values allow for better seeking and more frequent stream switching, while large values improve compression efficiency. To have MediaConvert automatically determine the RAP interval: Leave blank.
+        public let rapInterval: Int?
         /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
         public let rateControlMode: AacRateControlMode?
         /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an output, you must choose "No container" for the output container.
@@ -3429,27 +3449,36 @@ extension MediaConvert {
         public let sampleRate: Int?
         /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport Stream containers.
         public let specification: AacSpecification?
+        /// Specify the xHE-AAC loudness target. Enter an integer from 6 to 16, representing "loudness units". For more information, see the following specification: Supplementary information for R 128 EBU Tech 3342-2023.
+        public let targetLoudnessRange: Int?
         /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of approximate VBR bitrates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
         public let vbrQuality: AacVbrQuality?
 
         @inlinable
-        public init(audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix? = nil, bitrate: Int? = nil, codecProfile: AacCodecProfile? = nil, codingMode: AacCodingMode? = nil, rateControlMode: AacRateControlMode? = nil, rawFormat: AacRawFormat? = nil, sampleRate: Int? = nil, specification: AacSpecification? = nil, vbrQuality: AacVbrQuality? = nil) {
+        public init(audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix? = nil, bitrate: Int? = nil, codecProfile: AacCodecProfile? = nil, codingMode: AacCodingMode? = nil, loudnessMeasurementMode: AacLoudnessMeasurementMode? = nil, rapInterval: Int? = nil, rateControlMode: AacRateControlMode? = nil, rawFormat: AacRawFormat? = nil, sampleRate: Int? = nil, specification: AacSpecification? = nil, targetLoudnessRange: Int? = nil, vbrQuality: AacVbrQuality? = nil) {
             self.audioDescriptionBroadcasterMix = audioDescriptionBroadcasterMix
             self.bitrate = bitrate
             self.codecProfile = codecProfile
             self.codingMode = codingMode
+            self.loudnessMeasurementMode = loudnessMeasurementMode
+            self.rapInterval = rapInterval
             self.rateControlMode = rateControlMode
             self.rawFormat = rawFormat
             self.sampleRate = sampleRate
             self.specification = specification
+            self.targetLoudnessRange = targetLoudnessRange
             self.vbrQuality = vbrQuality
         }
 
         public func validate(name: String) throws {
             try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1024000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 6000)
+            try self.validate(self.rapInterval, name: "rapInterval", parent: name, max: 30000)
+            try self.validate(self.rapInterval, name: "rapInterval", parent: name, min: 2000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 96000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
+            try self.validate(self.targetLoudnessRange, name: "targetLoudnessRange", parent: name, max: 16)
+            try self.validate(self.targetLoudnessRange, name: "targetLoudnessRange", parent: name, min: 6)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3457,10 +3486,13 @@ extension MediaConvert {
             case bitrate = "bitrate"
             case codecProfile = "codecProfile"
             case codingMode = "codingMode"
+            case loudnessMeasurementMode = "loudnessMeasurementMode"
+            case rapInterval = "rapInterval"
             case rateControlMode = "rateControlMode"
             case rawFormat = "rawFormat"
             case sampleRate = "sampleRate"
             case specification = "specification"
+            case targetLoudnessRange = "targetLoudnessRange"
             case vbrQuality = "vbrQuality"
         }
     }
@@ -5205,7 +5237,7 @@ extension MediaConvert {
     public struct Container: AWSDecodableShape {
         /// The total duration of your media file, in seconds.
         public let duration: Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), or WebM. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM or MXF. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public let format: Format?
         /// Details about each track (video, audio, or data) in the media file.
         public let tracks: [Track]?
@@ -6785,7 +6817,7 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 8)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
-            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 22050)
         }
 
@@ -8163,7 +8195,7 @@ extension MediaConvert {
         public let dolbyVisionMetadataXml: String?
         /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
         public let dynamicAudioSelectors: [String: DynamicAudioSelector]?
-        /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. If your input format is IMF, specify your input by providing the path to your CPL. For example, "s3://bucket/vf/cpl.xml". If the CPL is in an incomplete IMP, make sure to use *Supplemental IMPs* to specify any supplemental IMPs that contain assets referenced by the CPL.
+        /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. For standard inputs, provide the path to your S3, HTTP, or HTTPS source file. For example, s3://amzn-s3-demo-bucket/input.mp4 for an Amazon S3 input or https://example.com/input.mp4 for an HTTPS input. For TAMS inputs, specify the HTTPS endpoint of your TAMS server. For example, https://tams-server.example.com . When you do, also specify Source ID, Timerange, GAP handling, and the Authorization connection ARN under TAMS settings. (Don't include these parameters in the Input file URL.) For IMF inputs, specify your input by providing the path to your CPL. For example, s3://amzn-s3-demo-bucket/vf/cpl.xml . If the CPL is in an incomplete IMP, make sure to use Supplemental IMPsto specify any supplemental IMPs that contain assets referenced by the CPL.
         public let fileInput: String?
         /// Specify whether to apply input filtering to improve the video quality of your input. To apply filtering depending on your input type and quality: Choose Auto. To apply no filtering: Choose Disable. To apply filtering regardless of your input type and quality: Choose Force. When you do, you must also specify a value for Filter strength.
         public let filterEnable: InputFilterEnable?
@@ -8185,6 +8217,8 @@ extension MediaConvert {
         public let psiControl: InputPsiControl?
         /// Provide a list of any necessary supplemental IMPs. You need supplemental IMPs if the CPL that you're using for your input is in an incomplete IMP. Specify either the supplemental IMP directories with a trailing slash or the ASSETMAP.xml files. For example ["s3://bucket/ov/", "s3://bucket/vf2/ASSETMAP.xml"]. You don't need to specify the IMP that contains your input CPL, because the service automatically detects it.
         public let supplementalImps: [String]?
+        /// Specify a Time Addressable Media Store (TAMS) server as an input source. TAMS is an open-source API specification that provides access to time-segmented media content. Use TAMS to retrieve specific time ranges from live or archived media streams. When you specify TAMS settings, MediaConvert connects to your TAMS server, retrieves the media segments for your specified time range, and processes them as a single input. This enables workflows like extracting clips from live streams or processing specific portions of archived content. To use TAMS, you must: 1. Have access to a TAMS-compliant server 2. Specify the server URL in the Input file URL field 3. Provide the required SourceId and Timerange parameters 4. Configure authentication, if your TAMS server requires it
+        public let tamsSettings: InputTamsSettings?
         /// Use this Timecode source setting, located under the input settings, to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded to use the timecodes in your input video. Choose Start at zero to start the first frame at zero. Choose Specified start to start the first frame at the timecode that you specify in the setting Start timecode. If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeSource: InputTimecodeSource?
         /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings, to Specified start. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
@@ -8197,7 +8231,7 @@ extension MediaConvert {
         public let videoSelector: VideoSelector?
 
         @inlinable
-        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, dynamicAudioSelectors: [String: DynamicAudioSelector]? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoGenerator: InputVideoGenerator? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
+        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, dynamicAudioSelectors: [String: DynamicAudioSelector]? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, tamsSettings: InputTamsSettings? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoGenerator: InputVideoGenerator? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
             self.advancedInputFilter = advancedInputFilter
             self.advancedInputFilterSettings = advancedInputFilterSettings
             self.audioSelectorGroups = audioSelectorGroups
@@ -8219,6 +8253,7 @@ extension MediaConvert {
             self.programNumber = programNumber
             self.psiControl = psiControl
             self.supplementalImps = supplementalImps
+            self.tamsSettings = tamsSettings
             self.timecodeSource = timecodeSource
             self.timecodeStart = timecodeStart
             self.videoGenerator = videoGenerator
@@ -8257,6 +8292,7 @@ extension MediaConvert {
             try self.supplementalImps?.forEach {
                 try validate($0, name: "supplementalImps[]", parent: name, pattern: "^s3:\\/\\/.*\\/(ASSETMAP.xml)?$")
             }
+            try self.tamsSettings?.validate(name: "\(name).tamsSettings")
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, max: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, min: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
@@ -8289,6 +8325,7 @@ extension MediaConvert {
             case programNumber = "programNumber"
             case psiControl = "psiControl"
             case supplementalImps = "supplementalImps"
+            case tamsSettings = "tamsSettings"
             case timecodeSource = "timecodeSource"
             case timecodeStart = "timecodeStart"
             case videoGenerator = "videoGenerator"
@@ -8355,6 +8392,37 @@ extension MediaConvert {
             case encryptedDecryptionKey = "encryptedDecryptionKey"
             case initializationVector = "initializationVector"
             case kmsKeyRegion = "kmsKeyRegion"
+        }
+    }
+
+    public struct InputTamsSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the ARN (Amazon Resource Name) of an EventBridge Connection to authenticate with your TAMS server. The EventBridge Connection stores your authentication credentials securely. MediaConvert assumes your job's IAM role to access this connection, so ensure the role has the events:RetrieveConnectionCredentials, secretsmanager:DescribeSecret, and secretsmanager:GetSecretValue permissions. Format: arn:aws:events:region:account-id:connection/connection-name/unique-id
+        public let authConnectionArn: String?
+        /// Specify how MediaConvert handles gaps between media segments in your TAMS source. Gaps can occur in live streams due to network issues or other interruptions. Choose from the following options: * Skip gaps - Default. Skip over gaps and join segments together. This creates a continuous output with no blank frames, but may cause timeline discontinuities. * Fill with black - Insert black frames to fill gaps between segments. This maintains timeline continuity but adds black frames where content is missing. * Hold last frame - Repeat the last frame before a gap until the next segment begins. This maintains visual continuity during gaps.
+        public let gapHandling: TamsGapHandling?
+        /// Specify the unique identifier for the media source in your TAMS server. MediaConvert uses this source ID to locate the appropriate flows containing the media segments you want to process. The source ID corresponds to a specific media source registered in your TAMS server. This source must be of type urn:x-nmos:format:multi, and can can reference multiple flows for audio, video, or combined audio/video content. MediaConvert automatically selects the highest quality flows available for your job. This setting is required when include TAMS settings in your job.
+        public let sourceId: String?
+        /// Specify the time range of media segments to retrieve from your TAMS server. MediaConvert fetches only the segments that fall within this range. Use the format specified by your TAMS server implementation. This must be two timestamp values with the format {sign?}{seconds}:{nanoseconds}, separated by an underscore, surrounded by either parentheses or square brackets.  Example: [15:0_35:0) This setting is required when include TAMS settings in your job.
+        public let timerange: String?
+
+        @inlinable
+        public init(authConnectionArn: String? = nil, gapHandling: TamsGapHandling? = nil, sourceId: String? = nil, timerange: String? = nil) {
+            self.authConnectionArn = authConnectionArn
+            self.gapHandling = gapHandling
+            self.sourceId = sourceId
+            self.timerange = timerange
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authConnectionArn, name: "authConnectionArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:events:[a-z0-9-]+:[0-9]{12}:connection/[a-zA-Z0-9-]+/[a-f0-9-]{36}$")
+            try self.validate(self.timerange, name: "timerange", parent: name, pattern: "^(\\[|\\()?(-?(0|[1-9][0-9]*):(0|[1-9][0-9]{0,8}))?(_(-?(0|[1-9][0-9]*):(0|[1-9][0-9]{0,8}))?)?(\\]|\\))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authConnectionArn = "authConnectionArn"
+            case gapHandling = "gapHandling"
+            case sourceId = "sourceId"
+            case timerange = "timerange"
         }
     }
 
@@ -12430,7 +12498,7 @@ extension MediaConvert {
         public let av1Settings: Av1Settings?
         /// Required when you choose AVC-Intra for your output video codec. For more information about the AVC-Intra settings, see the relevant specification. For detailed information about SD and HD in AVC-Intra, see https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in AVC-Intra, see https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
         public let avcIntraSettings: AvcIntraSettings?
-        /// Specifies the video codec. This must be equal to one of the enum values defined by the object VideoCodec. To passthrough the video stream of your input JPEG2000, VC-3, AVC-INTRA or Apple ProRes video without any video encoding: Choose Passthrough. If you have multiple input videos, note that they must have identical encoding attributes. When you choose Passthrough, your output container must be MXF or QuickTime MOV.
+        /// Specifies the video codec. This must be equal to one of the enum values defined by the object VideoCodec. To passthrough the video stream of your input without any video encoding: Choose Passthrough. More information about passthrough codec support and job settings requirements, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/video-passthrough-feature-restrictions.html
         public let codec: VideoCodec?
         /// Required when you set Codec to the value FRAME_CAPTURE.
         public let frameCaptureSettings: FrameCaptureSettings?
@@ -12668,11 +12736,11 @@ extension MediaConvert {
     }
 
     public struct VideoOverlayCrop: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the height of the video overlay cropping rectangle. To use the same height as your overlay input video: Keep blank, or enter 0. To specify a different height for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels high. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 108 pixels high.
+        /// Specify the height of the video overlay cropping rectangle. To use the same height as your overlay input video: Keep blank, or enter 0. To specify a different height for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will be 100 pixels high. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 108 pixels high.
         public let height: Int?
         /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
         public let unit: VideoOverlayUnit?
-        /// Specify the width of the video overlay cropping rectangle. To use the same width as your overlay input video: Keep blank, or enter 0. To specify a different width for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels wide. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 192 pixels wide.
+        /// Specify the width of the video overlay cropping rectangle. To use the same width as your overlay input video: Keep blank, or enter 0. To specify a different width for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will be 100 pixels wide. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 192 pixels wide.
         public let width: Int?
         /// Specify the distance between the cropping rectangle and the left edge of your overlay video's frame. To position the cropping rectangle along the left edge: Keep blank, or enter 0. To position the cropping rectangle to the right, relative to the left edge of your overlay video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, the cropping rectangle will be positioned 10 pixels from the left edge of the overlay video's frame. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be positioned 192 pixels from the left edge of the overlay video's frame.
         public let x: Int?

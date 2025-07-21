@@ -412,7 +412,7 @@ public struct IoTWireless: AWSService {
     /// Parameters:
     ///   - clientRequestToken: Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
     ///   - loRaWAN: The device profile information to use to create the device profile.
-    ///   - name: The name of the new resource.
+    ///   - name: The name of the new resource.  The following special characters aren't accepted: <>^#~$
     ///   - sidewalk: The Sidewalk-related information for creating the Sidewalk device profile.
     ///   - tags: The tags to attach to the new device profile. Tags are metadata that you can use to manage a resource.
     ///   - logger: Logger use during operation
@@ -603,7 +603,7 @@ public struct IoTWireless: AWSService {
     /// Parameters:
     ///   - clientRequestToken: Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
     ///   - loRaWAN: The service profile information to use to create the service profile.
-    ///   - name: The name of the new resource.
+    ///   - name: The name of the new resource.  The following special characters aren't accepted: <>^#~$
     ///   - tags: The tags to attach to the new service profile. Tags are metadata that you can use to manage a resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -643,7 +643,7 @@ public struct IoTWireless: AWSService {
     ///   - description: The description of the new resource.
     ///   - destinationName: The name of the destination to assign to the new wireless device.
     ///   - loRaWAN: The device configuration information to use to create the wireless device.
-    ///   - name: The name of the new resource.
+    ///   - name: The name of the new resource.  The following special characters aren't accepted: <>^#~$
     ///   - positioning: FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     ///   - sidewalk: The device configuration information to use to create the Sidewalk device.
     ///   - tags: The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource.
@@ -695,7 +695,7 @@ public struct IoTWireless: AWSService {
     ///   - clientRequestToken: Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
     ///   - description: The description of the new resource.
     ///   - loRaWAN: The gateway configuration information to use to create the wireless gateway.
-    ///   - name: The name of the new resource.
+    ///   - name: The name of the new resource.  The following special characters aren't accepted: <>^#~$
     ///   - tags: The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3810,7 +3810,7 @@ public struct IoTWireless: AWSService {
     ///   - destinationName: The name of the new destination for the device.
     ///   - id: The ID of the resource to update.
     ///   - loRaWAN: The updated wireless device's configuration.
-    ///   - name: The new name of the resource.
+    ///   - name: The new name of the resource.  The following special characters aren't accepted: <>^#~$
     ///   - positioning: FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3886,7 +3886,7 @@ public struct IoTWireless: AWSService {
     ///   - id: The ID of the resource to update.
     ///   - joinEuiFilters: 
     ///   - maxEirp: The MaxEIRP value.
-    ///   - name: The new name of the resource.
+    ///   - name: The new name of the resource.  The following special characters aren't accepted: <>^#~$
     ///   - netIdFilters: 
     ///   - logger: Logger use during operation
     @inlinable

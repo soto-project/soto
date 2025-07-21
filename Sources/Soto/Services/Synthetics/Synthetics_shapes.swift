@@ -74,6 +74,11 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
+    public enum DependencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lambdaLayer = "LambdaLayer"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
@@ -278,6 +283,8 @@ extension Synthetics {
     }
 
     public struct CanaryCodeInput: AWSEncodableShape {
+        /// A list of dependencies that should be used for running this canary. Specify the dependencies as a key-value pair, where the key is the type of dependency and the value is the dependency reference.
+        public let dependencies: [Dependency]?
         /// The entry point to use for the source code when running the canary. For canaries that use the  syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4,  the handler must be specified as  fileName.handler. For  syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as   fileName.functionName , or you can specify a folder where canary scripts reside as
         ///  folder/fileName.functionName .
         public let handler: String
@@ -291,7 +298,8 @@ extension Synthetics {
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(dependencies: [Dependency]? = nil, handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: AWSBase64Data? = nil) {
+            self.dependencies = dependencies
             self.handler = handler
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -300,6 +308,10 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.dependencies?.forEach {
+                try $0.validate(name: "\(name).dependencies[]")
+            }
+            try self.validate(self.dependencies, name: "dependencies", parent: name, max: 1)
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, min: 1)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "^([0-9a-zA-Z_-]+(\\/|\\.))*[0-9A-Za-z_\\\\-]+(\\.|::)[A-Za-z_][A-Za-z0-9_]*$")
@@ -314,6 +326,7 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dependencies = "Dependencies"
             case handler = "Handler"
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
@@ -323,18 +336,22 @@ extension Synthetics {
     }
 
     public struct CanaryCodeOutput: AWSDecodableShape {
+        /// A list of dependencies that are used for running this canary. The dependencies are specified as a key-value pair, where the key is the type of dependency and the value is the dependency reference.
+        public let dependencies: [Dependency]?
         /// The entry point to use for the source code when running the canary.
         public let handler: String?
         /// The ARN of the Lambda layer where Synthetics stores the canary script code.
         public let sourceLocationArn: String?
 
         @inlinable
-        public init(handler: String? = nil, sourceLocationArn: String? = nil) {
+        public init(dependencies: [Dependency]? = nil, handler: String? = nil, sourceLocationArn: String? = nil) {
+            self.dependencies = dependencies
             self.handler = handler
             self.sourceLocationArn = sourceLocationArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dependencies = "Dependencies"
             case handler = "Handler"
             case sourceLocationArn = "SourceLocationArn"
         }
@@ -844,6 +861,29 @@ extension Synthetics {
 
     public struct DeleteGroupResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Dependency: AWSEncodableShape & AWSDecodableShape {
+        /// The dependency reference. For Lambda layers, this is the ARN of the Lambda layer. For more information  about Lambda ARN format, see Lambda.
+        public let reference: String
+        /// The type of dependency. Valid value is LambdaLayer.
+        public let type: DependencyType?
+
+        @inlinable
+        public init(reference: String, type: DependencyType? = nil) {
+            self.reference = reference
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reference, name: "reference", parent: name, max: 1024)
+            try self.validate(self.reference, name: "reference", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reference = "Reference"
+            case type = "Type"
+        }
     }
 
     public struct DescribeCanariesLastRunRequest: AWSEncodableShape {

@@ -70,6 +70,8 @@ let package = Package(
         .library(name: "SotoBatch", targets: ["SotoBatch"]),
         .library(name: "SotoBedrock", targets: ["SotoBedrock"]),
         .library(name: "SotoBedrockAgent", targets: ["SotoBedrockAgent"]),
+        .library(name: "SotoBedrockAgentCore", targets: ["SotoBedrockAgentCore"]),
+        .library(name: "SotoBedrockAgentCoreControl", targets: ["SotoBedrockAgentCoreControl"]),
         .library(name: "SotoBedrockAgentRuntime", targets: ["SotoBedrockAgentRuntime"]),
         .library(name: "SotoBedrockDataAutomation", targets: ["SotoBedrockDataAutomation"]),
         .library(name: "SotoBedrockDataAutomationRuntime", targets: ["SotoBedrockDataAutomationRuntime"]),
@@ -364,6 +366,7 @@ let package = Package(
         .library(name: "SotoS3Control", targets: ["SotoS3Control"]),
         .library(name: "SotoS3Outposts", targets: ["SotoS3Outposts"]),
         .library(name: "SotoS3Tables", targets: ["SotoS3Tables"]),
+        .library(name: "SotoS3Vectors", targets: ["SotoS3Vectors"]),
         .library(name: "SotoSES", targets: ["SotoSES"]),
         .library(name: "SotoSESv2", targets: ["SotoSESv2"]),
         .library(name: "SotoSFN", targets: ["SotoSFN"]),
@@ -693,6 +696,18 @@ let package = Package(
             name: "SotoBedrockAgent",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/BedrockAgent",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoBedrockAgentCore",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/BedrockAgentCore",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoBedrockAgentCoreControl",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/BedrockAgentCoreControl",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -2457,6 +2472,12 @@ let package = Package(
             name: "SotoS3Tables",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/S3Tables",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoS3Vectors",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/S3Vectors",
             swiftSettings: swiftSettings
         ),
         .target(

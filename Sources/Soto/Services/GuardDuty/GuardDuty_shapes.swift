@@ -1784,6 +1784,8 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat?
         /// The URI of the file that contains the IPSet.
@@ -1794,10 +1796,11 @@ extension GuardDuty {
         public let tags: [String: String]?
 
         @inlinable
-        public init(activate: Bool? = nil, clientToken: String? = CreateIPSetRequest.idempotencyToken(), detectorId: String, format: IpSetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(activate: Bool? = nil, clientToken: String? = CreateIPSetRequest.idempotencyToken(), detectorId: String, expectedBucketOwner: String? = nil, format: IpSetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
             self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
             self.format = format
             self.location = location
             self.name = name
@@ -1810,6 +1813,7 @@ extension GuardDuty {
             try container.encodeIfPresent(self.activate, forKey: .activate)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.format, forKey: .format)
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -1820,6 +1824,8 @@ extension GuardDuty {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 300)
@@ -1837,6 +1843,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
             case clientToken = "clientToken"
+            case expectedBucketOwner = "expectedBucketOwner"
             case format = "format"
             case location = "location"
             case name = "name"
@@ -2106,6 +2113,8 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
         /// The format of the file that contains the ThreatIntelSet.
         public let format: ThreatIntelSetFormat?
         /// The URI of the file that contains the ThreatIntelSet.
@@ -2116,10 +2125,11 @@ extension GuardDuty {
         public let tags: [String: String]?
 
         @inlinable
-        public init(activate: Bool? = nil, clientToken: String? = CreateThreatIntelSetRequest.idempotencyToken(), detectorId: String, format: ThreatIntelSetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(activate: Bool? = nil, clientToken: String? = CreateThreatIntelSetRequest.idempotencyToken(), detectorId: String, expectedBucketOwner: String? = nil, format: ThreatIntelSetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
             self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
             self.format = format
             self.location = location
             self.name = name
@@ -2132,6 +2142,7 @@ extension GuardDuty {
             try container.encodeIfPresent(self.activate, forKey: .activate)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.format, forKey: .format)
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -2142,6 +2153,8 @@ extension GuardDuty {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 300)
@@ -2159,6 +2172,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
             case clientToken = "clientToken"
+            case expectedBucketOwner = "expectedBucketOwner"
             case format = "format"
             case location = "location"
             case name = "name"
@@ -4179,6 +4193,8 @@ extension GuardDuty {
     }
 
     public struct GetIPSetResponse: AWSDecodableShape {
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears  in the response only if it was provided during IPSet creation or update.
+        public let expectedBucketOwner: String?
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat?
         /// The URI of the file that contains the IPSet.
@@ -4191,7 +4207,8 @@ extension GuardDuty {
         public let tags: [String: String]?
 
         @inlinable
-        public init(format: IpSetFormat? = nil, location: String? = nil, name: String? = nil, status: IpSetStatus? = nil, tags: [String: String]? = nil) {
+        public init(expectedBucketOwner: String? = nil, format: IpSetFormat? = nil, location: String? = nil, name: String? = nil, status: IpSetStatus? = nil, tags: [String: String]? = nil) {
+            self.expectedBucketOwner = expectedBucketOwner
             self.format = format
             self.location = location
             self.name = name
@@ -4200,6 +4217,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expectedBucketOwner = "expectedBucketOwner"
             case format = "format"
             case location = "location"
             case name = "name"
@@ -4571,6 +4589,8 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetResponse: AWSDecodableShape {
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.  This field appears in the response only if it was provided during ThreatIntelSet creation or update.
+        public let expectedBucketOwner: String?
         /// The format of the threatIntelSet.
         public let format: ThreatIntelSetFormat?
         /// The URI of the file that contains the ThreatIntelSet.
@@ -4583,7 +4603,8 @@ extension GuardDuty {
         public let tags: [String: String]?
 
         @inlinable
-        public init(format: ThreatIntelSetFormat? = nil, location: String? = nil, name: String? = nil, status: ThreatIntelSetStatus? = nil, tags: [String: String]? = nil) {
+        public init(expectedBucketOwner: String? = nil, format: ThreatIntelSetFormat? = nil, location: String? = nil, name: String? = nil, status: ThreatIntelSetStatus? = nil, tags: [String: String]? = nil) {
+            self.expectedBucketOwner = expectedBucketOwner
             self.format = format
             self.location = location
             self.name = name
@@ -4592,6 +4613,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expectedBucketOwner = "expectedBucketOwner"
             case format = "format"
             case location = "location"
             case name = "name"
@@ -9025,6 +9047,8 @@ extension GuardDuty {
         /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
         /// The unique ID that specifies the IPSet that you want to update.
         public let ipSetId: String
         /// The updated URI of the file that contains the IPSet.
@@ -9033,9 +9057,10 @@ extension GuardDuty {
         public let name: String?
 
         @inlinable
-        public init(activate: Bool? = nil, detectorId: String, ipSetId: String, location: String? = nil, name: String? = nil) {
+        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, ipSetId: String, location: String? = nil, name: String? = nil) {
             self.activate = activate
             self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
             self.ipSetId = ipSetId
             self.location = location
             self.name = name
@@ -9046,6 +9071,7 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
             request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             request.encodePath(self.ipSetId, key: "ipSetId")
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -9054,6 +9080,8 @@ extension GuardDuty {
         public func validate(name: String) throws {
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 300)
@@ -9062,6 +9090,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
+            case expectedBucketOwner = "expectedBucketOwner"
             case location = "location"
             case name = "name"
         }
@@ -9357,6 +9386,8 @@ extension GuardDuty {
         /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
         /// The updated URI of the file that contains the ThreateIntelSet.
         public let location: String?
         /// The unique ID that specifies the ThreatIntelSet that you want to update.
@@ -9365,9 +9396,10 @@ extension GuardDuty {
         public let threatIntelSetId: String
 
         @inlinable
-        public init(activate: Bool? = nil, detectorId: String, location: String? = nil, name: String? = nil, threatIntelSetId: String) {
+        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, location: String? = nil, name: String? = nil, threatIntelSetId: String) {
             self.activate = activate
             self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
             self.location = location
             self.name = name
             self.threatIntelSetId = threatIntelSetId
@@ -9378,6 +9410,7 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
             request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
             request.encodePath(self.threatIntelSetId, key: "threatIntelSetId")
@@ -9386,6 +9419,8 @@ extension GuardDuty {
         public func validate(name: String) throws {
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 300)
@@ -9394,6 +9429,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
+            case expectedBucketOwner = "expectedBucketOwner"
             case location = "location"
             case name = "name"
         }

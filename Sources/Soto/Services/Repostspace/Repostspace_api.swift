@@ -78,7 +78,45 @@ public struct Repostspace: AWSService {
 
     // MARK: API Calls
 
-    /// Add role to multiple users or groups in a private re:Post.
+    /// Add role to multiple users or groups in a private re:Post channel.
+    @Sendable
+    @inlinable
+    public func batchAddChannelRoleToAccessors(_ input: BatchAddChannelRoleToAccessorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAddChannelRoleToAccessorsOutput {
+        try await self.client.execute(
+            operation: "BatchAddChannelRoleToAccessors", 
+            path: "/spaces/{spaceId}/channels/{channelId}/roles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Add role to multiple users or groups in a private re:Post channel.
+    ///
+    /// Parameters:
+    ///   - accessorIds: The user or group identifiers to add the role to.
+    ///   - channelId: The unique ID of the private re:Post channel.
+    ///   - channelRole: The channel role to add to the users or groups.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchAddChannelRoleToAccessors(
+        accessorIds: [String],
+        channelId: String,
+        channelRole: ChannelRole,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchAddChannelRoleToAccessorsOutput {
+        let input = BatchAddChannelRoleToAccessorsInput(
+            accessorIds: accessorIds, 
+            channelId: channelId, 
+            channelRole: channelRole, 
+            spaceId: spaceId
+        )
+        return try await self.batchAddChannelRoleToAccessors(input, logger: logger)
+    }
+
+    /// Add a role to multiple users or groups in a private re:Post.
     @Sendable
     @inlinable
     public func batchAddRole(_ input: BatchAddRoleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAddRoleOutput {
@@ -91,7 +129,7 @@ public struct Repostspace: AWSService {
             logger: logger
         )
     }
-    /// Add role to multiple users or groups in a private re:Post.
+    /// Add a role to multiple users or groups in a private re:Post.
     ///
     /// Parameters:
     ///   - accessorIds: The user or group accessor identifiers to add the role to.
@@ -113,7 +151,45 @@ public struct Repostspace: AWSService {
         return try await self.batchAddRole(input, logger: logger)
     }
 
-    /// Remove role from multiple users or groups in a private re:Post.
+    /// Remove a role from multiple users or groups in a private re:Post channel.
+    @Sendable
+    @inlinable
+    public func batchRemoveChannelRoleFromAccessors(_ input: BatchRemoveChannelRoleFromAccessorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchRemoveChannelRoleFromAccessorsOutput {
+        try await self.client.execute(
+            operation: "BatchRemoveChannelRoleFromAccessors", 
+            path: "/spaces/{spaceId}/channels/{channelId}/roles", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Remove a role from multiple users or groups in a private re:Post channel.
+    ///
+    /// Parameters:
+    ///   - accessorIds: The users or groups identifiers to remove the role from.
+    ///   - channelId: The unique ID of the private re:Post channel.
+    ///   - channelRole: The channel role to remove from the users or groups.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchRemoveChannelRoleFromAccessors(
+        accessorIds: [String],
+        channelId: String,
+        channelRole: ChannelRole,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchRemoveChannelRoleFromAccessorsOutput {
+        let input = BatchRemoveChannelRoleFromAccessorsInput(
+            accessorIds: accessorIds, 
+            channelId: channelId, 
+            channelRole: channelRole, 
+            spaceId: spaceId
+        )
+        return try await self.batchRemoveChannelRoleFromAccessors(input, logger: logger)
+    }
+
+    /// Remove a role from multiple users or groups in a private re:Post.
     @Sendable
     @inlinable
     public func batchRemoveRole(_ input: BatchRemoveRoleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchRemoveRoleOutput {
@@ -126,7 +202,7 @@ public struct Repostspace: AWSService {
             logger: logger
         )
     }
-    /// Remove role from multiple users or groups in a private re:Post.
+    /// Remove a role from multiple users or groups in a private re:Post.
     ///
     /// Parameters:
     ///   - accessorIds: The user or group accessor identifiers to remove the role from.
@@ -146,6 +222,41 @@ public struct Repostspace: AWSService {
             spaceId: spaceId
         )
         return try await self.batchRemoveRole(input, logger: logger)
+    }
+
+    /// Creates a channel in an AWS re:Post Private private re:Post.
+    @Sendable
+    @inlinable
+    public func createChannel(_ input: CreateChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelOutput {
+        try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/spaces/{spaceId}/channels", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a channel in an AWS re:Post Private private re:Post.
+    ///
+    /// Parameters:
+    ///   - channelDescription: A description for the channel. This is used only to help you identify this channel.
+    ///   - channelName: The name for the channel. This must be unique per private re:Post.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createChannel(
+        channelDescription: String? = nil,
+        channelName: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateChannelOutput {
+        let input = CreateChannelInput(
+            channelDescription: channelDescription, 
+            channelName: channelName, 
+            spaceId: spaceId
+        )
+        return try await self.createChannel(input, logger: logger)
     }
 
     /// Creates an AWS re:Post Private private re:Post.
@@ -168,6 +279,7 @@ public struct Repostspace: AWSService {
     ///   - name: The name for the private re:Post. This must be unique in your account.
     ///   - roleArn: The IAM role that grants permissions to the private re:Post to convert unanswered questions into AWS support tickets.
     ///   - subdomain: The subdomain that you use to access your AWS re:Post Private private re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use.
+    ///   - supportedEmailDomains: 
     ///   - tags: The list of tags associated with the private re:Post.
     ///   - tier: The pricing tier for the private re:Post.
     ///   - userKMSKey: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't provide a key, your data is encrypted by default with a key that AWS owns and manages for you.
@@ -178,6 +290,7 @@ public struct Repostspace: AWSService {
         name: String,
         roleArn: String? = nil,
         subdomain: String,
+        supportedEmailDomains: SupportedEmailDomainsParameters? = nil,
         tags: [String: String]? = nil,
         tier: TierLevel,
         userKMSKey: String? = nil,
@@ -188,6 +301,7 @@ public struct Repostspace: AWSService {
             name: name, 
             roleArn: roleArn, 
             subdomain: subdomain, 
+            supportedEmailDomains: supportedEmailDomains, 
             tags: tags, 
             tier: tier, 
             userKMSKey: userKMSKey
@@ -256,6 +370,38 @@ public struct Repostspace: AWSService {
         return try await self.deregisterAdmin(input, logger: logger)
     }
 
+    /// Displays information about a channel in a private re:Post.
+    @Sendable
+    @inlinable
+    public func getChannel(_ input: GetChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelOutput {
+        try await self.client.execute(
+            operation: "GetChannel", 
+            path: "/spaces/{spaceId}/channels/{channelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Displays information about a channel in a private re:Post.
+    ///
+    /// Parameters:
+    ///   - channelId: The unique ID of the private re:Post channel.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getChannel(
+        channelId: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetChannelOutput {
+        let input = GetChannelInput(
+            channelId: channelId, 
+            spaceId: spaceId
+        )
+        return try await self.getChannel(input, logger: logger)
+    }
+
     /// Displays information about the AWS re:Post Private private re:Post.
     @Sendable
     @inlinable
@@ -283,6 +429,41 @@ public struct Repostspace: AWSService {
             spaceId: spaceId
         )
         return try await self.getSpace(input, logger: logger)
+    }
+
+    /// Returns the list of channel within a private re:Post with some information about each channel.
+    @Sendable
+    @inlinable
+    public func listChannels(_ input: ListChannelsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsOutput {
+        try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/spaces/{spaceId}/channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the list of channel within a private re:Post with some information about each channel.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of channels to include in the results.
+    ///   - nextToken: The token for the next set of channel to return. You receive this token from a previous ListChannels operation.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listChannels(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListChannelsOutput {
+        let input = ListChannelsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            spaceId: spaceId
+        )
+        return try await self.listChannels(input, logger: logger)
     }
 
     /// Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
@@ -416,7 +597,7 @@ public struct Repostspace: AWSService {
         return try await self.sendInvites(input, logger: logger)
     }
 
-    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post.  If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -429,7 +610,7 @@ public struct Repostspace: AWSService {
             logger: logger
         )
     }
-    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post.  If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
     /// Parameters:
     ///   - resourceArn: The ARN of the resource that the tag is associated with.
@@ -480,6 +661,44 @@ public struct Repostspace: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Modifies an existing channel.
+    @Sendable
+    @inlinable
+    public func updateChannel(_ input: UpdateChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelOutput {
+        try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/spaces/{spaceId}/channels/{channelId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies an existing channel.
+    ///
+    /// Parameters:
+    ///   - channelDescription: A description for the channel. This is used only to help you identify this channel.
+    ///   - channelId: The unique ID of the private re:Post channel.
+    ///   - channelName: The name for the channel. This must be unique per private re:Post.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateChannel(
+        channelDescription: String? = nil,
+        channelId: String,
+        channelName: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateChannelOutput {
+        let input = UpdateChannelInput(
+            channelDescription: channelDescription, 
+            channelId: channelId, 
+            channelName: channelName, 
+            spaceId: spaceId
+        )
+        return try await self.updateChannel(input, logger: logger)
+    }
+
     /// Modifies an existing AWS re:Post Private private re:Post.
     @Sendable
     @inlinable
@@ -499,6 +718,7 @@ public struct Repostspace: AWSService {
     ///   - description: A description for the private re:Post. This is used only to help you identify this private re:Post.
     ///   - roleArn: The IAM role that grants permissions to the private re:Post to convert unanswered questions into AWS support tickets.
     ///   - spaceId: The unique ID of this private re:Post.
+    ///   - supportedEmailDomains: 
     ///   - tier: The pricing tier of this private re:Post.
     ///   - logger: Logger use during operation
     @inlinable
@@ -506,6 +726,7 @@ public struct Repostspace: AWSService {
         description: String? = nil,
         roleArn: String? = nil,
         spaceId: String,
+        supportedEmailDomains: SupportedEmailDomainsParameters? = nil,
         tier: TierLevel? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -513,6 +734,7 @@ public struct Repostspace: AWSService {
             description: description, 
             roleArn: roleArn, 
             spaceId: spaceId, 
+            supportedEmailDomains: supportedEmailDomains, 
             tier: tier
         )
         return try await self.updateSpace(input, logger: logger)
@@ -532,6 +754,43 @@ extension Repostspace {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Repostspace {
+    /// Return PaginatorSequence for operation ``listChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChannelsPaginator(
+        _ input: ListChannelsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+        return .init(
+            input: input,
+            command: self.listChannels,
+            inputKey: \ListChannelsInput.nextToken,
+            outputKey: \ListChannelsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of channels to include in the results.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChannelsPaginator(
+        maxResults: Int? = nil,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+        let input = ListChannelsInput(
+            maxResults: maxResults, 
+            spaceId: spaceId
+        )
+        return self.listChannelsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSpaces(_:logger:)``.
     ///
     /// - Parameters:
@@ -567,6 +826,17 @@ extension Repostspace {
     }
 }
 
+extension Repostspace.ListChannelsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Repostspace.ListChannelsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            spaceId: self.spaceId
+        )
+    }
+}
+
 extension Repostspace.ListSpacesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Repostspace.ListSpacesInput {
@@ -574,5 +844,170 @@ extension Repostspace.ListSpacesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Repostspace {
+    /// Waiter for operation ``getChannel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilChannelCreated(
+        _ input: GetChannelInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetChannelInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("channelStatus", expected: "CREATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("channelStatus", expected: "CREATE_FAILED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("channelStatus", expected: "CREATING")),
+            ],
+            command: self.getChannel
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getChannel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - channelId: The unique ID of the private re:Post channel.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilChannelCreated(
+        channelId: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetChannelInput(
+            channelId: channelId, 
+            spaceId: spaceId
+        )
+        try await self.waitUntilChannelCreated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getChannel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilChannelDeleted(
+        _ input: GetChannelInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetChannelInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .success, matcher: try! JMESPathMatcher("channelStatus", expected: "DELETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("channelStatus", expected: "DELETE_FAILED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("channelStatus", expected: "DELETING")),
+            ],
+            command: self.getChannel
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getChannel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - channelId: The unique ID of the private re:Post channel.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilChannelDeleted(
+        channelId: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetChannelInput(
+            channelId: channelId, 
+            spaceId: spaceId
+        )
+        try await self.waitUntilChannelDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSpace(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSpaceCreated(
+        _ input: GetSpaceInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSpaceInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "CREATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "CREATE_FAILED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "CREATING")),
+            ],
+            minDelayTime: .seconds(300),
+            maxDelayTime: .seconds(7200),
+            command: self.getSpace
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSpace(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - spaceId: The ID of the private re:Post.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSpaceCreated(
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSpaceInput(
+            spaceId: spaceId
+        )
+        try await self.waitUntilSpaceCreated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSpace(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSpaceDeleted(
+        _ input: GetSpaceInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSpaceInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "DELETING")),
+            ],
+            minDelayTime: .seconds(300),
+            maxDelayTime: .seconds(7200),
+            command: self.getSpace
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSpace(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - spaceId: The ID of the private re:Post.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSpaceDeleted(
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSpaceInput(
+            spaceId: spaceId
+        )
+        try await self.waitUntilSpaceDeleted(input, logger: logger)
     }
 }

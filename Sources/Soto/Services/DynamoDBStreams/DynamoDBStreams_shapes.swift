@@ -38,6 +38,11 @@ extension DynamoDBStreams {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShardFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case childShards = "CHILD_SHARDS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
         case atSequenceNumber = "AT_SEQUENCE_NUMBER"
@@ -148,13 +153,16 @@ extension DynamoDBStreams {
         public let exclusiveStartShardId: String?
         /// The maximum number of shard objects to return. The upper limit is 100.
         public let limit: Int?
+        /// This optional field contains the filter definition for the DescribeStream API.
+        public let shardFilter: ShardFilter?
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
 
         @inlinable
-        public init(exclusiveStartShardId: String? = nil, limit: Int? = nil, streamArn: String) {
+        public init(exclusiveStartShardId: String? = nil, limit: Int? = nil, shardFilter: ShardFilter? = nil, streamArn: String) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.limit = limit
+            self.shardFilter = shardFilter
             self.streamArn = streamArn
         }
 
@@ -162,6 +170,7 @@ extension DynamoDBStreams {
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, max: 65)
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, min: 28)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.shardFilter?.validate(name: "\(name).shardFilter")
             try self.validate(self.streamArn, name: "streamArn", parent: name, max: 1024)
             try self.validate(self.streamArn, name: "streamArn", parent: name, min: 37)
         }
@@ -169,6 +178,7 @@ extension DynamoDBStreams {
         private enum CodingKeys: String, CodingKey {
             case exclusiveStartShardId = "ExclusiveStartShardId"
             case limit = "Limit"
+            case shardFilter = "ShardFilter"
             case streamArn = "StreamArn"
         }
     }
@@ -441,6 +451,29 @@ extension DynamoDBStreams {
         }
     }
 
+    public struct ShardFilter: AWSEncodableShape {
+        /// Contains the shardId of the parent shard for which you are requesting child shards.  Sample request:
+        public let shardId: String?
+        /// Contains the type of filter to be applied on the DescribeStream API.  Currently, the only value this parameter accepts is CHILD_SHARDS.
+        public let type: ShardFilterType?
+
+        @inlinable
+        public init(shardId: String? = nil, type: ShardFilterType? = nil) {
+            self.shardId = shardId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.shardId, name: "shardId", parent: name, max: 65)
+            try self.validate(self.shardId, name: "shardId", parent: name, min: 28)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shardId = "ShardId"
+            case type = "Type"
+        }
+    }
+
     public struct Stream: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
@@ -510,7 +543,7 @@ extension DynamoDBStreams {
     }
 
     public struct StreamRecord: AWSDecodableShape {
-        /// The approximate date and time when the stream record was created, in UNIX epoch time format and rounded down to the closest second.
+        /// The approximate date and time when the stream record was created, in ISO 8601 format and rounded down to the closest second.
         public let approximateCreationDateTime: Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public let keys: [String: AttributeValue]?

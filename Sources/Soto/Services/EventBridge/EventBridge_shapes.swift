@@ -103,10 +103,24 @@ extension EventBridge {
         public var description: String { return self.rawValue }
     }
 
+    public enum IncludeDetail: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "FULL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Level: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case info = "INFO"
+        case off = "OFF"
+        case trace = "TRACE"
         public var description: String { return self.rawValue }
     }
 
@@ -1214,17 +1228,20 @@ extension EventBridge {
         public let eventSourceName: String?
         /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:    You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with schema discovery enabled.   To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
         public let kmsKeyIdentifier: String?
+        /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide.
+        public let logConfig: LogConfig?
         /// The name of the new event bus.  Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
         public let name: String
         /// Tags to associate with the event bus.
         public let tags: [Tag]?
 
         @inlinable
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, eventSourceName: String? = nil, kmsKeyIdentifier: String? = nil, name: String, tags: [Tag]? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, eventSourceName: String? = nil, kmsKeyIdentifier: String? = nil, logConfig: LogConfig? = nil, name: String, tags: [Tag]? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.eventSourceName = eventSourceName
             self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.logConfig = logConfig
             self.name = name
             self.tags = tags
         }
@@ -1250,6 +1267,7 @@ extension EventBridge {
             case description = "Description"
             case eventSourceName = "EventSourceName"
             case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case logConfig = "LogConfig"
             case name = "Name"
             case tags = "Tags"
         }
@@ -1263,13 +1281,16 @@ extension EventBridge {
         public let eventBusArn: String?
         /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
         public let kmsKeyIdentifier: String?
+        /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide.
+        public let logConfig: LogConfig?
 
         @inlinable
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, eventBusArn: String? = nil, kmsKeyIdentifier: String? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, eventBusArn: String? = nil, kmsKeyIdentifier: String? = nil, logConfig: LogConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.eventBusArn = eventBusArn
             self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.logConfig = logConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1277,6 +1298,7 @@ extension EventBridge {
             case description = "Description"
             case eventBusArn = "EventBusArn"
             case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case logConfig = "LogConfig"
         }
     }
 
@@ -1993,19 +2015,22 @@ extension EventBridge {
         public let kmsKeyIdentifier: String?
         /// The time the event bus was last modified.
         public let lastModifiedTime: Date?
+        /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide.
+        public let logConfig: LogConfig?
         /// The name of the event bus. Currently, this is always default.
         public let name: String?
         /// The policy that enables the external account to send events to your account.
         public let policy: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Date? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, policy: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, lastModifiedTime: Date? = nil, logConfig: LogConfig? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.lastModifiedTime = lastModifiedTime
+            self.logConfig = logConfig
             self.name = name
             self.policy = policy
         }
@@ -2017,6 +2042,7 @@ extension EventBridge {
             case description = "Description"
             case kmsKeyIdentifier = "KmsKeyIdentifier"
             case lastModifiedTime = "LastModifiedTime"
+            case logConfig = "LogConfig"
             case name = "Name"
             case policy = "Policy"
         }
@@ -3362,6 +3388,24 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case targets = "Targets"
+        }
+    }
+
+    public struct LogConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Whether EventBridge include detailed event information in the records it generates.  Detailed data can be useful for troubleshooting and debugging. This information includes details of the event itself, as well as target details. For more information, see Including detail data in event bus logs in the EventBridge User Guide.
+        public let includeDetail: IncludeDetail?
+        /// The level of logging detail to include. This applies to all log destinations for the event bus. For more information, see Specifying event bus log level in the EventBridge User Guide.
+        public let level: Level?
+
+        @inlinable
+        public init(includeDetail: IncludeDetail? = nil, level: Level? = nil) {
+            self.includeDetail = includeDetail
+            self.level = level
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeDetail = "IncludeDetail"
+            case level = "Level"
         }
     }
 
@@ -5155,14 +5199,17 @@ extension EventBridge {
         public let description: String?
         /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:    You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with schema discovery enabled.   To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
         public let kmsKeyIdentifier: String?
+        /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide.
+        public let logConfig: LogConfig?
         /// The name of the event bus.
         public let name: String?
 
         @inlinable
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, name: String? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, logConfig: LogConfig? = nil, name: String? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.logConfig = logConfig
             self.name = name
         }
 
@@ -5180,6 +5227,7 @@ extension EventBridge {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case logConfig = "LogConfig"
             case name = "Name"
         }
     }
@@ -5192,15 +5240,18 @@ extension EventBridge {
         public let description: String?
         /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
         public let kmsKeyIdentifier: String?
+        /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide.
+        public let logConfig: LogConfig?
         /// The event bus name.
         public let name: String?
 
         @inlinable
-        public init(arn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, logConfig: LogConfig? = nil, name: String? = nil) {
             self.arn = arn
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.logConfig = logConfig
             self.name = name
         }
 
@@ -5209,6 +5260,7 @@ extension EventBridge {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case logConfig = "LogConfig"
             case name = "Name"
         }
     }
