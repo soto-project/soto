@@ -2960,7 +2960,6 @@ let package = Package(
                 "SotoCloudTrail",
                 "SotoDynamoDB",
                 "SotoEC2",
-                "SotoGlacier",
                 "SotoIAM",
                 "SotoLambda",
                 "SotoRoute53",

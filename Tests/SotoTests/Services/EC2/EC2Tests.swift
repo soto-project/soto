@@ -21,10 +21,10 @@ import XCTest
 // testing EC2 service
 
 class EC2Tests: XCTestCase {
-    static var client: AWSClient!
-    static var ec2: EC2!
+    var client: AWSClient!
+    var ec2: EC2!
 
-    override class func setUp() {
+    override func setUp() {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -33,13 +33,13 @@ class EC2Tests: XCTestCase {
 
         self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         self.ec2 = EC2(
-            client: EC2Tests.client,
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
@@ -50,7 +50,7 @@ class EC2Tests: XCTestCase {
                 EC2.Filter(name: "state", values: ["available"]),
             ])
         )
-        _ = try await Self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
+        _ = try await self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
     }
 
     func testDescribeInstanceTypes() async throws {
@@ -70,7 +70,7 @@ class EC2Tests: XCTestCase {
     }
 
     func testDualStack() async throws {
-        let ec2 = Self.ec2.with(region: .euwest1, options: .useDualStackEndpoint)
+        let ec2 = self.ec2.with(region: .euwest1, options: .useDualStackEndpoint)
         let imageRequest = EC2.DescribeImagesRequest(
             filters: .init([
                 EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]),
@@ -84,7 +84,7 @@ class EC2Tests: XCTestCase {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
         await XCTAsyncExpectError(AWSResponseError(errorCode: "InvalidInstanceID.Malformed")) {
-            _ = try await Self.ec2.getConsoleOutput(.init(instanceId: "not-an-instance"))
+            _ = try await self.ec2.getConsoleOutput(.init(instanceId: "not-an-instance"))
         }
     }
 }

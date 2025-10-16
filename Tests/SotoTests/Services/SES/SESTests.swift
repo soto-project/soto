@@ -18,10 +18,10 @@ import XCTest
 // testing json service
 
 class SESTests: XCTestCase {
-    static var client: AWSClient!
-    static var ses: SES!
+    var client: AWSClient!
+    var ses: SES!
 
-    override class func setUp() {
+    override func setUp() {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -36,20 +36,20 @@ class SESTests: XCTestCase {
         )
     }
 
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     // Tests query protocol requests with no body
     func testGetAccountSendingEnabled() async throws {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        _ = try await Self.ses.getAccountSendingEnabled()
+        _ = try await self.ses.getAccountSendingEnabled()
     }
 
     /* func testSESIdentityExistsWaiter() {
-         let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
+         let response = self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
              .flatMap{ _ in
-                 return Self.ses.waitUntilIdentityExists(.init(identities: ["admin@opticalaberration.com"]))
+                 return self.ses.waitUntilIdentityExists(.init(identities: ["admin@opticalaberration.com"]))
              }
          XCTAssertNoThrow(try response.wait())
      } */
@@ -72,7 +72,7 @@ class SESTests: XCTestCase {
         let testMiddleware = TestRequestMiddleware { request in
             XCTAssertEqual(request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
         }
-        let ses = SES(client: Self.client, region: .useast1, options: .useFipsEndpoint).with(middleware: testMiddleware)
+        let ses = SES(client: self.client, region: .useast1, options: .useFipsEndpoint).with(middleware: testMiddleware)
         do {
             _ = try await ses.createConfigurationSet(.init(configurationSet: .init(name: "test")))
         } catch is TestError {}

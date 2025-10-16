@@ -21,11 +21,11 @@ enum APIGatewayV2TestsError: Error {
 }
 
 class APIGatewayV2Tests: XCTestCase {
-    static var client: AWSClient!
-    static var apiGatewayV2: ApiGatewayV2!
+    nonisolated(unsafe) static var client: AWSClient!
+    nonisolated(unsafe) static var apiGatewayV2: ApiGatewayV2!
 
     static let restApiName: String = TestEnvironment.generateResourceName("ApiGatewayV2Tests")
-    static var restApiId: String!
+    nonisolated(unsafe) static var restApiId: String!
 
     override class func setUp() {
         guard !TestEnvironment.isUsingLocalstack else { return }

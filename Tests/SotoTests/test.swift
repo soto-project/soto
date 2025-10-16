@@ -101,7 +101,7 @@ enum TestEnvironment {
         return "soto-" + (prefix + function).filter { $0.isLetter || $0.isNumber }.lowercased()
     }
 
-    public static var logger: Logger = {
+    public static var logger: Logger {
         if let loggingLevel = Environment["AWS_LOG_LEVEL"] {
             if let logLevel = Logger.Level(rawValue: loggingLevel.lowercased()) {
                 var logger = Logger(label: "soto")
@@ -110,7 +110,7 @@ enum TestEnvironment {
             }
         }
         return AWSClient.loggingDisabled
-    }()
+    }
 }
 
 /// Run some test code for a specific asset

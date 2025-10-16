@@ -19,10 +19,10 @@ import XCTest
 // testing query service
 
 class SQSTests: XCTestCase {
-    static var client: AWSClient!
-    static var sqs: SQS!
+    var client: AWSClient!
+    var sqs: SQS!
 
-    override class func setUp() {
+    override func setUp() {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -31,13 +31,13 @@ class SQSTests: XCTestCase {
 
         self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         self.sqs = SQS(
-            client: SQSTests.client,
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
@@ -45,29 +45,29 @@ class SQSTests: XCTestCase {
     func testQueue(name: String, test: @escaping (String) async throws -> Void) async throws {
         try await XCTTestAsset {
             let request = SQS.CreateQueueRequest(queueName: name)
-            let response = try await Self.sqs.createQueue(request)
+            let response = try await self.sqs.createQueue(request)
             return try XCTUnwrap(response.queueUrl)
         } test: {
             try await test($0)
         } delete: {
             let request = SQS.DeleteQueueRequest(queueUrl: $0)
-            try await Self.sqs.deleteQueue(request)
+            try await self.sqs.deleteQueue(request)
         }
     }
 
     func testSendReceiveAndDelete(name: String, messageBody: String) async throws {
         try await self.testQueue(name: name) { queueUrl in
             let request = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: queueUrl)
-            let response = try await Self.sqs.sendMessage(request)
+            let response = try await self.sqs.sendMessage(request)
             let messageId: String = try XCTUnwrap(response.messageId)
             let receiveRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: queueUrl)
-            let receiveResponse = try await Self.sqs.receiveMessage(receiveRequest)
+            let receiveResponse = try await self.sqs.receiveMessage(receiveRequest)
             let message = try XCTUnwrap(receiveResponse.messages?.first)
             XCTAssertEqual(message.messageId, messageId)
             XCTAssertEqual(message.body, messageBody)
             let receiptHandle = try XCTUnwrap(message.receiptHandle)
             let deleteRequest = SQS.DeleteMessageRequest(queueUrl: queueUrl, receiptHandle: receiptHandle)
-            try await Self.sqs.deleteMessage(deleteRequest)
+            try await self.sqs.deleteMessage(deleteRequest)
         }
     }
 
@@ -82,7 +82,7 @@ class SQSTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         try await self.testQueue(name: name) { queueUrl in
             let request = SQS.GetQueueAttributesRequest(attributeNames: [.all], queueUrl: queueUrl)
-            let response = try await Self.sqs.getQueueAttributes(request)
+            let response = try await self.sqs.getQueueAttributes(request)
             XCTAssertNotNil(response.attributes?[.queueArn])
         }
     }
@@ -98,7 +98,7 @@ class SQSTests: XCTestCase {
         try await self.testQueue(name: name) { queueUrl in
             let messageBody = "Testing, testing\n,1,2,1,2"
             let request = SQS.SendMessageBatchRequest(entries: [.init(id: "msg1", messageBody: messageBody)], queueUrl: queueUrl)
-            _ = try await Self.sqs.sendMessageBatch(request)
+            _ = try await self.sqs.sendMessageBatch(request)
         }
     }
 
@@ -106,7 +106,7 @@ class SQSTests: XCTestCase {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
         await XCTAsyncExpectError(SQSErrorType.queueDoesNotExist) {
-            try await Self.sqs.addPermission(.init(actions: [], awsAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
+            try await self.sqs.addPermission(.init(actions: [], awsAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
         }
     }
 }
