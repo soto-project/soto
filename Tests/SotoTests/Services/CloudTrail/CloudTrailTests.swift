@@ -16,13 +16,13 @@ import SotoCloudTrail
 import XCTest
 
 class CloudTrailTests: XCTestCase {
-    static var client: AWSClient!
-    static var cloudTrail: CloudTrail!
+    var client: AWSClient!
+    var cloudTrail: CloudTrail!
 
-    override class func setUp() {
+    override func setUp() {
         self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         self.cloudTrail = CloudTrail(
-            client: CloudTrailTests.client,
+            client: self.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
@@ -34,7 +34,7 @@ class CloudTrailTests: XCTestCase {
         }
     }
 
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
@@ -45,7 +45,7 @@ class CloudTrailTests: XCTestCase {
         let from = Date(timeIntervalSinceNow: -1 * 24 * 60 * 60)
         let to = Date()
         let request = CloudTrail.LookupEventsRequest(endTime: to, lookupAttributes: nil, startTime: from)
-        let response = try await Self.cloudTrail.lookupEvents(request)
+        let response = try await self.cloudTrail.lookupEvents(request)
         let event = try XCTUnwrap(response.events?.first)
         XCTAssertNotNil(event.eventTime)
     }
@@ -54,7 +54,7 @@ class CloudTrailTests: XCTestCase {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
         do {
-            _ = try await Self.cloudTrail.getTrail(.init(name: "nonexistent-trail"))
+            _ = try await self.cloudTrail.getTrail(.init(name: "nonexistent-trail"))
         } catch let error as CloudTrailErrorType where error == .trailNotFoundException {
             XCTAssertNotNil(error.message)
         } catch {

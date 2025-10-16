@@ -19,12 +19,12 @@ import XCTest
 // testing query service
 
 class LambdaTests: XCTestCase {
-    static var client: AWSClient!
-    static var lambda: Lambda!
-    static var iam: IAM!
+    var client: AWSClient!
+    var lambda: Lambda!
+    var iam: IAM!
 
-    static let functionName: String = TestEnvironment.generateResourceName("UnitTestSotoLambda")
-    static let functionExecutionRoleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
+    let functionName: String = TestEnvironment.generateResourceName("UnitTestSotoLambda")
+    let functionExecutionRoleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
 
     /*
     
@@ -37,7 +37,7 @@ class LambdaTests: XCTestCase {
      rm lambda.js
     
      */
-    class func createLambdaFunction(roleArn: String) async throws {
+    func createLambdaFunction(roleArn: String) async throws {
         // Base64 and Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
         let code =
             "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
@@ -52,17 +52,17 @@ class LambdaTests: XCTestCase {
             runtime: functionRuntime
         )
         print("Creating Lambda Function : \(self.functionName)")
-        _ = try await Self.lambda.createFunction(cfr)
-        try await Self.lambda.waitUntilFunctionActive(.init(functionName: self.functionName))
+        _ = try await self.lambda.createFunction(cfr)
+        try await self.lambda.waitUntilFunctionActive(.init(functionName: self.functionName))
     }
 
-    class func deleteLambdaFunction() async throws {
+    func deleteLambdaFunction() async throws {
         print("Deleting Lambda function \(self.functionName)")
         let dfr = Lambda.DeleteFunctionRequest(functionName: self.functionName)
-        try await Self.lambda.deleteFunction(dfr)
+        try await self.lambda.deleteFunction(dfr)
     }
 
-    class func createIAMRole() async throws -> IAM.CreateRoleResponse {
+    func createIAMRole() async throws -> IAM.CreateRoleResponse {
         // as documented at https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
         let assumeRolePolicyDocument = """
             {
@@ -85,18 +85,18 @@ class LambdaTests: XCTestCase {
         // no policies are required, create an empty role
 
         print("Creating IAM Role : \(self.functionExecutionRoleName)")
-        let response = try await Self.iam.createRole(crr)
-        try await Self.iam.waitUntilRoleExists(.init(roleName: self.functionExecutionRoleName))
+        let response = try await self.iam.createRole(crr)
+        try await self.iam.waitUntilRoleExists(.init(roleName: self.functionExecutionRoleName))
         return response
     }
 
-    class func deleteIAMRole() async throws {
+    func deleteIAMRole() async throws {
         print("Deleting IAM Role : \(self.functionExecutionRoleName)")
         let drr = IAM.DeleteRoleRequest(roleName: self.functionExecutionRoleName)
-        try await Self.iam.deleteRole(drr)
+        try await self.iam.deleteRole(drr)
     }
 
-    override class func setUp() {
+    override func setUp() async throws {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -108,7 +108,7 @@ class LambdaTests: XCTestCase {
             middleware: TestEnvironment.middlewares
         )
         self.lambda = Lambda(
-            client: LambdaTests.client,
+            client: self.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         ).with(middleware: TestEnvironment.middlewares)
@@ -121,37 +121,33 @@ class LambdaTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
 
         // create an IAM role
-        Task {
-            await XCTAsyncAssertNoThrow {
-                let arn: String
-                do {
-                    let response = try await Self.createIAMRole()
-                    // IAM needs some time after Role creation,
-                    // before the role can be attached to a Lambda function
-                    // https://stackoverflow.com/a/37438525/663360
-                    print("Sleeping 20 secs, waiting for IAM Role to be ready")
-                    try await Task.sleep(nanoseconds: 20_000_000_000)
-                    arn = response.role.arn
-                } catch let error as IAMErrorType where error == .entityAlreadyExistsException {
-                    let response = try await Self.iam.getRole(roleName: self.functionExecutionRoleName)
-                    arn = response.role.arn
-                }
-                try await Self.createLambdaFunction(roleArn: arn)
+        await XCTAsyncAssertNoThrow {
+            let arn: String
+            do {
+                let response = try await self.createIAMRole()
+                // IAM needs some time after Role creation,
+                // before the role can be attached to a Lambda function
+                // https://stackoverflow.com/a/37438525/663360
+                print("Sleeping 20 secs, waiting for IAM Role to be ready")
+                try await Task.sleep(nanoseconds: 20_000_000_000)
+                arn = response.role.arn
+            } catch let error as IAMErrorType where error == .entityAlreadyExistsException {
+                let response = try await self.iam.getRole(roleName: self.functionExecutionRoleName)
+                arn = response.role.arn
             }
-        }.syncAwait()
+            try await self.createLambdaFunction(roleArn: arn)
+        }
     }
 
-    override class func tearDown() {
+    override func tearDown() async throws {
         // Role and lambda function are not created with Localstack
-        Task {
-            await XCTAsyncAssertNoThrow {
-                if !TestEnvironment.isUsingLocalstack {
-                    try await Self.deleteLambdaFunction()
-                    try await Self.deleteIAMRole()
-                }
-                try await Self.client.shutdown()
+        await XCTAsyncAssertNoThrow {
+            if !TestEnvironment.isUsingLocalstack {
+                try await self.deleteLambdaFunction()
+                try await self.deleteIAMRole()
             }
-        }.syncAwait()
+            try await self.client.shutdown()
+        }
     }
 
     // MARK: TESTS
@@ -161,8 +157,8 @@ class LambdaTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
 
         // invoke the Lambda function created by setUp()
-        let request = Lambda.InvocationRequest(functionName: Self.functionName, logType: .tail, payload: .init(string: "{}"))
-        let response = try await Self.lambda.invoke(request)
+        let request = Lambda.InvocationRequest(functionName: self.functionName, logType: .tail, payload: .init(string: "{}"))
+        let response = try await self.lambda.invoke(request)
         // is there an function execution error returned by the service?
         XCTAssertNil(response.functionError)
 
@@ -177,8 +173,8 @@ class LambdaTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
 
         // invoke the Lambda function created by setUp()
-        let request = Lambda.InvokeWithResponseStreamRequest(functionName: Self.functionName, logType: .tail, payload: .init(string: "{}"))
-        let response = try await Self.lambda.invokeWithResponseStream(request)
+        let request = Lambda.InvokeWithResponseStreamRequest(functionName: self.functionName, logType: .tail, payload: .init(string: "{}"))
+        let response = try await self.lambda.invokeWithResponseStream(request)
 
         for try await event in response.eventStream {
             switch event {
@@ -191,12 +187,12 @@ class LambdaTests: XCTestCase {
     }
 
     func testListFunctions() async throws {
-        _ = try await Self.lambda.listFunctions(.init(maxItems: 10))
+        _ = try await self.lambda.listFunctions(.init(maxItems: 10))
     }
 
     func testError() async throws {
         await XCTAsyncExpectError(LambdaErrorType.resourceNotFoundException) {
-            _ = try await Self.lambda.invoke(.init(functionName: "non-existent-function"))
+            _ = try await self.lambda.invoke(.init(functionName: "non-existent-function"))
         }
     }
 }

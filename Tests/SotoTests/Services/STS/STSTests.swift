@@ -22,34 +22,32 @@ import XCTest
 // testing query service
 
 class STSTests: XCTestCase {
-    static var client: AWSClient!
-    static var sts: STS!
+    var client: AWSClient!
+    var sts: STS!
 
-    override class func setUp() {
+    override func setUp() {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
             print("Connecting to AWS")
         }
-
         self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares,
             logger: Logger(label: "Soto")
         )
         self.sts = STS(
-            client: STSTests.client,
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
-
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     func testGetCallerIdentity() async throws {
-        _ = try await Self.sts.getCallerIdentity(.init())
+        _ = try await self.sts.getCallerIdentity(.init())
     }
 
     func testSTSCredentialProviderShutdown() async throws {
@@ -125,7 +123,7 @@ class STSTests: XCTestCase {
                 roleSessionName: "now",
                 webIdentityToken: "webtoken"
             )
-            _ = try await Self.sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
+            _ = try await self.sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
         }
     }
 }

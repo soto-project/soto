@@ -20,10 +20,10 @@ import XCTest
 // testing json service
 
 class DynamoDBTests: XCTestCase {
-    static var client: AWSClient!
-    static var dynamoDB: DynamoDB!
-    static var tableName: String!
-    static var tableWithValueName: String!
+    nonisolated(unsafe) static var client: AWSClient!
+    nonisolated(unsafe) static var dynamoDB: DynamoDB!
+    nonisolated(unsafe) static var tableName: String!
+    nonisolated(unsafe) static var tableWithValueName: String!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {

@@ -317,7 +317,7 @@ extension DynamoDB {
                 expressionAttributeNames = names
             } else if attributes != nil {
                 let additionalAttributeNames: [String: String] = .init(self.key.map { ("#\($0)", $0) }) { first, _ in first }
-                let tmpAttributeNames: [String: String] = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+                let tmpAttributeNames: [String: String] = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in first }
                 expressionAttributeNames = tmpAttributeNames.merging(additionalAttributeNames, uniquingKeysWith: { _, new in new })
             } else {
                 expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in first }
@@ -326,7 +326,7 @@ extension DynamoDB {
             let expressionAttributeValues: [String: AttributeValue]
             if let attributes {
                 let additionalAttributeValues: [String: AttributeValue] = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in first }
-                let tmpExpressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+                let tmpExpressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in first }
                 expressionAttributeValues = tmpExpressionAttributeValues.merging(additionalAttributeValues, uniquingKeysWith: { _, new in new })
             } else {
                 expressionAttributeValues = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in first }

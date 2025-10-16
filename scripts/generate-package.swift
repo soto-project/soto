@@ -41,7 +41,7 @@ struct GeneratePackage {
             return Target(name: folder.name, hasExtension: hasExtension, dependencies: dependencies)
         }
         let extensionTargets = extensionSubfolders.map { folder -> Target in
-            return Target(name: folder.name, hasExtension: false, dependencies: [#".product(name: "SotoCore", package: "soto-core")"#])
+            Target(name: folder.name, hasExtension: false, dependencies: [#".product(name: "SotoCore", package: "soto-core")"#])
         }
         // construct list of tests, plus extensions and the ones used in AWSRequestTests.swift
         var testFolders = Set<String>(testFolder.subfolders.map(\.name))

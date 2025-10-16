@@ -19,10 +19,10 @@ import XCTest
 // testing query service
 
 class SNSTests: XCTestCase {
-    static var client: AWSClient!
-    static var sns: SNS!
+    var client: AWSClient!
+    var sns: SNS!
 
-    override class func setUp() {
+    override func setUp() {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -31,13 +31,13 @@ class SNSTests: XCTestCase {
 
         self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         self.sns = SNS(
-            client: SNSTests.client,
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
@@ -45,13 +45,13 @@ class SNSTests: XCTestCase {
     func testTopic(name: String, test: @escaping (String) async throws -> Void) async throws {
         try await XCTTestAsset {
             let createRequest = SNS.CreateTopicInput(name: name)
-            let createResponse = try await Self.sns.createTopic(createRequest)
+            let createResponse = try await self.sns.createTopic(createRequest)
             return try XCTUnwrap(createResponse.topicArn)
         } test: {
             try await test($0)
         } delete: {
             let deleteRequest = SNS.DeleteTopicInput(topicArn: $0)
-            try await Self.sns.deleteTopic(deleteRequest)
+            try await self.sns.deleteTopic(deleteRequest)
         }
     }
 
@@ -66,7 +66,7 @@ class SNSTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         try await self.testTopic(name: name) { topicArn in
             let request = SNS.ListTopicsInput()
-            let response = try await Self.sns.listTopics(request)
+            let response = try await self.sns.listTopics(request)
             let topic = response.topics?.first { $0.topicArn == topicArn }
             XCTAssertNotNil(topic)
         }
@@ -82,9 +82,9 @@ class SNSTests: XCTestCase {
                 attributeValue: "aws-test topic &",
                 topicArn: topicArn
             )
-            _ = try await Self.sns.setTopicAttributes(request)
+            _ = try await self.sns.setTopicAttributes(request)
             let getRequest = SNS.GetTopicAttributesInput(topicArn: topicArn)
-            let getResponse = try await Self.sns.getTopicAttributes(getRequest)
+            let getResponse = try await self.sns.getTopicAttributes(getRequest)
             XCTAssertEqual(getResponse.attributes?["DisplayName"], "aws-test topic &")
         }
     }
@@ -92,7 +92,7 @@ class SNSTests: XCTestCase {
     func testError() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
         await XCTAsyncExpectError(SNSErrorType.invalidParameterException) {
-            _ = try await Self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
+            _ = try await self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
         }
     }
 }

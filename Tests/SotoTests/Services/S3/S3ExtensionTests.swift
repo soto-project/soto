@@ -25,7 +25,7 @@ extension S3Tests {
     func testGetBucketLocation() async throws {
         let name = TestEnvironment.generateResourceName()
         try await testBucket(name) { name in
-            let response = try await Self.s3.getBucketLocation(.init(bucket: name))
+            let response = try await self.s3.getBucketLocation(.init(bucket: name))
             XCTAssertEqual(response.locationConstraint, .usEast1)
         }
     }
@@ -41,17 +41,17 @@ extension S3Tests {
                 key: name,
                 metadata: ["Test": "testing", "first": "one"]
             )
-            _ = try await Self.s3.putObject(putRequest)
+            _ = try await self.s3.putObject(putRequest)
 
-            let getResponse = try await Self.s3.getObject(.init(bucket: name, key: name))
+            let getResponse = try await self.s3.getObject(.init(bucket: name, key: name))
             XCTAssertEqual(getResponse.metadata?["test"], "testing")
             XCTAssertEqual(getResponse.metadata?["first"], "one")
         }
     }
 
     func testMultipartUploadDownloadToFile() async throws {
-        let s3 = Self.s3.with(timeout: .minutes(2))
-        let buffer = Self.randomBytes!
+        let s3 = self.s3.with(timeout: .minutes(2))
+        let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = #function
 
@@ -75,7 +75,7 @@ extension S3Tests {
         try await testBucket(name) { name in
             await XCTAsyncExpectError(S3ErrorType.notFound) {
                 let request = S3.GetObjectRequest(bucket: name, key: name)
-                _ = try await Self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name, logger: TestEnvironment.logger) {
+                _ = try await self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name, logger: TestEnvironment.logger) {
                     print("Progress \($0 * 100)%")
                 }
             }
@@ -88,8 +88,8 @@ extension S3Tests {
     }
 
     func testMultipartUploadFile() async throws {
-        let s3 = Self.s3.with(timeout: .minutes(2))
-        let buffer = Self.randomBytes!
+        let s3 = self.s3.with(timeout: .minutes(2))
+        let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTest"
         let fileIO = NonBlockingFileIO(threadPool: .singleton)
@@ -121,8 +121,8 @@ extension S3Tests {
     }
 
     func testMultipartUploadBuffer() async throws {
-        let s3 = Self.s3.with(timeout: .minutes(2))
-        let buffer = Self.randomBytes!
+        let s3 = self.s3.with(timeout: .minutes(2))
+        let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = "testMultipartUploadBuffer"
 
@@ -145,8 +145,8 @@ extension S3Tests {
 
     func testResumeMultipartUpload() async throws {
         struct CancelError: Error {}
-        let s3 = Self.s3.with(timeout: .minutes(2))
-        let buffer = Self.randomBytes!
+        let s3 = self.s3.with(timeout: .minutes(2))
+        let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = "testResumeMultiPartUpload"
 
@@ -206,7 +206,7 @@ extension S3Tests {
     }
 
     func testMultipartUploadEmpty() async throws {
-        let s3 = Self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .minutes(2))
         let name = TestEnvironment.generateResourceName()
 
         try await testBucket(name) { name in
@@ -222,24 +222,24 @@ extension S3Tests {
 
     func testMultipartUploadFailure() async throws {
         let name = TestEnvironment.generateResourceName()
-        let buffer = Self.randomBytes!
+        let buffer = self.randomBytes
 
         await XCTAsyncExpectError(S3ErrorType.noSuchBucket) {
             let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
-            _ = try await Self.s3.multipartUpload(request, bufferSequence: buffer.asyncSequence(chunkSize: 1000))
+            _ = try await self.s3.multipartUpload(request, bufferSequence: buffer.asyncSequence(chunkSize: 1000))
         }
     }
 
     func testMultipartCopy() async throws {
-        let s3 = Self.s3.with(timeout: .minutes(5))
-        let buffer = S3Tests.createRandomBuffer(size: 6 * 1024 * 1000)
+        let s3 = self.s3.with(timeout: .minutes(5))
+        let buffer = self.createRandomBuffer(size: 6 * 1024 * 1000)
         let name = TestEnvironment.generateResourceName()
         let name2 = name + "2"
         let filename = "testMultipartCopy"
         let filename2 = "testMultipartCopy2"
 
         let s3Euwest2 = S3(
-            client: S3Tests.client,
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT"),
             timeout: .minutes(5)
@@ -263,13 +263,13 @@ extension S3Tests {
     }
 
     func testCopySourceBucketKeyExtraction() {
-        let values = Self.s3.getBucketKeyVersion(from: "test-bucket/test-key/path")
+        let values = self.s3.getBucketKeyVersion(from: "test-bucket/test-key/path")
         XCTAssertEqual(values?.bucket, "test-bucket")
         XCTAssertEqual(values?.key, "test-key/path")
-        let values2 = Self.s3.getBucketKeyVersion(from: "/test-bucket/test-key/path")
+        let values2 = self.s3.getBucketKeyVersion(from: "/test-bucket/test-key/path")
         XCTAssertEqual(values2?.bucket, "test-bucket")
         XCTAssertEqual(values2?.key, "test-key/path")
-        let values3 = Self.s3.getBucketKeyVersion(from: "/test-bucket/test-key/path?versionId=5")
+        let values3 = self.s3.getBucketKeyVersion(from: "/test-bucket/test-key/path?versionId=5")
         XCTAssertEqual(values3?.bucket, "test-bucket")
         XCTAssertEqual(values3?.key, "test-key/path")
         XCTAssertEqual(values3?.versionId, "5")
@@ -279,7 +279,7 @@ extension S3Tests {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
-        let s3 = Self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .minutes(2))
         let strings =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             .split(separator: " ")
@@ -340,7 +340,8 @@ extension S3Tests {
         }
     }
 
-    func testS3VirtualAddressing(_ urlString: String, s3URL: String, config: AWSServiceConfig = S3Tests.s3.config) async throws {
+    func testS3VirtualAddressing(_ urlString: String, s3URL: String, config: AWSServiceConfig? = nil) async throws {
+        let config = config ?? self.s3.config
         let request = AWSHTTPRequest(
             url: URL(string: urlString)!,
             method: .GET,
@@ -381,7 +382,7 @@ extension S3Tests {
         try await self.testS3VirtualAddressing("http://localhost:8000/bucket2//filename", s3URL: "http://localhost:8000/bucket2//filename")
         try await self.testS3VirtualAddressing("https://localhost:8000/bucket/file%20name", s3URL: "https://localhost:8000/bucket/file%20name")
 
-        let s3 = Self.s3.with(options: .s3ForceVirtualHost)
+        let s3 = self.s3.with(options: .s3ForceVirtualHost)
         try await self.testS3VirtualAddressing(
             "https://localhost:8000/bucket/filename",
             s3URL: "https://bucket.localhost:8000/filename",
@@ -390,7 +391,7 @@ extension S3Tests {
     }
 
     func testMD5Calculation() throws {
-        let s3 = Self.s3.with(options: .calculateMD5)
+        let s3 = self.s3.with(options: .calculateMD5)
         let input = S3.PutObjectRequest(
             body: .init(string: "TestContent"),
             bucket: "testMD5Calculation",

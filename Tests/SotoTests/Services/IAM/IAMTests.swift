@@ -19,10 +19,10 @@ import XCTest
 // testing query service
 
 class IAMTests: XCTestCase {
-    static var client: AWSClient!
-    static var iam: IAM!
+    var client: AWSClient!
+    var iam: IAM!
 
-    override class func setUp() {
+    override func setUp() {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -31,12 +31,12 @@ class IAMTests: XCTestCase {
 
         self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         self.iam = IAM(
-            client: IAMTests.client,
+            client: self.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
@@ -58,8 +58,8 @@ class IAMTests: XCTestCase {
     }
 
     func createUser(userName: String, tags: [String: String] = [:], iam: IAM? = nil) async throws {
-        let iam: IAM = iam ?? Self.iam
-        let request = IAM.CreateUserRequest(tags: tags.map { return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
+        let iam: IAM = iam ?? self.iam
+        let request = IAM.CreateUserRequest(tags: tags.map { IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
         do {
             let response = try await iam.createUser(request, logger: TestEnvironment.logger)
             XCTAssertEqual(response.user?.userName, userName)
@@ -70,7 +70,7 @@ class IAMTests: XCTestCase {
     }
 
     func deleteUser(userName: String, iam: IAM? = nil) async throws {
-        let iam: IAM = iam ?? Self.iam
+        let iam: IAM = iam ?? self.iam
         let request = IAM.ListUserPoliciesRequest(userName: userName)
         let response = try await iam.listUserPolicies(request, logger: TestEnvironment.logger)
         // add stall to avoid throttling errors.
@@ -90,7 +90,7 @@ class IAMTests: XCTestCase {
     }
 
     func testFIPSEndpoint() async throws {
-        let iam = Self.iam.with(options: .useFipsEndpoint)
+        let iam = self.iam.with(options: .useFipsEndpoint)
         let username = TestEnvironment.generateResourceName()
         try await self.testUser(userName: username, iam: iam) { _ in }
     }
@@ -115,15 +115,15 @@ class IAMTests: XCTestCase {
             """
         let username = TestEnvironment.generateResourceName()
         try await self.testUser(userName: username) { _ in
-            let user = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+            let user = try await self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             let request = IAM.PutUserPolicyRequest(
                 policyDocument: policyDocument,
                 policyName: "testSetGetPolicy",
                 userName: user.user.userName
             )
-            try await Self.iam.putUserPolicy(request, logger: TestEnvironment.logger)
+            try await self.iam.putUserPolicy(request, logger: TestEnvironment.logger)
             let getPolicyRequest = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
-            let getPolicyResponse = try await Self.iam.getUserPolicy(getPolicyRequest, logger: TestEnvironment.logger)
+            let getPolicyResponse = try await self.iam.getUserPolicy(getPolicyRequest, logger: TestEnvironment.logger)
             let responsePolicyDocument = getPolicyResponse.policyDocument.removingPercentEncoding
             XCTAssertEqual(responsePolicyDocument, policyDocument)
         }
@@ -138,13 +138,13 @@ class IAMTests: XCTestCase {
         let username = TestEnvironment.generateResourceName()
         try await self.createUser(userName: username)
         do {
-            let user = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+            let user = try await self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             let request = IAM.SimulateCustomPolicyRequest(
                 actionNames: ["sns:*", "sqs:*", "dynamodb:*"],
                 callerArn: user.user.arn,
                 policyInputList: [policyDocument]
             )
-            let response = try await Self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
+            let response = try await self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
             XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
             XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
             XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitDeny)
@@ -165,7 +165,7 @@ class IAMTests: XCTestCase {
         let username = TestEnvironment.generateResourceName()
         try await self.createUser(userName: username, tags: ["test": "tag"])
         do {
-            let response = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+            let response = try await self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             XCTAssertEqual(response.user.tags?.first?.key, "test")
             XCTAssertEqual(response.user.tags?.first?.value, "tag")
         } catch {
@@ -177,7 +177,7 @@ class IAMTests: XCTestCase {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         await XCTAsyncExpectError(IAMErrorType.noSuchEntityException) {
-            _ = try await Self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
+            _ = try await self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
         }
     }
 }

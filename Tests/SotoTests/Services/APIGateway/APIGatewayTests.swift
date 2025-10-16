@@ -23,12 +23,12 @@ enum APIGatewayTestsError: Error {
 // testing restjson service
 
 class APIGatewayTests: XCTestCase {
-    static var client: AWSClient!
-    static var apiGateway: APIGateway!
-    static var setup = false
+    nonisolated(unsafe) static var client: AWSClient!
+    nonisolated(unsafe) static var apiGateway: APIGateway!
+    nonisolated(unsafe) static var setup = false
 
     static let restApiName: String = TestEnvironment.generateResourceName("APIGatewayTests")
-    static var restApiId: String!
+    nonisolated(unsafe) static var restApiId: String!
 
     override class func setUp() {
         self.client = AWSClient(

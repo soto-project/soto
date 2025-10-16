@@ -19,10 +19,10 @@ import XCTest
 // testing json service
 
 class SSMTests: XCTestCase {
-    static var client: AWSClient!
-    static var ssm: SSM!
+    var client: AWSClient!
+    var ssm: SSM!
 
-    override class func setUp() {
+    override func setUp() {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
@@ -31,13 +31,13 @@ class SSMTests: XCTestCase {
 
         self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         self.ssm = SSM(
-            client: SSMTests.client,
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
-    override class func tearDown() {
+    override func tearDown() {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
@@ -45,13 +45,13 @@ class SSMTests: XCTestCase {
     func testParameter(name: String, value: String, test: @escaping (String) async throws -> Void) async throws {
         try await XCTTestAsset {
             let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
-            _ = try await Self.ssm.putParameter(request)
+            _ = try await self.ssm.putParameter(request)
             return name
         } test: {
             try await test($0)
         } delete: {
             let request = SSM.DeleteParameterRequest(name: $0)
-            _ = try await Self.ssm.deleteParameter(request)
+            _ = try await self.ssm.deleteParameter(request)
         }
     }
 
@@ -62,7 +62,7 @@ class SSMTests: XCTestCase {
         let name = "test" + TestEnvironment.generateResourceName()
         try await self.testParameter(name: name, value: "testdata") { name in
             let request = SSM.GetParameterRequest(name: name)
-            let response = try await Self.ssm.getParameter(request)
+            let response = try await self.ssm.getParameter(request)
             let parameter = try XCTUnwrap(response.parameter)
             XCTAssertEqual(parameter.name, name)
             XCTAssertEqual(parameter.value, "testdata")
@@ -75,7 +75,7 @@ class SSMTests: XCTestCase {
         try await self.testParameter(name: fullname, value: "testdata2") { parameterName in
             try await Task.sleep(nanoseconds: 500_000_000)
             let request = SSM.GetParametersByPathRequest(path: "/\(name)/")
-            let response = try await Self.ssm.getParametersByPath(request)
+            let response = try await self.ssm.getParametersByPath(request)
             let parameter = try XCTUnwrap(response.parameters?.first { $0.name == parameterName })
             XCTAssertEqual(parameter.value, "testdata2")
         }
@@ -85,7 +85,7 @@ class SSMTests: XCTestCase {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
         await XCTAsyncExpectError(SSMErrorType.invalidDocument) {
-            _ = try await Self.ssm.describeDocument(.init(name: "non-existent-document"))
+            _ = try await self.ssm.describeDocument(.init(name: "non-existent-document"))
         }
     }
 }

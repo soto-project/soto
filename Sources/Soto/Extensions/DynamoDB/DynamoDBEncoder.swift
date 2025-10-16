@@ -92,7 +92,7 @@ private class _EncoderKeyedContainer: _EncoderContainer {
 
     var attribute: DynamoDB.AttributeValue {
         // merge child values, plus nested containers
-        let values = self.values.merging(self.nestedContainers.mapValues { $0.attribute }) { rt, _ in return rt }
+        let values = self.values.merging(self.nestedContainers.mapValues { $0.attribute }) { rt, _ in rt }
         return .m(values)
     }
 }
